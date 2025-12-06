@@ -1,4 +1,4 @@
-﻿Tech Debt: The Video Game - MVP Scope Document (V1.0)
+Tech Debt: The Video Game - MVP Scope Document (V1.0)
 
 Project Goal: To rapidly prototype the core loop of a real-time management/defense game where the player manages a DevOps shop, hiring engineers (NPCDevOps) to maintain server infrastructure and battle "Tech Debt."
 
@@ -161,4 +161,4 @@ The player can see the Bullpen count of non-controllable Developers and Interns 
 
 A Task Switching Penalty is displayed and enforced when interrupting an NPCDevOps' work.
 
-The daily loop correctly transitions, summarizes resource usage, pays the Debs, and resets for the next day.
+The daily loop correctly transitions, summarizes resource usage, pays the Debs, and resets for the next day.quick

@@ -12,7 +12,7 @@ public class GameLoopManager : MonoBehaviour
     public GameState CurrentState { get; private set; }
 
     public float dayDurationSeconds = 60f; // A day is 60 seconds long
-    public int currentDay = 1;
+    public int currentDay = 0;
 
     void Awake()
     {
@@ -32,16 +32,14 @@ public class GameLoopManager : MonoBehaviour
         StartCoroutine(StartBuildPhase());
     }
 
-    public IEnumerator StartBuildPhase()
+    private IEnumerator StartBuildPhase()
     {
         CurrentState = GameState.Build;
-        Debug.Log($"Starting Build Phase for Day {currentDay}.");
-
-        // Wait for UIManager to be ready before showing UI
-        yield return new WaitUntil(() => UIManager.Instance != null);
+        Debug.Log("Starting Build Phase...");
+        currentDay++; // Day starts here
+        GameManager.Instance.UpdateInfrastructureVisibility(); 
         UIManager.Instance.ShowBuildUI();
-
-        // The build phase continues until the player ends it via the UI.
+        yield return null; // Wait a frame
     }
 
     public void EndBuildPhaseAndStartPlayPhase()
@@ -59,14 +57,12 @@ public class GameLoopManager : MonoBehaviour
             UIManager.Instance.HideBuildUI();
         }
 
-        // Tell all NPCDevOps to start their work
         NPCDevOps[] allNpcs = FindObjectsOfType<NPCDevOps>();
         foreach (var npc in allNpcs)
         {
             npc.OnPlayPhaseStart();
         }
 
-        // Wait for the day to end
         yield return new WaitForSeconds(dayDurationSeconds);
 
         StartCoroutine(StartSummaryPhase());
@@ -77,54 +73,29 @@ public class GameLoopManager : MonoBehaviour
         CurrentState = GameState.Summary;
         Debug.Log($"Starting Summary Phase for Day {currentDay}.");
 
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.ShowSummaryUI($"End of Day {currentDay}");
-        }
-
-        // Wait for a few seconds before starting the next day's build phase
-        yield return new WaitForSeconds(5f); 
-        
         // Deduct daily costs for all unlocked infrastructure and hired NPCs
-        float totalDailyCost = 0f;
-        if (GameManager.Instance != null && GameManager.Instance.AllInfrastructure != null)
-        {
-            foreach (var infra in GameManager.Instance.AllInfrastructure)
-            {
-                if (infra.IsUnlockedInGame)
-                {
-                    totalDailyCost += infra.DailyCost;
-                }
-            }
-        }
+        float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
 
-        NPCDevOps[] allNpcs = FindObjectsOfType<NPCDevOps>();
-        foreach (var npc in allNpcs)
-        {
-            totalDailyCost += npc.Data.DailyCost;
-        }
-
+        string summaryText;
         if (GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost))
         {
+            summaryText = $"End of Day {currentDay}\nTotal Costs: -${totalDailyCost}";
             Debug.Log($"Day {currentDay} ended. Deducted ${totalDailyCost} for costs.");
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.ShowSummaryUI($"End of Day {currentDay}\nTotal Costs: -${totalDailyCost}");
-            }
         }
         else
         {
-            // Handle bankruptcy or other negative consequences
+            summaryText = $"End of Day {currentDay}\nRAN OUT OF MONEY!\nCosts: -${totalDailyCost}";
             Debug.LogWarning($"Day {currentDay} ended. Ran out of money! Game Over?");
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.ShowSummaryUI($"End of Day {currentDay}\nRAN OUT OF MONEY!\nCosts: -${totalDailyCost}");
-            }
-            yield return new WaitForSeconds(5f); // Let player see the message
-            // For now, just continue, but here you'd implement game over logic.
         }
+        
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowSummaryUI(summaryText);
+        }
+        
+        yield return new WaitForSeconds(5f); // Let player see the message
 
-        currentDay++;
+        // Transition to the next day's build phase
         StartCoroutine(StartBuildPhase());
     }
 }

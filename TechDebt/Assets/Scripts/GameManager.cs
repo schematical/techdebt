@@ -3,23 +3,22 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.EventSystems; // ADD THIS LINE
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static List<Server> AllServers = new List<Server>(); // Keep for existing Server.cs references
 
-    // List to define all infrastructure in the game
     public List<InfrastructureData> AllInfrastructure;
 
-    // Dictionary to hold all game stats
     public Dictionary<StatType, float> Stats { get; private set; }
     public static event System.Action OnStatsChanged;
-
+    public static event System.Action OnDailyCostChanged;
 
     [SerializeField] private GridManager gridManager;
     [SerializeField] private TileBase floorTile;
-    [SerializeField] private GameObject npcDevOpsPrefab; // Still needed for hiring NPCDevOps
+    [SerializeField] private GameObject npcDevOpsPrefab;
 
     void Awake()
     {
@@ -36,16 +35,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Ensure Managers exist
-        if (FindObjectOfType<GameLoopManager>() == null)
-        {
-            gameObject.AddComponent<GameLoopManager>();
-        }
-        if (FindObjectOfType<UIManager>() == null)
-        {
-            gameObject.AddComponent<UIManager>();
-        }
-
+        if (FindObjectOfType<GameLoopManager>() == null) gameObject.AddComponent<GameLoopManager>();
+        if (FindObjectOfType<UIManager>() == null) gameObject.AddComponent<UIManager>();
+        
+        // Add the temporary raycast debugger to the scene
+        if (FindObjectOfType<RaycastDebugger>() == null) gameObject.AddComponent<RaycastDebugger>();
+        
         AllServers.Clear();
         SetupGameScene();
     }
@@ -54,7 +49,6 @@ public class GameManager : MonoBehaviour
     {
         Stats = new Dictionary<StatType, float>();
         Stats.Add(StatType.Money, 1000f);
-        Stats.Add(StatType.EngineeringHours, 50f);
         Stats.Add(StatType.TechDebt, 0f);
         Stats.Add(StatType.ResearchPoints, 0f);
     }
@@ -79,9 +73,42 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public float GetStat(StatType stat)
+    public float GetStat(StatType stat) => Stats.ContainsKey(stat) ? Stats[stat] : 0f;
+
+    public float CalculateTotalDailyCost()
     {
-        return Stats.ContainsKey(stat) ? Stats[stat] : 0f;
+        float totalCost = 0;
+        foreach (var infra in AllInfrastructure)
+        {
+            if (infra.CurrentState == InfrastructureData.State.Operational)
+            {
+                totalCost += infra.DailyCost;
+            }
+        }
+        
+        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        {
+            totalCost += npc.Data.DailyCost;
+        }
+        return totalCost;
+    }
+    
+    public void NotifyDailyCostChanged() => OnDailyCostChanged?.Invoke();
+
+    public void UpdateInfrastructureVisibility()
+    {
+        foreach (var infraData in AllInfrastructure)
+        {
+            // If it's locked and currently inactive, check if conditions are met to make it active
+            if (infraData.CurrentState == InfrastructureData.State.Locked && !infraData.Instance.activeSelf)
+            {
+                if (AreUnlockConditionsMet(infraData))
+                {
+                    infraData.Instance.SetActive(true);
+                    // Note: State remains Locked until planned by player
+                }
+            }
+        }
     }
 
     void SetupGameScene()
@@ -97,93 +124,122 @@ public class GameManager : MonoBehaviour
             gridManager = FindObjectOfType<GridManager>();
             if (gridManager == null)
             {
-                Debug.Log("GridManager not found in scene, creating one.");
-                GameObject gridManagerObject = new GameObject("GridManager");
-                gridManager = gridManagerObject.AddComponent<GridManager>();
+                 Debug.Log("GridManager not found, creating one.");
+                 gridManager = new GameObject("GridManager").AddComponent<GridManager>();
             }
         }
-
+        
         gridManager.tilePrefab = floorTile as Tile;
         gridManager.CreateGrid();
 
-        Camera mainCamera = Camera.main;
-        if (mainCamera != null && gridManager.gridComponent != null)
+        // Add Physics2DRaycaster to the main camera to enable mouse events on objects
+        if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
         {
-            Vector3Int centerCell = new Vector3Int(gridManager.gridWidth / 2, gridManager.gridHeight / 2, 0);
-            Vector3 centerWorldPos = gridManager.gridComponent.CellToWorld(centerCell);
-            mainCamera.transform.position = new Vector3(centerWorldPos.x, centerWorldPos.y, mainCamera.transform.position.z);
-            mainCamera.orthographicSize = 5f;
+            Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
         }
-
-        // Place initial infrastructure based on AllInfrastructure list
-        foreach (var infra in AllInfrastructure)
+        
+        foreach (var infraData in AllInfrastructure)
         {
-            if (infra.IsInitiallyUnlocked)
+            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
+            GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
+            infraData.Instance = instanceGO;
+
+            // Add and size a collider if one doesn't exist, required for OnMouseEnter
+            if (instanceGO.GetComponent<Collider2D>() == null)
             {
-                UnlockInfrastructure(infra);
+                var boxCollider = instanceGO.AddComponent<BoxCollider2D>();
+                // Auto-size the collider to the sprite's bounds
+                var spriteRenderer = instanceGO.GetComponentInChildren<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    boxCollider.size = spriteRenderer.bounds.size;
+                }
+            }
+
+            var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+            if (infraInstance != null)
+            {
+                infraInstance.Initialize(infraData);
+                if (infraData.IsInitiallyUnlocked)
+                {
+                    infraInstance.SetState(InfrastructureData.State.Operational);
+                    Server server = instanceGO.GetComponent<Server>();
+                    if (server != null) AllServers.Add(server);
+                }
+                else
+                {
+                    infraInstance.SetState(InfrastructureData.State.Locked);
+                    // Hide the object if it's locked and its conditions aren't met
+                    if (!AreUnlockConditionsMet(infraData))
+                    {
+                        instanceGO.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
             }
         }
 
-        // Hire one initial NPCDevOps
-        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 }); // Start with one for a fixed price
+        // Removed the default NPC hiring
+        // HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
     }
 
-    public void UnlockInfrastructure(InfrastructureData infraData)
+    public bool AreUnlockConditionsMet(InfrastructureData infraData)
     {
-        if (infraData.IsUnlockedInGame)
+        if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0) return true; // No conditions, always unlocked
+
+        foreach (var condition in infraData.UnlockConditions)
         {
-            Debug.LogWarning($"{infraData.DisplayName} is already unlocked.");
+            switch (condition.Type)
+            {
+                case UnlockCondition.ConditionType.Day:
+                    if (GameLoopManager.Instance.currentDay < condition.RequiredValue) return false;
+                    break;
+                // Add other condition types here as needed
+            }
+        }
+        return true;
+    }
+
+    public void PlanInfrastructure(InfrastructureData infraData)
+    {
+        if (infraData.CurrentState != InfrastructureData.State.Locked) return;
+
+        // Check if unlock conditions are met
+        if (!AreUnlockConditionsMet(infraData))
+        {
+            Debug.Log("Unlock conditions not met for this infrastructure.");
             return;
         }
 
-        if (TrySpendStat(StatType.Money, infraData.UnlockCost))
-        {
-            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
-            GameObject infraInstance = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
-            infraData.Instance = infraInstance;
-            infraData.IsUnlockedInGame = true;
-
-            Server serverComponent = infraInstance.GetComponent<Server>();
-            if (serverComponent != null)
-            {
-                AllServers.Add(serverComponent);
-            }
-
-            Debug.Log($"Unlocked {infraData.DisplayName} for ${infraData.UnlockCost}.");
-            UIManager.Instance.RefreshBuildUI();
-        }
-        else
-        {
-            Debug.Log($"Not enough money to unlock {infraData.DisplayName}.");
-        }
+        // The `UnlockCost` no longer exists, assuming the cost is handled by a new condition type or removed.
+        // If a new cost condition needs to be added, it will be integrated into AreUnlockConditionsMet.
+        infraData.Instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
+        Debug.Log($"Successfully planned {infraData.DisplayName}.");
+        UIManager.Instance.HideTooltip();
     }
-
+    
     public List<NPCDevOpsData> GenerateNPCCandidates(int count)
     {
         var candidates = new List<NPCDevOpsData>();
         for (int i = 0; i < count; i++)
         {
-            candidates.Add(new NPCDevOpsData
-            {
-                DailyCost = Random.Range(100, 201) // Random cost between 100 and 200
-            });
+            candidates.Add(new NPCDevOpsData { DailyCost = UnityEngine.Random.Range(100, 201) });
         }
         return candidates;
     }
 
     public void HireNPCDevOps(NPCDevOpsData candidateData)
     {
-        // For now, hiring is free beyond the daily cost, but you could add a hiring fee here.
         int randomX = Random.Range(0, gridManager.gridWidth);
         int randomY = Random.Range(0, gridManager.gridHeight);
         Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(randomX, randomY, 0));
         
         GameObject npcObject = Instantiate(npcDevOpsPrefab, worldPos, Quaternion.identity);
-        var npc = npcObject.GetComponent<NPCDevOps>();
-        if (npc != null)
-        {
-            npc.Initialize(candidateData);
-            Debug.Log($"Hired {npc.Data.Name} for a salary of ${npc.Data.DailyCost}/day.");
-        }
+        npcObject.GetComponent<NPCDevOps>().Initialize(candidateData);
+        
+        NotifyDailyCostChanged();
     }
 }
