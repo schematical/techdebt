@@ -1,0 +1,7 @@
+﻿services:
+  techdebtgame:
+    image: techdebtgame
+    build:
+      context: .
+      dockerfile: TechDebtGame/Dockerfile
+

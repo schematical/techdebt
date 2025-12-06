@@ -1,0 +1,14 @@
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\bin\Debug\net10.0\TechDebtGame.exe
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\bin\Debug\net10.0\TechDebtGame.deps.json
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\bin\Debug\net10.0\TechDebtGame.runtimeconfig.json
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\bin\Debug\net10.0\TechDebtGame.dll
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\bin\Debug\net10.0\TechDebtGame.pdb
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.GeneratedMSBuildEditorConfig.editorconfig
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.AssemblyInfoInputs.cache
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.AssemblyInfo.cs
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.csproj.CoreCompileInputs.cache
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.dll
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\refint\TechDebtGame.dll
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.pdb
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\TechDebtGame.genruntimeconfig.cache
+D:\WebstormProjects\techdebt\TechDebtGame\TechDebtGame\obj\Debug\net10.0\ref\TechDebtGame.dll
