@@ -1,58 +1,45 @@
 // GameManager.cs
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GridManager gridManager; // Reference to our GridManager
-    [SerializeField] private TileBase floorTile; // Assign a tile from ImportedSprites in Editor
-    [SerializeField] private GameObject npcDevOpsPrefab; // Assign NPCDevOps prefab in Editor
-    [SerializeField] private GameObject serverPrefab; // Assign Server prefab in Editor
+    public static List<Server> AllServers = new List<Server>();
+
+    [SerializeField] private GridManager gridManager;
+    [SerializeField] private TileBase floorTile;
+    [SerializeField] private GameObject npcDevOpsPrefab;
+    [SerializeField] private GameObject serverPrefab;
 
     void Start()
     {
-        Debug.Log("GameManager Start() called.");
+        AllServers.Clear(); // Clear list on start
         SetupGameScene();
     }
 
     void SetupGameScene()
     {
-        Debug.Log("GameManager: Starting scene setup...");
-
-        // --- Reference Checks ---
-        if (floorTile == null) {
-            Debug.LogError("FATAL: Floor Tile is not assigned in the GameManager Inspector!");
-            return;
-        }
-        if (npcDevOpsPrefab == null) {
-            Debug.LogError("FATAL: NPCDevOps Prefab is not assigned in the GameManager Inspector!");
-            return;
-        }
-        if (serverPrefab == null) {
-            Debug.LogError("FATAL: Server Prefab is not assigned in the GameManager Inspector!");
+        if (floorTile == null || npcDevOpsPrefab == null || serverPrefab == null)
+        {
+            Debug.LogError("FATAL: A prefab or tile is not assigned in the GameManager Inspector!");
             return;
         }
 
-        // --- GridManager Setup ---
         if (gridManager == null)
         {
-            Debug.Log("GridManager not found in scene, creating one.");
-            GameObject gridManagerObject = new GameObject("GridManager");
-            gridManager = gridManagerObject.AddComponent<GridManager>();
+            gridManager = FindObjectOfType<GridManager>();
+            if (gridManager == null)
+            {
+                 Debug.Log("GridManager not found in scene, creating one.");
+                 GameObject gridManagerObject = new GameObject("GridManager");
+                 gridManager = gridManagerObject.AddComponent<GridManager>();
+            }
         }
         
         gridManager.tilePrefab = floorTile as Tile;
-        if (gridManager.tilePrefab == null) {
-            Debug.LogError("FATAL: The 'floorTile' asset could not be cast to a 'Tile'. Please make sure you have assigned a Tile asset, not a Sprite, in the GameManager's Inspector.");
-            return;
-        }
-        
         gridManager.CreateGrid();
-        Debug.Log("Grid created successfully.");
-
-        // --- Initial Camera Setup ---
-        // The new CameraController script will handle user movement.
-        // This just sets the initial position and zoom.
+        
         Camera mainCamera = Camera.main;
         if (mainCamera != null && gridManager.gridComponent != null)
         {
@@ -60,20 +47,32 @@ public class GameManager : MonoBehaviour
             Vector3 centerWorldPos = gridManager.gridComponent.CellToWorld(centerCell);
             mainCamera.transform.position = new Vector3(centerWorldPos.x, centerWorldPos.y, mainCamera.transform.position.z);
             mainCamera.orthographicSize = 5f; 
-            Debug.Log($"Camera initially centered at world position ({centerWorldPos.x}, {centerWorldPos.y}).");
         }
 
-        // --- Object Placement ---
-        Debug.Log("Placing NPCDevOps...");
-        Instantiate(npcDevOpsPrefab, gridManager.gridComponent.CellToWorld(new Vector3Int(3, 3, 0)), Quaternion.identity);
-        Instantiate(npcDevOpsPrefab, gridManager.gridComponent.CellToWorld(new Vector3Int(4, 5, 0)), Quaternion.identity);
-        Debug.Log("NPCDevOps placed.");
+        // Place Servers and add them to the static list
+        PlaceServer(8, 8);
+        PlaceServer(9, 6);
+        PlaceServer(2, 7);
 
-        Debug.Log("Placing Servers...");
-        Instantiate(serverPrefab, gridManager.gridComponent.CellToWorld(new Vector3Int(8, 8, 0)), Quaternion.identity);
-        Instantiate(serverPrefab, gridManager.gridComponent.CellToWorld(new Vector3Int(9, 6, 0)), Quaternion.identity);
-        Debug.Log("Servers placed.");
+        // Place NPCDevOps at random starting positions
+        PlaceNPCDevOpsAtRandom(0);
+        PlaceNPCDevOpsAtRandom(1);
+    }
 
-        Debug.Log("GameManager: Scene setup complete.");
+    void PlaceServer(int x, int y)
+    {
+        Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(x, y, 0));
+        GameObject serverObj = Instantiate(serverPrefab, worldPos, Quaternion.identity);
+        AllServers.Add(serverObj.GetComponent<Server>());
+        Debug.Log($"Placed Server at grid cell ({x},{y}).");
+    }
+
+    void PlaceNPCDevOpsAtRandom(int devIndex)
+    {
+        int randomX = Random.Range(0, gridManager.gridWidth);
+        int randomY = Random.Range(0, gridManager.gridHeight);
+        Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(randomX, randomY, 0));
+        Instantiate(npcDevOpsPrefab, worldPos, Quaternion.identity);
+        Debug.Log($"Placed NPCDevOps {devIndex} at random grid cell ({randomX},{randomY}).");
     }
 }
