@@ -85,6 +85,45 @@ public class GameLoopManager : MonoBehaviour
         // Wait for a few seconds before starting the next day's build phase
         yield return new WaitForSeconds(5f); 
         
+        // Deduct daily costs for all unlocked infrastructure and hired NPCs
+        float totalDailyCost = 0f;
+        if (GameManager.Instance != null && GameManager.Instance.AllInfrastructure != null)
+        {
+            foreach (var infra in GameManager.Instance.AllInfrastructure)
+            {
+                if (infra.IsUnlockedInGame)
+                {
+                    totalDailyCost += infra.DailyCost;
+                }
+            }
+        }
+
+        NPCDevOps[] allNpcs = FindObjectsOfType<NPCDevOps>();
+        foreach (var npc in allNpcs)
+        {
+            totalDailyCost += npc.Data.DailyCost;
+        }
+
+        if (GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost))
+        {
+            Debug.Log($"Day {currentDay} ended. Deducted ${totalDailyCost} for costs.");
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowSummaryUI($"End of Day {currentDay}\nTotal Costs: -${totalDailyCost}");
+            }
+        }
+        else
+        {
+            // Handle bankruptcy or other negative consequences
+            Debug.LogWarning($"Day {currentDay} ended. Ran out of money! Game Over?");
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowSummaryUI($"End of Day {currentDay}\nRAN OUT OF MONEY!\nCosts: -${totalDailyCost}");
+            }
+            yield return new WaitForSeconds(5f); // Let player see the message
+            // For now, just continue, but here you'd implement game over logic.
+        }
+
         currentDay++;
         StartCoroutine(StartBuildPhase());
     }
