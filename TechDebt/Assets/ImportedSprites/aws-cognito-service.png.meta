@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: 1ee426a2602f4c64ca2befc4838e1e03
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7936082357622831553
+    second: aws-cognito-service_0
+  - first:
+      213: -2477692581206025267
+    second: aws-cognito-service_1
+  - first:
+      213: -1668433015722748703
+    second: aws-cognito-service_2
+  - first:
+      213: 384206782937778126
+    second: aws-cognito-service_3
+  - first:
+      213: -6250287532680186013
+    second: aws-cognito-service_4
+  - first:
+      213: -5794915098301925675
+    second: aws-cognito-service_5
+  - first:
+      213: 2444772575924534826
+    second: aws-cognito-service_6
+  - first:
+      213: -5443363617941911374
+    second: aws-cognito-service_7
+  - first:
+      213: -182460682501435142
+    second: aws-cognito-service_8
+  - first:
+      213: 8396092347188908424
+    second: aws-cognito-service_9
+  - first:
+      213: 7803537948646310270
+    second: aws-cognito-service_10
+  - first:
+      213: 1020095440338610853
+    second: aws-cognito-service_11
+  - first:
+      213: -2627423804241427861
+    second: aws-cognito-service_12
+  - first:
+      213: 7858524811984312408
+    second: aws-cognito-service_13
+  - first:
+      213: -627286905459157111
+    second: aws-cognito-service_14
+  - first:
+      213: -1482378318183071017
+    second: aws-cognito-service_15
+  - first:
+      213: 271488377094106841
+    second: aws-cognito-service_16
+  - first:
+      213: -7344492140369922055
+    second: aws-cognito-service_17
+  - first:
+      213: 5568462699527030241
+    second: aws-cognito-service_18
+  - first:
+      213: -4466367713059370473
+    second: aws-cognito-service_19
+  - first:
+      213: 6135757077054346118
+    second: aws-cognito-service_20
+  - first:
+      213: 8569242141634796817
+    second: aws-cognito-service_21
+  - first:
+      213: -1749599831437690658
+    second: aws-cognito-service_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: aws-cognito-service_0
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 31
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3685a5942f5dd190800000000000000
+      internalID: -7936082357622831553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 15
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcb189a89b77d9dd0800000000000000
+      internalID: -2477692581206025267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_2
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 31
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e4df4e030988d8e0800000000000000
+      internalID: -1668433015722748703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_3
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 15
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec74d41980af45500800000000000000
+      internalID: 384206782937778126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_4
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 32
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3677b8eba948249a0800000000000000
+      internalID: -6250287532680186013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_5
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 16
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d67a2ebb63549fa0800000000000000
+      internalID: -5794915098301925675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_6
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 32
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2e399074b39de120800000000000000
+      internalID: 2444772575924534826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_7
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 16
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b8894131a94574b0800000000000000
+      internalID: -5443363617941911374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_8
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 33
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af0d60ad9f4c77df0800000000000000
+      internalID: -182460682501435142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_9
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 17
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 881129f5189e48470800000000000000
+      internalID: 8396092347188908424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_10
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 17
+        width: 88
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e71085c5b6cbb4c60800000000000000
+      internalID: 7803537948646310270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_11
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 32
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5aae066f56b182e00800000000000000
+      internalID: 1020095440338610853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_12
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 16
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b62c8c188f3898bd0800000000000000
+      internalID: -2627423804241427861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_13
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 32
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8581be42ea61f0d60800000000000000
+      internalID: 7858524811984312408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_14
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 16
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9875adb02ed6b47f0800000000000000
+      internalID: -627286905459157111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_15
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 31
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d205f906c88d6be0800000000000000
+      internalID: -1482378318183071017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_16
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 15
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9de67559d3584c300800000000000000
+      internalID: 271488377094106841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_17
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 31
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f73a95af4f131a90800000000000000
+      internalID: -7344492140369922055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_18
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 15
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e5425e7257274d40800000000000000
+      internalID: 5568462699527030241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_19
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 30
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71a82d29a364402c0800000000000000
+      internalID: -4466367713059370473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_20
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 14
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 683d9ed8d86962550800000000000000
+      internalID: 6135757077054346118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_21
+      rect:
+        serializedVersion: 2
+        x: 1428
+        y: 30
+        width: 61
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11d137673501ce670800000000000000
+      internalID: 8569242141634796817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: aws-cognito-service_22
+      rect:
+        serializedVersion: 2
+        x: 1455
+        y: 14
+        width: 61
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed8b21c193c28b7e0800000000000000
+      internalID: -1749599831437690658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      aws-cognito-service_0: -7936082357622831553
+      aws-cognito-service_1: -2477692581206025267
+      aws-cognito-service_10: 7803537948646310270
+      aws-cognito-service_11: 1020095440338610853
+      aws-cognito-service_12: -2627423804241427861
+      aws-cognito-service_13: 7858524811984312408
+      aws-cognito-service_14: -627286905459157111
+      aws-cognito-service_15: -1482378318183071017
+      aws-cognito-service_16: 271488377094106841
+      aws-cognito-service_17: -7344492140369922055
+      aws-cognito-service_18: 5568462699527030241
+      aws-cognito-service_19: -4466367713059370473
+      aws-cognito-service_2: -1668433015722748703
+      aws-cognito-service_20: 6135757077054346118
+      aws-cognito-service_21: 8569242141634796817
+      aws-cognito-service_22: -1749599831437690658
+      aws-cognito-service_3: 384206782937778126
+      aws-cognito-service_4: -6250287532680186013
+      aws-cognito-service_5: -5794915098301925675
+      aws-cognito-service_6: 2444772575924534826
+      aws-cognito-service_7: -5443363617941911374
+      aws-cognito-service_8: -182460682501435142
+      aws-cognito-service_9: 8396092347188908424
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

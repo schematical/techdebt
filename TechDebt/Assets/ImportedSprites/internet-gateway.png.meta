@@ -1,0 +1,572 @@
+fileFormatVersion: 2
+guid: 0df8178157ec18c4eae13f4a752fbb32
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1800890183108017340
+    second: internet-gateway_0
+  - first:
+      213: 4798107193833276266
+    second: internet-gateway_1
+  - first:
+      213: 6352825452106959841
+    second: internet-gateway_2
+  - first:
+      213: 1718091814760842633
+    second: internet-gateway_3
+  - first:
+      213: -2406315200048654030
+    second: internet-gateway_4
+  - first:
+      213: -5974337322931698176
+    second: internet-gateway_5
+  - first:
+      213: -5506639847409896523
+    second: internet-gateway_6
+  - first:
+      213: 6040299634889277804
+    second: internet-gateway_7
+  - first:
+      213: -466914149629925896
+    second: internet-gateway_8
+  - first:
+      213: -6657480311094076447
+    second: internet-gateway_9
+  - first:
+      213: -7712661924570384846
+    second: internet-gateway_10
+  - first:
+      213: 3257693166570927491
+    second: internet-gateway_11
+  - first:
+      213: -6691020716894051530
+    second: internet-gateway_12
+  - first:
+      213: 3286778913174632904
+    second: internet-gateway_13
+  - first:
+      213: -2792130811330787128
+    second: internet-gateway_14
+  - first:
+      213: 4268261563236919938
+    second: internet-gateway_15
+  - first:
+      213: 6364001958347455627
+    second: internet-gateway_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: internet-gateway_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbc34ab741c0ef810800000000000000
+      internalID: 1800890183108017340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a63cda2421d469240800000000000000
+      internalID: 4798107193833276266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_2
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1eb45e80715c92850800000000000000
+      internalID: 6352825452106959841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_3
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98583561763e7d710800000000000000
+      internalID: 1718091814760842633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_4
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2391a73231d0b9ed0800000000000000
+      internalID: -2406315200048654030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_5
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0064c42bbd3e61da0800000000000000
+      internalID: -5974337322931698176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_6
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b33f15fb3c7493b0800000000000000
+      internalID: -5506639847409896523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_7
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c614f7ad38473d350800000000000000
+      internalID: 6040299634889277804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_8
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f564b20e003589f0800000000000000
+      internalID: -466914149629925896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_9
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1eb941e0ee0eb93a0800000000000000
+      internalID: -6657480311094076447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_10
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2363d41d7de17f490800000000000000
+      internalID: -7712661924570384846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_11
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3857daccca6a53d20800000000000000
+      internalID: 3257693166570927491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_12
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63320c8cb18b423a0800000000000000
+      internalID: -6691020716894051530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_13
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c9b407e10cfc9d20800000000000000
+      internalID: 3286778913174632904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_14
+      rect:
+        serializedVersion: 2
+        x: 1804
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c8843802db5049d0800000000000000
+      internalID: -2792130811330787128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_15
+      rect:
+        serializedVersion: 2
+        x: 1932
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28aa03d0749eb3b30800000000000000
+      internalID: 4268261563236919938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: internet-gateway_16
+      rect:
+        serializedVersion: 2
+        x: 2060
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8cb03d201a715850800000000000000
+      internalID: 6364001958347455627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      internet-gateway_0: 1800890183108017340
+      internet-gateway_1: 4798107193833276266
+      internet-gateway_10: -7712661924570384846
+      internet-gateway_11: 3257693166570927491
+      internet-gateway_12: -6691020716894051530
+      internet-gateway_13: 3286778913174632904
+      internet-gateway_14: -2792130811330787128
+      internet-gateway_15: 4268261563236919938
+      internet-gateway_16: 6364001958347455627
+      internet-gateway_2: 6352825452106959841
+      internet-gateway_3: 1718091814760842633
+      internet-gateway_4: -2406315200048654030
+      internet-gateway_5: -5974337322931698176
+      internet-gateway_6: -5506639847409896523
+      internet-gateway_7: 6040299634889277804
+      internet-gateway_8: -466914149629925896
+      internet-gateway_9: -6657480311094076447
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

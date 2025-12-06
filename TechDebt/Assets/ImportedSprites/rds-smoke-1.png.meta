@@ -1,0 +1,1118 @@
+fileFormatVersion: 2
+guid: 5c7cc0a0f214d40428efd1ba9f93f5a6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7191067192609265537
+    second: rds-smoke-1_0
+  - first:
+      213: -4061923937841178957
+    second: rds-smoke-1_1
+  - first:
+      213: 7246212276163575855
+    second: rds-smoke-1_2
+  - first:
+      213: -3275053739674810525
+    second: rds-smoke-1_3
+  - first:
+      213: -5144234030393571249
+    second: rds-smoke-1_4
+  - first:
+      213: 8042664447160009225
+    second: rds-smoke-1_5
+  - first:
+      213: 2138305449977792215
+    second: rds-smoke-1_6
+  - first:
+      213: 4213294006286437574
+    second: rds-smoke-1_7
+  - first:
+      213: -6338032606044709877
+    second: rds-smoke-1_8
+  - first:
+      213: -6313962754770042792
+    second: rds-smoke-1_9
+  - first:
+      213: 3100732752669352609
+    second: rds-smoke-1_10
+  - first:
+      213: -1544754847090968645
+    second: rds-smoke-1_11
+  - first:
+      213: -8919299848506858574
+    second: rds-smoke-1_12
+  - first:
+      213: 208225632803110250
+    second: rds-smoke-1_13
+  - first:
+      213: 690415020597344621
+    second: rds-smoke-1_14
+  - first:
+      213: -5254253306605442759
+    second: rds-smoke-1_15
+  - first:
+      213: -3993360531451667430
+    second: rds-smoke-1_16
+  - first:
+      213: -1063564724385167567
+    second: rds-smoke-1_17
+  - first:
+      213: -4002026603668233043
+    second: rds-smoke-1_18
+  - first:
+      213: -6215555731750897091
+    second: rds-smoke-1_19
+  - first:
+      213: -9222313116492688818
+    second: rds-smoke-1_20
+  - first:
+      213: 4065558023357096266
+    second: rds-smoke-1_21
+  - first:
+      213: 4619604078152494663
+    second: rds-smoke-1_22
+  - first:
+      213: -2792019199382089933
+    second: rds-smoke-1_23
+  - first:
+      213: -1138579561235153543
+    second: rds-smoke-1_24
+  - first:
+      213: 1854774538990673708
+    second: rds-smoke-1_25
+  - first:
+      213: 3911378708093874226
+    second: rds-smoke-1_26
+  - first:
+      213: 2682848949160648874
+    second: rds-smoke-1_27
+  - first:
+      213: 7675873471408022046
+    second: rds-smoke-1_28
+  - first:
+      213: 6107302216935661030
+    second: rds-smoke-1_29
+  - first:
+      213: -4043072394384515468
+    second: rds-smoke-1_30
+  - first:
+      213: 8738126414337525652
+    second: rds-smoke-1_31
+  - first:
+      213: 1474896238413702900
+    second: rds-smoke-1_32
+  - first:
+      213: 2125176379843759432
+    second: rds-smoke-1_33
+  - first:
+      213: -7773927176556211446
+    second: rds-smoke-1_34
+  - first:
+      213: 1400728362056314455
+    second: rds-smoke-1_35
+  - first:
+      213: 2554286160677743842
+    second: rds-smoke-1_36
+  - first:
+      213: -6541767407270938392
+    second: rds-smoke-1_37
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: rds-smoke-1_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 103
+        width: 22
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f782f8cfc72343c90800000000000000
+      internalID: -7191067192609265537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_1
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 111
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b6125413b521a7c0800000000000000
+      internalID: -4061923937841178957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_2
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 115
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f200ecf4ca7bf8460800000000000000
+      internalID: 7246212276163575855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_3
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 116
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3674e5ac9fbac82d0800000000000000
+      internalID: -3275053739674810525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_4
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 102
+        width: 20
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f484ae897620c98b0800000000000000
+      internalID: -5144234030393571249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_5
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 118
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 902c2ace3b84d9f60800000000000000
+      internalID: 8042664447160009225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_6
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 108
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d6453f3a79ccad10800000000000000
+      internalID: 2138305449977792215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 113
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cc4cf26390a87a30800000000000000
+      internalID: 4213294006286437574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_8
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 111
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0c9cd5dce8ca08a0800000000000000
+      internalID: -6338032606044709877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_9
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 102
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85082ecc35c4068a0800000000000000
+      internalID: -6313962754770042792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_10
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 116
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a2a64a9204080b20800000000000000
+      internalID: 3100732752669352609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_11
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 115
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb7741aa6adef8ae0800000000000000
+      internalID: -1544754847090968645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_12
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 107
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b3ad845b08483480800000000000000
+      internalID: -8919299848506858574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_13
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 112
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6d3c5c1c14c3e200800000000000000
+      internalID: 208225632803110250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_14
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 114
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d697c42adc8d49900800000000000000
+      internalID: 690415020597344621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_15
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 115
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9396cd3b4742517b0800000000000000
+      internalID: -5254253306605442759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_16
+      rect:
+        serializedVersion: 2
+        x: 461
+        y: 101
+        width: 8
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1c12ce11cbb498c0800000000000000
+      internalID: -3993360531451667430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_17
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 117
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 137c267a4857d31f0800000000000000
+      internalID: -1063564724385167567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_18
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 97
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da421b2f102f578c0800000000000000
+      internalID: -4002026603668233043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_19
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 109
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3a385f4ef8edb9a0800000000000000
+      internalID: -6215555731750897091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_20
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 110
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e42170c1513c30080800000000000000
+      internalID: -9222313116492688818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_21
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 108
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4160f36b73cb6830800000000000000
+      internalID: 4065558023357096266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_22
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 102
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74ea931fe612c1040800000000000000
+      internalID: 4619604078152494663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_23
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 104
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33f82c6b451c049d0800000000000000
+      internalID: -2792019199382089933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_24
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 98
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97dfe08ebe3f230f0800000000000000
+      internalID: -1138579561235153543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_25
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 94
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2f5afebd9b7db910800000000000000
+      internalID: 1854774538990673708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_26
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 91
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23036fd2632084630800000000000000
+      internalID: 3911378708093874226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_27
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 94
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa020c8a7e46b3520800000000000000
+      internalID: 2682848949160648874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_28
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 97
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e12ae14f04e268a60800000000000000
+      internalID: 7675873471408022046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_29
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 8
+        width: 65
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6edd768220f71c450800000000000000
+      internalID: 6107302216935661030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_30
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 92
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47ed583141f14e7c0800000000000000
+      internalID: -4043072394384515468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_31
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8
+        width: 65
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 497cb016daf044970800000000000000
+      internalID: 8738126414337525652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_32
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 8
+        width: 65
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f665338052e77410800000000000000
+      internalID: 1474896238413702900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_33
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 8
+        width: 65
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84d43a568a42e7d10800000000000000
+      internalID: 2125176379843759432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_34
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 8
+        width: 65
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a039c93cb667d1490800000000000000
+      internalID: -7773927176556211446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_35
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 8
+        width: 65
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75e6e2f1603607310800000000000000
+      internalID: 1400728362056314455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_36
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 8
+        width: 65
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eca4eddab5a27320800000000000000
+      internalID: 2554286160677743842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rds-smoke-1_37
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 8
+        width: 64
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e8336ee339f635a0800000000000000
+      internalID: -6541767407270938392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      rds-smoke-1_0: -7191067192609265537
+      rds-smoke-1_1: -4061923937841178957
+      rds-smoke-1_10: 3100732752669352609
+      rds-smoke-1_11: -1544754847090968645
+      rds-smoke-1_12: -8919299848506858574
+      rds-smoke-1_13: 208225632803110250
+      rds-smoke-1_14: 690415020597344621
+      rds-smoke-1_15: -5254253306605442759
+      rds-smoke-1_16: -3993360531451667430
+      rds-smoke-1_17: -1063564724385167567
+      rds-smoke-1_18: -4002026603668233043
+      rds-smoke-1_19: -6215555731750897091
+      rds-smoke-1_2: 7246212276163575855
+      rds-smoke-1_20: -9222313116492688818
+      rds-smoke-1_21: 4065558023357096266
+      rds-smoke-1_22: 4619604078152494663
+      rds-smoke-1_23: -2792019199382089933
+      rds-smoke-1_24: -1138579561235153543
+      rds-smoke-1_25: 1854774538990673708
+      rds-smoke-1_26: 3911378708093874226
+      rds-smoke-1_27: 2682848949160648874
+      rds-smoke-1_28: 7675873471408022046
+      rds-smoke-1_29: 6107302216935661030
+      rds-smoke-1_3: -3275053739674810525
+      rds-smoke-1_30: -4043072394384515468
+      rds-smoke-1_31: 8738126414337525652
+      rds-smoke-1_32: 1474896238413702900
+      rds-smoke-1_33: 2125176379843759432
+      rds-smoke-1_34: -7773927176556211446
+      rds-smoke-1_35: 1400728362056314455
+      rds-smoke-1_36: 2554286160677743842
+      rds-smoke-1_37: -6541767407270938392
+      rds-smoke-1_4: -5144234030393571249
+      rds-smoke-1_5: 8042664447160009225
+      rds-smoke-1_6: 2138305449977792215
+      rds-smoke-1_7: 4213294006286437574
+      rds-smoke-1_8: -6338032606044709877
+      rds-smoke-1_9: -6313962754770042792
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

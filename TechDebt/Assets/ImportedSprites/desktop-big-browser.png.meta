@@ -1,0 +1,1612 @@
+fileFormatVersion: 2
+guid: 5b87a188293cac74ebbc33eac1b7c50d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6716870253426220301
+    second: desktop-big-browser_0
+  - first:
+      213: 4688414035805051043
+    second: desktop-big-browser_1
+  - first:
+      213: 9211510493110697749
+    second: desktop-big-browser_2
+  - first:
+      213: -7479280881053854097
+    second: desktop-big-browser_3
+  - first:
+      213: 3970776431139563977
+    second: desktop-big-browser_4
+  - first:
+      213: -5425184220873458734
+    second: desktop-big-browser_5
+  - first:
+      213: 8071826227348389137
+    second: desktop-big-browser_6
+  - first:
+      213: -790955735899191391
+    second: desktop-big-browser_7
+  - first:
+      213: 5757039512759086295
+    second: desktop-big-browser_8
+  - first:
+      213: 4586338006148500562
+    second: desktop-big-browser_9
+  - first:
+      213: -2306001182701231595
+    second: desktop-big-browser_10
+  - first:
+      213: 5326896049002392478
+    second: desktop-big-browser_11
+  - first:
+      213: -2113350044954910706
+    second: desktop-big-browser_12
+  - first:
+      213: 8934061941489662312
+    second: desktop-big-browser_13
+  - first:
+      213: -2349737884282218003
+    second: desktop-big-browser_14
+  - first:
+      213: 8972502982960933686
+    second: desktop-big-browser_15
+  - first:
+      213: -5713293173932113326
+    second: desktop-big-browser_16
+  - first:
+      213: 7638691016272658158
+    second: desktop-big-browser_17
+  - first:
+      213: 6658060279212719221
+    second: desktop-big-browser_18
+  - first:
+      213: -1354471266522519319
+    second: desktop-big-browser_19
+  - first:
+      213: -911142224874661591
+    second: desktop-big-browser_20
+  - first:
+      213: 3300207456683895020
+    second: desktop-big-browser_21
+  - first:
+      213: 8818644312106907051
+    second: desktop-big-browser_22
+  - first:
+      213: -4482506596562581731
+    second: desktop-big-browser_23
+  - first:
+      213: -8152856962135514264
+    second: desktop-big-browser_24
+  - first:
+      213: 2284752188880037504
+    second: desktop-big-browser_25
+  - first:
+      213: -3523448854417472179
+    second: desktop-big-browser_26
+  - first:
+      213: -595619197726234079
+    second: desktop-big-browser_27
+  - first:
+      213: 8582067393495774684
+    second: desktop-big-browser_28
+  - first:
+      213: 4026833884407196193
+    second: desktop-big-browser_29
+  - first:
+      213: -2214047674136489151
+    second: desktop-big-browser_30
+  - first:
+      213: 4018646646100117837
+    second: desktop-big-browser_31
+  - first:
+      213: -4582435742503307211
+    second: desktop-big-browser_32
+  - first:
+      213: 7164860241597665875
+    second: desktop-big-browser_33
+  - first:
+      213: 5564156415156665156
+    second: desktop-big-browser_34
+  - first:
+      213: 6569918436334640475
+    second: desktop-big-browser_35
+  - first:
+      213: 8228215959734057699
+    second: desktop-big-browser_36
+  - first:
+      213: -3890876850504115034
+    second: desktop-big-browser_37
+  - first:
+      213: 5796051487014331652
+    second: desktop-big-browser_38
+  - first:
+      213: -8816944208918473422
+    second: desktop-big-browser_39
+  - first:
+      213: 6051881213524511353
+    second: desktop-big-browser_40
+  - first:
+      213: 3872850821589405390
+    second: desktop-big-browser_41
+  - first:
+      213: 20388527226630646
+    second: desktop-big-browser_42
+  - first:
+      213: -3565267584056474988
+    second: desktop-big-browser_43
+  - first:
+      213: -1777195647194825687
+    second: desktop-big-browser_44
+  - first:
+      213: -5761077686640859433
+    second: desktop-big-browser_45
+  - first:
+      213: -4039166271728013333
+    second: desktop-big-browser_46
+  - first:
+      213: 1880940815817738536
+    second: desktop-big-browser_47
+  - first:
+      213: -5047821392682960413
+    second: desktop-big-browser_48
+  - first:
+      213: 1817310305635180141
+    second: desktop-big-browser_49
+  - first:
+      213: -1896069549644783652
+    second: desktop-big-browser_50
+  - first:
+      213: 8082722042882450798
+    second: desktop-big-browser_51
+  - first:
+      213: -6522187929368833211
+    second: desktop-big-browser_52
+  - first:
+      213: -2711198729763341702
+    second: desktop-big-browser_53
+  - first:
+      213: -4842294074789097194
+    second: desktop-big-browser_54
+  - first:
+      213: -1597240246782951259
+    second: desktop-big-browser_55
+  - first:
+      213: 979652064569286167
+    second: desktop-big-browser_56
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: desktop-big-browser_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f2642e8712e8c2a0800000000000000
+      internalID: -6716870253426220301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a89d1ca9b7901140800000000000000
+      internalID: 4688414035805051043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_2
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51f75a22dfbd5df70800000000000000
+      internalID: 9211510493110697749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_3
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f661a656aa1443890800000000000000
+      internalID: -7479280881053854097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_4
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c9219440280b1730800000000000000
+      internalID: 3970776431139563977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_5
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2db78c9e1bfd5b4b0800000000000000
+      internalID: -5425184220873458734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_6
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11d38c9ff23e40070800000000000000
+      internalID: 8071826227348389137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_7
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a7cba8e2f5f505f0800000000000000
+      internalID: -790955735899191391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_8
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dca4eb4fec15ef40800000000000000
+      internalID: 5757039512759086295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_9
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25cca5cfd12f5af30800000000000000
+      internalID: 4586338006148500562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_10
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 512667d54207fffd0800000000000000
+      internalID: -2306001182701231595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_11
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9b2834cbbfece940800000000000000
+      internalID: 5326896049002392478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_12
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e002864c45fdba2e0800000000000000
+      internalID: -2113350044954910706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_13
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 869f3d7400a2cfb70800000000000000
+      internalID: 8934061941489662312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_14
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de9941cf7dd046fd0800000000000000
+      internalID: -2349737884282218003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_15
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63be485bcebb48c70800000000000000
+      internalID: 8972502982960933686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_16
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 252cc1ee02e46b0b0800000000000000
+      internalID: -5713293173932113326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_17
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eee36edf105120a60800000000000000
+      internalID: 7638691016272658158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_18
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57cbc9b4c8e266c50800000000000000
+      internalID: 6658060279212719221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_19
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e8a3743f83f33de0800000000000000
+      internalID: -1354471266522519319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_20
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9299c7259f8fa53f0800000000000000
+      internalID: -911142224874661591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_21
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce82db45231bccd20800000000000000
+      internalID: 3300207456683895020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_22
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba5b6a7574e126a70800000000000000
+      internalID: 8818644312106907051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_23
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d17ca80ffffeac1c0800000000000000
+      internalID: -4482506596562581731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_24
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 863a753e9cb3bde80800000000000000
+      internalID: -8152856962135514264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_25
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 086adf9b20215bf10800000000000000
+      internalID: 2284752188880037504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_26
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4580385fe13a1fc0800000000000000
+      internalID: -3523448854417472179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_27
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12aef12de7febb7f0800000000000000
+      internalID: -595619197726234079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_28
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd537cb13d0a91770800000000000000
+      internalID: 8582067393495774684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_29
+      rect:
+        serializedVersion: 2
+        x: 1219
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ae891351032e730800000000000000
+      internalID: 4026833884407196193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_30
+      rect:
+        serializedVersion: 2
+        x: 1285
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1439053fe5f1641e0800000000000000
+      internalID: -2214047674136489151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_31
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d49cc9a35d915c730800000000000000
+      internalID: 4018646646100117837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_32
+      rect:
+        serializedVersion: 2
+        x: 1347
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 538790298fae760c0800000000000000
+      internalID: -4582435742503307211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_33
+      rect:
+        serializedVersion: 2
+        x: 1413
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3529fbdbd62be6360800000000000000
+      internalID: 7164860241597665875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_34
+      rect:
+        serializedVersion: 2
+        x: 1455
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44bbf1887cad73d40800000000000000
+      internalID: 5564156415156665156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_35
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5d1409420a0d2b50800000000000000
+      internalID: 6569918436334640475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_36
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3eaf52702de703270800000000000000
+      internalID: 8228215959734057699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_37
+      rect:
+        serializedVersion: 2
+        x: 1583
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ac59e48e14d00ac0800000000000000
+      internalID: -3890876850504115034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_38
+      rect:
+        serializedVersion: 2
+        x: 1603
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4052d5f5e16bf6050800000000000000
+      internalID: 5796051487014331652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_39
+      rect:
+        serializedVersion: 2
+        x: 1669
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2351af6c4fbe3a580800000000000000
+      internalID: -8816944208918473422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_40
+      rect:
+        serializedVersion: 2
+        x: 1711
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97a0df246e99cf350800000000000000
+      internalID: 6051881213524511353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_41
+      rect:
+        serializedVersion: 2
+        x: 1731
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ece8ae09d412fb530800000000000000
+      internalID: 3872850821589405390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_42
+      rect:
+        serializedVersion: 2
+        x: 1797
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f136dae14f684000800000000000000
+      internalID: 20388527226630646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_43
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 492491b9500a58ec0800000000000000
+      internalID: -3565267584056474988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_44
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92cf49099f12657e0800000000000000
+      internalID: -1777195647194825687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_45
+      rect:
+        serializedVersion: 2
+        x: 1925
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d6a7541e5a8c00b0800000000000000
+      internalID: -5761077686640859433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_46
+      rect:
+        serializedVersion: 2
+        x: 1967
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: befa9e02daff1f7c0800000000000000
+      internalID: -4039166271728013333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_47
+      rect:
+        serializedVersion: 2
+        x: 1987
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8298952d4b17a1a10800000000000000
+      internalID: 1880940815817738536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_48
+      rect:
+        serializedVersion: 2
+        x: 2053
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e9b387103982f9b0800000000000000
+      internalID: -5047821392682960413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_49
+      rect:
+        serializedVersion: 2
+        x: 2095
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6e9a0e2812683910800000000000000
+      internalID: 1817310305635180141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_50
+      rect:
+        serializedVersion: 2
+        x: 2115
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdfdcf75acecfa5e0800000000000000
+      internalID: -1896069549644783652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_51
+      rect:
+        serializedVersion: 2
+        x: 2181
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e656a38bfd89b2070800000000000000
+      internalID: 8082722042882450798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_52
+      rect:
+        serializedVersion: 2
+        x: 2223
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54351af52a88c75a0800000000000000
+      internalID: -6522187929368833211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_53
+      rect:
+        serializedVersion: 2
+        x: 2243
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7a37fcae13ef5ad0800000000000000
+      internalID: -2711198729763341702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_54
+      rect:
+        serializedVersion: 2
+        x: 2309
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 611973ec137bcccb0800000000000000
+      internalID: -4842294074789097194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_55
+      rect:
+        serializedVersion: 2
+        x: 2351
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a08b85457675d9e0800000000000000
+      internalID: -1597240246782951259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-browser_56
+      rect:
+        serializedVersion: 2
+        x: 2371
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71e5120cc5c689d00800000000000000
+      internalID: 979652064569286167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      desktop-big-browser_0: -6716870253426220301
+      desktop-big-browser_1: 4688414035805051043
+      desktop-big-browser_10: -2306001182701231595
+      desktop-big-browser_11: 5326896049002392478
+      desktop-big-browser_12: -2113350044954910706
+      desktop-big-browser_13: 8934061941489662312
+      desktop-big-browser_14: -2349737884282218003
+      desktop-big-browser_15: 8972502982960933686
+      desktop-big-browser_16: -5713293173932113326
+      desktop-big-browser_17: 7638691016272658158
+      desktop-big-browser_18: 6658060279212719221
+      desktop-big-browser_19: -1354471266522519319
+      desktop-big-browser_2: 9211510493110697749
+      desktop-big-browser_20: -911142224874661591
+      desktop-big-browser_21: 3300207456683895020
+      desktop-big-browser_22: 8818644312106907051
+      desktop-big-browser_23: -4482506596562581731
+      desktop-big-browser_24: -8152856962135514264
+      desktop-big-browser_25: 2284752188880037504
+      desktop-big-browser_26: -3523448854417472179
+      desktop-big-browser_27: -595619197726234079
+      desktop-big-browser_28: 8582067393495774684
+      desktop-big-browser_29: 4026833884407196193
+      desktop-big-browser_3: -7479280881053854097
+      desktop-big-browser_30: -2214047674136489151
+      desktop-big-browser_31: 4018646646100117837
+      desktop-big-browser_32: -4582435742503307211
+      desktop-big-browser_33: 7164860241597665875
+      desktop-big-browser_34: 5564156415156665156
+      desktop-big-browser_35: 6569918436334640475
+      desktop-big-browser_36: 8228215959734057699
+      desktop-big-browser_37: -3890876850504115034
+      desktop-big-browser_38: 5796051487014331652
+      desktop-big-browser_39: -8816944208918473422
+      desktop-big-browser_4: 3970776431139563977
+      desktop-big-browser_40: 6051881213524511353
+      desktop-big-browser_41: 3872850821589405390
+      desktop-big-browser_42: 20388527226630646
+      desktop-big-browser_43: -3565267584056474988
+      desktop-big-browser_44: -1777195647194825687
+      desktop-big-browser_45: -5761077686640859433
+      desktop-big-browser_46: -4039166271728013333
+      desktop-big-browser_47: 1880940815817738536
+      desktop-big-browser_48: -5047821392682960413
+      desktop-big-browser_49: 1817310305635180141
+      desktop-big-browser_5: -5425184220873458734
+      desktop-big-browser_50: -1896069549644783652
+      desktop-big-browser_51: 8082722042882450798
+      desktop-big-browser_52: -6522187929368833211
+      desktop-big-browser_53: -2711198729763341702
+      desktop-big-browser_54: -4842294074789097194
+      desktop-big-browser_55: -1597240246782951259
+      desktop-big-browser_56: 979652064569286167
+      desktop-big-browser_6: 8071826227348389137
+      desktop-big-browser_7: -790955735899191391
+      desktop-big-browser_8: 5757039512759086295
+      desktop-big-browser_9: 4586338006148500562
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

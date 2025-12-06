@@ -1,0 +1,1612 @@
+fileFormatVersion: 2
+guid: 1460e36e4182ec4429f6870710d3f302
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7414122691999288667
+    second: desktop-big-terminal_0
+  - first:
+      213: -4150161058912881
+    second: desktop-big-terminal_1
+  - first:
+      213: -1456539626498857864
+    second: desktop-big-terminal_2
+  - first:
+      213: 5530232415200402412
+    second: desktop-big-terminal_3
+  - first:
+      213: -4964593792619156873
+    second: desktop-big-terminal_4
+  - first:
+      213: 6713361229417378884
+    second: desktop-big-terminal_5
+  - first:
+      213: 3365342555144902734
+    second: desktop-big-terminal_6
+  - first:
+      213: 2088714047577424745
+    second: desktop-big-terminal_7
+  - first:
+      213: 1501020889545057309
+    second: desktop-big-terminal_8
+  - first:
+      213: -6686825287747788737
+    second: desktop-big-terminal_9
+  - first:
+      213: -1210961690974073032
+    second: desktop-big-terminal_10
+  - first:
+      213: -6509624107779353311
+    second: desktop-big-terminal_11
+  - first:
+      213: 100868058838604543
+    second: desktop-big-terminal_12
+  - first:
+      213: 5801270478642644001
+    second: desktop-big-terminal_13
+  - first:
+      213: -33823657757145548
+    second: desktop-big-terminal_14
+  - first:
+      213: 6030007537164623296
+    second: desktop-big-terminal_15
+  - first:
+      213: -6990603024597784420
+    second: desktop-big-terminal_16
+  - first:
+      213: 8230973861356189084
+    second: desktop-big-terminal_17
+  - first:
+      213: 2470081699168256387
+    second: desktop-big-terminal_18
+  - first:
+      213: 2674498532606663234
+    second: desktop-big-terminal_19
+  - first:
+      213: -1125288227870136247
+    second: desktop-big-terminal_20
+  - first:
+      213: -5465985462794436158
+    second: desktop-big-terminal_21
+  - first:
+      213: 5190822348377748606
+    second: desktop-big-terminal_22
+  - first:
+      213: -7951025349363977814
+    second: desktop-big-terminal_23
+  - first:
+      213: -3361462045898216138
+    second: desktop-big-terminal_24
+  - first:
+      213: -7492226800335004170
+    second: desktop-big-terminal_25
+  - first:
+      213: -8735198978242019732
+    second: desktop-big-terminal_26
+  - first:
+      213: 8814691543703014867
+    second: desktop-big-terminal_27
+  - first:
+      213: -7539813520614268523
+    second: desktop-big-terminal_28
+  - first:
+      213: -6257847007929679926
+    second: desktop-big-terminal_29
+  - first:
+      213: 7741646767192420819
+    second: desktop-big-terminal_30
+  - first:
+      213: 5337442873649279943
+    second: desktop-big-terminal_31
+  - first:
+      213: -4112400717088549509
+    second: desktop-big-terminal_32
+  - first:
+      213: 5501576791162482718
+    second: desktop-big-terminal_33
+  - first:
+      213: -4082043502485367123
+    second: desktop-big-terminal_34
+  - first:
+      213: 5821688259567421980
+    second: desktop-big-terminal_35
+  - first:
+      213: -7081315433638927606
+    second: desktop-big-terminal_36
+  - first:
+      213: -4416026389008350045
+    second: desktop-big-terminal_37
+  - first:
+      213: 5046967854231216039
+    second: desktop-big-terminal_38
+  - first:
+      213: 3170192591056911232
+    second: desktop-big-terminal_39
+  - first:
+      213: -2795991704553043535
+    second: desktop-big-terminal_40
+  - first:
+      213: -3294067652867306013
+    second: desktop-big-terminal_41
+  - first:
+      213: 6189763186807724238
+    second: desktop-big-terminal_42
+  - first:
+      213: 7485217556655370855
+    second: desktop-big-terminal_43
+  - first:
+      213: -4663397945530819805
+    second: desktop-big-terminal_44
+  - first:
+      213: 617696955820799967
+    second: desktop-big-terminal_45
+  - first:
+      213: -2899532873957883627
+    second: desktop-big-terminal_46
+  - first:
+      213: -4794357345200393938
+    second: desktop-big-terminal_47
+  - first:
+      213: -4530808967451034208
+    second: desktop-big-terminal_48
+  - first:
+      213: -1930385284045227083
+    second: desktop-big-terminal_49
+  - first:
+      213: 9209027374914431360
+    second: desktop-big-terminal_50
+  - first:
+      213: 3576473212549376320
+    second: desktop-big-terminal_51
+  - first:
+      213: -6114867769790983445
+    second: desktop-big-terminal_52
+  - first:
+      213: -6007235777533164569
+    second: desktop-big-terminal_53
+  - first:
+      213: -9083505773221990029
+    second: desktop-big-terminal_54
+  - first:
+      213: -4946220897720586412
+    second: desktop-big-terminal_55
+  - first:
+      213: -2184914051565155136
+    second: desktop-big-terminal_56
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: desktop-big-terminal_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a2383e71bebb1990800000000000000
+      internalID: -7414122691999288667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f85a254537141fff0800000000000000
+      internalID: -4150161058912881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_2
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87461414de459cbe0800000000000000
+      internalID: -1456539626498857864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_3
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cebde59c4155fbc40800000000000000
+      internalID: 5530232415200402412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_4
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77a63d8cf383a1bb0800000000000000
+      internalID: -4964593792619156873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_5
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4447d402876aa2d50800000000000000
+      internalID: 6713361229417378884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_6
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e48daea393914be20800000000000000
+      internalID: 3365342555144902734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_7
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 963883b1c5a9cfc10800000000000000
+      internalID: 2088714047577424745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_8
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1426c9db82b4d410800000000000000
+      internalID: 1501020889545057309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_9
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f30a1b044df9333a0800000000000000
+      internalID: -6686825287747788737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_10
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83f42ec02ccc13fe0800000000000000
+      internalID: -1210961690974073032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_11
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1251e7a0d5b29a5a0800000000000000
+      internalID: -6509624107779353311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_12
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffa124017fa566100800000000000000
+      internalID: 100868058838604543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_13
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 124847d83c0428050800000000000000
+      internalID: 5801270478642644001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_14
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 436816eff85d78ff0800000000000000
+      internalID: -33823657757145548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_15
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cd10ad18e3eea350800000000000000
+      internalID: 6030007537164623296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_16
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c98e31146936cfe90800000000000000
+      internalID: -6990603024597784420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_17
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9539a90e1b4a3270800000000000000
+      internalID: 8230973861356189084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_18
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3810e15e73e774220800000000000000
+      internalID: 2470081699168256387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_19
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24ad25cce3abd1520800000000000000
+      internalID: 2674498532606663234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_20
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9482fdb915c2260f0800000000000000
+      internalID: -1125288227870136247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_21
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c140be7e2be424b0800000000000000
+      internalID: -5465985462794436158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_22
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e74f6377c61890840800000000000000
+      internalID: 5190822348377748606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_23
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa1b803329848a190800000000000000
+      internalID: -7951025349363977814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_24
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d674c3410b951d0800000000000000
+      internalID: -3361462045898216138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_25
+      rect:
+        serializedVersion: 2
+        x: 1071
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fdde5dab63460890800000000000000
+      internalID: -7492226800335004170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_26
+      rect:
+        serializedVersion: 2
+        x: 1091
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6e77837fc656c680800000000000000
+      internalID: -8735198978242019732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_27
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ddce0bb143145a70800000000000000
+      internalID: 8814691543703014867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_28
+      rect:
+        serializedVersion: 2
+        x: 1199
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5916917fc833d5790800000000000000
+      internalID: -7539813520614268523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_29
+      rect:
+        serializedVersion: 2
+        x: 1219
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acf3c914d49a729a0800000000000000
+      internalID: -6257847007929679926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_30
+      rect:
+        serializedVersion: 2
+        x: 1285
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d13e0fb7badf6b60800000000000000
+      internalID: 7741646767192420819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_31
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c33eccb308621a40800000000000000
+      internalID: 5337442873649279943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_32
+      rect:
+        serializedVersion: 2
+        x: 1347
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7510e31651dde6c0800000000000000
+      internalID: -4112400717088549509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_33
+      rect:
+        serializedVersion: 2
+        x: 1413
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e10f5c561f6895c40800000000000000
+      internalID: 5501576791162482718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_34
+      rect:
+        serializedVersion: 2
+        x: 1455
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da61ba4ef0ba957c0800000000000000
+      internalID: -4082043502485367123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_35
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1a0490a0aacac050800000000000000
+      internalID: 5821688259567421980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_36
+      rect:
+        serializedVersion: 2
+        x: 1541
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a03e57ba12d1abd90800000000000000
+      internalID: -7081315433638927606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_37
+      rect:
+        serializedVersion: 2
+        x: 1583
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a40864756f17b2c0800000000000000
+      internalID: -4416026389008350045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_38
+      rect:
+        serializedVersion: 2
+        x: 1603
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7af5440068e6a0640800000000000000
+      internalID: 5046967854231216039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_39
+      rect:
+        serializedVersion: 2
+        x: 1669
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08bb58b7d59cefb20800000000000000
+      internalID: 3170192591056911232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_40
+      rect:
+        serializedVersion: 2
+        x: 1711
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b94d27cb54a239d0800000000000000
+      internalID: -2795991704553043535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_41
+      rect:
+        serializedVersion: 2
+        x: 1731
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ed4db42cee1942d0800000000000000
+      internalID: -3294067652867306013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_42
+      rect:
+        serializedVersion: 2
+        x: 1797
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec8d679d2d476e550800000000000000
+      internalID: 6189763186807724238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_43
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 762f5fa95b5d0e760800000000000000
+      internalID: 7485217556655370855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_44
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32b595ab648484fb0800000000000000
+      internalID: -4663397945530819805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_45
+      rect:
+        serializedVersion: 2
+        x: 1925
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd7f98ecb10829800800000000000000
+      internalID: 617696955820799967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_46
+      rect:
+        serializedVersion: 2
+        x: 1967
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5114c29a63ac2c7d0800000000000000
+      internalID: -2899532873957883627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_47
+      rect:
+        serializedVersion: 2
+        x: 1987
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e21bb096565077db0800000000000000
+      internalID: -4794357345200393938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_48
+      rect:
+        serializedVersion: 2
+        x: 2053
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ad3de5df355f11c0800000000000000
+      internalID: -4530808967451034208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_49
+      rect:
+        serializedVersion: 2
+        x: 2095
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bbb7d0dfc4e535e0800000000000000
+      internalID: -1930385284045227083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_50
+      rect:
+        serializedVersion: 2
+        x: 2115
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0896f902b990dcf70800000000000000
+      internalID: 9209027374914431360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_51
+      rect:
+        serializedVersion: 2
+        x: 2181
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 049a4b6107f22a130800000000000000
+      internalID: 3576473212549376320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_52
+      rect:
+        serializedVersion: 2
+        x: 2223
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be29f1d4920a32ba0800000000000000
+      internalID: -6114867769790983445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_53
+      rect:
+        serializedVersion: 2
+        x: 2243
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e34e1653e202aca0800000000000000
+      internalID: -6007235777533164569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_54
+      rect:
+        serializedVersion: 2
+        x: 2309
+        y: 11
+        width: 78
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 371b4ef20a7e0f180800000000000000
+      internalID: -9083505773221990029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_55
+      rect:
+        serializedVersion: 2
+        x: 2351
+        y: 23
+        width: 66
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45f20cabc4e7b5bb0800000000000000
+      internalID: -4946220897720586412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: desktop-big-terminal_56
+      rect:
+        serializedVersion: 2
+        x: 2371
+        y: 0
+        width: 40
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc03bb0f30ada1e0800000000000000
+      internalID: -2184914051565155136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      desktop-big-terminal_0: -7414122691999288667
+      desktop-big-terminal_1: -4150161058912881
+      desktop-big-terminal_10: -1210961690974073032
+      desktop-big-terminal_11: -6509624107779353311
+      desktop-big-terminal_12: 100868058838604543
+      desktop-big-terminal_13: 5801270478642644001
+      desktop-big-terminal_14: -33823657757145548
+      desktop-big-terminal_15: 6030007537164623296
+      desktop-big-terminal_16: -6990603024597784420
+      desktop-big-terminal_17: 8230973861356189084
+      desktop-big-terminal_18: 2470081699168256387
+      desktop-big-terminal_19: 2674498532606663234
+      desktop-big-terminal_2: -1456539626498857864
+      desktop-big-terminal_20: -1125288227870136247
+      desktop-big-terminal_21: -5465985462794436158
+      desktop-big-terminal_22: 5190822348377748606
+      desktop-big-terminal_23: -7951025349363977814
+      desktop-big-terminal_24: -3361462045898216138
+      desktop-big-terminal_25: -7492226800335004170
+      desktop-big-terminal_26: -8735198978242019732
+      desktop-big-terminal_27: 8814691543703014867
+      desktop-big-terminal_28: -7539813520614268523
+      desktop-big-terminal_29: -6257847007929679926
+      desktop-big-terminal_3: 5530232415200402412
+      desktop-big-terminal_30: 7741646767192420819
+      desktop-big-terminal_31: 5337442873649279943
+      desktop-big-terminal_32: -4112400717088549509
+      desktop-big-terminal_33: 5501576791162482718
+      desktop-big-terminal_34: -4082043502485367123
+      desktop-big-terminal_35: 5821688259567421980
+      desktop-big-terminal_36: -7081315433638927606
+      desktop-big-terminal_37: -4416026389008350045
+      desktop-big-terminal_38: 5046967854231216039
+      desktop-big-terminal_39: 3170192591056911232
+      desktop-big-terminal_4: -4964593792619156873
+      desktop-big-terminal_40: -2795991704553043535
+      desktop-big-terminal_41: -3294067652867306013
+      desktop-big-terminal_42: 6189763186807724238
+      desktop-big-terminal_43: 7485217556655370855
+      desktop-big-terminal_44: -4663397945530819805
+      desktop-big-terminal_45: 617696955820799967
+      desktop-big-terminal_46: -2899532873957883627
+      desktop-big-terminal_47: -4794357345200393938
+      desktop-big-terminal_48: -4530808967451034208
+      desktop-big-terminal_49: -1930385284045227083
+      desktop-big-terminal_5: 6713361229417378884
+      desktop-big-terminal_50: 9209027374914431360
+      desktop-big-terminal_51: 3576473212549376320
+      desktop-big-terminal_52: -6114867769790983445
+      desktop-big-terminal_53: -6007235777533164569
+      desktop-big-terminal_54: -9083505773221990029
+      desktop-big-terminal_55: -4946220897720586412
+      desktop-big-terminal_56: -2184914051565155136
+      desktop-big-terminal_6: 3365342555144902734
+      desktop-big-terminal_7: 2088714047577424745
+      desktop-big-terminal_8: 1501020889545057309
+      desktop-big-terminal_9: -6686825287747788737
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

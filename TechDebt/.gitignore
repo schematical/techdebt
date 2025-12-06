@@ -1,0 +1,54 @@
+# Unity specific ignores
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/[Uu]ser[Ss]ettings/
+
+# Asset meta files should be tracked!
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Crashes
+/Crashlytics/
+
+# Visual Studio / Rider generated files
+ExportedObj/
+.vs/
+*.sln
+*.csproj
+*.unityproj
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Rider generated files
+.idea/
+*.sln.DotSettings.user
+
+# Mac specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows specific
+Thumbs.db
+Desktop.ini

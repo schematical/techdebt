@@ -1,0 +1,754 @@
+fileFormatVersion: 2
+guid: ff82c003a77185740838c88373e13bdf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3703413631971005492
+    second: redis-firewall-green_0
+  - first:
+      213: 8832654306692937295
+    second: redis-firewall-green_1
+  - first:
+      213: -828759922230006777
+    second: redis-firewall-green_2
+  - first:
+      213: 8435884590792154830
+    second: redis-firewall-green_3
+  - first:
+      213: -5917311985220234545
+    second: redis-firewall-green_4
+  - first:
+      213: 7944002262163317591
+    second: redis-firewall-green_5
+  - first:
+      213: 1601525676385891427
+    second: redis-firewall-green_6
+  - first:
+      213: -5866775128896335998
+    second: redis-firewall-green_7
+  - first:
+      213: 6247320367450271368
+    second: redis-firewall-green_8
+  - first:
+      213: 2285020614625095464
+    second: redis-firewall-green_9
+  - first:
+      213: -5907433257497358273
+    second: redis-firewall-green_10
+  - first:
+      213: 6827245255919530502
+    second: redis-firewall-green_11
+  - first:
+      213: -1177701799576596258
+    second: redis-firewall-green_12
+  - first:
+      213: 6369112885402374999
+    second: redis-firewall-green_13
+  - first:
+      213: -256839895918807089
+    second: redis-firewall-green_14
+  - first:
+      213: 7402165163954591373
+    second: redis-firewall-green_15
+  - first:
+      213: -5885446946466009774
+    second: redis-firewall-green_16
+  - first:
+      213: -1660330114174307316
+    second: redis-firewall-green_17
+  - first:
+      213: 2294960129614048703
+    second: redis-firewall-green_18
+  - first:
+      213: 2674751462254157138
+    second: redis-firewall-green_19
+  - first:
+      213: 7030018186986021287
+    second: redis-firewall-green_20
+  - first:
+      213: 2801131635565206014
+    second: redis-firewall-green_21
+  - first:
+      213: 475467115105661026
+    second: redis-firewall-green_22
+  - first:
+      213: -211368924136464133
+    second: redis-firewall-green_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: redis-firewall-green_0
+      rect:
+        serializedVersion: 2
+        x: 1173
+        y: 105
+        width: 87
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccb670a5ce4da9cc0800000000000000
+      internalID: -3703413631971005492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_1
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 119
+        width: 75
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f46b1466b44e39a70800000000000000
+      internalID: 8832654306692937295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_2
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 131
+        width: 59
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70c666fdd37af74f0800000000000000
+      internalID: -828759922230006777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_3
+      rect:
+        serializedVersion: 2
+        x: 1586
+        y: 142
+        width: 29
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ece9b501758421570800000000000000
+      internalID: 8435884590792154830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 62
+        width: 60
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc259c7c91c71eda0800000000000000
+      internalID: -5917311985220234545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 61
+        width: 60
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 753e423e7f3ce3e60800000000000000
+      internalID: 7944002262163317591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_6
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 60
+        width: 60
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 364f5af0e13c93610800000000000000
+      internalID: 1601525676385891427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_7
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 59
+        width: 60
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28f89019a17059ea0800000000000000
+      internalID: -5866775128896335998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_8
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 58
+        width: 60
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88eafe346c0f2b650800000000000000
+      internalID: 6247320367450271368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_9
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 31
+        width: 91
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82f6c27742606bf10800000000000000
+      internalID: 2285020614625095464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_10
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 43
+        width: 93
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f309a8050c4940ea0800000000000000
+      internalID: -5907433257497358273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_11
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 55
+        width: 93
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 602fd81536f3fbe50800000000000000
+      internalID: 6827245255919530502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_12
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 54
+        width: 92
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed016e8f376f7afe0800000000000000
+      internalID: -1177701799576596258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_13
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 53
+        width: 60
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75395cc9c62a36850800000000000000
+      internalID: 6369112885402374999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_14
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 52
+        width: 60
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc77c97b9758f6cf0800000000000000
+      internalID: -256839895918807089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_15
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 52
+        width: 60
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d86d84e8ff5c9b660800000000000000
+      internalID: 7402165163954591373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_16
+      rect:
+        serializedVersion: 2
+        x: 1568
+        y: 56
+        width: 60
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25d6c734f21b25ea0800000000000000
+      internalID: -5885446946466009774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_17
+      rect:
+        serializedVersion: 2
+        x: 1696
+        y: 60
+        width: 60
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c04b1c6de8255f8e0800000000000000
+      internalID: -1660330114174307316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_18
+      rect:
+        serializedVersion: 2
+        x: 1824
+        y: 62
+        width: 60
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbd6453241659df10800000000000000
+      internalID: 2294960129614048703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_19
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 15
+        width: 35
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25d9d129840ae1520800000000000000
+      internalID: 2674751462254157138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_20
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 15
+        width: 51
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a166df5b44af8160800000000000000
+      internalID: 7030018186986021287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_21
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 16
+        width: 65
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef919faa16e9fd620800000000000000
+      internalID: 2801131635565206014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_22
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 20
+        width: 75
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 260b04272d2399600800000000000000
+      internalID: 475467115105661026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: redis-firewall-green_23
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 23
+        width: 83
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf02a485511111df0800000000000000
+      internalID: -211368924136464133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      redis-firewall-green_0: -3703413631971005492
+      redis-firewall-green_1: 8832654306692937295
+      redis-firewall-green_10: -5907433257497358273
+      redis-firewall-green_11: 6827245255919530502
+      redis-firewall-green_12: -1177701799576596258
+      redis-firewall-green_13: 6369112885402374999
+      redis-firewall-green_14: -256839895918807089
+      redis-firewall-green_15: 7402165163954591373
+      redis-firewall-green_16: -5885446946466009774
+      redis-firewall-green_17: -1660330114174307316
+      redis-firewall-green_18: 2294960129614048703
+      redis-firewall-green_19: 2674751462254157138
+      redis-firewall-green_2: -828759922230006777
+      redis-firewall-green_20: 7030018186986021287
+      redis-firewall-green_21: 2801131635565206014
+      redis-firewall-green_22: 475467115105661026
+      redis-firewall-green_23: -211368924136464133
+      redis-firewall-green_3: 8435884590792154830
+      redis-firewall-green_4: -5917311985220234545
+      redis-firewall-green_5: 7944002262163317591
+      redis-firewall-green_6: 1601525676385891427
+      redis-firewall-green_7: -5866775128896335998
+      redis-firewall-green_8: 6247320367450271368
+      redis-firewall-green_9: 2285020614625095464
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

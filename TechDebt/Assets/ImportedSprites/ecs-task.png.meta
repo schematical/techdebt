@@ -1,0 +1,988 @@
+fileFormatVersion: 2
+guid: c528cbe2db223284f9cbb75121094de1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7332103197645474375
+    second: ecs-task_0
+  - first:
+      213: 8373466906022900085
+    second: ecs-task_1
+  - first:
+      213: 6967880620749504494
+    second: ecs-task_2
+  - first:
+      213: -3856999068682347085
+    second: ecs-task_3
+  - first:
+      213: 8439351641409939977
+    second: ecs-task_4
+  - first:
+      213: -5331481842849851692
+    second: ecs-task_5
+  - first:
+      213: -8141277207563093214
+    second: ecs-task_6
+  - first:
+      213: 6731362455033300928
+    second: ecs-task_7
+  - first:
+      213: 3409380065700299238
+    second: ecs-task_8
+  - first:
+      213: 635443124755465084
+    second: ecs-task_9
+  - first:
+      213: -5814102565815704413
+    second: ecs-task_10
+  - first:
+      213: -394178700410495632
+    second: ecs-task_11
+  - first:
+      213: 334250337588064968
+    second: ecs-task_12
+  - first:
+      213: -3104573094028942477
+    second: ecs-task_13
+  - first:
+      213: -780899583958857234
+    second: ecs-task_14
+  - first:
+      213: -3159405599830731682
+    second: ecs-task_15
+  - first:
+      213: -2039456080819974002
+    second: ecs-task_16
+  - first:
+      213: -635596169394161661
+    second: ecs-task_17
+  - first:
+      213: -1217539127781099266
+    second: ecs-task_18
+  - first:
+      213: -8120029989057590032
+    second: ecs-task_19
+  - first:
+      213: 4736589479852487150
+    second: ecs-task_20
+  - first:
+      213: -5572016214216706652
+    second: ecs-task_21
+  - first:
+      213: -2815393331742090256
+    second: ecs-task_22
+  - first:
+      213: 2609347822701695346
+    second: ecs-task_23
+  - first:
+      213: -268260915063016124
+    second: ecs-task_24
+  - first:
+      213: -6264992595964473533
+    second: ecs-task_25
+  - first:
+      213: 3461325064155089352
+    second: ecs-task_26
+  - first:
+      213: -6886254435442868694
+    second: ecs-task_27
+  - first:
+      213: 5698471664772537271
+    second: ecs-task_28
+  - first:
+      213: -162326817876277278
+    second: ecs-task_29
+  - first:
+      213: -1577155594634477010
+    second: ecs-task_30
+  - first:
+      213: 9034613425307242245
+    second: ecs-task_31
+  - first:
+      213: 1616906610388671966
+    second: ecs-task_32
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ecs-task_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74a0a28d20dd0c560800000000000000
+      internalID: 7332103197645474375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_1
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 571fbf759c7843470800000000000000
+      internalID: 8373466906022900085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_2
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eef3a15d182e2b060800000000000000
+      internalID: 6967880620749504494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_3
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bd1d2448cf297ac0800000000000000
+      internalID: -3856999068682347085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_4
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90a69d0ba999e1570800000000000000
+      internalID: 8439351641409939977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_5
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d65d76e285c206b0800000000000000
+      internalID: -5331481842849851692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_6
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22bb739938f540f80800000000000000
+      internalID: -8141277207563093214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_7
+      rect:
+        serializedVersion: 2
+        x: 931
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c749a21d7a9a6d50800000000000000
+      internalID: 6731362455033300928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_8
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e14d582b1d805f20800000000000000
+      internalID: 3409380065700299238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_9
+      rect:
+        serializedVersion: 2
+        x: 1187
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c73830eb72c81d800800000000000000
+      internalID: 635443124755465084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_10
+      rect:
+        serializedVersion: 2
+        x: 1315
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a42ed45588205fa0800000000000000
+      internalID: -5814102565815704413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_11
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07dd1087f88978af0800000000000000
+      internalID: -394178700410495632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_12
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c2bdfd39ee73a400800000000000000
+      internalID: 334250337588064968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_13
+      rect:
+        serializedVersion: 2
+        x: 1699
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3736b2f38375ae4d0800000000000000
+      internalID: -3104573094028942477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_14
+      rect:
+        serializedVersion: 2
+        x: 1827
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee9c1ec37ffa925f0800000000000000
+      internalID: -780899583958857234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_15
+      rect:
+        serializedVersion: 2
+        x: 1955
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5495b0a8598724d0800000000000000
+      internalID: -3159405599830731682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_16
+      rect:
+        serializedVersion: 2
+        x: 2083
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8017bfff7562b3e0800000000000000
+      internalID: -2039456080819974002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_17
+      rect:
+        serializedVersion: 2
+        x: 2211
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30879a6c6a8ed27f0800000000000000
+      internalID: -635596169394161661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_18
+      rect:
+        serializedVersion: 2
+        x: 2339
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef8f7743d9e6a1fe0800000000000000
+      internalID: -1217539127781099266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_19
+      rect:
+        serializedVersion: 2
+        x: 2467
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fc04b82fbbdf4f80800000000000000
+      internalID: -8120029989057590032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_20
+      rect:
+        serializedVersion: 2
+        x: 2595
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee1b571590fbbb140800000000000000
+      internalID: 4736589479852487150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_21
+      rect:
+        serializedVersion: 2
+        x: 2723
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a575e466c83ca2b0800000000000000
+      internalID: -5572016214216706652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_22
+      rect:
+        serializedVersion: 2
+        x: 2851
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fb528e6ea6bde8d0800000000000000
+      internalID: -2815393331742090256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_23
+      rect:
+        serializedVersion: 2
+        x: 2979
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 271d2931504463420800000000000000
+      internalID: 2609347822701695346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_24
+      rect:
+        serializedVersion: 2
+        x: 3107
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4453c8a7e12f64cf0800000000000000
+      internalID: -268260915063016124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_25
+      rect:
+        serializedVersion: 2
+        x: 3235
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34fc5156d664e09a0800000000000000
+      internalID: -6264992595964473533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_26
+      rect:
+        serializedVersion: 2
+        x: 3363
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c9ce159ec8190030800000000000000
+      internalID: 3461325064155089352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_27
+      rect:
+        serializedVersion: 2
+        x: 3491
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2e387e631c1f60a0800000000000000
+      internalID: -6886254435442868694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_28
+      rect:
+        serializedVersion: 2
+        x: 3619
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bb556d89c9051f40800000000000000
+      internalID: 5698471664772537271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_29
+      rect:
+        serializedVersion: 2
+        x: 3747
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e707f28e9c4fbdf0800000000000000
+      internalID: -162326817876277278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_30
+      rect:
+        serializedVersion: 2
+        x: 3875
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e22ca42c751dc1ae0800000000000000
+      internalID: -1577155594634477010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_31
+      rect:
+        serializedVersion: 2
+        x: 4003
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50fc96afa05616d70800000000000000
+      internalID: 9034613425307242245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecs-task_32
+      rect:
+        serializedVersion: 2
+        x: 4131
+        y: 39
+        width: 63
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edd9233def7607610800000000000000
+      internalID: 1616906610388671966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ecs-task_0: 7332103197645474375
+      ecs-task_1: 8373466906022900085
+      ecs-task_10: -5814102565815704413
+      ecs-task_11: -394178700410495632
+      ecs-task_12: 334250337588064968
+      ecs-task_13: -3104573094028942477
+      ecs-task_14: -780899583958857234
+      ecs-task_15: -3159405599830731682
+      ecs-task_16: -2039456080819974002
+      ecs-task_17: -635596169394161661
+      ecs-task_18: -1217539127781099266
+      ecs-task_19: -8120029989057590032
+      ecs-task_2: 6967880620749504494
+      ecs-task_20: 4736589479852487150
+      ecs-task_21: -5572016214216706652
+      ecs-task_22: -2815393331742090256
+      ecs-task_23: 2609347822701695346
+      ecs-task_24: -268260915063016124
+      ecs-task_25: -6264992595964473533
+      ecs-task_26: 3461325064155089352
+      ecs-task_27: -6886254435442868694
+      ecs-task_28: 5698471664772537271
+      ecs-task_29: -162326817876277278
+      ecs-task_3: -3856999068682347085
+      ecs-task_30: -1577155594634477010
+      ecs-task_31: 9034613425307242245
+      ecs-task_32: 1616906610388671966
+      ecs-task_4: 8439351641409939977
+      ecs-task_5: -5331481842849851692
+      ecs-task_6: -8141277207563093214
+      ecs-task_7: 6731362455033300928
+      ecs-task_8: 3409380065700299238
+      ecs-task_9: 635443124755465084
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

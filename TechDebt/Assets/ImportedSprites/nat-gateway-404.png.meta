@@ -1,0 +1,858 @@
+fileFormatVersion: 2
+guid: c70f8f531b9a9af4881c32dff92e0063
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7651396587592125133
+    second: nat-gateway-404_0
+  - first:
+      213: -494716501290168250
+    second: nat-gateway-404_1
+  - first:
+      213: 5484345599077372092
+    second: nat-gateway-404_2
+  - first:
+      213: 5954644589378126740
+    second: nat-gateway-404_3
+  - first:
+      213: 3436676643645926391
+    second: nat-gateway-404_4
+  - first:
+      213: -1696634454973816470
+    second: nat-gateway-404_5
+  - first:
+      213: 1837464302966598155
+    second: nat-gateway-404_6
+  - first:
+      213: -3945786568463789305
+    second: nat-gateway-404_7
+  - first:
+      213: 6637615476261147905
+    second: nat-gateway-404_8
+  - first:
+      213: -9010911010081897107
+    second: nat-gateway-404_9
+  - first:
+      213: -4005131990720635128
+    second: nat-gateway-404_10
+  - first:
+      213: -6943369112415079265
+    second: nat-gateway-404_11
+  - first:
+      213: -323235428376336908
+    second: nat-gateway-404_12
+  - first:
+      213: 2755901988491317062
+    second: nat-gateway-404_13
+  - first:
+      213: 8132023794371058992
+    second: nat-gateway-404_14
+  - first:
+      213: -5965597447499302604
+    second: nat-gateway-404_15
+  - first:
+      213: 5963830959266898916
+    second: nat-gateway-404_16
+  - first:
+      213: -6855472838437778313
+    second: nat-gateway-404_17
+  - first:
+      213: -1223188142651218679
+    second: nat-gateway-404_18
+  - first:
+      213: -8958843691634160730
+    second: nat-gateway-404_19
+  - first:
+      213: 614074583810648397
+    second: nat-gateway-404_20
+  - first:
+      213: -7397201129968204501
+    second: nat-gateway-404_21
+  - first:
+      213: 180908217079127741
+    second: nat-gateway-404_22
+  - first:
+      213: 6520961883872351341
+    second: nat-gateway-404_23
+  - first:
+      213: 312451974324698176
+    second: nat-gateway-404_24
+  - first:
+      213: -7215479716049633142
+    second: nat-gateway-404_25
+  - first:
+      213: 5766654398753520473
+    second: nat-gateway-404_26
+  - first:
+      213: -4991214603880861462
+    second: nat-gateway-404_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nat-gateway-404_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dca801758a83f2a60800000000000000
+      internalID: 7651396587592125133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 640531496f96229f0800000000000000
+      internalID: -494716501290168250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_2
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb0db7ad34f4c1c40800000000000000
+      internalID: 5484345599077372092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_3
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 493c59974b523a250800000000000000
+      internalID: 5954644589378126740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_4
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fba568f23781bf20800000000000000
+      internalID: 3436676643645926391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_5
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a61e89dc3f75478e0800000000000000
+      internalID: -1696634454973816470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_6
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 0
+        width: 106
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0ae8c95c0cff7910800000000000000
+      internalID: 1837464302966598155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_7
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 0
+        width: 106
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 703553b8500cd39c0800000000000000
+      internalID: -3945786568463789305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_8
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1055e2aab1c8d1c50800000000000000
+      internalID: 6637615476261147905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_9
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d65896d9d20d2f280800000000000000
+      internalID: -9010911010081897107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_10
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80f1b8eaca9ea68c0800000000000000
+      internalID: -4005131990720635128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_11
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f94741e649234af90800000000000000
+      internalID: -6943369112415079265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_12
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f5aec82713a38bf0800000000000000
+      internalID: -323235428376336908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_13
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64f41d3d14eee3620800000000000000
+      internalID: 2755901988491317062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_14
+      rect:
+        serializedVersion: 2
+        x: 1804
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03dd2804e80cad070800000000000000
+      internalID: 8132023794371058992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_15
+      rect:
+        serializedVersion: 2
+        x: 1932
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 439b3d48ab0f53da0800000000000000
+      internalID: -5965597447499302604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_16
+      rect:
+        serializedVersion: 2
+        x: 2060
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e3a493e8a8c3c250800000000000000
+      internalID: 5963830959266898916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_17
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77cc39976c77cd0a0800000000000000
+      internalID: -6855472838437778313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_18
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 0
+        width: 106
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 905edcf6ddc560fe0800000000000000
+      internalID: -1223188142651218679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_19
+      rect:
+        serializedVersion: 2
+        x: 2444
+        y: 0
+        width: 106
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ab85e1e02bcba380800000000000000
+      internalID: -8958843691634160730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_20
+      rect:
+        serializedVersion: 2
+        x: 2572
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4921a99491a58800800000000000000
+      internalID: 614074583810648397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_21
+      rect:
+        serializedVersion: 2
+        x: 2700
+        y: 0
+        width: 106
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b25802ca3ccd75990800000000000000
+      internalID: -7397201129968204501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_22
+      rect:
+        serializedVersion: 2
+        x: 2828
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe53ff9017b28200800000000000000
+      internalID: 180908217079127741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_23
+      rect:
+        serializedVersion: 2
+        x: 2956
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d64d21aa84c1f7a50800000000000000
+      internalID: 6520961883872351341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_24
+      rect:
+        serializedVersion: 2
+        x: 3084
+        y: 0
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04c3efa4a6d065400800000000000000
+      internalID: 312451974324698176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_25
+      rect:
+        serializedVersion: 2
+        x: 3212
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8043d07d677ddb90800000000000000
+      internalID: -7215479716049633142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_26
+      rect:
+        serializedVersion: 2
+        x: 3340
+        y: 0
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95bb5246f95470050800000000000000
+      internalID: 5766654398753520473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-404_27
+      rect:
+        serializedVersion: 2
+        x: 3468
+        y: 0
+        width: 106
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae070f923c4abbab0800000000000000
+      internalID: -4991214603880861462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nat-gateway-404_0: 7651396587592125133
+      nat-gateway-404_1: -494716501290168250
+      nat-gateway-404_10: -4005131990720635128
+      nat-gateway-404_11: -6943369112415079265
+      nat-gateway-404_12: -323235428376336908
+      nat-gateway-404_13: 2755901988491317062
+      nat-gateway-404_14: 8132023794371058992
+      nat-gateway-404_15: -5965597447499302604
+      nat-gateway-404_16: 5963830959266898916
+      nat-gateway-404_17: -6855472838437778313
+      nat-gateway-404_18: -1223188142651218679
+      nat-gateway-404_19: -8958843691634160730
+      nat-gateway-404_2: 5484345599077372092
+      nat-gateway-404_20: 614074583810648397
+      nat-gateway-404_21: -7397201129968204501
+      nat-gateway-404_22: 180908217079127741
+      nat-gateway-404_23: 6520961883872351341
+      nat-gateway-404_24: 312451974324698176
+      nat-gateway-404_25: -7215479716049633142
+      nat-gateway-404_26: 5766654398753520473
+      nat-gateway-404_27: -4991214603880861462
+      nat-gateway-404_3: 5954644589378126740
+      nat-gateway-404_4: 3436676643645926391
+      nat-gateway-404_5: -1696634454973816470
+      nat-gateway-404_6: 1837464302966598155
+      nat-gateway-404_7: -3945786568463789305
+      nat-gateway-404_8: 6637615476261147905
+      nat-gateway-404_9: -9010911010081897107
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

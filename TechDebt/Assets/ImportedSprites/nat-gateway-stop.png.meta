@@ -1,0 +1,858 @@
+fileFormatVersion: 2
+guid: 559b9c38242226245a68c56c25bf4c0f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2498407189032709581
+    second: nat-gateway-stop_0
+  - first:
+      213: 2311159384086593255
+    second: nat-gateway-stop_1
+  - first:
+      213: 5306027604066374224
+    second: nat-gateway-stop_2
+  - first:
+      213: 1861044870865915026
+    second: nat-gateway-stop_3
+  - first:
+      213: 9148388115206131432
+    second: nat-gateway-stop_4
+  - first:
+      213: -8717815037638676548
+    second: nat-gateway-stop_5
+  - first:
+      213: 3280503402313409157
+    second: nat-gateway-stop_6
+  - first:
+      213: 6291910849765552557
+    second: nat-gateway-stop_7
+  - first:
+      213: -8548761543115633895
+    second: nat-gateway-stop_8
+  - first:
+      213: -8632094999614325874
+    second: nat-gateway-stop_9
+  - first:
+      213: 7287509246094891434
+    second: nat-gateway-stop_10
+  - first:
+      213: -4397674391731429165
+    second: nat-gateway-stop_11
+  - first:
+      213: 4107133870139425850
+    second: nat-gateway-stop_12
+  - first:
+      213: 1663438771316540248
+    second: nat-gateway-stop_13
+  - first:
+      213: -8164352048510769114
+    second: nat-gateway-stop_14
+  - first:
+      213: -771750315818149420
+    second: nat-gateway-stop_15
+  - first:
+      213: -6109540276544979858
+    second: nat-gateway-stop_16
+  - first:
+      213: -1880303421646892104
+    second: nat-gateway-stop_17
+  - first:
+      213: 2420937159142596968
+    second: nat-gateway-stop_18
+  - first:
+      213: -7455013736065741722
+    second: nat-gateway-stop_19
+  - first:
+      213: -7556801495664327941
+    second: nat-gateway-stop_20
+  - first:
+      213: -5320048628723342511
+    second: nat-gateway-stop_21
+  - first:
+      213: 1429055472491632714
+    second: nat-gateway-stop_22
+  - first:
+      213: 8608546901306390008
+    second: nat-gateway-stop_23
+  - first:
+      213: 4410215644205561502
+    second: nat-gateway-stop_24
+  - first:
+      213: 6321784560586098586
+    second: nat-gateway-stop_25
+  - first:
+      213: 4389891248788142096
+    second: nat-gateway-stop_26
+  - first:
+      213: 4916223689017164288
+    second: nat-gateway-stop_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nat-gateway-stop_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 0
+        width: 106
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3325c6116efd35dd0800000000000000
+      internalID: -2498407189032709581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 0
+        width: 106
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7eebacbf633e21020800000000000000
+      internalID: 2311159384086593255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_2
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0521bcc4efbc2a940800000000000000
+      internalID: 5306027604066374224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_3
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29c86072372c3d910800000000000000
+      internalID: 1861044870865915026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_4
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ee4442458a95fe70800000000000000
+      internalID: 9148388115206131432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_5
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbfecf78969140780800000000000000
+      internalID: -8717815037638676548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_6
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 0
+        width: 106
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 582e95ba670b68d20800000000000000
+      internalID: 3280503402313409157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_7
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 0
+        width: 106
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da1b3b6f49b515750800000000000000
+      internalID: 6291910849765552557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_8
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91b82197ba2bc5980800000000000000
+      internalID: -8548761543115633895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_9
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8bff882553a43880800000000000000
+      internalID: -8632094999614325874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_10
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa95cd66c0f622560800000000000000
+      internalID: 7287509246094891434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_11
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d0240bc07258f2c0800000000000000
+      internalID: -4397674391731429165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_12
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 0
+        width: 106
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a34c2ae8e787ff830800000000000000
+      internalID: 4107133870139425850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_13
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 0
+        width: 106
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8534fedcfb8b51710800000000000000
+      internalID: 1663438771316540248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_14
+      rect:
+        serializedVersion: 2
+        x: 1804
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6286847811562be80800000000000000
+      internalID: -8164352048510769114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_15
+      rect:
+        serializedVersion: 2
+        x: 1932
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d91d5a3d213a45f0800000000000000
+      internalID: -771750315818149420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_16
+      rect:
+        serializedVersion: 2
+        x: 2060
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6c389bfc7d863ba0800000000000000
+      internalID: -6109540276544979858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_17
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b319c21002d7e5e0800000000000000
+      internalID: -1880303421646892104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_18
+      rect:
+        serializedVersion: 2
+        x: 2316
+        y: 0
+        width: 106
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 861ec320585e89120800000000000000
+      internalID: 2420937159142596968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_19
+      rect:
+        serializedVersion: 2
+        x: 2444
+        y: 0
+        width: 106
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66cc42261887a8890800000000000000
+      internalID: -7455013736065741722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_20
+      rect:
+        serializedVersion: 2
+        x: 2572
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf289ccc319d02790800000000000000
+      internalID: -7556801495664327941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_21
+      rect:
+        serializedVersion: 2
+        x: 2700
+        y: 0
+        width: 106
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 153242185f36b26b0800000000000000
+      internalID: -5320048628723342511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_22
+      rect:
+        serializedVersion: 2
+        x: 2828
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a48113a716605d310800000000000000
+      internalID: 1429055472491632714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_23
+      rect:
+        serializedVersion: 2
+        x: 2956
+        y: 0
+        width: 106
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f538a4fbc3b77770800000000000000
+      internalID: 8608546901306390008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_24
+      rect:
+        serializedVersion: 2
+        x: 3084
+        y: 0
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e963eb713cb343d30800000000000000
+      internalID: 4410215644205561502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_25
+      rect:
+        serializedVersion: 2
+        x: 3212
+        y: 0
+        width: 106
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a978848409d7bb750800000000000000
+      internalID: 6321784560586098586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_26
+      rect:
+        serializedVersion: 2
+        x: 3340
+        y: 0
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 018fc9605d60cec30800000000000000
+      internalID: 4389891248788142096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nat-gateway-stop_27
+      rect:
+        serializedVersion: 2
+        x: 3468
+        y: 0
+        width: 106
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0028a3cd56fe93440800000000000000
+      internalID: 4916223689017164288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nat-gateway-stop_0: -2498407189032709581
+      nat-gateway-stop_1: 2311159384086593255
+      nat-gateway-stop_10: 7287509246094891434
+      nat-gateway-stop_11: -4397674391731429165
+      nat-gateway-stop_12: 4107133870139425850
+      nat-gateway-stop_13: 1663438771316540248
+      nat-gateway-stop_14: -8164352048510769114
+      nat-gateway-stop_15: -771750315818149420
+      nat-gateway-stop_16: -6109540276544979858
+      nat-gateway-stop_17: -1880303421646892104
+      nat-gateway-stop_18: 2420937159142596968
+      nat-gateway-stop_19: -7455013736065741722
+      nat-gateway-stop_2: 5306027604066374224
+      nat-gateway-stop_20: -7556801495664327941
+      nat-gateway-stop_21: -5320048628723342511
+      nat-gateway-stop_22: 1429055472491632714
+      nat-gateway-stop_23: 8608546901306390008
+      nat-gateway-stop_24: 4410215644205561502
+      nat-gateway-stop_25: 6321784560586098586
+      nat-gateway-stop_26: 4389891248788142096
+      nat-gateway-stop_27: 4916223689017164288
+      nat-gateway-stop_3: 1861044870865915026
+      nat-gateway-stop_4: 9148388115206131432
+      nat-gateway-stop_5: -8717815037638676548
+      nat-gateway-stop_6: 3280503402313409157
+      nat-gateway-stop_7: 6291910849765552557
+      nat-gateway-stop_8: -8548761543115633895
+      nat-gateway-stop_9: -8632094999614325874
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

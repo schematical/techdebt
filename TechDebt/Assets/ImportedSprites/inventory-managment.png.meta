@@ -1,0 +1,1274 @@
+fileFormatVersion: 2
+guid: d9da124108ff1f3429a0c1426ecd0524
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -380895779507945055
+    second: inventory-managment_0
+  - first:
+      213: 2730413176817727021
+    second: inventory-managment_1
+  - first:
+      213: 6873093162181271658
+    second: inventory-managment_2
+  - first:
+      213: 8138996542251414764
+    second: inventory-managment_3
+  - first:
+      213: 7528862690388594150
+    second: inventory-managment_4
+  - first:
+      213: 571611375754940447
+    second: inventory-managment_5
+  - first:
+      213: 6760255425360610345
+    second: inventory-managment_6
+  - first:
+      213: -3649074780160192755
+    second: inventory-managment_7
+  - first:
+      213: -5208462964037024848
+    second: inventory-managment_8
+  - first:
+      213: -4112137632543312993
+    second: inventory-managment_9
+  - first:
+      213: 6838650040073376391
+    second: inventory-managment_10
+  - first:
+      213: 4589685385756323930
+    second: inventory-managment_11
+  - first:
+      213: 1814810567512877147
+    second: inventory-managment_12
+  - first:
+      213: 1651881094137104989
+    second: inventory-managment_13
+  - first:
+      213: -6313328667927051088
+    second: inventory-managment_14
+  - first:
+      213: 1405116203403010675
+    second: inventory-managment_15
+  - first:
+      213: -6016674881779449806
+    second: inventory-managment_16
+  - first:
+      213: 8342620878165601461
+    second: inventory-managment_17
+  - first:
+      213: 2796798818076089481
+    second: inventory-managment_18
+  - first:
+      213: 3338726311068490606
+    second: inventory-managment_19
+  - first:
+      213: 7289636951562318306
+    second: inventory-managment_20
+  - first:
+      213: -7559361116372388109
+    second: inventory-managment_21
+  - first:
+      213: -6555889143926269725
+    second: inventory-managment_22
+  - first:
+      213: 150036785949605259
+    second: inventory-managment_23
+  - first:
+      213: 7040491080083011552
+    second: inventory-managment_24
+  - first:
+      213: 4991756495859549437
+    second: inventory-managment_25
+  - first:
+      213: -9013687532630209734
+    second: inventory-managment_26
+  - first:
+      213: 6606606402852575367
+    second: inventory-managment_27
+  - first:
+      213: 1233043280415501514
+    second: inventory-managment_28
+  - first:
+      213: -8711362833455289542
+    second: inventory-managment_29
+  - first:
+      213: 7504389021282374064
+    second: inventory-managment_30
+  - first:
+      213: -6881277733290039524
+    second: inventory-managment_31
+  - first:
+      213: 6820220042433127498
+    second: inventory-managment_32
+  - first:
+      213: -28233166009027114
+    second: inventory-managment_33
+  - first:
+      213: 8215256875722335559
+    second: inventory-managment_34
+  - first:
+      213: -1017455282378489503
+    second: inventory-managment_35
+  - first:
+      213: 3181951297905050581
+    second: inventory-managment_36
+  - first:
+      213: -3546387158719875427
+    second: inventory-managment_37
+  - first:
+      213: -596170571840676163
+    second: inventory-managment_38
+  - first:
+      213: 5398491750310049327
+    second: inventory-managment_39
+  - first:
+      213: -5582311356696565267
+    second: inventory-managment_40
+  - first:
+      213: -8882180376905159739
+    second: inventory-managment_41
+  - first:
+      213: -6539228139832943639
+    second: inventory-managment_42
+  - first:
+      213: -3853672235885028187
+    second: inventory-managment_43
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: inventory-managment_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 68
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a1cbfd7e49c6baf0800000000000000
+      internalID: -380895779507945055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d263446615064e520800000000000000
+      internalID: 2730413176817727021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_2
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a602bf7d0d1226f50800000000000000
+      internalID: 6873093162181271658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_3
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce43701ab3683f070800000000000000
+      internalID: 8138996542251414764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_4
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6edcd4f2ab4eb7860800000000000000
+      internalID: 7528862690388594150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_5
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1012798485cee700800000000000000
+      internalID: 571611375754940447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_6
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 924c683fd7041dd50800000000000000
+      internalID: 6760255425360610345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_7
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0f07b132d1eb5dc0800000000000000
+      internalID: -3649074780160192755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_8
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b38bc2a782d7b7b0800000000000000
+      internalID: -5208462964037024848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_9
+      rect:
+        serializedVersion: 2
+        x: 542
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f937db83c90cee6c0800000000000000
+      internalID: -4112137632543312993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_10
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 782d8cd8af3c7ee50800000000000000
+      internalID: 6838650040073376391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_11
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a50bec88a86d1bf30800000000000000
+      internalID: 4589685385756323930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_12
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b58ea3b88908f2910800000000000000
+      internalID: 1814810567512877147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_13
+      rect:
+        serializedVersion: 2
+        x: 798
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5ac9336a19ace610800000000000000
+      internalID: 1651881094137104989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_14
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 1
+        width: 116
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b40be5a60d8268a0800000000000000
+      internalID: -6313328667927051088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_15
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 1
+        width: 116
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3726bfb0eb9ff7310800000000000000
+      internalID: 1405116203403010675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_16
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 230458e921a708ca0800000000000000
+      internalID: -6016674881779449806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_17
+      rect:
+        serializedVersion: 2
+        x: 1182
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bc61d2dc71f6c370800000000000000
+      internalID: 8342620878165601461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_18
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98c58abf4b930d620800000000000000
+      internalID: 2796798818076089481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_19
+      rect:
+        serializedVersion: 2
+        x: 1310
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6bdc7df3e9855e20800000000000000
+      internalID: 3338726311068490606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_20
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e1fe6f6f2ef92560800000000000000
+      internalID: 7289636951562318306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_21
+      rect:
+        serializedVersion: 2
+        x: 1438
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f639b9ad11c71790800000000000000
+      internalID: -7559361116372388109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_22
+      rect:
+        serializedVersion: 2
+        x: 1535
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e85f65ee8dc405a0800000000000000
+      internalID: -6555889143926269725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_23
+      rect:
+        serializedVersion: 2
+        x: 1566
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8d74c179a9051200800000000000000
+      internalID: 150036785949605259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_24
+      rect:
+        serializedVersion: 2
+        x: 1663
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e777a0d559d4b160800000000000000
+      internalID: 7040491080083011552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_25
+      rect:
+        serializedVersion: 2
+        x: 1694
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df405f4e518464540800000000000000
+      internalID: 4991756495859549437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_26
+      rect:
+        serializedVersion: 2
+        x: 1791
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3b853512f2f8e280800000000000000
+      internalID: -9013687532630209734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_27
+      rect:
+        serializedVersion: 2
+        x: 1822
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78859d425816fab50800000000000000
+      internalID: 6606606402852575367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_28
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acc29d1a456ac1110800000000000000
+      internalID: 1233043280415501514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_29
+      rect:
+        serializedVersion: 2
+        x: 1950
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3b6b5268a50b1780800000000000000
+      internalID: -8711362833455289542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_30
+      rect:
+        serializedVersion: 2
+        x: 2047
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b190ed0e02f42860800000000000000
+      internalID: 7504389021282374064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_31
+      rect:
+        serializedVersion: 2
+        x: 2078
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1721723c5ac080a0800000000000000
+      internalID: -6881277733290039524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_32
+      rect:
+        serializedVersion: 2
+        x: 2175
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a44e9375ef946ae50800000000000000
+      internalID: 6820220042433127498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_33
+      rect:
+        serializedVersion: 2
+        x: 2206
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d5b529c512bb9ff0800000000000000
+      internalID: -28233166009027114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_34
+      rect:
+        serializedVersion: 2
+        x: 2303
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 745e3082a94720270800000000000000
+      internalID: 8215256875722335559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_35
+      rect:
+        serializedVersion: 2
+        x: 2331
+        y: 19
+        width: 88
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1614cf6bfc541e1f0800000000000000
+      internalID: -1017455282378489503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_36
+      rect:
+        serializedVersion: 2
+        x: 2431
+        y: 1
+        width: 116
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d34934c8df882c20800000000000000
+      internalID: 3181951297905050581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_37
+      rect:
+        serializedVersion: 2
+        x: 2559
+        y: 1
+        width: 116
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d96be703ba3b8cec0800000000000000
+      internalID: -3546387158719875427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_38
+      rect:
+        serializedVersion: 2
+        x: 2687
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe15e7060af9b7f0800000000000000
+      internalID: -596170571840676163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_39
+      rect:
+        serializedVersion: 2
+        x: 2718
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f267b1cf4ab4bea40800000000000000
+      internalID: 5398491750310049327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_40
+      rect:
+        serializedVersion: 2
+        x: 2815
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de9e87eb565a782b0800000000000000
+      internalID: -5582311356696565267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_41
+      rect:
+        serializedVersion: 2
+        x: 2846
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cb6f9bc1082cb480800000000000000
+      internalID: -8882180376905159739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_42
+      rect:
+        serializedVersion: 2
+        x: 2943
+        y: 1
+        width: 69
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ebd40437aeff35a0800000000000000
+      internalID: -6539228139832943639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory-managment_43
+      rect:
+        serializedVersion: 2
+        x: 2974
+        y: 19
+        width: 85
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ac9943e481058ac0800000000000000
+      internalID: -3853672235885028187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      inventory-managment_0: -380895779507945055
+      inventory-managment_1: 2730413176817727021
+      inventory-managment_10: 6838650040073376391
+      inventory-managment_11: 4589685385756323930
+      inventory-managment_12: 1814810567512877147
+      inventory-managment_13: 1651881094137104989
+      inventory-managment_14: -6313328667927051088
+      inventory-managment_15: 1405116203403010675
+      inventory-managment_16: -6016674881779449806
+      inventory-managment_17: 8342620878165601461
+      inventory-managment_18: 2796798818076089481
+      inventory-managment_19: 3338726311068490606
+      inventory-managment_2: 6873093162181271658
+      inventory-managment_20: 7289636951562318306
+      inventory-managment_21: -7559361116372388109
+      inventory-managment_22: -6555889143926269725
+      inventory-managment_23: 150036785949605259
+      inventory-managment_24: 7040491080083011552
+      inventory-managment_25: 4991756495859549437
+      inventory-managment_26: -9013687532630209734
+      inventory-managment_27: 6606606402852575367
+      inventory-managment_28: 1233043280415501514
+      inventory-managment_29: -8711362833455289542
+      inventory-managment_3: 8138996542251414764
+      inventory-managment_30: 7504389021282374064
+      inventory-managment_31: -6881277733290039524
+      inventory-managment_32: 6820220042433127498
+      inventory-managment_33: -28233166009027114
+      inventory-managment_34: 8215256875722335559
+      inventory-managment_35: -1017455282378489503
+      inventory-managment_36: 3181951297905050581
+      inventory-managment_37: -3546387158719875427
+      inventory-managment_38: -596170571840676163
+      inventory-managment_39: 5398491750310049327
+      inventory-managment_4: 7528862690388594150
+      inventory-managment_40: -5582311356696565267
+      inventory-managment_41: -8882180376905159739
+      inventory-managment_42: -6539228139832943639
+      inventory-managment_43: -3853672235885028187
+      inventory-managment_5: 571611375754940447
+      inventory-managment_6: 6760255425360610345
+      inventory-managment_7: -3649074780160192755
+      inventory-managment_8: -5208462964037024848
+      inventory-managment_9: -4112137632543312993
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

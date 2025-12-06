@@ -1,0 +1,572 @@
+fileFormatVersion: 2
+guid: 4a02235ba9f1079408d295678fdb1947
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 551066382773737807
+    second: server-firewall-purple_0
+  - first:
+      213: 5695782806704353557
+    second: server-firewall-purple_1
+  - first:
+      213: 5894411474223259717
+    second: server-firewall-purple_2
+  - first:
+      213: -318624575036174335
+    second: server-firewall-purple_3
+  - first:
+      213: 5132500070638097858
+    second: server-firewall-purple_4
+  - first:
+      213: 6499317925175955698
+    second: server-firewall-purple_5
+  - first:
+      213: 4489138918985894639
+    second: server-firewall-purple_6
+  - first:
+      213: -5770849933168194159
+    second: server-firewall-purple_7
+  - first:
+      213: -6982288115532334001
+    second: server-firewall-purple_8
+  - first:
+      213: 1270147403272859283
+    second: server-firewall-purple_9
+  - first:
+      213: 8420494031984446633
+    second: server-firewall-purple_10
+  - first:
+      213: -2520431619544110282
+    second: server-firewall-purple_11
+  - first:
+      213: 4324207524606166020
+    second: server-firewall-purple_12
+  - first:
+      213: -3307309665729905618
+    second: server-firewall-purple_13
+  - first:
+      213: -6324265967506632096
+    second: server-firewall-purple_14
+  - first:
+      213: -7090792298109912282
+    second: server-firewall-purple_15
+  - first:
+      213: -8837661961635135686
+    second: server-firewall-purple_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: server-firewall-purple_0
+      rect:
+        serializedVersion: 2
+        x: 1173
+        y: 29
+        width: 87
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4953e894f7c5a700800000000000000
+      internalID: 551066382773737807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_1
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 29
+        width: 75
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 511f36ff84c7b0f40800000000000000
+      internalID: 5695782806704353557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_2
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 131
+        width: 59
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 540601181082dc150800000000000000
+      internalID: 5894411474223259717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_3
+      rect:
+        serializedVersion: 2
+        x: 1586
+        y: 142
+        width: 29
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 100524c13a4049bf0800000000000000
+      internalID: -318624575036174335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_4
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 29
+        width: 66
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c51d000f9d4a3740800000000000000
+      internalID: 5132500070638097858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_5
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 29
+        width: 66
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f01174d737323a50800000000000000
+      internalID: 6499317925175955698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_6
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 15
+        width: 53
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fea0985ff00ac4e30800000000000000
+      internalID: 4489138918985894639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_7
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 16
+        width: 66
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19d4c61af82d9efa0800000000000000
+      internalID: -5770849933168194159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_8
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 20
+        width: 75
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4c7342e3fde91f90800000000000000
+      internalID: -6982288115532334001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_9
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 23
+        width: 83
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39ea670755870a110800000000000000
+      internalID: 1270147403272859283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_10
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 29
+        width: 91
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9accab955ba9bd470800000000000000
+      internalID: 8420494031984446633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_11
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 29
+        width: 93
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63b296cbbc0a50dd0800000000000000
+      internalID: -2520431619544110282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_12
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 29
+        width: 93
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 404c83f35dba20c30800000000000000
+      internalID: 4324207524606166020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_13
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 29
+        width: 92
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2cf3f3c1631a12d0800000000000000
+      internalID: -3307309665729905618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_14
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 29
+        width: 66
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 062dca52c91bb38a0800000000000000
+      internalID: -6324265967506632096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_15
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 29
+        width: 66
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62b351739f1789d90800000000000000
+      internalID: -7090792298109912282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: server-firewall-purple_16
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 15
+        width: 35
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3f71c315415a5580800000000000000
+      internalID: -8837661961635135686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      server-firewall-purple_0: 551066382773737807
+      server-firewall-purple_1: 5695782806704353557
+      server-firewall-purple_10: 8420494031984446633
+      server-firewall-purple_11: -2520431619544110282
+      server-firewall-purple_12: 4324207524606166020
+      server-firewall-purple_13: -3307309665729905618
+      server-firewall-purple_14: -6324265967506632096
+      server-firewall-purple_15: -7090792298109912282
+      server-firewall-purple_16: -8837661961635135686
+      server-firewall-purple_2: 5894411474223259717
+      server-firewall-purple_3: -318624575036174335
+      server-firewall-purple_4: 5132500070638097858
+      server-firewall-purple_5: 6499317925175955698
+      server-firewall-purple_6: 4489138918985894639
+      server-firewall-purple_7: -5770849933168194159
+      server-firewall-purple_8: -6982288115532334001
+      server-firewall-purple_9: 1270147403272859283
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

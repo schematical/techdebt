@@ -1,0 +1,598 @@
+fileFormatVersion: 2
+guid: b796d8efb0505d94b86c5b3a3acec0e7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3218878340811622270
+    second: NATGateway_0
+  - first:
+      213: 5522086481326207372
+    second: NATGateway_1
+  - first:
+      213: 8934541964870814327
+    second: NATGateway_2
+  - first:
+      213: -7605569866368533127
+    second: NATGateway_3
+  - first:
+      213: -115261193596311713
+    second: NATGateway_4
+  - first:
+      213: 3668991603515072172
+    second: NATGateway_5
+  - first:
+      213: -3029891956472062171
+    second: NATGateway_6
+  - first:
+      213: -3657496879604019110
+    second: NATGateway_7
+  - first:
+      213: 5522920123123196882
+    second: NATGateway_8
+  - first:
+      213: 1356295800562106262
+    second: NATGateway_9
+  - first:
+      213: -4715978715647943795
+    second: NATGateway_10
+  - first:
+      213: 3556012132564597412
+    second: NATGateway_11
+  - first:
+      213: -9038014395185363360
+    second: NATGateway_12
+  - first:
+      213: 4043102823489330588
+    second: NATGateway_13
+  - first:
+      213: 5562036337526741733
+    second: NATGateway_14
+  - first:
+      213: -9152889191214935909
+    second: NATGateway_15
+  - first:
+      213: -6375310876610233738
+    second: NATGateway_16
+  - first:
+      213: -1929141765188261499
+    second: NATGateway_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: NATGateway_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e77864febc0cbac20800000000000000
+      internalID: 3218878340811622270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c817f62c56462ac40800000000000000
+      internalID: 5522086481326207372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_2
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77a02fe649eddfb70800000000000000
+      internalID: 8934541964870814327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_3
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97d30b8a086937690800000000000000
+      internalID: -7605569866368533127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_4
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f57ed4b1e82866ef0800000000000000
+      internalID: -115261193596311713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_5
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cae186b9c60eae230800000000000000
+      internalID: 3668991603515072172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_6
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52f5ba29159a3f5d0800000000000000
+      internalID: -3029891956472062171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_7
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a505a1c57f5fd3dc0800000000000000
+      internalID: -3657496879604019110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_8
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d36d9d179a55ac40800000000000000
+      internalID: 5522920123123196882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_9
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69fbbda38d782d210800000000000000
+      internalID: 1356295800562106262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_10
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8b508d285a7d8eb0800000000000000
+      internalID: -4715978715647943795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_11
+      rect:
+        serializedVersion: 2
+        x: 1420
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aafd7aa13e795130800000000000000
+      internalID: 3556012132564597412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_12
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0660c140bc5829280800000000000000
+      internalID: -9038014395185363360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_13
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9dd570c89cfb1830800000000000000
+      internalID: 4043102823489330588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_14
+      rect:
+        serializedVersion: 2
+        x: 1804
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ea981e7492503d40800000000000000
+      internalID: 5562036337526741733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_15
+      rect:
+        serializedVersion: 2
+        x: 1932
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b901f1156c76af080800000000000000
+      internalID: -9152889191214935909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_16
+      rect:
+        serializedVersion: 2
+        x: 2060
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67a76fa19885687a0800000000000000
+      internalID: -6375310876610233738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NATGateway_17
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 15
+        width: 106
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 589659c19cf4a35e0800000000000000
+      internalID: -1929141765188261499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      NATGateway_0: 3218878340811622270
+      NATGateway_1: 5522086481326207372
+      NATGateway_10: -4715978715647943795
+      NATGateway_11: 3556012132564597412
+      NATGateway_12: -9038014395185363360
+      NATGateway_13: 4043102823489330588
+      NATGateway_14: 5562036337526741733
+      NATGateway_15: -9152889191214935909
+      NATGateway_16: -6375310876610233738
+      NATGateway_17: -1929141765188261499
+      NATGateway_2: 8934541964870814327
+      NATGateway_3: -7605569866368533127
+      NATGateway_4: -115261193596311713
+      NATGateway_5: 3668991603515072172
+      NATGateway_6: -3029891956472062171
+      NATGateway_7: -3657496879604019110
+      NATGateway_8: 5522920123123196882
+      NATGateway_9: 1356295800562106262
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
