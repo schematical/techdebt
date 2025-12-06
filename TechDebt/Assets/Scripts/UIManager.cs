@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI tooltipText;
     private Button tooltipButton;
     private TextMeshProUGUI totalDailyCostText;
+    private TextMeshProUGUI gameStateText;
 
     void Awake()
     {
@@ -44,10 +45,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if(tooltipPanel.activeSelf)
-        {
-            tooltipPanel.GetComponent<RectTransform>().position = Mouse.current.position.ReadValue();
-        }
+        // No dynamic tooltip positioning needed anymore
     }
 
     private void SetupUIInfrastructure()
@@ -64,7 +62,12 @@ public class UIManager : MonoBehaviour
         mainCanvas.worldCamera = Camera.main;
         mainCanvas.planeDistance = 10; // Render UI 10 units in front of the camera
         mainCanvas.gameObject.AddComponent<CanvasScaler>();
-        mainCanvas.gameObject.AddComponent<GraphicRaycaster>();
+        var graphicRaycaster = mainCanvas.gameObject.AddComponent<GraphicRaycaster>();
+
+        // TEMPORARY DIAGNOSTIC: Re-enable GraphicRaycaster. It was disabled for debugging.
+        // If issues persist, this might be the culprit, but for now we re-enable it.
+        graphicRaycaster.enabled = true;
+        Debug.LogWarning("DIAGNOSTIC: GraphicRaycaster on MainCanvas has been re-enabled.");
         
         SetupStatsBar(mainCanvas.transform);
         SetupBuildPhaseUI(mainCanvas.transform);
@@ -83,6 +86,9 @@ public class UIManager : MonoBehaviour
         layout.padding = new RectOffset(10, 10, 5, 5);
         layout.spacing = 15;
         
+        gameStateText = CreateText(statsBarUIContainer.transform, "GameStateText", "State: Initializing", 18);
+        gameStateText.color = Color.cyan;
+
         foreach (StatType type in Enum.GetValues(typeof(StatType)))
         {
             statTexts.Add(type, CreateText(statsBarUIContainer.transform, type.ToString(), $"{type}: 0", 18));
@@ -118,7 +124,7 @@ public class UIManager : MonoBehaviour
     
     private void SetupTooltip(Transform parent)
     {
-        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 100), Vector2.zero, Vector2.zero, Vector2.zero);
+        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 150), new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(110, 0)); // Anchored to left middle, offset right
         var vlg = tooltipPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(5,5,5,5);
         tooltipText = CreateText(tooltipPanel.transform, "TooltipText", "", 14);
@@ -126,13 +132,24 @@ public class UIManager : MonoBehaviour
         tooltipButton = CreateButton(tooltipPanel.transform, "Action", () => {});
         tooltipPanel.SetActive(false);
     }
+
+
+    public void UpdateGameStateDisplay(string state)
+    {
+        if (gameStateText != null)
+        {
+            gameStateText.text = $"State: {state}";
+        }
+    }
     
     public void ShowInfrastructureTooltip(InfrastructureInstance instance)
     {
+        Debug.Log($"ShowInfrastructureTooltip called for {instance.data.DisplayName}.");
         // Only show tooltip if conditions are met or it's not locked (planned/operational)
         bool conditionsMet = GameManager.Instance.AreUnlockConditionsMet(instance.data);
         if (instance.data.CurrentState == InfrastructureData.State.Locked && !conditionsMet)
         {
+            Debug.Log($"Tooltip hidden for {instance.data.DisplayName} because unlock conditions are not met.");
             HideTooltip();
             return;
         }

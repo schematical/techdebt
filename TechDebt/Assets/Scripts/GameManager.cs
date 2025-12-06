@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.EventSystems; // ADD THIS LINE
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public static List<Server> AllServers = new List<Server>(); // Keep for existing Server.cs references
+    public static List<Server> AllServers = new List<Server>();
 
     public List<InfrastructureData> AllInfrastructure;
 
@@ -37,9 +37,7 @@ public class GameManager : MonoBehaviour
     {
         if (FindObjectOfType<GameLoopManager>() == null) gameObject.AddComponent<GameLoopManager>();
         if (FindObjectOfType<UIManager>() == null) gameObject.AddComponent<UIManager>();
-        
-        // Add the temporary raycast debugger to the scene
-        if (FindObjectOfType<RaycastDebugger>() == null) gameObject.AddComponent<RaycastDebugger>();
+        if (FindObjectOfType<MouseInteractionManager>() == null) gameObject.AddComponent<MouseInteractionManager>();
         
         AllServers.Clear();
         SetupGameScene();
@@ -99,13 +97,11 @@ public class GameManager : MonoBehaviour
     {
         foreach (var infraData in AllInfrastructure)
         {
-            // If it's locked and currently inactive, check if conditions are met to make it active
             if (infraData.CurrentState == InfrastructureData.State.Locked && !infraData.Instance.activeSelf)
             {
                 if (AreUnlockConditionsMet(infraData))
                 {
                     infraData.Instance.SetActive(true);
-                    // Note: State remains Locked until planned by player
                 }
             }
         }
@@ -132,7 +128,6 @@ public class GameManager : MonoBehaviour
         gridManager.tilePrefab = floorTile as Tile;
         gridManager.CreateGrid();
 
-        // Add Physics2DRaycaster to the main camera to enable mouse events on objects
         if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
         {
             Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
@@ -144,11 +139,9 @@ public class GameManager : MonoBehaviour
             GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
             infraData.Instance = instanceGO;
 
-            // Add and size a collider if one doesn't exist, required for OnMouseEnter
             if (instanceGO.GetComponent<Collider2D>() == null)
             {
                 var boxCollider = instanceGO.AddComponent<BoxCollider2D>();
-                // Auto-size the collider to the sprite's bounds
                 var spriteRenderer = instanceGO.GetComponentInChildren<SpriteRenderer>();
                 if (spriteRenderer != null)
                 {
@@ -169,7 +162,6 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     infraInstance.SetState(InfrastructureData.State.Locked);
-                    // Hide the object if it's locked and its conditions aren't met
                     if (!AreUnlockConditionsMet(infraData))
                     {
                         instanceGO.SetActive(false);
@@ -181,14 +173,11 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
             }
         }
-
-        // Removed the default NPC hiring
-        // HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
     }
 
     public bool AreUnlockConditionsMet(InfrastructureData infraData)
     {
-        if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0) return true; // No conditions, always unlocked
+        if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0) return true;
 
         foreach (var condition in infraData.UnlockConditions)
         {
@@ -197,7 +186,6 @@ public class GameManager : MonoBehaviour
                 case UnlockCondition.ConditionType.Day:
                     if (GameLoopManager.Instance.currentDay < condition.RequiredValue) return false;
                     break;
-                // Add other condition types here as needed
             }
         }
         return true;
@@ -207,15 +195,12 @@ public class GameManager : MonoBehaviour
     {
         if (infraData.CurrentState != InfrastructureData.State.Locked) return;
 
-        // Check if unlock conditions are met
         if (!AreUnlockConditionsMet(infraData))
         {
             Debug.Log("Unlock conditions not met for this infrastructure.");
             return;
         }
 
-        // The `UnlockCost` no longer exists, assuming the cost is handled by a new condition type or removed.
-        // If a new cost condition needs to be added, it will be integrated into AreUnlockConditionsMet.
         infraData.Instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
         Debug.Log($"Successfully planned {infraData.DisplayName}.");
         UIManager.Instance.HideTooltip();

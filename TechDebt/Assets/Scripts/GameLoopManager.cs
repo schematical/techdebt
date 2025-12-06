@@ -35,11 +35,14 @@ public class GameLoopManager : MonoBehaviour
     private IEnumerator StartBuildPhase()
     {
         CurrentState = GameState.Build;
+        // Wait a frame to ensure UIManager is ready before calling it
+        yield return null; 
+        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
+
         Debug.Log("Starting Build Phase...");
         currentDay++; // Day starts here
         GameManager.Instance.UpdateInfrastructureVisibility(); 
         UIManager.Instance.ShowBuildUI();
-        yield return null; // Wait a frame
     }
 
     public void EndBuildPhaseAndStartPlayPhase()
@@ -50,6 +53,7 @@ public class GameLoopManager : MonoBehaviour
     private IEnumerator StartPlayPhase()
     {
         CurrentState = GameState.Play;
+        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
         Debug.Log($"Starting Play Phase for Day {currentDay}.");
 
         if (UIManager.Instance != null)
@@ -71,6 +75,7 @@ public class GameLoopManager : MonoBehaviour
     private IEnumerator StartSummaryPhase()
     {
         CurrentState = GameState.Summary;
+        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
         Debug.Log($"Starting Summary Phase for Day {currentDay}.");
 
         // Deduct daily costs for all unlocked infrastructure and hired NPCs

@@ -42,18 +42,4 @@ public class InfrastructureInstance : MonoBehaviour
                 break;
         }
     }
-
-    void OnMouseEnter()
-    {
-        // Show tooltip only during the build phase
-        if (GameLoopManager.Instance.CurrentState == GameLoopManager.GameState.Build)
-        {
-            UIManager.Instance.ShowInfrastructureTooltip(this);
-        }
-    }
-
-    void OnMouseExit()
-    {
-        UIManager.Instance.HideTooltip();
-    }
 }
