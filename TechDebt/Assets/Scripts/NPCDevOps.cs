@@ -10,6 +10,10 @@ public class NPCDevOps : NPCBase
 
     public NPCDevOpsData Data { get; private set; }
     private InfrastructureInstance buildTarget;
+    
+    private Coroutine idleCoroutine;
+    public float wanderRadius = 10f;
+
 
     public void Initialize(NPCDevOpsData data)
     {
@@ -30,15 +34,25 @@ public class NPCDevOps : NPCBase
         buildTarget = FindClosestPlannedInfrastructure();
         if (buildTarget != null)
         {
+            if (idleCoroutine != null)
+            {
+                StopCoroutine(idleCoroutine);
+                idleCoroutine = null;
+            }
+            
             CurrentState = State.Moving;
             Debug.Log($"{Data.Name} is moving to build {buildTarget.data.DisplayName}.");
             MoveTo(buildTarget.transform.position);
             StartCoroutine(BuildingRoutine());
-            return;
         }
-
-        // Priority 2: Default behavior (move to a random server)
-        FindAndMoveToRandomServer();
+        else
+        {
+            // Priority 2: If no work, start wandering
+            if (idleCoroutine == null)
+            {
+                idleCoroutine = StartCoroutine(Wander());
+            }
+        }
     }
 
     private IEnumerator BuildingRoutine()
@@ -81,13 +95,47 @@ public class NPCDevOps : NPCBase
             .FirstOrDefault();
     }
 
-    private void FindAndMoveToRandomServer()
+    private IEnumerator Wander()
     {
-        if (GameManager.AllServers != null && GameManager.AllServers.Count > 0)
+        while (true)
         {
-            CurrentState = State.Moving;
-            Server randomServer = GameManager.AllServers[Random.Range(0, GameManager.AllServers.Count)];
-            MoveTo(randomServer.transform.position);
+            CurrentState = State.Idle;
+            Debug.Log($"{Data.Name} is wandering.");
+
+            Vector3 randomPoint;
+            if (GetRandomWalkablePoint(transform.position, wanderRadius, out randomPoint))
+            {
+                CurrentState = State.Moving;
+                MoveTo(randomPoint);
+
+                // Wait until the agent is close to the destination
+                while (isMoving)
+                {
+                    yield return null;
+                }
+            }
+
+            CurrentState = State.Idle;
+            yield return new WaitForSeconds(5f);
         }
+    }
+
+    private bool GetRandomWalkablePoint(Vector3 origin, float radius, out Vector3 result)
+    {
+        for (int i = 0; i < 30; i++) // Try 30 times to find a point
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * radius;
+            randomDirection += origin;
+            
+            // Check if the point is walkable via the GridManager
+            Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
+            if (node != null && node.isWalkable)
+            {
+                result = randomDirection;
+                return true;
+            }
+        }
+        result = Vector3.zero;
+        return false;
     }
 }
