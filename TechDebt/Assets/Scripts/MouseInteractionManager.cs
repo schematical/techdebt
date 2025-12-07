@@ -20,6 +20,13 @@ public class MouseInteractionManager : MonoBehaviour
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerEventData, results);
 
+            // If any of the raycast results hit a UI element, do not proceed with game world interactions.
+            // The default UI layer is 5.
+            if (results.Exists(result => result.gameObject.layer == 5))
+            {
+                return;
+            }
+
             InfrastructureInstance clickedInstance = null;
             foreach (RaycastResult result in results)
             {

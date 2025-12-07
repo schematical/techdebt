@@ -141,6 +141,13 @@ public class GameManager : MonoBehaviour
             Instance = this;
             InitializeStats();
             OnInfrastructureBuilt += HandleInfrastructureBuilt;
+            
+            if (FindObjectOfType<GameLoopManager>() == null) gameObject.AddComponent<GameLoopManager>();
+            if (FindObjectOfType<UIManager>() == null) gameObject.AddComponent<UIManager>();
+            if (FindObjectOfType<MouseInteractionManager>() == null) gameObject.AddComponent<MouseInteractionManager>();
+        
+            AllServers.Clear();
+            SetupGameScene();
         }
     }
 
@@ -177,13 +184,6 @@ public class GameManager : MonoBehaviour
             packetPrefab.AddComponent<NetworkPacket>();
             packetPrefab.SetActive(false); 
         }
-
-        if (FindObjectOfType<GameLoopManager>() == null) gameObject.AddComponent<GameLoopManager>();
-        if (FindObjectOfType<UIManager>() == null) gameObject.AddComponent<UIManager>();
-        if (FindObjectOfType<MouseInteractionManager>() == null) gameObject.AddComponent<MouseInteractionManager>();
-        
-        AllServers.Clear();
-        SetupGameScene();
     }
 
     private void InitializeStats()

@@ -31,7 +31,7 @@ public static class Pathfinding
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
 
-        while (openSet.Count > > 0)
+        while (openSet.Count > 0)
         {
             Node currentNode = openSet[0];
             for (int i = 1; i < openSet.Count; i++)

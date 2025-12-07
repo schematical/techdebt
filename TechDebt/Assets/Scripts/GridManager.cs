@@ -50,7 +50,11 @@ public class GridManager : MonoBehaviour
                 Vector3Int cellPosition = new Vector3Int(x, y, 0);
                 tilemap.SetTile(cellPosition, tilePrefab);
                 Vector3 worldPoint = gridComponent.CellToWorld(cellPosition);
-                Debug.Log("GridManager created Node grid.");
+                // For now, all tiles are walkable
+                nodeGrid[x, y] = new Node(true, worldPoint, x, y);
+            }
+        }
+    }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
