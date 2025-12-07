@@ -48,8 +48,9 @@ public class MouseInteractionManager : MonoBehaviour
             }
             else
             {
-                // If we clicked nothing, close any open panel
-                if (currentlyOpenPanelInstance != null)
+                // If we clicked on something that wasn't an infrastructure instance,
+                // and it wasn't a UI element, then close any open panel.
+                if (!EventSystem.current.IsPointerOverGameObject() && currentlyOpenPanelInstance != null)
                 {
                     UIManager.Instance.HideTooltip();
                     currentlyOpenPanelInstance = null;

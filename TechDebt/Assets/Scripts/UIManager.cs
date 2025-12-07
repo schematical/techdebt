@@ -184,7 +184,11 @@ public class UIManager : MonoBehaviour
             case InfrastructureData.State.Unlocked:
                 tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Plan Build";
                 tooltipButton.interactable = true;
-                tooltipButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(instance.data));
+                Debug.Log($"[UIManager] Adding Plan Build listener for {instance.data.DisplayName} (State: {instance.data.CurrentState}).");
+                tooltipButton.onClick.AddListener(() => {
+                    Debug.Log($"[UIManager] Plan Build button clicked for {instance.data.DisplayName} (State: {instance.data.CurrentState}). Calling GameManager.Instance.PlanInfrastructure.");
+                    GameManager.Instance.PlanInfrastructure(instance.data);
+                });
                 break;
             case InfrastructureData.State.Planned:
                 tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Build Planned";

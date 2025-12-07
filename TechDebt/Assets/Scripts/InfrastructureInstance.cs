@@ -20,12 +20,20 @@ public class InfrastructureInstance : MonoBehaviour
 
     public void SetState(InfrastructureData.State newState)
     {
+        Debug.Log($"[SetState] for {gameObject.name}: Attempting to change state from {data.CurrentState} to {newState}.");
         data.CurrentState = newState;
         UpdateAppearance();
     }
 
     public void UpdateAppearance()
     {
+        if (spriteRenderer == null)
+        {
+            Debug.LogError($"[UpdateAppearance] for {gameObject.name}: spriteRenderer is NULL!");
+            return;
+        }
+
+        Debug.Log($"[UpdateAppearance] for {gameObject.name}: Updating appearance for state {data.CurrentState}.");
 
         switch (data.CurrentState)
         {
@@ -46,6 +54,6 @@ public class InfrastructureInstance : MonoBehaviour
                 spriteRenderer.color = Color.white; 
                 break;
         }
-Debug.Log("Updating Appearence: " + spriteRenderer.color);
+        Debug.Log($"[UpdateAppearance] for {gameObject.name}: Final color is {spriteRenderer.color}.");
     }
 }
