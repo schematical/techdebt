@@ -13,6 +13,22 @@ public class GameLoopManager : MonoBehaviour
 
     public float dayDurationSeconds = 60f; // A day is 60 seconds long
     public int currentDay = 0;
+    public float dayTimer = 0f;
+
+    void Update()
+    {
+        if (CurrentState == GameState.Play)
+        {
+            dayTimer += Time.deltaTime;
+            UIManager.Instance.UpdateClockDisplay(dayTimer, dayDurationSeconds);
+
+            if (dayTimer >= dayDurationSeconds)
+            {
+                StartCoroutine(StartSummaryPhase());
+                return; // Prevent calling the coroutine multiple times
+            }
+        }
+    }
 
     void Awake()
     {
@@ -61,19 +77,24 @@ public class GameLoopManager : MonoBehaviour
             UIManager.Instance.HideBuildUI();
         }
 
+        
+        dayTimer = 0f; // Reset timer at the start of the day
+        
         NPCDevOps[] allNpcs = FindObjectsOfType<NPCDevOps>();
         foreach (var npc in allNpcs)
         {
             npc.OnPlayPhaseStart();
         }
 
-        yield return new WaitForSeconds(dayDurationSeconds);
-
-        StartCoroutine(StartSummaryPhase());
+        yield return null; // Coroutine must yield something
     }
 
+    private bool isSummaryPhaseStarted = false;
     private IEnumerator StartSummaryPhase()
     {
+        if (isSummaryPhaseStarted) yield break;
+        isSummaryPhaseStarted = true;
+
         CurrentState = GameState.Summary;
         UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
         Debug.Log($"Starting Summary Phase for Day {currentDay}.");
@@ -101,6 +122,7 @@ public class GameLoopManager : MonoBehaviour
         yield return new WaitForSeconds(5f); // Let player see the message
 
         // Transition to the next day's build phase
+        isSummaryPhaseStarted = false; // Reset for the next day
         StartCoroutine(StartBuildPhase());
     }
 }

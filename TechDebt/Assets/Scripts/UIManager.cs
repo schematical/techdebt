@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     private Button tooltipButton;
     private TextMeshProUGUI totalDailyCostText;
     private TextMeshProUGUI gameStateText;
+    private TextMeshProUGUI clockText;
 
     void Awake()
     {
@@ -88,6 +89,8 @@ public class UIManager : MonoBehaviour
         
         gameStateText = CreateText(statsBarUIContainer.transform, "GameStateText", "State: Initializing", 18);
         gameStateText.color = Color.cyan;
+
+        clockText = CreateText(statsBarUIContainer.transform, "ClockText", "9:00 AM", 18);
 
         foreach (StatType type in Enum.GetValues(typeof(StatType)))
         {
@@ -212,6 +215,36 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateClockDisplay(float timeElapsed, float dayDuration)
+    {
+        if (clockText == null) return;
+
+        // Calculate the percentage of the day that has passed
+        float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
+
+        // The workday is 8 hours long (9:00 AM to 5:00 PM is 17:00)
+        float totalWorkdayHours = 8f;
+        float elapsedHours = totalWorkdayHours * dayPercentage;
+
+        // Start time is 9:00 AM
+        int currentHour = 9 + (int)elapsedHours;
+        int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
+
+        // Format the time string
+        string amPm = currentHour < 12 ? "AM" : "PM";
+        int displayHour = currentHour;
+        if (currentHour > 12)
+        {
+            displayHour = currentHour - 12;
+        }
+        if (displayHour == 0) // Midnight case
+        {
+            displayHour = 12;
+        }
+
+        clockText.text = $"{displayHour:D2}:{currentMinute:D2} {amPm}";
+    }
+    
     public void HideTooltip() => tooltipPanel.SetActive(false);
     
     private void RefreshHireDevOpsPanel()
