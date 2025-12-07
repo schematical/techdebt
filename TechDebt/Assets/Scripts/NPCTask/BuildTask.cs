@@ -9,6 +9,7 @@ public class BuildTask : NPCTask
 
     public BuildTask(InfrastructureInstance target, int priority = 10)
     {
+        Debug.Log("Building infrastructure:"+ target.data.ID);
         TargetInfrastructure = target;
         Priority = priority;
     }
@@ -17,6 +18,7 @@ public class BuildTask : NPCTask
     {
         // Subscribe to the arrival event
         npc.OnDestinationReached += HandleArrival;
+        Debug.Log("OnStart:" +TargetInfrastructure.data.ID + "    -Pos: " + TargetInfrastructure.transform.position);
         npc.MoveTo(TargetInfrastructure.transform.position);
     }
 
@@ -43,6 +45,8 @@ public class BuildTask : NPCTask
     {
         // Unsubscribe to prevent memory leaks
         npc.OnDestinationReached -= HandleArrival;
+        
+        CurrentStatus = Status.Completed; // Set status to completed
         
         TargetInfrastructure.SetState(InfrastructureData.State.Operational);
         GameManager.Instance.NotifyInfrastructureBuilt(TargetInfrastructure);

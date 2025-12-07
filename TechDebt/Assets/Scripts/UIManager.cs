@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using static NPCTask;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +22,8 @@ public class UIManager : MonoBehaviour
     private GameObject hireDevOpsPanel;
     private GameObject tooltipPanel;
     private GameObject timeControlsContainer;
+    private GameObject leftMenuBar;
+    private GameObject taskListPanel;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -33,6 +37,12 @@ public class UIManager : MonoBehaviour
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
     private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
     private Color inactiveColor = Color.gray;
+    
+    // Task List
+    private Transform taskListContent;
+    private float taskListUpdateCooldown = 0.5f;
+    private float lastTaskListUpdateTime;
+
 
     void Awake()
     {
@@ -46,10 +56,20 @@ public class UIManager : MonoBehaviour
         GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
     }
     void OnDisable() 
-    { 
+    {
         GameManager.OnStatsChanged -= UpdateStatsDisplay; 
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
     }
+    
+    void Update()
+    {
+        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
+        {
+            RefreshTaskList();
+            lastTaskListUpdateTime = Time.time;
+        }
+    }
+
 
     private void SetupUIInfrastructure()
     {
@@ -72,6 +92,7 @@ public class UIManager : MonoBehaviour
         SetupSummaryPhaseUI(mainCanvas.transform);
         SetupTooltip(mainCanvas.transform);
         SetupTimeControls(mainCanvas.transform);
+        SetupLeftMenuBar(mainCanvas.transform);
         
         // Initial state
         buildPhaseUIContainer.SetActive(false);
@@ -79,8 +100,137 @@ public class UIManager : MonoBehaviour
         timeControlsContainer.SetActive(false);
         UpdateStatsDisplay();
     }
-
+    
     #region UI Setup Methods
+    private void SetupLeftMenuBar(Transform parent)
+    {
+        leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(50, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(25, 0));
+        var vlg = leftMenuBar.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(5, 5, 10, 10);
+        vlg.spacing = 10;
+        vlg.childControlWidth = true;
+        vlg.childControlHeight = false;
+
+        CreateButton(leftMenuBar.transform, "Tasks", ToggleTaskListPanel, new Vector2(40, 40));
+        
+        SetupTaskListPanel(parent);
+    }
+    
+    private void SetupTaskListPanel(Transform parent)
+    {
+        taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        var vlg = taskListPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10, 10, 10, 10);
+        vlg.spacing = 5;
+        vlg.childControlWidth = true;
+
+        var header = CreateText(taskListPanel.transform, "Header", "Available Tasks", 20);
+        header.GetComponent<RectTransform>().sizeDelta = new Vector2(280, 30);
+
+        var scrollView = new GameObject("ScrollView");
+        scrollView.transform.SetParent(taskListPanel.transform, false);
+        var scrollRect = scrollView.AddComponent<ScrollRect>();
+        var scrollRt = scrollView.GetComponent<RectTransform>();
+        scrollRt.sizeDelta = new Vector2(280, 0); // Width is fixed, height will be flexible
+        
+        var viewport = new GameObject("Viewport");
+        viewport.transform.SetParent(scrollView.transform, false);
+        viewport.AddComponent<RectMask2D>();
+        var viewportImage = viewport.AddComponent<Image>();
+        viewportImage.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
+        scrollRect.viewport = viewport.GetComponent<RectTransform>();
+        
+        var contentGo = new GameObject("Content");
+        contentGo.transform.SetParent(viewport.transform, false);
+        taskListContent = contentGo.transform;
+        var contentVlg = contentGo.AddComponent<VerticalLayoutGroup>();
+        contentVlg.padding = new RectOffset(5,5,5,5);
+        contentVlg.spacing = 8;
+        contentVlg.childControlWidth = true;
+        var csf = contentGo.AddComponent<ContentSizeFitter>();
+        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        scrollRect.content = contentGo.GetComponent<RectTransform>();
+
+        // Set anchors for proper scrolling behavior
+        var viewportRt = viewport.GetComponent<RectTransform>();
+        viewportRt.anchorMin = Vector2.zero;
+        viewportRt.anchorMax = Vector2.one;
+        viewportRt.sizeDelta = Vector2.zero;
+
+        var contentRt = contentGo.GetComponent<RectTransform>();
+        contentRt.anchorMin = new Vector2(0, 1);
+        contentRt.anchorMax = new Vector2(1, 1);
+        contentRt.pivot = new Vector2(0.5f, 1);
+        contentRt.sizeDelta = new Vector2(0, 0);
+
+        taskListPanel.SetActive(false); // Start hidden
+    }
+
+    
+    private void ToggleTaskListPanel()
+    {
+        bool isActive = !taskListPanel.activeSelf;
+        taskListPanel.SetActive(isActive);
+        if (isActive)
+        {
+            RefreshTaskList();
+        }
+    }
+    
+    private void RefreshTaskList()
+    {
+        // Self-heal: If taskListContent is lost, try to find it again.
+        if (taskListContent == null)
+        {
+            if (taskListPanel != null)
+            {
+                var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
+                if (contentTransform != null)
+                {
+                    taskListContent = contentTransform;
+                }
+                else
+                {
+                    throw new System.Exception("Could not find taskListContent transform! UI will not be refreshed.");
+                }
+            }
+            else
+            {
+                throw new System.Exception("taskListPanel is null. Cannot re-acquire content. UI will not be refreshed.");
+            }
+        }
+
+        // Clear existing task entries safely
+        for (int i = taskListContent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(taskListContent.GetChild(i).gameObject);
+        }
+
+        if (GameManager.Instance == null || GameManager.Instance.AvailableTasks == null)
+        {
+            return;
+        }
+        
+        var sortedTasks = GameManager.Instance.AvailableTasks
+            .OrderBy(t => t.CurrentStatus)
+            .ThenByDescending(t => t.Priority);
+
+        foreach (var task in sortedTasks)
+        {
+            string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
+            string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
+            
+            string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n" +
+                              $"<color={statusColor}>Status: {task.CurrentStatus}</color>\n" +
+                              $"Assignee: {assignee}";
+
+            var textEntry = CreateText(taskListContent, "TaskEntry", taskText, 14);
+            textEntry.alignment = TextAlignmentOptions.Left;
+            textEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 60); // Adjust height
+        }
+    }
+
+
     private void SetupStatsBar(Transform parent)
     {
         statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(0, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
@@ -101,7 +251,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupBuildPhaseUI(Transform parent)
     {
-        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0), new Vector2(0, 0), new Vector2(110, 90));
+        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0), new Vector2(0, 0), new Vector2(170, 90));
         var vlg = buildPhaseUIContainer.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10,10,10,10);
         vlg.spacing = 5;
@@ -130,7 +280,7 @@ public class UIManager : MonoBehaviour
     
     private void SetupTooltip(Transform parent)
     {
-        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 150), new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(110, 0));
+        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 150), new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(435, 0));
         var vlg = tooltipPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(5,5,5,5);
         tooltipText = CreateText(tooltipPanel.transform, "TooltipText", "", 14);
@@ -169,6 +319,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateTimeScaleButtons()
     {
+        if (superFastForwardButton == null) return;
         pauseButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 0f) ? activeColor : inactiveColor;
         playButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 1f) ? activeColor : inactiveColor;
         fastForwardButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 2f) ? activeColor : inactiveColor;
@@ -248,10 +399,10 @@ public class UIManager : MonoBehaviour
         var candidates = GameManager.Instance.GenerateNPCCandidates(3);
         foreach (var candidate in candidates)
         {
-            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.DailyCost}/day)", () => {{
+            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.DailyCost}/day)", () => {
                 GameManager.Instance.HireNPCDevOps(candidate);
                 hireDevOpsPanel.SetActive(false);
-            }});
+            });
         }
     }
     #endregion

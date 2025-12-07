@@ -29,8 +29,11 @@ public class GameManager : MonoBehaviour
 
     public NPCTask RequestTask(NPCDevOps npc)
     {
+        if (npc == null) return null;
+        
+        // Find a task that is not already completed or assigned
         NPCTask availableTask = AvailableTasks
-            .Where(t => !t.IsAssigned)
+            .Where(t => t.CurrentStatus == NPCTask.Status.Pending && !t.IsAssigned)
             .OrderByDescending(t => t.Priority)
             .FirstOrDefault();
 

@@ -37,13 +37,12 @@ public class NPCDevOps : NPCBase
                 if (currentTask != null)
                 {
                     currentTask.OnUpdate(this);
-                    Debug.Log("Current Task Updated:");
+                   
                     if (currentTask.IsFinished(this))
                     {
-                        Debug.Log("Task completed:");
+       					Debug.Log("NPC Finished Task:");
                         currentTask.OnEnd(this);
-                        GameManager.Instance.CompleteTask(currentTask);
-                        currentTask = null;
+                        currentTask = null; // Clear the completed task
                         CurrentState = State.Idle;
                     }
                 }
@@ -63,10 +62,19 @@ public class NPCDevOps : NPCBase
                 }
                 break;
         }
+		base.Update();
     }
 
     public void OnPlayPhaseStart()
     {
+        // Unassign from current task so it can be picked up again later
+        if (currentTask != null)
+        {
+            currentTask.Unassign();
+            currentTask = null;
+        }
+        
+        StopMovement();
         CurrentState = State.Idle;
     }
 
@@ -91,6 +99,7 @@ public class NPCDevOps : NPCBase
         currentTask = GameManager.Instance.RequestTask(this);
         if (currentTask != null)
         {
+			Debug.Log("NPC Starting Task:");
             CurrentState = State.ExecutingTask;
             currentTask.OnStart(this);
         }

@@ -8,23 +8,30 @@ public static class Pathfinding
     {
         if (GridManager.Instance == null)
         {
-            Debug.LogError("Pathfinding requires a GridManager instance.");
-            return null;
+            throw new System.Exception("Pathfinding requires a GridManager instance.");
         }
 
         Node startNode = GridManager.Instance.NodeFromWorldPoint(startWorldPos);
         Node targetNode = GridManager.Instance.NodeFromWorldPoint(targetWorldPos);
 
-        if (startNode == null || targetNode == null || !targetNode.isWalkable)
+        if (startNode == null)
         {
-            return null; // No valid path
+            throw new System.Exception($"Start node is null for world position {startWorldPos}");
+        }
+        if (targetNode == null)
+        {
+            throw new System.Exception($"Target node is null for world position {targetWorldPos}");
+        }
+        if (!targetNode.isWalkable)
+        {
+            throw new System.Exception($"Target node at {targetWorldPos} is not walkable.");
         }
 
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
 
-        while (openSet.Count > 0)
+        while (openSet.Count > > 0)
         {
             Node currentNode = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
@@ -64,7 +71,7 @@ public static class Pathfinding
                 }
             }
         }
-        return null; // No path found
+        throw new System.Exception($"No path found from {startWorldPos} to {targetWorldPos}");
     }
 
     private static List<Vector3> RetracePath(Node startNode, Node endNode)

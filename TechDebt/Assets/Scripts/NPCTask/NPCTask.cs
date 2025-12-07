@@ -3,6 +3,14 @@ using UnityEngine;
 
 public abstract class NPCTask
 {
+    public enum Status
+    {
+        Pending,
+        Executing,
+        Completed
+    }
+
+    public Status CurrentStatus { get; protected set; } = Status.Pending;
     public int Priority { get; protected set; }
     public NPCDevOps AssignedNPC { get; private set; }
     public bool IsAssigned => AssignedNPC != null;
@@ -15,12 +23,14 @@ public abstract class NPCTask
             return false;
         }
         AssignedNPC = npc;
+        CurrentStatus = Status.Executing;
         return true;
     }
 
     public void Unassign()
     {
         AssignedNPC = null;
+        CurrentStatus = Status.Pending;
     }
 
     // Abstract methods to be implemented by concrete tasks
