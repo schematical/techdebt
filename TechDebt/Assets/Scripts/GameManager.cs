@@ -15,6 +15,54 @@ public class GameManager : MonoBehaviour
     public Dictionary<StatType, float> Stats { get; private set; }
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
+    public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
+
+    // --- Network Routing ---
+    private Dictionary<string, IDataReceiver> receiverRegistry = new Dictionary<string, IDataReceiver>();
+
+    public void RegisterReceiver(string id, IDataReceiver receiver)
+    {
+        if (receiverRegistry.ContainsKey(id))
+        {
+            Debug.LogWarning($"A receiver with ID '{id}' is already registered. Overwriting.");
+            receiverRegistry[id] = receiver;
+        }
+        else
+        {
+            receiverRegistry.Add(id, receiver);
+            Debug.Log($"Registered receiver '{id}'.");
+        }
+    }
+
+    public void UnregisterReceiver(string id)
+    {
+        if (receiverRegistry.ContainsKey(id))
+        {
+            receiverRegistry.Remove(id);
+            Debug.Log($"Unregistered receiver '{id}'.");
+        }
+    }
+
+    public IDataReceiver GetReceiver(string id)
+    {
+        IDataReceiver receiver;
+        receiverRegistry.TryGetValue(id, out receiver);
+        return receiver;
+    }
+    // ---------------------
+
+    public bool isQuitting = false; // To prevent issues when unregistering during quit
+
+    void OnApplicationQuit()
+    {
+        isQuitting = true;
+    }
+
+    public void NotifyInfrastructureBuilt(InfrastructureInstance instance)
+    {
+        OnInfrastructureBuilt?.Invoke(instance);
+    }
+
 
     [SerializeField] private GridManager gridManager;
     [SerializeField] private TileBase floorTile;
@@ -29,7 +77,32 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
+            Debug.Log("DIAGNOSTIC: GameManager instance is now assigned.");
             InitializeStats();
+            OnInfrastructureBuilt += HandleInfrastructureBuilt;
+        }
+    }
+
+    void OnDestroy()
+    {
+        OnInfrastructureBuilt -= HandleInfrastructureBuilt;
+    }
+
+    private void HandleInfrastructureBuilt(InfrastructureInstance instance)
+    {
+        // Check if the new building is a server
+        if (instance is Server)
+        {
+            // Check if this is the FIRST operational server
+            int operationalServerCount = AllInfrastructure.Count(infra =>
+                infra.CurrentState == InfrastructureData.State.Operational && infra.Prefab.GetComponent<Server>() != null);
+
+            if (operationalServerCount == 1)
+            {
+                Debug.Log("First server is operational! Starting traffic at 1 packet/sec.");
+                Stats[StatType.Traffic] = 1; // Set traffic rate
+                OnStatsChanged?.Invoke();
+            }
         }
     }
 
@@ -49,6 +122,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(StatType.Money, 1000f);
         Stats.Add(StatType.TechDebt, 0f);
         Stats.Add(StatType.ResearchPoints, 0f);
+        Stats.Add(StatType.Traffic, 0f);
     }
 
     public void AddStat(StatType stat, float value)

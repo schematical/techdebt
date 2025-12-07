@@ -7,6 +7,7 @@ public abstract class NPCBase : MonoBehaviour
 {
     public float movementSpeed = 3f;
     private Coroutine movementCoroutine;
+    protected bool isMoving = false;
 
     public void MoveTo(Vector3 destination)
     {
@@ -27,6 +28,7 @@ public abstract class NPCBase : MonoBehaviour
 
     private IEnumerator FollowPath(List<Vector3> path)
     {
+        isMoving = true;
         int targetIndex = 0;
         while (targetIndex < path.Count)
         {
@@ -42,5 +44,6 @@ public abstract class NPCBase : MonoBehaviour
             targetIndex++;
         }
         Debug.Log($"{gameObject.name} reached its destination.");
+        isMoving = false;
     }
 }

@@ -1,7 +1,9 @@
 // InfrastructureInstance.cs
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
-public class InfrastructureInstance : MonoBehaviour
+public class InfrastructureInstance : MonoBehaviour, IDataReceiver
 {
     public InfrastructureData data;
 
@@ -10,6 +12,62 @@ public class InfrastructureInstance : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    void Start()
+    {
+        // Register with the routing manager
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterReceiver(data.ID, this);
+        }
+        else
+        {
+            Debug.LogError($"DIAGNOSTIC: InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Unregister when destroyed
+        if (GameManager.Instance != null && GameManager.Instance.isQuitting == false)
+        {
+            GameManager.Instance.UnregisterReceiver(data.ID);
+        }
+    }
+
+    public virtual void ReceivePacket(NetworkPacket packet)
+    {
+        Debug.Log($"{data.DisplayName} received packet: {packet.FileName}");
+
+        // If there are network connections, try to forward the packet
+        if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
+        {
+            // For simplicity, let's just forward to the first connection for now
+            string nextConnectionId = data.NetworkConnections[0];
+            IDataReceiver nextReceiver = GameManager.Instance.GetReceiver(nextConnectionId);
+
+            if (nextReceiver != null)
+            {
+                Debug.Log($"{data.DisplayName} forwarding packet {packet.FileName} to {nextConnectionId}");
+                // Re-create the packet visual to move to the new destination
+                PacketManager.Instance.CreatePacket(packet.FileName, packet.Size, transform.position, nextReceiver);
+                // The original packet's visual will be destroyed by its own script upon successful delivery.
+            }
+            else
+            {
+                Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver '{nextConnectionId}' not found.");
+            }
+        }
+        else
+        {
+            Debug.Log($"{data.DisplayName} consumed packet {packet.FileName} (no connections or not operational).");
+        }
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 
     public void Initialize(InfrastructureData infraData)

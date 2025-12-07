@@ -387,24 +387,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AllInfrastructure:
+  - ID: internetPipe
+    DisplayName: Internet Pipe
+    Type: 
+    Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
+    GridPosition: {x: 0, y: 5}
+    UnlockConditions:
+    - Type: 0
+      RequiredValue: 2
+    DailyCost: 30
+    BuildTime: 1
+    IsInitiallyUnlocked: 1
+    CurrentState: 3
+    Instance: {fileID: 0}
+    NetworkConnections:
+    - server1
   - ID: server1
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 5, y: 5}
+    GridPosition: {x: 10, y: 5}
     UnlockConditions:
     - Type: 0
       RequiredValue: 0
     DailyCost: 30
-    BuildTime: 10
+    BuildTime: 5
     IsInitiallyUnlocked: 0
     CurrentState: 0
     Instance: {fileID: 0}
+    NetworkConnections: []
   - ID: server2
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 8, y: 5}
+    GridPosition: {x: 15, y: 5}
     UnlockConditions:
     - Type: 0
       RequiredValue: 2
@@ -413,6 +429,8 @@ MonoBehaviour:
     IsInitiallyUnlocked: 0
     CurrentState: 0
     Instance: {fileID: 0}
+    NetworkConnections: []
+  isQuitting: 0
   gridManager: {fileID: 0}
   floorTile: {fileID: 11400000, guid: ffef9a837613b004cb64e87cb429ae34, type: 2}
   npcDevOpsPrefab: {fileID: 1202204626427677117, guid: a028aa5862a7d8044ba3d97d65b8e0f5, type: 3}

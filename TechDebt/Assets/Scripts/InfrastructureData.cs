@@ -19,4 +19,5 @@ public class InfrastructureData
     
     public State CurrentState = State.Locked;
     [HideInInspector] public GameObject Instance = null; // Reference to the instantiated GameObject
+    public string[] NetworkConnections; // IDs of other infrastructure this can send packets to
 }

@@ -70,6 +70,7 @@ public class NPCDevOps : NPCBase
 
         // Finished building
         buildTarget.SetState(InfrastructureData.State.Operational);
+        GameManager.Instance.NotifyInfrastructureBuilt(buildTarget);
         Debug.Log($"{Data.Name} finished building {buildTarget.data.DisplayName}!");
         GameManager.Instance.NotifyDailyCostChanged();
 
