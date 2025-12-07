@@ -17,6 +17,42 @@ public class GameManager : MonoBehaviour
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
 
+    // --- Task Management ---
+    public List<NPCTask> AvailableTasks = new List<NPCTask>();
+
+    public void AddTask(NPCTask task)
+    {
+        AvailableTasks.Add(task);
+        // Optional: Sort the list when a new task is added
+        AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
+    }
+
+    public NPCTask RequestTask(NPCDevOps npc)
+    {
+        NPCTask availableTask = AvailableTasks
+            .Where(t => !t.IsAssigned)
+            .OrderByDescending(t => t.Priority)
+            .FirstOrDefault();
+
+        if (availableTask != null)
+        {
+            if (availableTask.TryAssign(npc))
+            {
+                return availableTask;
+            }
+        }
+        return null;
+    }
+
+    public void CompleteTask(NPCTask task)
+    {
+        if (AvailableTasks.Contains(task))
+        {
+            AvailableTasks.Remove(task);
+        }
+    }
+    // -----------------------
+
     // --- Packet Management ---
     public GameObject packetPrefab;
     private List<NetworkPacket> activePackets = new List<NetworkPacket>();
@@ -55,7 +91,6 @@ public class GameManager : MonoBehaviour
         else
         {
             receiverRegistry.Add(id, receiver);
-            Debug.Log($"Registered receiver '{id}'.");
         }
     }
 
@@ -64,14 +99,12 @@ public class GameManager : MonoBehaviour
         if (receiverRegistry.ContainsKey(id))
         {
             receiverRegistry.Remove(id);
-            Debug.Log($"Unregistered receiver '{id}'.");
         }
     }
 
     public IDataReceiver GetReceiver(string id)
     {
         IDataReceiver receiver;
-        Debug.Log("GetReceiver:" + id);
         receiverRegistry.TryGetValue(id, out receiver);
         return receiver;
     }
@@ -103,7 +136,6 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
-            Debug.Log("DIAGNOSTIC: GameManager instance is now assigned.");
             InitializeStats();
             OnInfrastructureBuilt += HandleInfrastructureBuilt;
         }
@@ -125,7 +157,6 @@ public class GameManager : MonoBehaviour
 
             if (operationalServerCount == 1)
             {
-                Debug.Log("First server is operational! Starting traffic at 1 packet/sec.");
                 Stats[StatType.Traffic] = 1; // Set traffic rate
                 OnStatsChanged?.Invoke();
             }

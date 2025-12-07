@@ -51,11 +51,17 @@ public class GameLoopManager : MonoBehaviour
     private IEnumerator StartBuildPhase()
     {
         CurrentState = GameState.Build;
+        
+        // Notify all NPCs to stop their current tasks and go idle
+        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        {
+            npc.OnBuildPhaseStart();
+        }
+
         // Wait a frame to ensure UIManager is ready before calling it
         yield return null; 
         UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
 
-        Debug.Log("Starting Build Phase...");
         currentDay++; // Day starts here
         GameManager.Instance.UpdateInfrastructureVisibility(); 
         UIManager.Instance.ShowBuildUI();
@@ -70,7 +76,6 @@ public class GameLoopManager : MonoBehaviour
     {
         CurrentState = GameState.Play;
         UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
-        Debug.Log($"Starting Play Phase for Day {currentDay}.");
 
         if (UIManager.Instance != null)
         {
@@ -97,7 +102,6 @@ public class GameLoopManager : MonoBehaviour
 
         CurrentState = GameState.Summary;
         UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
-        Debug.Log($"Starting Summary Phase for Day {currentDay}.");
 
         // Deduct daily costs for all unlocked infrastructure and hired NPCs
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
@@ -106,7 +110,6 @@ public class GameLoopManager : MonoBehaviour
         if (GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost))
         {
             summaryText = $"End of Day {currentDay}\nTotal Costs: -${totalDailyCost}";
-            Debug.Log($"Day {currentDay} ended. Deducted ${totalDailyCost} for costs.");
         }
         else
         {

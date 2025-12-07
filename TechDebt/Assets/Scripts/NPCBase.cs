@@ -5,9 +5,11 @@ using System.Collections.Generic;
 
 public abstract class NPCBase : MonoBehaviour
 {
+    public event System.Action OnDestinationReached;
+
     public float movementSpeed = 3f;
     private Coroutine movementCoroutine;
-    protected bool isMoving = false;
+    public bool isMoving { get; private set; } = false;
 
     public void MoveTo(Vector3 destination)
     {
@@ -24,6 +26,16 @@ public abstract class NPCBase : MonoBehaviour
         {
             Debug.LogWarning($"{gameObject.name} could not find a path to {destination}.");
         }
+    }
+
+    public void StopMovement()
+    {
+        if (movementCoroutine != null)
+        {
+            StopCoroutine(movementCoroutine);
+            movementCoroutine = null;
+        }
+        isMoving = false;
     }
 
     private IEnumerator FollowPath(List<Vector3> path)
@@ -43,7 +55,7 @@ public abstract class NPCBase : MonoBehaviour
             }
             targetIndex++;
         }
-        Debug.Log($"{gameObject.name} reached its destination.");
         isMoving = false;
+        OnDestinationReached?.Invoke();
     }
 }

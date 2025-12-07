@@ -1,17 +1,15 @@
 // NPCDevOps.cs
 using UnityEngine;
-using System.Collections;
-using System.Linq;
 
 public class NPCDevOps : NPCBase
 {
-    public enum State { Idle, Moving, Building }
-    public State CurrentState { get; private set; } = State.Idle;
+    public enum State { Idle, ExecutingTask, Wandering }
+    public State CurrentState { get; set; } = State.Idle;
 
     public NPCDevOpsData Data { get; private set; }
-    private InfrastructureInstance buildTarget;
-    
-    private Coroutine idleCoroutine;
+    private NPCTask currentTask;
+
+    private Vector3 wanderDestination;
     public float wanderRadius = 10f;
 
 
@@ -21,114 +19,109 @@ public class NPCDevOps : NPCBase
         gameObject.name = $"NPCDevOps_{Data.Name}";
     }
 
+    void Update()
+    {
+        // NPCs should only perform actions during the Play phase.
+        if (GameLoopManager.Instance.CurrentState != GameLoopManager.GameState.Play)
+        {
+            return;
+        }
+
+        switch (CurrentState)
+        {
+            case State.Idle:
+                TryToFindWork();
+                break;
+            
+            case State.ExecutingTask:
+                if (currentTask != null)
+                {
+                    currentTask.OnUpdate(this);
+                    Debug.Log("Current Task Updated:");
+                    if (currentTask.IsFinished(this))
+                    {
+                        Debug.Log("Task completed:");
+                        currentTask.OnEnd(this);
+                        GameManager.Instance.CompleteTask(currentTask);
+                        currentTask = null;
+                        CurrentState = State.Idle;
+                    }
+                }
+                else
+                {
+                    Debug.Log("NPC No Task:");
+                    // If task is null for some reason, go back to idle.
+                    CurrentState = State.Idle;
+                }
+                break;
+
+            case State.Wandering:
+                if (!isMoving)
+                {
+                    CurrentState = State.Idle;
+                    // Consider adding a small delay here before looking for work again
+                }
+                break;
+        }
+    }
+
     public void OnPlayPhaseStart()
     {
-        TryToFindWork();
+        CurrentState = State.Idle;
+    }
+
+    public void OnBuildPhaseStart()
+    {
+        // Unassign from current task so it can be picked up again later
+        if (currentTask != null)
+        {
+            currentTask.Unassign();
+            currentTask = null;
+        }
+
+        // Stop moving and go idle
+        StopMovement();
+        CurrentState = State.Idle;
     }
 
     private void TryToFindWork()
     {
         if (CurrentState != State.Idle) return;
 
-        // Priority 1: Find a planned infrastructure to build
-        buildTarget = FindClosestPlannedInfrastructure();
-        if (buildTarget != null)
+        currentTask = GameManager.Instance.RequestTask(this);
+        if (currentTask != null)
         {
-            if (idleCoroutine != null)
-            {
-                StopCoroutine(idleCoroutine);
-                idleCoroutine = null;
-            }
-            
-            CurrentState = State.Moving;
-            Debug.Log($"{Data.Name} is moving to build {buildTarget.data.DisplayName}.");
-            MoveTo(buildTarget.transform.position);
-            StartCoroutine(BuildingRoutine());
+            CurrentState = State.ExecutingTask;
+            currentTask.OnStart(this);
         }
         else
         {
-            // Priority 2: If no work, start wandering
-            if (idleCoroutine == null)
-            {
-                idleCoroutine = StartCoroutine(Wander());
-            }
+            // No tasks available, start wandering
+            Wander();
         }
     }
-
-    private IEnumerator BuildingRoutine()
+    
+    private void Wander()
     {
-        // Wait until NPC reaches the destination
-        while (Vector3.Distance(transform.position, buildTarget.transform.position) > 0.1f)
+        if (GetRandomWalkablePoint(transform.position, wanderRadius, out wanderDestination))
         {
-            yield return null;
+            CurrentState = State.Wandering;
+            MoveTo(wanderDestination);
         }
-
-        // Arrived at build site
-        CurrentState = State.Building;
-        Debug.Log($"{Data.Name} started building {buildTarget.data.DisplayName}. Time: {buildTarget.data.BuildTime}s");
-        yield return new WaitForSeconds(buildTarget.data.BuildTime);
-
-        // Finished building
-        buildTarget.SetState(InfrastructureData.State.Operational);
-        GameManager.Instance.NotifyInfrastructureBuilt(buildTarget);
-        Debug.Log($"{Data.Name} finished building {buildTarget.data.DisplayName}!");
-        GameManager.Instance.NotifyDailyCostChanged();
-
-        // Add the new server to the list of available servers if it is one
-        var serverComponent = buildTarget.GetComponent<Server>();
-        if(serverComponent != null && !GameManager.AllServers.Contains(serverComponent))
+        else
         {
-            GameManager.AllServers.Add(serverComponent);
-        }
-
-        CurrentState = State.Idle;
-        buildTarget = null;
-
-        // After finishing a build, look for more work immediately
-        TryToFindWork();
-    }
-
-    private InfrastructureInstance FindClosestPlannedInfrastructure()
-    {
-        return FindObjectsOfType<InfrastructureInstance>()
-            .Where(i => i.data.CurrentState == InfrastructureData.State.Planned)
-            .OrderBy(i => Vector3.Distance(transform.position, i.transform.position))
-            .FirstOrDefault();
-    }
-
-    private IEnumerator Wander()
-    {
-        while (true)
-        {
-            CurrentState = State.Idle;
-            Debug.Log($"{Data.Name} is wandering.");
-
-            Vector3 randomPoint;
-            if (GetRandomWalkablePoint(transform.position, wanderRadius, out randomPoint))
-            {
-                CurrentState = State.Moving;
-                MoveTo(randomPoint);
-
-                // Wait until the agent is close to the destination
-                while (isMoving)
-                {
-                    yield return null;
-                }
-            }
-
-            CurrentState = State.Idle;
-            yield return new WaitForSeconds(5f);
+            // Can't find a wander point, just stay idle for a bit.
+            // A coroutine could handle a delay here before trying again.
         }
     }
 
     private bool GetRandomWalkablePoint(Vector3 origin, float radius, out Vector3 result)
     {
-        for (int i = 0; i < 30; i++) // Try 30 times to find a point
+        for (int i = 0; i < 30; i++)
         {
             Vector3 randomDirection = Random.insideUnitSphere * radius;
             randomDirection += origin;
             
-            // Check if the point is walkable via the GridManager
             Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
             if (node != null && node.isWalkable)
             {

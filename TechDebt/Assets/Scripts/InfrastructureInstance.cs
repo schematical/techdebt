@@ -23,7 +23,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
         }
         else
         {
-            Debug.LogError($"DIAGNOSTIC: InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
+            Debug.LogError($"InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
         }
     }
 
@@ -38,8 +38,6 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
 
     public virtual void ReceivePacket(NetworkPacket packet)
     {
-        Debug.Log($"{data.DisplayName} received packet: {packet.FileName}");
-
         // If there are network connections, try to forward the packet
         if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
@@ -49,7 +47,6 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
 
             if (nextReceiver != null)
             {
-                Debug.Log($"{data.DisplayName} forwarding packet {packet.FileName} to {nextConnectionId}");
                 // Re-create the packet visual to move to the new destination
                 GameManager.Instance.CreatePacket(packet.FileName, packet.Size, transform.position, nextReceiver);
                 // The original packet's visual will be destroyed by its own script upon successful delivery.
@@ -58,10 +55,6 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
             {
                 Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver '{nextConnectionId}' not found.");
             }
-        }
-        else
-        {
-            Debug.Log($"{data.DisplayName} consumed packet {packet.FileName} (no connections or not operational).");
         }
     }
 
@@ -78,8 +71,17 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
 
     public void SetState(InfrastructureData.State newState)
     {
-        Debug.Log($"[SetState] for {gameObject.name}: Attempting to change state from {data.CurrentState} to {newState}.");
+        if (data.CurrentState == newState) return; // No change
+
         data.CurrentState = newState;
+
+        if (newState == InfrastructureData.State.Planned)
+        {
+            // Create a new BuildTask and add it to the GameManager
+            var buildTask = new BuildTask(this);
+            GameManager.Instance.AddTask(buildTask);
+        }
+
         UpdateAppearance();
     }
 
@@ -90,8 +92,6 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
             Debug.LogError($"[UpdateAppearance] for {gameObject.name}: spriteRenderer is NULL!");
             return;
         }
-
-        Debug.Log($"[UpdateAppearance] for {gameObject.name}: Updating appearance for state {data.CurrentState}.");
 
         switch (data.CurrentState)
         {
@@ -112,6 +112,5 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
                 spriteRenderer.color = Color.white; 
                 break;
         }
-        Debug.Log($"[UpdateAppearance] for {gameObject.name}: Final color is {spriteRenderer.color}.");
     }
 }
