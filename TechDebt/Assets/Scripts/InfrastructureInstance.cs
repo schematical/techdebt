@@ -26,11 +26,16 @@ public class InfrastructureInstance : MonoBehaviour
 
     public void UpdateAppearance()
     {
+
         switch (data.CurrentState)
         {
             case InfrastructureData.State.Locked:
                 // Ghosted / Outlined appearance
                 spriteRenderer.color = new Color(0.5f, 0.5f, 1f, 0.3f); 
+                break;
+            case InfrastructureData.State.Unlocked:
+                // Available to be planned
+                spriteRenderer.color = new Color(1f, 1f, 1f, 0.7f);
                 break;
             case InfrastructureData.State.Planned:
                 // Construction appearance
@@ -41,5 +46,6 @@ public class InfrastructureInstance : MonoBehaviour
                 spriteRenderer.color = Color.white; 
                 break;
         }
+Debug.Log("Updating Appearence: " + spriteRenderer.color);
     }
 }

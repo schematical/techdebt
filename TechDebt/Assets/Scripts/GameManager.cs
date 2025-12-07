@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
                 if (AreUnlockConditionsMet(infraData))
                 {
                     infraData.Instance.SetActive(true);
+                    infraData.Instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
+                    Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
                 }
             }
         }
@@ -156,14 +158,17 @@ public class GameManager : MonoBehaviour
                 if (infraData.IsInitiallyUnlocked)
                 {
                     infraInstance.SetState(InfrastructureData.State.Operational);
-                    Server server = instanceGO.GetComponent<Server>();
-                    if (server != null) AllServers.Add(server);
+                    if (instanceGO.GetComponent<Server>() != null) AllServers.Add(instanceGO.GetComponent<Server>());
                 }
                 else
                 {
-                    infraInstance.SetState(InfrastructureData.State.Locked);
-                    if (!AreUnlockConditionsMet(infraData))
+                    if (AreUnlockConditionsMet(infraData))
                     {
+                        infraInstance.SetState(InfrastructureData.State.Unlocked);
+                    }
+                    else
+                    {
+                        infraInstance.SetState(InfrastructureData.State.Locked);
                         instanceGO.SetActive(false);
                     }
                 }
@@ -193,7 +198,7 @@ public class GameManager : MonoBehaviour
 
     public void PlanInfrastructure(InfrastructureData infraData)
     {
-        if (infraData.CurrentState != InfrastructureData.State.Locked) return;
+        if (infraData.CurrentState != InfrastructureData.State.Unlocked) return; // MUST BE UNLOCKED TO PLAN
 
         if (!AreUnlockConditionsMet(infraData))
         {

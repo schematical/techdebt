@@ -178,8 +178,12 @@ public class UIManager : MonoBehaviour
         switch (instance.data.CurrentState)
         {
             case InfrastructureData.State.Locked:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = conditionsMet ? "Plan Build" : "Locked";
-                tooltipButton.interactable = conditionsMet;
+                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Locked";
+                tooltipButton.interactable = false;
+                break;
+            case InfrastructureData.State.Unlocked:
+                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Plan Build";
+                tooltipButton.interactable = true;
                 tooltipButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(instance.data));
                 break;
             case InfrastructureData.State.Planned:
