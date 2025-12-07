@@ -10,9 +10,10 @@ public class InternetPipe : InfrastructureInstance
         if (GameLoopManager.Instance.CurrentState == GameLoopManager.GameState.Play && data.CurrentState == InfrastructureData.State.Operational)
         {
             float packetsPerSecond = GameManager.Instance.GetStat(StatType.Traffic);
+            int connectionCount = data.NetworkConnections?.Length ?? 0;
 
             // Check if there are any configured network connections
-            if (packetsPerSecond > 0 && data.NetworkConnections != null && data.NetworkConnections.Length > 0)
+            if (packetsPerSecond > 0 && connectionCount > 0)
             {
                 timeSinceLastPacket += Time.deltaTime;
                 float delay = 1f / packetsPerSecond;
@@ -30,11 +31,11 @@ public class InternetPipe : InfrastructureInstance
                         // Create the packet
                         string fileName = $"file_{Random.Range(1000, 9999)}.dat";
                         int size = Random.Range(5, 50);
-                        PacketManager.Instance.CreatePacket(fileName, size, transform.position, targetReceiver);
+                        GameManager.Instance.CreatePacket(fileName, size, transform.position, targetReceiver);
                     }
                     else
                     {
-                        Debug.LogWarning($"InternetPipe cannot create packet: Target receiver '{targetId}' not found in NetworkRoutingManager.");
+                        Debug.LogWarning($"InternetPipe cannot create packet: Target receiver '{targetId}' not found in GameManager.");
                     }
                 }
             }
@@ -56,6 +57,6 @@ public class InternetPipe : InfrastructureInstance
     public override void ReceivePacket(NetworkPacket packet)
     {
         Debug.LogWarning("InternetPipe received a packet, which is unusual. The packet will be destroyed.");
-        PacketManager.Instance.DestroyPacket(packet);
+        GameManager.Instance.DestroyPacket(packet);
     }
 }

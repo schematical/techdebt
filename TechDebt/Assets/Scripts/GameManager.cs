@@ -17,6 +17,31 @@ public class GameManager : MonoBehaviour
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
 
+    // --- Packet Management ---
+    public GameObject packetPrefab;
+    private List<NetworkPacket> activePackets = new List<NetworkPacket>();
+    
+    public void CreatePacket(string fileName, int size, Vector3 startPosition, IDataReceiver destination)
+    {
+        GameObject packetGO = Instantiate(packetPrefab, startPosition, Quaternion.identity);
+        packetGO.SetActive(true);
+        NetworkPacket packet = packetGO.GetComponent<NetworkPacket>();
+        if (packet == null)
+        {
+            packet = packetGO.AddComponent<NetworkPacket>();
+        }
+        
+        packet.Initialize(fileName, size, startPosition, destination);
+        activePackets.Add(packet);
+    }
+
+    public void DestroyPacket(NetworkPacket packet)
+    {
+        activePackets.Remove(packet);
+        Destroy(packet.gameObject);
+    }
+    // -----------------------
+
     // --- Network Routing ---
     private Dictionary<string, IDataReceiver> receiverRegistry = new Dictionary<string, IDataReceiver>();
 
@@ -46,6 +71,7 @@ public class GameManager : MonoBehaviour
     public IDataReceiver GetReceiver(string id)
     {
         IDataReceiver receiver;
+        Debug.Log("GetReceiver:" + id);
         receiverRegistry.TryGetValue(id, out receiver);
         return receiver;
     }
@@ -108,6 +134,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Create a default packet prefab if one isn't assigned
+        if (packetPrefab == null)
+        {
+            packetPrefab = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            packetPrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            packetPrefab.GetComponent<Renderer>().material.color = Color.cyan;
+            packetPrefab.AddComponent<NetworkPacket>();
+            packetPrefab.SetActive(false); 
+        }
+
         if (FindObjectOfType<GameLoopManager>() == null) gameObject.AddComponent<GameLoopManager>();
         if (FindObjectOfType<UIManager>() == null) gameObject.AddComponent<UIManager>();
         if (FindObjectOfType<MouseInteractionManager>() == null) gameObject.AddComponent<MouseInteractionManager>();

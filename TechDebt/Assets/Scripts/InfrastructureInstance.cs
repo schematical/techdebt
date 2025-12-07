@@ -51,7 +51,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
             {
                 Debug.Log($"{data.DisplayName} forwarding packet {packet.FileName} to {nextConnectionId}");
                 // Re-create the packet visual to move to the new destination
-                PacketManager.Instance.CreatePacket(packet.FileName, packet.Size, transform.position, nextReceiver);
+                GameManager.Instance.CreatePacket(packet.FileName, packet.Size, transform.position, nextReceiver);
                 // The original packet's visual will be destroyed by its own script upon successful delivery.
             }
             else

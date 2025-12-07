@@ -25,7 +25,7 @@ public class NetworkPacket : MonoBehaviour
         if (nextHop == null)
         {
             // If there's no destination, destroy the packet to prevent clutter
-            PacketManager.Instance.DestroyPacket(this);
+            GameManager.Instance.DestroyPacket(this);
             return;
         }
 
@@ -40,7 +40,7 @@ public class NetworkPacket : MonoBehaviour
             
             // For now, the packet's journey ends here.
             // In the future, the receiver might forward it.
-            PacketManager.Instance.DestroyPacket(this);
+            GameManager.Instance.DestroyPacket(this);
         }
     }
 }
