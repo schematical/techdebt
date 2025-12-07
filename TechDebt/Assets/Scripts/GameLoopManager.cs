@@ -50,6 +50,7 @@ public class GameLoopManager : MonoBehaviour
 
     private IEnumerator StartBuildPhase()
     {
+        Time.timeScale = 1f; // Reset time scale
         CurrentState = GameState.Build;
         
         // Notify all NPCs to stop their current tasks and go idle
@@ -100,11 +101,13 @@ public class GameLoopManager : MonoBehaviour
         if (isSummaryPhaseStarted) yield break;
         isSummaryPhaseStarted = true;
 
+        Time.timeScale = 1f; // Reset time scale
         CurrentState = GameState.Summary;
         UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
 
         // Deduct daily costs for all unlocked infrastructure and hired NPCs
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
+
 
         string summaryText;
         if (GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost))

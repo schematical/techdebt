@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
@@ -13,19 +12,27 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    // UI Containers
     private Canvas mainCanvas;
     private GameObject buildPhaseUIContainer;
     private GameObject summaryPhaseUIContainer;
     private GameObject statsBarUIContainer;
     private GameObject hireDevOpsPanel;
     private GameObject tooltipPanel;
+    private GameObject timeControlsContainer;
     
+    // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI tooltipText;
     private Button tooltipButton;
     private TextMeshProUGUI totalDailyCostText;
     private TextMeshProUGUI gameStateText;
     private TextMeshProUGUI clockText;
+
+    // Time Control Buttons & Colors
+    private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
+    private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
+    private Color inactiveColor = Color.gray;
 
     void Awake()
     {
@@ -44,11 +51,6 @@ public class UIManager : MonoBehaviour
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
     }
 
-    void Update()
-    {
-        // No dynamic tooltip positioning needed anymore
-    }
-
     private void SetupUIInfrastructure()
     {
         if (FindObjectOfType<EventSystem>() == null)
@@ -61,25 +63,24 @@ public class UIManager : MonoBehaviour
         mainCanvas = new GameObject("MainCanvas").AddComponent<Canvas>();
         mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
         mainCanvas.worldCamera = Camera.main;
-        mainCanvas.planeDistance = 10; // Render UI 10 units in front of the camera
+        mainCanvas.planeDistance = 10;
         mainCanvas.gameObject.AddComponent<CanvasScaler>();
-        var graphicRaycaster = mainCanvas.gameObject.AddComponent<GraphicRaycaster>();
-
-        // TEMPORARY DIAGNOSTIC: Re-enable GraphicRaycaster. It was disabled for debugging.
-        // If issues persist, this might be the culprit, but for now we re-enable it.
-        graphicRaycaster.enabled = true;
-        Debug.LogWarning("DIAGNOSTIC: GraphicRaycaster on MainCanvas has been re-enabled.");
+        mainCanvas.gameObject.AddComponent<GraphicRaycaster>();
         
         SetupStatsBar(mainCanvas.transform);
         SetupBuildPhaseUI(mainCanvas.transform);
         SetupSummaryPhaseUI(mainCanvas.transform);
         SetupTooltip(mainCanvas.transform);
+        SetupTimeControls(mainCanvas.transform);
         
+        // Initial state
         buildPhaseUIContainer.SetActive(false);
         summaryPhaseUIContainer.SetActive(false);
+        timeControlsContainer.SetActive(false);
         UpdateStatsDisplay();
     }
 
+    #region UI Setup Methods
     private void SetupStatsBar(Transform parent)
     {
         statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(0, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
@@ -111,12 +112,14 @@ public class UIManager : MonoBehaviour
         CreateButton(buildPhaseUIContainer.transform, "Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
         CreateButton(buildPhaseUIContainer.transform, "Start Day", () => GameLoopManager.Instance.EndBuildPhaseAndStartPlayPhase());
 
-        // --- Hire DevOps Panel (Sub-panel) ---
+        // Hire DevOps Panel (Sub-panel)
         hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
         var hireVlg = hireDevOpsPanel.AddComponent<VerticalLayoutGroup>();
         hireVlg.padding = new RectOffset(10,10,10,10);
         hireVlg.spacing = 5;
+        // The first button is the "< Back" button
         CreateButton(hireDevOpsPanel.transform, "< Back", () => hireDevOpsPanel.SetActive(false));
+        hireDevOpsPanel.SetActive(false); // Start hidden
     }
     
     private void SetupSummaryPhaseUI(Transform parent)
@@ -127,140 +130,97 @@ public class UIManager : MonoBehaviour
     
     private void SetupTooltip(Transform parent)
     {
-        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 150), new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(110, 0)); // Anchored to left middle, offset right
+        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 150), new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(110, 0));
         var vlg = tooltipPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(5,5,5,5);
         tooltipText = CreateText(tooltipPanel.transform, "TooltipText", "", 14);
         tooltipText.alignment = TextAlignmentOptions.Left;
-        tooltipButton = CreateButton(tooltipPanel.transform, "Action", () => {});
+        tooltipButton = CreateButton(tooltipPanel.transform, "Action", () => {{}});
         tooltipPanel.SetActive(false);
     }
 
+    private void SetupTimeControls(Transform parent)
+    {
+        timeControlsContainer = CreateUIPanel(parent, "TimeControls", new Vector2(200, 50), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-110, 35));
+        var layout = timeControlsContainer.AddComponent<HorizontalLayoutGroup>();
+        layout.padding = new RectOffset(5, 5, 5, 5);
+        layout.spacing = 5;
 
+        pauseButton = CreateButton(timeControlsContainer.transform, "||", SetTimeScalePause, new Vector2(40, 40));
+        playButton = CreateButton(timeControlsContainer.transform, ">", SetTimeScalePlay, new Vector2(40, 40));
+        fastForwardButton = CreateButton(timeControlsContainer.transform, ">>", SetTimeScaleFastForward, new Vector2(40, 40));
+        superFastForwardButton = CreateButton(timeControlsContainer.transform, ">>>", SetTimeScaleSuperFastForward, new Vector2(40, 40));
+        
+        UpdateTimeScaleButtons();
+    }
+    #endregion
+
+    #region Time Controls
+    public void SetTimeScalePause() => SetTimeScale(0f);
+    public void SetTimeScalePlay() => SetTimeScale(1f);
+    public void SetTimeScaleFastForward() => SetTimeScale(2f);
+    public void SetTimeScaleSuperFastForward() => SetTimeScale(8f);
+
+    private void SetTimeScale(float scale)
+    {
+        Time.timeScale = scale;
+        UpdateTimeScaleButtons();
+    }
+
+    private void UpdateTimeScaleButtons()
+    {
+        pauseButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 0f) ? activeColor : inactiveColor;
+        playButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 1f) ? activeColor : inactiveColor;
+        fastForwardButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 2f) ? activeColor : inactiveColor;
+        superFastForwardButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 8f) ? activeColor : inactiveColor;
+    }
+    #endregion
+
+    #region UI State Management
+    public void ShowBuildUI()
+    {
+        buildPhaseUIContainer.SetActive(true);
+        summaryPhaseUIContainer.SetActive(false);
+        timeControlsContainer.SetActive(false);
+        hireDevOpsPanel.SetActive(false);
+        RefreshHireDevOpsPanel();
+        UpdateDailyCostDisplay();
+    }
+
+    public void HideBuildUI()
+    {
+        buildPhaseUIContainer.SetActive(false);
+        timeControlsContainer.SetActive(true);
+    }
+
+    public void ShowSummaryUI(string text)
+    {
+        summaryPhaseUIContainer.SetActive(true);
+        timeControlsContainer.SetActive(false);
+        summaryPhaseUIContainer.GetComponentInChildren<TextMeshProUGUI>().text = text;
+    }
+    #endregion
+
+    #region UI Content Updates
     public void UpdateGameStateDisplay(string state)
     {
-        if (gameStateText != null)
-        {
-            gameStateText.text = $"State: {state}";
-        }
+        if (gameStateText != null) gameStateText.text = $"State: {state}";
     }
     
-    public void ShowInfrastructureTooltip(InfrastructureInstance instance)
-    {
-        Debug.Log($"ShowInfrastructureTooltip called for {instance.data.DisplayName}.");
-        // Only show tooltip if conditions are met or it's not locked (planned/operational)
-        bool conditionsMet = GameManager.Instance.AreUnlockConditionsMet(instance.data);
-        if (instance.data.CurrentState == InfrastructureData.State.Locked && !conditionsMet)
-        {
-            Debug.Log($"Tooltip hidden for {instance.data.DisplayName} because unlock conditions are not met.");
-            HideTooltip();
-            return;
-        }
-
-        tooltipPanel.SetActive(true);
-        string tooltipContent = $"<b>{instance.data.DisplayName}</b>\n";
-
-        if (instance.data.CurrentState == InfrastructureData.State.Locked)
-        {
-            if (instance.data.UnlockConditions != null && instance.data.UnlockConditions.Length > 0)
-            {
-                tooltipContent += "\n<b>Unlock Requirements:</b>\n";
-                foreach (var condition in instance.data.UnlockConditions)
-                {
-                    tooltipContent += $"- {GetConditionDescription(condition)}\n";
-                }
-            }
-        }
-        tooltipContent += $"\nDaily Cost: ${instance.data.DailyCost}\nBuild Time: {instance.data.BuildTime}s";
-
-        tooltipText.text = tooltipContent;
-        
-        tooltipButton.gameObject.SetActive(true);
-        tooltipButton.onClick.RemoveAllListeners();
-        
-        switch (instance.data.CurrentState)
-        {
-            case InfrastructureData.State.Locked:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Locked";
-                tooltipButton.interactable = false;
-                break;
-            case InfrastructureData.State.Unlocked:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Plan Build";
-                tooltipButton.interactable = true;
-                Debug.Log($"[UIManager] Adding Plan Build listener for {instance.data.DisplayName} (State: {instance.data.CurrentState}).");
-                tooltipButton.onClick.AddListener(() => {
-                    Debug.Log($"[UIManager] Plan Build button clicked for {instance.data.DisplayName} (State: {instance.data.CurrentState}). Calling GameManager.Instance.PlanInfrastructure.");
-                    GameManager.Instance.PlanInfrastructure(instance.data);
-                });
-                break;
-            case InfrastructureData.State.Planned:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Build Planned";
-                tooltipButton.interactable = false;
-                break;
-            case InfrastructureData.State.Operational:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Operational";
-                tooltipButton.interactable = false;
-                break;
-        }
-    }
-
-    private string GetConditionDescription(UnlockCondition condition)
-    {
-        switch (condition.Type)
-        {
-            case UnlockCondition.ConditionType.Day:
-                return $"Day {condition.RequiredValue}";
-            default:
-                return "Unknown Condition";
-        }
-    }
-
     public void UpdateClockDisplay(float timeElapsed, float dayDuration)
     {
         if (clockText == null) return;
-
-        // Calculate the percentage of the day that has passed
         float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
-
-        // The workday is 8 hours long (9:00 AM to 5:00 PM is 17:00)
         float totalWorkdayHours = 8f;
         float elapsedHours = totalWorkdayHours * dayPercentage;
-
-        // Start time is 9:00 AM
         int currentHour = 9 + (int)elapsedHours;
         int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
-
-        // Format the time string
         string amPm = currentHour < 12 ? "AM" : "PM";
-        int displayHour = currentHour;
-        if (currentHour > 12)
-        {
-            displayHour = currentHour - 12;
-        }
-        if (displayHour == 0) // Midnight case
-        {
-            displayHour = 12;
-        }
-
+        int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
+        if (displayHour == 0) displayHour = 12;
         clockText.text = $"{displayHour:D2}:{currentMinute:D2} {amPm}";
     }
-    
-    public void HideTooltip() => tooltipPanel.SetActive(false);
-    
-    private void RefreshHireDevOpsPanel()
-    {
-        for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--) Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
 
-        var candidates = GameManager.Instance.GenerateNPCCandidates(3);
-        foreach (var candidate in candidates)
-        {
-            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.DailyCost}/day)", () => {
-                GameManager.Instance.HireNPCDevOps(candidate);
-                hireDevOpsPanel.SetActive(false);
-            });
-        }
-    }
-    
     private void UpdateStatsDisplay()
     {
         if (GameManager.Instance == null) return;
@@ -277,22 +237,92 @@ public class UIManager : MonoBehaviour
         totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
     }
 
-    public void ShowBuildUI()
+    private void RefreshHireDevOpsPanel()
     {
-        buildPhaseUIContainer.SetActive(true);
-        summaryPhaseUIContainer.SetActive(false);
-        hireDevOpsPanel.SetActive(false);
-        RefreshHireDevOpsPanel();
-        UpdateDailyCostDisplay(); // Update cost when UI is shown
+        // Clear old candidates, but skip the first child which is the "Back" button
+        for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--)
+        {
+            Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
+        }
+
+        var candidates = GameManager.Instance.GenerateNPCCandidates(3);
+        foreach (var candidate in candidates)
+        {
+            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.DailyCost}/day)", () => {{
+                GameManager.Instance.HireNPCDevOps(candidate);
+                hireDevOpsPanel.SetActive(false);
+            }});
+        }
+    }
+    #endregion
+
+    #region Tooltip Logic
+    public void ShowInfrastructureTooltip(InfrastructureInstance instance)
+    {
+        bool conditionsMet = GameManager.Instance.AreUnlockConditionsMet(instance.data);
+        if (instance.data.CurrentState == InfrastructureData.State.Locked && !conditionsMet)
+        {
+            HideTooltip();
+            return;
+        }
+
+        tooltipPanel.SetActive(true);
+        string tooltipContent = $"<b>{{instance.data.DisplayName}}</b>\n";
+
+        if (instance.data.CurrentState == InfrastructureData.State.Locked)
+        {
+            if (instance.data.UnlockConditions != null && instance.data.UnlockConditions.Length > 0)
+            {
+                tooltipContent += "\n<b>Unlock Requirements:</b>\n";
+                foreach (var condition in instance.data.UnlockConditions)
+                {
+                    tooltipContent += $"- {{GetConditionDescription(condition)}}\n";
+                }
+            }
+        }
+        tooltipContent += $"\n Daily Cost: ${instance.data.DailyCost}\nBuild Time: {instance.data.BuildTime}s";
+        tooltipText.text = tooltipContent;
+        
+        tooltipButton.gameObject.SetActive(true);
+        tooltipButton.onClick.RemoveAllListeners();
+        
+        switch (instance.data.CurrentState)
+        {
+            case InfrastructureData.State.Locked:
+                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Locked";
+                tooltipButton.interactable = false;
+                break;
+            case InfrastructureData.State.Unlocked:
+                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Plan Build";
+                tooltipButton.interactable = true;
+                tooltipButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(instance.data));
+                break;
+            case InfrastructureData.State.Planned:
+                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Build Planned";
+                tooltipButton.interactable = false;
+                break;
+            case InfrastructureData.State.Operational:
+                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Operational";
+                tooltipButton.interactable = false;
+                break;
+        }
     }
 
-    public void HideBuildUI() => buildPhaseUIContainer.SetActive(false);
-    public void ShowSummaryUI(string text)
-    {
-        summaryPhaseUIContainer.SetActive(true);
-        summaryPhaseUIContainer.GetComponentInChildren<TextMeshProUGUI>().text = text;
-    }
+    public void HideTooltip() => tooltipPanel.SetActive(false);
 
+    private string GetConditionDescription(UnlockCondition condition)
+    {
+        switch (condition.Type)
+        {
+            case UnlockCondition.ConditionType.Day:
+                return $"Day {condition.RequiredValue}";
+            default:
+                return "Unknown Condition";
+        }
+    }
+    #endregion
+
+    #region UI Helper Methods
     private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
     {
         var go = new GameObject(n); go.transform.SetParent(p, false);
@@ -303,18 +333,33 @@ public class UIManager : MonoBehaviour
 
     private Button CreateButton(Transform p, string t, UnityAction a)
     {
-        var go = new GameObject($"Button_{t}"); go.transform.SetParent(p, false);
-        var rt = go.AddComponent<RectTransform>(); rt.sizeDelta = new Vector2(180, 40);
+        var go = new GameObject($"Button_{{t}}"); go.transform.SetParent(p, false);
+        go.transform.SetParent(p, false);
+        var rt = go.AddComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(180, 40);
         go.AddComponent<Image>().color = Color.gray;
-        var btn = go.AddComponent<Button>(); btn.onClick.AddListener(a);
+        var btn = go.AddComponent<Button>();
+        btn.onClick.AddListener(a);
         CreateText(btn.transform, "Text", t, 14);
+        return btn;
+    }
+
+    private Button CreateButton(Transform p, string t, UnityAction a, Vector2 size)
+    {
+        var btn = CreateButton(p, t, a);
+        btn.GetComponent<RectTransform>().sizeDelta = size;
         return btn;
     }
 
     private TextMeshProUGUI CreateText(Transform p, string n, string c, int s)
     {
         var go = new GameObject(n); go.transform.SetParent(p, false);
-        var tmp = go.AddComponent<TextMeshProUGUI>(); tmp.text = c; tmp.fontSize = s; tmp.alignment = TextAlignmentOptions.Center; tmp.color = Color.white;
+        var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.text = c;
+        tmp.fontSize = s;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = Color.white;
         return tmp;
     }
+    #endregion
 }
