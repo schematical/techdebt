@@ -11,7 +11,7 @@ The player manages a small server farm on an isometric grid. They must allocate 
 
 2. Core Game Loop (The Day)
 
-The game will run on a simple daily timer (e.g., 5 minutes = 1 Day).
+The game will run on a simple daily timer (eg, 5 minutes = 1 Day).
 
 Phase
 
@@ -27,13 +27,13 @@ Buy/Sell Servers, Hire NPCDevOps, Assign NPCDevOps, Start Day button.
 
 B. Day Phase (Real-Time)
 
-Servers generate money. Random failure events ("Fires") spawn. The player manually redirects NPCDevOps to put out fires or complete tasks. NPCDevOps expend Engineering Hours (EH) to complete tasks.
+Servers generate money. Random failure events ("Fires") spawn. The player manually redirects NPCDevOps to put out fires or complete tasks.
 
 Real-time observation, Click-to-Move orders.
 
 C. Night Phase (Paused)
 
-Day concludes. All resource gains (Money, Research) are tallied, and Engineering Hours used are summarized. Infrastructure NPCDevOps are automatically paid (Salary). Player engages with the Research Panel (placeholder).
+Day concludes. All resource gains (Money, Research) are tallied. Infrastructure NPCDevOps are automatically paid (Salary). Player engages with the Research Panel (placeholder).
 
 End-of-Day report, Research Panel, Reset to Planning Phase.
 
@@ -69,25 +69,21 @@ Task Switching Penalty: If the player interrupts an NPCDevOps currently working 
 
 Interactions: When an NPCDevOps reaches a target Server:
 
-Fire: Expend EH over a fixed duration (e.g., 5 seconds of work), then destroy the Fire object.
+Fire: After a fixed duration (e.g., 5 seconds of work), destroy the Fire object.
 
-Toggle: Expend EH over a short duration, then flip the server state (ON to OFF or vice-versa).
+Toggle: After a short duration, flip the server state (ON to OFF or vice-versa).
 
-Tech Debt Maintenance: Continuously expend EH per second to prevent Tech Debt accumulation.
+Tech Debt Maintenance: Continuously work to prevent Tech Debt accumulation.
 
 S2: Economy and Resources
 
-Currency & Resources: The game tracks three critical resources:
+Currency & Resources: The game tracks two critical resources:
 
 Money (M): Earned from active servers. Used to purchase new infrastructure and hire Debs.
-
-Engineering Hours (EH): The primary resource used to complete all tasks (Fire resolution, Tech Debt maintenance, Research, Toggling). Each Deb starts the day with a fixed pool of EH.
 
 Research Points (RP): Generated when a Deb is assigned to a Research task and is not interrupted by higher-priority work. Used to unlock upgrades (V2.0+).
 
 Income (M): Servers automatically generate M per second while in the ON state (simulating e-commerce sales).
-
-Hours Usage (EH): EH is consumed only when a Deb is actively working on a task (not moving or idle). Debs stop working if EH runs out before the end of the day.
 
 Expenses: Debs automatically deduct M at the end of the day (Salary).
 
@@ -105,7 +101,7 @@ ON: Generates income. Accrues Tech Debt. Can fail (spawn Fire).
 
 Toggle Mechanism: Player clicks server; NPCDevOps runs to it. On arrival, NPCDevOps flips the state (ON to OFF or vice-versa).
 
-Tech Debt: Each ON server has a visible Tech Debt counter that increases over time. This counter is converted into an increasing chance of a fire event when it hits certain thresholds. A dedicated NPCDevOps assigned to Maintenance expends EH (S2) to slowly reduce this counter.
+Tech Debt: Each ON server has a visible Tech Debt counter that increases over time. This counter is converted into an increasing chance of a fire event when it hits certain thresholds. A dedicated NPCDevOps assigned to Maintenance works to slowly reduce this counter.
 
 S4: Events and Hazards (Background Teams)
 
@@ -133,7 +129,7 @@ Action: The player can hire a candidate if they have enough money and are below 
 
 These features are out of scope for the MVP prototype but are vital for the full game.
 
-Skill-Based Efficiency (EH): NPCDevOps' task speed (EH effectiveness) will be based on their skill (Junior/Senior).
+Skill-Based Efficiency: NPCDevOps' task speed will be based on their skill (Junior/Senior).
 
 Tech Tree Implementation: Implement the research mechanic (e.g., NPCDevOps assigned to "Research Station" generate Research Points). Unlockable nodes include:
 
@@ -155,7 +151,7 @@ A player can view the max Infrastructure NPCDevOps Team Size based on the curren
 
 In the Planning Phase, a player can view candidates' Salaries and Skills and hire an NPCDevOps up to the team cap (S5).
 
-The Day Phase starts and servers generate money. Engineering Hours are visible and actively consumed during work.
+The Day Phase starts and servers generate money.
 
 The player can see the Bullpen count of non-controllable Developers and Interns (S4).
 

@@ -302,32 +302,39 @@ public class UIManager : MonoBehaviour
             }
             CreateText(techPanel.transform, "Requirements", reqText, 12).alignment = TextAlignmentOptions.Left;
 
-            var unlockButton = CreateButton(techPanel.transform, "Unlock", () => GameManager.Instance.TryUnlockTechnology(tech));
-            var buttonText = unlockButton.GetComponentInChildren<TextMeshProUGUI>();
-            var buttonImage = unlockButton.GetComponent<Image>();
+            var researchButton = CreateButton(techPanel.transform, "Research", () => GameManager.Instance.SelectTechnologyForResearch(tech));
+            var buttonText = researchButton.GetComponentInChildren<TextMeshProUGUI>();
+            var buttonImage = researchButton.GetComponent<Image>();
 
             bool prerequisitesMet = tech.RequiredTechnologies.All(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
-            bool hasEnoughRP = GameManager.Instance.GetStat(StatType.ResearchPoints) >= tech.ResearchPointCost;
 
-            if (tech.CurrentState == Technology.State.Unlocked)
+            switch (tech.CurrentState)
             {
-                buttonText.text = "Unlocked";
-                unlockButton.interactable = false;
-                buttonImage.color = Color.green;
-            }
-            else
-            {
-                buttonText.text = $"Unlock ({tech.ResearchPointCost} RP)";
-                if (prerequisitesMet && hasEnoughRP)
-                {
-                    unlockButton.interactable = true;
-                    buttonImage.color = Color.yellow; // Can be unlocked
-                }
-                else
-                {
-                    unlockButton.interactable = false;
-                    buttonImage.color = Color.gray; // Cannot be unlocked
-                }
+                case Technology.State.Unlocked:
+                    buttonText.text = "Unlocked";
+                    researchButton.interactable = false;
+                    buttonImage.color = Color.green;
+                    break;
+                
+                case Technology.State.Researching:
+                    buttonText.text = $"Researching... ({tech.CurrentResearchProgress}/{tech.ResearchPointCost})";
+                    researchButton.interactable = false;
+                    buttonImage.color = Color.cyan; // A color to indicate active research
+                    break;
+
+                case Technology.State.Locked:
+                    buttonText.text = "Research";
+                    if (prerequisitesMet && GameManager.Instance.CurrentlyResearchingTechnology == null)
+                    {
+                        researchButton.interactable = true;
+                        buttonImage.color = Color.yellow; // Can be researched
+                    }
+                    else
+                    {
+                        researchButton.interactable = false;
+                        buttonImage.color = Color.gray; // Cannot be researched
+                    }
+                    break;
             }
         }
     }

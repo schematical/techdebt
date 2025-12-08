@@ -4,6 +4,5 @@ public enum StatType
 {
     Money,
     TechDebt,
-    ResearchPoints,
     Traffic
 }

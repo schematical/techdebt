@@ -4,18 +4,17 @@ using System.Collections.Generic;
 using System; // Added for SerializableAttribute
 
 [Serializable]
-public class Technology 
+public class Technology
 {
     public enum State { Locked, Researching, Unlocked }
 
     public string TechnologyID;
     public string DisplayName;
-
     public string Description;
-
-
-    public int ResearchPointCost;
-    public List<string> RequiredTechnologies;
     
+    public int ResearchPointCost;
+    public float CurrentResearchProgress = 0;
+    public List<string> RequiredTechnologies;
+
     public State CurrentState = State.Locked;
 }

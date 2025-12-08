@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
     public static event System.Action<Technology> OnTechnologyUnlocked;
 
+    public Technology CurrentlyResearchingTechnology { get; private set; }
+
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
 
@@ -238,7 +240,6 @@ public class GameManager : MonoBehaviour
         Stats = new Dictionary<StatType, float>();
         Stats.Add(StatType.Money, 50f);
         Stats.Add(StatType.TechDebt, 0f);
-        Stats.Add(StatType.ResearchPoints, 0f);
         Stats.Add(StatType.Traffic, 0f);
     }
 
@@ -379,9 +380,19 @@ public class GameManager : MonoBehaviour
         {
             switch (condition.Type)
             {
+                case(UnlockCondition.ConditionType.Technology):
+                    Technology technology = GetTechnologyByID(condition.TechnologyID);
+                    if (technology == null)
+                    {
+                        throw new SystemException(
+                            $"Cannot find Technology {condition.TechnologyID}");
+                    } 
+                    
+                    if(technology.CurrentState != Technology.State.Unlocked) return false;
+                    
+                    break;
                 default:
-                    Debug.LogError($"{infraData.ID} - Condition check {condition.Type} < {condition.RequiredValue}");
-                    if (GetStat(condition.Type) < condition.RequiredValue) return false;
+                    if (GetStat(condition.StatType) < condition.RequiredValue) return false;
                     break;
             }
         }
@@ -434,42 +445,48 @@ public class GameManager : MonoBehaviour
         Debug.Log("All NPCDevOps instances have been destroyed.");
     }
 
-    public bool TryUnlockTechnology(Technology tech)
+    public void SelectTechnologyForResearch(Technology tech)
     {
-        if (tech == null || tech.CurrentState == Technology.State.Unlocked)
+        if (tech == null || tech.CurrentState != Technology.State.Locked)
         {
-            return false;
+            Debug.LogWarning($"Technology '{tech?.DisplayName}' cannot be researched because its state is not 'Locked'.");
+            return;
         }
 
-        // Check if all required technologies are unlocked (by ID)
+        if (CurrentlyResearchingTechnology != null)
+        {
+            Debug.Log($"Cannot start research on '{tech.DisplayName}'. Another technology ('{CurrentlyResearchingTechnology.DisplayName}') is already being researched.");
+            return;
+        }
+
         foreach (var requiredTechID in tech.RequiredTechnologies)
         {
             Technology requiredTech = GetTechnologyByID(requiredTechID);
-            if (requiredTech == null)
+            if (requiredTech == null || requiredTech.CurrentState != Technology.State.Unlocked)
             {
-                Debug.LogWarning($"Required technology with ID '{requiredTechID}' not found for {tech.DisplayName}.");
-                return false; // Prerequisite not found
-            }
-            if (requiredTech.CurrentState != Technology.State.Unlocked)
-            {
-                Debug.Log($"Cannot unlock {tech.DisplayName}. Prerequisite {requiredTech.DisplayName} is not unlocked.");
-                return false; // Prerequisite not met
+                Debug.Log($"Cannot research '{tech.DisplayName}'. Prerequisite '{requiredTech?.DisplayName ?? requiredTechID}' is not unlocked.");
+                return;
             }
         }
 
-        // Check for sufficient research points
-        if (GetStat(StatType.ResearchPoints) >= tech.ResearchPointCost)
+        CurrentlyResearchingTechnology = tech;
+        tech.CurrentState = Technology.State.Researching;
+        Debug.Log($"'{tech.DisplayName}' is now being researched.");
+    }
+
+    public void ApplyResearchProgress(float researchGained)
+    {
+        if (CurrentlyResearchingTechnology == null) return;
+
+        CurrentlyResearchingTechnology.CurrentResearchProgress += researchGained;
+
+        if (CurrentlyResearchingTechnology.CurrentResearchProgress >= CurrentlyResearchingTechnology.ResearchPointCost)
         {
-            TrySpendStat(StatType.ResearchPoints, tech.ResearchPointCost);
-            tech.CurrentState = Technology.State.Unlocked;
-            OnTechnologyUnlocked?.Invoke(tech);
-            Debug.Log($"Technology '{tech.DisplayName}' unlocked!");
-            return true;
-        }
-        else
-        {
-            Debug.Log($"Not enough Research Points to unlock {tech.DisplayName}. Current RP: {GetStat(StatType.ResearchPoints)}, Cost: {tech.ResearchPointCost}");
-            return false;
+            Debug.Log($"Technology '{CurrentlyResearchingTechnology.DisplayName}' unlocked!");
+            CurrentlyResearchingTechnology.CurrentState = Technology.State.Unlocked;
+            OnTechnologyUnlocked?.Invoke(CurrentlyResearchingTechnology);
+            
+            CurrentlyResearchingTechnology = null;
         }
     }
 
