@@ -56,7 +56,10 @@ public class InternetPipe : InfrastructureInstance
     // We override the base method to prevent it from trying to forward packets it receives.
     public override void ReceivePacket(NetworkPacket packet)
     {
-        // Debug.LogWarning("InternetPipe received a packet, which is unusual. The packet will be destroyed.");
+        // Notify the GameManager that a packet has completed its round trip.
+        GameManager.Instance.NotifyPacketRoundTripComplete();
+        
+        // Destroy the packet as it has finished its journey.
         GameManager.Instance.DestroyPacket(packet);
     }
 }

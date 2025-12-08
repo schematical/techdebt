@@ -361,15 +361,20 @@ public class UIManager : MonoBehaviour
     public void UpdateClockDisplay(float timeElapsed, float dayDuration)
     {
         if (clockText == null) return;
+        
+        int day = GameLoopManager.Instance.currentDay;
+
         float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
         float totalWorkdayHours = 8f;
         float elapsedHours = totalWorkdayHours * dayPercentage;
         int currentHour = 9 + (int)elapsedHours;
         int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
+        
         string amPm = currentHour < 12 ? "AM" : "PM";
         int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
         if (displayHour == 0) displayHour = 12;
-        clockText.text = $"{displayHour:D2}:{currentMinute:D2} {amPm}";
+
+        clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
     }
 
     private void UpdateStatsDisplay()

@@ -20,7 +20,6 @@ public abstract class NPCBase : MonoBehaviour
     public void MoveTo(Vector3 destination)
     {
         List<Vector3> path = Pathfinding.FindPath(transform.position, destination);
-        Debug.Log("Moving To " + destination + " with path " + path.Count);
         if (path != null && path.Count > 0)
         {
             currentPath = path;

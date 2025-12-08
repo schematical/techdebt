@@ -97,15 +97,15 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
         {
             case InfrastructureData.State.Locked:
                 // Ghosted / Outlined appearance
-                spriteRenderer.color = new Color(0.5f, 0.5f, 1f, 0.3f); 
+                spriteRenderer.color = new Color(0.5f, 0.5f, 1f, 0f); 
                 break;
             case InfrastructureData.State.Unlocked:
                 // Available to be planned
-                spriteRenderer.color = new Color(1f, 1f, 1f, 0.7f);
+                spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f);
                 break;
             case InfrastructureData.State.Planned:
                 // Construction appearance
-                spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.7f); 
+                spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.5f); 
                 break;
             case InfrastructureData.State.Operational:
                 // Normal appearance

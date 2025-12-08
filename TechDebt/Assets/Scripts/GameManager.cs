@@ -59,6 +59,19 @@ public class GameManager : MonoBehaviour
     // --- Packet Management ---
     public GameObject packetPrefab;
     private List<NetworkPacket> activePackets = new List<NetworkPacket>();
+    public int SuccessfulPacketRoundTrips { get; private set; } = 0;
+
+    public void NotifyPacketRoundTripComplete()
+    {
+        SuccessfulPacketRoundTrips++;
+    }
+
+    public int GetAndResetPacketRoundTripCount()
+    {
+        int count = SuccessfulPacketRoundTrips;
+        SuccessfulPacketRoundTrips = 0;
+        return count;
+    }
     
     public void CreatePacket(string fileName, int size, Vector3 startPosition, IDataReceiver destination)
     {
@@ -139,6 +152,14 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
+
+            // Force reset of all infrastructure data to its initial state on load.
+            // This is the definitive fix for ensuring a clean state after a game over.
+            foreach (var infraData in AllInfrastructure)
+            {
+                infraData.CurrentState = infraData.IsInitiallyUnlocked ? InfrastructureData.State.Operational : InfrastructureData.State.Locked;
+            }
+
             InitializeStats();
             OnInfrastructureBuilt += HandleInfrastructureBuilt;
             
@@ -154,6 +175,10 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         OnInfrastructureBuilt -= HandleInfrastructureBuilt;
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     private void HandleInfrastructureBuilt(InfrastructureInstance instance)
@@ -189,7 +214,7 @@ public class GameManager : MonoBehaviour
     private void InitializeStats()
     {
         Stats = new Dictionary<StatType, float>();
-        Stats.Add(StatType.Money, 1000f);
+        Stats.Add(StatType.Money, 50f);
         Stats.Add(StatType.TechDebt, 0f);
         Stats.Add(StatType.ResearchPoints, 0f);
         Stats.Add(StatType.Traffic, 0f);
@@ -204,15 +229,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool TrySpendStat(StatType stat, float value)
+    public void TrySpendStat(StatType stat, float value)
     {
-        if (Stats.ContainsKey(stat) && Stats[stat] >= value)
+        if (!Stats.ContainsKey(stat))
         {
-            Stats[stat] -= value;
-            OnStatsChanged?.Invoke();
-            return true;
-        }
-        return false;
+            throw new System.Exception($"Can't find stat");
+        } 
+    
+        Stats[stat] -= value;
+        OnStatsChanged?.Invoke();
     }
 
     public float GetStat(StatType stat) => Stats.ContainsKey(stat) ? Stats[stat] : 0f;
@@ -375,5 +400,14 @@ public class GameManager : MonoBehaviour
         npcObject.GetComponent<NPCDevOps>().Initialize(candidateData);
         
         NotifyDailyCostChanged();
+    }
+
+    public void ResetNPCs()
+    {
+        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        {
+            Destroy(npc.gameObject);
+        }
+        Debug.Log("All NPCDevOps instances have been destroyed.");
     }
 }

@@ -1,8 +1,5 @@
-// GameLoopManager.cs
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
@@ -11,124 +8,124 @@ public class GameLoopManager : MonoBehaviour
     public enum GameState { Build, Play, Summary }
     public GameState CurrentState { get; private set; }
 
-    public float dayDurationSeconds = 60f; // A day is 60 seconds long
+    public float dayDurationSeconds = 60f;
     public int currentDay = 0;
     public float dayTimer = 0f;
 
-    void Update()
-    {
-        if (CurrentState == GameState.Play)
-        {
-            dayTimer += Time.deltaTime;
-            UIManager.Instance.UpdateClockDisplay(dayTimer, dayDurationSeconds);
-
-            if (dayTimer >= dayDurationSeconds)
-            {
-                StartCoroutine(StartSummaryPhase());
-                return; // Prevent calling the coroutine multiple times
-            }
-        }
-    }
+    private float summaryPhaseTimer = 0f;
+    private const float SummaryPhaseDuration = 5f;
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        else Instance = this;
     }
 
     void Start()
     {
-        // The game begins in the Build phase
-        StartCoroutine(StartBuildPhase());
+        BeginBuildPhase();
     }
 
-    private IEnumerator StartBuildPhase()
+    void Update()
     {
-        Time.timeScale = 1f; // Reset time scale
+        switch (CurrentState)
+        {
+            case GameState.Play:
+                dayTimer += Time.deltaTime;
+                UIManager.Instance.UpdateClockDisplay(dayTimer, dayDurationSeconds);
+                if (dayTimer >= dayDurationSeconds)
+                {
+                    BeginSummaryPhase();
+                }
+                break;
+
+            case GameState.Summary:
+                summaryPhaseTimer += Time.deltaTime;
+                if (summaryPhaseTimer >= SummaryPhaseDuration)
+                {
+                    // Check for Game Over condition AFTER the summary has been displayed
+                    Debug.Log("Checking for Game Over condition: " + GameManager.Instance.GetStat(StatType.Money));
+                    if (GameManager.Instance.GetStat(StatType.Money) < 0)
+                    {
+                        // Reset and reload
+                        Debug.Log("HIT GAME OVER CONDITION!");
+                        currentDay = 0;
+                        GameManager.Instance.ResetNPCs();
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    }
+                    else
+                    {
+                        // Proceed to the next day
+                        BeginBuildPhase();
+                    }
+                }
+                break;
+        }
+    }
+
+    private void BeginBuildPhase()
+    {
+        Time.timeScale = 1f;
         CurrentState = GameState.Build;
-        
-        // Notify all NPCs to stop their current tasks and go idle
+        currentDay++;
+
+        // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
             npc.OnBuildPhaseStart();
         }
 
-        // Wait a frame to ensure UIManager is ready before calling it
-        yield return null; 
+        // Update UI
         UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
-
-        currentDay++; // Day starts here
-        GameManager.Instance.UpdateInfrastructureVisibility(); 
+        GameManager.Instance.UpdateInfrastructureVisibility();
         UIManager.Instance.ShowBuildUI();
     }
 
     public void EndBuildPhaseAndStartPlayPhase()
     {
-        StartCoroutine(StartPlayPhase());
+        BeginPlayPhase();
     }
-    
-    private IEnumerator StartPlayPhase()
+
+    private void BeginPlayPhase()
     {
         CurrentState = GameState.Play;
-        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
+        dayTimer = 0f;
 
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.HideBuildUI();
-        }
-
-        
-        dayTimer = 0f; // Reset timer at the start of the day
-        
-        NPCDevOps[] allNpcs = FindObjectsOfType<NPCDevOps>();
-        foreach (var npc in allNpcs)
+        // Notify NPCs
+        foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
             npc.OnPlayPhaseStart();
         }
 
-        yield return null; // Coroutine must yield something
+        // Update UI
+        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
+        UIManager.Instance.HideBuildUI();
     }
 
-    private bool isSummaryPhaseStarted = false;
-    private IEnumerator StartSummaryPhase()
+    private void BeginSummaryPhase()
     {
-        if (isSummaryPhaseStarted) yield break;
-        isSummaryPhaseStarted = true;
-
-        Time.timeScale = 1f; // Reset time scale
+        Time.timeScale = 1f;
         CurrentState = GameState.Summary;
-        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
+        summaryPhaseTimer = 0f;
 
-        // Deduct daily costs for all unlocked infrastructure and hired NPCs
+        // --- Calculate Income & Expenses ---
+        int packetIncome = GameManager.Instance.GetAndResetPacketRoundTripCount();
+        GameManager.Instance.AddStat(StatType.Money, packetIncome);
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
+        GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost);
 
+        // --- Prepare Summary Text ---
+        string summaryText = $"End of Day {currentDay}\n" +
+                             $"Packet Income: +${packetIncome}\n" +
+                             $"Total Costs: -${totalDailyCost}";
 
-        string summaryText;
-        if (GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost))
+        if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {
-            summaryText = $"End of Day {currentDay}\nTotal Costs: -${totalDailyCost}";
+            summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
         }
-        else
-        {
-            summaryText = $"End of Day {currentDay}\nRAN OUT OF MONEY!\nCosts: -${totalDailyCost}";
-            Debug.LogWarning($"Day {currentDay} ended. Ran out of money! Game Over?");
-        }
-        
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.ShowSummaryUI(summaryText);
-        }
-        
-        yield return new WaitForSeconds(5f); // Let player see the message
 
-        // Transition to the next day's build phase
-        isSummaryPhaseStarted = false; // Reset for the next day
-        StartCoroutine(StartBuildPhase());
+        // --- Update UI ---
+        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
+        UIManager.Instance.ShowSummaryUI(summaryText);
     }
 }
