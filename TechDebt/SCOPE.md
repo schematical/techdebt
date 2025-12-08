@@ -161,4 +161,9 @@ The player can see the Bullpen count of non-controllable Developers and Interns 
 
 A Task Switching Penalty is displayed and enforced when interrupting an NPCDevOps' work.
 
-The daily loop correctly transitions, summarizes resource usage, pays the Debs, and resets for the next day.quick
+The daily loop correctly transitions, summarizes resource usage, pays the Debs, and resets for the next day.
+
+## UI Implementation Guidelines
+
+- **Self-Healing UI Components:** For dynamic UI elements (like task lists, tech trees, etc.) that are programmatically generated and refreshed, always implement a 'self-healing' mechanism. This involves checking if content `Transform` references (e.g., `taskListContent`, `techTreeContent`) are null before attempting to manipulate their children. If null, attempt to re-acquire the `Transform` by searching within its parent panel (e.g., `parentPanel.transform.Find("ScrollView/Viewport/Content")`). This pattern significantly improves UI resilience against `NullReferenceException` errors, especially across scene reloads or unexpected object destructions.
+quick

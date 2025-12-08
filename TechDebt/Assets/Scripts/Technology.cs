@@ -6,7 +6,7 @@ using System; // Added for SerializableAttribute
 [Serializable]
 public class Technology 
 {
-    public enum State { Locked, Unlocked }
+    public enum State { Locked, Researching, Unlocked }
 
     public string TechnologyID;
     public string DisplayName;
