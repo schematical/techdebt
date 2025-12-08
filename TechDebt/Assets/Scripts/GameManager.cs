@@ -1,9 +1,12 @@
 // GameManager.cs
+
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +19,12 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+  
     public static List<Server> AllServers = new List<Server>();
+    
+    public UIManager UIManager;
+
+    public GameLoopManager GameLoopManager;
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
@@ -205,9 +213,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        /*GameLoopManager = GetComponent<GameLoopManager>();
+        if (GameLoopManager == null)
+        {
+            throw new SystemException("Missing `GameLoopManager` reference in GameManager.");
+        }*/
         // --- Technology Debugging ---
         Debug.Log($"GameManager Start: Found {AllTechnologies.Count} technologies.");
-
+        UIManager.SetupUIInfrastructure();
+        GameLoopManager.BeginBuildPhase();
         // Create a default packet prefab if one isn't assigned
         if (packetPrefab == null)
         {
@@ -366,7 +380,7 @@ public class GameManager : MonoBehaviour
             switch (condition.Type)
             {
                 case UnlockCondition.ConditionType.Day:
-                    if (GameLoopManager.Instance.currentDay < condition.RequiredValue) return false;
+                    if (GameManager.Instance.GameLoopManager.currentDay < condition.RequiredValue) return false;
                     break;
             }
         }
@@ -385,7 +399,7 @@ public class GameManager : MonoBehaviour
 
         infraData.Instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
         Debug.Log($"Successfully planned {infraData.DisplayName}.");
-        UIManager.Instance.HideTooltip();
+        UIManager.HideTooltip();
     }
     
     public List<NPCDevOpsData> GenerateNPCCandidates(int count)

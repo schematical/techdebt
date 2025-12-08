@@ -42,14 +42,14 @@ public class MouseInteractionManager : MonoBehaviour
                 // If we clicked the same instance, toggle it off
                 if (currentlyOpenPanelInstance == clickedInstance)
                 {
-                    UIManager.Instance.HideTooltip();
+                    GameManager.Instance.UIManager.HideTooltip();
                     currentlyOpenPanelInstance = null;
                 }
                 // If we clicked a different instance, or no panel was open, open for the new one
                 else
                 {
-                    if (currentlyOpenPanelInstance != null) UIManager.Instance.HideTooltip(); // Close previous
-                    UIManager.Instance.ShowInfrastructureTooltip(clickedInstance);
+                    if (currentlyOpenPanelInstance != null) GameManager.Instance.UIManager.HideTooltip(); // Close previous
+                    GameManager.Instance.UIManager.ShowInfrastructureTooltip(clickedInstance);
                     currentlyOpenPanelInstance = clickedInstance;
                 }
             }
@@ -59,7 +59,7 @@ public class MouseInteractionManager : MonoBehaviour
                 // and it wasn't a UI element, then close any open panel.
                 if (!EventSystem.current.IsPointerOverGameObject() && currentlyOpenPanelInstance != null)
                 {
-                    UIManager.Instance.HideTooltip();
+                    GameManager.Instance.UIManager.HideTooltip();
                     currentlyOpenPanelInstance = null;
                 }
             }

@@ -22,7 +22,7 @@ public class NPCDevOps : NPCBase
     void Update()
     {
         // NPCs should only perform actions during the Play phase.
-        if (GameLoopManager.Instance.CurrentState != GameLoopManager.GameState.Play)
+        if (GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play)
         {
             return;
         }

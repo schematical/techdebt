@@ -12,7 +12,7 @@ using static NPCTask;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }
+
 
     // UI Containers
     private Canvas mainCanvas;
@@ -44,11 +44,7 @@ public class UIManager : MonoBehaviour
     private float lastTaskListUpdateTime;
 
 
-    void Awake()
-    {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else { Instance = this; SetupUIInfrastructure(); }
-    }
+
 
     void OnEnable() 
     { 
@@ -71,7 +67,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    private void SetupUIInfrastructure()
+    public void SetupUIInfrastructure()
     {
         if (FindObjectOfType<EventSystem>() == null)
         {
@@ -260,7 +256,7 @@ public class UIManager : MonoBehaviour
         totalDailyCostText.color = Color.yellow;
         
         CreateButton(buildPhaseUIContainer.transform, "Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
-        CreateButton(buildPhaseUIContainer.transform, "Start Day", () => GameLoopManager.Instance.EndBuildPhaseAndStartPlayPhase());
+        CreateButton(buildPhaseUIContainer.transform, "Start Day", () => GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase());
 
         // Hire DevOps Panel (Sub-panel)
         hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
@@ -362,7 +358,7 @@ public class UIManager : MonoBehaviour
     {
         if (clockText == null) return;
         
-        int day = GameLoopManager.Instance.currentDay;
+        int day = GameManager.Instance.GameLoopManager.currentDay;
 
         float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
         float totalWorkdayHours = 8f;

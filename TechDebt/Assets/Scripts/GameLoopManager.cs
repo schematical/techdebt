@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
-    public static GameLoopManager Instance { get; private set; }
+
 
     public enum GameState { Build, Play, Summary }
     public GameState CurrentState { get; private set; }
@@ -17,14 +17,10 @@ public class GameLoopManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
+
     }
 
-    void Start()
-    {
-        BeginBuildPhase();
-    }
+
 
     void Update()
     {
@@ -32,7 +28,7 @@ public class GameLoopManager : MonoBehaviour
         {
             case GameState.Play:
                 dayTimer += Time.deltaTime;
-                UIManager.Instance.UpdateClockDisplay(dayTimer, dayDurationSeconds);
+                GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, dayDurationSeconds);
                 if (dayTimer >= dayDurationSeconds)
                 {
                     BeginSummaryPhase();
@@ -63,7 +59,7 @@ public class GameLoopManager : MonoBehaviour
         }
     }
 
-    private void BeginBuildPhase()
+    public void BeginBuildPhase()
     {
         Time.timeScale = 1f;
         CurrentState = GameState.Build;
@@ -76,9 +72,9 @@ public class GameLoopManager : MonoBehaviour
         }
 
         // Update UI
-        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
+        GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UpdateInfrastructureVisibility();
-        UIManager.Instance.ShowBuildUI();
+        GameManager.Instance.UIManager.ShowBuildUI();
     }
 
     public void EndBuildPhaseAndStartPlayPhase()
@@ -98,8 +94,8 @@ public class GameLoopManager : MonoBehaviour
         }
 
         // Update UI
-        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
-        UIManager.Instance.HideBuildUI();
+        GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
+        GameManager.Instance.UIManager.HideBuildUI();
     }
 
     private void BeginSummaryPhase()
@@ -125,7 +121,7 @@ public class GameLoopManager : MonoBehaviour
         }
 
         // --- Update UI ---
-        UIManager.Instance.UpdateGameStateDisplay(CurrentState.ToString());
-        UIManager.Instance.ShowSummaryUI(summaryText);
+        GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
+        GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
     }
 }
