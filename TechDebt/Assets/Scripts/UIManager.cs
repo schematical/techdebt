@@ -51,12 +51,14 @@ public class UIManager : MonoBehaviour
         GameManager.OnStatsChanged += UpdateStatsDisplay; 
         GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
         GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
+        GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
     }
     void OnDisable() 
     {
         GameManager.OnStatsChanged -= UpdateStatsDisplay; 
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
         GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
+        GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
     }
     
     // An event handler to refresh the panel if it's active when a tech is unlocked.

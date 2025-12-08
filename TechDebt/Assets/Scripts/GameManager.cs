@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
     public static event System.Action<Technology> OnTechnologyUnlocked;
+    public static event System.Action<Technology> OnTechnologyResearchStarted;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
 
@@ -182,6 +183,7 @@ public class GameManager : MonoBehaviour
 
         InitializeStats();
         OnInfrastructureBuilt += HandleInfrastructureBuilt;
+        OnTechnologyUnlocked += HandleTechnologyUnlocked;
     
         AllServers.Clear();
         SetupGameScene();
@@ -190,10 +192,17 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         OnInfrastructureBuilt -= HandleInfrastructureBuilt;
+        OnTechnologyUnlocked -= HandleTechnologyUnlocked;
         if (_instance == this)
         {
             _instance = null;
         }
+    }
+
+    private void HandleTechnologyUnlocked(Technology tech)
+    {
+        Debug.Log($"Technology '{tech.DisplayName}' unlocked. Checking for newly available infrastructure...");
+        UpdateInfrastructureVisibility();
     }
 
     private void HandleInfrastructureBuilt(InfrastructureInstance instance)
@@ -472,6 +481,7 @@ public class GameManager : MonoBehaviour
         CurrentlyResearchingTechnology = tech;
         tech.CurrentState = Technology.State.Researching;
         Debug.Log($"'{tech.DisplayName}' is now being researched.");
+        OnTechnologyResearchStarted?.Invoke(tech);
 
         // Remove any existing research tasks
         AvailableTasks.RemoveAll(task => task is ResearchTask);
