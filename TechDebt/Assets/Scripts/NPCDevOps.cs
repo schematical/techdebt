@@ -65,31 +65,10 @@ public class NPCDevOps : NPCBase
 		base.Update();
     }
 
-    public void OnPlayPhaseStart()
+    public float GetResearchPointsPerSecond(Technology technology)
     {
-        // Unassign from current task so it can be picked up again later
-        if (currentTask != null)
-        {
-            currentTask.Unassign();
-            currentTask = null;
-        }
-        
-        StopMovement();
-        CurrentState = State.Idle;
-    }
-
-    public void OnBuildPhaseStart()
-    {
-        // Unassign from current task so it can be picked up again later
-        if (currentTask != null)
-        {
-            currentTask.Unassign();
-            currentTask = null;
-        }
-
-        // Stop moving and go idle
-        StopMovement();
-        CurrentState = State.Idle;
+        // Later, this could be influenced by the NPC's skills or the technology type
+        return 1f;
     }
 
     private void TryToFindWork()
@@ -140,5 +119,27 @@ public class NPCDevOps : NPCBase
         }
         result = Vector3.zero;
         return false;
+    }
+
+    public void OnPlayPhaseStart()
+    {
+        if (currentTask != null)
+        {
+            currentTask.Unassign();
+            currentTask = null;
+        }
+        StopMovement();
+        CurrentState = State.Idle;
+    }
+
+    public void OnBuildPhaseStart()
+    {
+        if (currentTask != null)
+        {
+            currentTask.Unassign();
+            currentTask = null;
+        }
+        StopMovement();
+        CurrentState = State.Idle;
     }
 }

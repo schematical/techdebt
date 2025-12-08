@@ -238,7 +238,7 @@ public class GameManager : MonoBehaviour
     private void InitializeStats()
     {
         Stats = new Dictionary<StatType, float>();
-        Stats.Add(StatType.Money, 50f);
+        Stats.Add(StatType.Money, 500f);
         Stats.Add(StatType.TechDebt, 0f);
         Stats.Add(StatType.Traffic, 0f);
     }
@@ -472,6 +472,12 @@ public class GameManager : MonoBehaviour
         CurrentlyResearchingTechnology = tech;
         tech.CurrentState = Technology.State.Researching;
         Debug.Log($"'{tech.DisplayName}' is now being researched.");
+
+        // Remove any existing research tasks
+        AvailableTasks.RemoveAll(task => task is ResearchTask);
+        
+        // Add a new research task for the selected technology
+        AddTask(new ResearchTask(tech));
     }
 
     public void ApplyResearchProgress(float researchGained)
