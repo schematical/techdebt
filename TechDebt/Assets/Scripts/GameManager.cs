@@ -238,7 +238,7 @@ public class GameManager : MonoBehaviour
         Stats = new Dictionary<StatType, float>();
         Stats.Add(StatType.Money, 50f);
         Stats.Add(StatType.TechDebt, 0f);
-        Stats.Add(StatType.ResearchPoints, 0f);
+        Stats.Add(StatType.ResearchPoints, 100f);
         Stats.Add(StatType.Traffic, 0f);
     }
 

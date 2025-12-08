@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     private GameObject timeControlsContainer;
     private GameObject leftMenuBar;
     private GameObject taskListPanel;
+    private GameObject techTreePanel;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -42,25 +43,34 @@ public class UIManager : MonoBehaviour
     private Transform taskListContent;
     private float taskListUpdateCooldown = 0.5f;
     private float lastTaskListUpdateTime;
-
-
-
-
+    
+    public Transform techTreeContent;
+    
     void OnEnable() 
     { 
         GameManager.OnStatsChanged += UpdateStatsDisplay; 
         GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
+        GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
     }
     void OnDisable() 
     {
         GameManager.OnStatsChanged -= UpdateStatsDisplay; 
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
+        GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
+    }
+    
+    // An event handler to refresh the panel if it's active when a tech is unlocked.
+    public void RefreshTechTreePanelOnEvent(Technology tech)
+    {
+        if (techTreePanel != null && techTreePanel.activeSelf)
+        {
+            RefreshTechTreePanel();
+        }
     }
     
     void Update()
     {
-        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
-        {
+        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)        {
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
         }
@@ -108,8 +118,10 @@ public class UIManager : MonoBehaviour
         vlg.childControlHeight = false;
 
         CreateButton(leftMenuBar.transform, "Tasks", ToggleTaskListPanel, new Vector2(40, 40));
+        CreateButton(leftMenuBar.transform, "Tech", ToggleTechTreePanel, new Vector2(40, 40));
         
         SetupTaskListPanel(parent);
+        SetupTechTreePanel(parent);
     }
     
     private void SetupTaskListPanel(Transform parent)
@@ -170,6 +182,153 @@ public class UIManager : MonoBehaviour
         if (isActive)
         {
             RefreshTaskList();
+        }
+    }
+
+
+    private void SetupTechTreePanel(Transform parent)
+    {
+        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(275, 0)); // Positioned next to Task List
+        var vlg = techTreePanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10, 10, 10, 10);
+        vlg.spacing = 5;
+        vlg.childControlWidth = true;
+
+        CreateText(techTreePanel.transform, "Header", "Technology Tree", 22);
+
+        var scrollView = new GameObject("ScrollView");
+        scrollView.transform.SetParent(techTreePanel.transform, false);
+        var scrollRect = scrollView.AddComponent<ScrollRect>();
+        var scrollRt = scrollView.GetComponent<RectTransform>();
+        scrollRt.sizeDelta = new Vector2(380, 0);
+
+        var viewport = new GameObject("Viewport");
+        viewport.transform.SetParent(scrollView.transform, false);
+        viewport.AddComponent<RectMask2D>();
+        var viewportImage = viewport.AddComponent<Image>();
+        viewportImage.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
+        scrollRect.viewport = viewport.GetComponent<RectTransform>();
+
+        var contentGo = new GameObject("Content");
+        contentGo.transform.SetParent(viewport.transform, false);
+        techTreeContent = contentGo.transform;
+        Debug.Log($"TechTreeContent: {techTreeContent}");
+        var contentVlg = contentGo.AddComponent<VerticalLayoutGroup>();
+        contentVlg.padding = new RectOffset(10, 10, 10, 10);
+        contentVlg.spacing = 15;
+        contentVlg.childControlWidth = true;
+        var csf = contentGo.AddComponent<ContentSizeFitter>();
+        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        scrollRect.content = contentGo.GetComponent<RectTransform>();
+
+        var viewportRt = viewport.GetComponent<RectTransform>();
+        viewportRt.anchorMin = Vector2.zero;
+        viewportRt.anchorMax = Vector2.one;
+        viewportRt.sizeDelta = Vector2.zero;
+
+        var contentRt = contentGo.GetComponent<RectTransform>();
+        contentRt.anchorMin = new Vector2(0, 1);
+        contentRt.anchorMax = new Vector2(1, 1);
+        contentRt.pivot = new Vector2(0.5f, 1);
+        contentRt.sizeDelta = new Vector2(0, 0);
+
+        techTreePanel.SetActive(false);
+    }
+
+    private void ToggleTechTreePanel()
+    {
+        bool isActive = !techTreePanel.activeSelf;
+        techTreePanel.SetActive(isActive);
+        if (isActive)
+        {
+            RefreshTechTreePanel();
+        }
+    }
+    private void RefreshTechTreePanel()
+    {
+        // Self-heal: If techTreeContent is lost, try to find it again.
+        if (techTreeContent == null)
+        {
+            if (techTreePanel != null)
+            {
+                var contentTransform = techTreePanel.transform.Find("ScrollView/Viewport/Content");
+                if (contentTransform != null)
+                {
+                    techTreeContent = contentTransform;
+                }
+                else
+                {
+                    Debug.LogError("Could not find techTreeContent transform! UI will not be refreshed.");
+                    return;
+                }
+            }
+            else
+            {
+                Debug.LogError("techTreePanel is null. Cannot re-acquire content. UI will not be refreshed.");
+                return;
+            }
+        }
+
+        for (int i = techTreeContent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(techTreeContent.GetChild(i).gameObject);
+        }
+
+        if (GameManager.Instance == null || GameManager.Instance.AllTechnologies == null) return;
+
+        foreach (var tech in GameManager.Instance.AllTechnologies)
+        {
+            var techPanel = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 120), Vector2.zero, Vector2.one, Vector2.zero);
+            var techVLG = techPanel.AddComponent<VerticalLayoutGroup>();
+            techVLG.padding = new RectOffset(8, 8, 8, 8);
+            techVLG.spacing = 3;
+            techVLG.childControlWidth = true;
+
+            CreateText(techPanel.transform, "Title", $"<b>{tech.DisplayName}</b>", 18).alignment = TextAlignmentOptions.Left;
+            CreateText(techPanel.transform, "Description", tech.Description, 14).alignment = TextAlignmentOptions.Left;
+
+            string reqText = "Requires: ";
+            if (tech.RequiredTechnologies == null || tech.RequiredTechnologies.Count == 0)
+            {
+                reqText += "None";
+            }
+            else
+            {
+                reqText += string.Join(", ", tech.RequiredTechnologies.Select(reqId =>
+                {
+                    var requiredTech = GameManager.Instance.GetTechnologyByID(reqId);
+                    return requiredTech != null ? requiredTech.DisplayName : "Unknown";
+                }));
+            }
+            CreateText(techPanel.transform, "Requirements", reqText, 12).alignment = TextAlignmentOptions.Left;
+
+            var unlockButton = CreateButton(techPanel.transform, "Unlock", () => GameManager.Instance.TryUnlockTechnology(tech));
+            var buttonText = unlockButton.GetComponentInChildren<TextMeshProUGUI>();
+            var buttonImage = unlockButton.GetComponent<Image>();
+
+            bool prerequisitesMet = tech.RequiredTechnologies.All(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
+            bool hasEnoughRP = GameManager.Instance.GetStat(StatType.ResearchPoints) >= tech.ResearchPointCost;
+
+            if (tech.CurrentState == Technology.State.Unlocked)
+            {
+                buttonText.text = "Unlocked";
+                unlockButton.interactable = false;
+                buttonImage.color = Color.green;
+            }
+            else
+            {
+                buttonText.text = $"Unlock ({tech.ResearchPointCost} RP)";
+                if (prerequisitesMet && hasEnoughRP)
+                {
+                    unlockButton.interactable = true;
+                    buttonImage.color = Color.yellow; // Can be unlocked
+                }
+                else
+                {
+                    unlockButton.interactable = false;
+                    buttonImage.color = Color.gray; // Cannot be unlocked
+                }
+            }
         }
     }
     
