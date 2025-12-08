@@ -423,7 +423,7 @@ public class UIManager : MonoBehaviour
         }
 
         tooltipPanel.SetActive(true);
-        string tooltipContent = $"<b>{{instance.data.DisplayName}}</b>\n";
+        string tooltipContent = $"<b>{instance.data.DisplayName}</b>\n";
 
         if (instance.data.CurrentState == InfrastructureData.State.Locked)
         {
@@ -432,7 +432,7 @@ public class UIManager : MonoBehaviour
                 tooltipContent += "\n<b>Unlock Requirements:</b>\n";
                 foreach (var condition in instance.data.UnlockConditions)
                 {
-                    tooltipContent += $"- {{GetConditionDescription(condition)}}\n";
+                    tooltipContent += $"- {GetConditionDescription(condition)}\n";
                 }
             }
         }
