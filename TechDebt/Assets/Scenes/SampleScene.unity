@@ -406,7 +406,7 @@ MonoBehaviour:
     DisplayName: Desk
     Type: 
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
-    GridPosition: {x: 14, y: 3}
+    GridPosition: {x: 2, y: 10}
     UnlockConditions: []
     DailyCost: 0
     BuildTime: 0
@@ -418,7 +418,7 @@ MonoBehaviour:
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 10, y: 5}
+    GridPosition: {x: 10, y: 3}
     UnlockConditions:
     - Type: 0
       RequiredValue: 0
@@ -443,6 +443,20 @@ MonoBehaviour:
     CurrentState: 0
     Instance: {fileID: 0}
     NetworkConnections: []
+  AllTechnologies:
+  - TechnologyID: dedicated-db
+    DisplayName: Dedicated Database
+    Description: 
+    ResearchPointCost: 30
+    RequiredTechnologies: []
+    CurrentState: 0
+  - TechnologyID: load-balencer
+    DisplayName: Load Balencer
+    Description: 
+    ResearchPointCost: 30
+    RequiredTechnologies:
+    - dedicated-db
+    CurrentState: 0
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
   gridManager: {fileID: 0}

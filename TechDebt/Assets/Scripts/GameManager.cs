@@ -7,15 +7,25 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null) _instance = FindObjectOfType<GameManager>();
+            return _instance;
+        }
+    }
     public static List<Server> AllServers = new List<Server>();
 
     public List<InfrastructureData> AllInfrastructure;
+    public List<Technology> AllTechnologies;
 
     public Dictionary<StatType, float> Stats { get; private set; }
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
+    public static event System.Action<Technology> OnTechnologyUnlocked;
 
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
@@ -145,39 +155,34 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
+        _instance = this;
 
-            // Force reset of all infrastructure data to its initial state on load.
-            // This is the definitive fix for ensuring a clean state after a game over.
-            foreach (var infraData in AllInfrastructure)
-            {
-                infraData.CurrentState = infraData.IsInitiallyUnlocked ? InfrastructureData.State.Operational : InfrastructureData.State.Locked;
-            }
-
-            InitializeStats();
-            OnInfrastructureBuilt += HandleInfrastructureBuilt;
-            
-            if (FindObjectOfType<GameLoopManager>() == null) gameObject.AddComponent<GameLoopManager>();
-            if (FindObjectOfType<UIManager>() == null) gameObject.AddComponent<UIManager>();
-            if (FindObjectOfType<MouseInteractionManager>() == null) gameObject.AddComponent<MouseInteractionManager>();
-        
-            AllServers.Clear();
-            SetupGameScene();
+        // Force reset of all infrastructure data to its initial state on load.
+        // This is the definitive fix for ensuring a clean state after a game over.
+        foreach (var infraData in AllInfrastructure)
+        {
+            infraData.CurrentState = infraData.IsInitiallyUnlocked ? InfrastructureData.State.Operational : InfrastructureData.State.Locked;
         }
+
+        // Force reset of all technology data to its initial state on load.
+        foreach (var tech in AllTechnologies)
+        {
+            tech.CurrentState = Technology.State.Locked;
+        }
+
+        InitializeStats();
+        OnInfrastructureBuilt += HandleInfrastructureBuilt;
+    
+        AllServers.Clear();
+        SetupGameScene();
     }
 
     void OnDestroy()
     {
         OnInfrastructureBuilt -= HandleInfrastructureBuilt;
-        if (Instance == this)
+        if (_instance == this)
         {
-            Instance = null;
+            _instance = null;
         }
     }
 
@@ -200,6 +205,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // --- Technology Debugging ---
+        Debug.Log($"GameManager Start: Found {AllTechnologies.Count} technologies.");
+
         // Create a default packet prefab if one isn't assigned
         if (packetPrefab == null)
         {
@@ -409,5 +417,50 @@ public class GameManager : MonoBehaviour
             Destroy(npc.gameObject);
         }
         Debug.Log("All NPCDevOps instances have been destroyed.");
+    }
+
+    public bool TryUnlockTechnology(Technology tech)
+    {
+        if (tech == null || tech.CurrentState == Technology.State.Unlocked)
+        {
+            return false;
+        }
+
+        // Check if all required technologies are unlocked (by ID)
+        foreach (var requiredTechID in tech.RequiredTechnologies)
+        {
+            Technology requiredTech = GetTechnologyByID(requiredTechID);
+            if (requiredTech == null)
+            {
+                Debug.LogWarning($"Required technology with ID '{requiredTechID}' not found for {tech.DisplayName}.");
+                return false; // Prerequisite not found
+            }
+            if (requiredTech.CurrentState != Technology.State.Unlocked)
+            {
+                Debug.Log($"Cannot unlock {tech.DisplayName}. Prerequisite {requiredTech.DisplayName} is not unlocked.");
+                return false; // Prerequisite not met
+            }
+        }
+
+        // Check for sufficient research points
+        if (GetStat(StatType.ResearchPoints) >= tech.ResearchPointCost)
+        {
+            TrySpendStat(StatType.ResearchPoints, tech.ResearchPointCost);
+            tech.CurrentState = Technology.State.Unlocked;
+            OnTechnologyUnlocked?.Invoke(tech);
+            Debug.Log($"Technology '{tech.DisplayName}' unlocked!");
+            return true;
+        }
+        else
+        {
+            Debug.Log($"Not enough Research Points to unlock {tech.DisplayName}. Current RP: {GetStat(StatType.ResearchPoints)}, Cost: {tech.ResearchPointCost}");
+            return false;
+        }
+    }
+
+    // Helper method to get a Technology by its ID
+    public Technology GetTechnologyByID(string id)
+    {
+        return AllTechnologies.FirstOrDefault(t => t.TechnologyID == id);
     }
 }
