@@ -4,8 +4,8 @@ using System;
 [Serializable]
 public class UnlockCondition
 {
-    public enum ConditionType { Day }
-    public ConditionType Type = ConditionType.Day;
+
+    public StatType Type = StatType.ResearchPoints;
 
     public int RequiredValue = 0;
     
@@ -13,8 +13,8 @@ public class UnlockCondition
     {
         switch (Type)
         {
-            case ConditionType.Day:
-                return $"Requires Day {RequiredValue}";
+            case StatType.ResearchPoints:
+                return $"Requires ResearchPoints {RequiredValue}";
             default:
                 return "Unknown requirement";
         }

@@ -587,7 +587,7 @@ public class UIManager : MonoBehaviour
                 tooltipContent += "\n<b>Unlock Requirements:</b>\n";
                 foreach (var condition in instance.data.UnlockConditions)
                 {
-                    tooltipContent += $"- {GetConditionDescription(condition)}\n";
+                    tooltipContent += $"- {condition.GetDescription()}\n";
                 }
             }
         }
@@ -620,17 +620,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void HideTooltip() => tooltipPanel.SetActive(false);
-
-    private string GetConditionDescription(UnlockCondition condition)
-    {
-        switch (condition.Type)
-        {
-            case UnlockCondition.ConditionType.Day:
-                return $"Day {condition.RequiredValue}";
-            default:
-                return "Unknown Condition";
-        }
-    }
+    
     #endregion
 
     #region UI Helper Methods

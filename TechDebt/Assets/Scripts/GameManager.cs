@@ -238,7 +238,7 @@ public class GameManager : MonoBehaviour
         Stats = new Dictionary<StatType, float>();
         Stats.Add(StatType.Money, 50f);
         Stats.Add(StatType.TechDebt, 0f);
-        Stats.Add(StatType.ResearchPoints, 100f);
+        Stats.Add(StatType.ResearchPoints, 0f);
         Stats.Add(StatType.Traffic, 0f);
     }
 
@@ -379,8 +379,9 @@ public class GameManager : MonoBehaviour
         {
             switch (condition.Type)
             {
-                case UnlockCondition.ConditionType.Day:
-                    if (GameManager.Instance.GameLoopManager.currentDay < condition.RequiredValue) return false;
+                default:
+                    Debug.LogError($"{infraData.ID} - Condition check {condition.Type} < {condition.RequiredValue}");
+                    if (GetStat(condition.Type) < condition.RequiredValue) return false;
                     break;
             }
         }
