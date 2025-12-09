@@ -7,7 +7,7 @@ public class BuildTask : NPCTask
     private float buildProgress = 0f;
     private bool _hasArrived = false;
 
-    public BuildTask(InfrastructureInstance target, int priority = 10)
+    public BuildTask(InfrastructureInstance target, int priority = 5)
     {
         Debug.Log("Building infrastructure:"+ target.data.ID);
         TargetInfrastructure = target;

@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI totalDailyCostText;
     private TextMeshProUGUI gameStateText;
     private TextMeshProUGUI clockText;
+    private TextMeshProUGUI activeBuildTaskText;
 
     // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
@@ -44,7 +45,8 @@ public class UIManager : MonoBehaviour
     private float taskListUpdateCooldown = 0.5f;
     private float lastTaskListUpdateTime;
     
-    public Transform techTreeContent;
+    // Tech Tree
+    private Transform techTreeContent;
     
     void OnEnable() 
     { 
@@ -72,10 +74,12 @@ public class UIManager : MonoBehaviour
     
     void Update()
     {
-        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)        {
+        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
+        {
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
         }
+        UpdateBuildTaskDisplay();
     }
 
 
@@ -384,13 +388,19 @@ public class UIManager : MonoBehaviour
             string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
             string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
             
-            string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n" +
-                              $"<color={statusColor}>Status: {task.CurrentStatus}</color>\n" +
-                              $"Assignee: {assignee}";
+            string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
+
+            if (task is BuildTask buildTask)
+            {
+                taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
+            }
+
+            taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color>\n" +
+                        $"Assignee: {assignee}";
 
             var textEntry = CreateText(taskListContent, "TaskEntry", taskText, 14);
             textEntry.alignment = TextAlignmentOptions.Left;
-            textEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 60); // Adjust height
+            textEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 70); // Adjust height for new line
         }
     }
 
@@ -410,6 +420,28 @@ public class UIManager : MonoBehaviour
         foreach (StatType type in Enum.GetValues(typeof(StatType)))
         {
             statTexts.Add(type, CreateText(statsBarUIContainer.transform, type.ToString(), $"{type}: 0", 18));
+        }
+        
+        activeBuildTaskText = CreateText(statsBarUIContainer.transform, "ActiveBuildTaskText", "", 16);
+        activeBuildTaskText.color = Color.magenta;
+    }
+
+    private void UpdateBuildTaskDisplay()
+    {
+        if (GameManager.Instance == null || activeBuildTaskText == null) return;
+
+        var allBuildTasks = GameManager.Instance.AvailableTasks
+            .OfType<BuildTask>()
+            .ToList();
+
+        if (allBuildTasks.Any())
+        {
+            var taskIds = string.Join(", ", allBuildTasks.Select(t => $"{t.TargetInfrastructure.data.ID}({t.CurrentStatus})"));
+            activeBuildTaskText.text = $"Build Tasks: {taskIds}";
+        }
+        else
+        {
+            activeBuildTaskText.text = "";
         }
     }
 

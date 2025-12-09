@@ -7,8 +7,8 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
 
-    [SerializeField] public int gridWidth = 12;
-    [SerializeField] public int gridHeight = 12;
+    [SerializeField] public int gridWidth = 32;
+    [SerializeField] public int gridHeight = 32;
     
     public Tile tilePrefab;
     public Grid gridComponent { get; private set; }
@@ -64,11 +64,12 @@ public class GridManager : MonoBehaviour
         }
         
         Vector3Int cellPos = gridComponent.WorldToCell(worldPosition);
-        if (cellPos.x >= 0 && cellPos.x < gridWidth && cellPos.y >= 0 && cellPos.y < gridHeight)
-        {
-            return nodeGrid[cellPos.x, cellPos.y];
-        }
-        return null;
+
+        // Clamp the cell position to be within the grid bounds
+        cellPos.x = Mathf.Clamp(cellPos.x, 0, gridWidth - 1);
+        cellPos.y = Mathf.Clamp(cellPos.y, 0, gridHeight - 1);
+
+        return nodeGrid[cellPos.x, cellPos.y];
     }
 
     public List<Node> GetNeighbours(Node node)

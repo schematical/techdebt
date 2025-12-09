@@ -395,9 +395,11 @@ MonoBehaviour:
     DisplayName: Internet Pipe
     Type: 
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
-    GridPosition: {x: 0, y: 5}
+    GridPosition: {x: 5, y: 5}
     UnlockConditions:
     - Type: 0
+      StatType: 0
+      TechnologyID: 
       RequiredValue: 2
     DailyCost: 30
     BuildTime: 1
@@ -410,7 +412,7 @@ MonoBehaviour:
     DisplayName: Desk
     Type: 
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
-    GridPosition: {x: 2, y: 10}
+    GridPosition: {x: 7, y: 10}
     UnlockConditions: []
     DailyCost: 0
     BuildTime: 0
@@ -422,9 +424,11 @@ MonoBehaviour:
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 10, y: 3}
+    GridPosition: {x: 15, y: 3}
     UnlockConditions:
     - Type: 0
+      StatType: 0
+      TechnologyID: 
       RequiredValue: 0
     DailyCost: 30
     BuildTime: 5
@@ -432,14 +436,16 @@ MonoBehaviour:
     CurrentState: 0
     Instance: {fileID: 0}
     NetworkConnections:
-    - server2
-  - ID: server2
+    - dedicated-db
+  - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
-    GridPosition: {x: 5, y: 3}
+    GridPosition: {x: 19, y: 3}
     UnlockConditions:
     - Type: 1
+      StatType: 0
+      TechnologyID: dedicated-db
       RequiredValue: 30
     DailyCost: 30
     BuildTime: 10
@@ -452,12 +458,14 @@ MonoBehaviour:
     DisplayName: Dedicated Database
     Description: 
     ResearchPointCost: 30
+    CurrentResearchProgress: 0
     RequiredTechnologies: []
     CurrentState: 0
   - TechnologyID: load-balencer
     DisplayName: Load Balencer
     Description: 
     ResearchPointCost: 30
+    CurrentResearchProgress: 0
     RequiredTechnologies:
     - dedicated-db
     CurrentState: 0
@@ -537,7 +545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098a96fd30e6754409851d34d2a9d5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  techTreeContent: {fileID: 0}
 --- !u!4 &822630092
 Transform:
   m_ObjectHideFlags: 0

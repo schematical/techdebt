@@ -11,7 +11,7 @@ public class ResearchTask : NPCTask
     public ResearchTask(Technology technology)
     {
         TargetTechnology = technology;
-        Priority = 0; // Research is a low-priority, background task.
+        Priority = 2; // Research is a low-priority, background task.
 
         // Find the desk to navigate to.
         var deskData = GameManager.Instance.AllInfrastructure.FirstOrDefault(infra => infra.ID == "desk");
