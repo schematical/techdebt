@@ -11,106 +11,197 @@ using System.Linq;
 using static NPCTask;
 
 public class UIManager : MonoBehaviour
+
 {
 
-
     // UI Containers
-    private Canvas mainCanvas;
+
+    // private Canvas mainCanvas;
+
     private GameObject buildPhaseUIContainer;
+
     private GameObject summaryPhaseUIContainer;
+
     private GameObject statsBarUIContainer;
+
     private GameObject hireDevOpsPanel;
+
     private GameObject tooltipPanel;
+
     private GameObject timeControlsContainer;
+
     private GameObject leftMenuBar;
+
     private GameObject taskListPanel;
+
     private GameObject techTreePanel;
+
     
+
     // UI Elements
+
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
+
     private TextMeshProUGUI tooltipText;
+
     private Button tooltipButton;
+
     private TextMeshProUGUI totalDailyCostText;
+
     private TextMeshProUGUI gameStateText;
+
     private TextMeshProUGUI clockText;
+
     private TextMeshProUGUI activeBuildTaskText;
 
+
+
     // Time Control Buttons & Colors
+
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
+
     private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
+
     private Color inactiveColor = Color.gray;
+
     
+
     // Task List
+
     private Transform taskListContent;
+
     private float taskListUpdateCooldown = 0.5f;
+
     private float lastTaskListUpdateTime;
+
     
+
     // Tech Tree
+
     private Transform techTreeContent;
+
     
+
     void OnEnable() 
+
     { 
+
         GameManager.OnStatsChanged += UpdateStatsDisplay; 
+
         GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
+
         GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
+
         GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
+
     }
+
     void OnDisable() 
+
     {
+
         GameManager.OnStatsChanged -= UpdateStatsDisplay; 
+
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
+
         GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
+
         GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
+
     }
+
     
+
     // An event handler to refresh the panel if it's active when a tech is unlocked.
+
     public void RefreshTechTreePanelOnEvent(Technology tech)
+
     {
+
         if (techTreePanel != null && techTreePanel.activeSelf)
+
         {
+
             RefreshTechTreePanel();
+
         }
+
     }
+
     
+
     void Update()
+
     {
+
         if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
+
         {
+
             RefreshTaskList();
+
             lastTaskListUpdateTime = Time.time;
+
         }
+
         UpdateBuildTaskDisplay();
+
     }
+
+
+
 
 
     public void SetupUIInfrastructure()
+
     {
+
         if (FindObjectOfType<EventSystem>() == null)
+
         {
+
             var esGO = new GameObject("EventSystem");
+
             esGO.AddComponent<EventSystem>();
+
             esGO.AddComponent<InputSystemUIInputModule>();
+
         }
 
-        mainCanvas = new GameObject("MainCanvas").AddComponent<Canvas>();
-        mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-        mainCanvas.worldCamera = Camera.main;
-        mainCanvas.planeDistance = 10;
-        mainCanvas.gameObject.AddComponent<CanvasScaler>();
-        mainCanvas.gameObject.AddComponent<GraphicRaycaster>();
+
+
+
+
+        // The CanvasScaler and GraphicRaycaster should already be on the GameObject in the Editor.
+
+        // If they need to be added programmatically, add them here to the mainCanvas.gameObject.
+
         
-        SetupStatsBar(mainCanvas.transform);
-        SetupBuildPhaseUI(mainCanvas.transform);
-        SetupSummaryPhaseUI(mainCanvas.transform);
-        SetupTooltip(mainCanvas.transform);
-        SetupTimeControls(mainCanvas.transform);
-        SetupLeftMenuBar(mainCanvas.transform);
+
+        SetupStatsBar(transform);
+
+        SetupBuildPhaseUI(transform);
+
+        SetupSummaryPhaseUI(transform);
+
+        SetupTooltip(transform);
+
+        SetupTimeControls(transform);
+
+        SetupLeftMenuBar(transform);
+
         
+
         // Initial state
+
         buildPhaseUIContainer.SetActive(false);
+
         summaryPhaseUIContainer.SetActive(false);
+
         timeControlsContainer.SetActive(false);
+
         UpdateStatsDisplay();
+
     }
     
     #region UI Setup Methods
