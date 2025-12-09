@@ -637,7 +637,7 @@ public class UIManager : MonoBehaviour
         
         tooltipButton.gameObject.SetActive(true);
         tooltipButton.onClick.RemoveAllListeners();
-        
+        Debug.Log($"3333 Initialized infrastructure {instance.data.ID} {instance.data.CurrentState}");
         switch (instance.data.CurrentState)
         {
             case InfrastructureData.State.Locked:
@@ -647,7 +647,7 @@ public class UIManager : MonoBehaviour
             case InfrastructureData.State.Unlocked:
                 tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Plan Build";
                 tooltipButton.interactable = true;
-                tooltipButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(instance.data));
+                tooltipButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(instance));
                 break;
             case InfrastructureData.State.Planned:
                 tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Build Planned";

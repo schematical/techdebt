@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1712942535858676838}
   - component: {fileID: 4866350385799293765}
   - component: {fileID: 6529757377370465393}
-  - component: {fileID: 7484849442068627449}
   m_Layer: 0
   m_Name: ServerPrefab
   m_TagString: Untagged
@@ -106,6 +105,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7253085d0ae24ad438877860e9b1dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Server
+  startcolor: {r: 0, g: 0, b: 0, a: 0}
+  data:
+    ID: 621d34af-5364-4816-9d09-c6595757322b
+    DisplayName: New Infrastructure
+    Type: Generic
+    Prefab: {fileID: 0}
+    GridPosition: {x: 0, y: 0}
+    UnlockConditions: []
+    DailyCost: 100
+    BuildTime: 5
+    CurrentState: 0
+    NetworkConnections: []
 --- !u!95 &6529757377370465393
 Animator:
   serializedVersion: 7
@@ -128,27 +139,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7484849442068627449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5477300238665778594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  data:
-    ID: 0626a164-17c1-4020-9f75-c0553ff66998
-    DisplayName: New Infrastructure
-    Type: Generic
-    Prefab: {fileID: 0}
-    GridPosition: {x: 0, y: 0}
-    UnlockCost: 500
-    DailyCost: 10
-    BuildTime: 10
-    IsInitiallyUnlocked: 0
-    CurrentState: 0
-    Instance: {fileID: 0}

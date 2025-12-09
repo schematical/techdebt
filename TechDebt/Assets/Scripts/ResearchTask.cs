@@ -14,10 +14,10 @@ public class ResearchTask : NPCTask
         Priority = 2; // Research is a low-priority, background task.
 
         // Find the desk to navigate to.
-        var deskData = GameManager.Instance.AllInfrastructure.FirstOrDefault(infra => infra.ID == "desk");
-        if (deskData != null && deskData.Instance != null)
+        var deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
+        if (deskInstance != null)
         {
-            deskPosition = deskData.Instance.transform.position;
+            deskPosition = deskInstance.transform.position;
         }
         else
         {

@@ -2,9 +2,11 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class InfrastructureInstance : MonoBehaviour, IDataReceiver
+public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEnterHandler, IPointerExitHandler, */IPointerClickHandler
 {
+    public Color startcolor;
     public InfrastructureData data;
 
     private SpriteRenderer spriteRenderer;
@@ -12,6 +14,10 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
     void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            startcolor = spriteRenderer.color;
+        }
     }
 
     void Start()
@@ -24,6 +30,38 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
         else
         {
             Debug.LogError($"InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
+        }
+    }
+
+    /*
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        startcolor = spriteRenderer.color;
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = Color.yellow;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = startcolor;
+        }
+    }
+    */
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("IPointerClickHandler clicked: " + gameObject.name + " " + data.ID + " " + data.CurrentState);
+        
+        // This is where the tooltip logic should be handled.
+        // We find the UIManager and tell it to show the tooltip for this specific instance.
+        UIManager uiManager = GameManager.Instance.UIManager;
+        if (uiManager != null)
+        {
+            uiManager.ShowInfrastructureTooltip(this);
         }
     }
 
@@ -66,6 +104,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver
     public void Initialize(InfrastructureData infraData)
     {
         this.data = infraData;
+        Debug.Log($"2222 Initialized infrastructure {data.ID} {data.CurrentState}");
         UpdateAppearance();
     }
 

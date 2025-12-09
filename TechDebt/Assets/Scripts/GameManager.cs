@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         }
     }
   
-    public static List<Server> AllServers = new List<Server>();
+    public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
     
     public UIManager UIManager;
 
@@ -170,10 +170,7 @@ public class GameManager : MonoBehaviour
 
         // Force reset of all infrastructure data to its initial state on load.
         // This is the definitive fix for ensuring a clean state after a game over.
-        foreach (var infraData in AllInfrastructure)
-        {
-            infraData.CurrentState = infraData.IsInitiallyUnlocked ? InfrastructureData.State.Operational : InfrastructureData.State.Locked;
-        }
+    
 
         // Force reset of all technology data to its initial state on load.
         foreach (var tech in AllTechnologies)
@@ -185,7 +182,7 @@ public class GameManager : MonoBehaviour
         OnInfrastructureBuilt += HandleInfrastructureBuilt;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
     
-        AllServers.Clear();
+        ActiveInfrastructure.Clear();
         SetupGameScene();
     }
 
@@ -296,14 +293,15 @@ public class GameManager : MonoBehaviour
 
     public void UpdateInfrastructureVisibility()
     {
-        foreach (var infraData in AllInfrastructure)
-        {
-            if (infraData.CurrentState == InfrastructureData.State.Locked && !infraData.Instance.activeSelf)
+        foreach (var instance in ActiveInfrastructure)
+        {   
+            InfrastructureData infraData = instance.data;
+            if (infraData.CurrentState == InfrastructureData.State.Locked && !instance.gameObject.activeSelf)
             {
                 if (AreUnlockConditionsMet(infraData))
                 {
-                    infraData.Instance.SetActive(true);
-                    infraData.Instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
+                    instance.gameObject.SetActive(true);
+                    instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
                     Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
                 }
             }
@@ -338,9 +336,9 @@ public class GameManager : MonoBehaviour
         
         foreach (var infraData in AllInfrastructure)
         {
+            Debug.Log($"1111 Initialized infrastructure {infraData.ID} {infraData.CurrentState}");
             Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
             GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
-            infraData.Instance = instanceGO;
 
             if (instanceGO.GetComponent<Collider2D>() == null)
             {
@@ -353,13 +351,14 @@ public class GameManager : MonoBehaviour
             }
 
             var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+            
             if (infraInstance != null)
             {
+                ActiveInfrastructure.Add(infraInstance);
                 infraInstance.Initialize(infraData);
-                if (infraData.IsInitiallyUnlocked)
+                if (infraData.CurrentState == InfrastructureData.State.Operational)
                 {
-                    infraInstance.SetState(InfrastructureData.State.Operational);
-                    if (instanceGO.GetComponent<Server>() != null) AllServers.Add(instanceGO.GetComponent<Server>());
+                 
                 }
                 else
                 {
@@ -408,18 +407,18 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void PlanInfrastructure(InfrastructureData infraData)
+    public void PlanInfrastructure(InfrastructureInstance infra)
     {
-        if (infraData.CurrentState != InfrastructureData.State.Unlocked) return; // MUST BE UNLOCKED TO PLAN
+        if (infra.data.CurrentState != InfrastructureData.State.Unlocked) return; // MUST BE UNLOCKED TO PLAN
 
-        if (!AreUnlockConditionsMet(infraData))
+        if (!AreUnlockConditionsMet(infra.data))
         {
             Debug.Log("Unlock conditions not met for this infrastructure.");
             return;
         }
 
-        infraData.Instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
-        Debug.Log($"Successfully planned {infraData.DisplayName}.");
+        infra.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
+        Debug.Log($"Successfully planned {infra.data.DisplayName}.");
         UIManager.HideTooltip();
     }
     

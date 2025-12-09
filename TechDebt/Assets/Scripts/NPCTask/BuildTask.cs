@@ -53,9 +53,9 @@ public class BuildTask : NPCTask
         GameManager.Instance.NotifyDailyCostChanged();
 
         var serverComponent = TargetInfrastructure.GetComponent<Server>();
-        if(serverComponent != null && !GameManager.AllServers.Contains(serverComponent))
+        if(serverComponent != null && !GameManager.Instance.ActiveInfrastructure.Contains(serverComponent))
         {
-            GameManager.AllServers.Add(serverComponent);
+            GameManager.Instance.ActiveInfrastructure.Add(serverComponent);
         }
     }
 }

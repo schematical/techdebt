@@ -369,7 +369,6 @@ GameObject:
   - component: {fileID: 776996746}
   - component: {fileID: 776996745}
   - component: {fileID: 776996749}
-  - component: {fileID: 776996747}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -490,18 +489,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &776996747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776996744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c69a59203b67f44faf910f57470b81a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MouseInteractionManager
 --- !u!114 &776996749
 MonoBehaviour:
   m_ObjectHideFlags: 0
