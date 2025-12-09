@@ -1,25 +1,45 @@
 // NetworkPacket.cs
 using UnityEngine;
+using System.Collections.Generic;
+using System.Data;
 
 public class NetworkPacket : MonoBehaviour
 {
     public string FileName { get; private set; }
     public int Size { get; private set; } // In MB for simplicity
+    
+    public bool isReturning = false;
     public Vector3 currentPosition; // Current position in world space
-    public IDataReceiver nextHop; // The next destination for this packet
-
+    public InfrastructureInstance nextHop; // The next destination for this packet
+    
+    public List<InfrastructureInstance> pastNodes = new List<InfrastructureInstance>();
     public float speed = 2f;
 
-    public void Initialize(string fileName, int size, Vector3 startPosition, IDataReceiver destination)
+
+    public void Initialize(string fileName, int size, InfrastructureInstance origin = null)
     {
         FileName = fileName;
         Size = size;
-        currentPosition = startPosition;
-        nextHop = destination;
         gameObject.name = $"Packet_{FileName}";
-        transform.position = startPosition; // Set initial position of the GameObject
+        pastNodes.Add(origin);
     }
 
+    public void MoveToNextNode()
+    {
+        Debug.Log("Returning MoveToNextNode: " + isReturning); 
+        if (isReturning)
+        {
+            
+            nextHop = pastNodes[pastNodes.Count - 1];
+            pastNodes.RemoveAt(pastNodes.Count - 1);
+        }
+    }
+
+    public void SetNextTarget(InfrastructureInstance target)
+    {
+        nextHop = target;
+        pastNodes.Add(nextHop);
+    }
     void Update()
     {
         if (nextHop == null)
@@ -38,9 +58,13 @@ public class NetworkPacket : MonoBehaviour
             // Deliver the packet
             nextHop.ReceivePacket(this);
             
-            // For now, the packet's journey ends here.
-            // In the future, the receiver might forward it.
-            GameManager.Instance.DestroyPacket(this);
         }
+    }
+
+    public void StartReturn()
+    {
+        isReturning = true;
+        Debug.Log("Returning packet");
+        // pastNodes.RemoveAt(pastNodes.Count - 1);
     }
 }

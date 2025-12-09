@@ -94,19 +94,20 @@ public class GameManager : MonoBehaviour
         return count;
     }
     
-    public void CreatePacket(string fileName, int size, Vector3 startPosition, IDataReceiver destination)
+    public NetworkPacket CreatePacket(string fileName, int size, InfrastructureInstance origin, InfrastructureInstance destination)
     {
-        GameObject packetGO = Instantiate(packetPrefab, startPosition, Quaternion.identity);
+        
+        GameObject packetGO = Instantiate(packetPrefab, origin.transform.position, Quaternion.identity);
         packetGO.SetActive(true);
         NetworkPacket packet = packetGO.GetComponent<NetworkPacket>();
-        if (packet == null)
-        {
-            packet = packetGO.AddComponent<NetworkPacket>();
-        }
-        
-        packet.Initialize(fileName, size, startPosition, destination);
+        packet.Initialize(fileName, size, origin);
+        packet.SetNextTarget(destination);
         activePackets.Add(packet);
+        return packet;
+
     }
+
+    
 
     public void DestroyPacket(NetworkPacket packet)
     {
@@ -509,5 +510,9 @@ public class GameManager : MonoBehaviour
     public Technology GetTechnologyByID(string id)
     {
         return AllTechnologies.FirstOrDefault(t => t.TechnologyID == id);
+    }
+    public InfrastructureInstance GetInfrastructureInstanceByID(string id)
+    {
+        return ActiveInfrastructure.FirstOrDefault(t => t.data.ID == id);
     }
 }

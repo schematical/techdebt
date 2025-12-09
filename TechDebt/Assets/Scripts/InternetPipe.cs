@@ -26,12 +26,12 @@ public class InternetPipe : InfrastructureInstance
                     string targetId = data.NetworkConnections[0];
                     IDataReceiver targetReceiver = GameManager.Instance.GetReceiver(targetId);
 
-                    if (targetReceiver != null)
+                    if (targetReceiver is InfrastructureInstance destination)
                     {
                         // Create the packet
                         string fileName = $"file_{Random.Range(1000, 9999)}.dat";
                         int size = Random.Range(5, 50);
-                        GameManager.Instance.CreatePacket(fileName, size, transform.position, targetReceiver);
+                        GameManager.Instance.CreatePacket(fileName, size, this, destination);
                     }
                     else
                     {

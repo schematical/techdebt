@@ -1,8 +1,11 @@
 // InfrastructureInstance.cs
+
+using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEnterHandler, IPointerExitHandler, */IPointerClickHandler
 {
@@ -80,20 +83,32 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
             // For simplicity, let's just forward to the first connection for now
-            string nextConnectionId = data.NetworkConnections[0];
-            IDataReceiver nextReceiver = GameManager.Instance.GetReceiver(nextConnectionId);
-
-            if (nextReceiver != null)
+            List<InfrastructureInstance> connections = new List<InfrastructureInstance>();
+            foreach (var connectionId in data.NetworkConnections)
             {
+                InfrastructureInstance connection = GameManager.Instance.GetInfrastructureInstanceByID(connectionId);
+                if (connection != null && connection.data.CurrentState == InfrastructureData.State.Operational) connections.Add(connection);
+            }
+            if(connections.Count > 0) {
+                int i = Random.Range(0, connections.Count);
+                InfrastructureInstance nextReceiver = connections[i];
+
                 // Re-create the packet visual to move to the new destination
-                GameManager.Instance.CreatePacket(packet.FileName, packet.Size, transform.position, nextReceiver);
+                packet.SetNextTarget(nextReceiver);
                 // The original packet's visual will be destroyed by its own script upon successful delivery.
             }
             else
             {
-                Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver '{nextConnectionId}' not found.");
+                Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver not found. Returning");
+                packet.StartReturn();
             }
         }
+        else
+        {
+            packet.StartReturn(); 
+        }
+
+        packet.MoveToNextNode();
     }
 
     public Transform GetTransform()
