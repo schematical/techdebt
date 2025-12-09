@@ -8,7 +8,7 @@ public class NetworkPacket : MonoBehaviour
     public string FileName { get; private set; }
     public int Size { get; private set; } // In MB for simplicity
     
-    public bool isReturning = false;
+    public int returnIndex = -1;
     public Vector3 currentPosition; // Current position in world space
     public InfrastructureInstance nextHop; // The next destination for this packet
     
@@ -26,19 +26,24 @@ public class NetworkPacket : MonoBehaviour
 
     public void MoveToNextNode()
     {
-        Debug.Log("Returning MoveToNextNode: " + isReturning); 
-        if (isReturning)
+        Debug.Log("Returning MoveToNextNode: " + returnIndex + " Count:" + pastNodes.Count); 
+        if (returnIndex != -1)
         {
             
-            nextHop = pastNodes[pastNodes.Count - 1];
-            pastNodes.RemoveAt(pastNodes.Count - 1);
+            nextHop = pastNodes[returnIndex];
+            returnIndex -= 1;
         }
     }
 
     public void SetNextTarget(InfrastructureInstance target)
     {
+        if (nextHop != null)
+        {
+            pastNodes.Add(nextHop);
+        }
+
         nextHop = target;
-        pastNodes.Add(nextHop);
+  
     }
     void Update()
     {
@@ -63,8 +68,8 @@ public class NetworkPacket : MonoBehaviour
 
     public void StartReturn()
     {
-        isReturning = true;
+        returnIndex = pastNodes.Count - 1;
         Debug.Log("Returning packet");
-        // pastNodes.RemoveAt(pastNodes.Count - 1);
+        //pastNodes.RemoveAt(pastNodes.Count - 1);
     }
 }
