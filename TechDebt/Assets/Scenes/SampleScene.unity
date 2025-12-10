@@ -518,7 +518,9 @@ MonoBehaviour:
       RequiredValue: 2
     DailyCost: 30
     BuildTime: 1
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 1
     CurrentState: 3
     NetworkConnections:
     - TargetID: server1
@@ -533,7 +535,9 @@ MonoBehaviour:
     UnlockConditions: []
     DailyCost: 0
     BuildTime: 0
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 1
     CurrentState: 3
     NetworkConnections: []
   - ID: server1
@@ -548,7 +552,9 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 30
     BuildTime: 5
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
     CurrentState: 1
     NetworkConnections:
     - TargetID: dedicated-db
@@ -567,7 +573,9 @@ MonoBehaviour:
       RequiredValue: 30
     DailyCost: 30
     BuildTime: 10
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
     CurrentState: 0
     NetworkConnections: []
   - ID: s3-bucket
@@ -582,7 +590,9 @@ MonoBehaviour:
       RequiredValue: 30
     DailyCost: 45
     BuildTime: 10
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
     CurrentState: 1
     NetworkConnections: []
   - ID: server-alb
@@ -597,7 +607,9 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 45
     BuildTime: 10
-    priority: 5
+    loadPerPacket: 1
+    maxLoad: 1000
+    loadRecoveryRate: 500
     CurrentState: 1
     NetworkConnections:
     - TargetID: server1
@@ -618,7 +630,9 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 30
     BuildTime: 10
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
@@ -637,7 +651,9 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 30
     BuildTime: 10
-    priority: 5
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db

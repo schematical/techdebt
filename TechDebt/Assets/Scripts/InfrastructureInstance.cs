@@ -13,6 +13,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public InfrastructureData data;
 
     private SpriteRenderer spriteRenderer;
+    
+    public float CurrentLoad { get; set; }
 
     void Awake()
     {
@@ -34,8 +36,25 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         {
             Debug.LogError($"InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
         }
+
+        
     }
 
+    public void FixedUpdate()
+    {
+        if (data.CurrentState != InfrastructureData.State.Operational)
+        {
+            return;
+        }
+        CurrentLoad -= data.loadRecoveryRate * Time.fixedDeltaTime;
+        if (CurrentLoad < 0)
+        {
+            CurrentLoad = 0;  
+        }
+        Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
+        float c = 1 - CurrentLoad / data.maxLoad;
+        spriteRenderer.color = new Color(1, c, c, 1); 
+    }
     /*
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -79,6 +98,14 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     public virtual void ReceivePacket(NetworkPacket packet)
     {
+        // Update load
+        CurrentLoad += data.loadPerPacket;
+
+
+        if (CurrentLoad > data.maxLoad)
+        {
+            packet.MarkFailed();
+        }
         // If there are network connections, try to forward the packet
         if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {

@@ -102,6 +102,9 @@ public class GameManager : MonoBehaviour
     {
         activePackets.Remove(packet);
         Destroy(packet.gameObject);
+		if (packet.CurrentState == NetworkPacket.State.Failed) {
+			return;
+		}
 		float packetsServiced = IncrStat(StatType.PacketsServiced);
 
         // --- Calculate Income & Expenses ---

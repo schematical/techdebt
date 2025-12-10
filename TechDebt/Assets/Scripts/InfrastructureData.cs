@@ -15,7 +15,11 @@ public class InfrastructureData
     public UnlockCondition[] UnlockConditions;
     public float DailyCost = 100;
     public float BuildTime = 5f; // In seconds
-    public int priority = 5;
+    public float loadPerPacket = 20f;
+    
+    public float maxLoad = 100;
+
+    public float loadRecoveryRate = 50f;
     
     public State CurrentState = State.Locked;
     public NetworkConnection[] NetworkConnections; // Array of NetworkConnection objects

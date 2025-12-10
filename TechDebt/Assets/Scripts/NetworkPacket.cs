@@ -5,9 +5,11 @@ using System.Data;
 
 public class NetworkPacket : MonoBehaviour
 {
+    public enum State { Running, Failed }
+    public State CurrentState = State.Running;
     public string FileName { get; private set; }
     public int Size { get; private set; } // In MB for simplicity
-    
+    private SpriteRenderer spriteRenderer;
     public int returnIndex = -1;
     public Vector3 currentPosition; // Current position in world space
     public InfrastructureInstance nextHop; // The next destination for this packet
@@ -15,7 +17,11 @@ public class NetworkPacket : MonoBehaviour
     public List<InfrastructureInstance> pastNodes = new List<InfrastructureInstance>();
     public float speed = 2f;
 
-
+	void Awake()
+    {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+       
+    } 
     public void Initialize(string fileName, int size, InfrastructureInstance origin = null)
     {
         FileName = fileName;
@@ -65,7 +71,12 @@ public class NetworkPacket : MonoBehaviour
             
         }
     }
-
+ 	public void MarkFailed() {
+		CurrentState = State.Failed;
+		StartReturn();
+		
+		spriteRenderer.color = new Color(1f, 0,0, 0.2f);
+	}
     public void StartReturn()
     {
         returnIndex = pastNodes.Count - 1;
