@@ -4,5 +4,7 @@ public enum StatType
 {
     Money,
     TechDebt,
-    Traffic
+    Traffic,
+    PacketsSent,
+    PacketsServiced
 }

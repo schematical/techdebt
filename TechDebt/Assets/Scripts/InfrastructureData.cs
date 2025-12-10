@@ -15,7 +15,8 @@ public class InfrastructureData
     public UnlockCondition[] UnlockConditions;
     public float DailyCost = 100;
     public float BuildTime = 5f; // In seconds
+    public int priority = 5;
     
     public State CurrentState = State.Locked;
-    public string[] NetworkConnections; // IDs of other infrastructure this can send packets to
+    public NetworkConnection[] NetworkConnections; // Array of NetworkConnection objects
 }

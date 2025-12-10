@@ -80,19 +80,8 @@ public class GameManager : MonoBehaviour
     // --- Packet Management ---
     public GameObject packetPrefab;
     private List<NetworkPacket> activePackets = new List<NetworkPacket>();
-    public int SuccessfulPacketRoundTrips { get; private set; } = 0;
 
-    public void NotifyPacketRoundTripComplete()
-    {
-        SuccessfulPacketRoundTrips++;
-    }
 
-    public int GetAndResetPacketRoundTripCount()
-    {
-        int count = SuccessfulPacketRoundTrips;
-        SuccessfulPacketRoundTrips = 0;
-        return count;
-    }
     
     public NetworkPacket CreatePacket(string fileName, int size, InfrastructureInstance origin, InfrastructureInstance destination)
     {
@@ -103,8 +92,8 @@ public class GameManager : MonoBehaviour
         packet.Initialize(fileName, size, origin);
         packet.SetNextTarget(destination);
         activePackets.Add(packet);
+		IncrStat(StatType.PacketsSent);
         return packet;
-
     }
 
     
@@ -113,6 +102,17 @@ public class GameManager : MonoBehaviour
     {
         activePackets.Remove(packet);
         Destroy(packet.gameObject);
+		float packetsServiced = IncrStat(StatType.PacketsServiced);
+
+        // --- Calculate Income & Expenses ---
+      
+        GameManager.Instance.IncrStat(StatType.Money, 2);
+
+
+		if(packetsServiced % 10 == 0) {
+        	float traffic = GameManager.Instance.GetStat(StatType.Traffic);
+        	GameManager.Instance.SetStat(StatType.Traffic, traffic * 1.25f);
+		}
     }
     // -----------------------
 
@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
     private void HandleInfrastructureBuilt(InfrastructureInstance instance)
     {
         // Check if the new building is a server
-        if (instance is Server)
+        /* if (instance is Server)
         {
             // Check if this is the FIRST operational server
             int operationalServerCount = AllInfrastructure.Count(infra =>
@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
                 Stats[StatType.Traffic] = 1; // Set traffic rate
                 OnStatsChanged?.Invoke();
             }
-        }
+        } */
     }
 
     void Start()
@@ -245,18 +245,26 @@ public class GameManager : MonoBehaviour
     private void InitializeStats()
     {
         Stats = new Dictionary<StatType, float>();
-        Stats.Add(StatType.Money, 500f);
+        Stats.Add(StatType.Money, 1000f);
         Stats.Add(StatType.TechDebt, 0f);
-        Stats.Add(StatType.Traffic, 0f);
+        Stats.Add(StatType.Traffic, .25f);
+ 		Stats.Add(StatType.PacketsSent, 0f);
+		Stats.Add(StatType.PacketsServiced, 0f);
     }
-
-    public void AddStat(StatType stat, float value)
+	public float IncrStat(StatType stat, float value = 1)
     {
-        if (Stats.ContainsKey(stat))
-        {
-            Stats[stat] += value;
-            OnStatsChanged?.Invoke();
-        }
+  
+        Stats[stat] += value;
+        OnStatsChanged?.Invoke();
+        return Stats[stat];
+    }
+  
+    public void SetStat(StatType stat, float value)
+    {
+  
+        Stats[stat] = value;
+        OnStatsChanged?.Invoke();
+       
     }
 
     public void TrySpendStat(StatType stat, float value)

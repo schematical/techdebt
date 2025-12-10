@@ -104,21 +104,19 @@ public class GameLoopManager : MonoBehaviour
         CurrentState = GameState.Summary;
         summaryPhaseTimer = 0f;
 
-        // --- Calculate Income & Expenses ---
-        int packetIncome = GameManager.Instance.GetAndResetPacketRoundTripCount();
-        GameManager.Instance.AddStat(StatType.Money, packetIncome);
+
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost);
 
         // --- Prepare Summary Text ---
         string summaryText = $"End of Day {currentDay}\n" +
-                             $"Packet Income: +${packetIncome}\n" +
                              $"Total Costs: -${totalDailyCost}";
 
         if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {
             summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
         }
+
 
         // --- Update UI ---
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());

@@ -518,24 +518,29 @@ MonoBehaviour:
       RequiredValue: 2
     DailyCost: 30
     BuildTime: 1
+    priority: 5
     CurrentState: 3
     NetworkConnections:
-    - server1
+    - TargetID: server1
+      Priority: 5
+    - TargetID: server-alb
+      Priority: 6
   - ID: desk
     DisplayName: Desk
     Type: 
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
-    GridPosition: {x: 7, y: 20}
+    GridPosition: {x: 12, y: 20}
     UnlockConditions: []
     DailyCost: 0
     BuildTime: 0
+    priority: 5
     CurrentState: 3
     NetworkConnections: []
   - ID: server1
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 15, y: 13}
+    GridPosition: {x: 25, y: 13}
     UnlockConditions:
     - Type: 0
       StatType: 0
@@ -543,15 +548,18 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 30
     BuildTime: 5
+    priority: 5
     CurrentState: 1
     NetworkConnections:
-    - dedicated-db
-    - s3-bucket
+    - TargetID: dedicated-db
+      Priority: 5
+    - TargetID: s3-bucket
+      Priority: 5
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
-    GridPosition: {x: 19, y: 13}
+    GridPosition: {x: 29, y: 13}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -559,13 +567,14 @@ MonoBehaviour:
       RequiredValue: 30
     DailyCost: 30
     BuildTime: 10
+    priority: 5
     CurrentState: 0
     NetworkConnections: []
   - ID: s3-bucket
     DisplayName: S3Bucket
     Type: 
     Prefab: {fileID: 8445387670964335504, guid: ee2279ea7091b7540a92a84e9b03b493, type: 3}
-    GridPosition: {x: 15, y: 17}
+    GridPosition: {x: 25, y: 20}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -573,13 +582,14 @@ MonoBehaviour:
       RequiredValue: 30
     DailyCost: 45
     BuildTime: 10
+    priority: 5
     CurrentState: 1
     NetworkConnections: []
   - ID: server-alb
     DisplayName: Load Balencer
     Type: 
     Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
-    GridPosition: {x: 12, y: 13}
+    GridPosition: {x: 15, y: 10}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -587,9 +597,53 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 45
     BuildTime: 10
+    priority: 5
     CurrentState: 1
     NetworkConnections:
-    - server1
+    - TargetID: server1
+      Priority: 5
+    - TargetID: server2
+      Priority: 5
+    - TargetID: server3
+      Priority: 5
+  - ID: server2
+    DisplayName: Server 2
+    Type: 
+    Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
+    GridPosition: {x: 25, y: 10}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: load-balencer
+      RequiredValue: 0
+    DailyCost: 30
+    BuildTime: 10
+    priority: 5
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: dedicated-db
+      Priority: 5
+    - TargetID: s3-bucket
+      Priority: 5
+  - ID: server3
+    DisplayName: Server 3
+    Type: 
+    Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
+    GridPosition: {x: 25, y: 7}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: load-balencer
+      RequiredValue: 0
+    DailyCost: 30
+    BuildTime: 10
+    priority: 5
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: dedicated-db
+      Priority: 5
+    - TargetID: s3-bucket
+      Priority: 5
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database

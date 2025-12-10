@@ -82,24 +82,23 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         // If there are network connections, try to forward the packet
         if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
-            // For simplicity, let's just forward to the first connection for now
-            List<InfrastructureInstance> connections = new List<InfrastructureInstance>();
-            foreach (var connectionId in data.NetworkConnections)
+            string nextTargetId = GetNextNetworkTargetId();
+            if (nextTargetId != null)
             {
-                InfrastructureInstance connection = GameManager.Instance.GetInfrastructureInstanceByID(connectionId);
-                if (connection != null && connection.data.CurrentState == InfrastructureData.State.Operational) connections.Add(connection);
-            }
-            if(connections.Count > 0) {
-                int i = Random.Range(0, connections.Count);
-                InfrastructureInstance nextReceiver = connections[i];
-
-                // Re-create the packet visual to move to the new destination
-                packet.SetNextTarget(nextReceiver);
-                // The original packet's visual will be destroyed by its own script upon successful delivery.
+                InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
+                if (nextReceiver != null && nextReceiver.data.CurrentState == InfrastructureData.State.Operational)
+                {
+                    packet.SetNextTarget(nextReceiver);
+                }
+                else
+                {
+                    Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver not found or not operational. Returning");
+                    packet.StartReturn();
+                }
             }
             else
             {
-                Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver not found. Returning");
+                Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: No valid next target. Returning");
                 packet.StartReturn();
             }
         }
@@ -166,5 +165,45 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 spriteRenderer.color = Color.white; 
                 break;
         }
+    }
+
+    public string GetNextNetworkTargetId()
+    {
+        Debug.Log("GetNextNetworkTargetId: " + data.NetworkConnections.Length);
+        if (data.NetworkConnections == null || data.NetworkConnections.Length == 0)
+        {
+            return null;
+        }
+
+        int highestPriority = 0;
+        foreach (var conn in data.NetworkConnections)
+        {
+            InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
+            Debug.Log("GetNextNetworkTargetId 2: " + conn.TargetID + " - " +  conn.Priority + " - " + instance.data.CurrentState);
+            if (
+                instance != null &&
+                instance.data.CurrentState == InfrastructureData.State.Operational &&
+                conn.Priority > highestPriority)
+            {
+                highestPriority = conn.Priority;
+            }
+        }
+
+        Debug.Log("Highest Prioity: " + highestPriority);
+        var highPriorityConnections = new System.Collections.Generic.List<NetworkConnection>();
+        foreach (var conn in data.NetworkConnections)
+        {
+            if (conn.Priority == highestPriority)
+            {
+                highPriorityConnections.Add(conn);
+            }
+        }
+
+        if (highPriorityConnections.Count > 0)
+        {
+            return highPriorityConnections[Random.Range(0, highPriorityConnections.Count)].TargetID;
+        }
+
+        return null;
     }
 }
