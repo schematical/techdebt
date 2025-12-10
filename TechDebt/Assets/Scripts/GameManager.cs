@@ -109,13 +109,13 @@ public class GameManager : MonoBehaviour
 		float packetsServiced = IncrStat(StatType.PacketsServiced);
 
         // --- Calculate Income & Expenses ---
-      
-        GameManager.Instance.IncrStat(StatType.Money, 2);
+      	float packetIncome = GetStat(StatType.PacketIncome);
+        IncrStat(StatType.Money, packetIncome);
 
 
 		if(packetsServiced % 10 == 0) {
-        	float traffic = GameManager.Instance.GetStat(StatType.Traffic);
-        	GameManager.Instance.SetStat(StatType.Traffic, traffic * 1.1f);
+        	float traffic = GetStat(StatType.Traffic);
+        	SetStat(StatType.Traffic, traffic * 1.25f);
 		}
     }
     // -----------------------
@@ -249,11 +249,13 @@ public class GameManager : MonoBehaviour
     private void InitializeStats()
     {
         Stats = new Dictionary<StatType, float>();
-        Stats.Add(StatType.Money, 1000f);
+        Stats.Add(StatType.Money, 200f);
         Stats.Add(StatType.TechDebt, 0f);
-        Stats.Add(StatType.Traffic, .25f);
+        Stats.Add(StatType.Traffic,  .25f);// .1f);//
  		Stats.Add(StatType.PacketsSent, 0f);
 		Stats.Add(StatType.PacketsServiced, 0f);
+
+		Stats.Add(StatType.PacketIncome, 10f);
     }
 	public float IncrStat(StatType stat, float value = 1)
     {

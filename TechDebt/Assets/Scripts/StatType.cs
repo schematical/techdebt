@@ -6,5 +6,6 @@ public enum StatType
     TechDebt,
     Traffic,
     PacketsSent,
-    PacketsServiced
+    PacketsServiced,
+    PacketIncome
 }

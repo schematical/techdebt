@@ -29,7 +29,10 @@ public class NetworkPacket : MonoBehaviour
         gameObject.name = $"Packet_{FileName}";
         pastNodes.Add(origin);
     }
-
+	public bool IsReturning()
+	{
+		return returnIndex != -1;
+	}
     public void MoveToNextNode()
     {
         Debug.Log("Returning MoveToNextNode: " + returnIndex + " Count:" + pastNodes.Count); 

@@ -103,27 +103,33 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public virtual void ReceivePacket(NetworkPacket packet)
     {
         // Update load
-        CurrentLoad += data.loadPerPacket;
-
-
-        if (CurrentLoad > data.maxLoad)
+        if (!packet.IsReturning())
         {
-            packet.MarkFailed();
+            CurrentLoad += data.loadPerPacket;
+            if (CurrentLoad > data.maxLoad)
+            {
+                packet.MarkFailed();
+            }
         }
+
+
+       
         // If there are network connections, try to forward the packet
         if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
             string nextTargetId = GetNextNetworkTargetId();
             if (nextTargetId != null)
             {
+                Debug.Log($"{data.DisplayName} Found  ${nextTargetId}");
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
                 if (nextReceiver != null && nextReceiver.data.CurrentState == InfrastructureData.State.Operational)
                 {
+                    Debug.Log($"{data.DisplayName} SetNextTarget  ${nextTargetId}");
                     packet.SetNextTarget(nextReceiver);
                 }
                 else
                 {
-                    Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver not found or not operational. Returning");
+                    Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver not found or not operational. Returning - " + nextTargetId + "  --> " + ((nextReceiver != null) ? nextReceiver.data.CurrentState : ""));
                     packet.StartReturn();
                 }
             }
@@ -135,6 +141,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
         else
         {
+            Debug.Log(
+                $"{data.DisplayName} starting return - NetConnections: ${data.NetworkConnections.Length}");
             packet.StartReturn(); 
         }
 
@@ -214,7 +222,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             if (
                 instance != null &&
                 instance.data.CurrentState == InfrastructureData.State.Operational &&
-                conn.Priority > highestPriority)
+                conn.Priority > highestPriority
+            )
             {
                 highestPriority = conn.Priority;
             }
@@ -224,7 +233,12 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         var highPriorityConnections = new System.Collections.Generic.List<NetworkConnection>();
         foreach (var conn in data.NetworkConnections)
         {
-            if (conn.Priority == highestPriority)
+            InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
+            if (
+                conn.Priority == highestPriority &&
+                instance != null &&
+                instance.data.CurrentState  == InfrastructureData.State.Operational
+            )
             {
                 highPriorityConnections.Add(conn);
             }
