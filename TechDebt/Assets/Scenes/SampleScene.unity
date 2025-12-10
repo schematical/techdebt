@@ -577,7 +577,11 @@ MonoBehaviour:
     maxLoad: 100
     loadRecoveryRate: 20
     CurrentState: 0
-    NetworkConnections: []
+    NetworkConnections:
+    - TargetID: read-replica-1
+      Priority: 5
+    - TargetID: read-replica-2
+      Priority: 5
   - ID: s3-bucket
     DisplayName: S3Bucket
     Type: 
@@ -621,7 +625,7 @@ MonoBehaviour:
   - ID: server2
     DisplayName: Server 2
     Type: 
-    Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
+    Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 10}
     UnlockConditions:
     - Type: 1
@@ -642,7 +646,7 @@ MonoBehaviour:
   - ID: server3
     DisplayName: Server 3
     Type: 
-    Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
+    Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 7}
     UnlockConditions:
     - Type: 1
@@ -660,6 +664,57 @@ MonoBehaviour:
       Priority: 5
     - TargetID: s3-bucket
       Priority: 5
+  - ID: read-replica-1
+    DisplayName: Read Replica 1
+    Type: 
+    Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
+    GridPosition: {x: 25, y: 7}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: read-replicas
+      RequiredValue: 0
+    DailyCost: 30
+    BuildTime: 10
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
+    CurrentState: 0
+    NetworkConnections: []
+  - ID: read-replica-2
+    DisplayName: Read Replica 2
+    Type: 
+    Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
+    GridPosition: {x: 29, y: 7}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: read-replicas
+      RequiredValue: 0
+    DailyCost: 30
+    BuildTime: 10
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
+    CurrentState: 0
+    NetworkConnections: []
+  - ID: water-cooler
+    DisplayName: Water Cooler
+    Type: 
+    Prefab: {fileID: 8969239379450762066, guid: 67e736effb8308d4386ad2969166ae1f, type: 3}
+    GridPosition: {x: 15, y: 20}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: load-balencer
+      RequiredValue: 0
+    DailyCost: 30
+    BuildTime: 10
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
+    CurrentState: 0
+    NetworkConnections: []
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -684,6 +739,22 @@ MonoBehaviour:
     RequiredTechnologies:
     - dedicated-db
     - binary-storage
+    CurrentState: 0
+  - TechnologyID: read-replicas
+    DisplayName: Read Replicas
+    Description: 
+    ResearchPointCost: 60
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - dedicated-db
+    CurrentState: 0
+  - TechnologyID: water-cooler
+    DisplayName: Water Cooler
+    Description: 
+    ResearchPointCost: 5
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - dedicated-db
     CurrentState: 0
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
