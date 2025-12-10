@@ -104,6 +104,12 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     public virtual void ReceivePacket(NetworkPacket packet)
     {
+        if (data.CurrentState == InfrastructureData.State.Frozen)
+        {
+            packet.MarkFailed();
+            packet.MoveToNextNode();
+            return;
+        }
         // Update load
         if (!packet.IsReturning())
         {
@@ -111,6 +117,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             if (CurrentLoad > data.maxLoad)
             {
                 packet.MarkFailed();
+                SetState(InfrastructureData.State.Frozen);
             }
         }
 
@@ -122,11 +129,11 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             string nextTargetId = GetNextNetworkTargetId();
             if (nextTargetId != null)
             {
-                Debug.Log($"{data.DisplayName} Found  ${nextTargetId}");
+             
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
                 if (nextReceiver != null && nextReceiver.data.CurrentState == InfrastructureData.State.Operational)
                 {
-                    Debug.Log($"{data.DisplayName} SetNextTarget  ${nextTargetId}");
+                    
                     packet.SetNextTarget(nextReceiver);
                 }
                 else
@@ -158,8 +165,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     public void Initialize(InfrastructureData infraData)
     {
-        this.data = infraData;
-        Debug.Log($"2222 Initialized infrastructure {data.ID} {data.CurrentState}");
+        data = infraData;
+
         UpdateAppearance();
     }
 
@@ -168,8 +175,18 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         if (data.CurrentState == newState) return; // No change
 
         data.CurrentState = newState;
-
+        if (newState == InfrastructureData.State.Operational)
+        {
+            // Create a new BuildTask and add it to the GameManager
+            CurrentLoad = 0;
+        }
         if (newState == InfrastructureData.State.Planned)
+        {
+            // Create a new BuildTask and add it to the GameManager
+            var buildTask = new BuildTask(this);
+            GameManager.Instance.AddTask(buildTask);
+        }
+        if (newState == InfrastructureData.State.Frozen)
         {
             // Create a new BuildTask and add it to the GameManager
             var buildTask = new BuildTask(this);
