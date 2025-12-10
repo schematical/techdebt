@@ -51,7 +51,11 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         {
             CurrentLoad = 0;  
         }
-        Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
+        if (CurrentLoad > data.maxLoad)
+        {
+            CurrentLoad = data.maxLoad;  
+        }
+        // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
         float c = 1 - CurrentLoad / data.maxLoad;
         spriteRenderer.color = new Color(1, c, c, 1); 
     }
@@ -76,7 +80,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("IPointerClickHandler clicked: " + gameObject.name + " " + data.ID + " " + data.CurrentState);
+        
         
         // This is where the tooltip logic should be handled.
         // We find the UIManager and tell it to show the tooltip for this specific instance.

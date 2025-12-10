@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
@@ -13,59 +14,36 @@ using static NPCTask;
 public class UIManager : MonoBehaviour
 
 {
-
-    // UI Containers
-
-    // private Canvas mainCanvas;
-
-    private GameObject buildPhaseUIContainer;
-
-    private GameObject summaryPhaseUIContainer;
-
-    private GameObject statsBarUIContainer;
-
-    private GameObject hireDevOpsPanel;
-
-    private GameObject tooltipPanel;
-
-    private GameObject timeControlsContainer;
-
-    private GameObject leftMenuBar;
-
-    private GameObject taskListPanel;
-
-    private GameObject techTreePanel;
-
+    public enum TimeState { Paused, Normal, Fast, SuperFast }
     
-
+    // UI Containers
+    // private Canvas mainCanvas;
+    private GameObject buildPhaseUIContainer;
+    private GameObject summaryPhaseUIContainer;
+    private GameObject statsBarUIContainer;
+    private GameObject hireDevOpsPanel;
+    private GameObject tooltipPanel;
+    private GameObject timeControlsContainer;
+    private GameObject leftMenuBar;
+    private GameObject taskListPanel;
+    private GameObject techTreePanel;
+    
     // UI Elements
-
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
-
     private TextMeshProUGUI tooltipText;
-
     private Button tooltipButton;
-
     private TextMeshProUGUI totalDailyCostText;
-
     private TextMeshProUGUI gameStateText;
-
     private TextMeshProUGUI clockText;
-
     private TextMeshProUGUI activeBuildTaskText;
 
-
-
     // Time Control Buttons & Colors
-
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
-
     private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
-
     private Color inactiveColor = Color.gray;
-
+    private TimeState _currentTimeState = TimeState.Normal;
+    private TimeState _timeStateBeforePause = TimeState.Normal;
     
-
     // Task List
 
     private Transform taskListContent;
@@ -131,21 +109,18 @@ public class UIManager : MonoBehaviour
     
 
     void Update()
-
     {
-
-        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
-
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-
-            RefreshTaskList();
-
-            lastTaskListUpdateTime = Time.time;
-
+            TogglePause();
         }
 
+        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
+        {
+            RefreshTaskList();
+            lastTaskListUpdateTime = Time.time;
+        }
         UpdateBuildTaskDisplay();
-
     }
 
 
@@ -602,24 +577,61 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Time Controls
-    public void SetTimeScalePause() => SetTimeScale(0f);
-    public void SetTimeScalePlay() => SetTimeScale(1f);
-    public void SetTimeScaleFastForward() => SetTimeScale(2f);
-    public void SetTimeScaleSuperFastForward() => SetTimeScale(8f);
+    public void SetTimeScalePause() => TogglePause();
+    public void SetTimeScalePlay() => SetTimeState(TimeState.Normal);
+    public void SetTimeScaleFastForward() => SetTimeState(TimeState.Fast);
+    public void SetTimeScaleSuperFastForward() => SetTimeState(TimeState.SuperFast);
 
-    private void SetTimeScale(float scale)
+    private void SetTimeState(TimeState newState)
     {
-        Time.timeScale = scale;
+        _currentTimeState = newState;
+
+        float newTimeScale = 1f;
+        switch (newState)
+        {
+            case TimeState.Paused:
+                newTimeScale = 0f;
+                break;
+            case TimeState.Normal:
+                newTimeScale = 1f;
+                break;
+            case TimeState.Fast:
+                newTimeScale = 2f;
+                break;
+            case TimeState.SuperFast:
+                newTimeScale = 8f;
+                break;
+        }
+
+        if (newState != TimeState.Paused)
+        {
+            _timeStateBeforePause = newState;
+        }
+        
+        GameManager.Instance.SetDesiredTimeScale(newTimeScale);
         UpdateTimeScaleButtons();
+    }
+
+    private void TogglePause()
+    {
+        if (_currentTimeState == TimeState.Paused)
+        {
+            SetTimeState(_timeStateBeforePause);
+        }
+        else
+        {
+            _timeStateBeforePause = _currentTimeState;
+            SetTimeState(TimeState.Paused);
+        }
     }
 
     private void UpdateTimeScaleButtons()
     {
         if (superFastForwardButton == null) return;
-        pauseButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 0f) ? activeColor : inactiveColor;
-        playButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 1f) ? activeColor : inactiveColor;
-        fastForwardButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 2f) ? activeColor : inactiveColor;
-        superFastForwardButton.GetComponent<Image>().color = Mathf.Approximately(Time.timeScale, 8f) ? activeColor : inactiveColor;
+        pauseButton.GetComponent<Image>().color = _currentTimeState == TimeState.Paused ? activeColor : inactiveColor;
+        playButton.GetComponent<Image>().color = _currentTimeState == TimeState.Normal ? activeColor : inactiveColor;
+        fastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
+        superFastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
     }
     #endregion
 

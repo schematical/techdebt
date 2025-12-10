@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
 
     public GameLoopManager GameLoopManager;
+    public float desiredTimeScale = 1f;
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
@@ -114,7 +115,7 @@ public class GameManager : MonoBehaviour
 
 		if(packetsServiced % 10 == 0) {
         	float traffic = GameManager.Instance.GetStat(StatType.Traffic);
-        	GameManager.Instance.SetStat(StatType.Traffic, traffic * 1.25f);
+        	GameManager.Instance.SetStat(StatType.Traffic, traffic * 1.1f);
 		}
     }
     // -----------------------
@@ -282,6 +283,12 @@ public class GameManager : MonoBehaviour
     }
 
     public float GetStat(StatType stat) => Stats.ContainsKey(stat) ? Stats[stat] : 0f;
+
+    public void SetDesiredTimeScale(float scale)
+    {
+        desiredTimeScale = scale;
+        Time.timeScale = scale;
+    }
 
     public float CalculateTotalDailyCost()
     {
