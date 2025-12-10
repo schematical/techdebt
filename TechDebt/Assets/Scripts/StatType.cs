@@ -7,5 +7,6 @@ public enum StatType
     Traffic,
     PacketsSent,
     PacketsServiced,
-    PacketIncome
+    PacketIncome,
+    Difficulty
 }

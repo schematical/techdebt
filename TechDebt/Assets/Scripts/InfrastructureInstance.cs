@@ -16,6 +16,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     
     public float CurrentLoad { get; set; }
 
+    public List<NetworkConnection> CurrConnections;
+
     void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -206,19 +208,60 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
     }
 
-    public string GetNextNetworkTargetId()
+    public void OnInfrastructureBuilt(InfrastructureInstance instance)
     {
-        Debug.Log("GetNextNetworkTargetId: " + data.NetworkConnections.Length);
+        UpdateNetworkTargets();
+        
+
+        // Filter CurrConnections to see if instance is in the lis
+        NetworkConnection foundConnection = CurrConnections.Find((connection =>
+        {
+            if (connection.TargetID == instance.data.ID)
+            {
+                return true;
+            }
+
+            return false;
+        }));
+        if (foundConnection == null)
+        {
+            return;
+        }
+
+        foreach (var bonus in foundConnection.NetworkConnectionBonus)
+        {
+            switch (bonus.Type)
+            {
+                case(NetworkConnectionBonus.BonusType.Multiplier):
+
+                    switch (bonus.Stat)
+                    {
+                        case(NetworkConnectionBonus.InfrStat.LoadPerPacket):
+                            data.loadPerPacket *= bonus.value;
+                            Debug.Log("Applied Bonus: " + data.loadPerPacket);
+                            break;
+                        default:
+                            throw new SystemException("TOOD: Write me");
+                    }
+                    break;
+                default:
+                    throw new SystemException("TOOD: Write me");
+            }
+        }
+    }
+    public void UpdateNetworkTargets()
+    {
+        // Debug.Log("GetNextNetworkTargetId: " + data.NetworkConnections.Length);
         if (data.NetworkConnections == null || data.NetworkConnections.Length == 0)
         {
-            return null;
+            return;
         }
 
         int highestPriority = 0;
         foreach (var conn in data.NetworkConnections)
         {
             InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
-            Debug.Log("GetNextNetworkTargetId 2: " + conn.TargetID + " - " +  conn.Priority + " - " + instance.data.CurrentState);
+        
             if (
                 instance != null &&
                 instance.data.CurrentState == InfrastructureData.State.Operational &&
@@ -229,24 +272,24 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             }
         }
 
-        Debug.Log("Highest Prioity: " + highestPriority);
-        var highPriorityConnections = new System.Collections.Generic.List<NetworkConnection>();
+        CurrConnections = new System.Collections.Generic.List<NetworkConnection>();
         foreach (var conn in data.NetworkConnections)
         {
             InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
             if (
                 conn.Priority == highestPriority &&
                 instance != null &&
-                instance.data.CurrentState  == InfrastructureData.State.Operational
+                instance.data.CurrentState == InfrastructureData.State.Operational
             )
             {
-                highPriorityConnections.Add(conn);
+                CurrConnections.Add(conn);
             }
         }
-
-        if (highPriorityConnections.Count > 0)
+    }
+    public string GetNextNetworkTargetId() {
+        if (CurrConnections.Count > 0)
         {
-            return highPriorityConnections[Random.Range(0, highPriorityConnections.Count)].TargetID;
+            return CurrConnections[Random.Range(0, CurrConnections.Count)].TargetID;
         }
 
         return null;

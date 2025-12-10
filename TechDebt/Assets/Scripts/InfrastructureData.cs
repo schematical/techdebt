@@ -5,7 +5,7 @@ using System;
 [Serializable]
 public class InfrastructureData
 {
-    public enum State { Locked, Unlocked, Planned, Operational }
+    public enum State { Locked, Unlocked, Planned, Operational, Frozen }
 
     public string ID = Guid.NewGuid().ToString(); // Unique identifier for this instance
     public string DisplayName = "New Infrastructure";

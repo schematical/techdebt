@@ -505,6 +505,7 @@ MonoBehaviour:
   ActiveInfrastructure: []
   UIManager: {fileID: 203743596}
   GameLoopManager: {fileID: 776996749}
+  desiredTimeScale: 1
   AllInfrastructure:
   - ID: internetPipe
     DisplayName: Internet Pipe
@@ -525,8 +526,10 @@ MonoBehaviour:
     NetworkConnections:
     - TargetID: server1
       Priority: 5
+      NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
+      NetworkConnectionBonus: []
   - ID: desk
     DisplayName: Desk
     Type: 
@@ -553,14 +556,22 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 5
     loadPerPacket: 20
-    maxLoad: 100
-    loadRecoveryRate: 20
+    maxLoad: 50
+    loadRecoveryRate: 10
     CurrentState: 1
     NetworkConnections:
     - TargetID: dedicated-db
       Priority: 5
+      NetworkConnectionBonus:
+      - Stat: 0
+        Type: 0
+        value: 0.8
     - TargetID: s3-bucket
       Priority: 5
+      NetworkConnectionBonus:
+      - Stat: 0
+        Type: 0
+        value: 0.8
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
@@ -580,8 +591,10 @@ MonoBehaviour:
     NetworkConnections:
     - TargetID: read-replica-1
       Priority: 5
+      NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
+      NetworkConnectionBonus: []
   - ID: s3-bucket
     DisplayName: S3Bucket
     Type: 
@@ -618,10 +631,13 @@ MonoBehaviour:
     NetworkConnections:
     - TargetID: server1
       Priority: 5
+      NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
+      NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
+      NetworkConnectionBonus: []
   - ID: server2
     DisplayName: Server 2
     Type: 
@@ -641,8 +657,10 @@ MonoBehaviour:
     NetworkConnections:
     - TargetID: dedicated-db
       Priority: 5
+      NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
+      NetworkConnectionBonus: []
   - ID: server3
     DisplayName: Server 3
     Type: 
@@ -662,13 +680,15 @@ MonoBehaviour:
     NetworkConnections:
     - TargetID: dedicated-db
       Priority: 5
+      NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
+      NetworkConnectionBonus: []
   - ID: read-replica-1
     DisplayName: Read Replica 1
     Type: 
-    Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 25, y: 7}
+    Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
+    GridPosition: {x: 29, y: 10}
     UnlockConditions:
     - Type: 1
       StatType: 0

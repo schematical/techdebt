@@ -112,10 +112,11 @@ public class GameManager : MonoBehaviour
       	float packetIncome = GetStat(StatType.PacketIncome);
         IncrStat(StatType.Money, packetIncome);
 
-
-		if(packetsServiced % 10 == 0) {
+		float incrAfter = 40 * GetStat(StatType.Traffic);
+		if(packetsServiced % incrAfter == 0) {
         	float traffic = GetStat(StatType.Traffic);
-        	SetStat(StatType.Traffic, traffic * 1.25f);
+			float difficulty = GetStat(StatType.Difficulty);
+        	SetStat(StatType.Traffic, traffic * difficulty);
 		}
     }
     // -----------------------
@@ -162,6 +163,9 @@ public class GameManager : MonoBehaviour
     public void NotifyInfrastructureBuilt(InfrastructureInstance instance)
     {
         OnInfrastructureBuilt?.Invoke(instance);
+		foreach(var activeInfra in ActiveInfrastructure) {
+			activeInfra.OnInfrastructureBuilt(instance);
+		}
     }
 
 
@@ -256,6 +260,7 @@ public class GameManager : MonoBehaviour
 		Stats.Add(StatType.PacketsServiced, 0f);
 
 		Stats.Add(StatType.PacketIncome, 10f);
+		Stats.Add(StatType.Difficulty, 1.5f);
     }
 	public float IncrStat(StatType stat, float value = 1)
     {
