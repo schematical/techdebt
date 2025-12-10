@@ -32,12 +32,13 @@ public class UIManager : MonoBehaviour
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI tooltipText;
     private Button tooltipButton;
-    private TextMeshProUGUI totalDailyCostText;
-    private TextMeshProUGUI gameStateText;
-    private TextMeshProUGUI clockText;
-    private TextMeshProUGUI activeBuildTaskText;
-
-    // Time Control Buttons & Colors
+        private TextMeshProUGUI totalDailyCostText;
+        private TextMeshProUGUI gameStateText;
+        private TextMeshProUGUI clockText;
+    
+    
+    
+        // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
     private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
     private Color inactiveColor = Color.gray;
@@ -120,7 +121,6 @@ public class UIManager : MonoBehaviour
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
         }
-        UpdateBuildTaskDisplay();
     }
 
 
@@ -495,28 +495,6 @@ public class UIManager : MonoBehaviour
         foreach (StatType type in Enum.GetValues(typeof(StatType)))
         {
             statTexts.Add(type, CreateText(statsBarUIContainer.transform, type.ToString(), $"{type}: 0", 18));
-        }
-        
-        activeBuildTaskText = CreateText(statsBarUIContainer.transform, "ActiveBuildTaskText", "", 16);
-        activeBuildTaskText.color = Color.magenta;
-    }
-
-    private void UpdateBuildTaskDisplay()
-    {
-        if (GameManager.Instance == null || activeBuildTaskText == null) return;
-
-        var allBuildTasks = GameManager.Instance.AvailableTasks
-            .OfType<BuildTask>()
-            .ToList();
-
-        if (allBuildTasks.Any())
-        {
-            var taskIds = string.Join(", ", allBuildTasks.Select(t => $"{t.TargetInfrastructure.data.ID}({t.CurrentStatus})"));
-            activeBuildTaskText.text = $"Build Tasks: {taskIds}";
-        }
-        else
-        {
-            activeBuildTaskText.text = "";
         }
     }
 
