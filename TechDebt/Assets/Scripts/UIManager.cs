@@ -375,7 +375,7 @@ public class UIManager : MonoBehaviour
 
         foreach (var tech in GameManager.Instance.AllTechnologies)
         {
-            var techPanel = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 120), Vector2.zero, Vector2.one, Vector2.zero);
+            var techPanel = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(380, 120), Vector2.zero, Vector2.one, Vector2.zero);
             var techVLG = techPanel.AddComponent<VerticalLayoutGroup>();
             techVLG.padding = new RectOffset(8, 8, 8, 8);
             techVLG.spacing = 3;
@@ -400,7 +400,16 @@ public class UIManager : MonoBehaviour
             CreateText(techPanel.transform, "Requirements", reqText, 12).alignment = TextAlignmentOptions.Left;
 
             var researchButton = CreateButton(techPanel.transform, "Research", () => GameManager.Instance.SelectTechnologyForResearch(tech));
+            var layoutElement = researchButton.gameObject.AddComponent<LayoutElement>();
+            layoutElement.preferredHeight = 40f;
+            
             var buttonText = researchButton.GetComponentInChildren<TextMeshProUGUI>();
+
+            // Hotfix for the tech tree button text
+            buttonText.enableWordWrapping = true;
+            buttonText.enableAutoSizing = false;
+            buttonText.fontSize = 14;
+
             var buttonImage = researchButton.GetComponent<Image>();
 
             bool prerequisitesMet = tech.RequiredTechnologies.All(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
@@ -760,13 +769,15 @@ public class UIManager : MonoBehaviour
     {
         var go = new GameObject(n); go.transform.SetParent(p, false);
         var rt = go.AddComponent<RectTransform>(); rt.sizeDelta = s; rt.anchorMin = min; rt.anchorMax = max; rt.anchoredPosition = pos;
-        go.AddComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
+        var img = go.AddComponent<Image>();
+        img.color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
+        img.raycastTarget = false;
         return go;
     }
 
     private Button CreateButton(Transform p, string t, UnityAction a)
     {
-        var go = new GameObject($"Button_{{t}}"); go.transform.SetParent(p, false);
+        var go = new GameObject($"Button_{{t}}");
         go.transform.SetParent(p, false);
         var rt = go.AddComponent<RectTransform>();
         rt.sizeDelta = new Vector2(180, 40);
@@ -786,12 +797,24 @@ public class UIManager : MonoBehaviour
 
     private TextMeshProUGUI CreateText(Transform p, string n, string c, int s)
     {
-        var go = new GameObject(n); go.transform.SetParent(p, false);
+        var go = new GameObject(n);
+        go.transform.SetParent(p, false);
         var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.raycastTarget = false;
         tmp.text = c;
         tmp.fontSize = s;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.white;
+        tmp.enableWordWrapping = false;
+        tmp.enableAutoSizing = true;
+        tmp.fontSizeMin = 8;
+        tmp.fontSizeMax = s;
+
+        var rt = go.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
+        rt.anchoredPosition = Vector2.zero;
         return tmp;
     }
     #endregion
