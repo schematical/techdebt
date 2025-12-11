@@ -239,15 +239,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"GameManager Start: Found {AllTechnologies.Count} technologies.");
         UIManager.SetupUIInfrastructure();
         GameLoopManager.BeginBuildPhase();
-        // Create a default packet prefab if one isn't assigned
-        if (packetPrefab == null)
-        {
-            packetPrefab = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            packetPrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-            packetPrefab.GetComponent<Renderer>().material.color = Color.cyan;
-            packetPrefab.AddComponent<NetworkPacket>();
-            packetPrefab.SetActive(false); 
-        }
     }
 
     private void InitializeStats()
@@ -419,7 +410,7 @@ public class GameManager : MonoBehaviour
                     if (technology == null)
                     {
                         throw new SystemException(
-                            $"Cannot find Technology {condition.TechnologyID}");
+                            $"Cannot find Technology {condition.TechnologyID} - {infraData.ID}");
                     } 
                     
                     if(technology.CurrentState != Technology.State.Unlocked) return false;

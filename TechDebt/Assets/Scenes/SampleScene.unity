@@ -521,7 +521,7 @@ MonoBehaviour:
     BuildTime: 1
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 1
+    loadRecoveryRate: 50
     CurrentState: 3
     NetworkConnections:
     - TargetID: server1
@@ -540,7 +540,7 @@ MonoBehaviour:
     BuildTime: 0
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 1
+    loadRecoveryRate: 50
     CurrentState: 3
     NetworkConnections: []
   - ID: server1
@@ -556,22 +556,22 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 5
     loadPerPacket: 20
-    maxLoad: 50
-    loadRecoveryRate: 10
+    maxLoad: 100
+    loadRecoveryRate: 50
     CurrentState: 1
     NetworkConnections:
     - TargetID: dedicated-db
       Priority: 5
-      NetworkConnectionBonus:
-      - Stat: 0
-        Type: 0
-        value: 0.8
+      NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
-      NetworkConnectionBonus:
-      - Stat: 0
-        Type: 0
-        value: 0.8
+      NetworkConnectionBonus: []
+    - TargetID: read-replica-1
+      Priority: 5
+      NetworkConnectionBonus: []
+    - TargetID: read-replica-2
+      Priority: 5
+      NetworkConnectionBonus: []
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
@@ -581,12 +581,12 @@ MonoBehaviour:
     - Type: 1
       StatType: 0
       TechnologyID: dedicated-db
-      RequiredValue: 30
+      RequiredValue: 0
     DailyCost: 30
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: read-replica-1
@@ -609,7 +609,7 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 1
     NetworkConnections: []
   - ID: cdn
@@ -626,7 +626,7 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: s3-bucket
@@ -644,9 +644,9 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 45
     BuildTime: 10
-    loadPerPacket: 1
-    maxLoad: 1000
-    loadRecoveryRate: 500
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 50
     CurrentState: 1
     NetworkConnections:
     - TargetID: server1
@@ -672,13 +672,16 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
       Priority: 5
       NetworkConnectionBonus: []
-    - TargetID: s3-bucket
+    - TargetID: read-replica-1
+      Priority: 5
+      NetworkConnectionBonus: []
+    - TargetID: read-replica-2
       Priority: 5
       NetworkConnectionBonus: []
   - ID: server3
@@ -695,13 +698,16 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
       Priority: 5
       NetworkConnectionBonus: []
-    - TargetID: s3-bucket
+    - TargetID: read-replica-1
+      Priority: 5
+      NetworkConnectionBonus: []
+    - TargetID: read-replica-2
       Priority: 5
       NetworkConnectionBonus: []
   - ID: read-replica-1
@@ -718,7 +724,7 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
   - ID: read-replica-2
@@ -735,7 +741,7 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
   - ID: water-cooler
@@ -752,7 +758,7 @@ MonoBehaviour:
     BuildTime: 10
     loadPerPacket: 20
     maxLoad: 100
-    loadRecoveryRate: 20
+    loadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
   AllTechnologies:
@@ -762,7 +768,7 @@ MonoBehaviour:
     ResearchPointCost: 30
     CurrentResearchProgress: 0
     RequiredTechnologies: []
-    CurrentState: 0
+    CurrentState: 2
   - TechnologyID: binary-storage
     DisplayName: Binary Storage
     Description: 
@@ -804,6 +810,7 @@ MonoBehaviour:
     RequiredTechnologies:
     - dedicated-db
     CurrentState: 0
+  NetworkPacketDatas: []
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
   gridManager: {fileID: 0}
