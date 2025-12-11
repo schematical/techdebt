@@ -612,6 +612,26 @@ MonoBehaviour:
     loadRecoveryRate: 20
     CurrentState: 1
     NetworkConnections: []
+  - ID: cdn
+    DisplayName: CDN
+    Type: 
+    Prefab: {fileID: 4431272950818217646, guid: ccca30840096d9548a9f2be7a10d3c39, type: 3}
+    GridPosition: {x: 20, y: 20}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: cdn
+      RequiredValue: 0
+    DailyCost: 30
+    BuildTime: 10
+    loadPerPacket: 20
+    maxLoad: 100
+    loadRecoveryRate: 20
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: s3-bucket
+      Priority: 5
+      NetworkConnectionBonus: []
   - ID: server-alb
     DisplayName: Load Balencer
     Type: 
@@ -726,7 +746,7 @@ MonoBehaviour:
     UnlockConditions:
     - Type: 1
       StatType: 0
-      TechnologyID: load-balencer
+      TechnologyID: water-cooler
       RequiredValue: 0
     DailyCost: 30
     BuildTime: 10
@@ -750,6 +770,14 @@ MonoBehaviour:
     CurrentResearchProgress: 0
     RequiredTechnologies:
     - dedicated-db
+    CurrentState: 0
+  - TechnologyID: cdn
+    DisplayName: Content Delivery Network(CDN)
+    Description: 
+    ResearchPointCost: 5
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - binary-storage
     CurrentState: 0
   - TechnologyID: load-balencer
     DisplayName: Load Balencer
