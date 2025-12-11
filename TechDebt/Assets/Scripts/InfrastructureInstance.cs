@@ -281,19 +281,23 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         {
             return;
         }
-
-        int highestPriority = 0;
+        Dictionary<NetworkPacketData.PType, int> priorities = new Dictionary<NetworkPacketData.PType, int>();
+     
         foreach (var conn in data.NetworkConnections)
         {
+            if (!priorities.ContainsKey(conn.networkPacketType))
+            {
+                priorities.Add(conn.networkPacketType, 0);
+            }
             InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
         
             if (
                 instance != null &&
                 instance.data.CurrentState == InfrastructureData.State.Operational &&
-                conn.Priority > highestPriority
+                conn.Priority > priorities[conn.networkPacketType]
             )
             {
-                highestPriority = conn.Priority;
+                priorities[conn.networkPacketType] = conn.Priority;
             }
         }
 
@@ -302,7 +306,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         {
             InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
             if (
-                conn.Priority == highestPriority &&
+                conn.Priority == priorities[conn.networkPacketType] &&
                 instance != null &&
                 instance.data.CurrentState == InfrastructureData.State.Operational
             )

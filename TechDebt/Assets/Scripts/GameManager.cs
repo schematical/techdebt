@@ -102,10 +102,15 @@ public class GameManager : MonoBehaviour
             )
             {
                 foundData = npData;
+                break;
             }
-            probTotal += npData.probilitly;
+            currFloor += npData.probilitly;
         }
 
+        if (foundData == null)
+        {
+            Debug.LogError($"GetNetworkPacketData - Not found - probTotal: {probTotal} - currFloor: {currFloor}");
+        }
         return foundData;
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
