@@ -8,6 +8,7 @@ public class NetworkPacket : MonoBehaviour
     public enum State { Running, Failed }
     public State CurrentState = State.Running;
     public string FileName { get; private set; }
+    public NetworkPacketData data;
     public int Size { get; private set; } // In MB for simplicity
     private SpriteRenderer spriteRenderer;
     public int returnIndex = -1;
@@ -22,8 +23,9 @@ public class NetworkPacket : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
        
     } 
-    public void Initialize(string fileName, int size, InfrastructureInstance origin = null)
+    public void Initialize(NetworkPacketData npData, string fileName, int size, InfrastructureInstance origin = null)
     {
+        data = npData;
         FileName = fileName;
         Size = size;
         gameObject.name = $"Packet_{FileName}";

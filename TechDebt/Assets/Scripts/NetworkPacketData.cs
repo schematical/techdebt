@@ -11,7 +11,8 @@ public class NetworkPacketData
         Video,
         MaliciousText
     }
-    public PType Type { get; private set; }
+
+    public PType Type;
     public GameObject prefab;
     public float baseLoad = 20f;
     public float probilitly = 1f;

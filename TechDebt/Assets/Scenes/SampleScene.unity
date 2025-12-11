@@ -684,6 +684,9 @@ MonoBehaviour:
     - TargetID: read-replica-2
       Priority: 5
       NetworkConnectionBonus: []
+    - TargetID: s3-bucket
+      Priority: 5
+      NetworkConnectionBonus: []
   - ID: server3
     DisplayName: Server 3
     Type: 
@@ -708,6 +711,9 @@ MonoBehaviour:
       Priority: 5
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
+      Priority: 5
+      NetworkConnectionBonus: []
+    - TargetID: s3-bucket
       Priority: 5
       NetworkConnectionBonus: []
   - ID: read-replica-1
@@ -810,7 +816,15 @@ MonoBehaviour:
     RequiredTechnologies:
     - dedicated-db
     CurrentState: 0
-  NetworkPacketDatas: []
+  NetworkPacketDatas:
+  - Type: 0
+    prefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
+    baseLoad: 20
+    probilitly: 10
+  - Type: 1
+    prefab: {fileID: 1421712027124890554, guid: 58ab099786be3344fb411709d0281a78, type: 3}
+    baseLoad: 60
+    probilitly: 1
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
   gridManager: {fileID: 0}

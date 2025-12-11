@@ -86,11 +86,31 @@ public class GameManager : MonoBehaviour
     
     public NetworkPacket CreatePacket(string fileName, int size, InfrastructureInstance origin, InfrastructureInstance destination)
     {
+        float probTotal = 0f;
+        foreach (var npData in NetworkPacketDatas)
+        {
+            probTotal += npData.probilitly;
+        }
+
+        float index = Random.Range(0, probTotal);
+        float currFloor = 0;
+        NetworkPacketData foundData = null;
+        foreach (var npData in NetworkPacketDatas)
+        {
+            if (
+                index >= currFloor &&
+                index < currFloor + npData.probilitly
+            )
+            {
+                foundData = npData;
+            }
+            probTotal += npData.probilitly;
+        }
         
-        GameObject packetGO = Instantiate(packetPrefab, origin.transform.position, Quaternion.identity);
+        GameObject packetGO = Instantiate(foundData.prefab, origin.transform.position, Quaternion.identity);
         packetGO.SetActive(true);
         NetworkPacket packet = packetGO.GetComponent<NetworkPacket>();
-        packet.Initialize(fileName, size, origin);
+        packet.Initialize(foundData, fileName, size, origin);
         packet.SetNextTarget(destination);
         activePackets.Add(packet);
 		IncrStat(StatType.PacketsSent);
