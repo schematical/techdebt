@@ -260,49 +260,73 @@ public class UIManager : MonoBehaviour
 
     private void SetupTechTreePanel(Transform parent)
     {
-        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(275, 0)); // Positioned next to Task List
+        // Panel stretches from top to bottom, anchored to the left.
+        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(275, 0));
         var vlg = techTreePanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 5;
+        vlg.spacing = 10;
         vlg.childControlWidth = true;
+        vlg.childForceExpandHeight = false;
 
-        CreateText(techTreePanel.transform, "Header", "Technology Tree", 22);
+        CreateText(techTreePanel.transform, "Header", "Technology Tree", 22).gameObject.AddComponent<LayoutElement>().preferredHeight = 25;
 
-        var scrollView = new GameObject("ScrollView");
-        scrollView.transform.SetParent(techTreePanel.transform, false);
-        var scrollRect = scrollView.AddComponent<ScrollRect>();
-        var scrollRt = scrollView.GetComponent<RectTransform>();
-        scrollRt.sizeDelta = new Vector2(380, 0);
+        // --- ScrollView Setup ---
+        var scrollViewGO = new GameObject("ScrollView");
+        scrollViewGO.transform.SetParent(techTreePanel.transform, false);
+        var scrollRect = scrollViewGO.AddComponent<ScrollRect>();
+        scrollViewGO.AddComponent<LayoutElement>().flexibleHeight = 1; // Allow scroll view to expand
 
-        var viewport = new GameObject("Viewport");
-        viewport.transform.SetParent(scrollView.transform, false);
-        viewport.AddComponent<RectMask2D>();
-        var viewportImage = viewport.AddComponent<Image>();
-        viewportImage.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
-        scrollRect.viewport = viewport.GetComponent<RectTransform>();
+        // --- Viewport Setup (child of ScrollView) ---
+        var viewportGO = new GameObject("Viewport");
+        viewportGO.transform.SetParent(scrollViewGO.transform, false);
+        var viewportRT = viewportGO.AddComponent<RectTransform>();
+        viewportRT.anchorMin = Vector2.zero;
+        viewportRT.anchorMax = Vector2.one;
+        viewportRT.sizeDelta = new Vector2(-20, 0); // Leave space on the right for the scrollbar
+        viewportRT.pivot = new Vector2(0, 1);
+        viewportGO.AddComponent<RectMask2D>();
+        var viewportImg = viewportGO.AddComponent<Image>();
+        viewportImg.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
+        viewportImg.raycastTarget = false;
+        scrollRect.viewport = viewportRT;
 
-        var contentGo = new GameObject("Content");
-        contentGo.transform.SetParent(viewport.transform, false);
-        techTreeContent = contentGo.transform;
-        Debug.Log($"TechTreeContent: {techTreeContent}");
-        var contentVlg = contentGo.AddComponent<VerticalLayoutGroup>();
-        contentVlg.padding = new RectOffset(10, 10, 10, 10);
-        contentVlg.spacing = 15;
-        contentVlg.childControlWidth = true;
-        var csf = contentGo.AddComponent<ContentSizeFitter>();
+        // --- Content Setup (child of Viewport) ---
+        var contentGO = new GameObject("Content");
+        contentGO.transform.SetParent(viewportGO.transform, false);
+        techTreeContent = contentGO.transform;
+        var contentRT = contentGO.AddComponent<RectTransform>();
+        contentRT.anchorMin = new Vector2(0, 1);
+        contentRT.anchorMax = new Vector2(1, 1);
+        contentRT.pivot = new Vector2(0.5f, 1);
+        contentRT.sizeDelta = new Vector2(0, 0); // Width is controlled by parent, height by fitter
+        var contentVLG = contentGO.AddComponent<VerticalLayoutGroup>();
+        contentVLG.padding = new RectOffset(10, 10, 10, 10);
+        contentVLG.spacing = 15;
+        contentVLG.childControlWidth = true;
+        contentVLG.childForceExpandHeight = false;
+        var csf = contentGO.AddComponent<ContentSizeFitter>();
         csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        scrollRect.content = contentGo.GetComponent<RectTransform>();
+        scrollRect.content = contentRT;
 
-        var viewportRt = viewport.GetComponent<RectTransform>();
-        viewportRt.anchorMin = Vector2.zero;
-        viewportRt.anchorMax = Vector2.one;
-        viewportRt.sizeDelta = Vector2.zero;
-
-        var contentRt = contentGo.GetComponent<RectTransform>();
-        contentRt.anchorMin = new Vector2(0, 1);
-        contentRt.anchorMax = new Vector2(1, 1);
-        contentRt.pivot = new Vector2(0.5f, 1);
-        contentRt.sizeDelta = new Vector2(0, 0);
+        // --- Scrollbar Setup (child of ScrollView) ---
+        var scrollbarGO = new GameObject("ScrollbarVertical");
+        scrollbarGO.transform.SetParent(scrollViewGO.transform, false);
+        var sb = scrollbarGO.AddComponent<Scrollbar>();
+        var sbRT = scrollbarGO.GetComponent<RectTransform>();
+        sbRT.anchorMin = new Vector2(1, 0);
+        sbRT.anchorMax = new Vector2(1, 1);
+        sbRT.pivot = new Vector2(1, 1);
+        sbRT.sizeDelta = new Vector2(20, 0);
+        scrollRect.verticalScrollbar = sb;
+        
+        var handleGO = new GameObject("Handle");
+        handleGO.transform.SetParent(scrollbarGO.transform, false);
+        var handleImg = handleGO.AddComponent<Image>();
+        handleImg.color = Color.grey;
+        var handleRT = handleGO.GetComponent<RectTransform>();
+        handleRT.sizeDelta = Vector2.zero; // Stretch to fill
+        sb.handleRect = handleRT;
+        sb.targetGraphic = handleImg;
 
         techTreePanel.SetActive(false);
     }
