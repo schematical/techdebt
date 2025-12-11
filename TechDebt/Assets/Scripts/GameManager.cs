@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
-
+    public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
     public Dictionary<StatType, float> Stats { get; private set; }
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
