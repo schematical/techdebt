@@ -83,8 +83,7 @@ public class GameManager : MonoBehaviour
     private List<NetworkPacket> activePackets = new List<NetworkPacket>();
 
 
-    
-    public NetworkPacket CreatePacket(string fileName, int size, InfrastructureInstance origin, InfrastructureInstance destination)
+    public NetworkPacketData GetNetworkPacketData()
     {
         float probTotal = 0f;
         foreach (var npData in NetworkPacketDatas)
@@ -106,12 +105,18 @@ public class GameManager : MonoBehaviour
             }
             probTotal += npData.probilitly;
         }
+
+        return foundData;
+    }
+    public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
+    {
         
-        GameObject packetGO = Instantiate(foundData.prefab, origin.transform.position, Quaternion.identity);
+        
+        GameObject packetGO = Instantiate(data.prefab, origin.transform.position, Quaternion.identity);
         packetGO.SetActive(true);
         NetworkPacket packet = packetGO.GetComponent<NetworkPacket>();
-        packet.Initialize(foundData, fileName, size, origin);
-        packet.SetNextTarget(destination);
+        packet.Initialize(data, fileName, size, origin);
+      
         activePackets.Add(packet);
 		IncrStat(StatType.PacketsSent);
         return packet;

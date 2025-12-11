@@ -6,6 +6,6 @@ public class NetworkConnection
 {
     public string TargetID;
     public int Priority = 5;
-
+    public NetworkPacketData.PType networkPacketType;
     public List<NetworkConnectionBonus> NetworkConnectionBonus = new List<NetworkConnectionBonus>();
 }

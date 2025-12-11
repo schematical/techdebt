@@ -11,12 +11,13 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 {
     public Color startcolor;
     public InfrastructureData data;
-
+    
     private SpriteRenderer spriteRenderer;
     
     public float CurrentLoad { get; set; }
 
-    public List<NetworkConnection> CurrConnections;
+
+    public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
 
     void Awake()
     {
@@ -126,7 +127,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         // If there are network connections, try to forward the packet
         if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
-            string nextTargetId = GetNextNetworkTargetId();
+            string nextTargetId = GetNextNetworkTargetId(packet.data.Type);
             if (nextTargetId != null)
             {
              
@@ -230,16 +231,23 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         UpdateNetworkTargets();
         
 
-        // Filter CurrConnections to see if instance is in the lis
-        NetworkConnection foundConnection = CurrConnections.Find((connection =>
-        {
-            if (connection.TargetID == instance.data.ID)
-            {
-                return true;
-            }
+        // Filter CurrConnections to see if instance is in the list
 
-            return false;
-        }));
+        NetworkConnection foundConnection = null;
+        foreach(var conn in CurrConnections.Values) {
+            foundConnection = conn.Find((connection => {
+                if (connection.TargetID == instance.data.ID)
+                {
+                    return true;
+                }
+
+                return false;
+            }));
+            if (foundConnection != null)
+            {
+                break;
+            }
+        }
         if (foundConnection == null)
         {
             return;
@@ -289,7 +297,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             }
         }
 
-        CurrConnections = new System.Collections.Generic.List<NetworkConnection>();
+        CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
         foreach (var conn in data.NetworkConnections)
         {
             InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
@@ -299,14 +307,18 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 instance.data.CurrentState == InfrastructureData.State.Operational
             )
             {
-                CurrConnections.Add(conn);
+                if (!CurrConnections.ContainsKey(conn.networkPacketType))
+                {
+                    CurrConnections.Add(conn.networkPacketType, new List<NetworkConnection>());
+                }
+                CurrConnections[conn.networkPacketType].Add(conn);
             }
         }
     }
-    public string GetNextNetworkTargetId() {
-        if (CurrConnections.Count > 0)
+    public string GetNextNetworkTargetId(NetworkPacketData.PType pType) {
+        if (CurrConnections.ContainsKey(pType))
         {
-            return CurrConnections[Random.Range(0, CurrConnections.Count)].TargetID;
+            return CurrConnections[pType][Random.Range(0, CurrConnections[pType].Count)].TargetID;
         }
 
         return null;

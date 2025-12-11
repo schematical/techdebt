@@ -23,9 +23,9 @@ public class InternetPipe : InfrastructureInstance
                 if (timeSinceLastPacket >= delay)
                 {
                     timeSinceLastPacket -= delay;
-
-                    string targetId = GetNextNetworkTargetId();
-
+                    NetworkPacketData data = GameManager.Instance.GetNetworkPacketData();
+                    string targetId = GetNextNetworkTargetId(data.Type);
+                    Debug.Log($"Sending Packet: {targetId}   - {data.Type}");
                     if (targetId != null)
                     {
                         IDataReceiver targetReceiver = GameManager.Instance.GetReceiver(targetId);
@@ -35,7 +35,9 @@ public class InternetPipe : InfrastructureInstance
                             // Create the packet
                             string fileName = $"file_{Random.Range(1000, 9999)}.dat";
                             int size = Random.Range(5, 50);
-                            GameManager.Instance.CreatePacket(fileName, size, this, destination);
+                            NetworkPacket packet = GameManager.Instance.CreatePacket(data, fileName, size, this);
+                            
+                            packet.SetNextTarget(destination);
                         }
                         else
                         {
