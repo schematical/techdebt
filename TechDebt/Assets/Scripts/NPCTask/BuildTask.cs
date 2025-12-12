@@ -1,10 +1,13 @@
 // BuildTask.cs
+
+using System;
 using UnityEngine;
 
 public class BuildTask : NPCTask
 {
     public InfrastructureInstance TargetInfrastructure { get; }
     private float buildProgress = 0f;
+    private int displayBuildProgress = -1;
     private bool _hasArrived = false;
 
     public BuildTask(InfrastructureInstance target, int priority = 5)
@@ -33,6 +36,14 @@ public class BuildTask : NPCTask
         if (_hasArrived)
         {
             buildProgress += Time.deltaTime;
+            int checkBuildProgress = (int)Math.Round(buildProgress/TargetInfrastructure.data.BuildTime * 100f);
+            if (checkBuildProgress % 10 == 0 && displayBuildProgress != checkBuildProgress)
+            {
+                displayBuildProgress = checkBuildProgress;
+                FloatingTextFactory.Instance.ShowText($"{displayBuildProgress}%",
+                    TargetInfrastructure.transform.position); //  + new Vector3(0, 1, 3));
+          
+            }
         }
     }
 
