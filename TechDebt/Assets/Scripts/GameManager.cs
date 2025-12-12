@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
         // --- Calculate Income & Expenses ---
       	float packetIncome = GetStat(StatType.PacketIncome);
         IncrStat(StatType.Money, packetIncome);
-
+        FloatingTextFactory.Instance.ShowText($"+${packetIncome}%", packet.transform.position, new Color(0f, 1f, 0f));//  + new Vector3(0, 1, 3));
 		float incrAfter = 40 * GetStat(StatType.Traffic);
 		if(packetsServiced % incrAfter == 0) {
         	float traffic = GetStat(StatType.Traffic);
