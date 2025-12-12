@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
@@ -133,20 +134,23 @@ public class GameManager : MonoBehaviour
     {
         activePackets.Remove(packet);
         Destroy(packet.gameObject);
+        float packetsServiced = -1;
 		if (packet.CurrentState == NetworkPacket.State.Failed) {
-			return;
-		}
-		float packetsServiced = IncrStat(StatType.PacketsServiced);
+            float packetsFailed = IncrStat(StatType.PacketsFailed);
+            return;
+        }
+		 packetsServiced = IncrStat(StatType.PacketsServiced);
 
         // --- Calculate Income & Expenses ---
       	float packetIncome = GetStat(StatType.PacketIncome);
         IncrStat(StatType.Money, packetIncome);
         FloatingTextFactory.ShowText($"+${packetIncome}%", packet.transform.position, new Color(0f, 1f, 0f));//  + new Vector3(0, 1, 3));
-		float incrAfter = 40 * GetStat(StatType.Traffic);
+		int incrAfter = (int) Math.Floor(40 * GetStat(StatType.Traffic));
 		if(packetsServiced % incrAfter == 0) {
         	float traffic = GetStat(StatType.Traffic);
 			float difficulty = GetStat(StatType.Difficulty);
         	SetStat(StatType.Traffic, traffic * difficulty);
+            // SetStat(StatType.PRR, GetStat(StatType.PRR) * difficulty);
 		}
     }
     // -----------------------
@@ -277,13 +281,14 @@ public class GameManager : MonoBehaviour
     {
         Stats = new Dictionary<StatType, float>();
         Stats.Add(StatType.Money, 200f);
-        Stats.Add(StatType.TechDebt, 0f);
+        // Stats.Add(StatType.TechDebt, 0f);
         Stats.Add(StatType.Traffic,  .25f);// .1f);//
  		Stats.Add(StatType.PacketsSent, 0f);
 		Stats.Add(StatType.PacketsServiced, 0f);
 
 		Stats.Add(StatType.PacketIncome, 10f);
 		Stats.Add(StatType.Difficulty, 1.5f);
+        Stats.Add(StatType.PRR, 0.5f);
     }
 	public float IncrStat(StatType stat, float value = 1)
     {

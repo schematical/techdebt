@@ -40,25 +40,46 @@ public class GameLoopManager : MonoBehaviour
                 if (summaryPhaseTimer >= SummaryPhaseDuration)
                 {
                     // Check for Game Over condition AFTER the summary has been displayed
-                  
+                    
+                    
                     if (GameManager.Instance.GetStat(StatType.Money) < 0)
                     {
                         // Reset and reload
-                        Debug.Log("HIT GAME OVER CONDITION!");
-                        currentDay = 0;
-                        GameManager.Instance.ResetNPCs();
-                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                        Debug.Log("Ran out of money!");
+                        EndGame();
+                        return;
                     }
-                    else
+                    float packetsServiced = GameManager.Instance.GetStat(StatType.PacketsServiced);
+                    float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
+                    float packetsRatioRequirements = GameManager.Instance.GetStat(StatType.PRR);
+                    float packetFaledPct = packetsFailed / (packetsFailed + packetsServiced);
+                    if (packetFaledPct > packetsRatioRequirements)
                     {
-                        // Proceed to the next day
-                        BeginBuildPhase();
+                        Debug.Log("Failed too much!");
+                        EndGame();
                     }
+                    if (GameManager.Instance.GetStat(StatType.Money) < 0)
+                    {
+                        // Reset and reload
+                        Debug.Log("Ran out of money!");
+                        EndGame();
+                        return;
+                    }
+                    
+                    BeginBuildPhase();
+                    
                 }
                 break;
         }
     }
 
+    public void EndGame()
+    {
+        Debug.Log("HIT GAME OVER CONDITION!");
+        currentDay = 0;
+        GameManager.Instance.ResetNPCs();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void BeginBuildPhase()
     {
         Time.timeScale = 1f;
@@ -86,6 +107,9 @@ public class GameLoopManager : MonoBehaviour
     {
         CurrentState = GameState.Play;
         dayTimer = 0f;
+        GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+        GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
+        GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
         // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())

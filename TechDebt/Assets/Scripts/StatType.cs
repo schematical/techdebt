@@ -7,6 +7,8 @@ public enum StatType
     Traffic,
     PacketsSent,
     PacketsServiced,
+    PRR, // PacketsRatioRequirements,
+    PacketsFailed,
     PacketIncome,
-    Difficulty
+    Difficulty,
 }
