@@ -1,11 +1,20 @@
 ﻿// Server.cs
+
+using System;
 using UnityEngine;
 
 public class Desk : InfrastructureInstance
 {
+    public int lastDisplayedProgress = -1;
     public void OnResearchProgress(Vector3 position)
     {
+        int progress = (int)Math.Floor(GameManager.Instance.CurrentlyResearchingTechnology.CurrentResearchProgress /
+            GameManager.Instance.CurrentlyResearchingTechnology.ResearchPointCost * 100);
         // Emit a "+1" text particle at the given position.
-        DynamicParticleEmitter.Instance.Emit("+1", position);
+        if (lastDisplayedProgress != progress)
+        {
+            DynamicParticleEmitter.Instance.Emit($"{progress}%", position);
+            lastDisplayedProgress = progress;
+        }
     }
 }
