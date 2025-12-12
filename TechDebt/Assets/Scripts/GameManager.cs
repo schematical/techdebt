@@ -265,6 +265,8 @@ public class GameManager : MonoBehaviour
         {
             throw new SystemException("Missing `GameLoopManager` reference in GameManager.");
         }*/
+        Time.timeScale = 0;
+        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         // --- Technology Debugging ---
         Debug.Log($"GameManager Start: Found {AllTechnologies.Count} technologies.");
         UIManager.SetupUIInfrastructure();

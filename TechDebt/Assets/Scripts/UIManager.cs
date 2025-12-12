@@ -116,7 +116,7 @@ public class UIManager : MonoBehaviour
             TogglePause();
         }
 
-        if (taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
+        if (taskListPanel != null && taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
         {
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
@@ -700,7 +700,10 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
         float totalCost = GameManager.Instance.CalculateTotalDailyCost();
-        totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
+        if (totalDailyCostText != null)
+        {
+            totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
+        }
     }
 
     private void RefreshHireDevOpsPanel()
