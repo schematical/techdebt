@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Desk : InfrastructureInstance
 {
-    // This class will hold the state of a server, such as whether it's ON or OFF,
-    // its current Tech Debt level, and if it's on fire.
-    
+    public void OnResearchProgress(Vector3 position)
+    {
+        // Emit a "+1" text particle at the given position.
+        DynamicParticleEmitter.Instance.Emit("+1", position);
+    }
 }

@@ -21,7 +21,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        // spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer != null)
         {
             startcolor = spriteRenderer.color;
@@ -31,6 +31,11 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     void Start()
     {
         // Register with the routing manager
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError($"MISSING SpriteRenderer component on {gameObject.name}");
+        }
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterReceiver(data.ID, this);
