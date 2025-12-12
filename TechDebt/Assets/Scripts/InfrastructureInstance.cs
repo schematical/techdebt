@@ -114,7 +114,27 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         // Update load
         if (!packet.IsReturning())
         {
-            CurrentLoad += data.loadPerPacket;
+            float loadPerPacket = data.loadPerPacket;
+            if (
+                data.networkPackets != null &&
+                data.networkPackets.Count() > 0
+            )
+            {
+                InfrastructureDataNetworkPacket packetData = data.networkPackets.Find((packetData => {
+                    if(packetData.PacketType == packet.data.Type)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }));
+                if (packetData != null)
+                {
+                    loadPerPacket = packetData.loadPerPacket;
+                }
+            }
+
+            CurrentLoad += loadPerPacket;
             if (CurrentLoad > data.maxLoad)
             {
                 packet.MarkFailed();
@@ -262,8 +282,24 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                     switch (bonus.Stat)
                     {
                         case(NetworkConnectionBonus.InfrStat.LoadPerPacket):
-                            data.loadPerPacket *= bonus.value;
-                            Debug.Log("Applied Bonus: " + data.loadPerPacket);
+                            if (bonus.PacketType == null)
+                            {
+                                data.loadPerPacket *= bonus.value;
+                            }
+                            else
+                            {
+                                InfrastructureDataNetworkPacket packetData = data.networkPackets.Find((packetData => {
+                                    if(packetData.PacketType == bonus.PacketType)
+                                    {
+                                        return true;
+                                    }
+
+                                    return false;
+                                }));
+                                packetData.loadPerPacket = (int) Math.Round(bonus.value * packetData.loadPerPacket);
+                            }
+
+                            Debug.Log("Applied Bonus: " + data.loadPerPacket + " - " + bonus.PacketType);
                             break;
                         default:
                             throw new SystemException("TOOD: Write me");

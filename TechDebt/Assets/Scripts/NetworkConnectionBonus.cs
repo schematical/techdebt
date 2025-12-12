@@ -13,6 +13,7 @@ public class NetworkConnectionBonus
         Multiplier
     }
 
+    public NetworkPacketData.PType PacketType;
     public InfrStat Stat;
     public BonusType Type;
     public float value;

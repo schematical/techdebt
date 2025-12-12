@@ -1,6 +1,7 @@
 // InfrastructureData.cs
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class InfrastructureData
@@ -16,11 +17,18 @@ public class InfrastructureData
     public float DailyCost = 100;
     public float BuildTime = 5f; // In seconds
     public float loadPerPacket = 20f;
-    
+    public List<InfrastructureDataNetworkPacket> networkPackets = new List<InfrastructureDataNetworkPacket>();
     public float maxLoad = 100;
 
     public float loadRecoveryRate = 50f;
     
     public State CurrentState = State.Locked;
     public NetworkConnection[] NetworkConnections; // Array of NetworkConnection objects
+}
+
+[Serializable]
+public class InfrastructureDataNetworkPacket
+{
+    public NetworkPacketData.PType PacketType;
+    public int loadPerPacket = 20;
 }
