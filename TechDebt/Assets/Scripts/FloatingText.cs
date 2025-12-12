@@ -11,7 +11,7 @@ public class FloatingText : MonoBehaviour
 
     private TextMeshProUGUI textMesh;
     private float timeElapsed = 0f;
-    private Color startColor;
+    private Color defaultColor = Color.white;
 
     private void Awake()
     {
@@ -20,10 +20,6 @@ public class FloatingText : MonoBehaviour
         {
             Debug.LogError("FloatingText requires a TextMeshProUGUI component in its children.", this);
             gameObject.SetActive(false);
-        }
-        else
-        {
-            startColor = textMesh.color;
         }
     }
 
@@ -38,8 +34,8 @@ public class FloatingText : MonoBehaviour
             if (timeElapsed > lifetime - fadeOutTime)
             {
                 float fadeProgress = (timeElapsed - (lifetime - fadeOutTime)) / fadeOutTime;
-                Color newColor = startColor;
-                newColor.a = Mathf.Lerp(startColor.a, 0f, fadeProgress);
+                Color newColor = textMesh.color;
+                newColor.a = Mathf.Lerp(defaultColor.a, 0f, fadeProgress);
                 textMesh.color = newColor;
             }
 
@@ -52,11 +48,12 @@ public class FloatingText : MonoBehaviour
         }
     }
 
-    public void Show(string text, Vector3 position)
+    public void Show(string text, Vector3 position, Color? textColor = null)
     {
         transform.position = position;
         textMesh.text = text;
-        textMesh.color = startColor;
+        defaultColor = textColor ?? Color.white;
+        textMesh.color = defaultColor;
         timeElapsed = 0f;
         gameObject.SetActive(true);
     }

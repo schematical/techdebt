@@ -50,7 +50,7 @@ public class FloatingTextFactory : MonoBehaviour
         return floatingText;
     }
 
-    public void ShowText(string text, Vector3 position)
+    public void ShowText(string text, Vector3 position, Color? textColor = null)
     {
         if (objectPool.Count == 0)
         {
@@ -66,7 +66,7 @@ public class FloatingTextFactory : MonoBehaviour
             textToShow = CreateNewObjectForPool();
         }
 
-        textToShow.Show(text, position);
+        textToShow.Show(text, position, textColor);
         
         // Re-queue the object after its lifetime is over
         StartCoroutine(RequeueAfterLifetime(textToShow));

@@ -13,7 +13,7 @@ public class Desk : InfrastructureInstance
         // Emit a "+1" text particle at the given position.
         if (lastDisplayedProgress != progress)
         {
-            FloatingTextFactory.Instance.ShowText($"{progress}%", position);//  + new Vector3(0, 1, 3));
+            FloatingTextFactory.Instance.ShowText($"{progress}%", position, new Color(0.2f, 0.6f, 1f));//  + new Vector3(0, 1, 3));
             lastDisplayedProgress = progress;
         }
     }
