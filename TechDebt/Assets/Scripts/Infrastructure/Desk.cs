@@ -1,9 +1,20 @@
 ﻿// Server.cs
+
+using System;
 using UnityEngine;
 
 public class Desk : InfrastructureInstance
 {
-    // This class will hold the state of a server, such as whether it's ON or OFF,
-    // its current Tech Debt level, and if it's on fire.
-    
+    public int lastDisplayedProgress = -1;
+    public void OnResearchProgress(Vector3 position)
+    {
+        int progress = (int)Math.Floor(GameManager.Instance.CurrentlyResearchingTechnology.CurrentResearchProgress /
+            GameManager.Instance.CurrentlyResearchingTechnology.ResearchPointCost * 100);
+        // Emit a "+1" text particle at the given position.
+        if (lastDisplayedProgress != progress)
+        {
+            FloatingTextFactory.Instance.ShowText($"{progress}%", position);//  + new Vector3(0, 1, 3));
+            lastDisplayedProgress = progress;
+        }
+    }
 }

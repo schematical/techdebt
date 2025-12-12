@@ -5,7 +5,7 @@ using System.Linq;
 public class ResearchTask : NPCTask
 {
     public Technology TargetTechnology { get; private set; }
-    private Vector3 deskPosition;
+    private Desk desk;
     private bool atDesk = false;
 
     public ResearchTask(Technology technology)
@@ -17,31 +17,31 @@ public class ResearchTask : NPCTask
         var deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
         if (deskInstance != null)
         {
-            deskPosition = deskInstance.transform.position;
+            desk = deskInstance.GetComponent<Desk>();
         }
         else
         {
             Debug.LogError("ResearchTask could not be created. No 'desk' infrastructure found or its instance is null.");
-            // In a real game, we might want to handle this more gracefully.
-            deskPosition = Vector3.zero; // Default position
+            desk = null;
         }
     }
 
     public override void OnStart(NPCDevOps npc)
     {
-        if (deskPosition != Vector3.zero)
+        if (desk != null)
         {
-            npc.MoveTo(deskPosition);
+            npc.MoveTo(desk.transform.position);
         }
     }
 
     public override void OnUpdate(NPCDevOps npc)
     {
+        if (desk == null) return;
+        
         // Check if the NPC has arrived at the desk.
         if (!atDesk && !npc.isMoving)
         {
-            // A simple distance check to confirm arrival, since isMoving might be false for a frame before starting.
-            if (Vector3.Distance(npc.transform.position, deskPosition) < 1.5f) // Using a small tolerance
+            if (Vector3.Distance(npc.transform.position, desk.transform.position) < 1.5f)
             {
                 atDesk = true;
             }
@@ -52,6 +52,7 @@ public class ResearchTask : NPCTask
         {
             float researchGained = npc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
             GameManager.Instance.ApplyResearchProgress(researchGained);
+            desk.OnResearchProgress(npc.transform.position);
         }
     }
 
