@@ -52,7 +52,20 @@ public class ResearchTask : NPCTask
         {
             float researchGained = npc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
             GameManager.Instance.ApplyResearchProgress(researchGained);
-            desk.OnResearchProgress(npc.transform.position);
+            if (desk == null) return;
+            if (npc == null)
+            {
+                Debug.LogError("Missing `npc`");
+            }
+            if (npc.transform == null)
+            {
+                Debug.LogError("Missing `npc.transform`");
+            }
+
+      
+            desk.OnResearchProgress(
+                npc.transform.position
+            );
         }
     }
 

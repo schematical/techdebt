@@ -40,7 +40,7 @@ public class BuildTask : NPCTask
             if (checkBuildProgress % 10 == 0 && displayBuildProgress != checkBuildProgress)
             {
                 displayBuildProgress = checkBuildProgress;
-                FloatingTextFactory.Instance.ShowText($"{displayBuildProgress}%",
+                GameManager.Instance.FloatingTextFactory.ShowText($"{displayBuildProgress}%",
                     TargetInfrastructure.transform.position); //  + new Vector3(0, 1, 3));
           
             }

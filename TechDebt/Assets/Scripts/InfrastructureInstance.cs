@@ -135,7 +135,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             }
 
             CurrentLoad += loadPerPacket;
-            FloatingTextFactory.Instance.ShowText($"+{loadPerPacket}", transform.position, spriteRenderer.color);//  + new Vector3(0, 1, 3));
+            GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position, spriteRenderer.color);//  + new Vector3(0, 1, 3));
             if (CurrentLoad > data.maxLoad)
             {
                 packet.MarkFailed();

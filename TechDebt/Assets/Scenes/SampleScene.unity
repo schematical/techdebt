@@ -550,6 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   ActiveInfrastructure: []
   UIManager: {fileID: 203743596}
+  FloatingTextFactory: {fileID: 547684158}
   GameLoopManager: {fileID: 776996749}
   desiredTimeScale: 1
   AllInfrastructure:
