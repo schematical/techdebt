@@ -37,7 +37,7 @@ public class NetworkPacket : MonoBehaviour
 	}
     public void MoveToNextNode()
     {
-        Debug.Log("Returning MoveToNextNode: " + returnIndex + " Count:" + pastNodes.Count); 
+         
         if (returnIndex != -1)
         {
             
@@ -85,7 +85,7 @@ public class NetworkPacket : MonoBehaviour
     public void StartReturn()
     {
         returnIndex = pastNodes.Count - 1;
-        Debug.Log("Returning packet");
+        
         //pastNodes.RemoveAt(pastNodes.Count - 1);
     }
 }

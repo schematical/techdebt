@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class NetworkPacketData
 {
+    [Serializable]
     public enum PType
     {
         Text,

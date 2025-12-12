@@ -40,7 +40,7 @@ public class GameLoopManager : MonoBehaviour
                 if (summaryPhaseTimer >= SummaryPhaseDuration)
                 {
                     // Check for Game Over condition AFTER the summary has been displayed
-                    Debug.Log("Checking for Game Over condition: " + GameManager.Instance.GetStat(StatType.Money));
+                  
                     if (GameManager.Instance.GetStat(StatType.Money) < 0)
                     {
                         // Reset and reload

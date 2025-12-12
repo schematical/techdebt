@@ -25,7 +25,7 @@ public class InternetPipe : InfrastructureInstance
                     timeSinceLastPacket -= delay;
                     NetworkPacketData data = GameManager.Instance.GetNetworkPacketData();
                     string targetId = GetNextNetworkTargetId(data.Type);
-                    Debug.Log($"Sending Packet: {targetId}   - {data.Type}");
+                    
                     if (targetId != null)
                     {
                         IDataReceiver targetReceiver = GameManager.Instance.GetReceiver(targetId);

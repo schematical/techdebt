@@ -16,7 +16,7 @@ public class InfrastructureData
     public UnlockCondition[] UnlockConditions;
     public float DailyCost = 100;
     public float BuildTime = 5f; // In seconds
-    public float loadPerPacket = 20f;
+    public int loadPerPacket = 20;
     public List<InfrastructureDataNetworkPacket> networkPackets = new List<InfrastructureDataNetworkPacket>();
     public float maxLoad = 100;
 

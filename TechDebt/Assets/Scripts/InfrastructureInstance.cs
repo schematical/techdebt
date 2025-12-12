@@ -114,7 +114,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         // Update load
         if (!packet.IsReturning())
         {
-            float loadPerPacket = data.loadPerPacket;
+            int loadPerPacket = data.loadPerPacket;
             if (
                 data.networkPackets != null &&
                 data.networkPackets.Count() > 0
@@ -128,6 +128,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
                     return false;
                 }));
+                Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)}");
                 if (packetData != null)
                 {
                     loadPerPacket = packetData.loadPerPacket;
@@ -155,7 +156,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
                 if (nextReceiver != null && nextReceiver.data.CurrentState == InfrastructureData.State.Operational)
                 {
-                    
+                    Debug.Log("Sending " + nextTargetId);
                     packet.SetNextTarget(nextReceiver);
                 }
                 else
@@ -166,14 +167,13 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             }
             else
             {
-                Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: No valid next target. Returning");
+                Debug.Log("StartReturn");
                 packet.StartReturn();
             }
         }
         else
         {
-            Debug.Log(
-                $"{data.DisplayName} starting return - NetConnections: ${data.NetworkConnections.Length}");
+       
             packet.StartReturn(); 
         }
 
@@ -249,8 +249,17 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     public void OnInfrastructureBuilt(InfrastructureInstance instance)
     {
+        if (
+            !(
+                data.CurrentState == InfrastructureData.State.Operational ||
+                data.CurrentState == InfrastructureData.State.Frozen
+            )
+        )
+        {
+            return;
+        }
         UpdateNetworkTargets();
-        
+       
 
         // Filter CurrConnections to see if instance is in the list
 
@@ -271,11 +280,13 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
         if (foundConnection == null)
         {
+        
             return;
         }
-
+        Debug.Log($" {data.ID} OnInfrastructureBuilt 4 - Count: {foundConnection.NetworkConnectionBonus.Count()}");
         foreach (var bonus in foundConnection.NetworkConnectionBonus)
         {
+            Debug.Log($" {data.ID} OnInfrastructureBuilt 5 {bonus.PacketType}");
             switch (bonus.Type)
             {
                 case(NetworkConnectionBonus.BonusType.Multiplier):
@@ -283,13 +294,15 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                     switch (bonus.Stat)
                     {
                         case(NetworkConnectionBonus.InfrStat.LoadPerPacket):
-                            if (bonus.PacketType == null)
+                            
+                            /*if (bonus.PacketType == NetworkPacketData.PType)
                             {
-                                data.loadPerPacket *= bonus.value;
+                                data.loadPerPacket = (int) Math.Round(bonus.value * data.loadPerPacket);
+                                Debug.Log("Applied Basic Bonus: " + data.loadPerPacket + " - " + bonus.PacketType);
                             }
                             else
-                            {
-                                InfrastructureDataNetworkPacket packetData = data.networkPackets.Find((packetData => {
+                            {*/
+                                int index = data.networkPackets.FindIndex((packetData => {
                                     if(packetData.PacketType == bonus.PacketType)
                                     {
                                         return true;
@@ -297,10 +310,11 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
                                     return false;
                                 }));
-                                packetData.loadPerPacket = (int) Math.Round(bonus.value * packetData.loadPerPacket);
-                            }
+                                data.networkPackets[index].loadPerPacket = (int) Math.Round(bonus.value * data.networkPackets[index].loadPerPacket);
+                                Debug.Log("Applied Specific Bonus: " + data.networkPackets[index].loadPerPacket + " - " + bonus.PacketType + " - Value: " + bonus.value);
+                            //}
 
-                            Debug.Log("Applied Bonus: " + data.loadPerPacket + " - " + bonus.PacketType);
+                           
                             break;
                         default:
                             throw new SystemException("TOOD: Write me");

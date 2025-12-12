@@ -611,15 +611,13 @@ MonoBehaviour:
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 13}
-    UnlockConditions:
-    - Type: 0
-      StatType: 0
-      TechnologyID: 
-      RequiredValue: 0
+    UnlockConditions: []
     DailyCost: 30
     BuildTime: 5
     loadPerPacket: 20
     networkPackets:
+    - PacketType: 0
+      loadPerPacket: 20
     - PacketType: 1
       loadPerPacket: 50
     maxLoad: 100
@@ -629,11 +627,19 @@ MonoBehaviour:
     - TargetID: dedicated-db
       Priority: 5
       networkPacketType: 0
-      NetworkConnectionBonus: []
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 0
+        Type: 0
+        value: 0.5
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
-      NetworkConnectionBonus: []
+      NetworkConnectionBonus:
+      - PacketType: 1
+        Stat: 0
+        Type: 0
+        value: 0.5
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
