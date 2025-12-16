@@ -5,10 +5,9 @@ using System.Linq;
 public class ResearchTask : NPCTask
 {
     public Technology TargetTechnology { get; private set; }
-    private Desk desk;
-    private bool atDesk = false;
+    private readonly Desk desk;
 
-    public ResearchTask(Technology technology)
+    public ResearchTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.transform.position)
     {
         TargetTechnology = technology;
         Priority = 2; // Research is a low-priority, background task.
@@ -26,29 +25,12 @@ public class ResearchTask : NPCTask
         }
     }
 
-    public override void OnStart(NPCDevOps npc)
-    {
-        if (desk != null)
-        {
-            npc.MoveTo(desk.transform.position);
-        }
-    }
-
     public override void OnUpdate(NPCDevOps npc)
     {
         if (desk == null) return;
         
-        // Check if the NPC has arrived at the desk.
-        if (!atDesk && !npc.isMoving)
-        {
-            if (Vector3.Distance(npc.transform.position, desk.transform.position) < 1.5f)
-            {
-                atDesk = true;
-            }
-        }
-        
         // Apply research points only if the NPC is at the desk
-        if (atDesk)
+        if (hasArrived)
         {
             float researchGained = npc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
             GameManager.Instance.ApplyResearchProgress(researchGained);
@@ -58,10 +40,11 @@ public class ResearchTask : NPCTask
             );
         }
     }
-
+    
     public override void OnEnd(NPCDevOps npc)
     {
-        // No specific end action is needed.
+        base.OnEnd(npc);
+        // No specific end action is needed beyond base functionality.
     }
 
     public override bool IsFinished(NPCDevOps npc)

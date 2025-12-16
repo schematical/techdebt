@@ -211,7 +211,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         if (newState == InfrastructureData.State.Frozen)
         {
             // Create a new BuildTask and add it to the GameManager
-            var buildTask = new BuildTask(this);
+            var buildTask = new BuildTask(this, 7);
             GameManager.Instance.AddTask(buildTask);
         }
 
