@@ -631,7 +631,7 @@ MonoBehaviour:
       - PacketType: 0
         Stat: 0
         Type: 0
-        value: 0.5
+        value: 0.75
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
@@ -726,10 +726,10 @@ MonoBehaviour:
       RequiredValue: 0
     DailyCost: 45
     BuildTime: 10
-    loadPerPacket: 20
+    loadPerPacket: 1
     networkPackets: []
     maxLoad: 100
-    loadRecoveryRate: 50
+    loadRecoveryRate: 25
     CurrentState: 1
     NetworkConnections:
     - TargetID: server1

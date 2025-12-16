@@ -22,6 +22,14 @@ public class BuildTask : NPCTask
         if (hasArrived)
         {
             buildProgress += Time.deltaTime;
+            int checkBuildProgress = (int)Math.Round(buildProgress/TargetInfrastructure.data.BuildTime * 100f);
+            if (checkBuildProgress % 10 == 0 && displayBuildProgress != checkBuildProgress)
+            {
+                displayBuildProgress = checkBuildProgress;
+                GameManager.Instance.FloatingTextFactory.ShowText($"{displayBuildProgress}%",
+                    TargetInfrastructure.transform.position); //  + new Vector3(0, 1, 3));
+          
+            }
         }
     }
 
