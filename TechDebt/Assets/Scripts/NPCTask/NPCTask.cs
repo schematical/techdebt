@@ -7,13 +7,20 @@ public abstract class NPCTask
     {
         Pending,
         Executing,
-        Completed
+        Completed,
+        Interrupted
     }
 
     public Status CurrentStatus { get; protected set; } = Status.Pending;
     public int Priority { get; protected set; }
     public NPCDevOps AssignedNPC { get; private set; }
     public bool IsAssigned => AssignedNPC != null;
+
+    public void OnInterrupt()
+    {
+        CurrentStatus = Status.Interrupted;
+        Unassign();
+    }
 
     // Method to assign an NPC to this task
     public bool TryAssign(NPCDevOps npc)

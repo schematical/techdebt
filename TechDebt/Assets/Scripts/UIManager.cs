@@ -374,6 +374,7 @@ public class UIManager : MonoBehaviour
 
         foreach (var tech in GameManager.Instance.AllTechnologies)
         {
+            Technology localTech = tech; // Create a local copy for the closure
             var techPanel = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(380, 120), Vector2.zero, Vector2.one, Vector2.zero);
             var techVLG = techPanel.AddComponent<VerticalLayoutGroup>();
             techVLG.padding = new RectOffset(8, 8, 8, 8);
@@ -398,7 +399,7 @@ public class UIManager : MonoBehaviour
             }
             CreateText(techPanel.transform, "Requirements", reqText, 12).alignment = TextAlignmentOptions.Left;
 
-            var researchButton = CreateButton(techPanel.transform, "Research", () => GameManager.Instance.SelectTechnologyForResearch(tech));
+            var researchButton = CreateButton(techPanel.transform, "Research", () => GameManager.Instance.SelectTechnologyForResearch(localTech));
             var layoutElement = researchButton.gameObject.AddComponent<LayoutElement>();
             layoutElement.preferredHeight = 40f;
             

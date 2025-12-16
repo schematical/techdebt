@@ -50,24 +50,12 @@ public class GameManager : MonoBehaviour
         AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
     }
 
-    public NPCTask RequestTask(NPCDevOps npc)
+    public NPCTask GetHighestPriorityTask()
     {
-        if (npc == null) return null;
-        
-        // Find a task that is not already completed or assigned
-        NPCTask availableTask = AvailableTasks
+        return AvailableTasks
             .Where(t => t.CurrentStatus == NPCTask.Status.Pending && !t.IsAssigned)
             .OrderByDescending(t => t.Priority)
             .FirstOrDefault();
-
-        if (availableTask != null)
-        {
-            if (availableTask.TryAssign(npc))
-            {
-                return availableTask;
-            }
-        }
-        return null;
     }
 
     public void CompleteTask(NPCTask task)

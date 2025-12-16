@@ -7,11 +7,36 @@ public class NPCDevOps : NPCBase
     public State CurrentState { get; set; } = State.Idle;
 
     public NPCDevOpsData Data { get; private set; }
+    public NPCTask CurrentTask { get { return currentTask; } }
     private NPCTask currentTask;
 
     private Vector3 wanderDestination;
     public float wanderRadius = 10f;
+    public bool IsBusy => currentTask != null;
+    
+    private float taskCheckTimer = 0f;
+    public const float TaskCheckInterval = 1f;
 
+
+    public void AssignTask(NPCTask newTask)
+    {
+        Debug.Log($"AssignTask - {gameObject.name} - Task: {newTask.GetType().Name}");
+        if (currentTask != null)
+        {
+            currentTask.OnInterrupt();
+        }
+        currentTask = newTask;
+        if (newTask.TryAssign(this))
+        {
+            CurrentState = State.ExecutingTask;
+            currentTask.OnStart(this);
+        }
+        else
+        {
+            Debug.LogError($"Failed to assign task {newTask.GetType().Name} to {name}. It might be already assigned.");
+            currentTask = null;
+        }
+    }
 
     public void Initialize(NPCDevOpsData data)
     {
@@ -45,6 +70,15 @@ public class NPCDevOps : NPCBase
                         currentTask = null; // Clear the completed task
                         CurrentState = State.Idle;
                     }
+                    else
+                    {
+                        taskCheckTimer += Time.deltaTime;
+                        if (taskCheckTimer >= TaskCheckInterval)
+                        {
+                            taskCheckTimer = 0f;
+                            CheckForHigherPriorityTask();
+                        }
+                    }
                 }
                 else
                 {
@@ -64,6 +98,16 @@ public class NPCDevOps : NPCBase
         }
 		base.Update();
     }
+    
+    private void CheckForHigherPriorityTask()
+    {
+        NPCTask highestPriorityTask = GameManager.Instance.GetHighestPriorityTask();
+        if (highestPriorityTask != null && highestPriorityTask.Priority > currentTask.Priority)
+        {
+            Debug.Log($"CheckForHigherPriorityTask - {gameObject.name} - highestPriorityTask: {highestPriorityTask.Priority} > {currentTask.Priority}");
+            AssignTask(highestPriorityTask);
+        }
+    }
 
     public float GetResearchPointsPerSecond(Technology technology)
     {
@@ -74,13 +118,11 @@ public class NPCDevOps : NPCBase
     private void TryToFindWork()
     {
         if (CurrentState != State.Idle) return;
-
-        currentTask = GameManager.Instance.RequestTask(this);
-        if (currentTask != null)
+        Debug.Log($"TryToFindWork - {gameObject.name} - CurrentState: {CurrentState}");
+        NPCTask availableTask = GameManager.Instance.GetHighestPriorityTask();
+        if (availableTask != null)
         {
-			Debug.Log("NPC Starting Task:");
-            CurrentState = State.ExecutingTask;
-            currentTask.OnStart(this);
+            AssignTask(availableTask);
         }
         else
         {
