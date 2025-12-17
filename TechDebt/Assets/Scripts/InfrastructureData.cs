@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Stats;
 
 [Serializable]
 public class InfrastructureData
@@ -9,6 +10,7 @@ public class InfrastructureData
     public enum State { Locked, Unlocked, Planned, Operational, Frozen }
 
     public string ID = Guid.NewGuid().ToString(); // Unique identifier for this instance
+    public StatsCollection Stats = new StatsCollection();
     public string DisplayName = "New Infrastructure";
     public string Type = "Generic"; // e.g., "WebServer", "Database", "LoadBalancer"
     public GameObject Prefab;
