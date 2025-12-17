@@ -1,5 +1,3 @@
-// GameManager.cs
-
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -8,6 +6,7 @@ using System.Data;
 using System.Linq;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
+using Stats;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class GameManager : MonoBehaviour
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
     public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
-    public Dictionary<StatType, float> Stats { get; private set; }
+    public Stats.StatsCollection Stats { get; private set; }
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
@@ -267,45 +266,32 @@ public class GameManager : MonoBehaviour
 
     private void InitializeStats()
     {
-        Stats = new Dictionary<StatType, float>();
-        Stats.Add(StatType.Money, 200f);
-        // Stats.Add(StatType.TechDebt, 0f);
-        Stats.Add(StatType.Traffic,  .25f);// .1f);//
- 		Stats.Add(StatType.PacketsSent, 0f);
-		Stats.Add(StatType.PacketsServiced, 0f);
-
-		Stats.Add(StatType.PacketIncome, 10f);
-		Stats.Add(StatType.Difficulty, 1.5f);
-        Stats.Add(StatType.PRR, 0.5f);
+       
+        
+        Stats.Add(new StatData(StatType.Money, 200f));
+        Stats.Add(new StatData(StatType.TechDebt, 0f));
+        Stats.Add(new StatData(StatType.Traffic, 0.25f));
+        Stats.Add(new StatData(StatType.PacketsSent, 0f));
+        Stats.Add(new StatData(StatType.PacketsServiced, 0f));
+        Stats.Add(new StatData(StatType.PacketIncome, 10f));
+        Stats.Add(new StatData(StatType.Difficulty, 1.5f));
+        Stats.Add(new StatData(StatType.PRR, 0.5f));
     }
+    
 	public float IncrStat(StatType stat, float value = 1)
     {
-  
-        Stats[stat] += value;
-        OnStatsChanged?.Invoke();
-        return Stats[stat];
+       
+        return Stats.Stats[stat].IncrStat(value);
     }
   
     public void SetStat(StatType stat, float value)
     {
-  
-        Stats[stat] = value;
-        OnStatsChanged?.Invoke();
-       
+        Stats.Stats[stat].SetBaseValue(value);
+        Stats.Stats[stat].UpdateValue();
     }
 
-    public void TrySpendStat(StatType stat, float value)
-    {
-        if (!Stats.ContainsKey(stat))
-        {
-            throw new System.Exception($"Can't find stat");
-        } 
-    
-        Stats[stat] -= value;
-        OnStatsChanged?.Invoke();
-    }
 
-    public float GetStat(StatType stat) => Stats.ContainsKey(stat) ? Stats[stat] : 0f;
+    public float GetStat(StatType stat) => Stats.Stats[stat].Value;
 
     public void SetDesiredTimeScale(float scale)
     {
@@ -320,13 +306,13 @@ public class GameManager : MonoBehaviour
         {
             if (infra.CurrentState == InfrastructureData.State.Operational)
             {
-                totalCost += infra.DailyCost;
+                totalCost += infra.Stats.GetStatValue(StatType.Infra_DailyCost);
             }
         }
         
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
-            totalCost += npc.Data.DailyCost;
+            totalCost += npc.Data.Stats.GetStatValue(StatType.NPC_DailyCost);
         }
         return totalCost;
     }

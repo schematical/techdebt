@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
+using Stats;
 
 public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEnterHandler, IPointerExitHandler, */IPointerClickHandler
 {
@@ -49,18 +50,22 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         {
             return;
         }
-        CurrentLoad -= data.loadRecoveryRate * Time.fixedDeltaTime;
+
+        CurrentLoad -= data.Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * Time.fixedDeltaTime;
         if (CurrentLoad < 0)
         {
-            CurrentLoad = 0;  
+            CurrentLoad = 0;
         }
-        if (CurrentLoad > data.maxLoad)
+
+        if (CurrentLoad > data.Stats.GetStatValue(StatType.Infra_MaxLoad))
         {
-            CurrentLoad = data.maxLoad;  
+            CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
         }
+
         // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
-        float c = 1 - CurrentLoad / data.maxLoad;
-        spriteRenderer.color = new Color(1, c, c, 1); 
+        float c = 1 - CurrentLoad / data.Stats.GetStatValue(StatType.Infra_MaxLoad);
+        spriteRenderer.color = new Color(1, c, c, 1);
+
     }
     /*
     public void OnPointerEnter(PointerEventData eventData)
@@ -114,7 +119,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         // Update load
         if (!packet.IsReturning())
         {
-            int loadPerPacket = data.loadPerPacket;
+            int loadPerPacket = data.LoadPerPacket;
             if (
                 data.networkPackets != null &&
                 data.networkPackets.Count() > 0
@@ -137,7 +142,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
             CurrentLoad += loadPerPacket;
             GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position, spriteRenderer.color);//  + new Vector3(0, 1, 3));
-            if (CurrentLoad > data.maxLoad)
+            if (CurrentLoad > data.MaxLoad)
             {
                 packet.MarkFailed();
                 SetState(InfrastructureData.State.Frozen);
@@ -188,7 +193,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public void Initialize(InfrastructureData infraData)
     {
         data = infraData;
-
+        data.InitializeStats(); // Ensure default stats are set up
+        CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
     }
 
@@ -310,8 +316,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
                                     return false;
                                 }));
-                                data.networkPackets[index].loadPerPacket = (int) Math.Round(bonus.value * data.networkPackets[index].loadPerPacket);
-                                Debug.Log("Applied Specific Bonus: " + data.networkPackets[index].loadPerPacket + " - " + bonus.PacketType + " - Value: " + bonus.value);
+                                data.Stats.AddModifier(StatType.Infra_LoadPerPacket, new StatModifier(StatModifier.ModifierType.Multiply, bonus.value));
+                                Debug.Log("Applied Specific Bonus: " + data.Stats.GetStatValue(StatType.Infra_LoadPerPacket) + " - " + bonus.PacketType + " - Value: " + bonus.value);
                             //}
 
                            

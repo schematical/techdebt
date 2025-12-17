@@ -11,4 +11,14 @@ public enum StatType
     PacketsFailed,
     PacketIncome,
     Difficulty,
+    
+    // Infrastructure Stats
+    Infra_MaxLoad,
+    Infra_LoadRecoveryRate,
+    Infra_BuildTime,
+    Infra_LoadPerPacket,
+    Infra_DailyCost,
+    
+    //NPC
+    NPC_DailyCost
 }

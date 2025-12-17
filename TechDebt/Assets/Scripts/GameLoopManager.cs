@@ -130,7 +130,7 @@ public class GameLoopManager : MonoBehaviour
 
 
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
-        GameManager.Instance.TrySpendStat(StatType.Money, totalDailyCost);
+        GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
 
         // --- Prepare Summary Text ---
         string summaryText = $"End of Day {currentDay}\n" +

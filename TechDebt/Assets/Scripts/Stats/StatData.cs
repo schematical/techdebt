@@ -25,6 +25,11 @@ namespace Stats
         {
             BaseValue = baseValue;
         }
+        public float IncrStat(float value = 1)
+        {
+            BaseValue += value;
+            return UpdateValue();
+        }
         public float UpdateValue()
         {
             float value = BaseValue;
@@ -49,6 +54,10 @@ namespace Stats
                 listener.Invoke(this);
             }
         }
-        
+
+        public void SetBaseValue(float value)
+        {
+            BaseValue = value;
+        }
     }
 }

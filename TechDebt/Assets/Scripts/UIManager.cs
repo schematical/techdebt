@@ -9,6 +9,7 @@ using TMPro;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Stats;
 using static NPCTask;
 
 public class UIManager : MonoBehaviour
@@ -517,7 +518,19 @@ public class UIManager : MonoBehaviour
 
         clockText = CreateText(statsBarUIContainer.transform, "ClockText", "9:00 AM", 18);
 
-        foreach (StatType type in Enum.GetValues(typeof(StatType)))
+        var statsToDisplay = new List<StatType>
+        {
+            StatType.Money,
+            StatType.TechDebt,
+            StatType.Traffic,
+            StatType.PacketsSent,
+            StatType.PacketsServiced,
+            StatType.PacketIncome,
+            StatType.Difficulty,
+            StatType.PRR
+        };
+        
+        foreach (StatType type in statsToDisplay)
         {
             statTexts.Add(type, CreateText(statsBarUIContainer.transform, type.ToString(), $"{type}: 0", 18));
         }
@@ -718,7 +731,7 @@ public class UIManager : MonoBehaviour
         var candidates = GameManager.Instance.GenerateNPCCandidates(3);
         foreach (var candidate in candidates)
         {
-            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.DailyCost}/day)", () => {
+            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
                 GameManager.Instance.HireNPCDevOps(candidate);
                 hireDevOpsPanel.SetActive(false);
             });
@@ -750,7 +763,7 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        tooltipContent += $"\n Daily Cost: ${instance.data.DailyCost}\nBuild Time: {instance.data.BuildTime}s";
+        tooltipContent += $"\n Daily Cost: ${instance.data.Stats.GetStatValue(StatType.Infra_DailyCost)}\nBuild Time: {instance.data.Stats.GetStatValue(StatType.Infra_BuildTime)}s";
         tooltipText.text = tooltipContent;
         
         tooltipButton.gameObject.SetActive(true);

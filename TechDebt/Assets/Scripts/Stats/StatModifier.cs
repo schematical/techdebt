@@ -5,6 +5,12 @@ namespace Stats
     [Serializable]
     public class StatModifier
     {
+        public StatModifier(ModifierType type, float value)
+        {
+            Type = type;
+            Value = value;
+        }
+
         public enum ModifierType { Multiply }
         
         public ModifierType Type { get; private set; }
