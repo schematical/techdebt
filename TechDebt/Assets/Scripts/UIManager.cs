@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     private GameObject summaryPhaseUIContainer;
     private GameObject statsBarUIContainer;
     private GameObject hireDevOpsPanel;
-    private GameObject tooltipPanel;
+    private GameObject infrastructureDetailPanel;
     private GameObject timeControlsContainer;
     private GameObject leftMenuBar;
     private GameObject taskListPanel;
@@ -31,8 +31,8 @@ public class UIManager : MonoBehaviour
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
-    private TextMeshProUGUI tooltipText;
-    private Button tooltipButton;
+    private TextMeshProUGUI _infrastructureDetailText;
+    private Button _planBuildButton;
         private TextMeshProUGUI totalDailyCostText;
         private TextMeshProUGUI gameStateText;
         private TextMeshProUGUI clockText;
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     private Transform techTreeContent;
 
     
-
+    private InfrastructureInstance _selectedInfrastructure;
     void OnEnable() 
 
     { 
@@ -122,6 +122,36 @@ public class UIManager : MonoBehaviour
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
         }
+
+        if (infrastructureDetailPanel != null && infrastructureDetailPanel.activeSelf)
+        {
+            UpdateInfrastructureDetailPanel();
+        }
+    }
+
+    private void UpdateInfrastructureDetailPanel()
+    {
+        if (_selectedInfrastructure == null) return;
+        
+        string content = $"<b>{_selectedInfrastructure.data.DisplayName}</b>\n";
+        content += $"Type: {_selectedInfrastructure.data.Type}\n";
+        content += $"State: {_selectedInfrastructure.data.CurrentState}\n\n";
+
+        content += "<b>Stats:</b>\n";
+        foreach (var stat in _selectedInfrastructure.data.Stats.Stats.Values)
+        {
+            content += $"- {stat.Type}: {stat.Value} (Base: {stat.BaseValue})\n";
+            if (stat.Modifiers.Count > 0)
+            {
+                content += "  <i>Modifiers:</i>\n";
+                foreach (var mod in stat.Modifiers)
+                {
+                    content += $"  - {mod.Value} ({mod.Type})\n";
+                }
+            }
+        }
+        
+        _infrastructureDetailText.text = content;
     }
 
 
@@ -158,11 +188,11 @@ public class UIManager : MonoBehaviour
 
         SetupBuildPhaseUI(transform);
 
-        SetupSummaryPhaseUI(transform);
+                SetupSummaryPhaseUI(transform);
 
-        SetupTooltip(transform);
+                SetupInfrastructureDetailPanel(transform);
 
-        SetupTimeControls(transform);
+                SetupTimeControls(transform);
 
         SetupLeftMenuBar(transform);
 
@@ -565,15 +595,44 @@ public class UIManager : MonoBehaviour
         CreateText(summaryPhaseUIContainer.transform, "Summary Text", "", 24);
     }
     
-    private void SetupTooltip(Transform parent)
+    private void SetupInfrastructureDetailPanel(Transform parent)
     {
-        tooltipPanel = CreateUIPanel(parent, "Tooltip", new Vector2(200, 150), new Vector2(0, 0.5f), new Vector2(0, 0.5f), new Vector2(435, 0));
-        var vlg = tooltipPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(5,5,5,5);
-        tooltipText = CreateText(tooltipPanel.transform, "TooltipText", "", 14);
-        tooltipText.alignment = TextAlignmentOptions.Left;
-        tooltipButton = CreateButton(tooltipPanel.transform, "Action", () => {{}});
-        tooltipPanel.SetActive(false);
+        infrastructureDetailPanel = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(175, 200));
+        var vlg = infrastructureDetailPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10, 10, 10, 10);
+        vlg.spacing = 5;
+        _infrastructureDetailText = CreateText(infrastructureDetailPanel.transform, "DetailText", "Infrastructure Details", 14);
+        _planBuildButton = CreateButton(infrastructureDetailPanel.transform, "Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
+        _planBuildButton.gameObject.SetActive(false); // Start hidden
+        infrastructureDetailPanel.SetActive(false);
+    }
+    #endregion
+    
+    #region Tooltip Logic
+    public void ShowInfrastructureDetail(InfrastructureInstance instance)
+    {
+        _selectedInfrastructure = instance;
+        infrastructureDetailPanel.SetActive(true);
+        // Update text in Update() to keep it live
+
+        bool conditionsMet = GameManager.Instance.AreUnlockConditionsMet(_selectedInfrastructure.data);
+
+        if (_selectedInfrastructure.data.CurrentState == InfrastructureData.State.Unlocked && conditionsMet)
+        {
+            _planBuildButton.gameObject.SetActive(true);
+            _planBuildButton.onClick.RemoveAllListeners();
+            _planBuildButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
+        }
+        else
+        {
+            _planBuildButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void HideInfrastructureDetail()
+    {
+        _selectedInfrastructure = null;
+        infrastructureDetailPanel.SetActive(false);
     }
 
     private void SetupTimeControls(Transform parent)
@@ -739,61 +798,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region Tooltip Logic
-    public void ShowInfrastructureTooltip(InfrastructureInstance instance)
-    {
-        bool conditionsMet = GameManager.Instance.AreUnlockConditionsMet(instance.data);
-        if (instance.data.CurrentState == InfrastructureData.State.Locked && !conditionsMet)
-        {
-            HideTooltip();
-            return;
-        }
 
-        tooltipPanel.SetActive(true);
-        string tooltipContent = $"<b>{instance.data.DisplayName}</b>\n";
-
-        if (instance.data.CurrentState == InfrastructureData.State.Locked)
-        {
-            if (instance.data.UnlockConditions != null && instance.data.UnlockConditions.Length > 0)
-            {
-                tooltipContent += "\n<b>Unlock Requirements:</b>\n";
-                foreach (var condition in instance.data.UnlockConditions)
-                {
-                    tooltipContent += $"- {condition.GetDescription()}\n";
-                }
-            }
-        }
-        tooltipContent += $"\n Daily Cost: ${instance.data.Stats.GetStatValue(StatType.Infra_DailyCost)}\nBuild Time: {instance.data.Stats.GetStatValue(StatType.Infra_BuildTime)}s";
-        tooltipText.text = tooltipContent;
-        
-        tooltipButton.gameObject.SetActive(true);
-        tooltipButton.onClick.RemoveAllListeners();
-        Debug.Log($"3333 Initialized infrastructure {instance.data.ID} {instance.data.CurrentState}");
-        switch (instance.data.CurrentState)
-        {
-            case InfrastructureData.State.Locked:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Locked";
-                tooltipButton.interactable = false;
-                break;
-            case InfrastructureData.State.Unlocked:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Plan Build";
-                tooltipButton.interactable = true;
-                tooltipButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(instance));
-                break;
-            case InfrastructureData.State.Planned:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Build Planned";
-                tooltipButton.interactable = false;
-                break;
-            case InfrastructureData.State.Operational:
-                tooltipButton.GetComponentInChildren<TextMeshProUGUI>().text = "Operational";
-                tooltipButton.interactable = false;
-                break;
-        }
-    }
-
-    public void HideTooltip() => tooltipPanel.SetActive(false);
-    
-    #endregion
 
     #region UI Helper Methods
     private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)

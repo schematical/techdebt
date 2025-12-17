@@ -16,6 +16,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     private SpriteRenderer spriteRenderer;
     
     public float CurrentLoad { get; set; }
+    public float TechDebt => data.Stats.GetStatValue(StatType.TechDebt);
 
 
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
@@ -95,7 +96,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         UIManager uiManager = GameManager.Instance.UIManager;
         if (uiManager != null)
         {
-            uiManager.ShowInfrastructureTooltip(this);
+            uiManager.ShowInfrastructureDetail(this);
         }
     }
 
@@ -136,7 +137,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)}");
                 if (packetData != null)
                 {
-                    loadPerPacket = packetData.loadPerPacket;
+                    loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
                 }
             }
 
@@ -159,7 +160,14 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             {
              
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
-                if (nextReceiver != null && nextReceiver.data.CurrentState == InfrastructureData.State.Operational)
+                if (
+                    nextReceiver != null && 
+                    (
+                        nextReceiver.data.CurrentState == InfrastructureData.State.Operational ||
+                        nextReceiver.data.CurrentState == InfrastructureData.State.Frozen
+                    )
+                    
+                    )
                 {
                     Debug.Log("Sending " + nextTargetId);
                     packet.SetNextTarget(nextReceiver);
@@ -316,7 +324,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
                 return false;
             }));
-            data.Stats.AddModifier(bonus.Stat, new StatModifier(bonus.Type, bonus.value));
+            data.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(bonus.Type, bonus.value));
 
         }
     }
@@ -339,7 +347,10 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         
             if (
                 instance != null &&
-                instance.data.CurrentState == InfrastructureData.State.Operational &&
+                (
+                    instance.data.CurrentState == InfrastructureData.State.Operational ||
+                    instance.data.CurrentState == InfrastructureData.State.Frozen
+                ) &&
                 conn.Priority > priorities[conn.networkPacketType]
             )
             {
@@ -354,7 +365,10 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             if (
                 conn.Priority == priorities[conn.networkPacketType] &&
                 instance != null &&
-                instance.data.CurrentState == InfrastructureData.State.Operational
+                (
+                    instance.data.CurrentState == InfrastructureData.State.Operational ||
+                    instance.data.CurrentState == InfrastructureData.State.Frozen
+                )
             )
             {
                 if (!CurrConnections.ContainsKey(conn.networkPacketType))

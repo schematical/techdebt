@@ -564,12 +564,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: 
       RequiredValue: 2
+    networkPackets: []
     DailyCost: 30
     BuildTime: 1
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 3
     NetworkConnections:
     - TargetID: server1
@@ -598,12 +598,12 @@ MonoBehaviour:
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
     GridPosition: {x: 12, y: 20}
     UnlockConditions: []
+    networkPackets: []
     DailyCost: 0
     BuildTime: 0
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 3
     NetworkConnections: []
   - ID: server1
@@ -612,16 +612,16 @@ MonoBehaviour:
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 13}
     UnlockConditions: []
-    DailyCost: 30
-    BuildTime: 10
-    loadPerPacket: 20
     networkPackets:
     - PacketType: 0
       loadPerPacket: 20
     - PacketType: 1
       loadPerPacket: 40
-    maxLoad: 100
-    loadRecoveryRate: 10
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 1
     NetworkConnections:
     - TargetID: dedicated-db
@@ -629,7 +629,7 @@ MonoBehaviour:
       networkPacketType: 0
       NetworkConnectionBonus:
       - PacketType: 0
-        Stat: 0
+        Stat: 12
         Type: 0
         value: 0.75
     - TargetID: s3-bucket
@@ -637,7 +637,7 @@ MonoBehaviour:
       networkPacketType: 1
       NetworkConnectionBonus:
       - PacketType: 1
-        Stat: 0
+        Stat: 12
         Type: 0
         value: 0.75
     - TargetID: read-replica-1
@@ -658,12 +658,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: dedicated-db
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: read-replica-1
@@ -684,12 +684,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: binary-storage
       RequiredValue: 30
+    networkPackets: []
     DailyCost: 45
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 1
     NetworkConnections: []
   - ID: cdn
@@ -702,12 +702,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: cdn
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: s3-bucket
@@ -724,12 +724,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: load-balencer
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 45
     BuildTime: 10
-    loadPerPacket: 1
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 25
+    LoadPerPacket: 1
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 1
     NetworkConnections:
     - TargetID: server1
@@ -766,12 +766,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: load-balencer
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
@@ -800,12 +800,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: load-balencer
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
@@ -834,12 +834,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: read-replicas
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
   - ID: read-replica-2
@@ -852,12 +852,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: read-replicas
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
   - ID: water-cooler
@@ -870,12 +870,12 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: water-cooler
       RequiredValue: 0
+    networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    loadPerPacket: 20
-    networkPackets: []
-    maxLoad: 100
-    loadRecoveryRate: 50
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
   AllTechnologies:

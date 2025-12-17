@@ -448,7 +448,7 @@ public class GameManager : MonoBehaviour
 
         infra.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
         Debug.Log($"Successfully planned {infra.data.DisplayName}.");
-        UIManager.HideTooltip();
+        UIManager.HideInfrastructureDetail();
     }
     
     public List<NPCDevOpsData> GenerateNPCCandidates(int count)

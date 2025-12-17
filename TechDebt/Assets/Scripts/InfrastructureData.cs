@@ -35,4 +35,10 @@ public class InfrastructureDataNetworkPacket
 {
     public NetworkPacketData.PType PacketType;
     public int loadPerPacket = 20;
+    public StatsCollection Stats = new StatsCollection();
+
+    public InfrastructureDataNetworkPacket()
+    {
+        Stats.Add(new StatData(StatType.Infra_LoadPerPacket, loadPerPacket));
+    }
 }

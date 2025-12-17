@@ -25,6 +25,7 @@ namespace Stats
         {
             Type = statType;
             BaseValue = baseValue;
+            UpdateValue();
         }
         public float IncrStat(float value = 1)
         {
