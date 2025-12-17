@@ -23,6 +23,7 @@ namespace Stats
 
         public StatData(StatType statType, float baseValue)
         {
+            Type = statType;
             BaseValue = baseValue;
         }
         public float IncrStat(float value = 1)

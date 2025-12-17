@@ -12,7 +12,7 @@ public class InternetPipe : InfrastructureInstance
 			data.CurrentState == InfrastructureData.State.Operational
 		) {
             float packetsPerSecond = GameManager.Instance.GetStat(StatType.Traffic);
-            int connectionCount = data.NetworkConnections?.Length ?? 0;
+            int connectionCount = data.NetworkConnections?.Count ?? 0;
 
             // Check if there are any configured network connections
             if (packetsPerSecond > 0 && connectionCount > 0)

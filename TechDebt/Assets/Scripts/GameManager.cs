@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
     public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
-    public Stats.StatsCollection Stats { get; private set; }
+    public Stats.StatsCollection Stats { get; private set; } = new StatsCollection();
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
@@ -273,6 +273,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.Traffic, 0.25f));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
+        Stats.Add(new StatData(StatType.PacketsFailed, 0f));
         Stats.Add(new StatData(StatType.PacketIncome, 10f));
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));

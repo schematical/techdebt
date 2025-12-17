@@ -29,7 +29,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
     }
 
-    void Start()
+    protected void Start()
     {
         // Register with the routing manager
         if (GameManager.Instance != null)
@@ -152,7 +152,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
        
         // If there are network connections, try to forward the packet
-        if (data.NetworkConnections != null && data.NetworkConnections.Length > 0 && data.CurrentState == InfrastructureData.State.Operational)
+        if (data.NetworkConnections != null && data.NetworkConnections.Count > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
             string nextTargetId = GetNextNetworkTargetId(packet.data.Type);
             if (nextTargetId != null)
@@ -193,10 +193,21 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public void Initialize(InfrastructureData infraData)
     {
         data = infraData;
-        data.InitializeStats(); // Ensure default stats are set up
+        Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
     }
+    public void Initialize()
+    {
+
+        data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
+        data.Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
+        data.Stats.Add(new StatData(StatType.Infra_LoadPerPacket, data.LoadPerPacket));
+        data.Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
+        data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
+        data.Stats.Add(new StatData(StatType.TechDebt, 0f));
+    }
+
 
     public void SetState(InfrastructureData.State newState)
     {
@@ -293,48 +304,26 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         foreach (var bonus in foundConnection.NetworkConnectionBonus)
         {
             Debug.Log($" {data.ID} OnInfrastructureBuilt 5 {bonus.PacketType}");
-            switch (bonus.Type)
+
+
+
+            int index = data.networkPackets.FindIndex((packetData =>
             {
-                case(NetworkConnectionBonus.BonusType.Multiplier):
+                if (packetData.PacketType == bonus.PacketType)
+                {
+                    return true;
+                }
 
-                    switch (bonus.Stat)
-                    {
-                        case(NetworkConnectionBonus.InfrStat.LoadPerPacket):
-                            
-                            /*if (bonus.PacketType == NetworkPacketData.PType)
-                            {
-                                data.loadPerPacket = (int) Math.Round(bonus.value * data.loadPerPacket);
-                                Debug.Log("Applied Basic Bonus: " + data.loadPerPacket + " - " + bonus.PacketType);
-                            }
-                            else
-                            {*/
-                                int index = data.networkPackets.FindIndex((packetData => {
-                                    if(packetData.PacketType == bonus.PacketType)
-                                    {
-                                        return true;
-                                    }
+                return false;
+            }));
+            data.Stats.AddModifier(bonus.Stat, new StatModifier(bonus.Type, bonus.value));
 
-                                    return false;
-                                }));
-                                data.Stats.AddModifier(StatType.Infra_LoadPerPacket, new StatModifier(StatModifier.ModifierType.Multiply, bonus.value));
-                                Debug.Log("Applied Specific Bonus: " + data.Stats.GetStatValue(StatType.Infra_LoadPerPacket) + " - " + bonus.PacketType + " - Value: " + bonus.value);
-                            //}
-
-                           
-                            break;
-                        default:
-                            throw new SystemException("TOOD: Write me");
-                    }
-                    break;
-                default:
-                    throw new SystemException("TOOD: Write me");
-            }
         }
     }
     public void UpdateNetworkTargets()
     {
         // Debug.Log("GetNextNetworkTargetId: " + data.NetworkConnections.Length);
-        if (data.NetworkConnections == null || data.NetworkConnections.Length == 0)
+        if (data.NetworkConnections == null || data.NetworkConnections.Count() == 0)
         {
             return;
         }

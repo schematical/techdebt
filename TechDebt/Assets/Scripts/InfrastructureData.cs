@@ -24,20 +24,10 @@ public class InfrastructureData
 
     public StatsCollection Stats { get; private set; } = new StatsCollection();
 
-    [ContextMenu("Initialize Stats")]
-    public void InitializeStats()
-    {
-        Stats = new StatsCollection();
-        Stats.Add(new StatData(StatType.Infra_DailyCost, DailyCost));
-        Stats.Add(new StatData(StatType.Infra_BuildTime, BuildTime));
-        Stats.Add(new StatData(StatType.Infra_LoadPerPacket, LoadPerPacket));
-        Stats.Add(new StatData(StatType.Infra_MaxLoad, MaxLoad));
-        Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, LoadRecoveryRate));
-        Stats.Add(new StatData(StatType.TechDebt, 0f));
-    }
-    
+  
+
     public State CurrentState = State.Locked;
-    public NetworkConnection[] NetworkConnections; // Array of NetworkConnection objects
+    public List<NetworkConnection> NetworkConnections; // Array of NetworkConnection objects
 }
 
 [Serializable]
