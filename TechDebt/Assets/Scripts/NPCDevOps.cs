@@ -1,19 +1,31 @@
 // NPCDevOps.cs
 using UnityEngine;
+using UnityEngine.EventSystems; // Add this namespace
 
-public class NPCDevOps : NPCBase
+public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClickHandler
 {
-    public enum State { Idle, ExecutingTask, Wandering }
+    public enum State
+    {
+        Idle,
+        ExecutingTask,
+        Wandering
+    }
+
     public State CurrentState { get; set; } = State.Idle;
 
     public NPCDevOpsData Data { get; private set; }
-    public NPCTask CurrentTask { get { return currentTask; } }
+
+    public NPCTask CurrentTask
+    {
+        get { return currentTask; }
+    }
+
     private NPCTask currentTask;
 
     private Vector3 wanderDestination;
     public float wanderRadius = 10f;
     public bool IsBusy => currentTask != null;
-    
+
     private float taskCheckTimer = 0f;
     public const float TaskCheckInterval = 1f;
 
@@ -25,6 +37,7 @@ public class NPCDevOps : NPCBase
         {
             currentTask.OnInterrupt();
         }
+
         currentTask = newTask;
         if (newTask.TryAssign(this))
         {
@@ -57,15 +70,15 @@ public class NPCDevOps : NPCBase
             case State.Idle:
                 TryToFindWork();
                 break;
-            
+
             case State.ExecutingTask:
                 if (currentTask != null)
                 {
                     currentTask.OnUpdate(this);
-                   
+
                     if (currentTask.IsFinished(this))
                     {
-       					Debug.Log("NPC Finished Task:");
+                        Debug.Log("NPC Finished Task:");
                         currentTask.OnEnd(this);
                         currentTask = null; // Clear the completed task
                         CurrentState = State.Idle;
@@ -86,6 +99,7 @@ public class NPCDevOps : NPCBase
                     // If task is null for some reason, go back to idle.
                     CurrentState = State.Idle;
                 }
+
                 break;
 
             case State.Wandering:
@@ -94,17 +108,20 @@ public class NPCDevOps : NPCBase
                     CurrentState = State.Idle;
                     // Consider adding a small delay here before looking for work again
                 }
+
                 break;
         }
-		base.Update();
+
+        base.Update();
     }
-    
+
     private void CheckForHigherPriorityTask()
     {
         NPCTask highestPriorityTask = GameManager.Instance.GetHighestPriorityTask();
         if (highestPriorityTask != null && highestPriorityTask.Priority > currentTask.Priority)
         {
-            Debug.Log($"CheckForHigherPriorityTask - {gameObject.name} - highestPriorityTask: {highestPriorityTask.Priority} > {currentTask.Priority}");
+            Debug.Log(
+                $"CheckForHigherPriorityTask - {gameObject.name} - highestPriorityTask: {highestPriorityTask.Priority} > {currentTask.Priority}");
             AssignTask(highestPriorityTask);
         }
     }
@@ -130,7 +147,7 @@ public class NPCDevOps : NPCBase
             Wander();
         }
     }
-    
+
     private void Wander()
     {
         if (GetRandomWalkablePoint(transform.position, wanderRadius, out wanderDestination))
@@ -151,7 +168,7 @@ public class NPCDevOps : NPCBase
         {
             Vector3 randomDirection = Random.insideUnitSphere * radius;
             randomDirection += origin;
-            
+
             Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
             if (node != null && node.isWalkable)
             {
@@ -159,6 +176,7 @@ public class NPCDevOps : NPCBase
                 return true;
             }
         }
+
         result = Vector3.zero;
         return false;
     }
@@ -170,6 +188,7 @@ public class NPCDevOps : NPCBase
             currentTask.Unassign();
             currentTask = null;
         }
+
         StopMovement();
         CurrentState = State.Idle;
     }
@@ -181,7 +200,14 @@ public class NPCDevOps : NPCBase
             currentTask.Unassign();
             currentTask = null;
         }
+
         StopMovement();
         CurrentState = State.Idle;
+    }
+
+    // IPointerClickHandler implementation
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        GameManager.Instance.UIManager.ShowNPCDetail(this);
     }
 }

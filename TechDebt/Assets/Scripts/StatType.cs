@@ -20,5 +20,10 @@ public enum StatType
     Infra_DailyCost,
     
     //NPC
-    NPC_DailyCost
+    NPC_DailyCost,
+    NPC_FinOps,
+    NPC_InfoSec,
+    NPC_DevOps,
+    NPC_Energy,
+    NPC_MaxEnergy
 }

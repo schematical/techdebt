@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour
     private GameObject leftMenuBar;
     private GameObject taskListPanel;
     private GameObject techTreePanel;
+    private GameObject npcListPanel;
+    private GameObject npcDetailPanel;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -65,6 +67,7 @@ public class UIManager : MonoBehaviour
 
     
     private InfrastructureInstance _selectedInfrastructure;
+    private NPCDevOps _selectedNPC;
     void OnEnable() 
 
     { 
@@ -130,6 +133,10 @@ public class UIManager : MonoBehaviour
         {
             UpdateInfrastructureDetailPanel();
         }
+        if (npcDetailPanel != null && npcDetailPanel.activeSelf)
+        {
+            UpdateNPCDetailPanel();
+        }
     }
 
     private void UpdateInfrastructureDetailPanel()
@@ -143,13 +150,13 @@ public class UIManager : MonoBehaviour
         content += "<b>Stats:</b>\n";
         foreach (var stat in _selectedInfrastructure.data.Stats.Stats.Values)
         {
-            content += $"- {stat.Type}: {stat.Value} (Base: {stat.BaseValue})\n";
+            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
             if (stat.Modifiers.Count > 0)
             {
                 content += "  <i>Modifiers:</i>\n";
                 foreach (var mod in stat.Modifiers)
                 {
-                    content += $"  - {mod.Value} ({mod.Type})\n";
+                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {mod.Source.GetType().Name}\n";
                 }
             }
         }
@@ -157,9 +164,31 @@ public class UIManager : MonoBehaviour
         _infrastructureDetailText.text = content;
     }
 
+    private void UpdateNPCDetailPanel()
+    {
+        if (_selectedNPC == null) return;
 
+        var detailText = npcDetailPanel.GetComponentInChildren<TextMeshProUGUI>();
+        if (detailText == null) return;
+        
+        string content = $"<b>{_selectedNPC.name}</b>\n\n";
+        content += "<b>Stats:</b>\n";
 
-
+        foreach (var stat in _selectedNPC.Data.Stats.Stats.Values)
+        {
+            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
+            if (stat.Modifiers.Any())
+            {
+                content += "  <i>Modifiers:</i>\n";
+                foreach (var mod in stat.Modifiers)
+                {
+                    string sourceName = mod.Source != null ? mod.Source.GetType().Name : "Unknown";
+                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {sourceName}\n";
+                }
+            }
+        }
+        detailText.text = content;
+    }
 
     public void SetupUIInfrastructure()
 
@@ -199,6 +228,8 @@ public class UIManager : MonoBehaviour
 
         SetupLeftMenuBar(transform);
 
+        SetupNPCListPanel(transform);
+        SetupNPCDetailPanel(transform);
         
 
         // Initial state
@@ -225,9 +256,88 @@ public class UIManager : MonoBehaviour
 
         CreateButton(leftMenuBar.transform, "Tasks", ToggleTaskListPanel, new Vector2(40, 40));
         CreateButton(leftMenuBar.transform, "Tech", ToggleTechTreePanel, new Vector2(40, 40));
+        CreateButton(leftMenuBar.transform, "NPCs", ToggleNPCListPanel, new Vector2(40, 40));
         
         SetupTaskListPanel(parent);
         SetupTechTreePanel(parent);
+    }
+    
+    private void SetupNPCListPanel(Transform parent)
+    {
+        npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        var vlg = npcListPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10, 10, 10, 10);
+        vlg.spacing = 5;
+        vlg.childControlWidth = true;
+
+        CreateText(npcListPanel.transform, "Header", "Hired NPCs", 20);
+
+        // This panel will be populated at runtime
+        npcListPanel.SetActive(false);
+    }
+    
+    private void SetupNPCDetailPanel(Transform parent)
+    {
+        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(175, 200));
+        var vlg = npcDetailPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10, 10, 10, 10);
+        vlg.spacing = 5;
+
+        var headerContainer = new GameObject("HeaderContainer");
+        headerContainer.transform.SetParent(npcDetailPanel.transform, false);
+        var headerLayout = headerContainer.AddComponent<HorizontalLayoutGroup>();
+        headerLayout.childControlWidth = true;
+        headerLayout.childForceExpandWidth = true;
+        
+        CreateText(headerContainer.transform, "DetailText", "NPC Details", 14);
+        var closeButton = CreateButton(headerContainer.transform, "X", HideNPCDetail, new Vector2(25, 25));
+        var closeButtonLayout = closeButton.gameObject.AddComponent<LayoutElement>();
+        closeButtonLayout.minWidth = 25;
+        closeButtonLayout.flexibleWidth = 0;
+        
+        npcDetailPanel.SetActive(false);
+    }
+
+    private void ToggleNPCListPanel()
+    {
+        bool isActive = !npcListPanel.activeSelf;
+        npcListPanel.SetActive(isActive);
+        if (isActive)
+        {
+            RefreshNPCListPanel();
+        }
+    }
+
+    private void RefreshNPCListPanel()
+    {
+        if (npcListPanel == null) return;
+
+        // Clear existing NPCs, skipping the header
+        for (int i = npcListPanel.transform.childCount - 1; i > 0; i--)
+        {
+            Destroy(npcListPanel.transform.GetChild(i).gameObject);
+        }
+
+        var npcs = FindObjectsOfType<NPCDevOps>();
+        foreach (var npc in npcs)
+        {
+            NPCDevOps localNpc = npc; // Local copy for the closure
+            CreateButton(npcListPanel.transform, npc.name, () => ShowNPCDetail(localNpc));
+        }
+    }
+    
+    public void ShowNPCDetail(NPCDevOps npc)
+    {
+        _selectedNPC = npc;
+        npcListPanel.SetActive(false); // Close the list when detail is shown
+        npcDetailPanel.SetActive(true);
+        UpdateNPCDetailPanel(); // Initial update
+    }
+
+    public void HideNPCDetail()
+    {
+        _selectedNPC = null;
+        npcDetailPanel.SetActive(false);
     }
     
     private void SetupTaskListPanel(Transform parent)
