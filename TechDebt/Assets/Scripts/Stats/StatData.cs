@@ -43,6 +43,20 @@ namespace Stats
                 value = modifier.Apply(this, value);
             }
 
+            if (
+                GameManager.Instance  != null &&
+                GameManager.Instance.GlobalStats.Stats.ContainsKey(Type)
+                )
+            {
+                List<StatModifier> globalModifiers = GameManager.Instance.GlobalStats.Stats[Type].Modifiers;
+
+                foreach (var globalModifier in globalModifiers)
+                {
+                    value = globalModifier.Apply(this, value);
+                }
+            }
+
+
             if (Math.Abs(Value - value) > 0.001f)
             {
                 Value = value;

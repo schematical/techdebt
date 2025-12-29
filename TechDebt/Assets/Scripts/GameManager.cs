@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null) _instance = FindObjectOfType<GameManager>();
             return _instance;
         }
     }
@@ -31,6 +30,8 @@ public class GameManager : MonoBehaviour
     public List<Technology> AllTechnologies;
     public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
     public Stats.StatsCollection Stats { get; private set; } = new StatsCollection();
+    
+    public Stats.StatsCollection GlobalStats { get; private set; } = new StatsCollection();
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
