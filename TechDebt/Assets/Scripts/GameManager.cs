@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
     public static event System.Action<Technology> OnTechnologyUnlocked;
     public static event System.Action<Technology> OnTechnologyResearchStarted;
+    public static event System.Action OnCurrentEventsChanged;
     
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
@@ -188,6 +189,7 @@ public class GameManager : MonoBehaviour
         e.Apply();
         
         CurrentEvents.Add(e);
+        OnCurrentEventsChanged?.Invoke();
     }
 
     void Update()
@@ -205,6 +207,7 @@ public class GameManager : MonoBehaviour
         {
             TriggerAlert(e.EventEndText);
         }
+        OnCurrentEventsChanged?.Invoke();
     }
 
     public void TriggerAlert(string message)
@@ -350,6 +353,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.PRR, 0.5f));
 
         Events.Add(new SlowSalesWeekEvent());
+        Events.Add(new DeploymentEvent());
     }
     
 	public float IncrStat(StatType stat, float value = 1)
@@ -526,7 +530,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Successfully planned {infra.data.DisplayName}.");
         UIManager.HideInfrastructureDetail();
     }
-
+    
     public void RequestInfrastructureResize(InfrastructureInstance instance, int sizeChange)
     {
         var resizeTask = new ResizeTask(instance, sizeChange);

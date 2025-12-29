@@ -65,6 +65,8 @@ public class UIManager : MonoBehaviour
     // Tech Tree
 
     private Transform techTreeContent;
+    private GameObject currentEventsPanel;
+    private Transform currentEventsContent;
 
     
     private InfrastructureInstance _selectedInfrastructure;
@@ -80,6 +82,8 @@ public class UIManager : MonoBehaviour
         GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
 
         GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
+        
+        GameManager.OnCurrentEventsChanged += RefreshCurrentEventsPanel;
 
     }
 
@@ -94,6 +98,8 @@ public class UIManager : MonoBehaviour
         GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
 
         GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
+        
+        GameManager.OnCurrentEventsChanged -= RefreshCurrentEventsPanel;
 
     }
 
@@ -247,6 +253,27 @@ public class UIManager : MonoBehaviour
     }
     
     #region UI Setup Methods
+
+    private void SetupCurrentEventsPanel(Transform parent)
+    {
+        currentEventsPanel = CreateUIPanel(parent, "CurrentEventsPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        var vlg = currentEventsPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10, 10, 10, 10);
+        vlg.spacing = 5;
+        vlg.childControlWidth = true;
+
+        CreateText(currentEventsPanel.transform, "Header", "Current Events", 18);
+
+        var contentGo = new GameObject("Content");
+        contentGo.transform.SetParent(currentEventsPanel.transform, false);
+        currentEventsContent = contentGo.transform;
+        var contentVlg = contentGo.AddComponent<VerticalLayoutGroup>();
+        contentVlg.spacing = 3;
+        contentVlg.childControlWidth = true;
+        
+        currentEventsPanel.SetActive(false); // Start hidden
+    }
+    
     private void SetupAlertPanel(Transform parent)
     {
         alertPanel = CreateUIPanel(parent, "AlertPanel", new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
@@ -277,9 +304,50 @@ public class UIManager : MonoBehaviour
         CreateButton(leftMenuBar.transform, "Tasks", ToggleTaskListPanel, new Vector2(40, 40));
         CreateButton(leftMenuBar.transform, "Tech", ToggleTechTreePanel, new Vector2(40, 40));
         CreateButton(leftMenuBar.transform, "NPCs", ToggleNPCListPanel, new Vector2(40, 40));
+        CreateButton(leftMenuBar.transform, "Events", ToggleCurrentEventsPanel, new Vector2(40, 40));
         
         SetupTaskListPanel(parent);
         SetupTechTreePanel(parent);
+    }
+
+    private void ToggleCurrentEventsPanel()
+    {
+        bool isActive = !currentEventsPanel.activeSelf;
+        currentEventsPanel.SetActive(isActive);
+        Debug.Log($"Toggling Current Events Panel. New state: {isActive}");
+        if (isActive)
+        {
+            RefreshCurrentEventsPanel();
+        }
+    }
+    
+    private void RefreshCurrentEventsPanel()
+    {
+        if (currentEventsContent == null)
+        {
+            Debug.LogError("currentEventsContent is null. Cannot refresh panel.");
+            return;
+        }
+        
+        Debug.Log($"Refreshing Current Events Panel. Event count: {GameManager.Instance.CurrentEvents.Count}");
+
+        foreach (Transform child in currentEventsContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (GameManager.Instance.CurrentEvents.Count == 0)
+        {
+            CreateText(currentEventsContent, "EventEntry", "No active events.", 14);
+            return;
+        }
+        
+        foreach (var ev in GameManager.Instance.CurrentEvents)
+        {
+            string eventName = ev.GetType().Name.Replace("Event", "");
+            var text = CreateText(currentEventsContent, "EventEntry", $"- {eventName}", 14);
+            text.alignment = TextAlignmentOptions.Left;
+        }
     }
     
     private void SetupNPCListPanel(Transform parent)
@@ -495,7 +563,7 @@ public class UIManager : MonoBehaviour
         techTreePanel.SetActive(false);
     }
 
-    private void ToggleTechTreePanel()
+    public void ToggleTechTreePanel()
     {
         bool isActive = !techTreePanel.activeSelf;
         techTreePanel.SetActive(isActive);

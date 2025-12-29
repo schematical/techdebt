@@ -40,7 +40,7 @@ namespace Stats
             float value = BaseValue;
             if (Type == StatType.Traffic)
             {
-                Debug.Log($"BaseValue: {BaseValue}");
+                // Debug.Log($"BaseValue: {BaseValue}");
             }
             // Apply modifier
             foreach (var modifier in Modifiers)
@@ -48,7 +48,7 @@ namespace Stats
                 value = modifier.Apply(this, value);
                 if (Type == StatType.Traffic)
                 {
-                    Debug.Log($"Modifying: {modifier.Type} - {modifier.Value} = {value}");
+                    // Debug.Log($"Modifying: {modifier.Type} - {modifier.Value} = {value}");
                 }
             }
 
@@ -68,7 +68,7 @@ namespace Stats
 
             if (Type == StatType.Traffic)
             {
-                Debug.Log($"End Value: {Value}");
+               //  Debug.Log($"End Value: {Value}");
             }
             Value = value;
             if (Math.Abs(Value - value) > 0.00001f)

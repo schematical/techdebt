@@ -2,6 +2,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Desk : InfrastructureInstance
 {
@@ -20,5 +21,10 @@ public class Desk : InfrastructureInstance
             GameManager.Instance.FloatingTextFactory.ShowText($"{progress}%", position, new Color(0.2f, 0.6f, 1f));//  + new Vector3(0, 1, 3));
             lastDisplayedProgress = progress;
         }
+    }
+    
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        GameManager.Instance.UIManager.ToggleTechTreePanel();
     }
 }
