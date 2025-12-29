@@ -125,7 +125,20 @@ Skill Set (Placeholder): For the MVP, this is a single, static value (e.g., "Eff
 
 Action: The player can hire a candidate if they have enough money and are below the Team Size Cap (S1). Once hired, the NPCDevOps is added to the controllable team.
 
-4. Future Scope (V2.0+)
+6. Stat Management System (Architectural Detail)
+
+To ensure a robust and flexible system for managing all game statistics (Money, TechDebt, Load, NPC skills, etc.), a new centralized stat management system has been implemented:
+
+- **StatsCollection:** A central repository on game entities (e.g., `InfrastructureData`, `NPCDevOpsData`) that holds all stats. It provides methods to retrieve stat values and apply modifiers.
+- **StatData:** Represents an individual statistic. It contains an immutable `BaseValue` (set at initialization) and a dynamic list of `StatModifier`s. The final `Value` of a stat is calculated by applying all modifiers to the `BaseValue`. It also broadcasts changes to listeners.
+- **StatModifier:** Represents a single modification to a stat. It supports `Flat` (addition/subtraction) and `Multiply` (percentage/multiplication) types. Each modifier can have an `object source` to identify its origin (e.g., "RuntimeModification", "Buff", "Debuff").
+
+This system ensures:
+- All stat changes are tracked and auditable.
+- Base values remain constant, while runtime changes are handled through modifiers.
+- Flexibility for adding new stat types and modification rules without extensive refactoring.
+
+7. Future Scope (V2.0+)
 
 These features are out of scope for the MVP prototype but are vital for the full game.
 
@@ -143,13 +156,13 @@ NPC Types: Differentiating between Junior Devs (cheap, slow, low skill) and Seni
 
 Larger Map/Unlocks: Expanding the playable area through purchasing "datacenter wings" or cloud capacity.
 
-5. MVP Completion Criteria
+8. MVP Completion Criteria
 
 The prototype is complete when the following can be successfully demonstrated:
 
 A player can view the max Infrastructure NPCDevOps Team Size based on the current game day (S1).
 
-In the Planning Phase, a player can view candidates' Salaries and Skills and hire an NPCDevOps up to the team cap (S5).
+In the Planning Phase, a player can view candidates' Salaries and Skills (now integrated with `StatsCollection`) and hire an NPCDevOps up to the team cap (S5).
 
 The Day Phase starts and servers generate money.
 
@@ -162,4 +175,4 @@ The daily loop correctly transitions, summarizes resource usage, pays the Debs, 
 ## UI Implementation Guidelines
 
 - **Self-Healing UI Components:** For dynamic UI elements (like task lists, tech trees, etc.) that are programmatically generated and refreshed, always implement a 'self-healing' mechanism. This involves checking if content `Transform` references (e.g., `taskListContent`, `techTreeContent`) are null before attempting to manipulate their children. If null, attempt to re-acquire the `Transform` by searching within its parent panel (e.g., `parentPanel.transform.Find("ScrollView/Viewport/Content")`). This pattern significantly improves UI resilience against `NullReferenceException` errors, especially across scene reloads or unexpected object destructions.
-quick
+- **Infrastructure Detail Panel:** The generic tooltip system has been replaced with a dedicated `InfrastructureInstanceDetail` panel. This panel dynamically displays detailed information about a selected infrastructure instance, including its stats (retrieved via `StatsCollection.GetStatValue`) and modifiers. It also features a "Plan Build" button that is conditionally visible based on the infrastructure's state and unlock conditions.

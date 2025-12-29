@@ -17,6 +17,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     
     public float CurrentLoad { get; set; }
     public float TechDebt => data.Stats.GetStatValue(StatType.TechDebt);
+    public int CurrentSizeLevel { get; private set; } = 0;
 
 
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
@@ -386,5 +387,32 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
 
         return null;
+    }
+
+    public void ApplyResize(int sizeChange)
+    {
+        // Update and clamp the size level
+        CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0, 4);
+
+        // Calculate the visual scale factor (e.g., 1.25, 1.5, etc.)
+        float visualScaleFactor = 1.0f + (CurrentSizeLevel * 0.25f);
+        transform.localScale = Vector3.one * visualScaleFactor;
+
+        // Remove existing resize modifiers to apply fresh ones
+        data.Stats.RemoveModifiers(StatType.Infra_DailyCost, this);
+        data.Stats.RemoveModifiers(StatType.Infra_MaxLoad, this);
+
+        // Apply new modifiers only if the size is above base level
+        if (CurrentSizeLevel > 0)
+        {
+            // Calculate the stat multiplier (doubles with each level: 2, 4, 8, 16)
+            float statMultiplier = Mathf.Pow(2, CurrentSizeLevel);
+
+            data.Stats.AddModifier(StatType.Infra_DailyCost, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+            data.Stats.AddModifier(StatType.Infra_MaxLoad, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+        }
+
+        UpdateAppearance(); // Update visual state after resize
+        GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display
     }
 }

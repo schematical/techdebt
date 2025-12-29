@@ -450,6 +450,13 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Successfully planned {infra.data.DisplayName}.");
         UIManager.HideInfrastructureDetail();
     }
+
+    public void RequestInfrastructureResize(InfrastructureInstance instance, int sizeChange)
+    {
+        var resizeTask = new ResizeTask(instance, sizeChange);
+        AddTask(resizeTask);
+        UIManager.HideInfrastructureDetail();
+    }
     
     public List<NPCDevOpsData> GenerateNPCCandidates(int count)
     {

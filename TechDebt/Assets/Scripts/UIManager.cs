@@ -33,6 +33,9 @@ public class UIManager : MonoBehaviour
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI _infrastructureDetailText;
     private Button _planBuildButton;
+    private Button _upsizeButton;
+    private Button _downsizeButton;
+    private Button _closeButton;
         private TextMeshProUGUI totalDailyCostText;
         private TextMeshProUGUI gameStateText;
         private TextMeshProUGUI clockText;
@@ -601,9 +604,33 @@ public class UIManager : MonoBehaviour
         var vlg = infrastructureDetailPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10, 10, 10, 10);
         vlg.spacing = 5;
-        _infrastructureDetailText = CreateText(infrastructureDetailPanel.transform, "DetailText", "Infrastructure Details", 14);
+
+        // Create a container for the header to hold the title and close button
+        var headerContainer = new GameObject("HeaderContainer");
+        headerContainer.transform.SetParent(infrastructureDetailPanel.transform, false);
+        var headerLayout = headerContainer.AddComponent<HorizontalLayoutGroup>();
+        headerLayout.childControlWidth = true;
+        headerLayout.childForceExpandWidth = true;
+        var headerRt = headerContainer.GetComponent<RectTransform>();
+        headerRt.sizeDelta = new Vector2(0, 30);
+
+        _infrastructureDetailText = CreateText(headerContainer.transform, "DetailText", "Infrastructure Details", 14);
+
+        _closeButton = CreateButton(headerContainer.transform, "X", HideInfrastructureDetail, new Vector2(25, 25));
+        var closeButtonLayout = _closeButton.gameObject.AddComponent<LayoutElement>();
+        closeButtonLayout.minWidth = 25;
+        closeButtonLayout.flexibleWidth = 0;
+
+
         _planBuildButton = CreateButton(infrastructureDetailPanel.transform, "Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
         _planBuildButton.gameObject.SetActive(false); // Start hidden
+
+        // Add Upsize and Downsize buttons
+        _upsizeButton = CreateButton(infrastructureDetailPanel.transform, "Upsize", () => { /* Temp action */ });
+        _downsizeButton = CreateButton(infrastructureDetailPanel.transform, "Downsize", () => { /* Temp action */ });
+        _upsizeButton.gameObject.SetActive(false);
+        _downsizeButton.gameObject.SetActive(false);
+
         infrastructureDetailPanel.SetActive(false);
     }
     #endregion
@@ -626,6 +653,27 @@ public class UIManager : MonoBehaviour
         else
         {
             _planBuildButton.gameObject.SetActive(false);
+        }
+
+        if (_selectedInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
+        {
+            _upsizeButton.gameObject.SetActive(true);
+            _downsizeButton.gameObject.SetActive(true);
+
+            // Update listeners to pass integer direction
+            _upsizeButton.onClick.RemoveAllListeners();
+            _upsizeButton.onClick.AddListener(() => GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, 1));
+            _downsizeButton.onClick.RemoveAllListeners();
+            _downsizeButton.onClick.AddListener(() => GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, -1));
+
+            // Set interactable state based on size level
+            _upsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel < 4;
+            _downsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel > 0;
+        }
+        else
+        {
+            _upsizeButton.gameObject.SetActive(false);
+            _downsizeButton.gameObject.SetActive(false);
         }
     }
 

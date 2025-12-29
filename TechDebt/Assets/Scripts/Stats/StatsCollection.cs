@@ -58,5 +58,14 @@ namespace Stats
             }
             return false;
         }
+
+        public void RemoveModifiers(StatType statType, object source)
+        {
+            if (Stats.TryGetValue(statType, out var statData))
+            {
+                statData.Modifiers.RemoveAll(mod => mod.Source == source);
+                statData.UpdateValue();
+            }
+        }
     }
 }
