@@ -26,6 +26,53 @@ public class CameraController : MonoBehaviour
     {
         HandlePan();
         HandleZoom();
+        HandleKeyboardInput(); // Call the new keyboard input handler
+        HandleKeyboardZoom(); // Call the new keyboard zoom handler
+    }
+
+    void HandleKeyboardInput()
+    {
+        Vector3 movement = Vector3.zero;
+
+        // WASD input
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
+        {
+            movement += Vector3.up;
+        }
+        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
+        {
+            movement += Vector3.down;
+        }
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+        {
+            movement += Vector3.left;
+        }
+        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+        {
+            movement += Vector3.right;
+        }
+
+        // Apply movement scaled by panSpeed and Time.deltaTime
+        transform.position += movement.normalized * panSpeed * Time.deltaTime;
+    }
+
+    void HandleKeyboardZoom()
+    {
+        float zoomDelta = 0;
+        if (Keyboard.current.qKey.isPressed)
+        {
+            zoomDelta = 1; // Zoom in
+        }
+        else if (Keyboard.current.eKey.isPressed)
+        {
+            zoomDelta = -1; // Zoom out
+        }
+
+        if (zoomDelta != 0)
+        {
+            float newSize = mainCamera.orthographicSize - zoomDelta * zoomSpeed * Time.deltaTime * 10; // Multiply by 10 to make it faster
+            mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+        }
     }
 
     void HandlePan()
@@ -45,12 +92,12 @@ public class CameraController : MonoBehaviour
         }
         // --- End of new code ---
 
-        if (Mouse.current.middleButton.wasPressedThisFrame)
+        if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             lastPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
         }
 
-        if (Mouse.current.middleButton.isPressed)
+        if (Mouse.current.rightButton.isPressed)
         {
             Vector3 newPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
             Vector3 panDelta = lastPanPosition - newPanPosition;

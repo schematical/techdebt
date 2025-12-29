@@ -370,7 +370,7 @@ public class GameManager : MonoBehaviour
         
         foreach (var infraData in AllInfrastructure)
         {
-            Debug.Log($"1111 Initialized infrastructure {infraData.ID} {infraData.CurrentState}");
+            // Debug.Log($"1111 Initialized infrastructure {infraData.ID} {infraData.CurrentState}");
             Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
             GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
 
