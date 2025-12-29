@@ -131,8 +131,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
-        // Hide the desk overlay and transition camera
-        _deskOverlayController?.HideOverlay();
+        // Transition camera to game view (zoomed into the screen)
         _cameraController?.TransitionToGameView();
 
         // Notify NPCs
@@ -152,6 +151,9 @@ public class GameLoopManager : MonoBehaviour
         CurrentState = GameState.Summary;
         summaryPhaseTimer = 0f;
 
+        // Show the desk overlay and start camera transition
+        _deskOverlayController?.ShowOverlay();
+        _cameraController?.TransitionToDeskView();
 
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);

@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private float targetDeskZoom = 2.5f;
     [SerializeField] private float transitionDuration = 0.5f;
+    public Rect screenViewportRect = new Rect(0.25f, 0.25f, 0.5f, 0.5f);
 
     private Camera mainCamera;
     private DeskOverlayController _deskOverlayController;
@@ -26,8 +27,8 @@ public class CameraController : MonoBehaviour
     private float _targetZoom;
     
     // Stored Game View
-    private Vector3 _lastGameViewPosition;
-    private float _lastGameViewZoom;
+    // private Vector3 _lastGameViewPosition;
+    // private float _lastGameViewZoom;
 
     void Start()
     {
@@ -43,9 +44,6 @@ public class CameraController : MonoBehaviour
         {
             Debug.LogError("CameraController: DeskOverlayController not found in scene!");
         }
-        
-        _lastGameViewPosition = transform.position;
-        _lastGameViewZoom = mainCamera.orthographicSize;
     }
 
     void Update()
@@ -56,6 +54,7 @@ public class CameraController : MonoBehaviour
         }
         else if (_currentState == CameraState.Game)
         {
+            // Re-enable camera controls when in the game view
             HandlePan();
             HandleZoom();
             HandleKeyboardInput();
@@ -68,12 +67,21 @@ public class CameraController : MonoBehaviour
         _transitionTimer += Time.deltaTime;
         float t = Mathf.Clamp01(_transitionTimer / transitionDuration);
 
+        // Smoothly interpolate camera properties ONLY
         transform.position = Vector3.Lerp(_startPosition, _targetPosition, t);
         mainCamera.orthographicSize = Mathf.Lerp(_startZoom, _targetZoom, t);
-        _deskOverlayController?.PositionOverlayForCamera(transform.position, mainCamera.orthographicSize);
+        
+        // ONLY resize the overlay when transitioning OUT to the desk view.
+        if (_currentState == CameraState.TransitioningToDesk)
+        {
+            _deskOverlayController?.PositionOverlayForCamera(transform.position, mainCamera.orthographicSize);
+        }
 
         if (t >= 1f)
         {
+            // Finalize state
+            transform.position = _targetPosition;
+            mainCamera.orthographicSize = _targetZoom;
             _currentState = (_currentState == CameraState.TransitioningToDesk) ? CameraState.Desk : CameraState.Game;
         }
     }
@@ -82,13 +90,15 @@ public class CameraController : MonoBehaviour
     {
         if (_currentState == CameraState.TransitioningToDesk || _currentState == CameraState.Desk) return;
 
-        _lastGameViewPosition = transform.position;
-        _lastGameViewZoom = mainCamera.orthographicSize;
-
+        // Ensure the camera rect is reset to fullscreen
+        mainCamera.rect = new Rect(0, 0, 1, 1);
+        
         _currentState = CameraState.TransitioningToDesk;
         _transitionTimer = 0f;
+
         _startPosition = transform.position;
         _startZoom = mainCamera.orthographicSize;
+
         _targetPosition = new Vector3(0, 0, transform.position.z);
         _targetZoom = targetDeskZoom;
     }
@@ -99,10 +109,22 @@ public class CameraController : MonoBehaviour
 
         _currentState = CameraState.TransitioningToGame;
         _transitionTimer = 0f;
+        
+        // Start from the current desk view state
         _startPosition = transform.position;
         _startZoom = mainCamera.orthographicSize;
-        _targetPosition = _lastGameViewPosition;
-        _targetZoom = _lastGameViewZoom;
+
+        // Calculate the target position and zoom to fit the game world inside the screen rect
+        float deskViewHeight = targetDeskZoom * 2;
+        float deskViewWidth = deskViewHeight * mainCamera.aspect;
+
+        // The target zoom is the height of the desk view scaled by the viewport rect's height
+        _targetZoom = targetDeskZoom * screenViewportRect.height;
+        
+        // The target position is the center of the viewport rect, converted to world space
+        float targetX = (screenViewportRect.center.x - 0.5f) * deskViewWidth;
+        float targetY = (screenViewportRect.center.y - 0.5f) * deskViewHeight;
+        _targetPosition = new Vector3(targetX, targetY, transform.position.z);
     }
 
     void HandleKeyboardInput()
