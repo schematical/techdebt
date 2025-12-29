@@ -3,8 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
-    private CameraController _cameraController;
-    private DeskOverlayController _deskOverlayController;
+    private DeskCameraController _deskCameraController;
 
     public enum GameState { Build, Play, Summary }
     public GameState CurrentState { get; private set; }
@@ -16,27 +15,14 @@ public class GameLoopManager : MonoBehaviour
     private float summaryPhaseTimer = 0f;
     private const float SummaryPhaseDuration = 5f;
 
-    void Awake()
-    {
-        _cameraController = FindObjectOfType<CameraController>();
-        if (_cameraController == null)
-        {
-            Debug.LogError("GameLoopManager: CameraController not found in scene!");
-        }
-    }
-
     void Start()
     {
-        // Get the DeskOverlayController reference from the GameManager in Start()
-        // to ensure GameManager has completed its Awake() cycle.
-        _deskOverlayController = GameManager.Instance.DeskOverlayController;
-        if (_deskOverlayController == null)
+        _deskCameraController = FindObjectOfType<DeskCameraController>();
+        if (_deskCameraController == null)
         {
-            Debug.LogError("GameLoopManager: DeskOverlayController not found in scene! Make sure it's assigned in GameManager.");
+            Debug.LogError("GameLoopManager: DeskCameraController not found in scene!");
         }
     }
-
-
 
     void Update()
     {
@@ -55,12 +41,8 @@ public class GameLoopManager : MonoBehaviour
                 summaryPhaseTimer += Time.deltaTime;
                 if (summaryPhaseTimer >= SummaryPhaseDuration)
                 {
-                    // Check for Game Over condition AFTER the summary has been displayed
-                    
-                    
                     if (GameManager.Instance.GetStat(StatType.Money) < 0)
                     {
-                        // Reset and reload
                         Debug.Log("Ran out of money!");
                         EndGame();
                         return;
@@ -68,22 +50,15 @@ public class GameLoopManager : MonoBehaviour
                     float packetsServiced = GameManager.Instance.GetStat(StatType.PacketsServiced);
                     float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
                     float packetsRatioRequirements = GameManager.Instance.GetStat(StatType.PRR);
-                    float packetFaledPct = packetsFailed / (packetsFailed + packetsServiced);
-                    if (packetFaledPct > packetsRatioRequirements)
+                    if (packetsFailed > 0 && (packetsFailed / (packetsFailed + packetsServiced)) > packetsRatioRequirements)
                     {
                         Debug.Log("Failed too much!");
                         EndGame();
                     }
-                    if (GameManager.Instance.GetStat(StatType.Money) < 0)
+                    else
                     {
-                        // Reset and reload
-                        Debug.Log("Ran out of money!");
-                        EndGame();
-                        return;
+                        BeginBuildPhase();
                     }
-                    
-                    BeginBuildPhase();
-                    
                 }
                 break;
         }
@@ -96,27 +71,25 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.ResetNPCs();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
     public void BeginBuildPhase()
     {
         Time.timeScale = 1f;
         CurrentState = GameState.Build;
         currentDay++;
 
-        // Show the desk overlay and transition camera
-        _deskOverlayController?.ShowOverlay();
-        _cameraController?.TransitionToDeskView();
+        _deskCameraController?.TransitionToDeskView();
 
-        // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
             npc.OnBuildPhaseStart();
         }
 
-        // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UpdateInfrastructureVisibility();
         GameManager.Instance.UIManager.ShowBuildUI();
     }
+
 
     public void EndBuildPhaseAndStartPlayPhase()
     {
@@ -131,16 +104,13 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
-        // Transition camera to game view (zoomed into the screen)
-        _cameraController?.TransitionToGameView();
+        _deskCameraController?.TransitionToGameView();
 
-        // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
             npc.OnPlayPhaseStart();
         }
 
-        // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.HideBuildUI();
     }
@@ -151,14 +121,11 @@ public class GameLoopManager : MonoBehaviour
         CurrentState = GameState.Summary;
         summaryPhaseTimer = 0f;
 
-        // Show the desk overlay and start camera transition
-        _deskOverlayController?.ShowOverlay();
-        _cameraController?.TransitionToDeskView();
+        _deskCameraController?.TransitionToDeskView();
 
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
 
-        // --- Prepare Summary Text ---
         string summaryText = $"End of Day {currentDay}\n" +
                              $"Total Costs: -${totalDailyCost}";
 
@@ -167,8 +134,6 @@ public class GameLoopManager : MonoBehaviour
             summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
         }
 
-
-        // --- Update UI ---
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
     }

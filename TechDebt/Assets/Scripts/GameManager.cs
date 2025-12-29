@@ -229,21 +229,7 @@ public class GameManager : MonoBehaviour
     
         ActiveInfrastructure.Clear();
         SetupGameScene();
-        
-        // Instantiate Desk Overlay Prefab and get controller
-        if (deskOverlayPrefab != null)
-        {
-            GameObject deskOverlayInstance = Instantiate(deskOverlayPrefab);
-            DeskOverlayController = deskOverlayInstance.GetComponent<DeskOverlayController>();
-            if (DeskOverlayController == null)
-            {
-                Debug.LogError("DeskOverlayController component not found on the instantiated prefab!");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Desk Overlay Prefab is not assigned in GameManager!");
-        }
+        SetupRenderTextureSystem();
     }
 
     void OnDestroy()
@@ -264,19 +250,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleInfrastructureBuilt(InfrastructureInstance instance)
     {
-        // Check if the new building is a server
-        /* if (instance is Server)
-        {
-            // Check if this is the FIRST operational server
-            int operationalServerCount = AllInfrastructure.Count(infra =>
-                infra.CurrentState == InfrastructureData.State.Operational && infra.Prefab.GetComponent<Server>() != null);
-
-            if (operationalServerCount == 1)
-            {
-                Stats[StatType.Traffic] = 1; // Set traffic rate
-                OnStatsChanged?.Invoke();
-            }
-        } */
     }
 
     void Start()
@@ -312,19 +285,17 @@ public class GameManager : MonoBehaviour
             statData.OnStatChanged += () => OnStatsChanged?.Invoke();
         }
     }
-    
-	public float IncrStat(StatType stat, float value = 1)
+
+    public float IncrStat(StatType stat, float value = 1)
     {
-       
         return Stats.Stats[stat].IncrStat(value);
     }
-  
+
     public void SetStat(StatType stat, float value)
     {
         Stats.Stats[stat].SetBaseValue(value);
         Stats.Stats[stat].UpdateValue();
     }
-
 
     public float GetStat(StatType stat) => Stats.Stats[stat].Value;
 
@@ -351,96 +322,151 @@ public class GameManager : MonoBehaviour
         }
         return totalCost;
     }
+
+        public void NotifyDailyCostChanged() => OnDailyCostChanged?.Invoke();
     
-    public void NotifyDailyCostChanged() => OnDailyCostChanged?.Invoke();
-
-    public void UpdateInfrastructureVisibility()
-    {
-        foreach (var instance in ActiveInfrastructure)
-        {   
-            InfrastructureData infraData = instance.data;
-            if (infraData.CurrentState == InfrastructureData.State.Locked && !instance.gameObject.activeSelf)
+        void SetupGameScene()
+        {
+            if (floorTile == null || npcDevOpsPrefab == null)
             {
-                if (AreUnlockConditionsMet(infraData))
-                {
-                    instance.gameObject.SetActive(true);
-                    instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
-                    Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
-                }
+                Debug.LogError("FATAL: A prefab or tile is not assigned in the GameManager Inspector!");
+                return;
             }
-        }
-    }
-
-    void SetupGameScene()
-    {
-        if (floorTile == null || npcDevOpsPrefab == null)
-        {
-            Debug.LogError("FATAL: A prefab or tile is not assigned in the GameManager Inspector!");
-            return;
-        }
-
-        if (gridManager == null)
-        {
-            gridManager = FindObjectOfType<GridManager>();
+    
             if (gridManager == null)
             {
-                 Debug.Log("GridManager not found, creating one.");
-                 gridManager = new GameObject("GridManager").AddComponent<GridManager>();
-            }
-        }
-        
-        gridManager.tilePrefab = floorTile as Tile;
-        gridManager.CreateGrid();
-
-        if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
-        {
-            Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
-        }
-        
-        foreach (var infraData in AllInfrastructure)
-        {
-            // Debug.Log($"1111 Initialized infrastructure {infraData.ID} {infraData.CurrentState}");
-            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
-            GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
-
-            if (instanceGO.GetComponent<Collider2D>() == null)
-            {
-                var boxCollider = instanceGO.AddComponent<BoxCollider2D>();
-                var spriteRenderer = instanceGO.GetComponentInChildren<SpriteRenderer>();
-                if (spriteRenderer != null)
+                gridManager = FindObjectOfType<GridManager>();
+                if (gridManager == null)
                 {
-                    boxCollider.size = spriteRenderer.bounds.size;
+                     Debug.Log("GridManager not found, creating one.");
+                     gridManager = new GameObject("GridManager").AddComponent<GridManager>();
                 }
             }
-
-            var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
             
-            if (infraInstance != null)
+            gridManager.tilePrefab = floorTile as Tile;
+            gridManager.CreateGrid();
+    
+            if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
             {
-                ActiveInfrastructure.Add(infraInstance);
-                infraInstance.Initialize(infraData);
-                if (infraData.CurrentState == InfrastructureData.State.Operational)
+                Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
+            }
+            
+            foreach (var infraData in AllInfrastructure)
+            {
+                Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
+                GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
+    
+                if (instanceGO.GetComponent<Collider2D>() == null)
                 {
-                 
+                    var boxCollider = instanceGO.AddComponent<BoxCollider2D>();
+                    var spriteRenderer = instanceGO.GetComponentInChildren<SpriteRenderer>();
+                    if (spriteRenderer != null)
+                    {
+                        boxCollider.size = spriteRenderer.bounds.size;
+                    }
+                }
+    
+                var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+                
+                if (infraInstance != null)
+                {
+                    ActiveInfrastructure.Add(infraInstance);
+                    infraInstance.Initialize(infraData);
+                    if (infraData.CurrentState != InfrastructureData.State.Operational)
+                    {
+                        if (AreUnlockConditionsMet(infraData))
+                        {
+                            infraInstance.SetState(InfrastructureData.State.Unlocked);
+                        }
+                        else
+                        {
+                            infraInstance.SetState(InfrastructureData.State.Locked);
+                            instanceGO.SetActive(false);
+                        }
+                    }
                 }
                 else
                 {
+                    Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
+                }
+            }
+        }
+    
+        public void UpdateInfrastructureVisibility()
+        {
+            foreach (var instance in ActiveInfrastructure)
+            {
+                InfrastructureData infraData = instance.data;
+                if (infraData.CurrentState == InfrastructureData.State.Locked && !instance.gameObject.activeSelf)
+                {
                     if (AreUnlockConditionsMet(infraData))
                     {
-                        infraInstance.SetState(InfrastructureData.State.Unlocked);
-                    }
-                    else
-                    {
-                        infraInstance.SetState(InfrastructureData.State.Locked);
-                        instanceGO.SetActive(false);
+                        instance.gameObject.SetActive(true);
+                        instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
+                        Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
                     }
                 }
             }
+        }
+        
+        private void SetupRenderTextureSystem()    {
+        // 1. Find the main camera, which will be our Game Camera
+        Camera gameCamera = Camera.main;
+        if (gameCamera == null)
+        {
+            Debug.LogError("Setup Error: No main camera found in the scene!");
+            return;
+        }
+        gameCamera.gameObject.name = "GameCamera";
+        gameCamera.tag = "Untagged"; // Untag the old MainCamera
+
+        // 2. Create the Desk Camera
+        GameObject deskCamGO = new GameObject("DeskCamera");
+        deskCamGO.tag = "MainCamera"; // Tag the new desk camera as MainCamera
+        Camera deskCamera = deskCamGO.AddComponent<Camera>();
+        deskCamera.orthographic = true;
+        deskCamera.backgroundColor = Color.black; // Or transparent if you want background
+        DeskCameraController deskCameraController = deskCamGO.AddComponent<DeskCameraController>();
+
+        // 3. Create the Render Texture
+        RenderTexture renderTexture = new RenderTexture(1024, 768, 16); // Recommended size
+        gameCamera.targetTexture = renderTexture;
+        
+        // 4. Instantiate Desk Overlay Prefab and get controller
+        if (deskOverlayPrefab != null)
+        {
+            GameObject deskOverlayInstance = Instantiate(deskOverlayPrefab);
+            DeskOverlayController = deskOverlayInstance.GetComponent<DeskOverlayController>();
+            if (DeskOverlayController == null)
+            {
+                Debug.LogError("DeskOverlayController component not found on the instantiated prefab!");
+            }
             else
             {
-                Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
+                // Now setup the screen surface on the DeskOverlayController
+                DeskOverlayController.SetupScreen(renderTexture, deskCameraController);
             }
         }
+        else
+        {
+            Debug.LogWarning("Desk Overlay Prefab is not assigned in GameManager!");
+        }
+        
+        // 5. Configure camera depths and culling masks
+        int overlayLayer = LayerMask.NameToLayer("Overlay");
+        if (overlayLayer == -1)
+        {
+            Debug.LogError("Setup Error: Please create a new Layer named 'Overlay' in your project's Layer settings. Assign your desk overlay prefab to this layer.");
+            return;
+        }
+
+        // Desk camera renders ONLY the overlay
+        deskCamera.cullingMask = (1 << overlayLayer);
+        deskCamera.depth = -1; // Render desk camera first
+
+        // Game camera renders everything EXCEPT the overlay
+        gameCamera.cullingMask = ~(1 << overlayLayer);
+        gameCamera.depth = 0; // Render game camera second
     }
 
     public bool AreUnlockConditionsMet(InfrastructureData infraData)

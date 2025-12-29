@@ -4,6 +4,7 @@ using UnityEngine;
 public class DeskOverlayController : MonoBehaviour
 {
     private Camera _mainCamera;
+    public Transform screenChildSurface; // Assign the screen child GameObject here in the Inspector of the prefab
 
     void Awake()
     {
@@ -35,6 +36,28 @@ public class DeskOverlayController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void SetupScreen(RenderTexture renderTexture, DeskCameraController deskCameraControllerInstance)
+    {
+        if (screenChildSurface == null)
+        {
+            Debug.LogError("DeskOverlayController: 'Screen Child Surface' is not assigned! Cannot setup screen.");
+            return;
+        }
+
+        Renderer screenRenderer = screenChildSurface.GetComponent<Renderer>();
+        if (screenRenderer != null)
+        {
+            Material screenMaterial = new Material(Shader.Find("Unlit/Texture"));
+            screenMaterial.mainTexture = renderTexture;
+            screenRenderer.material = screenMaterial;
+            deskCameraControllerInstance.SetMonitorTransform(screenChildSurface.transform);
+        }
+        else
+        {
+            Debug.LogError("DeskOverlayController: 'Screen Child Surface' has no Renderer component. Cannot setup screen.");
+        }
+    }
+
     // This method will be called to position the overlay relative to the camera view
     public void PositionOverlayForCamera(Vector3 cameraTargetPosition, float cameraTargetSize)
     {
@@ -43,28 +66,20 @@ public class DeskOverlayController : MonoBehaviour
         // Position it at the camera's Z position or slightly closer
         transform.position = new Vector3(cameraTargetPosition.x, cameraTargetPosition.y, _mainCamera.transform.position.z + 1);
         
-        // --- DEBUG LOGS START ---
-        Debug.Log("--- Debugging Overlay Scale ---");
-        Debug.Log($"Camera Orthographic Size (cameraTargetSize): {cameraTargetSize}");
-        Debug.Log($"Camera Aspect Ratio: {_mainCamera.aspect}");
-
         // Scale the overlay to fit the camera's orthographic size
         float screenHeightInWorldUnits = cameraTargetSize * 2;
         float screenWidthInWorldUnits = screenHeightInWorldUnits * _mainCamera.aspect;
-        Debug.Log($"Calculated Screen World Size: Width={screenWidthInWorldUnits}, Height={screenHeightInWorldUnits}");
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null && sr.sprite != null)
         {
             float spriteWidth = sr.sprite.rect.width / sr.sprite.pixelsPerUnit;
             float spriteHeight = sr.sprite.rect.height / sr.sprite.pixelsPerUnit;
-            Debug.Log($"Sprite World Size: Width={spriteWidth}, Height={spriteHeight}");
 
             if (spriteWidth > 0 && spriteHeight > 0)
             {
                 float scaleX = screenWidthInWorldUnits / spriteWidth;
                 float scaleY = screenHeightInWorldUnits / spriteHeight;
-                Debug.Log($"Final Calculated Scale: X={scaleX}, Y={scaleY}");
 
                 transform.localScale = new Vector3(scaleX, scaleY, 1);
             }
@@ -73,7 +88,6 @@ public class DeskOverlayController : MonoBehaviour
         {
             Debug.LogError("SpriteRenderer or Sprite is missing on the overlay prefab!");
         }
-        Debug.Log("--- End Debugging ---");
     }
 }
 
