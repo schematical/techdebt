@@ -9,7 +9,7 @@
         {
             if (!string.IsNullOrEmpty(EventStartText))
             {
-                GameManager.Instance.TriggerAlert(EventStartText);
+                GameManager.Instance.UIManager.ShowAlert(EventStartText);
             }
         }
 

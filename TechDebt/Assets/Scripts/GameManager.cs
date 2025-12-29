@@ -192,28 +192,25 @@ public class GameManager : MonoBehaviour
         OnCurrentEventsChanged?.Invoke();
     }
 
-    void Update()
+    /*void Update()
     {
         if (Keyboard.current.kKey.wasPressedThisFrame && CurrentEvents.Count > 0)
         {
             EndEvent(CurrentEvents[0]);
         }
-    }
+    }*/
 
     public void EndEvent(EventBase e)
     {
+        Debug.Log("Ending Event: " + e.EventEndText);
         CurrentEvents.Remove(e);
         if (!string.IsNullOrEmpty(e.EventEndText))
         {
-            TriggerAlert(e.EventEndText);
+            UIManager.ShowAlert(e.EventEndText);
         }
         OnCurrentEventsChanged?.Invoke();
     }
 
-    public void TriggerAlert(string message)
-    {
-        UIManager.ShowAlert(message);
-    }
 
 
     // -----------------------

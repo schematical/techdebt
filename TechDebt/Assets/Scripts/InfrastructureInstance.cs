@@ -19,6 +19,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public float TechDebt => data.Stats.GetStatValue(StatType.TechDebt);
     public int CurrentSizeLevel { get; private set; } = 0;
 
+    public string Version = "0.0.1";
+
 
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
 
@@ -414,5 +416,17 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
         UpdateAppearance(); // Update visual state after resize
         GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display
+    }
+
+    public bool IsActive()
+    {
+        switch (data.CurrentState)
+        {
+            case(InfrastructureData.State.Operational):
+            case(InfrastructureData.State.Frozen):
+                return true;
+            default:
+                return false;
+        }
     }
 }

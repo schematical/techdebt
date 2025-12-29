@@ -16,6 +16,7 @@ namespace Events
             Debug.Log("Applying SlowSalesWeekEvent");
             StatModifier statModifier = new StatModifier(StatModifier.ModifierType.Multiply, 0.1f);
             GameManager.Instance.Stats.AddModifier(StatType.Traffic, statModifier);
+            GameManager.Instance.On
         }
 
         public override bool IsPossible()

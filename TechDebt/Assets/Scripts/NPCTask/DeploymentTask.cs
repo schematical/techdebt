@@ -33,8 +33,8 @@ public class DeploymentTask : NPCTask
     public override void OnEnd(NPCDevOps npc)
     {
         base.OnEnd(npc);
+        TargetInfrastructure.Version =  Event.GetVersionString();
         CurrentStatus = Status.Completed;
-        Debug.Log($"Deployment finished for {TargetInfrastructure.data.DisplayName}");
-        // Optionally, trigger some effect or state change on the server
+        Event.CheckIsOver();
     }
 }
