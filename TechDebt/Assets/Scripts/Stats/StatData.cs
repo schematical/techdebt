@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Stats
 {
@@ -37,10 +38,18 @@ namespace Stats
         public float UpdateValue()
         {
             float value = BaseValue;
+            if (Type == StatType.Traffic)
+            {
+                Debug.Log($"BaseValue: {BaseValue}");
+            }
             // Apply modifier
             foreach (var modifier in Modifiers)
             {
                 value = modifier.Apply(this, value);
+                if (Type == StatType.Traffic)
+                {
+                    Debug.Log($"Modifying: {modifier.Type} - {modifier.Value} = {value}");
+                }
             }
 
             if (
@@ -53,13 +62,17 @@ namespace Stats
                 foreach (var globalModifier in globalModifiers)
                 {
                     value = globalModifier.Apply(this, value);
+                    
                 }
             }
 
-
-            if (Math.Abs(Value - value) > 0.001f)
+            if (Type == StatType.Traffic)
             {
-                Value = value;
+                Debug.Log($"End Value: {Value}");
+            }
+            Value = value;
+            if (Math.Abs(Value - value) > 0.00001f)
+            {
                 Broadcast();
             }
             return Value;

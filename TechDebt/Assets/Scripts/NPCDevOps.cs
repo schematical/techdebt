@@ -135,7 +135,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
     private void TryToFindWork()
     {
         if (CurrentState != State.Idle) return;
-        Debug.Log($"TryToFindWork - {gameObject.name} - CurrentState: {CurrentState}");
+        // Debug.Log($"TryToFindWork - {gameObject.name} - CurrentState: {CurrentState}");
         NPCTask availableTask = GameManager.Instance.GetHighestPriorityTask();
         if (availableTask != null)
         {

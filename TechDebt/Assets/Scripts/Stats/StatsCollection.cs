@@ -67,5 +67,10 @@ namespace Stats
                 statData.UpdateValue();
             }
         }
+
+        public StatData Get(StatType _type)
+        {
+            return Stats[_type];
+        }
     }
 }

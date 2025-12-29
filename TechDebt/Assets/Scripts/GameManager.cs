@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Events;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
@@ -32,11 +33,16 @@ public class GameManager : MonoBehaviour
     public Stats.StatsCollection Stats { get; private set; } = new StatsCollection();
     
     public Stats.StatsCollection GlobalStats { get; private set; } = new StatsCollection();
+    
+    public List<EventBase> Events { get; private set; } = new List<EventBase>();
+    
+    public List<EventBase> CurrentEvents { get; private set; } = new List<EventBase>();
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
     public static event System.Action<Technology> OnTechnologyUnlocked;
     public static event System.Action<Technology> OnTechnologyResearchStarted;
+    
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
 
@@ -115,6 +121,7 @@ public class GameManager : MonoBehaviour
 		IncrStat(StatType.PacketsSent);
         return packet;
     }
+    
 
     
 
@@ -134,13 +141,55 @@ public class GameManager : MonoBehaviour
         IncrStat(StatType.Money, packetIncome);
         FloatingTextFactory.ShowText($"+${packetIncome}", packet.transform.position, new Color(0f, 1f, 0f));//  + new Vector3(0, 1, 3));
 		int incrAfter = (int) Math.Floor(40 * GetStat(StatType.Traffic));
-		if(packetsServiced % incrAfter == 0) {
-        	float traffic = GetStat(StatType.Traffic);
-			float difficulty = GetStat(StatType.Difficulty);
-        	SetStat(StatType.Traffic, traffic * difficulty);
-            // SetStat(StatType.PRR, GetStat(StatType.PRR) * difficulty);
+		if(packetsServiced % incrAfter == 0)
+        {
+            LevelUp();
+        	
 		}
     }
+
+    private void LevelUp()
+    {
+        Stats.AddModifier(StatType.Traffic,
+            new StatModifier(StatModifier.ModifierType.Multiply, GetStat(StatType.Difficulty)));
+        CheckEvents();
+    }
+
+    private void CheckEvents()
+    {
+        int totalProb = 0;
+        List<EventBase> possibleEvents = new List<EventBase>();
+        foreach (var e in Events)
+        {
+            if (e.IsPossible())
+            {
+                totalProb += e.Probility;
+                possibleEvents.Add(e);
+            }
+        }
+        int selectedIndex =  Random.Range(0, totalProb);
+        int currIndex = 0;
+        foreach (var e in possibleEvents)
+        {
+            Debug.Log($"selectedIndex {selectedIndex}");
+            if (
+                selectedIndex >= currIndex && 
+                selectedIndex < currIndex + e.Probility
+            )
+            {
+                TriggerEvent(e);
+            }
+        }
+    }
+
+    private void TriggerEvent(EventBase e)
+    {
+        e.Apply();
+        
+        CurrentEvents.Add(e);
+    }
+
+
     // -----------------------
 
     // --- Network Routing ---
@@ -209,7 +258,7 @@ public class GameManager : MonoBehaviour
             tech.CurrentState = Technology.State.Locked;
         }
 
-        InitializeStats();
+        Initialize();
         OnInfrastructureBuilt += HandleInfrastructureBuilt;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
     
@@ -265,7 +314,7 @@ public class GameManager : MonoBehaviour
         GameLoopManager.BeginBuildPhase();
     }
 
-    private void InitializeStats()
+    private void Initialize()
     {
         Stats.Add(new StatData(StatType.Money, 200f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
@@ -282,6 +331,7 @@ public class GameManager : MonoBehaviour
         {
             statData.OnStatChanged += () => OnStatsChanged?.Invoke();
         }
+        Events.Add(new SlowSalesWeekEvent());
     }
     
 	public float IncrStat(StatType stat, float value = 1)
