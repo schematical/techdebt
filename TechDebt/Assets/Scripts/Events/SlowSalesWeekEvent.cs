@@ -5,6 +5,7 @@ namespace Events
 {
     public class SlowSalesWeekEvent: EventBase
     {
+        private StatModifier statModifier;
         public SlowSalesWeekEvent()
         {
             EventStartText = "Slow Sales Day";
@@ -13,10 +14,17 @@ namespace Events
         public override void Apply()
         {
             base.Apply();
-            Debug.Log("Applying SlowSalesWeekEvent");
-            StatModifier statModifier = new StatModifier(StatModifier.ModifierType.Multiply, 0.1f);
+            statModifier = new StatModifier(StatModifier.ModifierType.Multiply, 0.1f);
             GameManager.Instance.Stats.AddModifier(StatType.Traffic, statModifier);
-            GameManager.Instance.On
+       
+        }
+
+        public override void End()
+        {
+            GameManager.Instance.Stats.RemoveModifier(StatType.Traffic, statModifier);
+            base.End();
+        
+
         }
 
         public override bool IsPossible()
@@ -25,6 +33,10 @@ namespace Events
             {
                 return false;
             }
+            return true;
+        }
+        public override bool IsOver()
+        {
             return true;
         }
     }

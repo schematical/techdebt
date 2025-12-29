@@ -1,3 +1,4 @@
+using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -75,7 +76,6 @@ public class GameLoopManager : MonoBehaviour
 
     public void EndGame()
     {
-        Debug.Log("HIT GAME OVER CONDITION!");
         currentDay = 0;
         GameManager.Instance.ResetNPCs();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -120,6 +120,14 @@ public class GameLoopManager : MonoBehaviour
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.HideBuildUI();
+        
+        GameManager.Instance. Stats.AddModifier(
+            StatType.Traffic,
+            new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
+        );
+        GameManager.Instance.CheckEvents();
+        
+        
     }
 
     private void BeginSummaryPhase()
@@ -145,5 +153,14 @@ public class GameLoopManager : MonoBehaviour
         // --- Update UI ---
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
+        
+        foreach (var e in GameManager.Instance.Events)
+        {
+            if (e.IsOver())
+            {
+                e.End();
+            }
+        }
+
     }
 }

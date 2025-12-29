@@ -142,22 +142,15 @@ public class GameManager : MonoBehaviour
       	float packetIncome = GetStat(StatType.PacketIncome);
         IncrStat(StatType.Money, packetIncome);
         FloatingTextFactory.ShowText($"+${packetIncome}", packet.transform.position, new Color(0f, 1f, 0f));//  + new Vector3(0, 1, 3));
-		int incrAfter = (int) Math.Floor(40 * GetStat(StatType.Traffic));
+		/*int incrAfter = (int) Math.Floor(GetStat(StatType.PacketCountToLevelUp) * GetStat(StatType.Traffic));
 		if(packetsServiced % incrAfter == 0)
         {
             LevelUp();
         	
-		}
+		} */
     }
 
-    private void LevelUp()
-    {
-        Stats.AddModifier(StatType.Traffic,
-            new StatModifier(StatModifier.ModifierType.Multiply, GetStat(StatType.Difficulty)));
-        CheckEvents();
-    }
-
-    private void CheckEvents()
+    public void CheckEvents()
     {
         int totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
@@ -169,7 +162,7 @@ public class GameManager : MonoBehaviour
                 possibleEvents.Add(e);
             }
         }
-        int selectedIndex =  Random.Range(0, totalProb);
+        int selectedIndex =  Random.Range(0, totalProb + 1);
         int currIndex = 0;
         foreach (var e in possibleEvents)
         {
@@ -180,7 +173,10 @@ public class GameManager : MonoBehaviour
             )
             {
                 TriggerEvent(e);
+                break;
             }
+
+            currIndex += e.Probility;
         }
     }
 
@@ -349,6 +345,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
 
+        Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());
         Events.Add(new DeploymentEvent());
     }

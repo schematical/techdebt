@@ -36,17 +36,21 @@ namespace Events
         {
             // Only allow this event if there are operational servers to deploy to
             // and there isn't another DeploymentEvent currently active.
+            if (GameManager.Instance.CurrentEvents.Contains(this))
+            {
+                return false;
+            }
             bool hasOperationalServers = false;
             foreach (var infra in GameManager.Instance.ActiveInfrastructure)
             {
-                if (infra.GetComponent<Server>() != null && infra.data.CurrentState == InfrastructureData.State.Operational)
+                if (infra.GetComponent<Server>() != null && infra.IsActive())
                 {
                     hasOperationalServers = true;
                     break;
                 }
             }
 
-            return hasOperationalServers && !GameManager.Instance.CurrentEvents.Contains(this);
+            return hasOperationalServers;
         }
 
         public bool CheckIsOver()
@@ -71,8 +75,13 @@ namespace Events
                 }
             }
             EventEndText = $"Deployments {GetVersionString()} is live!";
-            GameManager.Instance.EndEvent(this);
+            End();
             return true;
+        }
+
+        public override bool IsOver()
+        {
+            return false;
         }
     }
 }

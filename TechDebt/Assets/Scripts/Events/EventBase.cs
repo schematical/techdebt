@@ -12,8 +12,21 @@
                 GameManager.Instance.UIManager.ShowAlert(EventStartText);
             }
         }
+        
+        public virtual void End()
+        {
+            if (!string.IsNullOrEmpty(EventEndText))
+            {
+                GameManager.Instance.UIManager.ShowAlert(EventEndText);
+            }
+            GameManager.Instance.EndEvent(this);
+        }
 
         public virtual bool IsPossible()
+        {
+            return true;
+        }
+        public virtual bool IsOver()
         {
             return true;
         }

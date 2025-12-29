@@ -25,5 +25,7 @@ public enum StatType
     NPC_InfoSec,
     NPC_DevOps,
     NPC_Energy,
-    NPC_MaxEnergy
+    NPC_MaxEnergy,
+    
+
 }

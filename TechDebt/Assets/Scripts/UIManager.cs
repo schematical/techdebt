@@ -235,8 +235,6 @@ public class UIManager : MonoBehaviour
 
         SetupLeftMenuBar(transform);
 
-        SetupNPCListPanel(transform);
-        SetupNPCDetailPanel(transform);
         SetupAlertPanel(transform);
         
 
@@ -306,8 +304,12 @@ public class UIManager : MonoBehaviour
         CreateButton(leftMenuBar.transform, "NPCs", ToggleNPCListPanel, new Vector2(40, 40));
         CreateButton(leftMenuBar.transform, "Events", ToggleCurrentEventsPanel, new Vector2(40, 40));
         
+        // --- Setup all associated panels ---
         SetupTaskListPanel(parent);
         SetupTechTreePanel(parent);
+        SetupNPCListPanel(parent);
+        SetupNPCDetailPanel(parent);
+        SetupCurrentEventsPanel(parent);
     }
 
     private void ToggleCurrentEventsPanel()
