@@ -135,7 +135,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
                     return false;
                 }));
-                Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)}");
+                // Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)}");
                 if (packetData != null)
                 {
                     loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
@@ -170,7 +170,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                     
                     )
                 {
-                    Debug.Log("Sending " + nextTargetId);
+                    // Debug.Log("Sending " + nextTargetId);
                     packet.SetNextTarget(nextReceiver);
                 }
                 else
@@ -181,7 +181,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             }
             else
             {
-                Debug.Log("StartReturn");
+                // Debug.Log("StartReturn");
                 packet.StartReturn();
             }
         }
