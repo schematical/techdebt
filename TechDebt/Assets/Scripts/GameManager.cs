@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public FloatingTextFactory FloatingTextFactory;
     public GameLoopManager GameLoopManager;
     public float desiredTimeScale = 1f;
+    public DeskOverlayController DeskOverlayController { get; private set; }
+
+    public GameObject deskOverlayPrefab; // Public variable for the desk overlay prefab
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
@@ -194,14 +197,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     [SerializeField] private TileBase floorTile;
     [SerializeField] private GameObject npcDevOpsPrefab;
+    public GridManager GridManager { get { return gridManager; } }
 
     void Awake()
     {
         _instance = this;
 
-        // Force reset of all infrastructure data to its initial state on load.
-        // This is the definitive fix for ensuring a clean state after a game over.
-    
+        // --- Initialize GridManager first ---
+        if (gridManager == null)
+        {
+            gridManager = FindObjectOfType<GridManager>();
+            if (gridManager == null)
+            {
+                Debug.Log("GridManager not found, creating one.");
+                gridManager = new GameObject("GridManager").AddComponent<GridManager>();
+            }
+        }
+        gridManager.tilePrefab = floorTile as Tile;
+        gridManager.CreateGrid();
+        // ------------------------------------
 
         // Force reset of all technology data to its initial state on load.
         foreach (var tech in AllTechnologies)
@@ -215,6 +229,21 @@ public class GameManager : MonoBehaviour
     
         ActiveInfrastructure.Clear();
         SetupGameScene();
+        
+        // Instantiate Desk Overlay Prefab and get controller
+        if (deskOverlayPrefab != null)
+        {
+            GameObject deskOverlayInstance = Instantiate(deskOverlayPrefab);
+            DeskOverlayController = deskOverlayInstance.GetComponent<DeskOverlayController>();
+            if (DeskOverlayController == null)
+            {
+                Debug.LogError("DeskOverlayController component not found on the instantiated prefab!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Desk Overlay Prefab is not assigned in GameManager!");
+        }
     }
 
     void OnDestroy()

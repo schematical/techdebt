@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
-
+    private CameraController _cameraController;
+    private DeskOverlayController _deskOverlayController;
 
     public enum GameState { Build, Play, Summary }
     public GameState CurrentState { get; private set; }
@@ -17,7 +18,22 @@ public class GameLoopManager : MonoBehaviour
 
     void Awake()
     {
+        _cameraController = FindObjectOfType<CameraController>();
+        if (_cameraController == null)
+        {
+            Debug.LogError("GameLoopManager: CameraController not found in scene!");
+        }
+    }
 
+    void Start()
+    {
+        // Get the DeskOverlayController reference from the GameManager in Start()
+        // to ensure GameManager has completed its Awake() cycle.
+        _deskOverlayController = GameManager.Instance.DeskOverlayController;
+        if (_deskOverlayController == null)
+        {
+            Debug.LogError("GameLoopManager: DeskOverlayController not found in scene! Make sure it's assigned in GameManager.");
+        }
     }
 
 
@@ -86,6 +102,10 @@ public class GameLoopManager : MonoBehaviour
         CurrentState = GameState.Build;
         currentDay++;
 
+        // Show the desk overlay and transition camera
+        _deskOverlayController?.ShowOverlay();
+        _cameraController?.TransitionToDeskView();
+
         // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
@@ -110,6 +130,10 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.PacketsSent, 0);
         GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+
+        // Hide the desk overlay and transition camera
+        _deskOverlayController?.HideOverlay();
+        _cameraController?.TransitionToGameView();
 
         // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
