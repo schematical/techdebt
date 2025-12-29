@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     private GameObject techTreePanel;
     private GameObject npcListPanel;
     private GameObject npcDetailPanel;
+    private GameObject alertPanel;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -230,6 +231,7 @@ public class UIManager : MonoBehaviour
 
         SetupNPCListPanel(transform);
         SetupNPCDetailPanel(transform);
+        SetupAlertPanel(transform);
         
 
         // Initial state
@@ -245,6 +247,24 @@ public class UIManager : MonoBehaviour
     }
     
     #region UI Setup Methods
+    private void SetupAlertPanel(Transform parent)
+    {
+        alertPanel = CreateUIPanel(parent, "AlertPanel", new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        var vlg = alertPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(15, 15, 15, 15);
+        vlg.spacing = 10;
+
+        var eventText = CreateText(alertPanel.transform, "AlertText", "Alert Text Goes Here", 18);
+        eventText.enableWordWrapping = true;
+        eventText.alignment = TextAlignmentOptions.TopLeft;
+        
+        var okButton = CreateButton(alertPanel.transform, "OK", () => alertPanel.SetActive(false));
+        var layoutElement = okButton.gameObject.AddComponent<LayoutElement>();
+        layoutElement.minHeight = 40;
+        layoutElement.flexibleHeight = 0; // Don't stretch button vertically
+
+        alertPanel.SetActive(false);
+    }
     private void SetupLeftMenuBar(Transform parent)
     {
         leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(50, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(25, 0));
@@ -891,6 +911,12 @@ public class UIManager : MonoBehaviour
         timeControlsContainer.SetActive(false);
         summaryPhaseUIContainer.GetComponentInChildren<TextMeshProUGUI>().text = text;
     }
+
+    public void ShowAlert(string alertText)
+    {
+        alertPanel.SetActive(true);
+        alertPanel.GetComponentInChildren<TextMeshProUGUI>().text = alertText;
+    }
     #endregion
 
     #region UI Content Updates
@@ -1013,3 +1039,4 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 }
+

@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
 
@@ -189,6 +190,28 @@ public class GameManager : MonoBehaviour
         CurrentEvents.Add(e);
     }
 
+    void Update()
+    {
+        if (Keyboard.current.kKey.wasPressedThisFrame && CurrentEvents.Count > 0)
+        {
+            EndEvent(CurrentEvents[0]);
+        }
+    }
+
+    public void EndEvent(EventBase e)
+    {
+        CurrentEvents.Remove(e);
+        if (!string.IsNullOrEmpty(e.EventEndText))
+        {
+            TriggerAlert(e.EventEndText);
+        }
+    }
+
+    public void TriggerAlert(string message)
+    {
+        UIManager.ShowAlert(message);
+    }
+
 
     // -----------------------
 
@@ -326,24 +349,22 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
 
-        // Subscribe to every stat's OnStatChanged event
-        foreach (var statData in Stats.Stats.Values)
-        {
-            statData.OnStatChanged += () => OnStatsChanged?.Invoke();
-        }
         Events.Add(new SlowSalesWeekEvent());
     }
     
 	public float IncrStat(StatType stat, float value = 1)
     {
        
-        return Stats.Stats[stat].IncrStat(value);
+        var statval = Stats.Stats[stat].IncrStat(value);
+        OnStatsChanged?.Invoke();
+        return statval;
     }
   
     public void SetStat(StatType stat, float value)
     {
         Stats.Stats[stat].SetBaseValue(value);
         Stats.Stats[stat].UpdateValue();
+        OnStatsChanged?.Invoke();
     }
 
 
