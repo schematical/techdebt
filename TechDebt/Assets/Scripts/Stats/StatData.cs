@@ -32,6 +32,8 @@ namespace Stats
             BaseValue += value;
             return UpdateValue();
         }
+        public event Action OnStatChanged;
+
         public float UpdateValue()
         {
             float value = BaseValue;
@@ -41,9 +43,9 @@ namespace Stats
                 value = modifier.Apply(this, value);
             }
 
-            Value = value;
-            if (_broadcastByDefault)
+            if (Math.Abs(Value - value) > 0.001f)
             {
+                Value = value;
                 Broadcast();
             }
             return Value;
@@ -51,6 +53,7 @@ namespace Stats
 
         public void Broadcast()
         {
+            OnStatChanged?.Invoke();
             foreach (var listener in Listeners)
             {
                 listener.Invoke(this);

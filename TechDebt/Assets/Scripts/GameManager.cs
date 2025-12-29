@@ -266,8 +266,6 @@ public class GameManager : MonoBehaviour
 
     private void InitializeStats()
     {
-       
-        
         Stats.Add(new StatData(StatType.Money, 200f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 0.25f));
@@ -277,6 +275,12 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.PacketIncome, 10f));
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
+
+        // Subscribe to every stat's OnStatChanged event
+        foreach (var statData in Stats.Stats.Values)
+        {
+            statData.OnStatChanged += () => OnStatsChanged?.Invoke();
+        }
     }
     
 	public float IncrStat(StatType stat, float value = 1)

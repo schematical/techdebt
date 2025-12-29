@@ -12,7 +12,7 @@ namespace Stats
             Source = source;
         }
 
-        public enum ModifierType { Multiply }
+        public enum ModifierType { Flat, Multiply }
         
         public ModifierType Type { get; private set; }
         public float Value { get; private set; }
@@ -22,9 +22,12 @@ namespace Stats
         {
             switch (Type)
             {
+                case ModifierType.Flat:
+                    return value + Value;
                 case ModifierType.Multiply:
-                default:
                     return value * Value;
+                default:
+                    return value;
             }
         }
     }
