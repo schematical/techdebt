@@ -112,7 +112,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
         // Notify NPCs
-        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        foreach (var npc in GameManager.Instance.AllNpcs)
         {
             npc.gameObject.SetActive(true);
             npc.OnPlayPhaseStart();

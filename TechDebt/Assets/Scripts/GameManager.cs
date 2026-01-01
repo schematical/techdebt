@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
+    public List<NPCDevOps> AllNpcs = new List<NPCDevOps>();
 
     public void AddTask(NPCTask task)
     {
@@ -605,7 +606,9 @@ public class GameManager : MonoBehaviour
         Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(randomX, randomY, 0));
         
         GameObject npcObject = Instantiate(npcDevOpsPrefab, worldPos, Quaternion.identity);
-        npcObject.GetComponent<NPCDevOps>().Initialize(candidateData);
+        NPCDevOps npc = npcObject.GetComponent<NPCDevOps>();
+        npc.Initialize(candidateData);
+        AllNpcs.Add(npc);
         
         NotifyDailyCostChanged();
     }
@@ -616,6 +619,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(npc.gameObject);
         }
+        AllNpcs.Clear();
     }
 
     public void SelectTechnologyForResearch(Technology tech)
