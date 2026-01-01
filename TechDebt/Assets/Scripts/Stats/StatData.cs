@@ -71,7 +71,7 @@ namespace Stats
                //  Debug.Log($"End Value: {Value}");
             }
             Value = value;
-            if (Math.Abs(Value - value) > 0.00001f)
+            if (_broadcastByDefault && Math.Abs(Value - value) > 0.00001f)
             {
                 Broadcast();
             }

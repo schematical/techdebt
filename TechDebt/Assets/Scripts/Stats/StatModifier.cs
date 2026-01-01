@@ -27,7 +27,7 @@ namespace Stats
                 case ModifierType.Multiply:
                     return value * Value;
                 default:
-                    return value;
+                    throw new NotImplementedException();
             }
         }
     }

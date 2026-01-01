@@ -644,7 +644,7 @@ MonoBehaviour:
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
-        Type: 0
+        Type: 1
         value: 0.75
     - TargetID: s3-bucket
       Priority: 5
@@ -662,6 +662,14 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       NetworkConnectionBonus: []
+    - TargetID: redis-1
+      Priority: 5
+      networkPacketType: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.5
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
@@ -826,6 +834,14 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 1
       NetworkConnectionBonus: []
+    - TargetID: redis-1
+      Priority: 5
+      networkPacketType: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.5
   - ID: server3
     DisplayName: Server 3
     Type: 
@@ -866,6 +882,14 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 1
       NetworkConnectionBonus: []
+    - TargetID: redis
+      Priority: 5
+      networkPacketType: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.5
   - ID: read-replica-1
     DisplayName: Read Replica 1
     Type: 
@@ -952,10 +976,10 @@ MonoBehaviour:
     UnlockConditions:
     - Type: 1
       StatType: 0
-      TechnologyID: waf
+      TechnologyID: redis
       RequiredValue: 0
     networkPackets:
-    - PacketType: 3
+    - PacketType: 0
       loadPerPacket: 1
     DailyCost: 30
     BuildTime: 10
@@ -980,6 +1004,14 @@ MonoBehaviour:
     DisplayName: Binary Storage
     Description: 
     ResearchPointCost: 40
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - dedicated-db
+    CurrentState: 0
+  - TechnologyID: redis
+    DisplayName: Redis Caching
+    Description: 
+    ResearchPointCost: 25
     CurrentResearchProgress: 0
     RequiredTechnologies:
     - dedicated-db
@@ -1019,14 +1051,6 @@ MonoBehaviour:
     CurrentState: 0
   - TechnologyID: waf
     DisplayName: Web Application Firewall(WAF)
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - load-balencer
-    CurrentState: 0
-  - TechnologyID: redis
-    DisplayName: Redis Caching
     Description: 
     ResearchPointCost: 25
     CurrentResearchProgress: 0

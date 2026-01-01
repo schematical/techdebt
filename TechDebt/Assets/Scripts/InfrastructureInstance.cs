@@ -140,7 +140,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
                     return false;
                 }));
-                Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)} - ${loadPerPacket}");
+               //  Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)} - ${loadPerPacket}");
                 if (packetData != null)
                 {
                     loadPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
