@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
     // --- Packet Management ---
     public GameObject packetPrefab;
     private List<NetworkPacket> activePackets = new List<NetworkPacket>();
+    private List<NetworkPacket> _networkPacketPool = new List<NetworkPacket>();
 
 
     public NetworkPacketData GetNetworkPacketData()
@@ -154,15 +155,26 @@ public class GameManager : MonoBehaviour
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
     {
-        
-        
-        GameObject packetGO = Instantiate(data.prefab, origin.transform.position, Quaternion.identity);
-        packetGO.SetActive(true);
-        NetworkPacket packet = packetGO.GetComponent<NetworkPacket>();
-        packet.Initialize(data, fileName, size, origin);
-      
+        NetworkPacket packet = _networkPacketPool.FirstOrDefault(p => !p.gameObject.activeInHierarchy);
+
+        if (packet != null)
+        {
+            // Reactivate and re-initialize the pooled packet
+            packet.transform.position = origin.transform.position;
+            packet.gameObject.SetActive(true);
+            packet.Initialize(data, fileName, size, origin);
+        }
+        else
+        {
+            // Instantiate a new packet if the pool is empty or all are active
+            GameObject packetGO = Instantiate(data.prefab, origin.transform.position, Quaternion.identity);
+            packet = packetGO.GetComponent<NetworkPacket>();
+            packet.Initialize(data, fileName, size, origin);
+            _networkPacketPool.Add(packet); // Add the new packet to the pool
+        }
+
         activePackets.Add(packet);
-		IncrStat(StatType.PacketsSent);
+        IncrStat(StatType.PacketsSent);
         return packet;
     }
     
@@ -172,7 +184,7 @@ public class GameManager : MonoBehaviour
     public void DestroyPacket(NetworkPacket packet)
     {
         activePackets.Remove(packet);
-        Destroy(packet.gameObject);
+        packet.gameObject.SetActive(false); // Deactivate instead of destroying
         float packetsServiced = -1;
 		if (packet.CurrentState == NetworkPacket.State.Failed) {
             float packetsFailed = IncrStat(StatType.PacketsFailed);
