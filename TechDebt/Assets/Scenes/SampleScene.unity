@@ -630,7 +630,7 @@ MonoBehaviour:
     - PacketType: 1
       loadPerPacket: 40
     - PacketType: 3
-      loadPerPacket: 100
+      loadPerPacket: 1000
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -944,6 +944,30 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       NetworkConnectionBonus: []
+  - ID: redis-1
+    DisplayName: Redis
+    Type: 
+    Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
+    GridPosition: {x: 31, y: 5}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: waf
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 3
+      loadPerPacket: 1
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      NetworkConnectionBonus: []
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -1001,6 +1025,14 @@ MonoBehaviour:
     RequiredTechnologies:
     - load-balencer
     CurrentState: 0
+  - TechnologyID: redis
+    DisplayName: Redis Caching
+    Description: 
+    ResearchPointCost: 25
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - load-balencer
+    CurrentState: 0
   NetworkPacketDatas:
   - Type: 0
     prefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
@@ -1012,8 +1044,8 @@ MonoBehaviour:
     probilitly: 50
   - Type: 3
     prefab: {fileID: 5665823746304393093, guid: 5a2196be1f6f1b5428cbdbd78cf93863, type: 3}
-    baseLoad: 200
-    probilitly: 2
+    baseLoad: 1000
+    probilitly: 0
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
   gridManager: {fileID: 0}

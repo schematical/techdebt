@@ -687,19 +687,16 @@ public class UIManager : MonoBehaviour
             var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
             taskEntryLayout.minHeight = 80;
 
-            // Text Container
-            var textContainer = new GameObject("TextContainer");
-            textContainer.transform.SetParent(taskEntryPanel.transform, false);
-            var textLayoutElement = textContainer.AddComponent<LayoutElement>();
-            textLayoutElement.flexibleWidth = 1; // Text takes most of the space
-
             string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
             string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
             string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
             if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
             taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
 
-            var textEntry = CreateText(textContainer.transform, "TaskText", taskText, 10);
+            // Text Entry (now a direct child)
+            var textEntry = CreateText(taskEntryPanel.transform, "TaskText", taskText, 14);
+            var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
+            textLayoutElement.flexibleWidth = 1; // Text takes most of the space
             textEntry.alignment = TextAlignmentOptions.Left;
             textEntry.enableAutoSizing = false;
             textEntry.enableWordWrapping = true;
@@ -710,7 +707,7 @@ public class UIManager : MonoBehaviour
             var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
             buttonVLG.spacing = 2;
             var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
-            buttonContainerLayout.minWidth = 70; // Enough for two 30-width buttons + spacing
+            buttonContainerLayout.minWidth = 45;
             buttonContainerLayout.flexibleWidth = 0;
 
             // Up Button
@@ -718,14 +715,14 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.IncreaseTaskPriority(localTask);
                 RefreshTaskList();
             }, new Vector2(40, 40));
-            upButton.interactable = (i > 0); // Disable if it's the first item
+            upButton.interactable = (i > 0);
 
             // Down Button
             var downButton = CreateButton(buttonContainer.transform, "↓", () => {
                 GameManager.Instance.DecreaseTaskPriority(localTask);
                 RefreshTaskList();
             }, new Vector2(40, 40));
-            downButton.interactable = (i < sortedTasks.Count - 1); // Disable if it's the last item
+            downButton.interactable = (i < sortedTasks.Count - 1);
         }
     }
 
