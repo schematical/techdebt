@@ -76,22 +76,42 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseTaskPriority(NPCTask task)
     {
+        // The list is sorted descending, so "increasing" means moving to a lower index.
         int index = AvailableTasks.IndexOf(task);
         if (index > 0)
         {
             NPCTask otherTask = AvailableTasks[index - 1];
-            (otherTask.Priority, task.Priority) = (task.Priority, otherTask.Priority);
+            if (task.Priority < otherTask.Priority)
+            {
+                // Standard case: swap priorities
+                (otherTask.Priority, task.Priority) = (task.Priority, otherTask.Priority);
+            }
+            else
+            {
+                // Equal priority case: increment to ensure it moves up
+                task.Priority = otherTask.Priority + 1;
+            }
             AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
         }
     }
 
     public void DecreaseTaskPriority(NPCTask task)
     {
+        // The list is sorted descending, so "decreasing" means moving to a higher index.
         int index = AvailableTasks.IndexOf(task);
-        if (index < AvailableTasks.Count - 1)
+        if (index < AvailableTasks.Count - 1 && index != -1)
         {
             NPCTask otherTask = AvailableTasks[index + 1];
-            (otherTask.Priority, task.Priority) = (task.Priority, otherTask.Priority);
+            if (task.Priority > otherTask.Priority)
+            {
+                // Standard case: swap priorities
+                (otherTask.Priority, task.Priority) = (task.Priority, otherTask.Priority);
+            }
+            else
+            {
+                // Equal priority case: decrement to ensure it moves down
+                task.Priority = otherTask.Priority - 1;
+            }
             AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
         }
     }

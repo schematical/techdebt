@@ -662,7 +662,7 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.Instance?.AvailableTasks == null) return;
 
-        var currentTasks = new HashSet<NPCTask>(GameManager.Instance.AvailableTasks);
+        var currentTasks = new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentStatus != Status.Completed));
         var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
 
         foreach (var task in tasksToRemove)
