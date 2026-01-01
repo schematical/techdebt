@@ -311,13 +311,10 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         
             return;
         }
-        Debug.Log($" {data.ID} OnInfrastructureBuilt 4 - Count: {foundConnection.NetworkConnectionBonus.Count()}");
+        
         foreach (var bonus in foundConnection.NetworkConnectionBonus)
         {
-            Debug.Log($" {data.ID} OnInfrastructureBuilt 5 {bonus.PacketType}");
-
-
-
+       
             int index = data.networkPackets.FindIndex((packetData =>
             {
                 if (packetData.PacketType == bonus.PacketType)

@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         int currIndex = 0;
         foreach (var e in possibleEvents)
         {
-            Debug.Log($"selectedIndex {selectedIndex}");
+            Debug.Log($"selectedIndex {selectedIndex} - totalProb ${totalProb}");
             if (
                 selectedIndex >= currIndex && 
                 selectedIndex < currIndex + e.Probility
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
     private void TriggerEvent(EventBase e)
     {
         e.Apply();
-        
+        Debug.Log("Adding Event: " + e.EventEndText);
         CurrentEvents.Add(e);
         OnCurrentEventsChanged?.Invoke();
     }
@@ -560,7 +560,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(npc.gameObject);
         }
-        Debug.Log("All NPCDevOps instances have been destroyed.");
     }
 
     public void SelectTechnologyForResearch(Technology tech)
@@ -589,7 +588,6 @@ public class GameManager : MonoBehaviour
 
         CurrentlyResearchingTechnology = tech;
         tech.CurrentState = Technology.State.Researching;
-        Debug.Log($"'{tech.DisplayName}' is now being researched.");
         OnTechnologyResearchStarted?.Invoke(tech);
 
         // Remove any existing research tasks
@@ -607,7 +605,6 @@ public class GameManager : MonoBehaviour
 
         if (CurrentlyResearchingTechnology.CurrentResearchProgress >= CurrentlyResearchingTechnology.ResearchPointCost)
         {
-            Debug.Log($"Technology '{CurrentlyResearchingTechnology.DisplayName}' unlocked!");
             CurrentlyResearchingTechnology.CurrentState = Technology.State.Unlocked;
             OnTechnologyUnlocked?.Invoke(CurrentlyResearchingTechnology);
             

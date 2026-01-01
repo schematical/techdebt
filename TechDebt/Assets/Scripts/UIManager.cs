@@ -31,10 +31,12 @@ public class UIManager : MonoBehaviour
     private GameObject npcListPanel;
     private GameObject npcDetailPanel;
     private GameObject alertPanel;
+    private GameObject eventLogPanel;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI _infrastructureDetailText;
+    private TextMeshProUGUI _eventLogText;
     private Button _planBuildButton;
     private Button _upsizeButton;
     private Button _downsizeButton;
@@ -65,42 +67,57 @@ public class UIManager : MonoBehaviour
     // Tech Tree
 
     private Transform techTreeContent;
-    private GameObject currentEventsPanel;
-    private Transform currentEventsContent;
 
     
     private InfrastructureInstance _selectedInfrastructure;
     private NPCDevOps _selectedNPC;
     void OnEnable() 
-
     { 
-
         GameManager.OnStatsChanged += UpdateStatsDisplay; 
-
         GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
-
         GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
-
         GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
-        
-        GameManager.OnCurrentEventsChanged += RefreshCurrentEventsPanel;
-
+        GameManager.OnCurrentEventsChanged += UpdateEventLog;
     }
 
     void OnDisable() 
-
     {
-
         GameManager.OnStatsChanged -= UpdateStatsDisplay; 
-
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
-
         GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
-
         GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
-        
-        GameManager.OnCurrentEventsChanged -= RefreshCurrentEventsPanel;
+        GameManager.OnCurrentEventsChanged -= UpdateEventLog;
+    }
 
+    private void ToggleEventLogPanel()
+    {
+        bool isActive = !eventLogPanel.activeSelf;
+        eventLogPanel.SetActive(isActive);
+        if (isActive)
+        {
+            UpdateEventLog();
+        }
+    }
+    
+    private void UpdateEventLog()
+    {
+        if (_eventLogText == null || !eventLogPanel.activeSelf) return;
+
+        var currentEvents = GameManager.Instance.CurrentEvents;
+        
+        string log = "<b>Current Events:</b>\n";
+        if (currentEvents.Count == 0)
+        {
+            log += "No active events.";
+        }
+        else
+        {
+            foreach (var ev in currentEvents)
+            {
+                log += $"- {ev.GetType().Name.Replace("Event", "")}\n";
+            }
+        }
+        _eventLogText.text = log;
     }
 
     
@@ -237,6 +254,7 @@ public class UIManager : MonoBehaviour
 
         SetupAlertPanel(transform);
         
+        
 
         // Initial state
 
@@ -252,24 +270,18 @@ public class UIManager : MonoBehaviour
     
     #region UI Setup Methods
 
-    private void SetupCurrentEventsPanel(Transform parent)
+    private void SetupEventLogPanel(Transform parent)
     {
-        currentEventsPanel = CreateUIPanel(parent, "CurrentEventsPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
-        var vlg = currentEventsPanel.AddComponent<VerticalLayoutGroup>();
+        eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        var vlg = eventLogPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10, 10, 10, 10);
         vlg.spacing = 5;
         vlg.childControlWidth = true;
 
-        CreateText(currentEventsPanel.transform, "Header", "Current Events", 18);
-
-        var contentGo = new GameObject("Content");
-        contentGo.transform.SetParent(currentEventsPanel.transform, false);
-        currentEventsContent = contentGo.transform;
-        var contentVlg = contentGo.AddComponent<VerticalLayoutGroup>();
-        contentVlg.spacing = 3;
-        contentVlg.childControlWidth = true;
+        _eventLogText = CreateText(eventLogPanel.transform, "EventLogText", "", 14);
+        _eventLogText.alignment = TextAlignmentOptions.TopLeft;
         
-        currentEventsPanel.SetActive(false); // Start hidden
+        eventLogPanel.SetActive(false); // Start hidden
     }
     
     private void SetupAlertPanel(Transform parent)
@@ -302,54 +314,13 @@ public class UIManager : MonoBehaviour
         CreateButton(leftMenuBar.transform, "Tasks", ToggleTaskListPanel, new Vector2(40, 40));
         CreateButton(leftMenuBar.transform, "Tech", ToggleTechTreePanel, new Vector2(40, 40));
         CreateButton(leftMenuBar.transform, "NPCs", ToggleNPCListPanel, new Vector2(40, 40));
-        CreateButton(leftMenuBar.transform, "Events", ToggleCurrentEventsPanel, new Vector2(40, 40));
-        
+        CreateButton(leftMenuBar.transform, "Events", ToggleEventLogPanel, new Vector2(40, 40));
         // --- Setup all associated panels ---
         SetupTaskListPanel(parent);
         SetupTechTreePanel(parent);
         SetupNPCListPanel(parent);
         SetupNPCDetailPanel(parent);
-        SetupCurrentEventsPanel(parent);
-    }
-
-    private void ToggleCurrentEventsPanel()
-    {
-        bool isActive = !currentEventsPanel.activeSelf;
-        currentEventsPanel.SetActive(isActive);
-        Debug.Log($"Toggling Current Events Panel. New state: {isActive}");
-        if (isActive)
-        {
-            RefreshCurrentEventsPanel();
-        }
-    }
-    
-    private void RefreshCurrentEventsPanel()
-    {
-        if (currentEventsContent == null)
-        {
-            Debug.LogError("currentEventsContent is null. Cannot refresh panel.");
-            return;
-        }
-        
-        Debug.Log($"Refreshing Current Events Panel. Event count: {GameManager.Instance.CurrentEvents.Count}");
-
-        foreach (Transform child in currentEventsContent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        if (GameManager.Instance.CurrentEvents.Count == 0)
-        {
-            CreateText(currentEventsContent, "EventEntry", "No active events.", 14);
-            return;
-        }
-        
-        foreach (var ev in GameManager.Instance.CurrentEvents)
-        {
-            string eventName = ev.GetType().Name.Replace("Event", "");
-            var text = CreateText(currentEventsContent, "EventEntry", $"- {eventName}", 14);
-            text.alignment = TextAlignmentOptions.Left;
-        }
+        SetupEventLogPanel(parent);
     }
     
     private void SetupNPCListPanel(Transform parent)

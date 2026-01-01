@@ -32,7 +32,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
 
     public void AssignTask(NPCTask newTask)
     {
-        Debug.Log($"AssignTask - {gameObject.name} - Task: {newTask.GetType().Name}");
+        // Debug.Log($"AssignTask - {gameObject.name} - Task: {newTask.GetType().Name}");
         if (currentTask != null)
         {
             currentTask.OnInterrupt();
@@ -78,7 +78,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
 
                     if (currentTask.IsFinished(this))
                     {
-                        Debug.Log("NPC Finished Task:");
+                        // Debug.Log("NPC Finished Task:");
                         currentTask.OnEnd(this);
                         currentTask = null; // Clear the completed task
                         CurrentState = State.Idle;
@@ -95,7 +95,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
                 }
                 else
                 {
-                    Debug.Log("NPC No Task:");
+                    // Debug.Log("NPC No Task:");
                     // If task is null for some reason, go back to idle.
                     CurrentState = State.Idle;
                 }
@@ -120,8 +120,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
         NPCTask highestPriorityTask = GameManager.Instance.GetHighestPriorityTask();
         if (highestPriorityTask != null && highestPriorityTask.Priority > currentTask.Priority)
         {
-            Debug.Log(
-                $"CheckForHigherPriorityTask - {gameObject.name} - highestPriorityTask: {highestPriorityTask.Priority} > {currentTask.Priority}");
+            // Debug.Log($"CheckForHigherPriorityTask - {gameObject.name} - highestPriorityTask: {highestPriorityTask.Priority} > {currentTask.Priority}");
             AssignTask(highestPriorityTask);
         }
     }

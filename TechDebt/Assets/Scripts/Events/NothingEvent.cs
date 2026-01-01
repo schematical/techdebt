@@ -8,9 +8,9 @@ namespace Events
         public int Version { get; private set; } = 1;
         public NothingEvent()
         {
-            // EventStartText = "Nothing Exciting Today";
-            // EventEndText = "Deployment success."; // Or perhaps an actual result
-            Probility = 2;
+            EventStartText = "Nothing Exciting Today";
+            EventEndText = "Calm seas"; // Or perhaps an actual result
+            Probility = 1;
         }
         
       
