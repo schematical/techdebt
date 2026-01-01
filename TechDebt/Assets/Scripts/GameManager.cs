@@ -348,6 +348,8 @@ public class GameManager : MonoBehaviour
         Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());
         Events.Add(new DeploymentEvent());
+        Events.Add(new AttackStartEvent());
+        Events.Add(new DDoSEvent());
     }
     
 	public float IncrStat(StatType stat, float value = 1)
