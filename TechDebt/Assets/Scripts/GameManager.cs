@@ -73,6 +73,28 @@ public class GameManager : MonoBehaviour
             AvailableTasks.Remove(task);
         }
     }
+
+    public void IncreaseTaskPriority(NPCTask task)
+    {
+        int index = AvailableTasks.IndexOf(task);
+        if (index > 0)
+        {
+            NPCTask otherTask = AvailableTasks[index - 1];
+            (otherTask.Priority, task.Priority) = (task.Priority, otherTask.Priority);
+            AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
+        }
+    }
+
+    public void DecreaseTaskPriority(NPCTask task)
+    {
+        int index = AvailableTasks.IndexOf(task);
+        if (index < AvailableTasks.Count - 1)
+        {
+            NPCTask otherTask = AvailableTasks[index + 1];
+            (otherTask.Priority, task.Priority) = (task.Priority, otherTask.Priority);
+            AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
+        }
+    }
     // -----------------------
 
     // --- Packet Management ---

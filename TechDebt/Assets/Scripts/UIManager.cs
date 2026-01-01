@@ -415,6 +415,7 @@ public class UIManager : MonoBehaviour
         var scrollView = new GameObject("ScrollView");
         scrollView.transform.SetParent(taskListPanel.transform, false);
         var scrollRect = scrollView.AddComponent<ScrollRect>();
+        scrollRect.horizontal = false; // Disable horizontal scrolling
         var scrollRt = scrollView.GetComponent<RectTransform>();
         scrollRt.sizeDelta = new Vector2(280, 0); // Width is fixed, height will be flexible
         
@@ -446,7 +447,7 @@ public class UIManager : MonoBehaviour
         contentRt.anchorMin = new Vector2(0, 1);
         contentRt.anchorMax = new Vector2(1, 1);
         contentRt.pivot = new Vector2(0.5f, 1);
-        contentRt.sizeDelta = new Vector2(0, 0);
+        contentRt.sizeDelta = new Vector2(0, 0); // Width is controlled by parent, height by fitter
 
         taskListPanel.SetActive(false); // Start hidden
     }
@@ -652,60 +653,79 @@ public class UIManager : MonoBehaviour
     
     private void RefreshTaskList()
     {
-        // Self-heal: If taskListContent is lost, try to find it again.
         if (taskListContent == null)
         {
-            if (taskListPanel != null)
-            {
-                var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
-                if (contentTransform != null)
-                {
-                    taskListContent = contentTransform;
-                }
-                else
-                {
-                    throw new System.Exception("Could not find taskListContent transform! UI will not be refreshed.");
-                }
-            }
-            else
-            {
-                throw new System.Exception("taskListPanel is null. Cannot re-acquire content. UI will not be refreshed.");
-            }
+            // Self-healing attempt
+            var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
+            if (contentTransform != null) taskListContent = contentTransform;
+            else { Debug.LogError("Could not find taskListContent transform!"); return; }
         }
 
-        // Clear existing task entries safely
         for (int i = taskListContent.childCount - 1; i >= 0; i--)
         {
             Destroy(taskListContent.GetChild(i).gameObject);
         }
 
-        if (GameManager.Instance == null || GameManager.Instance.AvailableTasks == null)
-        {
-            return;
-        }
+        if (GameManager.Instance?.AvailableTasks == null) return;
         
         var sortedTasks = GameManager.Instance.AvailableTasks
-            .OrderBy(t => t.CurrentStatus)
-            .ThenByDescending(t => t.Priority);
+            .OrderByDescending(t => t.Priority)
+            .ToList(); // ToList() is important to work with indices
 
-        foreach (var task in sortedTasks)
+        for(int i = 0; i < sortedTasks.Count; i++)
         {
+            var task = sortedTasks[i];
+            NPCTask localTask = task; // Local copy for the closure
+
+            // Main container for the task entry
+            var taskEntryPanel = new GameObject($"TaskEntry_{i}");
+            taskEntryPanel.transform.SetParent(taskListContent, false);
+            var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
+            hlg.spacing = 5;
+            hlg.childControlWidth = true; // Let the HLG control widths
+            hlg.childForceExpandWidth = true;
+            var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
+            taskEntryLayout.minHeight = 80;
+
+            // Text Container
+            var textContainer = new GameObject("TextContainer");
+            textContainer.transform.SetParent(taskEntryPanel.transform, false);
+            var textLayoutElement = textContainer.AddComponent<LayoutElement>();
+            textLayoutElement.flexibleWidth = 1; // Text takes most of the space
+
             string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
             string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
-            
             string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
+            if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
+            taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
 
-            if (task is BuildTask buildTask)
-            {
-                taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
-            }
-
-            taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color>\n" +
-                        $"Assignee: {assignee}";
-
-            var textEntry = CreateText(taskListContent, "TaskEntry", taskText, 14);
+            var textEntry = CreateText(textContainer.transform, "TaskText", taskText, 10);
             textEntry.alignment = TextAlignmentOptions.Left;
-            textEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 70); // Adjust height for new line
+            textEntry.enableAutoSizing = false;
+            textEntry.enableWordWrapping = true;
+
+            // Button Container
+            var buttonContainer = new GameObject("ButtonContainer");
+            buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
+            var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
+            buttonVLG.spacing = 2;
+            var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
+            buttonContainerLayout.minWidth = 70; // Enough for two 30-width buttons + spacing
+            buttonContainerLayout.flexibleWidth = 0;
+
+            // Up Button
+            var upButton = CreateButton(buttonContainer.transform, "↑", () => {
+                GameManager.Instance.IncreaseTaskPriority(localTask);
+                RefreshTaskList();
+            }, new Vector2(40, 40));
+            upButton.interactable = (i > 0); // Disable if it's the first item
+
+            // Down Button
+            var downButton = CreateButton(buttonContainer.transform, "↓", () => {
+                GameManager.Instance.DecreaseTaskPriority(localTask);
+                RefreshTaskList();
+            }, new Vector2(40, 40));
+            downButton.interactable = (i < sortedTasks.Count - 1); // Disable if it's the last item
         }
     }
 
