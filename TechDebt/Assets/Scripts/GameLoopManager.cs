@@ -136,6 +136,14 @@ public class GameLoopManager : MonoBehaviour
         CurrentState = GameState.Summary;
         summaryPhaseTimer = 0f;
 
+        // Assign "go to door" task to all NPCs
+        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        {
+            if (npc.gameObject.activeInHierarchy)
+            {
+                npc.AssignTask(new NavigateToDoorTask());
+            }
+        }
 
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);

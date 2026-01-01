@@ -4,14 +4,9 @@ using UnityEngine.EventSystems; // Add this namespace
 
 public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClickHandler
 {
-    public enum State
-    {
-        Idle,
-        ExecutingTask,
-        Wandering
-    }
+    
 
-    public State CurrentState { get; set; } = State.Idle;
+
 
     public NPCDevOpsData Data { get; private set; }
 
@@ -22,8 +17,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
 
     private NPCTask currentTask;
 
-    private Vector3 wanderDestination;
-    public float wanderRadius = 10f;
+    
     public bool IsBusy => currentTask != null;
 
     private float taskCheckTimer = 0f;
@@ -62,6 +56,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
         // NPCs should only perform actions during the Play phase.
         if (GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play)
         {
+            base.Update();
             return;
         }
 
@@ -130,7 +125,17 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
         // Later, this could be influenced by the NPC's skills or the technology type
         return 1f;
     }
+    public void OnBuildPhaseStart()
+    {
+        if (currentTask != null)
+        {
+            currentTask.Unassign();
+            currentTask = null;
+        }
 
+        StopMovement();
+        CurrentState = State.Idle;
+    }
     private void TryToFindWork()
     {
         if (CurrentState != State.Idle) return;
@@ -147,40 +152,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
         }
     }
 
-    private void Wander()
-    {
-        if (GetRandomWalkablePoint(transform.position, wanderRadius, out wanderDestination))
-        {
-            CurrentState = State.Wandering;
-            MoveTo(wanderDestination);
-        }
-        else
-        {
-            // Can't find a wander point, just stay idle for a bit.
-            // A coroutine could handle a delay here before trying again.
-        }
-    }
-
-    private bool GetRandomWalkablePoint(Vector3 origin, float radius, out Vector3 result)
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            Vector3 randomDirection = Random.insideUnitSphere * radius;
-            randomDirection += origin;
-
-            Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
-            if (node != null && node.isWalkable)
-            {
-                result = randomDirection;
-                return true;
-            }
-        }
-
-        result = Vector3.zero;
-        return false;
-    }
-
-    public void OnPlayPhaseStart()
+    public override void OnPlayPhaseStart()
     {
         if (currentTask != null)
         {
@@ -188,21 +160,10 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
             currentTask = null;
         }
 
-        StopMovement();
-        CurrentState = State.Idle;
+        base.OnPlayPhaseStart();
     }
 
-    public void OnBuildPhaseStart()
-    {
-        if (currentTask != null)
-        {
-            currentTask.Unassign();
-            currentTask = null;
-        }
-
-        StopMovement();
-        CurrentState = State.Idle;
-    }
+   
 
     // IPointerClickHandler implementation
     public void OnPointerClick(PointerEventData eventData)

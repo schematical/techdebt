@@ -132,6 +132,8 @@ GameObject:
   - component: {fileID: 203743598}
   - component: {fileID: 203743597}
   - component: {fileID: 203743596}
+  - component: {fileID: 203743602}
+  - component: {fileID: 203743601}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -233,6 +235,87 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!212 &203743601
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203743595}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -5580187345889097270, guid: 22ea1cadd775e2a40bea683a806d7d44, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.0009775, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!95 &203743602
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203743595}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b8ea918bac1d35a4e8688486ba265a07, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,6 +637,29 @@ MonoBehaviour:
   GameLoopManager: {fileID: 776996749}
   desiredTimeScale: 1
   AllInfrastructure:
+  - ID: door
+    DisplayName: Door
+    Type: 
+    Prefab: {fileID: 3673215818000804020, guid: 7e94fbe1e851e984194e2d7fb4a6d9db, type: 3}
+    GridPosition: {x: 15, y: 20}
+    UnlockConditions: []
+    networkPackets:
+    - PacketType: 0
+      loadPerPacket: 1
+      cost: 0
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 3
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      Possiblity: 0
+      NetworkConnectionBonus: []
   - ID: internetPipe
     DisplayName: Internet Pipe
     Type: 
@@ -1177,6 +1283,37 @@ MonoBehaviour:
       networkPacketType: 0
       Possiblity: 0
       NetworkConnectionBonus: []
+  - ID: secret-manager
+    DisplayName: SecretManager
+    Type: 
+    Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
+    GridPosition: {x: 31, y: 7}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: redis
+      RequiredValue: 0
+    - Type: 1
+      StatType: 0
+      TechnologyID: read-replicas
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 0
+      loadPerPacket: 1
+      cost: 0
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      Possiblity: 0
+      NetworkConnectionBonus: []
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -1240,6 +1377,13 @@ MonoBehaviour:
     CurrentResearchProgress: 0
     RequiredTechnologies:
     - load-balencer
+    CurrentState: 0
+  - TechnologyID: secret-manager
+    DisplayName: Secret Manager
+    Description: 
+    ResearchPointCost: 25
+    CurrentResearchProgress: 0
+    RequiredTechnologies: []
     CurrentState: 0
   NetworkPacketDatas:
   - Type: 0
