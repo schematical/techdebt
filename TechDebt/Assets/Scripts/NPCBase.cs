@@ -39,23 +39,7 @@ public abstract class NPCBase : MonoBehaviour
         }
     }
     
-    public void NavigateToDoor()
-    {
-        InfrastructureInstance doorInstance = GameManager.Instance.GetInfrastructureInstanceByID("door");
-        if (doorInstance != null)
-        {
-            // The base NPCTask constructor and OnStart will handle movement to the destination
-            MoveTo(doorInstance.transform.position);
-         
-            Debug.Log($"{gameObject.name} is navigating to the door.");
-        }
-        else
-        {
-            Debug.LogError($"NavigateToDoorTask: Door infrastructure with ID 'door' not found.");
-           
-        }
-        
-    }
+  
 
 
     private Vector3 GetRandomWalkablePoint(Vector3 origin, float radius)
@@ -104,10 +88,34 @@ public abstract class NPCBase : MonoBehaviour
         pathIndex = 0;
     }
 
+
+    public void EndDay()
+    {
+        CurrentState = State.Exiting;
+        InfrastructureInstance doorInstance = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        if (doorInstance != null)
+        {
+            // The base NPCTask constructor and OnStart will handle movement to the destination
+            MoveTo(doorInstance.transform.position);
+         
+            Debug.Log($"{gameObject.name} is navigating to the door.");
+        }
+        else
+        {
+            Debug.LogError($"NavigateToDoorTask: Door infrastructure with ID 'door' not found.");
+           
+        }
+        
+    }
     private void HandleMovement()
     {
         if (!isMoving || currentPath == null || pathIndex >= currentPath.Count)
         {
+            if (CurrentState == State.Exiting)
+            {
+                CurrentState = State.Exited;
+                gameObject.SetActive(false);
+            }
             return;
         }
 

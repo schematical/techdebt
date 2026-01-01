@@ -114,6 +114,7 @@ public class GameLoopManager : MonoBehaviour
         // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
+            npc.gameObject.SetActive(true);
             npc.OnPlayPhaseStart();
         }
 
@@ -127,7 +128,8 @@ public class GameLoopManager : MonoBehaviour
         );
         GameManager.Instance.CheckEvents();
         
-        
+    
+
     }
 
     private void BeginSummaryPhase()
@@ -141,7 +143,7 @@ public class GameLoopManager : MonoBehaviour
         {
             if (npc.gameObject.activeInHierarchy)
             {
-                npc.AssignTask(new NavigateToDoorTask());
+                npc.EndDay();
             }
         }
 
