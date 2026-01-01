@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     private TimeState _timeStateBeforePause = TimeState.Normal;
     
     // Task List
-
+    private Dictionary<NPCTask, GameObject> _taskUIMap = new Dictionary<NPCTask, GameObject>();
     private Transform taskListContent;
 
     private float taskListUpdateCooldown = 0.5f;
@@ -655,74 +655,90 @@ public class UIManager : MonoBehaviour
     {
         if (taskListContent == null)
         {
-            // Self-healing attempt
             var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
             if (contentTransform != null) taskListContent = contentTransform;
             else { Debug.LogError("Could not find taskListContent transform!"); return; }
         }
 
-        for (int i = taskListContent.childCount - 1; i >= 0; i--)
+        if (GameManager.Instance?.AvailableTasks == null) return;
+
+        var currentTasks = new HashSet<NPCTask>(GameManager.Instance.AvailableTasks);
+        var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
+
+        foreach (var task in tasksToRemove)
         {
-            Destroy(taskListContent.GetChild(i).gameObject);
+            Destroy(_taskUIMap[task]);
+            _taskUIMap.Remove(task);
         }
 
-        if (GameManager.Instance?.AvailableTasks == null) return;
-        
         var sortedTasks = GameManager.Instance.AvailableTasks
             .OrderByDescending(t => t.Priority)
-            .ToList(); // ToList() is important to work with indices
+            .ToList();
 
-        for(int i = 0; i < sortedTasks.Count; i++)
+        for (int i = 0; i < sortedTasks.Count; i++)
         {
             var task = sortedTasks[i];
-            NPCTask localTask = task; // Local copy for the closure
+            NPCTask localTask = task; 
 
-            // Main container for the task entry
-            var taskEntryPanel = new GameObject($"TaskEntry_{i}");
-            taskEntryPanel.transform.SetParent(taskListContent, false);
-            var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
-            hlg.spacing = 5;
-            hlg.childControlWidth = true; // Let the HLG control widths
-            hlg.childForceExpandWidth = true;
-            var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
-            taskEntryLayout.minHeight = 80;
+            GameObject taskEntryPanel;
+            if (!_taskUIMap.ContainsKey(task))
+            {
+                taskEntryPanel = new GameObject($"TaskEntry_{task.GetHashCode()}");
+                taskEntryPanel.transform.SetParent(taskListContent, false);
+                var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
+                hlg.spacing = 5;
+                hlg.childControlWidth = true;
+                hlg.childForceExpandWidth = true;
+                var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
+                taskEntryLayout.minHeight = 80;
 
+                var textEntry = CreateText(taskEntryPanel.transform, "TaskText", "", 14);
+                var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
+                textLayoutElement.flexibleWidth = 1;
+                textEntry.alignment = TextAlignmentOptions.Left;
+                textEntry.enableAutoSizing = false;
+                textEntry.enableWordWrapping = true;
+                
+                var buttonContainer = new GameObject("ButtonContainer");
+                buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
+                var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
+                buttonVLG.spacing = 2;
+                var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
+                buttonContainerLayout.minWidth = 45;
+                buttonContainerLayout.flexibleWidth = 0;
+
+                var upButton = CreateButton(buttonContainer.transform, "↑", () => {
+                    GameManager.Instance.IncreaseTaskPriority(localTask);
+                    RefreshTaskList(); 
+                }, new Vector2(40, 40));
+                upButton.name = "UpButton";
+
+                var downButton = CreateButton(buttonContainer.transform, "↓", () => {
+                    GameManager.Instance.DecreaseTaskPriority(localTask);
+                    RefreshTaskList();
+                }, new Vector2(40, 40));
+                downButton.name = "DownButton";
+
+                _taskUIMap[task] = taskEntryPanel;
+            }
+
+            taskEntryPanel = _taskUIMap[task];
+            taskEntryPanel.transform.SetSiblingIndex(i);
+
+            var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
             string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
             string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
             string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
             if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
             taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
+            textComponent.text = taskText;
 
-            // Text Entry (now a direct child)
-            var textEntry = CreateText(taskEntryPanel.transform, "TaskText", taskText, 14);
-            var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
-            textLayoutElement.flexibleWidth = 1; // Text takes most of the space
-            textEntry.alignment = TextAlignmentOptions.Left;
-            textEntry.enableAutoSizing = false;
-            textEntry.enableWordWrapping = true;
+            var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
+            var upButtonComponent = buttons.FirstOrDefault(b => b.name == "UpButton");
+            if (upButtonComponent != null) upButtonComponent.interactable = (i > 0);
 
-            // Button Container
-            var buttonContainer = new GameObject("ButtonContainer");
-            buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
-            var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
-            buttonVLG.spacing = 2;
-            var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
-            buttonContainerLayout.minWidth = 45;
-            buttonContainerLayout.flexibleWidth = 0;
-
-            // Up Button
-            var upButton = CreateButton(buttonContainer.transform, "↑", () => {
-                GameManager.Instance.IncreaseTaskPriority(localTask);
-                RefreshTaskList();
-            }, new Vector2(40, 40));
-            upButton.interactable = (i > 0);
-
-            // Down Button
-            var downButton = CreateButton(buttonContainer.transform, "↓", () => {
-                GameManager.Instance.DecreaseTaskPriority(localTask);
-                RefreshTaskList();
-            }, new Vector2(40, 40));
-            downButton.interactable = (i < sortedTasks.Count - 1);
+            var downButtonComponent = buttons.FirstOrDefault(b => b.name == "DownButton");
+            if (downButtonComponent != null) downButtonComponent.interactable = (i < sortedTasks.Count - 1);
         }
     }
 
