@@ -17,4 +17,5 @@ public class NetworkPacketData
     public GameObject prefab;
     public float baseLoad = 20f;
     public float probilitly = 1f;
+    // public int incomePerPacket = 0;
 }

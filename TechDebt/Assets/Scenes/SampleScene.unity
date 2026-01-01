@@ -746,10 +746,13 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: binary-storage
       RequiredValue: 30
-    networkPackets: []
-    DailyCost: 45
+    networkPackets:
+    - PacketType: 1
+      loadPerPacket: 0
+      cost: 1
+    DailyCost: 1
     BuildTime: 10
-    LoadPerPacket: 20
+    LoadPerPacket: 0
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
@@ -769,9 +772,9 @@ MonoBehaviour:
     - PacketType: 1
       loadPerPacket: 0
       cost: 2
-    DailyCost: 30
+    DailyCost: 1
     BuildTime: 10
-    LoadPerPacket: 20
+    LoadPerPacket: 0
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
@@ -1070,8 +1073,8 @@ MonoBehaviour:
       RequiredValue: 0
     networkPackets:
     - PacketType: 3
-      loadPerPacket: 1
-      cost: 0
+      loadPerPacket: 0
+      cost: 1
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
