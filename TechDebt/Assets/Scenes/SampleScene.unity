@@ -580,6 +580,10 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 1
       NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 3
+      NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 1
@@ -587,6 +591,14 @@ MonoBehaviour:
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 3
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 3
       NetworkConnectionBonus: []
     - TargetID: cdn
       Priority: 7
@@ -617,6 +629,8 @@ MonoBehaviour:
       loadPerPacket: 20
     - PacketType: 1
       loadPerPacket: 40
+    - PacketType: 3
+      loadPerPacket: 100
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -756,6 +770,22 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 1
       NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 3
+      NetworkConnectionBonus: []
+    - TargetID: server2
+      Priority: 5
+      networkPacketType: 3
+      NetworkConnectionBonus: []
+    - TargetID: server3
+      Priority: 5
+      networkPacketType: 3
+      NetworkConnectionBonus: []
+    - TargetID: waf
+      Priority: 6
+      networkPacketType: 3
+      NetworkConnectionBonus: []
   - ID: server2
     DisplayName: Server 2
     Type: 
@@ -766,7 +796,13 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: load-balencer
       RequiredValue: 0
-    networkPackets: []
+    networkPackets:
+    - PacketType: 0
+      loadPerPacket: 20
+    - PacketType: 1
+      loadPerPacket: 40
+    - PacketType: 3
+      loadPerPacket: 1000
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -800,7 +836,13 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: load-balencer
       RequiredValue: 0
-    networkPackets: []
+    networkPackets:
+    - PacketType: 0
+      loadPerPacket: 20
+    - PacketType: 1
+      loadPerPacket: 40
+    - PacketType: 3
+      loadPerPacket: 1000
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -878,6 +920,30 @@ MonoBehaviour:
     LoadRecoveryRate: 50
     CurrentState: 0
     NetworkConnections: []
+  - ID: waf
+    DisplayName: WAF
+    Type: 
+    Prefab: {fileID: 478512507227230751, guid: b5e2f03f41c59384d814c2e15808d1ca, type: 3}
+    GridPosition: {x: 10, y: 5}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: waf
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 3
+      loadPerPacket: 1
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      NetworkConnectionBonus: []
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -927,15 +993,27 @@ MonoBehaviour:
     RequiredTechnologies:
     - dedicated-db
     CurrentState: 0
+  - TechnologyID: waf
+    DisplayName: Web Application Firewall(WAF)
+    Description: 
+    ResearchPointCost: 25
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - load-balencer
+    CurrentState: 0
   NetworkPacketDatas:
   - Type: 0
     prefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
     baseLoad: 20
-    probilitly: 5
+    probilitly: 50
   - Type: 1
     prefab: {fileID: 1421712027124890554, guid: 58ab099786be3344fb411709d0281a78, type: 3}
     baseLoad: 60
-    probilitly: 5
+    probilitly: 50
+  - Type: 3
+    prefab: {fileID: 5665823746304393093, guid: 5a2196be1f6f1b5428cbdbd78cf93863, type: 3}
+    baseLoad: 200
+    probilitly: 2
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
   gridManager: {fileID: 0}

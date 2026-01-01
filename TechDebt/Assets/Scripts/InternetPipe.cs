@@ -9,7 +9,7 @@ public class InternetPipe : InfrastructureInstance
         // Ensure packet generation only runs during the Play phase and the pipe is operational
         if (
 			GameManager.Instance.GameLoopManager.CurrentState == GameLoopManager.GameState.Play && 
-			data.CurrentState == InfrastructureData.State.Operational
+			IsActive()
 		) {
             float packetsPerSecond = GameManager.Instance.GetStat(StatType.Traffic);
             int connectionCount = data.NetworkConnections?.Count ?? 0;

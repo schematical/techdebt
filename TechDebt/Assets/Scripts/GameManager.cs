@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         int currIndex = 0;
         foreach (var e in possibleEvents)
         {
-            Debug.Log($"selectedIndex {selectedIndex} - totalProb ${totalProb}");
+            // Debug.Log($"selectedIndex {selectedIndex} - totalProb ${totalProb}");
             if (
                 selectedIndex >= currIndex && 
                 selectedIndex < currIndex + e.Probility
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
     private void TriggerEvent(EventBase e)
     {
         e.Apply();
-        Debug.Log("Adding Event: " + e.EventEndText);
+        // Debug.Log("Adding Event: " + e.EventEndText);
         CurrentEvents.Add(e);
         OnCurrentEventsChanged?.Invoke();
     }
