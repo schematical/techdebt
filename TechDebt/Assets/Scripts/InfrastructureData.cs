@@ -18,7 +18,8 @@ public class InfrastructureData
 
     public float DailyCost = 100;
     public float BuildTime = 5f;
-    public int LoadPerPacket = 20;
+    public int LoadPerPacket = 20; 
+    public int CostPerPacket = 0;
     public float MaxLoad = 100;
     public float LoadRecoveryRate = 50f;
 
@@ -35,10 +36,12 @@ public class InfrastructureDataNetworkPacket
 {
     public NetworkPacketData.PType PacketType;
     public int loadPerPacket = 20;
+    public int cost = 0;
     public StatsCollection Stats = new StatsCollection();
 
     public void Init()
     {
         Stats.Add(new StatData(StatType.Infra_LoadPerPacket, loadPerPacket));
+        Stats.Add(new StatData(StatType.Infra_PacketCost, cost));
     }
 }

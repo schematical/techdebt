@@ -27,5 +27,7 @@ public enum StatType
     NPC_Energy,
     NPC_MaxEnergy,
     
+    Infra_PacketCost,
+    
 
 }

@@ -127,6 +127,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         if (!packet.IsReturning())
         {
             int loadPerPacket = data.LoadPerPacket;
+            int costPerPacket = data.CostPerPacket;
             if (
                 data.networkPackets != null &&
                 data.networkPackets.Count() > 0
@@ -144,17 +145,29 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 if (packetData != null)
                 {
                     loadPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
+                    costPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
                 }
             }
 
-            CurrentLoad += loadPerPacket;
-            GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position, spriteRenderer.color);//  + new Vector3(0, 1, 3));
-            if (CurrentLoad > data.MaxLoad)
+            if (costPerPacket != 0)
             {
-                packet.MarkFailed();
-                CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
-                
-                SetState(InfrastructureData.State.Frozen);
+                GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
+                GameManager.Instance.FloatingTextFactory.ShowText($" - ${costPerPacket}", transform.position, Color.khaki);//  + new Vector3(0, 1, 3));
+            }
+
+            if (loadPerPacket != 0)
+            {
+                CurrentLoad += loadPerPacket;
+
+                GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
+                    spriteRenderer.color); //  + new Vector3(0, 1, 3));
+                if (CurrentLoad > data.MaxLoad)
+                {
+                    packet.MarkFailed();
+                    CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
+
+                    SetState(InfrastructureData.State.Frozen);
+                }
             }
         }
 

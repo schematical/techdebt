@@ -568,6 +568,7 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 1
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 3
@@ -575,34 +576,42 @@ MonoBehaviour:
     - TargetID: server1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: cdn
       Priority: 7
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: desk
     DisplayName: Desk
@@ -614,6 +623,7 @@ MonoBehaviour:
     DailyCost: 0
     BuildTime: 0
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 3
@@ -627,13 +637,17 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 0
       loadPerPacket: 20
+      cost: 0
     - PacketType: 1
       loadPerPacket: 40
+      cost: 0
     - PacketType: 3
       loadPerPacket: 1000
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 1
@@ -641,6 +655,7 @@ MonoBehaviour:
     - TargetID: dedicated-db
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -649,6 +664,7 @@ MonoBehaviour:
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 1
         Stat: 12
@@ -657,14 +673,17 @@ MonoBehaviour:
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -673,6 +692,7 @@ MonoBehaviour:
     - TargetID: redis-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -681,6 +701,7 @@ MonoBehaviour:
     - TargetID: redis-3
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -700,6 +721,7 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -707,10 +729,12 @@ MonoBehaviour:
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: s3-bucket
     DisplayName: S3Bucket
@@ -726,6 +750,7 @@ MonoBehaviour:
     DailyCost: 45
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 1
@@ -740,10 +765,14 @@ MonoBehaviour:
       StatType: 0
       TechnologyID: cdn
       RequiredValue: 0
-    networkPackets: []
+    networkPackets:
+    - PacketType: 1
+      loadPerPacket: 0
+      cost: 2
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -751,6 +780,7 @@ MonoBehaviour:
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: server-alb
     DisplayName: Load Balencer
@@ -766,6 +796,7 @@ MonoBehaviour:
     DailyCost: 45
     BuildTime: 10
     LoadPerPacket: 1
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 1
@@ -773,42 +804,52 @@ MonoBehaviour:
     - TargetID: server1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: waf
       Priority: 6
       networkPacketType: 3
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: server2
     DisplayName: Server 2
@@ -823,13 +864,17 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 0
       loadPerPacket: 20
+      cost: 0
     - PacketType: 1
       loadPerPacket: 40
+      cost: 0
     - PacketType: 3
       loadPerPacket: 1000
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -837,22 +882,27 @@ MonoBehaviour:
     - TargetID: dedicated-db
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -861,6 +911,7 @@ MonoBehaviour:
     - TargetID: redis-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -869,6 +920,7 @@ MonoBehaviour:
     - TargetID: redis-3
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -887,13 +939,17 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 0
       loadPerPacket: 20
+      cost: 0
     - PacketType: 1
       loadPerPacket: 40
+      cost: 0
     - PacketType: 3
       loadPerPacket: 1000
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -901,22 +957,27 @@ MonoBehaviour:
     - TargetID: dedicated-db
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
+      Possiblity: 0
       NetworkConnectionBonus: []
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -925,6 +986,7 @@ MonoBehaviour:
     - TargetID: redis-2
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -933,6 +995,7 @@ MonoBehaviour:
     - TargetID: redis-3
       Priority: 5
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -952,6 +1015,7 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -970,6 +1034,7 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -988,6 +1053,7 @@ MonoBehaviour:
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -1005,9 +1071,11 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 3
       loadPerPacket: 1
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -1015,6 +1083,7 @@ MonoBehaviour:
     - TargetID: 
       Priority: 0
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: redis-1
     DisplayName: Redis
@@ -1029,9 +1098,11 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 0
       loadPerPacket: 1
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -1039,6 +1110,7 @@ MonoBehaviour:
     - TargetID: 
       Priority: 0
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: redis-2
     DisplayName: Redis 2
@@ -1057,9 +1129,11 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 0
       loadPerPacket: 1
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -1067,6 +1141,7 @@ MonoBehaviour:
     - TargetID: 
       Priority: 0
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
   - ID: redis-3
     DisplayName: Redis 3
@@ -1085,9 +1160,11 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 0
       loadPerPacket: 1
+      cost: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
+    CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
     CurrentState: 0
@@ -1095,6 +1172,7 @@ MonoBehaviour:
     - TargetID: 
       Priority: 0
       networkPacketType: 0
+      Possiblity: 0
       NetworkConnectionBonus: []
   AllTechnologies:
   - TechnologyID: dedicated-db
@@ -1109,8 +1187,7 @@ MonoBehaviour:
     Description: 
     ResearchPointCost: 40
     CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - dedicated-db
+    RequiredTechnologies: []
     CurrentState: 0
   - TechnologyID: redis
     DisplayName: Redis Caching
