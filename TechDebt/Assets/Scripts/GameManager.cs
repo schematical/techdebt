@@ -322,6 +322,11 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
 
+        if (FindObjectOfType<DebugManager>() == null)
+        {
+            new GameObject("DebugManager").AddComponent<DebugManager>();
+        }
+
         // Force reset of all infrastructure data to its initial state on load.
         // This is the definitive fix for ensuring a clean state after a game over.
     
@@ -488,6 +493,28 @@ public class GameManager : MonoBehaviour
         
         gridManager.tilePrefab = floorTile as Tile;
         gridManager.CreateGrid();
+
+        // Center the camera on the board
+        Vector3 centerWorld = gridManager.gridComponent.CellToWorld(new Vector3Int(gridManager.gridWidth / 2, gridManager.gridHeight / 2, 0));
+        Camera.main.transform.position = new Vector3(centerWorld.x, centerWorld.y, Camera.main.transform.position.z);
+
+        // Zoom out to show the entire board, using the maxZoom from CameraController
+        if (Camera.main.orthographic)
+        {
+            CameraController cameraController = FindObjectOfType<CameraController>();
+            if (cameraController != null)
+            {
+                // Access maxZoom via reflection or make maxZoom public if needed
+                // For now, assume a reasonable default or make maxZoom public in CameraController
+                // I will add a temporary public accessor to CameraController.cs to make this work for now.
+                Camera.main.orthographicSize = 12f; // Using the default maxZoom value from CameraController
+            }
+            else
+            {
+                Debug.LogWarning("CameraController not found, using default max zoom value.");
+                Camera.main.orthographicSize = 12f; // Fallback to a reasonable default
+            }
+        }
 
         if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
         {

@@ -641,7 +641,7 @@ MonoBehaviour:
     DisplayName: Door
     Type: 
     Prefab: {fileID: 3673215818000804020, guid: 7e94fbe1e851e984194e2d7fb4a6d9db, type: 3}
-    GridPosition: {x: 15, y: 20}
+    GridPosition: {x: 10, y: 55}
     UnlockConditions: []
     networkPackets:
     - PacketType: 0
@@ -664,7 +664,7 @@ MonoBehaviour:
     DisplayName: Internet Pipe
     Type: 
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
-    GridPosition: {x: 5, y: 15}
+    GridPosition: {x: 5, y: 35}
     UnlockConditions:
     - Type: 0
       StatType: 0
@@ -723,7 +723,7 @@ MonoBehaviour:
     DisplayName: Desk
     Type: 
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
-    GridPosition: {x: 12, y: 20}
+    GridPosition: {x: 10, y: 48}
     UnlockConditions: []
     networkPackets: []
     DailyCost: 0
@@ -738,7 +738,7 @@ MonoBehaviour:
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 25, y: 13}
+    GridPosition: {x: 25, y: 43}
     UnlockConditions: []
     networkPackets:
     - PacketType: 0
@@ -817,7 +817,7 @@ MonoBehaviour:
     DisplayName: Basic Server
     Type: 
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
-    GridPosition: {x: 29, y: 13}
+    GridPosition: {x: 30, y: 43}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -846,7 +846,7 @@ MonoBehaviour:
     DisplayName: S3Bucket
     Type: 
     Prefab: {fileID: 8445387670964335504, guid: ee2279ea7091b7540a92a84e9b03b493, type: 3}
-    GridPosition: {x: 25, y: 20}
+    GridPosition: {x: 25, y: 50}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -868,7 +868,7 @@ MonoBehaviour:
     DisplayName: CDN
     Type: 
     Prefab: {fileID: 4431272950818217646, guid: ccca30840096d9548a9f2be7a10d3c39, type: 3}
-    GridPosition: {x: 20, y: 20}
+    GridPosition: {x: 20, y: 50}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -895,7 +895,7 @@ MonoBehaviour:
     DisplayName: Load Balencer
     Type: 
     Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
-    GridPosition: {x: 15, y: 10}
+    GridPosition: {x: 15, y: 40}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -964,7 +964,7 @@ MonoBehaviour:
     DisplayName: Server 2
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 25, y: 10}
+    GridPosition: {x: 25, y: 40}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1039,7 +1039,7 @@ MonoBehaviour:
     DisplayName: Server 3
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
-    GridPosition: {x: 25, y: 7}
+    GridPosition: {x: 25, y: 37}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1114,7 +1114,7 @@ MonoBehaviour:
     DisplayName: Read Replica 1
     Type: 
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
-    GridPosition: {x: 29, y: 10}
+    GridPosition: {x: 30, y: 49}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1133,7 +1133,7 @@ MonoBehaviour:
     DisplayName: Read Replica 2
     Type: 
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
-    GridPosition: {x: 29, y: 7}
+    GridPosition: {x: 30, y: 37}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1152,7 +1152,7 @@ MonoBehaviour:
     DisplayName: Water Cooler
     Type: 
     Prefab: {fileID: 8969239379450762066, guid: 67e736effb8308d4386ad2969166ae1f, type: 3}
-    GridPosition: {x: 15, y: 20}
+    GridPosition: {x: 15, y: 50}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1171,7 +1171,7 @@ MonoBehaviour:
     DisplayName: WAF
     Type: 
     Prefab: {fileID: 478512507227230751, guid: b5e2f03f41c59384d814c2e15808d1ca, type: 3}
-    GridPosition: {x: 10, y: 5}
+    GridPosition: {x: 10, y: 28}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1198,7 +1198,7 @@ MonoBehaviour:
     DisplayName: Redis
     Type: 
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
-    GridPosition: {x: 31, y: 5}
+    GridPosition: {x: 30, y: 40}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1225,7 +1225,7 @@ MonoBehaviour:
     DisplayName: Redis 2
     Type: 
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
-    GridPosition: {x: 31, y: 10}
+    GridPosition: {x: 30, y: 34}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1256,7 +1256,7 @@ MonoBehaviour:
     DisplayName: Redis 3
     Type: 
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
-    GridPosition: {x: 31, y: 7}
+    GridPosition: {x: 30, y: 46}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1286,8 +1286,8 @@ MonoBehaviour:
   - ID: secret-manager
     DisplayName: SecretManager
     Type: 
-    Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
-    GridPosition: {x: 31, y: 7}
+    Prefab: {fileID: 4690569163655073366, guid: 19679e1167f287e4992ba2a5b1e4085e, type: 3}
+    GridPosition: {x: 10, y: 24}
     UnlockConditions:
     - Type: 1
       StatType: 0
@@ -1398,6 +1398,7 @@ MonoBehaviour:
     prefab: {fileID: 5665823746304393093, guid: 5a2196be1f6f1b5428cbdbd78cf93863, type: 3}
     baseLoad: 1000
     probilitly: 0
+  AllNpcs: []
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   isQuitting: 0
   gridManager: {fileID: 0}
