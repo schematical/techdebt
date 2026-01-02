@@ -188,6 +188,21 @@ public class UIManager : MonoBehaviour
             }
         }
         
+        content += "\n<b>Connections:</b>\n";
+        if (_selectedInfrastructure.CurrConnections.Count == 0)
+        {
+            content += "No active connections.";
+        }
+        else
+        {
+            foreach (var kvp in _selectedInfrastructure.CurrConnections)
+            {
+                content += $"- <b>{kvp.Key}:</b> ";
+                content += string.Join(", ", kvp.Value.Select(conn => conn.TargetID));
+                content += "\n";
+            }
+        }
+
         _infrastructureDetailText.text = content;
     }
 

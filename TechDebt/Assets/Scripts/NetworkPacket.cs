@@ -29,6 +29,7 @@ public class NetworkPacket : MonoBehaviour
         FileName = fileName;
         Size = size;
         gameObject.name = $"Packet_{FileName}";
+        pastNodes.Clear();
         pastNodes.Add(origin);
     }
 	public bool IsReturning()

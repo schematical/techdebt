@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     // --- Packet Management ---
     public GameObject packetPrefab;
     private List<NetworkPacket> activePackets = new List<NetworkPacket>();
-    private List<NetworkPacket> _networkPacketPool = new List<NetworkPacket>();
+    private Dictionary<NetworkPacketData.PType, List<NetworkPacket>> _networkPacketPool = new Dictionary<NetworkPacketData.PType, List<NetworkPacket>>();
 
 
     public NetworkPacketData GetNetworkPacketData()
@@ -156,7 +156,13 @@ public class GameManager : MonoBehaviour
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
     {
-        NetworkPacket packet = _networkPacketPool.FirstOrDefault(p => !p.gameObject.activeInHierarchy);
+        // Ensure a pool for this packet type exists
+        if (!_networkPacketPool.ContainsKey(data.Type))
+        {
+            _networkPacketPool[data.Type] = new List<NetworkPacket>();
+        }
+
+        NetworkPacket packet = _networkPacketPool[data.Type].FirstOrDefault(p => !p.gameObject.activeInHierarchy);
 
         if (packet != null)
         {
@@ -167,11 +173,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Instantiate a new packet if the pool is empty or all are active
+            // Instantiate a new packet if the pool for this type is empty or all are active
             GameObject packetGO = Instantiate(data.prefab, origin.transform.position, Quaternion.identity);
             packet = packetGO.GetComponent<NetworkPacket>();
             packet.Initialize(data, fileName, size, origin);
-            _networkPacketPool.Add(packet); // Add the new packet to the pool
+            _networkPacketPool[data.Type].Add(packet); // Add the new packet to the correct pool
         }
 
         activePackets.Add(packet);

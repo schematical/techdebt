@@ -365,10 +365,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         
             if (
                 instance != null &&
-                (
-                    instance.data.CurrentState == InfrastructureData.State.Operational ||
-                    instance.data.CurrentState == InfrastructureData.State.Frozen
-                ) &&
+                instance.IsActive() &&
                 conn.Priority > priorities[conn.networkPacketType]
             )
             {
@@ -383,10 +380,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             if (
                 conn.Priority == priorities[conn.networkPacketType] &&
                 instance != null &&
-                (
-                    instance.data.CurrentState == InfrastructureData.State.Operational ||
-                    instance.data.CurrentState == InfrastructureData.State.Frozen
-                )
+                instance.IsActive()
             )
             {
                 if (!CurrConnections.ContainsKey(conn.networkPacketType))
