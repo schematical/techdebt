@@ -651,14 +651,18 @@ public class UIManager : MonoBehaviour
                     }
                     break;
             }
-        }
-    }
-    
-    private void RefreshTaskList()
-    {
-        if (taskListContent == null)
-        {
-            var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
+                }
+            }
+            
+            public void ForceRefreshTechTreePanel()
+            {
+                RefreshTechTreePanel();
+            }
+        
+            private void RefreshTaskList()
+            {
+                if (taskListContent == null)
+                {            var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
             if (contentTransform != null) taskListContent = contentTransform;
             else { Debug.LogError("Could not find taskListContent transform!"); return; }
         }

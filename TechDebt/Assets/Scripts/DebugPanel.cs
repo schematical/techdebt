@@ -9,10 +9,12 @@ public class DebugPanel : MonoBehaviour
     public Button instaResearchButton;
 
     private GameManager gameManager;
+    private UIManager uiManager;
 
     void Start()
     {
         gameManager = GameManager.Instance;
+        uiManager = FindObjectOfType<UIManager>();
         instaBuildButton.onClick.AddListener(InstaBuild);
         instaResearchButton.onClick.AddListener(InstaResearch);
     }
@@ -39,8 +41,13 @@ public class DebugPanel : MonoBehaviour
 
         if (gameManager.CurrentlyResearchingTechnology != null)
         {
+            string techName = gameManager.CurrentlyResearchingTechnology.DisplayName;
             gameManager.ApplyResearchProgress(gameManager.CurrentlyResearchingTechnology.ResearchPointCost);
-            Debug.Log($"Insta-researched {gameManager.CurrentlyResearchingTechnology.DisplayName}");
+            Debug.Log($"Insta-researched {techName}");
+            if (uiManager != null)
+            {
+                uiManager.ForceRefreshTechTreePanel();
+            }
         }
         else
         {
