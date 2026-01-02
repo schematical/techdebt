@@ -2,23 +2,39 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
+using UnityEngine.InputSystem;
 
 public class DebugPanel : MonoBehaviour
 {
     public Button instaBuildButton;
     public Button instaResearchButton;
     public Button unlockAllTechButton;
+    public TextMeshProUGUI mouseCoordsText;
 
     private GameManager gameManager;
     private UIManager uiManager;
+    private GridManager gridManager;
 
     void Start()
     {
         gameManager = GameManager.Instance;
         uiManager = FindObjectOfType<UIManager>();
+        gridManager = GridManager.Instance;
         instaBuildButton.onClick.AddListener(InstaBuild);
         instaResearchButton.onClick.AddListener(InstaResearch);
         unlockAllTechButton.onClick.AddListener(UnlockAllTechnologies);
+    }
+
+    void Update()
+    {
+        if (mouseCoordsText != null && gridManager != null && Camera.main != null)
+        {
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector3Int cellPos = gridManager.gridComponent.WorldToCell(worldPos);
+            mouseCoordsText.text = $"X: {cellPos.x}, Y: {cellPos.y}";
+        }
     }
 
     private void InstaBuild()

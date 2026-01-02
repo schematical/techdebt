@@ -853,6 +853,7 @@ public class UIManager : MonoBehaviour
         vlg.spacing = 5;
 
         var debugPanelComponent = debugPanel.AddComponent<DebugPanel>();
+        debugPanelComponent.mouseCoordsText = CreateText(debugPanel.transform, "MouseCoordsText", "X: -, Y: -", 14);
         debugPanelComponent.instaBuildButton = CreateButton(debugPanel.transform, "Insta-Build", () => {});
         debugPanelComponent.instaResearchButton = CreateButton(debugPanel.transform, "Insta-Research", () => {});
         debugPanelComponent.unlockAllTechButton = CreateButton(debugPanel.transform, "Unlock All Tech", () => {});
