@@ -10,6 +10,7 @@ public class DebugPanel : MonoBehaviour
     public Button instaBuildButton;
     public Button instaResearchButton;
     public Button unlockAllTechButton;
+    public Button triggerEventButton;
     public TextMeshProUGUI mouseCoordsText;
 
     private GameManager gameManager;

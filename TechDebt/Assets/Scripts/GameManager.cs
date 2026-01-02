@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void TriggerEvent(EventBase e)
+    public void TriggerEvent(EventBase e)
     {
         e.Apply();
         // Debug.Log("Adding Event: " + e.EventEndText);

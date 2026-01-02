@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Stats;
 using static NPCTask;
+using Events;
 
 public class UIManager : MonoBehaviour
 
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
     private GameObject alertPanel;
     private GameObject eventLogPanel;
     private GameObject debugPanel;
+    private GameObject eventTriggerPanel;
     
     
     // UI Elements
@@ -876,7 +878,7 @@ public class UIManager : MonoBehaviour
     
     private void SetupDebugPanel(Transform parent)
     {
-        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(200, 100), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 200));
+        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(200, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 200));
         var vlg = debugPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10,10,10,10);
         vlg.spacing = 5;
@@ -886,13 +888,81 @@ public class UIManager : MonoBehaviour
         debugPanelComponent.instaBuildButton = CreateButton(debugPanel.transform, "Insta-Build", () => {});
         debugPanelComponent.instaResearchButton = CreateButton(debugPanel.transform, "Insta-Research", () => {});
         debugPanelComponent.unlockAllTechButton = CreateButton(debugPanel.transform, "Unlock All Tech", () => {});
+        debugPanelComponent.triggerEventButton = CreateButton(debugPanel.transform, "Trigger Event", () => ToggleEventTriggerPanel());
 
+        SetupEventTriggerPanel(parent);
         debugPanel.SetActive(false);
     }
 
     public void ToggleDebugPanel()
     {
         debugPanel.SetActive(!debugPanel.activeSelf);
+    }
+
+    private void SetupEventTriggerPanel(Transform parent)
+    {
+        eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 300), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(200, 0));
+        var vlg = eventTriggerPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10,10,10,10);
+        vlg.spacing = 5;
+
+        CreateText(eventTriggerPanel.transform, "Header", "Trigger Event", 18);
+        
+        // --- ScrollView Setup ---
+        var scrollViewGO = new GameObject("ScrollView");
+        scrollViewGO.transform.SetParent(eventTriggerPanel.transform, false);
+        var scrollRect = scrollViewGO.AddComponent<ScrollRect>();
+        scrollViewGO.AddComponent<LayoutElement>().flexibleHeight = 1;
+
+        var viewportGO = new GameObject("Viewport");
+        viewportGO.transform.SetParent(scrollViewGO.transform, false);
+        var viewportRT = viewportGO.AddComponent<RectTransform>();
+        viewportRT.anchorMin = Vector2.zero;
+        viewportRT.anchorMax = Vector2.one;
+        viewportRT.sizeDelta = Vector2.zero;
+        viewportRT.pivot = new Vector2(0, 1);
+        viewportGO.AddComponent<RectMask2D>();
+        scrollRect.viewport = viewportRT;
+
+        var contentGO = new GameObject("Content");
+        contentGO.transform.SetParent(viewportGO.transform, false);
+        var contentRT = contentGO.AddComponent<RectTransform>();
+        contentRT.anchorMin = new Vector2(0, 1);
+        contentRT.anchorMax = new Vector2(1, 1);
+        contentRT.pivot = new Vector2(0.5f, 1);
+        contentRT.sizeDelta = new Vector2(0, 0);
+        var contentVLG = contentGO.AddComponent<VerticalLayoutGroup>();
+        contentVLG.padding = new RectOffset(5,5,5,5);
+        contentVLG.spacing = 5;
+        contentVLG.childControlWidth = true;
+        var csf = contentGO.AddComponent<ContentSizeFitter>();
+        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        scrollRect.content = contentRT;
+
+
+        if (GameManager.Instance != null && GameManager.Instance.Events != null)
+        {
+            foreach (var gameEvent in GameManager.Instance.Events)
+            {
+                EventBase localEvent = gameEvent; // Local copy for the closure
+                var button = CreateButton(contentGO.transform, gameEvent.GetType().Name, () => {
+                    GameManager.Instance.TriggerEvent(localEvent);
+                    eventTriggerPanel.SetActive(false); // Close panel after triggering
+                });
+                button.gameObject.AddComponent<LayoutElement>().minHeight = 30;
+            }
+        }
+        
+        var backButton = CreateButton(eventTriggerPanel.transform, "< Back", () => eventTriggerPanel.SetActive(false));
+        backButton.gameObject.AddComponent<LayoutElement>().minHeight = 30;
+
+
+        eventTriggerPanel.SetActive(false);
+    }
+
+    private void ToggleEventTriggerPanel()
+    {
+        eventTriggerPanel.SetActive(!eventTriggerPanel.activeSelf);
     }
     #endregion
     
