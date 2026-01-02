@@ -9,8 +9,7 @@ public class NetworkPacketData
     {
         Text,
         Image,
-        Video,
-        MaliciousText
+        BatchJob
     }
 
     public PType Type;
