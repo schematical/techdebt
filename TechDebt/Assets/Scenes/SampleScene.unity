@@ -1291,7 +1291,7 @@ MonoBehaviour:
     UnlockConditions:
     - Type: 1
       StatType: 0
-      TechnologyID: secrets-manager
+      TechnologyID: secret-manager
       RequiredValue: 0
     networkPackets:
     - PacketType: 0
