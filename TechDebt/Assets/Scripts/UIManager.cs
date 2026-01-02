@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     private GameObject npcDetailPanel;
     private GameObject alertPanel;
     private GameObject eventLogPanel;
+    private GameObject debugPanel;
+    
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -253,6 +255,7 @@ public class UIManager : MonoBehaviour
         SetupLeftMenuBar(transform);
 
         SetupAlertPanel(transform);
+        SetupDebugPanel(transform);
         
         
 
@@ -836,6 +839,25 @@ public class UIManager : MonoBehaviour
         _downsizeButton.gameObject.SetActive(false);
 
         infrastructureDetailPanel.SetActive(false);
+    }
+    
+    private void SetupDebugPanel(Transform parent)
+    {
+        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(200, 100), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 200));
+        var vlg = debugPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(10,10,10,10);
+        vlg.spacing = 5;
+
+        var debugPanelComponent = debugPanel.AddComponent<DebugPanel>();
+        debugPanelComponent.instaBuildButton = CreateButton(debugPanel.transform, "Insta-Build", () => {});
+        debugPanelComponent.instaResearchButton = CreateButton(debugPanel.transform, "Insta-Research", () => {});
+
+        debugPanel.SetActive(false);
+    }
+
+    public void ToggleDebugPanel()
+    {
+        debugPanel.SetActive(!debugPanel.activeSelf);
     }
     #endregion
     
