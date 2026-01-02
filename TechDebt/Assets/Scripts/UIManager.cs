@@ -855,6 +855,7 @@ public class UIManager : MonoBehaviour
         var debugPanelComponent = debugPanel.AddComponent<DebugPanel>();
         debugPanelComponent.instaBuildButton = CreateButton(debugPanel.transform, "Insta-Build", () => {});
         debugPanelComponent.instaResearchButton = CreateButton(debugPanel.transform, "Insta-Research", () => {});
+        debugPanelComponent.unlockAllTechButton = CreateButton(debugPanel.transform, "Unlock All Tech", () => {});
 
         debugPanel.SetActive(false);
     }

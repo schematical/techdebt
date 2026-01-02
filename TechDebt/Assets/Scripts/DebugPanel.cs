@@ -7,6 +7,7 @@ public class DebugPanel : MonoBehaviour
 {
     public Button instaBuildButton;
     public Button instaResearchButton;
+    public Button unlockAllTechButton;
 
     private GameManager gameManager;
     private UIManager uiManager;
@@ -17,6 +18,7 @@ public class DebugPanel : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         instaBuildButton.onClick.AddListener(InstaBuild);
         instaResearchButton.onClick.AddListener(InstaResearch);
+        unlockAllTechButton.onClick.AddListener(UnlockAllTechnologies);
     }
 
     private void InstaBuild()
@@ -52,6 +54,18 @@ public class DebugPanel : MonoBehaviour
         else
         {
             Debug.Log("No technology is currently being researched.");
+        }
+    }
+
+    private void UnlockAllTechnologies()
+    {
+        if (gameManager == null) return;
+
+        gameManager.UnlockAllTechnologies();
+        Debug.Log("All technologies unlocked.");
+        if (uiManager != null)
+        {
+            uiManager.ForceRefreshTechTreePanel();
         }
     }
 }

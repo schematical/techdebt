@@ -672,6 +672,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UnlockAllTechnologies()
+    {
+        foreach (var tech in AllTechnologies)
+        {
+            if (tech.CurrentState != Technology.State.Unlocked)
+            {
+                tech.CurrentState = Technology.State.Unlocked;
+                OnTechnologyUnlocked?.Invoke(tech);
+            }
+        }
+        CurrentlyResearchingTechnology = null;
+    }
+
     // Helper method to get a Technology by its ID
     public Technology GetTechnologyByID(string id)
     {
