@@ -93,10 +93,11 @@ public class UIManager : MonoBehaviour
 
     private void ToggleEventLogPanel()
     {
-        bool isActive = !eventLogPanel.activeSelf;
-        eventLogPanel.SetActive(isActive);
-        if (isActive)
+        bool wasActive = eventLogPanel.activeSelf;
+        CloseAllSidebarPanels();
+        if (!wasActive)
         {
+            eventLogPanel.SetActive(true);
             UpdateEventLog();
         }
     }
@@ -364,10 +365,11 @@ public class UIManager : MonoBehaviour
 
     private void ToggleNPCListPanel()
     {
-        bool isActive = !npcListPanel.activeSelf;
-        npcListPanel.SetActive(isActive);
-        if (isActive)
+        bool wasActive = npcListPanel.activeSelf;
+        CloseAllSidebarPanels();
+        if (!wasActive)
         {
+            npcListPanel.SetActive(true);
             RefreshNPCListPanel();
         }
     }
@@ -403,6 +405,16 @@ public class UIManager : MonoBehaviour
         _selectedNPC = null;
         npcDetailPanel.SetActive(false);
     }
+
+    private void CloseAllSidebarPanels()
+    {
+        if (taskListPanel != null) taskListPanel.SetActive(false);
+        if (techTreePanel != null) techTreePanel.SetActive(false);
+        if (npcListPanel != null) npcListPanel.SetActive(false);
+        if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
+        if (eventLogPanel != null) eventLogPanel.SetActive(false);
+    }
+    
     
     private void SetupTaskListPanel(Transform parent)
     {
@@ -458,10 +470,11 @@ public class UIManager : MonoBehaviour
     
     private void ToggleTaskListPanel()
     {
-        bool isActive = !taskListPanel.activeSelf;
-        taskListPanel.SetActive(isActive);
-        if (isActive)
+        bool wasActive = taskListPanel.activeSelf;
+        CloseAllSidebarPanels();
+        if (!wasActive)
         {
+            taskListPanel.SetActive(true);
             RefreshTaskList();
         }
     }
@@ -542,10 +555,11 @@ public class UIManager : MonoBehaviour
 
     public void ToggleTechTreePanel()
     {
-        bool isActive = !techTreePanel.activeSelf;
-        techTreePanel.SetActive(isActive);
-        if (isActive)
+        bool wasActive = techTreePanel.activeSelf;
+        CloseAllSidebarPanels();
+        if (!wasActive)
         {
+            techTreePanel.SetActive(true);
             RefreshTechTreePanel();
         }
     }
