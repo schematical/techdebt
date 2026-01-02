@@ -901,7 +901,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupEventTriggerPanel(Transform parent)
     {
-        eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 300), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(200, 0));
+        eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 400), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(200, 0));
         var vlg = eventTriggerPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10,10,10,10);
         vlg.spacing = 5;
@@ -912,7 +912,7 @@ public class UIManager : MonoBehaviour
         var scrollViewGO = new GameObject("ScrollView");
         scrollViewGO.transform.SetParent(eventTriggerPanel.transform, false);
         var scrollRect = scrollViewGO.AddComponent<ScrollRect>();
-        scrollViewGO.AddComponent<LayoutElement>().flexibleHeight = 1;
+        scrollViewGO.AddComponent<LayoutElement>().flexibleHeight = 4; // 4 parts of the space
 
         var viewportGO = new GameObject("Viewport");
         viewportGO.transform.SetParent(scrollViewGO.transform, false);
@@ -954,7 +954,7 @@ public class UIManager : MonoBehaviour
         }
         
         var backButton = CreateButton(eventTriggerPanel.transform, "< Back", () => eventTriggerPanel.SetActive(false));
-        backButton.gameObject.AddComponent<LayoutElement>().minHeight = 30;
+        backButton.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1; // 1 part of the space
 
 
         eventTriggerPanel.SetActive(false);

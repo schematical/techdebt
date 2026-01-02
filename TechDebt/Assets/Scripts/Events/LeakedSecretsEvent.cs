@@ -14,6 +14,10 @@ namespace Events
         }
          public override bool IsPossible()
          {
+             if (GameManager.Instance.GameLoopManager.currentDay < 4)
+             {
+                 return false;
+             }
             InfrastructureInstance infrastructureInstance = GameManager.Instance.GetInfrastructureInstanceByID("secret-manager");
             if (infrastructureInstance == null)
             {
