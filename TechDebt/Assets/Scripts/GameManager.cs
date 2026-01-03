@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
 
     // --- Packet Management ---
     public GameObject packetPrefab;
-    private List<NetworkPacket> activePackets = new List<NetworkPacket>();
+    public List<NetworkPacket> activePackets = new List<NetworkPacket>();
     private Dictionary<NetworkPacketData.PType, List<NetworkPacket>> _networkPacketPool = new Dictionary<NetworkPacketData.PType, List<NetworkPacket>>();
 
 
