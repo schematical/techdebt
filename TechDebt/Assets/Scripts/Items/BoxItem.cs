@@ -1,6 +1,6 @@
 ﻿namespace Items
 {
-    public class ItemBox: ItemBase
+    public class BoxItem: ItemBase
     {
         public override string UseVerb()
         {
