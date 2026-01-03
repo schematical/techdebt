@@ -29,5 +29,8 @@ public enum StatType
     
     Infra_PacketCost,
     
+    
+    ItemDropChance,
+    
 
 }
