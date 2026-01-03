@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
     public FloatingTextFactory FloatingTextFactory;
     public GameLoopManager GameLoopManager;
+    public PrefabManager prefabManager;
     public float desiredTimeScale = 1f;
 
     public List<InfrastructureData> AllInfrastructure;
@@ -729,4 +731,5 @@ public class GameManager : MonoBehaviour
     {
         return ActiveInfrastructure.FirstOrDefault(t => t.data.ID == id);
     }
+    
 }
