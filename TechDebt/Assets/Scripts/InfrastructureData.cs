@@ -34,11 +34,12 @@ public class InfrastructureData
 [Serializable]
 public class InfrastructureDataNetworkPacket
 {
+    public enum NCRouteType { Return, End }
     public NetworkPacketData.PType PacketType;
     public int loadPerPacket = 20;
     public int cost = 0;
     public StatsCollection Stats = new StatsCollection();
-
+    public NCRouteType RouteType = NCRouteType.Return;
     public void Init()
     {
         Stats.Add(new StatData(StatType.Infra_LoadPerPacket, loadPerPacket));

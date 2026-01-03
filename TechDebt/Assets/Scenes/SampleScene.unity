@@ -647,6 +647,7 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 1
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -753,12 +754,15 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 20
       cost: 0
+      RouteType: 0
     - PacketType: 1
       loadPerPacket: 40
       cost: 0
+      RouteType: 0
     - PacketType: 3
       loadPerPacket: 1000
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -884,6 +888,7 @@ MonoBehaviour:
     - PacketType: 1
       loadPerPacket: 0
       cost: 1
+      RouteType: 0
     DailyCost: 1
     BuildTime: 10
     LoadPerPacket: 0
@@ -906,6 +911,7 @@ MonoBehaviour:
     - PacketType: 1
       loadPerPacket: 0
       cost: 2
+      RouteType: 0
     DailyCost: 1
     BuildTime: 10
     LoadPerPacket: 0
@@ -1013,12 +1019,15 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 20
       cost: 0
+      RouteType: 0
     - PacketType: 1
       loadPerPacket: 40
       cost: 0
+      RouteType: 0
     - PacketType: 3
       loadPerPacket: 1000
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1095,12 +1104,15 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 20
       cost: 0
+      RouteType: 0
     - PacketType: 1
       loadPerPacket: 40
       cost: 0
+      RouteType: 0
     - PacketType: 3
       loadPerPacket: 1000
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1234,6 +1246,7 @@ MonoBehaviour:
     - PacketType: 3
       loadPerPacket: 0
       cost: 1
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1262,6 +1275,7 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 1
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1294,6 +1308,7 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 1
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1326,6 +1341,7 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 1
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1354,6 +1370,7 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 1
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1382,6 +1399,7 @@ MonoBehaviour:
     - PacketType: 0
       loadPerPacket: 1
       cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -1410,6 +1428,7 @@ MonoBehaviour:
     - PacketType: 2
       loadPerPacket: 10
       cost: 0
+      RouteType: 1
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
