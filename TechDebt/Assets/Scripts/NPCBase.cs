@@ -1,6 +1,7 @@
 // NPCBase.cs
 using UnityEngine;
 using System.Collections.Generic;
+using Stats;
 
 public abstract class NPCBase : MonoBehaviour
 {
@@ -14,14 +15,18 @@ public abstract class NPCBase : MonoBehaviour
     }
     public State CurrentState { get; set; } = State.Idle;
     public event System.Action OnDestinationReached;
-
-    public float movementSpeed = 3f;
+    
     public bool isMoving { get; private set; } = false;
 
     private List<Vector3> currentPath;
     private int pathIndex;
     
+    public StatsCollection Stats = new StatsCollection();
 
+    public void Initialize()
+    {
+        Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
+    }
 
     protected virtual void Update()
     {
@@ -97,8 +102,7 @@ public abstract class NPCBase : MonoBehaviour
         {
             // The base NPCTask constructor and OnStart will handle movement to the destination
             MoveTo(doorInstance.transform.position);
-         
-            Debug.Log($"{gameObject.name} is navigating to the door.");
+            
         }
         else
         {
@@ -124,7 +128,7 @@ public abstract class NPCBase : MonoBehaviour
 
         if (Vector3.Distance(transform.position, targetWaypoint) > 0.01f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, movementSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
         }
         else
         {

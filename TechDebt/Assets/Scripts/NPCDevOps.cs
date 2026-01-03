@@ -49,6 +49,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler // Implement IPointerClic
     {
         Data = data;
         gameObject.name = $"NPCDevOps_{Data.Name}";
+        base.Initialize();
     }
 
     void Update()
