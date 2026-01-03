@@ -316,120 +316,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &291588903
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 291588906}
-  - component: {fileID: 291588905}
-  - component: {fileID: 291588904}
-  m_Layer: 0
-  m_Name: SQS
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!95 &291588904
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 291588903}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8eb2f3e95314bce4b8fc6cb172ab163a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!212 &291588905
-SpriteRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 291588903}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 1098107909572089852, guid: 6a7280b953008b9448124255ac939c7e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 14.08, y: 0.87}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
---- !u!4 &291588906
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 291588903}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,6 +659,7 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: internetPipe
     DisplayName: Internet Pipe
@@ -797,41 +684,49 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: cdn
       Priority: 7
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: desk
     DisplayName: Desk
@@ -876,6 +771,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -885,6 +781,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 1
         Stat: 12
@@ -894,16 +791,19 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -913,6 +813,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -922,6 +823,17 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.75
+    - TargetID: sqs-queue
+      Priority: 5
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -950,11 +862,13 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: s3-bucket
     DisplayName: S3Bucket
@@ -1004,6 +918,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: server-alb
     DisplayName: Load Balencer
@@ -1028,51 +943,61 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server1
       Priority: 5
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server2
       Priority: 5
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: server3
       Priority: 5
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: waf
       Priority: 6
       networkPacketType: 3
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: server2
     DisplayName: Server 2
@@ -1106,26 +1031,31 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -1135,6 +1065,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -1144,6 +1075,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -1181,26 +1113,31 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -1210,6 +1147,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -1219,6 +1157,7 @@ MonoBehaviour:
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus:
       - PacketType: 0
         Stat: 12
@@ -1307,6 +1246,7 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: redis-1
     DisplayName: Redis
@@ -1334,6 +1274,7 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: redis-2
     DisplayName: Redis 2
@@ -1365,6 +1306,7 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: redis-3
     DisplayName: Redis 3
@@ -1396,6 +1338,7 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   - ID: secret-manager
     DisplayName: SecretManager
@@ -1423,6 +1366,63 @@ MonoBehaviour:
       Priority: 0
       networkPacketType: 0
       Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+  - ID: sqs-queue
+    DisplayName: SQS Queue
+    Type: 
+    Prefab: {fileID: 3498545839468818472, guid: 02f907469eb21394192734a4c5606464, type: 3}
+    GridPosition: {x: 25, y: 20}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: sqs
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 0
+      loadPerPacket: 1
+      cost: 0
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: bg-worker-1
+      Priority: 0
+      networkPacketType: 2
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+  - ID: bg-worker-1
+    DisplayName: SQS Queue
+    Type: 
+    Prefab: {fileID: 6425469183147676141, guid: 08bb2c4192fb6024ea5d847859924d22, type: 3}
+    GridPosition: {x: 30, y: 20}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: sqs
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 2
+      loadPerPacket: 10
+      cost: 0
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
       NetworkConnectionBonus: []
   AllTechnologies:
   - TechnologyID: dedicated-db
@@ -1494,6 +1494,14 @@ MonoBehaviour:
     ResearchPointCost: 25
     CurrentResearchProgress: 0
     RequiredTechnologies: []
+    CurrentState: 0
+  - TechnologyID: sqs
+    DisplayName: Simple Queue Service
+    Description: 
+    ResearchPointCost: 25
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - load-balencer
     CurrentState: 0
   NetworkPacketDatas:
   - Type: 0
@@ -1737,4 +1745,3 @@ SceneRoots:
   - {fileID: 1855699587}
   - {fileID: 203743600}
   - {fileID: 547684159}
-  - {fileID: 291588906}

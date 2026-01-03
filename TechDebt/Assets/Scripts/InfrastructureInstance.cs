@@ -176,10 +176,12 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         // If there are network connections, try to forward the packet
         if (data.NetworkConnections != null && data.NetworkConnections.Count > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
-            string nextTargetId = GetNextNetworkTargetId(packet.data.Type);
-            if (nextTargetId != null)
+            NetworkConnection connection = GetNextNetworkConnection(packet.data.Type);
+            if (connection != null)
             {
-             
+                string nextTargetId = connection.TargetID;
+                GameManager.Instance.IncrStat(StatType.Money, connection.Cost * -1);
+
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
                 if (
                     nextReceiver != null && 
@@ -391,10 +393,10 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             }
         }
     }
-    public string GetNextNetworkTargetId(NetworkPacketData.PType pType) {
+    protected virtual NetworkConnection GetNextNetworkConnection(NetworkPacketData.PType pType) {
         if (CurrConnections.ContainsKey(pType))
         {
-            return CurrConnections[pType][Random.Range(0, CurrConnections[pType].Count)].TargetID;
+            return CurrConnections[pType][Random.Range(0, CurrConnections[pType].Count)];
         }
 
         return null;
