@@ -115,65 +115,68 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
     }
 
-    public virtual void ReceivePacket(NetworkPacket packet)
+    public void ReceivePacket(NetworkPacket packet)
+    {
+        if (!HandleIncomingPacket(packet))
+        {
+            // Packet was failed or instance is not in a state to process, so we stop here.
+            // HandleIncomingPacket is responsible for calling MoveToNextNode in these cases.
+            return;
+        }
+        Debug.Log($"RoutingPacket: {data.ID}  {packet.data.Type} ");
+        RoutePacket(packet);
+
+        packet.MoveToNextNode();
+    }
+
+    protected virtual bool HandleIncomingPacket(NetworkPacket packet)
     {
         if (data.CurrentState == InfrastructureData.State.Frozen)
         {
             packet.MarkFailed();
             packet.MoveToNextNode();
-            return;
+            return false; // Stop processing
         }
-        // Update load
+
         if (!packet.IsReturning())
         {
+            // --- Standard Load and Cost Calculation ---
             int loadPerPacket = data.LoadPerPacket;
             int costPerPacket = data.CostPerPacket;
-            if (
-                data.networkPackets != null &&
-                data.networkPackets.Count() > 0
-            )
+            
+            var packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
+            if (packetData != null)
             {
-                InfrastructureDataNetworkPacket packetData = data.networkPackets.Find((packetData => {
-                    if(packetData.PacketType == packet.data.Type)
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }));
-               //  Debug.Log($"loadPerPacket - Search {packet.data.Type} - Found: {(packetData != null)} - ${loadPerPacket}");
-                if (packetData != null)
-                {
-                    loadPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
-                    costPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
-                }
+                loadPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
+                costPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
             }
 
             if (costPerPacket != 0)
             {
                 GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
-                GameManager.Instance.FloatingTextFactory.ShowText($" - ${costPerPacket}", transform.position, Color.khaki);//  + new Vector3(0, 1, 3));
+                GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position, Color.khaki);
             }
 
-            if (loadPerPacket != 0)
+            if (loadPerPacket != 0) 
             {
                 CurrentLoad += loadPerPacket;
+                GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position, spriteRenderer.color);
 
-                GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
-                    spriteRenderer.color); //  + new Vector3(0, 1, 3));
                 if (CurrentLoad > data.MaxLoad)
                 {
                     packet.MarkFailed();
                     CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
-
                     SetState(InfrastructureData.State.Frozen);
+                    packet.MoveToNextNode();
+                    return false; // Stop processing
                 }
             }
         }
+        return true; // Continue processing
+    }
 
-
-       
-        // If there are network connections, try to forward the packet
+    protected virtual void RoutePacket(NetworkPacket packet)
+    {
         if (data.NetworkConnections != null && data.NetworkConnections.Count > 0 && data.CurrentState == InfrastructureData.State.Operational)
         {
             NetworkConnection connection = GetNextNetworkConnection(packet.data.Type);
@@ -183,36 +186,24 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 GameManager.Instance.IncrStat(StatType.Money, connection.Cost * -1);
 
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
-                if (
-                    nextReceiver != null && 
-                    (
-                        IsActive()
-                    )
-                    
-                    )
+                if (nextReceiver != null && nextReceiver.IsActive())
                 {
-                    // Debug.Log("Sending " + nextTargetId);
                     packet.SetNextTarget(nextReceiver);
                 }
                 else
                 {
-                    Debug.LogWarning($"{data.DisplayName} cannot forward packet {packet.FileName}: Next receiver not found or not operational. Returning - " + nextTargetId + "  --> " + ((nextReceiver != null) ? nextReceiver.data.CurrentState : ""));
                     packet.StartReturn();
                 }
             }
             else
             {
-                // Debug.Log("StartReturn");
                 packet.StartReturn();
             }
         }
         else
         {
-       
-            packet.StartReturn(); 
+            packet.StartReturn();
         }
-
-        packet.MoveToNextNode();
     }
 
     public Transform GetTransform()
@@ -220,14 +211,14 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         return transform;
     }
 
-    public void Initialize(InfrastructureData infraData)
+    public virtual void Initialize(InfrastructureData infraData)
     {
         data = infraData;
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
     }
-    public void Initialize()
+    public virtual void Initialize()
     {
 
         data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));

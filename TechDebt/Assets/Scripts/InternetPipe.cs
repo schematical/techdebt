@@ -61,11 +61,12 @@ public class InternetPipe : InfrastructureInstance
     }
 
     // The InternetPipe itself doesn't "receive" packets in the traditional sense, it only generates them.
-    // We override the base method to prevent it from trying to forward packets it receives.
-    public override void ReceivePacket(NetworkPacket packet)
+    // A packet arriving here has finished its journey. We override this method to destroy it.
+    protected override bool HandleIncomingPacket(NetworkPacket packet)
     {
-        
         // Destroy the packet as it has finished its journey.
         GameManager.Instance.DestroyPacket(packet);
+        // Return false to prevent RoutePacket() and MoveToNextNode() from being called.
+        return false;
     }
 }

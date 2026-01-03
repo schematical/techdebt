@@ -1,48 +1,28 @@
 // QueueInstance.cs
 using UnityEngine;
 
-public class QueueInstance : InfrastructureInstance
-{
-    public NetworkPacketData batchJobPacketData;
-    
-    public override void ReceivePacket(NetworkPacket packet)
+    public class QueueInstance : InfrastructureInstance
     {
-        // =================================================================================
-        // This is a manual reimplementation of the start of InfrastructureInstance.ReceivePacket
-        // We cannot call base.ReceivePacket() because it calls MoveToNextNode() at the end,
-        // which would cause a double-move when we have custom logic here.
-        // =================================================================================
+        public NetworkPacketData batchJobPacketData;
 
-        if (data.CurrentState == InfrastructureData.State.Frozen)
+        public override void Initialize()
         {
-            packet.MarkFailed();
-            packet.MoveToNextNode();
-            return;
-        }
-
-        if (!packet.IsReturning())
-        {
-            // Simplified from base class - apply general load and cost for any packet received
-            CurrentLoad += data.LoadPerPacket;
-            GameManager.Instance.IncrStat(StatType.Money, data.CostPerPacket * -1);
-
-            if (CurrentLoad > data.MaxLoad)
+            base.Initialize();
+            if (GameManager.Instance != null && GameManager.Instance.NetworkPacketDatas != null)
             {
-                packet.MarkFailed();
-                CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
-                SetState(InfrastructureData.State.Frozen);
-                packet.MoveToNextNode();
-                return;
+                batchJobPacketData = GameManager.Instance.NetworkPacketDatas.Find(data => data.Type == NetworkPacketData.PType.BatchJob);
+                if (batchJobPacketData == null)
+                {
+                    Debug.LogWarning($"QueueInstance '{data.DisplayName}': Could not find BatchJob NetworkPacketData in GameManager.");
+                }
             }
         }
-        
-        // =================================================================================
-        // Custom QueueInstance Logic
-        // =================================================================================
 
-        if (packet.data.Type == NetworkPacketData.PType.Text && !packet.IsReturning())
+        protected override void RoutePacket(NetworkPacket packet)    {
+        // Custom logic for Queue: if it's a Text packet, transform it.
+        if (!packet.IsReturning())
         {
-            // 1. Transform Text packet into a BatchJob packet and send it forward.
+            // 1. Create and send a new BatchJob packet forward.
             if (batchJobPacketData != null)
             {
                 NetworkConnection connection = GetNextNetworkConnection(NetworkPacketData.PType.BatchJob);
@@ -53,8 +33,16 @@ public class QueueInstance : InfrastructureInstance
                     {
                         NetworkPacket batchPacket = GameManager.Instance.CreatePacket(batchJobPacketData, "batch.dat", 100, this);
                         batchPacket.SetNextTarget(nextTarget);
-                        batchPacket.MoveToNextNode();
+                        batchPacket.MoveToNextNode(); // Move the new packet immediately
                     }
+                    else
+                    {
+                        Debug.LogError("No nextTarget found"); 
+                    }
+                }
+                else
+                {
+                    Debug.LogError("No connections found");
                 }
             }
 
@@ -63,27 +51,10 @@ public class QueueInstance : InfrastructureInstance
         }
         else
         {
-            // If it's any other packet type (or a returning packet), forward it normally.
-            NetworkConnection connection = GetNextNetworkConnection(packet.data.Type);
-            if (connection != null)
-            {
-                InfrastructureInstance nextTarget = GameManager.Instance.GetInfrastructureInstanceByID(connection.TargetID);
-                if (nextTarget != null && nextTarget.IsActive())
-                {
-                    packet.SetNextTarget(nextTarget);
-                }
-                else
-                {
-                    packet.StartReturn();
-                }
-            }
-            else
-            {
-                packet.StartReturn();
-            }
+            // For all other packet types (or returning packets), use the default routing behavior.
+            Debug.Log("Routing Base Packet");
+            base.RoutePacket(packet);
         }
-        
-        // Finally, move the original packet to its next node (either returning or forwarding).
-        packet.MoveToNextNode();
     }
 }
+
