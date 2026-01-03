@@ -73,6 +73,8 @@ public abstract class NPCTask
         {
             npc.OnDestinationReached -= HandleArrival;
         }
+
+        GameManager.Instance.CompleteTask(this);
     }
     
     private void HandleArrival()

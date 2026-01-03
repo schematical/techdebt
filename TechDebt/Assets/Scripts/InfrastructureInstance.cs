@@ -160,7 +160,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
                     Color.khaki);
             }
-
+Debug.Log($"Incoming packet: {packet.data.Type} - loadPerPacket: {loadPerPacket} - data.LoadPerPacket  {data.LoadPerPacket} ");
             if (loadPerPacket != 0)
             {
                 CurrentLoad += loadPerPacket;

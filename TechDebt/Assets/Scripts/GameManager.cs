@@ -192,6 +192,7 @@ public class GameManager : MonoBehaviour
     {
         activePackets.Remove(packet);
         packet.gameObject.SetActive(false); // Deactivate instead of destroying
+        packet.Reset();
         float packetsServiced = -1;
 		if (packet.CurrentState == NetworkPacket.State.Failed) {
             float packetsFailed = IncrStat(StatType.PacketsFailed);

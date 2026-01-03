@@ -89,4 +89,14 @@ public class NetworkPacket : MonoBehaviour
         
         //pastNodes.RemoveAt(pastNodes.Count - 1);
     }
+    
+
+    public void Reset()
+    {
+        spriteRenderer.color = Color.white;
+        returnIndex = -1;
+        CurrentState = State.Running;
+        nextHop = null;
+        pastNodes.Clear();
+    }
 }

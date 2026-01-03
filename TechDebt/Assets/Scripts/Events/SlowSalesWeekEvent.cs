@@ -33,6 +33,11 @@ namespace Events
             {
                 return false;
             }
+
+            if (GameManager.Instance.GameLoopManager.currentDay < 4)
+            {
+                return false;
+            }
             return true;
         }
         public override bool IsOver()
