@@ -9,7 +9,7 @@ namespace Items
 
         public virtual void Use()
         {
-            
+            gameObject.SetActive(false);
         }
 
         public virtual string UseVerb()
