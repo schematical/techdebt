@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Events;
+using Items;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
     }
   
     public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
-    
+    public List<ItemData> Items = new List<ItemData>();
     public UIManager UIManager;
     public FloatingTextFactory FloatingTextFactory;
     public GameLoopManager GameLoopManager;
@@ -49,6 +50,10 @@ public class GameManager : MonoBehaviour
     
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
+    
+    // --- Item Spawning ---
+    private float _itemDropTimer;
+
 
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
@@ -400,6 +405,60 @@ public class GameManager : MonoBehaviour
         Debug.Log($"GameManager Start: Found {AllTechnologies.Count} technologies.");
         UIManager.SetupUIInfrastructure();
         GameLoopManager.BeginBuildPhase();
+        
+        // --- Item Spawning ---
+        _itemDropTimer = GetStat(StatType.ItemDropCheck);
+    }
+
+    void Update()
+    {
+        // Item Drop Logic
+        _itemDropTimer -= Time.deltaTime;
+        if (_itemDropTimer <= 0)
+        {
+            float dropChance = GetStat(StatType.ItemDropChance);
+            if (Random.value <= dropChance)
+            {
+                SpawnItem();
+            }
+            _itemDropTimer = GetStat(StatType.ItemDropCheck); // Reset timer
+        }
+    }
+
+    private void SpawnItem()
+    {
+        // Find a random, unoccupied grid position
+        List<Vector2Int> occupiedCells = ActiveInfrastructure.Select(infra => infra.data.GridPosition).ToList();
+        // Also consider other items already on the grid to be occupied
+        occupiedCells.AddRange(FindObjectsOfType<ItemBase>().Select(item => new Vector2Int(Mathf.RoundToInt(item.transform.position.x), Mathf.RoundToInt(item.transform.position.y))));
+
+        Vector2Int? spawnPosition = null;
+
+        int attempts = 0;
+        while (attempts < 100) // Prevent infinite loop
+        {
+            int x = Random.Range(0, gridManager.gridWidth);
+            int y = Random.Range(0, gridManager.gridHeight);
+            Vector2Int potentialPos = new Vector2Int(x, y);
+
+            if (!occupiedCells.Contains(potentialPos))
+            {
+                spawnPosition = potentialPos;
+                break;
+            }
+            attempts++;
+        }
+
+        if (spawnPosition.HasValue)
+        {
+            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(spawnPosition.Value.x, spawnPosition.Value.y, 0));
+            prefabManager.Create("BoxItem", worldPos);
+            Debug.Log($"Spawned BoxItem at {spawnPosition.Value}");
+        }
+        else
+        {
+            Debug.LogWarning("Could not find an empty cell to spawn a BoxItem after 100 attempts.");
+        }
     }
 
     private void Initialize()
@@ -422,6 +481,8 @@ public class GameManager : MonoBehaviour
         Events.Add(new AttackStartEvent());
         Events.Add(new DDoSEvent());
         Events.Add(new LeakedSecretEvent());
+        
+        Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
     }
     
 	public float IncrStat(StatType stat, float value = 1)
