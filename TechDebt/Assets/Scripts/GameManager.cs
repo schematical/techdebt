@@ -413,6 +413,8 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.PacketIncome, 10f));
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
+        Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));
+        Stats.Add(new StatData(StatType.ItemDropCheck, 15));
 
         Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());

@@ -31,6 +31,7 @@ public enum StatType
     
     
     ItemDropChance,
+    ItemDropCheck
     
 
 }
