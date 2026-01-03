@@ -186,8 +186,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 if (
                     nextReceiver != null && 
                     (
-                        nextReceiver.data.CurrentState == InfrastructureData.State.Operational ||
-                        nextReceiver.data.CurrentState == InfrastructureData.State.Frozen
+                        IsActive()
                     )
                     
                     )
@@ -299,8 +298,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     {
         if (
             !(
-                data.CurrentState == InfrastructureData.State.Operational ||
-                data.CurrentState == InfrastructureData.State.Frozen
+                IsActive()
             )
         )
         {

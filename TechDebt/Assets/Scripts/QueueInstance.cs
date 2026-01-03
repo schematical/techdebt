@@ -4,7 +4,7 @@ using UnityEngine;
 public class QueueInstance : InfrastructureInstance
 {
     public NetworkPacketData batchJobPacketData;
-
+    
     public override void ReceivePacket(NetworkPacket packet)
     {
         // =================================================================================
