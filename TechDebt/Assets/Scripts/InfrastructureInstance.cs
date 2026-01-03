@@ -9,13 +9,14 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
 
-public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEnterHandler, IPointerExitHandler, */IPointerClickHandler
+public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEnterHandler, IPointerExitHandler, */
+    IPointerClickHandler
 {
     public Color startcolor;
     public InfrastructureData data;
-    
+
     private SpriteRenderer spriteRenderer;
-    
+
     public float CurrentLoad { get; set; }
     public float TechDebt => data.Stats.GetStatValue(StatType.TechDebt);
     public int CurrentSizeLevel { get; private set; } = 0;
@@ -23,7 +24,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public string Version = "0.0.1";
 
 
-    public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
+    public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections =
+        new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
 
     void Awake()
     {
@@ -43,14 +45,15 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
         else
         {
-            Debug.LogError($"InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
+            Debug.LogError(
+                $"InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
         }
 
         foreach (var networkPacket in data.networkPackets)
         {
             networkPacket.Init();
         }
-        
+
     }
 
     public void FixedUpdate()
@@ -92,11 +95,11 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
     }
     */
-    
+
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        
-        
+
+
         // This is where the tooltip logic should be handled.
         // We find the UIManager and tell it to show the tooltip for this specific instance.
         UIManager uiManager = GameManager.Instance.UIManager;
@@ -123,7 +126,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             // HandleIncomingPacket is responsible for calling MoveToNextNode in these cases.
             return;
         }
-        Debug.Log($"RoutingPacket: {data.ID}  {packet.data.Type} ");
+
         RoutePacket(packet);
 
         packet.MoveToNextNode();
@@ -143,24 +146,26 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             // --- Standard Load and Cost Calculation ---
             int loadPerPacket = data.LoadPerPacket;
             int costPerPacket = data.CostPerPacket;
-            
+
             var packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
             if (packetData != null)
             {
-                loadPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
-                costPerPacket = (int) packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
+                loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
+                costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
             }
 
             if (costPerPacket != 0)
             {
                 GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
-                GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position, Color.khaki);
+                GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
+                    Color.khaki);
             }
 
-            if (loadPerPacket != 0) 
+            if (loadPerPacket != 0)
             {
                 CurrentLoad += loadPerPacket;
-                GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position, spriteRenderer.color);
+                GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
+                    spriteRenderer.color);
 
                 if (CurrentLoad > data.MaxLoad)
                 {
@@ -172,12 +177,14 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 }
             }
         }
+
         return true; // Continue processing
     }
 
     protected virtual void RoutePacket(NetworkPacket packet)
     {
-        if (data.NetworkConnections != null && data.NetworkConnections.Count > 0 && data.CurrentState == InfrastructureData.State.Operational)
+        if (data.NetworkConnections != null && data.NetworkConnections.Count > 0 &&
+            data.CurrentState == InfrastructureData.State.Operational)
         {
             NetworkConnection connection = GetNextNetworkConnection(packet.data.Type);
             if (connection != null)
@@ -192,21 +199,44 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 }
                 else
                 {
-                    packet.StartReturn();
+
+                    ReturnPacket(packet);
                 }
             }
             else
             {
-                packet.StartReturn();
+                ReturnPacket(packet);
             }
         }
         else
         {
-            packet.StartReturn();
+            ReturnPacket(packet);
         }
     }
 
-    public Transform GetTransform()
+    protected virtual void ReturnPacket(NetworkPacket packet)
+    {
+        var packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
+        if (packetData == null)
+        {
+            packet.StartReturn();
+            return;
+        }
+
+        switch (packetData.RouteType)
+        {
+            case(InfrastructureDataNetworkPacket.NCRouteType.End):
+                GameManager.Instance.DestroyPacket(packet);
+                break;
+            case(InfrastructureDataNetworkPacket.NCRouteType.Return):
+            default:
+                packet.StartReturn();
+                break;
+          
+        }
+    }
+
+public Transform GetTransform()
     {
         return transform;
     }
