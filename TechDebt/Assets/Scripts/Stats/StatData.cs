@@ -14,13 +14,14 @@ namespace Stats
         }
 
         public bool _broadcastByDefault = false;
-        
-        public StatType Type { get; private set; }
-        public float BaseValue { get; private set; }
+
+        [SerializeField] public StatType Type;
+        [SerializeField] public float BaseValue;
         public float Value { get; private set; }
-        public List<StatModifier> Modifiers { get; private set; }  = new List<StatModifier>();
+        [SerializeField] public List<StatModifier> Modifiers = new List<StatModifier>();
         
-        public List<System.Action<StatData>> Listeners { get; set; } = new List<System.Action<StatData>>();
+        [NonSerialized]
+        public List<System.Action<StatData>> Listeners = new List<System.Action<StatData>>();
 
         public StatData(StatType statType, float baseValue)
         {

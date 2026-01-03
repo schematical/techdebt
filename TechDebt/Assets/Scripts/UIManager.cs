@@ -783,6 +783,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupStatsBar(Transform parent)
     {
+        statTexts.Clear(); // Prevent duplicate key errors on load
         statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(0, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
         var layout = statsBarUIContainer.AddComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(10, 10, 5, 5);

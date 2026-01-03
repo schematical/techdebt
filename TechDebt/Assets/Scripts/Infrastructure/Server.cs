@@ -8,7 +8,7 @@ public class Server : InfrastructureInstance
 {
     // This class will hold the state of a server, such as whether it's ON or OFF,
     // its current Tech Debt level, and if it's on fire.
-    public void Initialize()
+    public override void Initialize()
     {
         data.Stats.Add(new StatData(StatType.Infra_DailyCost, 30));
         data.Stats.Add(new StatData(StatType.Infra_BuildTime, 10));

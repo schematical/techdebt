@@ -21,6 +21,11 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public float TechDebt => data.Stats.GetStatValue(StatType.TechDebt);
     public int CurrentSizeLevel { get; private set; } = 0;
 
+    public void SetCurrentSizeLevel(int level)
+    {
+        CurrentSizeLevel = level;
+    }
+
     public string Version = "0.0.1";
 
 
@@ -160,7 +165,6 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
                     Color.khaki);
             }
-Debug.Log($"Incoming packet: {packet.data.Type} - loadPerPacket: {loadPerPacket} - data.LoadPerPacket  {data.LoadPerPacket} ");
             if (loadPerPacket != 0)
             {
                 CurrentLoad += loadPerPacket;
@@ -250,13 +254,18 @@ public Transform GetTransform()
     }
     public virtual void Initialize()
     {
-
-        data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
-        data.Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
-        data.Stats.Add(new StatData(StatType.Infra_LoadPerPacket, data.LoadPerPacket));
-        data.Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
-        data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
-        data.Stats.Add(new StatData(StatType.TechDebt, 0f));
+        if (!data.Stats.Stats.ContainsKey(StatType.Infra_DailyCost))
+            data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
+        if (!data.Stats.Stats.ContainsKey(StatType.Infra_BuildTime))
+            data.Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
+        if (!data.Stats.Stats.ContainsKey(StatType.Infra_LoadPerPacket))
+            data.Stats.Add(new StatData(StatType.Infra_LoadPerPacket, data.LoadPerPacket));
+        if (!data.Stats.Stats.ContainsKey(StatType.Infra_MaxLoad))
+            data.Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
+        if (!data.Stats.Stats.ContainsKey(StatType.Infra_LoadRecoveryRate))
+            data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
+        if (!data.Stats.Stats.ContainsKey(StatType.TechDebt))
+            data.Stats.Add(new StatData(StatType.TechDebt, 0f));
     }
 
 

@@ -42,7 +42,9 @@ public class InfrastructureDataNetworkPacket
     public NCRouteType RouteType = NCRouteType.Return;
     public void Init()
     {
-        Stats.Add(new StatData(StatType.Infra_LoadPerPacket, loadPerPacket));
-        Stats.Add(new StatData(StatType.Infra_PacketCost, cost));
+        if (!Stats.Stats.ContainsKey(StatType.Infra_LoadPerPacket))
+            Stats.Add(new StatData(StatType.Infra_LoadPerPacket, loadPerPacket));
+        if (!Stats.Stats.ContainsKey(StatType.Infra_PacketCost))
+            Stats.Add(new StatData(StatType.Infra_PacketCost, cost));
     }
 }

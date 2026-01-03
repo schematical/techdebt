@@ -12,6 +12,7 @@ using Stats;
 
 public class GameManager : MonoBehaviour
 {
+    public SaveSystem TheSaveSystem;
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -329,6 +330,18 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
 
+        // Auto-find or create SaveSystem
+        if (TheSaveSystem == null)
+        {
+            TheSaveSystem = FindObjectOfType<SaveSystem>();
+            if (TheSaveSystem == null)
+            {
+                GameObject saveSystemGO = new GameObject("SaveSystem (Generated)");
+                TheSaveSystem = saveSystemGO.AddComponent<SaveSystem>();
+                Debug.Log("SaveSystem was not found. A new one has been created programmatically.");
+            }
+        }
+
         if (FindObjectOfType<DebugManager>() == null)
         {
             new GameObject("DebugManager").AddComponent<DebugManager>();
@@ -336,6 +349,15 @@ public class GameManager : MonoBehaviour
 
         // Force reset of all infrastructure data to its initial state on load.
         // This is the definitive fix for ensuring a clean state after a game over.
+    
+        // Ensure all infrastructure templates have a reliable Type field.
+        foreach (var infraData in AllInfrastructure)
+        {
+            if (string.IsNullOrEmpty(infraData.Type))
+            {
+                infraData.Type = infraData.ID;
+            }
+        }
     
 
         // Force reset of all technology data to its initial state on load.
@@ -728,5 +750,124 @@ public class GameManager : MonoBehaviour
     public InfrastructureInstance GetInfrastructureInstanceByID(string id)
     {
         return ActiveInfrastructure.FirstOrDefault(t => t.data.ID == id);
+    }
+    
+    public void SaveGame()
+    {
+        GameSaveData saveData = new GameSaveData();
+
+        // Save infrastructure data
+        foreach (var infra in ActiveInfrastructure)
+        {
+            InfrastructureSaveData infraSave = new InfrastructureSaveData
+            {
+                ID = infra.data.ID,
+                Type = infra.data.Type, // This is now reliable
+                GridPosition = infra.data.GridPosition,
+                CurrentState = infra.data.CurrentState,
+                CurrentLoad = infra.CurrentLoad,
+                CurrentSizeLevel = infra.CurrentSizeLevel,
+                NetworkConnections = infra.data.NetworkConnections,
+                Stats = new StatDataDictionary()
+            };
+            foreach (var stat in infra.data.Stats.Stats)
+            {
+                infraSave.Stats.Add(stat.Key, stat.Value);
+            }
+            saveData.InfrastructureInstances.Add(infraSave);
+        }
+
+        // Save player stats
+        saveData.PlayerStats = new StatDataDictionary();
+        foreach (var stat in Stats.Stats)
+        {
+            saveData.PlayerStats.Add(stat.Key, stat.Value);
+        }
+
+        TheSaveSystem.SaveGame(saveData);
+    }
+
+    public void LoadGame()
+    {
+        GameSaveData saveData = TheSaveSystem.LoadGame();
+        if (saveData == null)
+        {
+            Debug.LogError("Failed to load game data.");
+            return;
+        }
+
+        // --- Clear Current State ---
+        // Destroy existing infrastructure game objects
+        foreach (var infra in ActiveInfrastructure)
+        {
+            Destroy(infra.gameObject);
+        }
+        ActiveInfrastructure.Clear();
+        receiverRegistry.Clear();
+
+        // --- Restore State ---
+        // Restore player stats
+        Stats.Stats.Clear();
+        foreach (var stat in saveData.PlayerStats)
+        {
+            Stats.Stats.Add(stat.Key, stat.Value);
+        }
+        OnStatsChanged?.Invoke();
+
+        // Restore infrastructure
+        foreach (var infraSave in saveData.InfrastructureInstances)
+        {
+            // Find the template using the now-reliable Type field.
+            InfrastructureData infraDataTemplate = AllInfrastructure.FirstOrDefault(d => d.Type == infraSave.Type);
+            
+            if (infraDataTemplate == null)
+            {
+                Debug.LogError($"Could not find infrastructure template for Type '{infraSave.Type}'");
+                continue;
+            }
+
+            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraSave.GridPosition.x, infraSave.GridPosition.y, 0));
+            GameObject instanceGO = Instantiate(infraDataTemplate.Prefab, worldPos, Quaternion.identity);
+            var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+            
+            // Create a new data instance to hold the loaded state
+            InfrastructureData loadedData = new InfrastructureData
+            {
+                ID = infraSave.ID,
+                Type = infraSave.Type,
+                DisplayName = infraDataTemplate.DisplayName,
+                Prefab = infraDataTemplate.Prefab,
+                GridPosition = infraSave.GridPosition,
+                CurrentState = infraSave.CurrentState,
+                NetworkConnections = infraSave.NetworkConnections,
+                // Copy other non-saved fields from template
+                UnlockConditions = infraDataTemplate.UnlockConditions,
+                BuildTime = infraDataTemplate.BuildTime,
+                MaxLoad = infraDataTemplate.MaxLoad,
+                LoadRecoveryRate = infraDataTemplate.LoadRecoveryRate,
+                networkPackets = infraDataTemplate.networkPackets
+            };
+            
+            infraInstance.Initialize(loadedData);
+            infraInstance.CurrentLoad = infraSave.CurrentLoad;
+            infraInstance.SetCurrentSizeLevel(infraSave.CurrentSizeLevel);
+            infraInstance.data.Stats.Stats.Clear();
+            foreach (var stat in infraSave.Stats)
+            {
+                 infraInstance.data.Stats.Stats.Add(stat.Key, stat.Value);
+            }
+            
+            ActiveInfrastructure.Add(infraInstance);
+            
+            // Set initial visibility
+            if (infraInstance.data.CurrentState == InfrastructureData.State.Locked)
+            {
+                instanceGO.SetActive(false);
+            }
+        }
+        
+        UpdateInfrastructureVisibility();
+        NotifyDailyCostChanged();
+        UIManager.SetupUIInfrastructure();
     }
 }

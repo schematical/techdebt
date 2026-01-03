@@ -1,0 +1,1417 @@
+{
+    "InfrastructureInstances": [
+        {
+            "ID": "door",
+            "Type": "",
+            "GridPosition": {
+                "x": 10,
+                "y": 55
+            },
+            "CurrentState": 3,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "internetPipe",
+            "Type": "",
+            "GridPosition": {
+                "x": 5,
+                "y": 40
+            },
+            "CurrentState": 3,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "server1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server1",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server1",
+                    "Priority": 5,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server-alb",
+                    "Priority": 6,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server-alb",
+                    "Priority": 6,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server-alb",
+                    "Priority": 6,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server-alb",
+                    "Priority": 6,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "cdn",
+                    "Priority": 7,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "desk",
+            "Type": "",
+            "GridPosition": {
+                "x": 10,
+                "y": 48
+            },
+            "CurrentState": 3,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": []
+        },
+        {
+            "ID": "server1",
+            "Type": "",
+            "GridPosition": {
+                "x": 25,
+                "y": 43
+            },
+            "CurrentState": 1,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "dedicated-db",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "s3-bucket",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 1,
+                            "Stat": 12,
+                            "Type": 0,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "read-replica-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "read-replica-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "redis-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "redis-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "redis-3",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "sqs-queue",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "dedicated-db",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 1,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "dedicated-db",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 43
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "read-replica-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "read-replica-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "s3-bucket",
+            "Type": "",
+            "GridPosition": {
+                "x": 25,
+                "y": 50
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": []
+        },
+        {
+            "ID": "cdn",
+            "Type": "",
+            "GridPosition": {
+                "x": 20,
+                "y": 50
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "s3-bucket",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "server-alb",
+            "Type": "",
+            "GridPosition": {
+                "x": 15,
+                "y": 40
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "server1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server3",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server1",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server2",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server3",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server1",
+                    "Priority": 5,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server2",
+                    "Priority": 5,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "server3",
+                    "Priority": 5,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "waf",
+                    "Priority": 6,
+                    "networkPacketType": 3,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "server2",
+            "Type": "",
+            "GridPosition": {
+                "x": 25,
+                "y": 40
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "dedicated-db",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "read-replica-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "read-replica-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "s3-bucket",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "redis-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "redis-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "redis-3",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "dedicated-db",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 1,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "server3",
+            "Type": "",
+            "GridPosition": {
+                "x": 25,
+                "y": 37
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "dedicated-db",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "read-replica-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "read-replica-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "s3-bucket",
+                    "Priority": 5,
+                    "networkPacketType": 1,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                },
+                {
+                    "TargetID": "redis-1",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "redis-2",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "redis-3",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": [
+                        {
+                            "PacketType": 0,
+                            "Stat": 12,
+                            "Type": 1,
+                            "value": 0.75
+                        }
+                    ]
+                },
+                {
+                    "TargetID": "dedicated-db",
+                    "Priority": 5,
+                    "networkPacketType": 0,
+                    "Possiblity": 1,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "read-replica-1",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 49
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": []
+        },
+        {
+            "ID": "read-replica-2",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 37
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": []
+        },
+        {
+            "ID": "water-cooler",
+            "Type": "",
+            "GridPosition": {
+                "x": 15,
+                "y": 50
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": []
+        },
+        {
+            "ID": "waf",
+            "Type": "",
+            "GridPosition": {
+                "x": 10,
+                "y": 28
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "redis-1",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 40
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "redis-2",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 34
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "redis-3",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 46
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "secret-manager",
+            "Type": "",
+            "GridPosition": {
+                "x": 10,
+                "y": 24
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "sqs-queue",
+            "Type": "",
+            "GridPosition": {
+                "x": 25,
+                "y": 20
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "bg-worker-1",
+                    "Priority": 0,
+                    "networkPacketType": 2,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        },
+        {
+            "ID": "bg-worker-1",
+            "Type": "",
+            "GridPosition": {
+                "x": 30,
+                "y": 20
+            },
+            "CurrentState": 0,
+            "CurrentLoad": 0.0,
+            "CurrentSizeLevel": 0,
+            "Stats": {
+                "keys": [
+                    13,
+                    11,
+                    12,
+                    9,
+                    10,
+                    1
+                ],
+                "values": [
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    },
+                    {
+                        "_broadcastByDefault": false
+                    }
+                ]
+            },
+            "NetworkConnections": [
+                {
+                    "TargetID": "",
+                    "Priority": 0,
+                    "networkPacketType": 0,
+                    "Possiblity": 0,
+                    "Cost": 0,
+                    "NetworkConnectionBonus": []
+                }
+            ]
+        }
+    ],
+    "PlayerStats": {
+        "keys": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            7,
+            8,
+            5
+        ],
+        "values": [
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            },
+            {
+                "_broadcastByDefault": false
+            }
+        ]
+    }
+}

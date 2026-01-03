@@ -11,6 +11,8 @@ public class DebugPanel : MonoBehaviour
     public Button instaResearchButton;
     public Button unlockAllTechButton;
     public Button triggerEventButton;
+    public Button saveGameButton;
+    public Button loadGameButton;
     public TextMeshProUGUI mouseCoordsText;
 
     private GameManager gameManager;
@@ -25,6 +27,43 @@ public class DebugPanel : MonoBehaviour
         instaBuildButton.onClick.AddListener(InstaBuild);
         instaResearchButton.onClick.AddListener(InstaResearch);
         unlockAllTechButton.onClick.AddListener(UnlockAllTechnologies);
+        if (saveGameButton != null)
+        {
+            saveGameButton.onClick.AddListener(SaveGame);
+        }
+        else if (instaBuildButton != null)
+        {
+            GameObject saveButtonGO = Instantiate(instaBuildButton.gameObject, instaBuildButton.transform.parent);
+            saveButtonGO.name = "SaveGameButton (Generated)";
+            saveGameButton = saveButtonGO.GetComponent<Button>();
+            saveButtonGO.GetComponentInChildren<TextMeshProUGUI>().text = "Save Game";
+            saveGameButton.onClick.RemoveAllListeners(); // Important: clear the copied listener
+            saveGameButton.onClick.AddListener(SaveGame);
+            Debug.Log("Save Game button was not assigned. A new one has been created programmatically.");
+        }
+        else
+        {
+            Debug.LogWarning("DebugPanel: Save Game Button is not assigned and could not be auto-created.");
+        }
+
+        if (loadGameButton != null)
+        {
+            loadGameButton.onClick.AddListener(LoadGame);
+        }
+        else if (instaBuildButton != null)
+        {
+            GameObject loadButtonGO = Instantiate(instaBuildButton.gameObject, instaBuildButton.transform.parent);
+            loadButtonGO.name = "LoadGameButton (Generated)";
+            loadGameButton = loadButtonGO.GetComponent<Button>();
+            loadButtonGO.GetComponentInChildren<TextMeshProUGUI>().text = "Load Game";
+            loadGameButton.onClick.RemoveAllListeners(); // Important: clear the copied listener
+            loadGameButton.onClick.AddListener(LoadGame);
+            Debug.Log("Load Game button was not assigned. A new one has been created programmatically.");
+        }
+        else
+        {
+            Debug.LogWarning("DebugPanel: Load Game Button is not assigned and could not be auto-created.");
+        }
     }
 
     void Update()
@@ -84,5 +123,19 @@ public class DebugPanel : MonoBehaviour
         {
             uiManager.ForceRefreshTechTreePanel();
         }
+    }
+
+    private void SaveGame()
+    {
+        if (gameManager == null) return;
+        gameManager.SaveGame();
+        Debug.Log("Game saved via debug panel.");
+    }
+
+    private void LoadGame()
+    {
+        if (gameManager == null) return;
+        gameManager.LoadGame();
+        Debug.Log("Game loaded via debug panel.");
     }
 }

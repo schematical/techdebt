@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Stats
 {
@@ -14,9 +15,9 @@ namespace Stats
 
         public enum ModifierType { Flat, Multiply }
         
-        public ModifierType Type { get; private set; }
-        public float Value { get; private set; }
-        public object Source { get; private set; }
+        [SerializeField] public ModifierType Type;
+        [SerializeField] public float Value;
+        [NonSerialized] public object Source;
 
         public float Apply(StatData statData, float value)
         {
