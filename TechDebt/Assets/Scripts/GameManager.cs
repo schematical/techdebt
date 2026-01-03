@@ -797,6 +797,14 @@ public class GameManager : MonoBehaviour
         }
 
         // --- Clear Current State ---
+        // Clear NPCs and Tasks
+        foreach (var npc in AllNpcs)
+        {
+            if (npc != null) Destroy(npc.gameObject);
+        }
+        AllNpcs.Clear();
+        AvailableTasks.Clear();
+
         // Destroy existing infrastructure game objects
         foreach (var infra in ActiveInfrastructure)
         {
@@ -811,6 +819,11 @@ public class GameManager : MonoBehaviour
         foreach (var stat in saveData.PlayerStats)
         {
             Stats.Stats.Add(stat.Key, stat.Value);
+        }
+        // Recalculate all loaded stat values
+        foreach (var statData in Stats.Stats.Values)
+        {
+            statData.UpdateValue();
         }
         OnStatsChanged?.Invoke();
 
@@ -855,6 +868,11 @@ public class GameManager : MonoBehaviour
             foreach (var stat in infraSave.Stats)
             {
                  infraInstance.data.Stats.Stats.Add(stat.Key, stat.Value);
+            }
+            // Recalculate all loaded stat values for the instance
+            foreach (var statData in infraInstance.data.Stats.Stats.Values)
+            {
+                statData.UpdateValue();
             }
             
             ActiveInfrastructure.Add(infraInstance);
