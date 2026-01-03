@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     private GameObject statsBarUIContainer;
     private GameObject hireDevOpsPanel;
     private GameObject infrastructureDetailPanel;
+    private GameObject itemDetailPanel;
     private GameObject timeControlsContainer;
     private GameObject leftMenuBar;
     private GameObject taskListPanel;
@@ -74,6 +75,7 @@ public class UIManager : MonoBehaviour
 
     
     private InfrastructureInstance _selectedInfrastructure;
+    private Items.ItemBase _selectedItem;
     private NPCDevOps _selectedNPC;
     void OnEnable() 
     { 
@@ -274,6 +276,7 @@ public class UIManager : MonoBehaviour
 
         SetupAlertPanel(transform);
         SetupDebugPanel(transform);
+        SetupItemDetailPanel(transform);
         
         
 
@@ -1237,6 +1240,52 @@ public class UIManager : MonoBehaviour
         rt.sizeDelta = Vector2.zero;
         rt.anchoredPosition = Vector2.zero;
         return tmp;
+    }
+    #endregion
+
+    #region Item Detail Panel
+    private void SetupItemDetailPanel(Transform parent)
+    {
+        itemDetailPanel = CreateUIPanel(parent, "ItemDetailPanel", new Vector2(250, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        var vlg = itemDetailPanel.AddComponent<VerticalLayoutGroup>();
+        vlg.padding = new RectOffset(15, 15, 15, 15);
+        vlg.spacing = 10;
+        vlg.childAlignment = TextAnchor.MiddleCenter;
+
+        CreateText(itemDetailPanel.transform, "Header", "Item Found!", 20);
+
+        // This button's text and action will be set dynamically
+        var useButton = CreateButton(itemDetailPanel.transform, "Use", () => { });
+        useButton.name = "UseItemButton";
+
+        var cancelButton = CreateButton(itemDetailPanel.transform, "Cancel", HideItemDetail);
+
+        itemDetailPanel.SetActive(false);
+    }
+
+    public void ShowItemDetail(Items.ItemBase item)
+    {
+        _selectedItem = item;
+        SetTimeState(TimeState.Paused); // Pause the game
+        itemDetailPanel.SetActive(true);
+
+        var useButton = itemDetailPanel.transform.Find("UseItemButton").GetComponent<Button>();
+        var buttonText = useButton.GetComponentInChildren<TextMeshProUGUI>();
+
+        buttonText.text = item.UseVerb();
+        useButton.onClick.RemoveAllListeners();
+        useButton.onClick.AddListener(() => {
+            GameManager.Instance.CreateUseItemTask(_selectedItem);
+            HideItemDetail();
+        });
+    }
+
+    public void HideItemDetail()
+    {
+        _selectedItem = null;
+        itemDetailPanel.SetActive(false);
+        // This will resume to whatever the state was before pausing
+        SetTimeState(_timeStateBeforePause); 
     }
     #endregion
 }

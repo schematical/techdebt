@@ -123,6 +123,12 @@ public class GameManager : MonoBehaviour
             AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
         }
     }
+
+    public void CreateUseItemTask(ItemBase item)
+    {
+        var useTask = new UseItemTask(item);
+        AddTask(useTask);
+    }
     // -----------------------
 
     // --- Packet Management ---
