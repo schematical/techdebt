@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Effects;
 using Events;
 using Items;
 using UnityEngine.EventSystems;
@@ -15,6 +16,8 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+    
+    public enum GlobalNetworkPacketState { Running, Frozen}
     public static GameManager Instance
     {
         get
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
     public Stats.StatsCollection GlobalStats { get; private set; } = new StatsCollection();
     
     public List<EventBase> Events { get; private set; } = new List<EventBase>();
+    public List<EffectBase> Effects { get; private set; } = new List<EffectBase>();
     
     public List<EventBase> CurrentEvents { get; private set; } = new List<EventBase>();
     public static event System.Action OnStatsChanged;
@@ -47,6 +51,9 @@ public class GameManager : MonoBehaviour
     public static event System.Action<Technology> OnTechnologyUnlocked;
     public static event System.Action<Technology> OnTechnologyResearchStarted;
     public static event System.Action OnCurrentEventsChanged;
+    
+    public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
+    
     
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
@@ -431,6 +438,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        foreach (var effect in Effects)
+        {
+            effect.FixedUpdate();
+        }
+    }
+
     private void SpawnItem()
     {
         // Find a random, unoccupied grid position
@@ -489,6 +504,7 @@ public class GameManager : MonoBehaviour
         Events.Add(new LeakedSecretEvent());
         
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
+        Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
     }
     
 	public float IncrStat(StatType stat, float value = 1)
@@ -800,5 +816,9 @@ public class GameManager : MonoBehaviour
     {
         return ActiveInfrastructure.FirstOrDefault(t => t.data.ID == id);
     }
-    
+
+    public void AddEffect(EffectBase effectBase)
+    {
+        Effects.Add(effectBase);
+    }
 }

@@ -44,11 +44,15 @@ namespace Items
             // Fallback in case something goes wrong with the probability calculation
             if (selectedItem == null)
             {
-                selectedItem = possibleItems[0];
+                Debug.LogError($"No item selected. cumulativeProbability: {cumulativeProbability} - randomValue: {randomValue}");
+                
             }
+            else
+            {
 
-            // Use the PrefabManager to create the selected item at the box's position
-            GameManager.Instance.prefabManager.Create(selectedItem.Id, transform.position);
+                // Use the PrefabManager to create the selected item at the box's position
+                GameManager.Instance.prefabManager.Create(selectedItem.Id, transform.position);
+            }
 
             // Deactivate the box instead of destroying it for pooling purposes
             gameObject.SetActive(false);

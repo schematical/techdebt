@@ -59,6 +59,10 @@ public class NetworkPacket : MonoBehaviour
     }
     void Update()
     {
+        if (GameManager.Instance.NetworkPacketState == GameManager.GlobalNetworkPacketState.Frozen)
+        {
+            return;
+        }
         if (nextHop == null)
         {
             // If there's no destination, destroy the packet to prevent clutter
