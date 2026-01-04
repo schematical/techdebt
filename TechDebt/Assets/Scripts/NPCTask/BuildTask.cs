@@ -16,7 +16,7 @@ public class BuildTask : NPCTask
         Priority = priority;
     }
 
-    public override void OnUpdate(NPCDevOps npc)
+    public override void OnUpdate(NPCBase npc)
     {
         // Only start building after the NPC has arrived.
         if (hasArrived)
@@ -33,12 +33,12 @@ public class BuildTask : NPCTask
         }
     }
 
-    public override bool IsFinished(NPCDevOps npc)
+    public override bool IsFinished(NPCBase npc)
     {
         return buildProgress >= TargetInfrastructure.data.BuildTime;
     }
     
-    public override void OnEnd(NPCDevOps npc)
+    public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
         

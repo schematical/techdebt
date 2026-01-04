@@ -11,7 +11,7 @@ public class UseItemTask : NPCTask
         Priority = 10; // High priority
     }
 
-    public override void OnUpdate(NPCDevOps npc)
+    public override void OnUpdate(NPCBase npc)
     {
         // The base NPCTask's Update handles movement. 
         // We only need to act when the NPC has arrived.
@@ -29,12 +29,12 @@ public class UseItemTask : NPCTask
         }
     }
 
-    public override bool IsFinished(NPCDevOps npc)
+    public override bool IsFinished(NPCBase npc)
     {
         return !TargetItem.gameObject.activeInHierarchy;
     }
 
-    public override void OnEnd(NPCDevOps npc)
+    public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
         CurrentStatus = Status.Completed;

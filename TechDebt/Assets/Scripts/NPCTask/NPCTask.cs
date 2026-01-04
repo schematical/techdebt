@@ -13,7 +13,7 @@ public abstract class NPCTask
 
     public Status CurrentStatus { get; protected set; } = Status.Pending;
     public int Priority { get; set; }
-    public NPCDevOps AssignedNPC { get; private set; }
+    public NPCBase AssignedNPC { get; private set; }
     public bool IsAssigned => AssignedNPC != null;
 
     protected Vector3? destination;
@@ -37,7 +37,7 @@ public abstract class NPCTask
     }
 
     // Method to assign an NPC to this task
-    public bool TryAssign(NPCDevOps npc)
+    public bool TryAssign(NPCBase npc)
     {
         if (IsAssigned)
         {
@@ -54,7 +54,7 @@ public abstract class NPCTask
         CurrentStatus = Status.Pending;
     }
 
-    public virtual void OnStart(NPCDevOps npc)
+    public virtual void OnStart(NPCBase npc)
     {
         if (destination.HasValue)
         {
@@ -67,7 +67,7 @@ public abstract class NPCTask
         }
     }
 
-    public virtual void OnEnd(NPCDevOps npc)
+    public virtual void OnEnd(NPCBase npc)
     {
         if (destination.HasValue)
         {
@@ -87,6 +87,6 @@ public abstract class NPCTask
     }
 
     // Abstract methods to be implemented by concrete tasks
-    public abstract void OnUpdate(NPCDevOps npc);
-    public abstract bool IsFinished(NPCDevOps npc);
+    public abstract void OnUpdate(NPCBase npc);
+    public abstract bool IsFinished(NPCBase npc);
 }

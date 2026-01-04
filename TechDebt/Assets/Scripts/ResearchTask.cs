@@ -25,29 +25,33 @@ public class ResearchTask : NPCTask
         }
     }
 
-    public override void OnUpdate(NPCDevOps npc)
+    public override void OnUpdate(NPCBase npc)
     {
         if (desk == null) return;
         
         // Apply research points only if the NPC is at the desk
         if (hasArrived)
         {
-            float researchGained = npc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
-            GameManager.Instance.ApplyResearchProgress(researchGained);
+            var devOpsNpc = npc as NPCDevOps;
+            if (devOpsNpc != null)
+            {
+                float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
+                GameManager.Instance.ApplyResearchProgress(researchGained);
       
-            desk.OnResearchProgress(
-                npc.transform.position
-            );
+                desk.OnResearchProgress(
+                    npc.transform.position
+                );
+            }
         }
     }
     
-    public override void OnEnd(NPCDevOps npc)
+    public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
         // No specific end action is needed beyond base functionality.
     }
 
-    public override bool IsFinished(NPCDevOps npc)
+    public override bool IsFinished(NPCBase npc)
     {
         // The task is finished if the technology is no longer being researched.
         return TargetTechnology.CurrentState != Technology.State.Researching;

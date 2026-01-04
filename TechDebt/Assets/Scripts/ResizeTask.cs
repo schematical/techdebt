@@ -16,7 +16,7 @@ public class ResizeTask : NPCTask
         Priority = 5; // Mid-level priority
     }
 
-    public override void OnUpdate(NPCDevOps npc)
+    public override void OnUpdate(NPCBase npc)
     {
         if (hasArrived)
         {
@@ -24,12 +24,12 @@ public class ResizeTask : NPCTask
         }
     }
 
-    public override bool IsFinished(NPCDevOps npc)
+    public override bool IsFinished(NPCBase npc)
     {
         return hasArrived && _duration <= 0;
     }
 
-    public override void OnEnd(NPCDevOps npc)
+    public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
         // Apply the resize logic when the task is officially finished

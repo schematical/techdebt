@@ -17,7 +17,7 @@ public class DeploymentTask : NPCTask
         Event = _event;
     }
 
-    public override void OnUpdate(NPCDevOps npc)
+    public override void OnUpdate(NPCBase npc)
     {
         if (hasArrived)
         {
@@ -25,12 +25,12 @@ public class DeploymentTask : NPCTask
         }
     }
 
-    public override bool IsFinished(NPCDevOps npc)
+    public override bool IsFinished(NPCBase npc)
     {
         return deploymentProgress >= DeploymentTime;
     }
 
-    public override void OnEnd(NPCDevOps npc)
+    public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
         TargetInfrastructure.Version =  Event.GetVersionString();

@@ -22,6 +22,13 @@ public abstract class NPCBase : MonoBehaviour
     private int pathIndex;
     
     public StatsCollection Stats = new StatsCollection();
+    
+    // --- Task Management ---
+    public NPCTask CurrentTask { get; private set; }
+    public bool IsBusy => CurrentTask != null;
+    private float taskCheckTimer = 0f;
+    public const float TaskCheckInterval = 1f;
+
 
     public void Initialize()
     {
@@ -31,10 +38,102 @@ public abstract class NPCBase : MonoBehaviour
     protected virtual void Update()
     {
         HandleMovement();
+
+        switch (CurrentState)
+        {
+            case State.Idle:
+                TryToFindWork();
+                break;
+
+            case State.ExecutingTask:
+                if (CurrentTask != null)
+                {
+                    CurrentTask.OnUpdate(this);
+
+                    if (CurrentTask.IsFinished(this))
+                    {
+                        CurrentTask.OnEnd(this);
+                        CurrentTask = null; 
+                        CurrentState = State.Idle;
+                    }
+                    else
+                    {
+                        taskCheckTimer += Time.deltaTime;
+                        if (taskCheckTimer >= TaskCheckInterval)
+                        {
+                            taskCheckTimer = 0f;
+                            CheckForHigherPriorityTask();
+                        }
+                    }
+                }
+                else
+                {
+                    CurrentState = State.Idle;
+                }
+                break;
+
+            case State.Wandering:
+                if (!isMoving)
+                {
+                    CurrentState = State.Idle;
+                }
+                break;
+        }
     }
+
+    public virtual bool CanAssignTask(NPCTask task)
+    {
+        return false;
+    }
+
+    public void AssignTask(NPCTask newTask)
+    {
+        if (CurrentTask != null)
+        {
+            CurrentTask.OnInterrupt();
+        }
+
+        CurrentTask = newTask;
+        if (newTask.TryAssign(this))
+        {
+            CurrentState = State.ExecutingTask;
+            CurrentTask.OnStart(this);
+        }
+        else
+        {
+            Debug.LogError($"Failed to assign task {newTask.GetType().Name} to {name}. It might be already assigned.");
+            CurrentTask = null;
+        }
+    }
+
+    private void CheckForHigherPriorityTask()
+    {
+        if (CurrentTask == null) return;
+        
+        NPCTask highestPriorityTask = GameManager.Instance.GetHighestPriorityTask();
+        if (highestPriorityTask != null && highestPriorityTask.Priority > CurrentTask.Priority && CanAssignTask(highestPriorityTask))
+        {
+            AssignTask(highestPriorityTask);
+        }
+    }
+    
+    private void TryToFindWork()
+    {
+        if (CurrentState != State.Idle) return;
+        
+        NPCTask availableTask = GameManager.Instance.GetHighestPriorityTask();
+        if (availableTask != null && CanAssignTask(availableTask))
+        {
+            AssignTask(availableTask);
+        }
+        else
+        {
+            Wander();
+        }
+    }
+    
     public void Wander()
     {
-
         Vector3 wanderDestination = GetRandomWalkablePoint(transform.position, 10f);
   
         if (!Vector3.zero.Equals(wanderDestination))
@@ -44,9 +143,6 @@ public abstract class NPCBase : MonoBehaviour
         }
     }
     
-  
-
-
     private Vector3 GetRandomWalkablePoint(Vector3 origin, float radius)
     {
         for (int i = 0; i < 30; i++)
@@ -66,10 +162,15 @@ public abstract class NPCBase : MonoBehaviour
 
     public virtual void OnPlayPhaseStart()
     {
- 
+        if (CurrentTask != null)
+        {
+            CurrentTask.Unassign();
+            CurrentTask = null;
+        }
         StopMovement();
         CurrentState = State.Idle;
     }
+    
     public void MoveTo(Vector3 destination)
     {
         List<Vector3> path = Pathfinding.FindPath(transform.position, destination);
@@ -100,17 +201,14 @@ public abstract class NPCBase : MonoBehaviour
         InfrastructureInstance doorInstance = GameManager.Instance.GetInfrastructureInstanceByID("door");
         if (doorInstance != null)
         {
-            // The base NPCTask constructor and OnStart will handle movement to the destination
             MoveTo(doorInstance.transform.position);
-            
         }
         else
         {
             Debug.LogError($"NavigateToDoorTask: Door infrastructure with ID 'door' not found.");
-           
         }
-        
     }
+    
     private void HandleMovement()
     {
         if (!isMoving || currentPath == null || pathIndex >= currentPath.Count)
@@ -124,7 +222,7 @@ public abstract class NPCBase : MonoBehaviour
         }
 
         Vector3 targetWaypoint = currentPath[pathIndex];
-        targetWaypoint.z = transform.position.z; // Maintain original Z to prevent visual glitches
+        targetWaypoint.z = transform.position.z; 
 
         if (Vector3.Distance(transform.position, targetWaypoint) > 0.01f)
         {
