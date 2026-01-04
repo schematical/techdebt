@@ -15,6 +15,11 @@ namespace Stats
             Stats = new Dictionary<StatType, StatData>();
         }
         
+        public void Clear()
+        {
+            Stats.Clear();
+        }
+
         public void Add(StatData statData)
         {
             if (Stats.ContainsKey(statData.Type))

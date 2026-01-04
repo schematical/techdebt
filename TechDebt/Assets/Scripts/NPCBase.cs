@@ -24,7 +24,7 @@ public abstract class NPCBase : MonoBehaviour
     public StatsCollection Stats = new StatsCollection();
     
     // --- Task Management ---
-    public NPCTask CurrentTask { get; private set; }
+    public NPCTask CurrentTask { get; protected set; }
     public bool IsBusy => CurrentTask != null;
     private float taskCheckTimer = 0f;
     public const float TaskCheckInterval = 1f;
@@ -32,6 +32,7 @@ public abstract class NPCBase : MonoBehaviour
 
     public void Initialize()
     {
+        Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
     }
 
@@ -83,7 +84,7 @@ public abstract class NPCBase : MonoBehaviour
 
     public virtual bool CanAssignTask(NPCTask task)
     {
-        return false;
+        return task != null;
     }
 
     public void AssignTask(NPCTask newTask)
@@ -209,7 +210,7 @@ public abstract class NPCBase : MonoBehaviour
         }
     }
     
-    private void HandleMovement()
+    protected void HandleMovement()
     {
         if (!isMoving || currentPath == null || pathIndex >= currentPath.Count)
         {

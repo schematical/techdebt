@@ -425,14 +425,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Item Drop Logic
+        if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
+
+        // Delivery NPC Spawning Logic
         _itemDropTimer -= Time.deltaTime;
         if (_itemDropTimer <= 0)
         {
             float dropChance = GetStat(StatType.ItemDropChance);
             if (Random.value <= dropChance)
             {
-                SpawnItem();
+                SpawnDeliveryNPC();
             }
             _itemDropTimer = GetStat(StatType.ItemDropCheck); // Reset timer
         }
@@ -447,39 +449,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SpawnItem()
+    private void SpawnDeliveryNPC()
     {
-        // Find a random, unoccupied grid position
-        List<Vector2Int> occupiedCells = ActiveInfrastructure.Select(infra => infra.data.GridPosition).ToList();
-        // Also consider other items already on the grid to be occupied
-        occupiedCells.AddRange(FindObjectsOfType<ItemBase>().Select(item => new Vector2Int(Mathf.RoundToInt(item.transform.position.x), Mathf.RoundToInt(item.transform.position.y))));
-
-        Vector2Int? spawnPosition = null;
-
-        int attempts = 0;
-        while (attempts < 100) // Prevent infinite loop
+        var door = GetInfrastructureInstanceByID("door");
+        if (door == null)
         {
-            int x = Random.Range(0, gridManager.gridWidth);
-            int y = Random.Range(0, gridManager.gridHeight);
-            Vector2Int potentialPos = new Vector2Int(x, y);
-
-            if (!occupiedCells.Contains(potentialPos))
-            {
-                spawnPosition = potentialPos;
-                break;
-            }
-            attempts++;
+            Debug.LogError("Cannot spawn DeliveryNPC because 'door' infrastructure was not found.");
+            return;
         }
 
-        if (spawnPosition.HasValue)
+        GameObject npcGO = prefabManager.Create("DeliveryNPC", door.transform.position);
+        if (npcGO == null)
         {
-            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(spawnPosition.Value.x, spawnPosition.Value.y, 0));
-            prefabManager.Create("BoxItem", worldPos);
-            Debug.Log($"Spawned BoxItem at {spawnPosition.Value}");
+            Debug.LogError("Failed to create 'DeliveryNPC' from PrefabManager. Is the prefab configured?");
+            return;
+        }
+
+        var deliveryNpc = npcGO.GetComponent<DeliveryNPC>();
+        if (deliveryNpc != null)
+        {
+            deliveryNpc.Initialize(door.transform.position);
+            var deliveryTask = new DeliverItemTask();
+            deliveryNpc.AssignTask(deliveryTask);
+            Debug.Log("A Delivery NPC has been dispatched.");
         }
         else
         {
-            Debug.LogWarning("Could not find an empty cell to spawn a BoxItem after 100 attempts.");
+            Debug.LogError("'DeliveryNPC' prefab is missing the DeliveryNPC component.");
         }
     }
 

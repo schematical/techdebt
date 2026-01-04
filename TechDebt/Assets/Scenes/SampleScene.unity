@@ -1458,8 +1458,10 @@ MonoBehaviour:
     prefab: {fileID: 7854790981987779252, guid: a2c41a26556afd2419ad21a3064e9e4f, type: 3}
     baseLoad: 10
     probilitly: 0
+  NetworkPacketState: 0
   AllNpcs: []
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
+  activePackets: []
   isQuitting: 0
   gridManager: {fileID: 0}
   floorTile: {fileID: 11400000, guid: ffef9a837613b004cb64e87cb429ae34, type: 2}
@@ -1509,6 +1511,8 @@ MonoBehaviour:
   Prefabs:
   - {fileID: 2353723494755440989, guid: a8d4a576a3a23ee4c9bddf063454dbd7, type: 3}
   - {fileID: 7440903293394126451, guid: e5bcdfa25e41bc3459be8d332419709c, type: 3}
+  - {fileID: 8384214822886127018, guid: 5867dea9cf1ee924c9f81ba0c7940572, type: 3}
+  - {fileID: 8894879162080388036, guid: 8e04b1b7f2bd4df4280e497329ec94b2, type: 3}
 --- !u!1 &1216552916
 GameObject:
   m_ObjectHideFlags: 0
