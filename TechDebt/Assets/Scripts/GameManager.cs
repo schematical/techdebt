@@ -440,7 +440,8 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach (var effect in Effects)
+        // Iterate over a copy of the list to prevent modification during enumeration errors.
+        foreach (var effect in Effects.ToList())
         {
             effect.FixedUpdate();
         }
