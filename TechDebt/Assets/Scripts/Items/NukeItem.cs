@@ -9,7 +9,7 @@ namespace Items
             return "Detonate";
         }
 
-        public override void Use()
+        public override void Use(NPCBase npc)
         {
             // Create a copy of the list to iterate over, as DestroyPacket modifies the original list.
             var packetsToDestroy = GameManager.Instance.activePackets.ToList();

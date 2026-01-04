@@ -280,7 +280,6 @@ public class GameManager : MonoBehaviour
 
     public void EndEvent(EventBase e)
     {
-        Debug.Log("Ending Event: " + e.EventEndText);
         CurrentEvents.Remove(e);
         if (!string.IsNullOrEmpty(e.EventEndText))
         {
@@ -502,6 +501,7 @@ public class GameManager : MonoBehaviour
         
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
+        Items.Add(new ItemData() { Id = "EnergyDrinkItem", Probability = 1});
     }
     
 	public float IncrStat(StatType stat, float value = 1)

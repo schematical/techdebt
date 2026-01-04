@@ -10,7 +10,7 @@ namespace Items
             return "Freeze Time";
         }
 
-        public override void Use()
+        public override void Use(NPCBase npc)
         {
             GameManager.Instance.NetworkPacketState = GameManager.GlobalNetworkPacketState.Frozen;
             GameManager.Instance.AddEffect(new FreezeTimeEffect());

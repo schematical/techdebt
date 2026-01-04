@@ -7,7 +7,7 @@ namespace Items
     {
         private bool _isTaskCreated = false; // Add this flag to prevent multiple tasks for the same item.
 
-        public virtual void Use()
+        public virtual void Use(NPCBase npc)
         {
             gameObject.SetActive(false);
         }

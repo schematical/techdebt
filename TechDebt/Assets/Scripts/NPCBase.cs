@@ -33,7 +33,7 @@ public abstract class NPCBase : MonoBehaviour
     public void Initialize()
     {
         Stats.Clear();
-        Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
+        Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 1.5f));
     }
 
     protected virtual void Update()

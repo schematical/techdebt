@@ -19,7 +19,7 @@ public class UseItemTask : NPCTask
         {
             if (TargetItem != null)
             {
-                TargetItem.Use();
+                TargetItem.Use(npc);
             }
             else
             {

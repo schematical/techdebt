@@ -12,7 +12,7 @@ namespace Items
             return "Open";
         }
 
-        public override void Use()
+        public override void Use(NPCBase npc)
         {
             // Get a list of all possible items to spawn, excluding the box itself.
             List<ItemData> possibleItems = GameManager.Instance.Items.Where(item => item.Id != "BoxItem").ToList();
