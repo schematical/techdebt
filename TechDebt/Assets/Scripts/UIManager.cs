@@ -240,17 +240,27 @@ public class UIManager : MonoBehaviour
 
     {
 
-        if (FindObjectOfType<EventSystem>() == null)
+                if (FindObjectOfType<EventSystem>() == null)
 
-        {
+                {
 
-            var esGO = new GameObject("EventSystem");
+                    var esGO = new GameObject("EventSystem");
 
-            esGO.AddComponent<EventSystem>();
+                    esGO.AddComponent<EventSystem>();
 
-            esGO.AddComponent<InputSystemUIInputModule>();
+                    esGO.AddComponent<InputSystemUIInputModule>();
 
-        }
+                }
+
+        
+
+                if (Camera.main.GetComponent<PhysicsRaycaster>() == null)
+
+                {
+
+                    Debug.LogWarning("Main Camera is missing a PhysicsRaycaster component. Clicking on NPCs or other game objects may not work. Please add one in the Unity Editor.");
+
+                }
 
 
 
