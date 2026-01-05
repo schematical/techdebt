@@ -45,7 +45,6 @@ public class UIManager : MonoBehaviour
     private Button _planBuildButton;
     private Button _upsizeButton;
     private Button _downsizeButton;
-    private Button _closeButton;
         private TextMeshProUGUI totalDailyCostText;
         private TextMeshProUGUI gameStateText;
         private TextMeshProUGUI clockText;
@@ -375,7 +374,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupNPCDetailPanel(Transform parent)
     {
-        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(175, 200));
+        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(225, 200));
         var vlg = npcDetailPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10, 10, 10, 10);
         vlg.spacing = 5;
@@ -892,34 +891,29 @@ public class UIManager : MonoBehaviour
     
     private void SetupInfrastructureDetailPanel(Transform parent)
     {
-        infrastructureDetailPanel = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(175, 200));
-        var vlg = infrastructureDetailPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 5;
+        GameObject panelGO = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(225, 200));
+        infrastructureDetailPanel = panelGO;
+        UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
 
-        // Create a container for the header to hold the title and close button
-        var headerContainer = new GameObject("HeaderContainer");
-        headerContainer.transform.SetParent(infrastructureDetailPanel.transform, false);
-        var headerLayout = headerContainer.AddComponent<HorizontalLayoutGroup>();
-        headerLayout.childControlWidth = true;
-        headerLayout.childForceExpandWidth = true;
-        var headerRt = headerContainer.GetComponent<RectTransform>();
-        headerRt.sizeDelta = new Vector2(0, 30);
+        if (uiPanel == null)
+        {
+            Debug.LogError($"InfrastructureDetailPanel GameObject '{panelGO.name}' is missing a UIPanel component.");
+            return;
+        }
 
-        _infrastructureDetailText = CreateText(headerContainer.transform, "DetailText", "Infrastructure Details", 14);
+        uiPanel.titleText.text = "Infrastructure Details";
+        uiPanel.closeButton.onClick.AddListener(HideInfrastructureDetail);
 
-        _closeButton = CreateButton(headerContainer.transform, "X", HideInfrastructureDetail, new Vector2(25, 25));
-        var closeButtonLayout = _closeButton.gameObject.AddComponent<LayoutElement>();
-        closeButtonLayout.minWidth = 25;
-        closeButtonLayout.flexibleWidth = 0;
+        _infrastructureDetailText = CreateText(uiPanel.scrollContent, "DetailContentText", "", 14); // Text for details
+        _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
+        _infrastructureDetailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
 
+        _planBuildButton = uiPanel.AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure)).button;
+        _planBuildButton.gameObject.SetActive(false);
 
-        _planBuildButton = CreateButton(infrastructureDetailPanel.transform, "Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
-        _planBuildButton.gameObject.SetActive(false); // Start hidden
+        _upsizeButton = uiPanel.AddButton("Upsize", () => { /* Temp action */ }).button;
+        _downsizeButton = uiPanel.AddButton("Downsize", () => { /* Temp action */ }).button;
 
-        // Add Upsize and Downsize buttons
-        _upsizeButton = CreateButton(infrastructureDetailPanel.transform, "Upsize", () => { /* Temp action */ });
-        _downsizeButton = CreateButton(infrastructureDetailPanel.transform, "Downsize", () => { /* Temp action */ });
         _upsizeButton.gameObject.SetActive(false);
         _downsizeButton.gameObject.SetActive(false);
 

@@ -32,7 +32,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -13, y: 90.24964}
+  m_AnchoredPosition: {x: -13, y: 90.249756}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2446884351765050503
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIPanel
   titleText: {fileID: 5706891713938457574}
   scrollContent: {fileID: 4126693896547969378}
-  closeButton: {fileID: 0}
+  closeButton: {fileID: 6942107107998195178}
 --- !u!1 &8260855151676117224
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,8 +753,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5394812271723961138}
   m_HandleRect: {fileID: 6305051714297024895}
   m_Direction: 2
-  m_Value: -0.0000018598074
-  m_Size: 0.69559985
+  m_Value: -0.0000028742477
+  m_Size: 0.6991645
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
