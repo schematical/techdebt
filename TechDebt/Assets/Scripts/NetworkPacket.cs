@@ -2,8 +2,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Data;
+using UnityEngine.EventSystems;
 
-public class NetworkPacket : MonoBehaviour
+public class NetworkPacket : MonoBehaviour, IPointerClickHandler
 {
     public enum State { Running, Failed }
     public State CurrentState = State.Running;
@@ -21,7 +22,11 @@ public class NetworkPacket : MonoBehaviour
 	void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-       
+        // Check for a 2D collider, which is needed for OnPointerClick to work with the Physics2DRaycaster
+        if (GetComponent<Collider2D>() == null)
+        {
+            Debug.LogWarning($"NetworkPacket {gameObject.name} is missing a Collider2D component. It won't be clickable. Please add one in the Unity Editor.");
+        }
     } 
     public void Initialize(NetworkPacketData npData, string fileName, int size, InfrastructureInstance origin = null)
     {
@@ -102,5 +107,14 @@ public class NetworkPacket : MonoBehaviour
         CurrentState = State.Running;
         nextHop = null;
         pastNodes.Clear();
+    }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        var cameraController = FindObjectOfType<CameraController>();
+        if (cameraController != null)
+        {
+            cameraController.StartFollowing(transform);
+        }
     }
 }
