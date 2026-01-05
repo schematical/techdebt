@@ -904,9 +904,29 @@ public class UIManager : MonoBehaviour
         uiPanel.titleText.text = "Infrastructure Details";
         uiPanel.closeButton.onClick.AddListener(HideInfrastructureDetail);
 
-        _infrastructureDetailText = CreateText(uiPanel.scrollContent, "DetailContentText", "", 14); // Text for details
-        _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
-        _infrastructureDetailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
+            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
+            if (uiTextArea != null)
+            {
+                _infrastructureDetailText = uiTextArea.textArea;
+                _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
+                textAreaGO.AddComponent<LayoutElement>().flexibleHeight = 1;
+            }
+            else
+            {
+                Debug.LogError("UITextArea prefab is missing the UITextArea component.");
+            }
+        }
+        else
+        {
+            Debug.LogError("UITextArea prefab not found in PrefabManager.");
+            _infrastructureDetailText = CreateText(uiPanel.scrollContent, "DetailContentText", "", 14);
+            _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
+            _infrastructureDetailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
+        }
 
         _planBuildButton = uiPanel.AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure)).button;
         _planBuildButton.gameObject.SetActive(false);
