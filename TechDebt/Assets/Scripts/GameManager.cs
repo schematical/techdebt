@@ -414,7 +414,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         // --- Technology Debugging ---
-        Debug.Log($"GameManager Start: Found {AllTechnologies.Count} technologies.");
         UIManager.SetupUIInfrastructure();
         GameLoopManager.BeginBuildPhase();
         
@@ -578,7 +577,6 @@ public class GameManager : MonoBehaviour
             gridManager = FindObjectOfType<GridManager>();
             if (gridManager == null)
             {
-                 Debug.Log("GridManager not found, creating one.");
                  gridManager = new GameObject("GridManager").AddComponent<GridManager>();
             }
         }

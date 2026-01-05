@@ -10,7 +10,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float maxZoom = 12f;
 
     private Vector3 lastPanPosition;
+    private Vector2 initialRightClickMousePosition; // Store initial mouse screen position
+    private const float panThreshold = 1.0f; // Pixels
     private Camera mainCamera;
+    private Transform targetToFollow;
 
     void Start()
     {
@@ -24,10 +27,39 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        // Pressing Escape also stops following
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            StopFollowing();
+        }
+
         HandlePan();
         HandleZoom();
         HandleKeyboardInput(); // Call the new keyboard input handler
         HandleKeyboardZoom(); // Call the new keyboard zoom handler
+    }
+    
+    // Using LateUpdate for following to ensure the target has finished its movement for the frame.
+    // This prevents camera jitter.
+    void LateUpdate()
+    {
+        if (targetToFollow != null)
+        {
+            // Keep the camera's original Z position
+            transform.position = new Vector3(targetToFollow.position.x, targetToFollow.position.y, transform.position.z);
+        }
+    }
+
+    public void StartFollowing(Transform target)
+    {
+        Debug.Log("Start Following");
+        targetToFollow = target;
+    }
+
+    public void StopFollowing()
+    {
+        Debug.Log("Stop Following");
+        targetToFollow = null;
     }
 
     void HandleKeyboardInput()
@@ -52,8 +84,11 @@ public class CameraController : MonoBehaviour
             movement += Vector3.right;
         }
 
-        // Apply movement scaled by panSpeed and Time.deltaTime
-        transform.position += movement.normalized * panSpeed * Time.deltaTime;
+        if (movement.sqrMagnitude > 0.01f)
+        {
+            // Apply movement scaled by panSpeed and Time.deltaTime
+            transform.position += movement.normalized * panSpeed * Time.deltaTime;
+        }
     }
 
     void HandleKeyboardZoom()
@@ -79,22 +114,18 @@ public class CameraController : MonoBehaviour
     {
         if (Mouse.current == null) return;
 
-        // --- NEW: Guard Clause to prevent 'out of view frustum' warning ---
-        // Get the current mouse position
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         
-        // Check if the mouse is within the screen's rectangle.
-        // We add a small border (1 pixel) to avoid issues at the very edge.
         if (mousePosition.x < 1 || mousePosition.x > mainCamera.pixelWidth - 1 || 
             mousePosition.y < 1 || mousePosition.y > mainCamera.pixelHeight - 1)
         {
-            return; // Mouse is outside the game window, so don't process panning.
+            return;
         }
-        // --- End of new code ---
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             lastPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+            initialRightClickMousePosition = mousePosition; // Store initial screen position
         }
 
         if (Mouse.current.rightButton.isPressed)

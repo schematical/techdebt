@@ -371,24 +371,61 @@ public class UIManager : MonoBehaviour
         npcListPanel.SetActive(false);
     }
     
+    private Button _followButton;
+
     private void SetupNPCDetailPanel(Transform parent)
     {
         npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(175, 200));
         var vlg = npcDetailPanel.AddComponent<VerticalLayoutGroup>();
         vlg.padding = new RectOffset(10, 10, 10, 10);
         vlg.spacing = 5;
+        vlg.childForceExpandHeight = false; // Allow buttons to control their own height
 
+        // Header container for title and close button
         var headerContainer = new GameObject("HeaderContainer");
         headerContainer.transform.SetParent(npcDetailPanel.transform, false);
         var headerLayout = headerContainer.AddComponent<HorizontalLayoutGroup>();
         headerLayout.childControlWidth = true;
         headerLayout.childForceExpandWidth = true;
+        var headerRt = headerContainer.GetComponent<RectTransform>();
+        headerRt.sizeDelta = new Vector2(0, 30);
+        headerContainer.gameObject.AddComponent<LayoutElement>().preferredHeight = 30;
         
         CreateText(headerContainer.transform, "DetailText", "NPC Details", 14);
         var closeButton = CreateButton(headerContainer.transform, "X", HideNPCDetail, new Vector2(25, 25));
         var closeButtonLayout = closeButton.gameObject.AddComponent<LayoutElement>();
         closeButtonLayout.minWidth = 25;
         closeButtonLayout.flexibleWidth = 0;
+
+        // Content area - flexible height to fill space
+        var contentArea = new GameObject("ContentArea");
+        contentArea.transform.SetParent(npcDetailPanel.transform, false);
+        var contentVlg = contentArea.AddComponent<VerticalLayoutGroup>();
+        contentVlg.childControlWidth = true;
+        contentVlg.childForceExpandHeight = true;
+        contentArea.AddComponent<LayoutElement>().flexibleHeight = 1;
+
+        var detailText = CreateText(contentArea.transform, "NPCDetailContentText", "", 14);
+        detailText.alignment = TextAlignmentOptions.TopLeft; // Align text to top-left
+        detailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1; // Make text flexible
+
+        // Button container at the bottom
+        var bottomButtonContainer = new GameObject("BottomButtonContainer");
+        bottomButtonContainer.transform.SetParent(npcDetailPanel.transform, false);
+        var bottomHlg = bottomButtonContainer.AddComponent<HorizontalLayoutGroup>();
+        bottomHlg.spacing = 5;
+        bottomHlg.childControlWidth = true;
+        bottomHlg.childForceExpandWidth = true;
+        bottomButtonContainer.gameObject.AddComponent<LayoutElement>().preferredHeight = 40; // Fixed height for buttons
+        
+        _followButton = CreateButton(bottomButtonContainer.transform, "Follow", () =>
+        {
+            var cameraController = FindObjectOfType<CameraController>();
+            if (cameraController != null && _selectedNPC != null)
+            {
+                cameraController.StartFollowing(_selectedNPC.transform);
+            }
+        });
         
         npcDetailPanel.SetActive(false);
     }
