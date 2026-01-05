@@ -17,7 +17,8 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
     {
         // The base class now handles all the task logic.
         // We just need to ensure it only runs during the Play phase.
-        if (GameManager.Instance.GameLoopManager.CurrentState == GameLoopManager.GameState.Play)
+        if (GameManager.Instance.GameLoopManager.CurrentState == GameLoopManager.GameState.Play ||
+            GameManager.Instance.GameLoopManager.CurrentState == GameLoopManager.GameState.WaitingForNpcsToExpire)
         {
             base.Update();
         }

@@ -6,23 +6,13 @@ public class GameLoopManager : MonoBehaviour
 {
 
 
-    public enum GameState { Build, Play, Summary }
+    public enum GameState { Build, Play, WaitingForNpcsToExpire, Summary }
     public GameState CurrentState { get; private set; }
 
     public float dayDurationSeconds = 60f;
     public int currentDay = 0;
     public float dayTimer = 0f;
-
-    private float summaryPhaseTimer = 0f;
-    private const float SummaryPhaseDuration = 5f;
-
-    void Awake()
-    {
-
-    }
-
-
-
+    
     void Update()
     {
         switch (CurrentState)
@@ -35,40 +25,20 @@ public class GameLoopManager : MonoBehaviour
                     BeginSummaryPhase();
                 }
                 break;
-
-            case GameState.Summary:
-                summaryPhaseTimer += Time.deltaTime;
-                if (summaryPhaseTimer >= SummaryPhaseDuration)
+            case GameState.WaitingForNpcsToExpire:
+                bool allNpcsExpired = true;
+                foreach (var npc in FindObjectsOfType<NPCDevOps>())
                 {
-                    // Check for Game Over condition AFTER the summary has been displayed
-                    
-                    
-                    if (GameManager.Instance.GetStat(StatType.Money) < 0)
+                    if (npc.gameObject.activeInHierarchy)
                     {
-                        // Reset and reload
-                        Debug.Log("Ran out of money!");
-                        EndGame();
-                        return;
+                        allNpcsExpired = false;
+                        break;
                     }
-                    float packetsServiced = GameManager.Instance.GetStat(StatType.PacketsServiced);
-                    float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
-                    float packetsRatioRequirements = GameManager.Instance.GetStat(StatType.PRR);
-                    float packetFaledPct = packetsFailed / (packetsFailed + packetsServiced);
-                    if (packetFaledPct > packetsRatioRequirements)
-                    {
-                        Debug.Log("Failed too much!");
-                        EndGame();
-                    }
-                    if (GameManager.Instance.GetStat(StatType.Money) < 0)
-                    {
-                        // Reset and reload
-                        Debug.Log("Ran out of money!");
-                        EndGame();
-                        return;
-                    }
-                    
+                }
+
+                if (allNpcsExpired)
+                {
                     BeginBuildPhase();
-                    
                 }
                 break;
         }
@@ -90,6 +60,22 @@ public class GameLoopManager : MonoBehaviour
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
             npc.OnBuildPhaseStart();
+        }
+
+        if (currentDay > 1)
+        {
+            // --- Prepare Summary Text ---
+            float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
+            GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
+            string summaryText = $"End of Day {currentDay - 1}\n" +
+                                 $"Total Costs: -${totalDailyCost}";
+
+            if (GameManager.Instance.GetStat(StatType.Money) < 0)
+            {
+                summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
+                EndGame();
+            }
+            GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
         }
 
         // Update UI
@@ -127,16 +113,12 @@ public class GameLoopManager : MonoBehaviour
             new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
         );
         GameManager.Instance.CheckEvents();
-        
-    
-
     }
 
     private void BeginSummaryPhase()
     {
         Time.timeScale = 1f;
-        CurrentState = GameState.Summary;
-        summaryPhaseTimer = 0f;
+        CurrentState = GameState.WaitingForNpcsToExpire;
 
         // Assign "go to door" task to all NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
@@ -146,23 +128,6 @@ public class GameLoopManager : MonoBehaviour
                 npc.EndDay();
             }
         }
-
-        float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
-        GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
-
-        // --- Prepare Summary Text ---
-        string summaryText = $"End of Day {currentDay}\n" +
-                             $"Total Costs: -${totalDailyCost}";
-
-        if (GameManager.Instance.GetStat(StatType.Money) < 0)
-        {
-            summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
-        }
-
-
-        // --- Update UI ---
-        GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
-        GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
         
         foreach (var e in GameManager.Instance.Events)
         {

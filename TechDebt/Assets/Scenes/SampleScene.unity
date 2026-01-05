@@ -1513,6 +1513,10 @@ MonoBehaviour:
   - {fileID: 7440903293394126451, guid: e5bcdfa25e41bc3459be8d332419709c, type: 3}
   - {fileID: 8384214822886127018, guid: 5867dea9cf1ee924c9f81ba0c7940572, type: 3}
   - {fileID: 8894879162080388036, guid: 8e04b1b7f2bd4df4280e497329ec94b2, type: 3}
+  - {fileID: 1845720830391855116, guid: a0db0d2bddaece3498425299881e59de, type: 3}
+  - {fileID: 5347712008744209326, guid: 45b76d6e2bbfb004fa8e439a8864ed2e, type: 3}
+  - {fileID: 4684063156015723452, guid: 316aca7ab4dc2f44f868aedc67efc0ee, type: 3}
+  - {fileID: 7189217484378376955, guid: f2546ee3212f6db479dd6565094e130a, type: 3}
 --- !u!1 &1216552916
 GameObject:
   m_ObjectHideFlags: 0
