@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098a96fd30e6754409851d34d2a9d5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  uiPanelPrefab: {fileID: 0}
 --- !u!114 &203743597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1518,6 +1519,9 @@ MonoBehaviour:
   - {fileID: 4684063156015723452, guid: 316aca7ab4dc2f44f868aedc67efc0ee, type: 3}
   - {fileID: 7189217484378376955, guid: f2546ee3212f6db479dd6565094e130a, type: 3}
   - {fileID: 683140187405435314, guid: e3e45b174cd2c424e938c2364707e15a, type: 3}
+  - {fileID: 172329698636579826, guid: afd32d0dbd4fc1a439a5c304f273eb06, type: 3}
+  - {fileID: 5653747682978855418, guid: cc14713c7fdfd5e41b6a418514534b9d, type: 3}
+  UIPanelPrefab: {fileID: 0}
 --- !u!1 &1216552916
 GameObject:
   m_ObjectHideFlags: 0

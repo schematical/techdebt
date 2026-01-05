@@ -28,7 +28,7 @@ public class PrefabManager: MonoBehaviour
         else
         {
      
-            GameObject prefab = Prefabs.Find(p => p.name == prefabId);
+            GameObject prefab = GetPrefab(prefabId);
             if (prefab == null)
             {
                 Debug.LogError($"Prefab {prefabId} not found");
@@ -43,5 +43,10 @@ public class PrefabManager: MonoBehaviour
         
         return go;
     }
-   
+
+    public GameObject GetPrefab(string prefabId)
+    {
+        GameObject prefab = Prefabs.Find(p => p.name == prefabId);
+        return prefab;
+    }
 }

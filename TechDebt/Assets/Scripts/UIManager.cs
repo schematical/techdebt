@@ -1238,11 +1238,30 @@ public class UIManager : MonoBehaviour
     #region UI Helper Methods
     private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
     {
-        var go = new GameObject(n); go.transform.SetParent(p, false);
-        var rt = go.AddComponent<RectTransform>(); rt.sizeDelta = s; rt.anchorMin = min; rt.anchorMax = max; rt.anchoredPosition = pos;
-        var img = go.AddComponent<Image>();
-        img.color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
-        img.raycastTarget = false;
+     
+
+        GameObject uiPanelPrefab = GameManager.Instance.prefabManager.GetPrefab("UIPanel");
+
+        if (uiPanelPrefab == null)
+        {
+            Debug.LogError($"UIPanel prefab with name 'UIPanel' not found in PrefabManager. Cannot create UI Panel.");
+            return new GameObject(n); // Return an empty GameObject to prevent null reference errors
+        }
+
+        var go = Instantiate(uiPanelPrefab, p);
+        go.name = n;
+        var rt = go.GetComponent<RectTransform>();
+        if (rt == null)
+        {
+            Debug.LogError($"Instantiated UIPanel prefab '{uiPanelPrefab.name}' is missing a RectTransform component. Cannot create UI Panel.");
+            return go; // Return the instantiated object, but it might not behave as expected
+        }
+
+        rt.sizeDelta = s; 
+        rt.anchorMin = min; 
+        rt.anchorMax = max; 
+        rt.anchoredPosition = pos;
+        // The Image component (or any other background graphic) is expected to be part of the prefab
         return go;
     }
 
