@@ -1276,6 +1276,29 @@ public class UIManager : MonoBehaviour
         rt.anchorMax = max; 
         rt.anchoredPosition = pos;
         // The Image component (or any other background graphic) is expected to be part of the prefab
+
+        // Ensure scrollContent has VerticalLayoutGroup and set spacing
+        var uiPanel = go.GetComponent<UIPanel>();
+        if (uiPanel != null && uiPanel.scrollContent != null)
+        {
+            var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
+            if (vlg == null)
+            {
+                vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
+            }
+            vlg.spacing = 5; // Add 5 units of spacing between child elements
+            vlg.childControlWidth = true; // Ensure children control their own width
+            vlg.childForceExpandHeight = false; // Allow children to control their own height
+            
+            // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
+            var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
+            if (csf == null)
+            {
+                csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
+            }
+            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
+        
         return go;
     }
 
