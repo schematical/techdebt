@@ -66,8 +66,7 @@ public class UIManager : MonoBehaviour
     private float taskListUpdateCooldown = 0.5f;
 
     private float lastTaskListUpdateTime;
-
-    
+    private List<TechTreeItemUI> _techTreeItems = new List<TechTreeItemUI>();
 
     // Tech Tree
 
@@ -144,7 +143,6 @@ public class UIManager : MonoBehaviour
         }
 
     }
-
     
 
     void Update()
@@ -158,6 +156,14 @@ public class UIManager : MonoBehaviour
         {
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
+        }
+
+        if (techTreePanel != null && techTreePanel.activeSelf)
+        {
+            foreach (var item in _techTreeItems)
+            {
+                item.UpdateProgress();
+            }
         }
 
         if (infrastructureDetailPanel != null && infrastructureDetailPanel.activeSelf)
@@ -374,16 +380,21 @@ public class UIManager : MonoBehaviour
     private void SetupLeftMenuBar(Transform parent)
     {
         leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(50, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(25, 0));
-        var vlg = leftMenuBar.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(5, 5, 10, 10);
-        vlg.spacing = 10;
-        vlg.childControlWidth = true;
-        vlg.childControlHeight = false;
+        UIPanel uiPanel = leftMenuBar.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("LeftMenuBar is missing UIPanel component.");
+            return;
+        }
 
-        CreateButton(leftMenuBar.transform, "Tasks", ToggleTaskListPanel, new Vector2(40, 40));
-        CreateButton(leftMenuBar.transform, "Tech", ToggleTechTreePanel, new Vector2(40, 40));
-        CreateButton(leftMenuBar.transform, "NPCs", ToggleNPCListPanel, new Vector2(40, 40));
-        CreateButton(leftMenuBar.transform, "Events", ToggleEventLogPanel, new Vector2(40, 40));
+        uiPanel.titleText.text = "Menu";
+        if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false); // No close button for main menu
+
+        uiPanel.AddButton("Tasks", ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40; // Example fixed height
+        uiPanel.AddButton("Tech", ToggleTechTreePanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+        uiPanel.AddButton("NPCs", ToggleNPCListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+        uiPanel.AddButton("Events", ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+        
         // --- Setup all associated panels ---
         SetupTaskListPanel(parent);
         SetupTechTreePanel(parent);
@@ -586,71 +597,15 @@ public class UIManager : MonoBehaviour
     {
         // Panel stretches from top to bottom, anchored to the left.
         techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(275, 0));
-        var vlg = techTreePanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 10;
-        vlg.childControlWidth = true;
-        vlg.childForceExpandHeight = false;
-
-        CreateText(techTreePanel.transform, "Header", "Technology Tree", 22).gameObject.AddComponent<LayoutElement>().preferredHeight = 25;
-
-        // --- ScrollView Setup ---
-        var scrollViewGO = new GameObject("ScrollView");
-        scrollViewGO.transform.SetParent(techTreePanel.transform, false);
-        var scrollRect = scrollViewGO.AddComponent<ScrollRect>();
-        scrollViewGO.AddComponent<LayoutElement>().flexibleHeight = 1; // Allow scroll view to expand
-
-        // --- Viewport Setup (child of ScrollView) ---
-        var viewportGO = new GameObject("Viewport");
-        viewportGO.transform.SetParent(scrollViewGO.transform, false);
-        var viewportRT = viewportGO.AddComponent<RectTransform>();
-        viewportRT.anchorMin = Vector2.zero;
-        viewportRT.anchorMax = Vector2.one;
-        viewportRT.sizeDelta = new Vector2(-20, 0); // Leave space on the right for the scrollbar
-        viewportRT.pivot = new Vector2(0, 1);
-        viewportGO.AddComponent<RectMask2D>();
-        var viewportImg = viewportGO.AddComponent<Image>();
-        viewportImg.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
-        viewportImg.raycastTarget = false;
-        scrollRect.viewport = viewportRT;
-
-        // --- Content Setup (child of Viewport) ---
-        var contentGO = new GameObject("Content");
-        contentGO.transform.SetParent(viewportGO.transform, false);
-        techTreeContent = contentGO.transform;
-        var contentRT = contentGO.AddComponent<RectTransform>();
-        contentRT.anchorMin = new Vector2(0, 1);
-        contentRT.anchorMax = new Vector2(1, 1);
-        contentRT.pivot = new Vector2(0.5f, 1);
-        contentRT.sizeDelta = new Vector2(0, 0); // Width is controlled by parent, height by fitter
-        var contentVLG = contentGO.AddComponent<VerticalLayoutGroup>();
-        contentVLG.padding = new RectOffset(10, 10, 10, 10);
-        contentVLG.spacing = 15;
-        contentVLG.childControlWidth = true;
-        contentVLG.childForceExpandHeight = false;
-        var csf = contentGO.AddComponent<ContentSizeFitter>();
-        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        scrollRect.content = contentRT;
-
-        // --- Scrollbar Setup (child of ScrollView) ---
-        var scrollbarGO = new GameObject("ScrollbarVertical");
-        scrollbarGO.transform.SetParent(scrollViewGO.transform, false);
-        var sb = scrollbarGO.AddComponent<Scrollbar>();
-        var sbRT = scrollbarGO.GetComponent<RectTransform>();
-        sbRT.anchorMin = new Vector2(1, 0);
-        sbRT.anchorMax = new Vector2(1, 1);
-        sbRT.pivot = new Vector2(1, 1);
-        sbRT.sizeDelta = new Vector2(20, 0);
-        scrollRect.verticalScrollbar = sb;
+        UIPanel uiPanel = techTreePanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("TechTreePanel is missing UIPanel component.");
+            return;
+        }
         
-        var handleGO = new GameObject("Handle");
-        handleGO.transform.SetParent(scrollbarGO.transform, false);
-        var handleImg = handleGO.AddComponent<Image>();
-        handleImg.color = Color.grey;
-        var handleRT = handleGO.GetComponent<RectTransform>();
-        handleRT.sizeDelta = Vector2.zero; // Stretch to fill
-        sb.handleRect = handleRT;
-        sb.targetGraphic = handleImg;
+        uiPanel.titleText.text = "Technology Tree";
+        techTreeContent = uiPanel.scrollContent; // The content area is already set up in the prefab
 
         techTreePanel.SetActive(false);
     }
@@ -667,108 +622,49 @@ public class UIManager : MonoBehaviour
     }
     private void RefreshTechTreePanel()
     {
-        // Self-heal: If techTreeContent is lost, try to find it again.
         if (techTreeContent == null)
         {
-            if (techTreePanel != null)
-            {
-                var contentTransform = techTreePanel.transform.Find("ScrollView/Viewport/Content");
-                if (contentTransform != null)
-                {
-                    techTreeContent = contentTransform;
-                }
-                else
-                {
-                    Debug.LogError("Could not find techTreeContent transform! UI will not be refreshed.");
-                    return;
-                }
-            }
-            else
-            {
-                Debug.LogError("techTreePanel is null. Cannot re-acquire content. UI will not be refreshed.");
-                return;
-            }
+            Debug.LogError("techTreeContent is null. UI will not be refreshed.");
+            return;
         }
 
         for (int i = techTreeContent.childCount - 1; i >= 0; i--)
         {
             Destroy(techTreeContent.GetChild(i).gameObject);
         }
+        _techTreeItems.Clear();
 
         if (GameManager.Instance == null || GameManager.Instance.AllTechnologies == null) return;
+
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab == null)
+        {
+            Debug.LogError("UITextArea prefab not found. Cannot create tech panel content.");
+            return;
+        }
 
         foreach (var tech in GameManager.Instance.AllTechnologies)
         {
             Technology localTech = tech; // Create a local copy for the closure
-            var techPanel = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(380, 120), Vector2.zero, Vector2.one, Vector2.zero);
-            var techVLG = techPanel.AddComponent<VerticalLayoutGroup>();
-            techVLG.padding = new RectOffset(8, 8, 8, 8);
-            techVLG.spacing = 3;
-            techVLG.childControlWidth = true;
-
-            CreateText(techPanel.transform, "Title", $"<b>{tech.DisplayName}</b>", 18).alignment = TextAlignmentOptions.Left;
-            CreateText(techPanel.transform, "Description", tech.Description, 14).alignment = TextAlignmentOptions.Left;
-
-            string reqText = "Requires: ";
-            if (tech.RequiredTechnologies == null || tech.RequiredTechnologies.Count == 0)
-            {
-                reqText += "None";
-            }
-            else
-            {
-                reqText += string.Join(", ", tech.RequiredTechnologies.Select(reqId =>
-                {
-                    var requiredTech = GameManager.Instance.GetTechnologyByID(reqId);
-                    return requiredTech != null ? requiredTech.DisplayName : "Unknown";
-                }));
-            }
-            CreateText(techPanel.transform, "Requirements", reqText, 12).alignment = TextAlignmentOptions.Left;
-
-            var researchButton = CreateButton(techPanel.transform, "Research", () => GameManager.Instance.SelectTechnologyForResearch(localTech));
-            var layoutElement = researchButton.gameObject.AddComponent<LayoutElement>();
-            layoutElement.preferredHeight = 40f;
             
-            var buttonText = researchButton.GetComponentInChildren<TextMeshProUGUI>();
+            var techPanelGO = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 150), Vector2.zero, Vector2.one, Vector2.zero);
+            UIPanel techPanel = techPanelGO.GetComponent<UIPanel>();
+            var techItemUI = techPanelGO.AddComponent<TechTreeItemUI>();
 
-            // Hotfix for the tech tree button text
-            buttonText.enableWordWrapping = true;
-            buttonText.enableAutoSizing = false;
-            buttonText.fontSize = 14;
+            if(techPanel.closeButton != null) techPanel.closeButton.gameObject.SetActive(false);
 
-            var buttonImage = researchButton.GetComponent<Image>();
-
-            bool prerequisitesMet = tech.RequiredTechnologies.All(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
-
-            switch (tech.CurrentState)
-            {
-                case Technology.State.Unlocked:
-                    buttonText.text = "Unlocked";
-                    researchButton.interactable = false;
-                    buttonImage.color = Color.green;
-                    break;
-                
-                case Technology.State.Researching:
-                    buttonText.text = $"Researching... ({tech.CurrentResearchProgress}/{tech.ResearchPointCost})";
-                    researchButton.interactable = false;
-                    buttonImage.color = Color.cyan; // A color to indicate active research
-                    break;
-
-                case Technology.State.Locked:
-                    buttonText.text = "Research";
-                    if (prerequisitesMet && GameManager.Instance.CurrentlyResearchingTechnology == null)
-                    {
-                        researchButton.interactable = true;
-                        buttonImage.color = Color.yellow; // Can be researched
-                    }
-                    else
-                    {
-                        researchButton.interactable = false;
-                        buttonImage.color = Color.gray; // Cannot be researched
-                    }
-                    break;
-            }
-                }
-            }
+            var descriptionGO = Instantiate(textAreaPrefab, techPanel.scrollContent);
+            var requirementsGO = Instantiate(textAreaPrefab, techPanel.scrollContent);
+            
+            techItemUI.titleText = techPanel.titleText;
+            techItemUI.descriptionText = descriptionGO.GetComponent<UITextArea>().textArea;
+            techItemUI.requirementsText = requirementsGO.GetComponent<UITextArea>().textArea;
+            techItemUI.researchButton = techPanel.AddButton("Research", () => {}); // Action is now handled in TechTreeItemUI
+            
+            techItemUI.Initialize(localTech);
+            _techTreeItems.Add(techItemUI);
+        }
+    }
             
             public void ForceRefreshTechTreePanel()
             {
@@ -778,92 +674,93 @@ public class UIManager : MonoBehaviour
             private void RefreshTaskList()
             {
                 if (taskListContent == null)
-                {            var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
-            if (contentTransform != null) taskListContent = contentTransform;
-            else { Debug.LogError("Could not find taskListContent transform!"); return; }
-        }
+                {
+                    var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
+                    if (contentTransform != null) taskListContent = contentTransform;
+                    else { Debug.LogError("Could not find taskListContent transform!"); return; }
+                }
 
-        if (GameManager.Instance?.AvailableTasks == null) return;
+                if (GameManager.Instance?.AvailableTasks == null) return;
 
-        var currentTasks = new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentStatus != Status.Completed));
-        var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
+                var currentTasks = new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentStatus != Status.Completed));
+                var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
 
-        foreach (var task in tasksToRemove)
-        {
-            Destroy(_taskUIMap[task]);
-            _taskUIMap.Remove(task);
-        }
+                foreach (var task in tasksToRemove)
+                {
+                    Destroy(_taskUIMap[task]);
+                    _taskUIMap.Remove(task);
+                }
 
-        var sortedTasks = GameManager.Instance.AvailableTasks
-            .OrderByDescending(t => t.Priority)
-            .ToList();
+                var sortedTasks = GameManager.Instance.AvailableTasks
+                    .OrderByDescending(t => t.Priority)
+                    .ToList();
 
-        for (int i = 0; i < sortedTasks.Count; i++)
-        {
-            var task = sortedTasks[i];
-            NPCTask localTask = task; 
+                for (int i = 0; i < sortedTasks.Count; i++)
+                {
+                    var task = sortedTasks[i];
+                    NPCTask localTask = task; 
 
-            GameObject taskEntryPanel;
-            if (!_taskUIMap.ContainsKey(task))
-            {
-                taskEntryPanel = new GameObject($"TaskEntry_{task.GetHashCode()}");
-                taskEntryPanel.transform.SetParent(taskListContent, false);
-                var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
-                hlg.spacing = 5;
-                hlg.childControlWidth = true;
-                hlg.childForceExpandWidth = true;
-                var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
-                taskEntryLayout.minHeight = 80;
+                    GameObject taskEntryPanel;
+                    if (!_taskUIMap.ContainsKey(task))
+                    {
+                        taskEntryPanel = new GameObject($"TaskEntry_{task.GetHashCode()}");
+                        taskEntryPanel.transform.SetParent(taskListContent, false);
+                        var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
+                        hlg.spacing = 5;
+                        hlg.childControlWidth = true;
+                        hlg.childForceExpandWidth = true;
+                        var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
+                        taskEntryLayout.minHeight = 80;
 
-                var textEntry = CreateText(taskEntryPanel.transform, "TaskText", "", 14);
-                var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
-                textLayoutElement.flexibleWidth = 1;
-                textEntry.alignment = TextAlignmentOptions.Left;
-                textEntry.enableAutoSizing = false;
-                textEntry.enableWordWrapping = true;
-                
-                var buttonContainer = new GameObject("ButtonContainer");
-                buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
-                var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
-                buttonVLG.spacing = 2;
-                var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
-                buttonContainerLayout.minWidth = 45;
-                buttonContainerLayout.flexibleWidth = 0;
+                        var textEntry = CreateText(taskEntryPanel.transform, "TaskText", "", 14);
+                        var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
+                        textLayoutElement.flexibleWidth = 1;
+                        textEntry.alignment = TextAlignmentOptions.Left;
+                        textEntry.enableAutoSizing = false;
+                        textEntry.enableWordWrapping = true;
+                        
+                        var buttonContainer = new GameObject("ButtonContainer");
+                        buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
+                        var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
+                        buttonVLG.spacing = 2;
+                        var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
+                        buttonContainerLayout.minWidth = 45;
+                        buttonContainerLayout.flexibleWidth = 0;
 
-                var upButton = CreateButton(buttonContainer.transform, "↑", () => {
-                    GameManager.Instance.IncreaseTaskPriority(localTask);
-                    RefreshTaskList(); 
-                }, new Vector2(40, 40));
-                upButton.name = "UpButton";
+                        var upButton = CreateButton(buttonContainer.transform, "↑", () => {
+                            GameManager.Instance.IncreaseTaskPriority(localTask);
+                            RefreshTaskList(); 
+                        }, new Vector2(40, 40));
+                        upButton.name = "UpButton";
 
-                var downButton = CreateButton(buttonContainer.transform, "↓", () => {
-                    GameManager.Instance.DecreaseTaskPriority(localTask);
-                    RefreshTaskList();
-                }, new Vector2(40, 40));
-                downButton.name = "DownButton";
+                        var downButton = CreateButton(buttonContainer.transform, "↓", () => {
+                            GameManager.Instance.DecreaseTaskPriority(localTask);
+                            RefreshTaskList();
+                        }, new Vector2(40, 40));
+                        downButton.name = "DownButton";
 
-                _taskUIMap[task] = taskEntryPanel;
+                        _taskUIMap[task] = taskEntryPanel;
+                    }
+
+                    taskEntryPanel = _taskUIMap[task];
+                    taskEntryPanel.transform.SetSiblingIndex(i);
+
+                    var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
+                    string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
+                    string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
+                    string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
+                    if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
+                    taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
+                    textComponent.text = taskText;
+
+                    var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
+                    var upButtonComponent = buttons.FirstOrDefault(b => b.name == "UpButton");
+                    if (upButtonComponent != null) upButtonComponent.interactable = (i > 0);
+
+                    var downButtonComponent = buttons.FirstOrDefault(b => b.name == "DownButton");
+                    if (downButtonComponent != null) downButtonComponent.interactable = (i < sortedTasks.Count - 1);
+                }
             }
-
-            taskEntryPanel = _taskUIMap[task];
-            taskEntryPanel.transform.SetSiblingIndex(i);
-
-            var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
-            string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
-            string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
-            string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
-            if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
-            taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
-            textComponent.text = taskText;
-
-            var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
-            var upButtonComponent = buttons.FirstOrDefault(b => b.name == "UpButton");
-            if (upButtonComponent != null) upButtonComponent.interactable = (i > 0);
-
-            var downButtonComponent = buttons.FirstOrDefault(b => b.name == "DownButton");
-            if (downButtonComponent != null) downButtonComponent.interactable = (i < sortedTasks.Count - 1);
-        }
-    }
 
 
     private void SetupStatsBar(Transform parent)
@@ -954,7 +851,7 @@ public class UIManager : MonoBehaviour
 
         if (uiPanel == null)
         {
-            Debug.LogError($"InfrastructureDetailPanel GameObject '{panelGO.name}' is missing a UIPanel component.");
+            Debug.LogError($"InfrastructureDetailPanel GameObject '{{panelGO.name}}' is missing a UIPanel component.");
             return;
         }
 
@@ -1252,7 +1149,7 @@ public class UIManager : MonoBehaviour
     
     public void UpdateClockDisplay(float timeElapsed, float dayDuration)
     {
-        if (clockText == null) return;
+        if (clockText == null) return; 
         
         int day = GameManager.Instance.GameLoopManager.currentDay;
 
@@ -1335,7 +1232,8 @@ public class UIManager : MonoBehaviour
 
         if (uiPanelPrefab == null)
         {
-            throw new SystemException("UIPanel prefab with name 'UIPanel' not found in PrefabManager. Cannot create UI Panel.");
+            Debug.LogError($"UIPanel prefab with name 'UIPanel' not found in PrefabManager. Cannot create UI Panel.");
+            return new GameObject(n); // Return an empty GameObject to prevent null reference errors
         }
 
         var go = Instantiate(uiPanelPrefab, p);
@@ -1343,7 +1241,8 @@ public class UIManager : MonoBehaviour
         var rt = go.GetComponent<RectTransform>();
         if (rt == null)
         {
-            throw new SystemException("Instantiated UIPanel prefab '{uiPanelPrefab.name}' is missing a RectTransform component. Cannot create UI Panel.");
+            Debug.LogError($"Instantiated UIPanel prefab '{{uiPanelPrefab.name}}' is missing a RectTransform component. Cannot create UI Panel.");
+            return go; // Return the instantiated object, but it might not behave as expected
         }
 
         rt.sizeDelta = s; 
@@ -1354,28 +1253,25 @@ public class UIManager : MonoBehaviour
 
         // Ensure scrollContent has VerticalLayoutGroup and set spacing
         var uiPanel = go.GetComponent<UIPanel>();
-        if (uiPanel == null || uiPanel.scrollContent == null)
+        if (uiPanel != null && uiPanel.scrollContent != null)
         {
-            throw new SystemException("UIPanel is null");
+            var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
+            if (vlg == null)
+            {
+                vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
+            }
+            vlg.spacing = 5; // Add 5 units of spacing between child elements
+            vlg.childControlWidth = true; // Ensure children control their own width
+            vlg.childForceExpandHeight = false; // Allow children to control their own height
+            
+            // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
+            var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
+            if (csf == null)
+            {
+                csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
+            }
+            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
-        
-        var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
-        if (vlg == null)
-        {
-            vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
-        }
-        vlg.spacing = 5; // Add 5 units of spacing between child elements
-        vlg.childControlWidth = true; // Ensure children control their own width
-        vlg.childForceExpandHeight = false; // Allow children to control their own height
-        
-        // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
-        var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
-        if (csf == null)
-        {
-            csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
-        }
-        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-    
         
         return go;
     }
@@ -1470,4 +1366,3 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 }
-
