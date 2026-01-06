@@ -876,31 +876,44 @@ public class UIManager : MonoBehaviour
     private void SetupBuildPhaseUI(Transform parent)
     {
         buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0), new Vector2(0, 0), new Vector2(170, 90));
-        var vlg = buildPhaseUIContainer.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10,10,10,10);
-        vlg.spacing = 5;
-
-        totalDailyCostText = CreateText(buildPhaseUIContainer.transform, "DailyCostText", "Daily Cost: $0", 16);
-        totalDailyCostText.color = Color.yellow;
-
         UIPanel buildPanel = buildPhaseUIContainer.GetComponent<UIPanel>();
         if (buildPanel == null)
         {
-            Debug.LogError("Missing `buildPanel`");
+            Debug.LogError("BuildPhaseUIContainer is missing UIPanel component.");
+            return;
+        }
+        
+        buildPanel.titleText.text = "Build Phase";
+
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textAreaGO = Instantiate(textAreaPrefab, buildPanel.scrollContent);
+            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
+            totalDailyCostText = uiTextArea.textArea;
+            totalDailyCostText.text = "Daily Cost: $0";
+            totalDailyCostText.color = Color.yellow;
+            totalDailyCostText.fontSize = 16;
+        }
+        else
+        {
+            Debug.LogError("UITextArea prefab not found. Falling back to CreateText.");
+            totalDailyCostText = CreateText(buildPanel.scrollContent, "DailyCostText", "Daily Cost: $0", 16);
+            totalDailyCostText.color = Color.yellow;
         }
 
         buildPanel.AddButton("Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
         buildPanel.AddButton("Start Day", () => GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase());
-        
-       
 
         // Hire DevOps Panel (Sub-panel)
         hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
-        var hireVlg = hireDevOpsPanel.AddComponent<VerticalLayoutGroup>();
-        hireVlg.padding = new RectOffset(10,10,10,10);
-        hireVlg.spacing = 5;
-        // The first button is the "< Back" button
-        CreateButton(hireDevOpsPanel.transform, "< Back", () => hireDevOpsPanel.SetActive(false));
+        UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
+        if (hirePanel != null)
+        {
+            hirePanel.titleText.text = "Hire DevOps";
+            var backButton = hirePanel.AddButton("< Back", () => hireDevOpsPanel.SetActive(false));
+            // You might want to move this button to the top or bottom later by adjusting its sibling index
+        }
         hireDevOpsPanel.SetActive(false); // Start hidden
     }
     
