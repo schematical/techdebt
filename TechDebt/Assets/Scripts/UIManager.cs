@@ -329,7 +329,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupEventLogPanel(Transform parent)
     {
-        eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(250, 0));
         UIPanel uiPanel = eventLogPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -398,7 +398,7 @@ public class UIManager : MonoBehaviour
     }
     private void SetupLeftMenuBar(Transform parent)
     {
-        leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(50, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(25, 0));
+        leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(100, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(50, 0));
         UIPanel uiPanel = leftMenuBar.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -406,10 +406,10 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        uiPanel.titleText.text = "Menu";
+        uiPanel.titleText.text = "";
         if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false); // No close button for main menu
 
-        uiPanel.AddButton("Tasks", ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40; // Example fixed height
+        uiPanel.AddButton("Tasks", ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("Tech", ToggleTechTreePanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("NPCs", ToggleNPCListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("Events", ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
@@ -424,7 +424,7 @@ public class UIManager : MonoBehaviour
     
     private void SetupNPCListPanel(Transform parent)
     {
-        npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(250, 0));
         UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
         if (uiPanel != null)
         {
@@ -444,7 +444,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupNPCDetailPanel(Transform parent)
     {
-        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(225, 200));
+        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 200));
         UIPanel uiPanel = npcDetailPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -553,7 +553,7 @@ public class UIManager : MonoBehaviour
     
     private void SetupTaskListPanel(Transform parent)
     {
-        taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
+        taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(250, 0));
         UIPanel uiPanel = taskListPanel.GetComponent<UIPanel>();
 
         if (uiPanel != null)
@@ -589,7 +589,7 @@ public class UIManager : MonoBehaviour
     private void SetupTechTreePanel(Transform parent)
     {
         // Panel stretches from top to bottom, anchored to the left.
-        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(275, 0));
+        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(300, 0));
         UIPanel uiPanel = techTreePanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -788,7 +788,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupBuildPhaseUI(Transform parent)
     {
-        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0), new Vector2(0, 0), new Vector2(170, 90));
+        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0), new Vector2(0, 0), new Vector2(210, 90));
         UIPanel buildPanel = buildPhaseUIContainer.GetComponent<UIPanel>();
         if (buildPanel == null)
         {
@@ -838,7 +838,7 @@ public class UIManager : MonoBehaviour
     
     private void SetupInfrastructureDetailPanel(Transform parent)
     {
-        GameObject panelGO = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(225, 200));
+        GameObject panelGO = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 200));
         infrastructureDetailPanel = panelGO;
         UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
 
