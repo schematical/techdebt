@@ -1028,14 +1028,62 @@ public class UIManager : MonoBehaviour
     private void SetupTimeControls(Transform parent)
     {
         timeControlsContainer = CreateUIPanel(parent, "TimeControls", new Vector2(200, 50), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-110, 35));
+        
+        UIPanel uiPanel = timeControlsContainer.GetComponent<UIPanel>();
+        if (uiPanel != null)
+        {
+            uiPanel.titleText.text = "";
+            if(uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
+        }
+
         var layout = timeControlsContainer.AddComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(5, 5, 5, 5);
         layout.spacing = 5;
+        // Make buttons fill the container
+        layout.childControlWidth = true;
+        layout.childControlHeight = true;
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = true;
 
-        pauseButton = CreateButton(timeControlsContainer.transform, "||", SetTimeScalePause, new Vector2(40, 40));
-        playButton = CreateButton(timeControlsContainer.transform, ">", SetTimeScalePlay, new Vector2(40, 40));
-        fastForwardButton = CreateButton(timeControlsContainer.transform, ">>", SetTimeScaleFastForward, new Vector2(40, 40));
-        superFastForwardButton = CreateButton(timeControlsContainer.transform, ">>>", SetTimeScaleSuperFastForward, new Vector2(40, 40));
+        GameObject buttonPrefab = GameManager.Instance.prefabManager.GetPrefab("UIButton");
+        if (buttonPrefab == null)
+        {
+            Debug.LogError("UIButton prefab not found. Cannot create TimeControls.");
+            // Fallback to old method
+            pauseButton = CreateButton(timeControlsContainer.transform, "||", SetTimeScalePause, new Vector2(40, 40));
+            playButton = CreateButton(timeControlsContainer.transform, ">", SetTimeScalePlay, new Vector2(40, 40));
+            fastForwardButton = CreateButton(timeControlsContainer.transform, ">>", SetTimeScaleFastForward, new Vector2(40, 40));
+            superFastForwardButton = CreateButton(timeControlsContainer.transform, ">>>", SetTimeScaleSuperFastForward, new Vector2(40, 40));
+            return;
+        }
+
+        // Pause Button
+        GameObject pauseGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
+        UIButton pauseUI = pauseGO.GetComponent<UIButton>();
+        pauseUI.buttonText.text = "||";
+        pauseButton = pauseUI.button;
+        pauseButton.onClick.AddListener(SetTimeScalePause);
+
+        // Play Button
+        GameObject playGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
+        UIButton playUI = playGO.GetComponent<UIButton>();
+        playUI.buttonText.text = ">";
+        playButton = playUI.button;
+        playButton.onClick.AddListener(SetTimeScalePlay);
+        
+        // Fast Forward Button
+        GameObject ffGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
+        UIButton ffUI = ffGO.GetComponent<UIButton>();
+        ffUI.buttonText.text = ">>";
+        fastForwardButton = ffUI.button;
+        fastForwardButton.onClick.AddListener(SetTimeScaleFastForward);
+
+        // Super Fast Forward Button
+        GameObject sffGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
+        UIButton sffUI = sffGO.GetComponent<UIButton>();
+        sffUI.buttonText.text = ">>>";
+        superFastForwardButton = sffUI.button;
+        superFastForwardButton.onClick.AddListener(SetTimeScaleSuperFastForward);
         
         UpdateTimeScaleButtons();
     }
