@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI _infrastructureDetailText;
     private TextMeshProUGUI _eventLogText;
+    private TextMeshProUGUI _alertText;
     private Button _planBuildButton;
     private Button _upsizeButton;
     private Button _downsizeButton;
@@ -333,18 +334,40 @@ public class UIManager : MonoBehaviour
     private void SetupAlertPanel(Transform parent)
     {
         alertPanel = CreateUIPanel(parent, "AlertPanel", new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
-        var vlg = alertPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(15, 15, 15, 15);
-        vlg.spacing = 10;
+        UIPanel uiPanel = alertPanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("AlertPanel is missing UIPanel component.");
+            return;
+        }
 
-        var eventText = CreateText(alertPanel.transform, "AlertText", "Alert Text Goes Here", 18);
-        eventText.enableWordWrapping = true;
-        eventText.alignment = TextAlignmentOptions.TopLeft;
+        uiPanel.titleText.text = "Alert";
+        if (uiPanel.closeButton != null)
+        {
+            uiPanel.closeButton.gameObject.SetActive(false); // Use OK button for modal dialogs
+        }
+
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
+            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
+            _alertText = uiTextArea.textArea;
+            _alertText.enableWordWrapping = true;
+            _alertText.alignment = TextAlignmentOptions.TopLeft;
+            _alertText.fontSize = 18;
+        }
+        else
+        {
+            Debug.LogError("UITextArea prefab not found for AlertPanel. Falling back to CreateText.");
+            _alertText = CreateText(uiPanel.scrollContent, "AlertText", "Alert Text Goes Here", 18);
+            _alertText.enableWordWrapping = true;
+            _alertText.alignment = TextAlignmentOptions.TopLeft;
+        }
         
-        var okButton = CreateButton(alertPanel.transform, "OK", () => alertPanel.SetActive(false));
+        var okButton = uiPanel.AddButton("OK", () => alertPanel.SetActive(false));
         var layoutElement = okButton.gameObject.AddComponent<LayoutElement>();
         layoutElement.minHeight = 40;
-        layoutElement.flexibleHeight = 0; // Don't stretch button vertically
 
         alertPanel.SetActive(false);
     }
@@ -1214,7 +1237,10 @@ public class UIManager : MonoBehaviour
     public void ShowAlert(string alertText)
     {
         alertPanel.SetActive(true);
-        alertPanel.GetComponentInChildren<TextMeshProUGUI>().text = alertText;
+        if (_alertText != null)
+        {
+            _alertText.text = alertText;
+        }
     }
     #endregion
 
