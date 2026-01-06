@@ -43,17 +43,16 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI _infrastructureDetailText;
     private TextMeshProUGUI _eventLogText;
     private TextMeshProUGUI _npcDetailText;
+    private UITextArea _itemDetailDescriptionText;
     private TextMeshProUGUI _alertText;
     private Button _planBuildButton;
     private Button _upsizeButton;
     private Button _downsizeButton;
-        private TextMeshProUGUI totalDailyCostText;
-        private TextMeshProUGUI gameStateText;
-        private TextMeshProUGUI clockText;
+    private TextMeshProUGUI totalDailyCostText;
+    private TextMeshProUGUI gameStateText;
+    private TextMeshProUGUI clockText;
     
-    
-    
-        // Time Control Buttons & Colors
+    // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
     private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
     private Color inactiveColor = Color.gray;
@@ -70,13 +69,59 @@ public class UIManager : MonoBehaviour
     private List<TechTreeItemUI> _techTreeItems = new List<TechTreeItemUI>();
 
     // Tech Tree
-
     private Transform techTreeContent;
-
     
     private InfrastructureInstance _selectedInfrastructure;
     private Items.ItemBase _selectedItem;
     private NPCDevOps _selectedNPC;
+
+    void Start()
+    {
+        SetupTimeControls(transform);
+        SetupStatsBar(transform);
+        SetupLeftMenuBar(transform);
+
+        SetupEventLogPanel(transform);
+        SetupNPCListPanel(transform);
+        SetupNPCDetailPanel(transform);
+        SetupTaskListPanel(transform);
+        SetupTechTreePanel(transform);
+        SetupBuildPhaseUI(transform);
+        SetupInfrastructureDetailPanel(transform);
+        SetupAlertPanel(transform);
+        SetupItemDetailPanel(transform);
+        SetupDebugPanel(transform);
+        SetupEventTriggerPanel(transform);
+        
+        // Initial state
+        UpdateTimeControlsUI();
+        GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged += (value) => UpdateStatText(StatType.Money, value);
+
+        // Hide panels that shouldn't be visible at start
+        if (techTreePanel != null) techTreePanel.SetActive(false);
+        if (npcListPanel != null) npcListPanel.SetActive(false);
+        if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
+        if (taskListPanel != null) taskListPanel.SetActive(false);
+        if (infrastructureDetailPanel != null) infrastructureDetailPanel.SetActive(false);
+    }
+
+    public void UpdateStatText(StatType statType, float value)
+    {
+        if (statTexts.ContainsKey(statType))
+        {
+            statTexts[statType].text = $"{statType}: {value:F2}";
+        }
+    }
+    
+    private void UpdateTimeControlsUI()
+    {
+        if (superFastForwardButton == null) return;
+        pauseButton.GetComponent<Image>().color = _currentTimeState == TimeState.Paused ? activeColor : inactiveColor;
+        playButton.GetComponent<Image>().color = _currentTimeState == TimeState.Normal ? activeColor : inactiveColor;
+        fastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
+        superFastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
+    }
+
     void OnEnable() 
     { 
         GameManager.OnStatsChanged += UpdateStatsDisplay; 
@@ -758,6 +803,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupStatsBar(Transform parent)
     {
+        statTexts.Clear();
         statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
         
         UIPanel uiPanel = statsBarUIContainer.GetComponent<UIPanel>();
@@ -1372,20 +1418,42 @@ public class UIManager : MonoBehaviour
     #region Item Detail Panel
     private void SetupItemDetailPanel(Transform parent)
     {
-        itemDetailPanel = CreateUIPanel(parent, "ItemDetailPanel", new Vector2(250, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
-        var vlg = itemDetailPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(15, 15, 15, 15);
-        vlg.spacing = 10;
-        vlg.childAlignment = TextAnchor.MiddleCenter;
+        itemDetailPanel = CreateUIPanel(parent, "ItemDetailPanel", new Vector2(250, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        UIPanel uiPanel = itemDetailPanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("ItemDetailPanel is missing UIPanel component.");
+            return;
+        }
 
-        CreateText(itemDetailPanel.transform, "Header", "Item Found!", 20);
+        // A text area for the item's description
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
+            _itemDetailDescriptionText = textGO.GetComponent<UITextArea>();
+        }
+        else
+        {
+            Debug.LogError("UITextArea prefab not found for ItemDetailPanel.");
+        }
 
-        // This button's text and action will be set dynamically
-        var useButton = CreateButton(itemDetailPanel.transform, "Use", () => { });
-        useButton.name = "UseItemButton";
+        // A container for buttons to be laid out horizontally
+        GameObject buttonContainer = new GameObject("ButtonContainer", typeof(RectTransform));
+        buttonContainer.transform.SetParent(uiPanel.scrollContent, false);
+        var hlg = buttonContainer.AddComponent<HorizontalLayoutGroup>();
+        hlg.spacing = 10;
+        hlg.childControlWidth = true;
+        hlg.childForceExpandWidth = true;
 
-        var cancelButton = CreateButton(itemDetailPanel.transform, "Cancel", HideItemDetail);
-
+        // Add buttons to the horizontal container
+        var useButton = uiPanel.AddButton("Use", () => { /* Action set in ShowItemDetail */ });
+        useButton.name = "UseItemButton"; // Assign a name to find it later
+        useButton.transform.SetParent(buttonContainer.transform);
+        
+        var cancelButton = uiPanel.AddButton("Cancel", HideItemDetail);
+        cancelButton.transform.SetParent(buttonContainer.transform);
+        
         itemDetailPanel.SetActive(false);
     }
 
@@ -1395,22 +1463,47 @@ public class UIManager : MonoBehaviour
         SetTimeState(TimeState.Paused); // Pause the game
         itemDetailPanel.SetActive(true);
 
-        var useButton = itemDetailPanel.transform.Find("UseItemButton").GetComponent<Button>();
-        var buttonText = useButton.GetComponentInChildren<TextMeshProUGUI>();
+        UIPanel uiPanel = itemDetailPanel.GetComponent<UIPanel>();
+        if (uiPanel != null)
+        {
+            string itemName = _selectedItem.GetType().Name.Replace("Item", "");
+            itemName = System.Text.RegularExpressions.Regex.Replace(itemName, "([A-Z])", " $1").Trim();
+            uiPanel.titleText.text = itemName;
+        }
 
-        buttonText.text = item.UseVerb();
-        useButton.onClick.RemoveAllListeners();
-        useButton.onClick.AddListener(() => {
-            GameManager.Instance.CreateUseItemTask(_selectedItem);
-            HideItemDetail();
-        });
+        if (_itemDetailDescriptionText != null)
+        {
+            _itemDetailDescriptionText.textArea.text = "No description available.";
+        }
+
+        // Find the 'Use' button by name and update its properties
+        UIButton useButton = null;
+        var allButtons = itemDetailPanel.GetComponentsInChildren<UIButton>();
+        foreach (var btn in allButtons)
+        {
+            if (btn.name == "UseItemButton")
+            {
+                useButton = btn;
+                break;
+            }
+        }
+        
+        if (useButton != null)
+        {
+            useButton.buttonText.text = item.UseVerb();
+            useButton.button.onClick.RemoveAllListeners();
+            useButton.button.onClick.AddListener(() => {
+                GameManager.Instance.CreateUseItemTask(_selectedItem);
+                HideItemDetail();
+            });
+        }
     }
 
     public void HideItemDetail()
     {
         _selectedItem = null;
         itemDetailPanel.SetActive(false);
-        // This will resume to whatever the state was before pausing
+        // Resume to whatever the state was before pausing
         SetTimeState(_timeStateBeforePause); 
     }
     #endregion

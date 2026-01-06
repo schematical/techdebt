@@ -33,7 +33,7 @@ namespace Stats
             BaseValue += value;
             return UpdateValue();
         }
-        public event Action OnStatChanged;
+        public event Action<float> OnStatChanged;
 
         public float UpdateValue()
         {
@@ -80,7 +80,7 @@ namespace Stats
 
         public void Broadcast()
         {
-            OnStatChanged?.Invoke();
+            OnStatChanged?.Invoke(Value);
             foreach (var listener in Listeners)
             {
                 listener.Invoke(this);
