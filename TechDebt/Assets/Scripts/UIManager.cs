@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
     private GameObject eventLogPanel;
     private GameObject debugPanel;
     private GameObject eventTriggerPanel;
-    
+    private UITextArea summaryPhaseText;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -344,11 +344,11 @@ public class UIManager : MonoBehaviour
 
         SetupBuildPhaseUI(transform);
 
-                SetupSummaryPhaseUI(transform);
+        SetupSummaryPhaseUI(transform);
 
-                SetupInfrastructureDetailPanel(transform);
+        SetupInfrastructureDetailPanel(transform);
 
-                SetupTimeControls(transform);
+        SetupTimeControls(transform);
 
         SetupLeftMenuBar(transform);
 
@@ -882,7 +882,7 @@ public class UIManager : MonoBehaviour
         if (hirePanel != null)
         {
             hirePanel.titleText.text = "Hire DevOps";
-            var backButton = hirePanel.AddButton("< Back", () => hireDevOpsPanel.SetActive(false));
+          
             // You might want to move this button to the top or bottom later by adjusting its sibling index
         }
         hireDevOpsPanel.SetActive(false); // Start hidden
@@ -890,8 +890,18 @@ public class UIManager : MonoBehaviour
     
     private void SetupSummaryPhaseUI(Transform parent)
     {
-        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 100), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
         CreateText(summaryPhaseUIContainer.transform, "Summary Text", "", 24);
+        
+        GameObject textPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        UIPanel uiPanel = summaryPhaseUIContainer.GetComponent<UIPanel>();
+        summaryPhaseText = Instantiate(textPrefab, uiPanel.scrollContent).GetComponent<UITextArea>();
+       
+        uiPanel.AddButton("Continue", () =>
+        {
+            GameManager.Instance.GameLoopManager.ForceBeginBuildPhase();
+            summaryPhaseUIContainer.SetActive(false);
+        });
     }
     
     private void SetupInfrastructureDetailPanel(Transform parent)
@@ -1214,8 +1224,8 @@ public class UIManager : MonoBehaviour
     public void ShowSummaryUI(string text)
     {
         summaryPhaseUIContainer.SetActive(true);
-        timeControlsContainer.SetActive(false);
-        summaryPhaseUIContainer.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        // Add summary text
+        summaryPhaseText.textArea.text = text;
     }
 
     public void ShowAlert(string alertText)

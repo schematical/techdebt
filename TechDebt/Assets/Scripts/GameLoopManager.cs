@@ -25,7 +25,7 @@ public class GameLoopManager : MonoBehaviour
                     BeginSummaryPhase();
                 }
                 break;
-            case GameState.WaitingForNpcsToExpire:
+            /*case GameState.WaitingForNpcsToExpire:
                 bool allNpcsExpired = true;
                 foreach (var npc in GameManager.Instance.AllNpcs)
                 {
@@ -40,7 +40,7 @@ public class GameLoopManager : MonoBehaviour
                 {
                     BeginBuildPhase();
                 }
-                break;
+                break;*/
         }
     }
 
@@ -69,6 +69,20 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UpdateInfrastructureVisibility();
         GameManager.Instance.UIManager.ShowBuildUI();
+    }
+
+    public void ForceBeginBuildPhase()
+    {
+        Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
+        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        {
+            if (npc.gameObject.activeInHierarchy)
+            {
+                npc.transform.position = vector3;
+                npc.gameObject.SetActive(false);
+            }
+        }
+        BeginBuildPhase();
     }
 
     public void EndBuildPhaseAndStartPlayPhase()
