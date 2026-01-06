@@ -501,6 +501,8 @@ public class GameManager : MonoBehaviour
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "EnergyDrinkItem", Probability = 1});
+        
+        // prefabManager.Create("BossNPC", new Vector3());
     }
     
 	public float IncrStat(StatType stat, float value = 1)

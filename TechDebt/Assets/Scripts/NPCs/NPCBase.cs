@@ -30,7 +30,7 @@ public abstract class NPCBase : MonoBehaviour
     public const float TaskCheckInterval = 1f;
 
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 1.5f));
@@ -118,7 +118,7 @@ public abstract class NPCBase : MonoBehaviour
         }
     }
     
-    private void TryToFindWork()
+    protected virtual void TryToFindWork()
     {
         if (CurrentState != State.Idle) return;
         
@@ -129,10 +129,14 @@ public abstract class NPCBase : MonoBehaviour
         }
         else
         {
-            Wander();
+            TriggerDefaultBehavior();
         }
     }
-    
+
+    public virtual void TriggerDefaultBehavior()
+    {
+        Wander();
+    }
     public void Wander()
     {
         Vector3 wanderDestination = GetRandomWalkablePoint(transform.position, 10f);
