@@ -13,10 +13,9 @@ public class UIPanel : MonoBehaviour
     {
         if (closeButton != null)
         {
-            Debug.Log("Adding Listener");
+           
             closeButton.onClick.AddListener(() =>
             {
-                Debug.Log("Setting Active false");
                 gameObject.SetActive(false);
             });
         }

@@ -882,9 +882,17 @@ public class UIManager : MonoBehaviour
 
         totalDailyCostText = CreateText(buildPhaseUIContainer.transform, "DailyCostText", "Daily Cost: $0", 16);
         totalDailyCostText.color = Color.yellow;
+
+        UIPanel buildPanel = buildPhaseUIContainer.GetComponent<UIPanel>();
+        if (buildPanel == null)
+        {
+            Debug.LogError("Missing `buildPanel`");
+        }
+
+        buildPanel.AddButton("Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
+        buildPanel.AddButton("Start Day", () => GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase());
         
-        CreateButton(buildPhaseUIContainer.transform, "Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
-        CreateButton(buildPhaseUIContainer.transform, "Start Day", () => GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase());
+       
 
         // Hire DevOps Panel (Sub-panel)
         hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
@@ -1250,12 +1258,29 @@ public class UIManager : MonoBehaviour
         }
 
         var candidates = GameManager.Instance.GenerateNPCCandidates(3);
-        foreach (var candidate in candidates)
+        UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
+        if (hirePanel != null)
         {
-            CreateButton(hireDevOpsPanel.transform, $"Hire (${candidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
-                GameManager.Instance.HireNPCDevOps(candidate);
-                hireDevOpsPanel.SetActive(false);
-            });
+            foreach (var candidate in candidates)
+            {
+                NPCDevOpsData localCandidate = candidate; // Local copy for closure
+                hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
+                    GameManager.Instance.HireNPCDevOps(localCandidate);
+                    hireDevOpsPanel.SetActive(false);
+                });
+            }
+        }
+        else
+        {
+            Debug.LogError("HireDevOpsPanel is missing UIPanel component.");
+            foreach (var candidate in candidates)
+            {
+                NPCDevOpsData localCandidate = candidate; // Local copy for closure
+                CreateButton(hireDevOpsPanel.transform, $"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
+                    GameManager.Instance.HireNPCDevOps(localCandidate);
+                    hireDevOpsPanel.SetActive(false);
+                });
+            }
         }
     }
     #endregion
@@ -1271,8 +1296,7 @@ public class UIManager : MonoBehaviour
 
         if (uiPanelPrefab == null)
         {
-            Debug.LogError($"UIPanel prefab with name 'UIPanel' not found in PrefabManager. Cannot create UI Panel.");
-            return new GameObject(n); // Return an empty GameObject to prevent null reference errors
+            throw new SystemException("UIPanel prefab with name 'UIPanel' not found in PrefabManager. Cannot create UI Panel.");
         }
 
         var go = Instantiate(uiPanelPrefab, p);
@@ -1280,8 +1304,7 @@ public class UIManager : MonoBehaviour
         var rt = go.GetComponent<RectTransform>();
         if (rt == null)
         {
-            Debug.LogError($"Instantiated UIPanel prefab '{uiPanelPrefab.name}' is missing a RectTransform component. Cannot create UI Panel.");
-            return go; // Return the instantiated object, but it might not behave as expected
+            throw new SystemException("Instantiated UIPanel prefab '{uiPanelPrefab.name}' is missing a RectTransform component. Cannot create UI Panel.");
         }
 
         rt.sizeDelta = s; 
@@ -1292,25 +1315,28 @@ public class UIManager : MonoBehaviour
 
         // Ensure scrollContent has VerticalLayoutGroup and set spacing
         var uiPanel = go.GetComponent<UIPanel>();
-        if (uiPanel != null && uiPanel.scrollContent != null)
+        if (uiPanel == null || uiPanel.scrollContent == null)
         {
-            var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
-            if (vlg == null)
-            {
-                vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
-            }
-            vlg.spacing = 5; // Add 5 units of spacing between child elements
-            vlg.childControlWidth = true; // Ensure children control their own width
-            vlg.childForceExpandHeight = false; // Allow children to control their own height
-            
-            // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
-            var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
-            if (csf == null)
-            {
-                csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
-            }
-            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            throw new SystemException("UIPanel is null");
         }
+        
+        var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
+        if (vlg == null)
+        {
+            vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
+        }
+        vlg.spacing = 5; // Add 5 units of spacing between child elements
+        vlg.childControlWidth = true; // Ensure children control their own width
+        vlg.childForceExpandHeight = false; // Allow children to control their own height
+        
+        // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
+        var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
+        if (csf == null)
+        {
+            csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
+        }
+        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+    
         
         return go;
     }
