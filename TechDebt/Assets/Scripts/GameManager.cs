@@ -502,7 +502,7 @@ public class GameManager : MonoBehaviour
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "EnergyDrinkItem", Probability = 1});
         
-        // prefabManager.Create("BossNPC", new Vector3());
+        
     }
     
 	public float IncrStat(StatType stat, float value = 1)
@@ -657,6 +657,17 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
             }
         }
+        var door = GetInfrastructureInstanceByID("door");
+        if (door != null)
+        {
+            GameObject npcGO = prefabManager.Create("BossNPC", door.transform.position);
+            BossNPC bossNPC = npcGO.GetComponent<BossNPC>();
+            bossNPC.Initialize();
+        }
+        else
+        {
+            Debug.LogWarning("Could not find 'door' to spawn BossNPC.");
+        }
     }
 
     public bool AreUnlockConditionsMet(InfrastructureData infraData)
@@ -720,11 +731,20 @@ public class GameManager : MonoBehaviour
 
     public void HireNPCDevOps(NPCDevOpsData candidateData)
     {
-        int randomX = Random.Range(0, gridManager.gridWidth);
-        int randomY = Random.Range(0, gridManager.gridHeight);
-        Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(randomX, randomY, 0));
-        
-        GameObject npcObject = Instantiate(npcDevOpsPrefab, worldPos, Quaternion.identity);
+        var door = GetInfrastructureInstanceByID("door");
+        if (door == null)
+        {
+            Debug.LogError("Cannot hire NPC because 'door' infrastructure was not found.");
+            return;
+        }
+
+        GameObject npcObject = prefabManager.Create("NPCDevOps", door.transform.position);
+        if (npcObject == null)
+        {
+            Debug.LogError("Failed to create 'NPCDevOps' from PrefabManager. Is the prefab configured?");
+            return;
+        }
+
         NPCDevOps npc = npcObject.GetComponent<NPCDevOps>();
         npc.Initialize(candidateData);
         AllNpcs.Add(npc);

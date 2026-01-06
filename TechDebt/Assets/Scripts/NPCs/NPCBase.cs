@@ -20,6 +20,14 @@ public abstract class NPCBase : MonoBehaviour
 
     private List<Vector3> currentPath;
     private int pathIndex;
+    private SpriteRenderer _spriteRenderer;
+    private Vector3 _lastPosition;
+    
+    void Awake()
+    {
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _lastPosition = transform.position;
+    }
     
     public StatsCollection Stats = new StatsCollection();
     
@@ -243,5 +251,20 @@ public abstract class NPCBase : MonoBehaviour
                 OnDestinationReached?.Invoke();
             }
         }
+        
+        // --- Sprite Flipping Logic ---
+        float xMovement = transform.position.x - _lastPosition.x;
+        if (Mathf.Abs(xMovement) > 0.01f) // Add a small threshold to prevent flipping when idle
+        {
+            if (xMovement > 0)
+            {
+                _spriteRenderer.flipX = false; // Moving right
+            }
+            else
+            {
+                _spriteRenderer.flipX = true; // Moving left
+            }
+        }
+        _lastPosition = transform.position;
     }
 }
