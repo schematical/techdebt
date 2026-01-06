@@ -9,6 +9,23 @@ public class UIPanel : MonoBehaviour
     public Transform scrollContent;   // Assign the Transform for the scrollable content area
     public Button closeButton; // Assign the Button component for the panel's close button
 
+    void Awake()
+    {
+        if (closeButton != null)
+        {
+            Debug.Log("Adding Listener");
+            closeButton.onClick.AddListener(() =>
+            {
+                Debug.Log("Setting Active false");
+                gameObject.SetActive(false);
+            });
+        }
+        else
+        {
+            Debug.LogError("Missing `closeButton`");
+        }
+    }
+
     public UIButton AddButton(string buttonText, UnityAction onClickAction)
     {
         if (GameManager.Instance == null || GameManager.Instance.prefabManager == null)
