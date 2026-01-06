@@ -250,6 +250,19 @@ public class UIManager : MonoBehaviour
                     esGO.AddComponent<InputSystemUIInputModule>();
 
                 }
+                
+                var canvas = GetComponentInParent<Canvas>();
+                if (canvas != null)
+                {
+                    if (canvas.GetComponent<GraphicRaycaster>() == null)
+                    {
+                        canvas.gameObject.AddComponent<GraphicRaycaster>();
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("UIManager could not find a parent Canvas. UI clicks may not work.");
+                }
 
         
 
