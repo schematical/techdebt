@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI _infrastructureDetailText;
     private TextMeshProUGUI _eventLogText;
+    private TextMeshProUGUI _npcDetailText;
     private TextMeshProUGUI _alertText;
     private Button _planBuildButton;
     private Button _upsizeButton;
@@ -220,8 +221,11 @@ public class UIManager : MonoBehaviour
     {
         if (_selectedNPC == null) return;
 
-        var detailText = npcDetailPanel.GetComponentInChildren<TextMeshProUGUI>();
-        if (detailText == null) return;
+        if (_npcDetailText == null)
+        {
+            Debug.LogError("_npcDetailText is not assigned. Cannot update NPC Detail Panel.");
+            return;
+        }
         
         string content = $"<b>{_selectedNPC.name}</b>\n\n";
         content += "<b>Stats:</b>\n";
@@ -239,7 +243,7 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        detailText.text = content;
+        _npcDetailText.text = content;
     }
 
     public void SetupUIInfrastructure()
@@ -326,13 +330,28 @@ public class UIManager : MonoBehaviour
     private void SetupEventLogPanel(Transform parent)
     {
         eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
-        var vlg = eventLogPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 5;
-        vlg.childControlWidth = true;
+        UIPanel uiPanel = eventLogPanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("EventLogPanel is missing UIPanel component.");
+            return;
+        }
 
-        _eventLogText = CreateText(eventLogPanel.transform, "EventLogText", "", 14);
-        _eventLogText.alignment = TextAlignmentOptions.TopLeft;
+        uiPanel.titleText.text = "Event Log";
+        
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
+            _eventLogText = textAreaGO.GetComponent<UITextArea>().textArea;
+            _eventLogText.alignment = TextAlignmentOptions.TopLeft;
+        }
+        else
+        {
+            Debug.LogError("UITextArea prefab not found. Falling back to CreateText for EventLogPanel.");
+            _eventLogText = CreateText(uiPanel.scrollContent, "EventLogText", "", 14);
+            _eventLogText.alignment = TextAlignmentOptions.TopLeft;
+        }
         
         eventLogPanel.SetActive(false); // Start hidden
     }
@@ -406,13 +425,17 @@ public class UIManager : MonoBehaviour
     private void SetupNPCListPanel(Transform parent)
     {
         npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
-        var vlg = npcListPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 5;
-        vlg.childControlWidth = true;
-
-        CreateText(npcListPanel.transform, "Header", "Hired NPCs", 20);
-
+        UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
+        if (uiPanel != null)
+        {
+            uiPanel.titleText.text = "Hired NPCs";
+        }
+        else
+        {
+            Debug.LogError("NPCListPanel is missing UIPanel component. Title will not be set.");
+            CreateText(npcListPanel.transform, "Header", "Hired NPCs", 20);
+        }
+        
         // This panel will be populated at runtime
         npcListPanel.SetActive(false);
     }
@@ -422,56 +445,38 @@ public class UIManager : MonoBehaviour
     private void SetupNPCDetailPanel(Transform parent)
     {
         npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(225, 200));
-        var vlg = npcDetailPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 5;
-        vlg.childForceExpandHeight = false; // Allow buttons to control their own height
+        UIPanel uiPanel = npcDetailPanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("NPCDetailPanel is missing UIPanel component.");
+            return;
+        }
 
-        // Header container for title and close button
-        var headerContainer = new GameObject("HeaderContainer");
-        headerContainer.transform.SetParent(npcDetailPanel.transform, false);
-        var headerLayout = headerContainer.AddComponent<HorizontalLayoutGroup>();
-        headerLayout.childControlWidth = true;
-        headerLayout.childForceExpandWidth = true;
-        var headerRt = headerContainer.GetComponent<RectTransform>();
-        headerRt.sizeDelta = new Vector2(0, 30);
-        headerContainer.gameObject.AddComponent<LayoutElement>().preferredHeight = 30;
-        
-        CreateText(headerContainer.transform, "DetailText", "NPC Details", 14);
-        var closeButton = CreateButton(headerContainer.transform, "X", HideNPCDetail, new Vector2(25, 25));
-        var closeButtonLayout = closeButton.gameObject.AddComponent<LayoutElement>();
-        closeButtonLayout.minWidth = 25;
-        closeButtonLayout.flexibleWidth = 0;
+        uiPanel.titleText.text = "NPC Details";
+        uiPanel.closeButton.onClick.AddListener(HideNPCDetail);
 
-        // Content area - flexible height to fill space
-        var contentArea = new GameObject("ContentArea");
-        contentArea.transform.SetParent(npcDetailPanel.transform, false);
-        var contentVlg = contentArea.AddComponent<VerticalLayoutGroup>();
-        contentVlg.childControlWidth = true;
-        contentVlg.childForceExpandHeight = true;
-        contentArea.AddComponent<LayoutElement>().flexibleHeight = 1;
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
+            _npcDetailText = textAreaGO.GetComponent<UITextArea>().textArea;
+            _npcDetailText.alignment = TextAlignmentOptions.TopLeft;
+        }
+        else
+        {
+            Debug.LogError("UITextArea prefab not found. Falling back to CreateText for NPCDetailPanel.");
+            _npcDetailText = CreateText(uiPanel.scrollContent, "NPCDetailContentText", "", 14);
+            _npcDetailText.alignment = TextAlignmentOptions.TopLeft;
+        }
 
-        var detailText = CreateText(contentArea.transform, "NPCDetailContentText", "", 14);
-        detailText.alignment = TextAlignmentOptions.TopLeft; // Align text to top-left
-        detailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1; // Make text flexible
-
-        // Button container at the bottom
-        var bottomButtonContainer = new GameObject("BottomButtonContainer");
-        bottomButtonContainer.transform.SetParent(npcDetailPanel.transform, false);
-        var bottomHlg = bottomButtonContainer.AddComponent<HorizontalLayoutGroup>();
-        bottomHlg.spacing = 5;
-        bottomHlg.childControlWidth = true;
-        bottomHlg.childForceExpandWidth = true;
-        bottomButtonContainer.gameObject.AddComponent<LayoutElement>().preferredHeight = 40; // Fixed height for buttons
-        
-        _followButton = CreateButton(bottomButtonContainer.transform, "Follow", () =>
+        _followButton = uiPanel.AddButton("Follow", () =>
         {
             var cameraController = FindObjectOfType<CameraController>();
             if (cameraController != null && _selectedNPC != null)
             {
                 cameraController.StartFollowing(_selectedNPC.transform);
             }
-        });
+        }).button;
         
         npcDetailPanel.SetActive(false);
     }
@@ -490,18 +495,35 @@ public class UIManager : MonoBehaviour
     private void RefreshNPCListPanel()
     {
         if (npcListPanel == null) return;
-
-        // Clear existing NPCs, skipping the header
-        for (int i = npcListPanel.transform.childCount - 1; i > 0; i--)
+        
+        var npcs = FindObjectsOfType<NPCDevOps>();
+        UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
         {
-            Destroy(npcListPanel.transform.GetChild(i).gameObject);
+            Debug.LogError("NPCListPanel is missing UIPanel component. Cannot refresh list.");
+            // Fallback to old method if UIPanel is missing
+            for (int i = npcListPanel.transform.childCount - 1; i > 0; i--)
+            {
+                Destroy(npcListPanel.transform.GetChild(i).gameObject);
+            }
+            foreach (var npc in npcs)
+            {
+                NPCDevOps localNpc = npc;
+                CreateButton(npcListPanel.transform, npc.name, () => ShowNPCDetail(localNpc));
+            }
+            return;
         }
 
-        var npcs = FindObjectsOfType<NPCDevOps>();
+        // Clear existing NPCs
+        foreach (Transform child in uiPanel.scrollContent)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (var npc in npcs)
         {
             NPCDevOps localNpc = npc; // Local copy for the closure
-            CreateButton(npcListPanel.transform, npc.name, () => ShowNPCDetail(localNpc));
+            uiPanel.AddButton(npc.name, () => ShowNPCDetail(localNpc));
         }
     }
     
@@ -532,50 +554,21 @@ public class UIManager : MonoBehaviour
     private void SetupTaskListPanel(Transform parent)
     {
         taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(175, 0));
-        var vlg = taskListPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10, 10, 10, 10);
-        vlg.spacing = 5;
-        vlg.childControlWidth = true;
+        UIPanel uiPanel = taskListPanel.GetComponent<UIPanel>();
 
-        var header = CreateText(taskListPanel.transform, "Header", "Available Tasks", 20);
-        header.GetComponent<RectTransform>().sizeDelta = new Vector2(280, 30);
-
-        var scrollView = new GameObject("ScrollView");
-        scrollView.transform.SetParent(taskListPanel.transform, false);
-        var scrollRect = scrollView.AddComponent<ScrollRect>();
-        scrollRect.horizontal = false; // Disable horizontal scrolling
-        var scrollRt = scrollView.GetComponent<RectTransform>();
-        scrollRt.sizeDelta = new Vector2(280, 0); // Width is fixed, height will be flexible
-        
-        var viewport = new GameObject("Viewport");
-        viewport.transform.SetParent(scrollView.transform, false);
-        viewport.AddComponent<RectMask2D>();
-        var viewportImage = viewport.AddComponent<Image>();
-        viewportImage.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
-        scrollRect.viewport = viewport.GetComponent<RectTransform>();
-        
-        var contentGo = new GameObject("Content");
-        contentGo.transform.SetParent(viewport.transform, false);
-        taskListContent = contentGo.transform;
-        var contentVlg = contentGo.AddComponent<VerticalLayoutGroup>();
-        contentVlg.padding = new RectOffset(5,5,5,5);
-        contentVlg.spacing = 8;
-        contentVlg.childControlWidth = true;
-        var csf = contentGo.AddComponent<ContentSizeFitter>();
-        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        scrollRect.content = contentGo.GetComponent<RectTransform>();
-
-        // Set anchors for proper scrolling behavior
-        var viewportRt = viewport.GetComponent<RectTransform>();
-        viewportRt.anchorMin = Vector2.zero;
-        viewportRt.anchorMax = Vector2.one;
-        viewportRt.sizeDelta = Vector2.zero;
-
-        var contentRt = contentGo.GetComponent<RectTransform>();
-        contentRt.anchorMin = new Vector2(0, 1);
-        contentRt.anchorMax = new Vector2(1, 1);
-        contentRt.pivot = new Vector2(0.5f, 1);
-        contentRt.sizeDelta = new Vector2(0, 0); // Width is controlled by parent, height by fitter
+        if (uiPanel != null)
+        {
+            uiPanel.titleText.text = "Available Tasks";
+            taskListContent = uiPanel.scrollContent;
+        }
+        else
+        {
+            Debug.LogError("TaskListPanel is missing UIPanel component. Panel may not function correctly.");
+            // Fallback for content to not be null
+            var contentGO = new GameObject("Content");
+            contentGO.transform.SetParent(taskListPanel.transform, false);
+            taskListContent = contentGO.transform;
+        }
 
         taskListPanel.SetActive(false); // Start hidden
     }
