@@ -943,17 +943,34 @@ public class UIManager : MonoBehaviour
     
     private void SetupDebugPanel(Transform parent)
     {
-        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(200, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 200));
-        var vlg = debugPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10,10,10,10);
-        vlg.spacing = 5;
+        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(300, 500), new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -300));
+        UIPanel uiPanel = debugPanel.GetComponent<UIPanel>();
+        if(uiPanel == null) 
+        {
+            Debug.LogError("DebugPanel is missing UIPanel component.");
+            return;
+        }
+        uiPanel.titleText.text = "Debug";
 
         var debugPanelComponent = debugPanel.AddComponent<DebugPanel>();
-        debugPanelComponent.mouseCoordsText = CreateText(debugPanel.transform, "MouseCoordsText", "X: -, Y: -", 14);
-        debugPanelComponent.instaBuildButton = CreateButton(debugPanel.transform, "Insta-Build", () => {});
-        debugPanelComponent.instaResearchButton = CreateButton(debugPanel.transform, "Insta-Research", () => {});
-        debugPanelComponent.unlockAllTechButton = CreateButton(debugPanel.transform, "Unlock All Tech", () => {});
-        debugPanelComponent.triggerEventButton = CreateButton(debugPanel.transform, "Trigger Event", () => ToggleEventTriggerPanel());
+
+        // Create and assign UI elements using prefabs
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab != null)
+        {
+            GameObject textGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
+            debugPanelComponent.mouseCoordsText = textGO.GetComponent<UITextArea>().textArea;
+            debugPanelComponent.mouseCoordsText.text = "X: -, Y: -";
+        }
+        else
+        {
+            debugPanelComponent.mouseCoordsText = CreateText(uiPanel.scrollContent, "MouseCoordsText", "X: -, Y: -", 14);
+        }
+
+        debugPanelComponent.instaBuildButton = uiPanel.AddButton("Insta-Build", () => {}).button;
+        debugPanelComponent.instaResearchButton = uiPanel.AddButton("Insta-Research", () => {}).button;
+        debugPanelComponent.unlockAllTechButton = uiPanel.AddButton("Unlock All Tech", () => {}).button;
+        debugPanelComponent.triggerEventButton = uiPanel.AddButton("Trigger Event", () => ToggleEventTriggerPanel()).button;
 
         SetupEventTriggerPanel(parent);
         debugPanel.SetActive(false);
@@ -967,60 +984,31 @@ public class UIManager : MonoBehaviour
     private void SetupEventTriggerPanel(Transform parent)
     {
         eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 400), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(200, 0));
-        var vlg = eventTriggerPanel.AddComponent<VerticalLayoutGroup>();
-        vlg.padding = new RectOffset(10,10,10,10);
-        vlg.spacing = 5;
+        UIPanel uiPanel = eventTriggerPanel.GetComponent<UIPanel>();
+        if (uiPanel == null)
+        {
+            Debug.LogError("EventTriggerPanel is missing UIPanel component.");
+            return;
+        }
 
-        CreateText(eventTriggerPanel.transform, "Header", "Trigger Event", 18);
+        uiPanel.titleText.text = "Trigger Event";
         
-        // --- ScrollView Setup ---
-        var scrollViewGO = new GameObject("ScrollView");
-        scrollViewGO.transform.SetParent(eventTriggerPanel.transform, false);
-        var scrollRect = scrollViewGO.AddComponent<ScrollRect>();
-        scrollViewGO.AddComponent<LayoutElement>().flexibleHeight = 4; // 4 parts of the space
-
-        var viewportGO = new GameObject("Viewport");
-        viewportGO.transform.SetParent(scrollViewGO.transform, false);
-        var viewportRT = viewportGO.AddComponent<RectTransform>();
-        viewportRT.anchorMin = Vector2.zero;
-        viewportRT.anchorMax = Vector2.one;
-        viewportRT.sizeDelta = Vector2.zero;
-        viewportRT.pivot = new Vector2(0, 1);
-        viewportGO.AddComponent<RectMask2D>();
-        scrollRect.viewport = viewportRT;
-
-        var contentGO = new GameObject("Content");
-        contentGO.transform.SetParent(viewportGO.transform, false);
-        var contentRT = contentGO.AddComponent<RectTransform>();
-        contentRT.anchorMin = new Vector2(0, 1);
-        contentRT.anchorMax = new Vector2(1, 1);
-        contentRT.pivot = new Vector2(0.5f, 1);
-        contentRT.sizeDelta = new Vector2(0, 0);
-        var contentVLG = contentGO.AddComponent<VerticalLayoutGroup>();
-        contentVLG.padding = new RectOffset(5,5,5,5);
-        contentVLG.spacing = 5;
-        contentVLG.childControlWidth = true;
-        var csf = contentGO.AddComponent<ContentSizeFitter>();
-        csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        scrollRect.content = contentRT;
-
-
+        // Populate the scroll view with buttons for each event
         if (GameManager.Instance != null && GameManager.Instance.Events != null)
         {
             foreach (var gameEvent in GameManager.Instance.Events)
             {
                 EventBase localEvent = gameEvent; // Local copy for the closure
-                var button = CreateButton(contentGO.transform, gameEvent.GetType().Name, () => {
+                uiPanel.AddButton(gameEvent.GetType().Name, () => {
                     GameManager.Instance.TriggerEvent(localEvent);
                     eventTriggerPanel.SetActive(false); // Close panel after triggering
                 });
-                button.gameObject.AddComponent<LayoutElement>().minHeight = 30;
             }
         }
         
-        var backButton = CreateButton(eventTriggerPanel.transform, "< Back", () => eventTriggerPanel.SetActive(false));
-        backButton.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1; // 1 part of the space
-
+        // Add a "Back" button at the end
+        var backButton = uiPanel.AddButton("< Back", () => eventTriggerPanel.SetActive(false));
+        backButton.transform.SetAsLastSibling(); // Ensure it's at the bottom
 
         eventTriggerPanel.SetActive(false);
     }
