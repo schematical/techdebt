@@ -870,7 +870,11 @@ public class UIManager : MonoBehaviour
         }
 
         buildPanel.AddButton("Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
-        buildPanel.AddButton("Start Day", () => GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase());
+        buildPanel.AddButton("Start Day", () =>
+        {
+            GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase();
+            buildPanel.gameObject.SetActive(false);
+        });
 
         // Hire DevOps Panel (Sub-panel)
         hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);

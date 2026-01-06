@@ -46,6 +46,13 @@ public abstract class NPCBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (
+            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
+            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire)
+        {
+            return;
+        }
+
         HandleMovement();
 
         switch (CurrentState)
@@ -92,7 +99,7 @@ public abstract class NPCBase : MonoBehaviour
 
     public virtual bool CanAssignTask(NPCTask task)
     {
-        return task != null;
+        return false;
     }
 
     public void AssignTask(NPCTask newTask)
@@ -211,6 +218,10 @@ public abstract class NPCBase : MonoBehaviour
     public void EndDay()
     {
         CurrentState = State.Exiting;
+        if (CurrentTask != null)
+        {
+            CurrentTask.OnInterrupt();
+        }
         InfrastructureInstance doorInstance = GameManager.Instance.GetInfrastructureInstanceByID("door");
         if (doorInstance != null)
         {

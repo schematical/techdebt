@@ -29,4 +29,8 @@ public class BossNPC : NPCBase
         }
         
     }
+    public override bool CanAssignTask(NPCTask task)
+    {
+        return task.Role == NPCTask.TaskRole.Boss;
+    }
 }

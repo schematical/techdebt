@@ -27,7 +27,7 @@ public class GameLoopManager : MonoBehaviour
                 break;
             case GameState.WaitingForNpcsToExpire:
                 bool allNpcsExpired = true;
-                foreach (var npc in FindObjectsOfType<NPCDevOps>())
+                foreach (var npc in GameManager.Instance.AllNpcs)
                 {
                     if (npc.gameObject.activeInHierarchy)
                     {
@@ -52,6 +52,7 @@ public class GameLoopManager : MonoBehaviour
     }
     public void BeginBuildPhase()
     {
+        Debug.Log("Begin Build Phase");
         Time.timeScale = 1f;
         CurrentState = GameState.Build;
         currentDay++;
@@ -62,21 +63,7 @@ public class GameLoopManager : MonoBehaviour
             npc.OnBuildPhaseStart();
         }
 
-        if (currentDay > 1)
-        {
-            // --- Prepare Summary Text ---
-            float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
-            GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
-            string summaryText = $"End of Day {currentDay - 1}\n" +
-                                 $"Total Costs: -${totalDailyCost}";
-
-            if (GameManager.Instance.GetStat(StatType.Money) < 0)
-            {
-                summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
-                EndGame();
-            }
-            GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
-        }
+   
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
@@ -119,9 +106,24 @@ public class GameLoopManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         CurrentState = GameState.WaitingForNpcsToExpire;
+   
+        
+        // --- Prepare Summary Text ---
+        float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
+        GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
+        string summaryText = $"End of Day {currentDay - 1}\n" +
+                             $"Total Costs: -${totalDailyCost}";
+
+        if (GameManager.Instance.GetStat(StatType.Money) < 0)
+        {
+            summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
+            EndGame();
+        }
+        GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
+        
 
         // Assign "go to door" task to all NPCs
-        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        foreach (var npc in GameManager.Instance.AllNpcs)
         {
             if (npc.gameObject.activeInHierarchy)
             {

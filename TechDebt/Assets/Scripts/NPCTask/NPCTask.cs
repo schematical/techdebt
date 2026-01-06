@@ -10,7 +10,7 @@ public abstract class NPCTask
         Completed,
         Interrupted
     }
-
+    public enum TaskRole { DevOps, Boss, Dev, Intern}
     public Status CurrentStatus { get; protected set; } = Status.Pending;
     public int Priority { get; set; }
     public NPCBase AssignedNPC { get; private set; }
@@ -18,11 +18,12 @@ public abstract class NPCTask
 
     protected Vector3? destination;
     protected bool hasArrived;
-
+    public TaskRole Role { get; private set; } = TaskRole.DevOps;
     public NPCTask(Vector3? destination = null)
     {
         this.destination = destination;
-        this.hasArrived = false;
+        hasArrived = false;
+        
     }
 
     public virtual void OnInterrupt()
@@ -51,6 +52,7 @@ public abstract class NPCTask
     public void Unassign()
     {
         AssignedNPC = null;
+        hasArrived = false;
         CurrentStatus = Status.Pending;
     }
 
