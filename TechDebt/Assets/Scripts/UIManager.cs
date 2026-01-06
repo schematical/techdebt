@@ -758,7 +758,15 @@ public class UIManager : MonoBehaviour
 
     private void SetupStatsBar(Transform parent)
     {
-        statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(0, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
+        statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
+        
+        UIPanel uiPanel = statsBarUIContainer.GetComponent<UIPanel>();
+        if (uiPanel != null)
+        {
+            uiPanel.titleText.text = "";
+            if(uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
+        }
+
         var layout = statsBarUIContainer.AddComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(10, 10, 5, 5);
         layout.spacing = 15;
