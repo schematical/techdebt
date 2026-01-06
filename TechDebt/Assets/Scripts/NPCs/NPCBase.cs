@@ -37,11 +37,42 @@ public abstract class NPCBase : MonoBehaviour
     private float taskCheckTimer = 0f;
     public const float TaskCheckInterval = 1f;
 
+    private WordBubble _currentWordBubble;
+
 
     public virtual void Initialize()
     {
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 1.5f));
+    }
+
+    /// <summary>
+    /// Displays a word bubble above the NPC's head.
+    /// Closes any existing bubble first.
+    /// </summary>
+    /// <param name="message">The text to display.</param>
+    public void ShowWordBubble(string message)
+    {
+        if (_currentWordBubble != null)
+        {
+            _currentWordBubble.Close();
+        }
+
+        GameObject bubbleGO = GameManager.Instance.prefabManager.GetPrefab("WordBubble");
+        if (bubbleGO != null)
+        {
+            GameObject instance = Instantiate(bubbleGO, transform.position, Quaternion.identity);
+            _currentWordBubble = instance.GetComponent<WordBubble>();
+            if (_currentWordBubble != null)
+            {
+                _currentWordBubble.Setup(message, transform);
+            }
+            else
+            {
+                Debug.LogError("The 'WordBubble' prefab does not have a WordBubble component attached.", this);
+                Destroy(instance);
+            }
+        }
     }
 
     protected virtual void Update()
