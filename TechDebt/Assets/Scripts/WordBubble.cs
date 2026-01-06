@@ -6,13 +6,8 @@ public class WordBubble : MonoBehaviour
 {
     public TextMeshProUGUI textMesh;
     private Transform _targetToFollow;
-    private Vector3 _offset = new Vector3(0, 1.2f, 0); // Position bubble above the target
+    private Vector3 _offset = new Vector3(0, 0.5f, 0); // Position bubble above the target
 
-    /// <summary>
-    /// Initializes the word bubble with a message and a target to follow.
-    /// </summary>
-    /// <param name="message">The text to display in the bubble.</param>
-    /// <param name="target">The transform the bubble should follow.</param>
     public void Setup(string message, Transform target)
     {
         if (textMesh == null)
@@ -28,26 +23,22 @@ public class WordBubble : MonoBehaviour
         
         textMesh.text = message;
         _targetToFollow = target;
-        UpdatePosition();
 
-        // --- Debugging Logs ---
-        Canvas canvas = GetComponentInParent<Canvas>();
-        if (canvas != null)
+        // --- Debugging for SpriteRenderer ---
+        SpriteRenderer bubbleSprite = GetComponent<SpriteRenderer>();
+        if (bubbleSprite != null)
         {
-            Debug.Log($"[WordBubble Debug] Canvas Render Mode: {canvas.renderMode}", this);
-            Debug.Log($"[WordBubble Debug] Canvas Sorting Layer: {canvas.sortingLayerName}", this);
-            Debug.Log($"[WordBubble Debug] Canvas Sorting Order: {canvas.sortingOrder}", this);
+            Debug.Log($"[WordBubble Debug] SpriteRenderer component found. Is Enabled: {bubbleSprite.enabled}", this);
+            Debug.Log($"[WordBubble Debug] SpriteRenderer Color: {bubbleSprite.color}", this);
+            Debug.Log($"[WordBubble Debug] SpriteRenderer Sorting Layer: {bubbleSprite.sortingLayerName}", this);
+            Debug.Log($"[WordBubble Debug] SpriteRenderer Order in Layer: {bubbleSprite.sortingOrder}", this);
         }
         else
         {
-            Debug.LogWarning("[WordBubble Debug] No Canvas found in parents. This is likely the problem. It needs a Canvas to render.", this);
+            Debug.LogWarning("[WordBubble Debug] No SpriteRenderer component found on the WordBubble prefab's root.", this);
         }
 
-        Debug.Log($"[WordBubble Debug] Text Content: '{textMesh.text}'", this);
-        Debug.Log($"[WordBubble Debug] Text Color: {textMesh.color}", this);
-        Debug.Log($"[WordBubble Debug] Is TextMeshPro Active and Enabled: {textMesh.isActiveAndEnabled}", this);
-        Debug.Log($"[WordBubble Debug] Transform Scale: {transform.localScale}", this);
-        Debug.Log($"[WordBubble Debug] GameObject Active: {gameObject.activeInHierarchy}", this);
+        UpdatePosition();
     }
 
     private void Update()
@@ -56,7 +47,7 @@ public class WordBubble : MonoBehaviour
     }
     
     /// <summary>
-    /// Updates the bubble's position to follow its target.
+    /// Updates the bubble's position to follow its target in world space.
     /// </summary>
     private void UpdatePosition()
     {
