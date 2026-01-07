@@ -1335,11 +1335,14 @@ public class UIManager : MonoBehaviour
         portraitLayout.minWidth = 128;
         portraitLayout.minHeight = 128;
         _currentNPCDialogPanel._npcPortraitImage = portraitGO.AddComponent<Image>();
+        var arf = portraitGO.AddComponent<AspectRatioFitter>();
+        arf.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
 
         var textAndButtonContainer = new GameObject("TextAndButtonContainer", typeof(RectTransform));
         textAndButtonContainer.transform.SetParent(mainLayout.transform, false);
         var vlg = textAndButtonContainer.AddComponent<VerticalLayoutGroup>();
         vlg.spacing = 15;
+        vlg.padding.bottom = 10; // Add padding below the text/buttons
         textAndButtonContainer.AddComponent<LayoutElement>().flexibleWidth = 1;
 
         GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
@@ -1348,6 +1351,7 @@ public class UIManager : MonoBehaviour
             return;
         }
         GameObject dialogTextGO = Instantiate(textAreaPrefab, textAndButtonContainer.transform);
+        dialogTextGO.AddComponent<LayoutElement>().flexibleHeight = 1; // Make text area expand
         UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
         uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
         _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
