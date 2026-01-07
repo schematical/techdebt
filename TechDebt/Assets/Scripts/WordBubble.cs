@@ -6,7 +6,7 @@ public class WordBubble : MonoBehaviour
 {
     public TextMeshProUGUI textMesh;
     private Transform _targetToFollow;
-    private Vector3 _offset = new Vector3(0, 0.5f, 0); // Position bubble above the target
+    private Vector3 _offset = new Vector3(0, 1f, 0); // Position bubble above the target
 
     public void Setup(string message, Transform target)
     {
