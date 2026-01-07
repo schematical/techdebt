@@ -442,6 +442,7 @@ public Transform GetTransform()
 
             data.Stats.AddModifier(StatType.Infra_DailyCost, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
             data.Stats.AddModifier(StatType.Infra_MaxLoad, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+            data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
         }
 
         UpdateAppearance(); // Update visual state after resize

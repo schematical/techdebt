@@ -26,18 +26,6 @@ public class WordBubble : MonoBehaviour
 
         // --- Debugging for SpriteRenderer ---
         SpriteRenderer bubbleSprite = GetComponent<SpriteRenderer>();
-        if (bubbleSprite != null)
-        {
-            Debug.Log($"[WordBubble Debug] SpriteRenderer component found. Is Enabled: {bubbleSprite.enabled}", this);
-            Debug.Log($"[WordBubble Debug] SpriteRenderer Color: {bubbleSprite.color}", this);
-            Debug.Log($"[WordBubble Debug] SpriteRenderer Sorting Layer: {bubbleSprite.sortingLayerName}", this);
-            Debug.Log($"[WordBubble Debug] SpriteRenderer Order in Layer: {bubbleSprite.sortingOrder}", this);
-        }
-        else
-        {
-            Debug.LogWarning("[WordBubble Debug] No SpriteRenderer component found on the WordBubble prefab's root.", this);
-        }
-
         UpdatePosition();
     }
 
