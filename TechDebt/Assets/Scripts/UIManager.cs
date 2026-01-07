@@ -1341,8 +1341,9 @@ public class UIManager : MonoBehaviour
         var textAndButtonContainer = new GameObject("TextAndButtonContainer", typeof(RectTransform));
         textAndButtonContainer.transform.SetParent(mainLayout.transform, false);
         var vlg = textAndButtonContainer.AddComponent<VerticalLayoutGroup>();
-        vlg.spacing = 15;
-        vlg.padding.bottom = 10; // Add padding below the text/buttons
+        vlg.spacing = 10;
+        vlg.childControlHeight = false; // Take control of child heights
+        vlg.childForceExpandHeight = true; // Force them to fill the available space
         textAndButtonContainer.AddComponent<LayoutElement>().flexibleWidth = 1;
 
         GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
@@ -1351,13 +1352,39 @@ public class UIManager : MonoBehaviour
             return;
         }
         GameObject dialogTextGO = Instantiate(textAreaPrefab, textAndButtonContainer.transform);
-        dialogTextGO.AddComponent<LayoutElement>().flexibleHeight = 1; // Make text area expand
+
+        // --- CORRECT, NON-DESTRUCTIVE FIX ---
+        // Get the existing LayoutElement or add one if it doesn't exist.
+        LayoutElement layoutElement = dialogTextGO.GetComponent<LayoutElement>();
+        if (layoutElement == null)
+        {
+            layoutElement = dialogTextGO.AddComponent<LayoutElement>();
+        }
+        // Configure the layout element to be flexible.
+        layoutElement.flexibleHeight = 1;
+        
         UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
         uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
+        
+        var textRect = uiTextArea.textArea.rectTransform;
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.sizeDelta = Vector2.zero;
+
         _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
-        
-        // The NPCDialogPanel will now add its buttons directly to the textAndButtonContainer.
-        
+
+        // Create a dedicated container for buttons and give it a fixed minimum height
+        var buttonContainerGO = new GameObject("ButtonContainer", typeof(RectTransform));
+        buttonContainerGO.transform.SetParent(textAndButtonContainer.transform, false);
+        var buttonHLG = buttonContainerGO.AddComponent<HorizontalLayoutGroup>();
+        buttonHLG.spacing = 10;
+        buttonHLG.childAlignment = TextAnchor.MiddleRight;
+        var buttonContainerLayout = buttonContainerGO.AddComponent<LayoutElement>();
+        buttonContainerLayout.minHeight = 40; // Reserve 40 pixels for the buttons
+        buttonContainerLayout.flexibleHeight = 0; // Don't allow the button container to expand
+
+        _currentNPCDialogPanel._buttonContainer = buttonContainerGO.transform;
+
         panelContainer.SetActive(false);
     }
     
