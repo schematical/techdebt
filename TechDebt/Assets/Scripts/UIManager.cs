@@ -1,4 +1,5 @@
 // UIManager.cs
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -16,8 +17,14 @@ using Events;
 public class UIManager : MonoBehaviour
 
 {
-    public enum TimeState { Paused, Normal, Fast, SuperFast }
-    
+    public enum TimeState
+    {
+        Paused,
+        Normal,
+        Fast,
+        SuperFast
+    }
+
     // UI Containers
     // private Canvas mainCanvas;
     private GameObject buildPhaseUIContainer;
@@ -38,7 +45,7 @@ public class UIManager : MonoBehaviour
     private GameObject eventTriggerPanel;
     private UITextArea summaryPhaseText;
     private NPCDialogPanel _currentNPCDialogPanel;
-    
+
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI _infrastructureDetailText;
@@ -52,14 +59,14 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI totalDailyCostText;
     private TextMeshProUGUI gameStateText;
     private TextMeshProUGUI clockText;
-    
+
     // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
     private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
     private Color inactiveColor = Color.gray;
     private TimeState _currentTimeState = TimeState.Normal;
     private TimeState _timeStateBeforePause = TimeState.Normal;
-    
+
     // Task List
     private Dictionary<NPCTask, GameObject> _taskUIMap = new Dictionary<NPCTask, GameObject>();
     private Transform taskListContent;
@@ -71,13 +78,23 @@ public class UIManager : MonoBehaviour
 
     // Tech Tree
     private Transform techTreeContent;
-    
+
     private InfrastructureInstance _selectedInfrastructure;
     private Items.ItemBase _selectedItem;
     private NPCDevOps _selectedNPC;
 
+    private bool _isInitialized = false;
+
     void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (_isInitialized) return;
+        _isInitialized = true;
+
         SetupTimeControls(transform);
         SetupStatsBar(transform);
         SetupLeftMenuBar(transform);
@@ -94,10 +111,12 @@ public class UIManager : MonoBehaviour
         SetupDebugPanel(transform);
         SetupEventTriggerPanel(transform);
         SetupNPCDialogPanel(transform);
-        
+        SetupSummaryPhaseUI(transform); // This was missing from Start()
+
         // Initial state
         UpdateTimeControlsUI();
-        GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged += (value) => UpdateStatText(StatType.Money, value);
+        GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
+            (value) => UpdateStatText(StatType.Money, value);
 
         // Hide panels that shouldn't be visible at start
         if (techTreePanel != null) techTreePanel.SetActive(false);
@@ -105,6 +124,44 @@ public class UIManager : MonoBehaviour
         if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
         if (taskListPanel != null) taskListPanel.SetActive(false);
         if (infrastructureDetailPanel != null) infrastructureDetailPanel.SetActive(false);
+        if (buildPhaseUIContainer != null) buildPhaseUIContainer.SetActive(false);
+        if (summaryPhaseUIContainer != null) summaryPhaseUIContainer.SetActive(false);
+        if (timeControlsContainer != null) timeControlsContainer.SetActive(false);
+    }
+
+    public void SetupUIInfrastructure()
+    {
+        if (FindObjectOfType<EventSystem>() == null)
+        {
+            var esGO = new GameObject("EventSystem");
+            esGO.AddComponent<EventSystem>();
+            esGO.AddComponent<InputSystemUIInputModule>();
+        }
+
+        var canvas = GetComponentInParent<Canvas>();
+        if (canvas != null)
+        {
+            if (canvas.GetComponent<GraphicRaycaster>() == null)
+            {
+                canvas.gameObject.AddComponent<GraphicRaycaster>();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("UIManager could not find a parent Canvas. UI clicks may not work.");
+        }
+
+        if (Camera.main.GetComponent<PhysicsRaycaster>() == null)
+        {
+            Debug.LogWarning(
+                "Main Camera is missing a PhysicsRaycaster component. Clicking on NPCs or other game objects may not work. Please add one in the Unity Editor.");
+        }
+
+        // Initialize the UI
+        Initialize();
+
+        // Update any displays that need it after initialization
+        UpdateStatsDisplay();
     }
 
     public void UpdateStatText(StatType statType, float value)
@@ -114,28 +171,30 @@ public class UIManager : MonoBehaviour
             statTexts[statType].text = $"{statType}: {value:F2}";
         }
     }
-    
+
     private void UpdateTimeControlsUI()
     {
         if (superFastForwardButton == null) return;
         pauseButton.GetComponent<Image>().color = _currentTimeState == TimeState.Paused ? activeColor : inactiveColor;
         playButton.GetComponent<Image>().color = _currentTimeState == TimeState.Normal ? activeColor : inactiveColor;
-        fastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
-        superFastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
+        fastForwardButton.GetComponent<Image>().color =
+            _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
+        superFastForwardButton.GetComponent<Image>().color =
+            _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
     }
 
-    void OnEnable() 
-    { 
-        GameManager.OnStatsChanged += UpdateStatsDisplay; 
+    void OnEnable()
+    {
+        GameManager.OnStatsChanged += UpdateStatsDisplay;
         GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
         GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
         GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
         GameManager.OnCurrentEventsChanged += UpdateEventLog;
     }
 
-    void OnDisable() 
+    void OnDisable()
     {
-        GameManager.OnStatsChanged -= UpdateStatsDisplay; 
+        GameManager.OnStatsChanged -= UpdateStatsDisplay;
         GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
         GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
         GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
@@ -152,13 +211,13 @@ public class UIManager : MonoBehaviour
             UpdateEventLog();
         }
     }
-    
+
     private void UpdateEventLog()
     {
         if (_eventLogText == null || !eventLogPanel.activeSelf) return;
 
         var currentEvents = GameManager.Instance.CurrentEvents;
-        
+
         string log = "<b>Current Events:</b>\n";
         if (currentEvents.Count == 0)
         {
@@ -171,27 +230,17 @@ public class UIManager : MonoBehaviour
                 log += $"- {ev.GetType().Name.Replace("Event", "")}\n";
             }
         }
+
         _eventLogText.text = log;
     }
 
-    
-
-    // An event handler to refresh the panel if it's active when a tech is unlocked.
-
     public void RefreshTechTreePanelOnEvent(Technology tech)
-
     {
-
         if (techTreePanel != null && techTreePanel.activeSelf)
-
         {
-
             RefreshTechTreePanel();
-
         }
-
     }
-    
 
     void Update()
     {
@@ -200,7 +249,8 @@ public class UIManager : MonoBehaviour
             TogglePause();
         }
 
-        if (taskListPanel != null && taskListPanel.activeSelf && Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
+        if (taskListPanel != null && taskListPanel.activeSelf &&
+            Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
         {
             RefreshTaskList();
             lastTaskListUpdateTime = Time.time;
@@ -218,6 +268,7 @@ public class UIManager : MonoBehaviour
         {
             UpdateInfrastructureDetailPanel();
         }
+
         if (npcDetailPanel != null && npcDetailPanel.activeSelf)
         {
             UpdateNPCDetailPanel();
@@ -227,7 +278,7 @@ public class UIManager : MonoBehaviour
     private void UpdateInfrastructureDetailPanel()
     {
         if (_selectedInfrastructure == null) return;
-        
+
         string content = $"<b>{_selectedInfrastructure.data.DisplayName}</b>\n";
         content += $"Type: {_selectedInfrastructure.data.Type}\n";
         content += $"State: {_selectedInfrastructure.data.CurrentState}\n\n";
@@ -245,7 +296,7 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        
+
         content += "\n<b>Connections:</b>\n";
         if (_selectedInfrastructure.CurrConnections.Count == 0)
         {
@@ -273,7 +324,7 @@ public class UIManager : MonoBehaviour
             Debug.LogError("_npcDetailText is not assigned. Cannot update NPC Detail Panel.");
             return;
         }
-        
+
         string content = $"<b>{_selectedNPC.name}</b>\n\n";
         content += "<b>Stats:</b>\n";
 
@@ -290,93 +341,16 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
         _npcDetailText.text = content;
     }
 
-    public void SetupUIInfrastructure()
-
-    {
-
-                if (FindObjectOfType<EventSystem>() == null)
-
-                {
-
-                    var esGO = new GameObject("EventSystem");
-
-                    esGO.AddComponent<EventSystem>();
-
-                    esGO.AddComponent<InputSystemUIInputModule>();
-
-                }
-                
-                var canvas = GetComponentInParent<Canvas>();
-                if (canvas != null)
-                {
-                    if (canvas.GetComponent<GraphicRaycaster>() == null)
-                    {
-                        canvas.gameObject.AddComponent<GraphicRaycaster>();
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("UIManager could not find a parent Canvas. UI clicks may not work.");
-                }
-
-        
-
-                if (Camera.main.GetComponent<PhysicsRaycaster>() == null)
-
-                {
-
-                    Debug.LogWarning("Main Camera is missing a PhysicsRaycaster component. Clicking on NPCs or other game objects may not work. Please add one in the Unity Editor.");
-
-                }
-
-
-
-
-
-        // The CanvasScaler and GraphicRaycaster should already be on the GameObject in the Editor.
-
-        // If they need to be added programmatically, add them here to the mainCanvas.gameObject.
-
-        
-
-        SetupStatsBar(transform);
-
-        SetupBuildPhaseUI(transform);
-
-        SetupSummaryPhaseUI(transform);
-
-        SetupInfrastructureDetailPanel(transform);
-
-        SetupTimeControls(transform);
-
-        SetupLeftMenuBar(transform);
-
-        SetupAlertPanel(transform);
-        SetupDebugPanel(transform);
-        SetupItemDetailPanel(transform);
-        
-        
-
-        // Initial state
-
-        buildPhaseUIContainer.SetActive(false);
-
-        summaryPhaseUIContainer.SetActive(false);
-
-        timeControlsContainer.SetActive(false);
-
-        UpdateStatsDisplay();
-
-    }
-    
     #region UI Setup Methods
 
     private void SetupEventLogPanel(Transform parent)
     {
-        eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(250, 0));
+        eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0),
+            new Vector2(0, 1), new Vector2(250, 0));
         UIPanel uiPanel = eventLogPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -385,7 +359,7 @@ public class UIManager : MonoBehaviour
         }
 
         uiPanel.titleText.text = "Event Log";
-        
+
         GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
         if (textAreaPrefab != null)
         {
@@ -399,13 +373,14 @@ public class UIManager : MonoBehaviour
             _eventLogText = CreateText(uiPanel.scrollContent, "EventLogText", "", 14);
             _eventLogText.alignment = TextAlignmentOptions.TopLeft;
         }
-        
+
         eventLogPanel.SetActive(false); // Start hidden
     }
-    
+
     private void SetupAlertPanel(Transform parent)
     {
-        alertPanel = CreateUIPanel(parent, "AlertPanel", new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        alertPanel = CreateUIPanel(parent, "AlertPanel", new Vector2(400, 200), new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), Vector2.zero);
         UIPanel uiPanel = alertPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -436,16 +411,18 @@ public class UIManager : MonoBehaviour
             _alertText.enableWordWrapping = true;
             _alertText.alignment = TextAlignmentOptions.TopLeft;
         }
-        
+
         var okButton = uiPanel.AddButton("OK", () => alertPanel.SetActive(false));
         var layoutElement = okButton.gameObject.AddComponent<LayoutElement>();
         layoutElement.minHeight = 40;
 
         alertPanel.SetActive(false);
     }
+
     private void SetupLeftMenuBar(Transform parent)
     {
-        leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(100, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(50, 0));
+        leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(100, 0), new Vector2(0, 0), new Vector2(0, 1),
+            new Vector2(50, 0));
         UIPanel uiPanel = leftMenuBar.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -454,13 +431,14 @@ public class UIManager : MonoBehaviour
         }
 
         uiPanel.titleText.text = "";
-        if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false); // No close button for main menu
+        if (uiPanel.closeButton != null)
+            uiPanel.closeButton.gameObject.SetActive(false); // No close button for main menu
 
         uiPanel.AddButton("Tasks", ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("Tech", ToggleTechTreePanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("NPCs", ToggleNPCListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("Events", ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-        
+
         // --- Setup all associated panels ---
         SetupTaskListPanel(parent);
         SetupTechTreePanel(parent);
@@ -468,10 +446,11 @@ public class UIManager : MonoBehaviour
         SetupNPCDetailPanel(parent);
         SetupEventLogPanel(parent);
     }
-    
+
     private void SetupNPCListPanel(Transform parent)
     {
-        npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(250, 0));
+        npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1),
+            new Vector2(250, 0));
         UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
         if (uiPanel != null)
         {
@@ -482,16 +461,18 @@ public class UIManager : MonoBehaviour
             Debug.LogError("NPCListPanel is missing UIPanel component. Title will not be set.");
             CreateText(npcListPanel.transform, "Header", "Hired NPCs", 20);
         }
-        
+
         // This panel will be populated at runtime
         npcListPanel.SetActive(false);
     }
-    
+
     private Button _followButton;
 
     private void SetupNPCDetailPanel(Transform parent)
     {
-        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 200));
+      
+        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0),
+            new Vector2(0, 0), new Vector2(250, 200));
         UIPanel uiPanel = npcDetailPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -524,7 +505,7 @@ public class UIManager : MonoBehaviour
                 cameraController.StartFollowing(_selectedNPC.transform);
             }
         }).button;
-        
+
         npcDetailPanel.SetActive(false);
     }
 
@@ -542,7 +523,7 @@ public class UIManager : MonoBehaviour
     private void RefreshNPCListPanel()
     {
         if (npcListPanel == null) return;
-        
+
         var npcs = FindObjectsOfType<NPCDevOps>();
         UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
@@ -553,11 +534,13 @@ public class UIManager : MonoBehaviour
             {
                 Destroy(npcListPanel.transform.GetChild(i).gameObject);
             }
+
             foreach (var npc in npcs)
             {
                 NPCDevOps localNpc = npc;
                 CreateButton(npcListPanel.transform, npc.name, () => ShowNPCDetail(localNpc));
             }
+
             return;
         }
 
@@ -573,7 +556,7 @@ public class UIManager : MonoBehaviour
             uiPanel.AddButton(npc.name, () => ShowNPCDetail(localNpc));
         }
     }
-    
+
     public void ShowNPCDetail(NPCDevOps npc)
     {
         _selectedNPC = npc;
@@ -596,11 +579,12 @@ public class UIManager : MonoBehaviour
         if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
         if (eventLogPanel != null) eventLogPanel.SetActive(false);
     }
-    
-    
+
+
     private void SetupTaskListPanel(Transform parent)
     {
-        taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(250, 0));
+        taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0),
+            new Vector2(0, 1), new Vector2(250, 0));
         UIPanel uiPanel = taskListPanel.GetComponent<UIPanel>();
 
         if (uiPanel != null)
@@ -620,7 +604,7 @@ public class UIManager : MonoBehaviour
         taskListPanel.SetActive(false); // Start hidden
     }
 
-    
+
     private void ToggleTaskListPanel()
     {
         bool wasActive = taskListPanel.activeSelf;
@@ -636,14 +620,15 @@ public class UIManager : MonoBehaviour
     private void SetupTechTreePanel(Transform parent)
     {
         // Panel stretches from top to bottom, anchored to the left.
-        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0), new Vector2(0, 1), new Vector2(300, 0));
+        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0),
+            new Vector2(0, 1), new Vector2(300, 0));
         UIPanel uiPanel = techTreePanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
             Debug.LogError("TechTreePanel is missing UIPanel component.");
             return;
         }
-        
+
         uiPanel.titleText.text = "Technology Tree";
         techTreeContent = uiPanel.scrollContent; // The content area is already set up in the prefab
 
@@ -660,6 +645,7 @@ public class UIManager : MonoBehaviour
             RefreshTechTreePanel();
         }
     }
+
     private void RefreshTechTreePanel()
     {
         if (techTreeContent == null)
@@ -672,6 +658,7 @@ public class UIManager : MonoBehaviour
         {
             Destroy(techTreeContent.GetChild(i).gameObject);
         }
+
         _techTreeItems.Clear();
 
         if (GameManager.Instance == null || GameManager.Instance.AllTechnologies == null) return;
@@ -686,139 +673,149 @@ public class UIManager : MonoBehaviour
         foreach (var tech in GameManager.Instance.AllTechnologies)
         {
             Technology localTech = tech; // Create a local copy for the closure
-            
-            var techPanelGO = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 150), Vector2.zero, Vector2.one, Vector2.zero);
+
+            var techPanelGO = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 150),
+                Vector2.zero, Vector2.one, Vector2.zero);
             UIPanel techPanel = techPanelGO.GetComponent<UIPanel>();
             var techItemUI = techPanelGO.AddComponent<TechTreeItemUI>();
 
-            if(techPanel.closeButton != null) techPanel.closeButton.gameObject.SetActive(false);
+            if (techPanel.closeButton != null) techPanel.closeButton.gameObject.SetActive(false);
 
             var descriptionGO = Instantiate(textAreaPrefab, techPanel.scrollContent);
             var requirementsGO = Instantiate(textAreaPrefab, techPanel.scrollContent);
-            
+
             techItemUI.titleText = techPanel.titleText;
             techItemUI.descriptionText = descriptionGO.GetComponent<UITextArea>().textArea;
             techItemUI.requirementsText = requirementsGO.GetComponent<UITextArea>().textArea;
-            techItemUI.researchButton = techPanel.AddButton("Research", () => {}); // Action is now handled in TechTreeItemUI
-            
+            techItemUI.researchButton =
+                techPanel.AddButton("Research", () => { }); // Action is now handled in TechTreeItemUI
+
             techItemUI.Initialize(localTech);
             _techTreeItems.Add(techItemUI);
         }
     }
-            
-            public void ForceRefreshTechTreePanel()
+
+    public void ForceRefreshTechTreePanel()
+    {
+        RefreshTechTreePanel();
+    }
+
+    private void RefreshTaskList()
+    {
+        if (taskListContent == null)
+        {
+            var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
+            if (contentTransform != null) taskListContent = contentTransform;
+            else
             {
-                RefreshTechTreePanel();
+                Debug.LogError("Could not find taskListContent transform!");
+                return;
             }
-        
-            private void RefreshTaskList()
+        }
+
+        if (GameManager.Instance?.AvailableTasks == null) return;
+
+        var currentTasks =
+            new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentStatus != Status.Completed));
+        var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
+
+        foreach (var task in tasksToRemove)
+        {
+            Destroy(_taskUIMap[task]);
+            _taskUIMap.Remove(task);
+        }
+
+        var sortedTasks = GameManager.Instance.AvailableTasks
+            .OrderByDescending(t => t.Priority)
+            .ToList();
+
+        for (int i = 0; i < sortedTasks.Count; i++)
+        {
+            var task = sortedTasks[i];
+            NPCTask localTask = task;
+
+            GameObject taskEntryPanel;
+            if (!_taskUIMap.ContainsKey(task))
             {
-                if (taskListContent == null)
+                taskEntryPanel = new GameObject($"TaskEntry_{task.GetHashCode()}");
+                taskEntryPanel.transform.SetParent(taskListContent, false);
+                var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
+                hlg.spacing = 5;
+                hlg.childControlWidth = true;
+                hlg.childForceExpandWidth = true;
+                var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
+                taskEntryLayout.minHeight = 80;
+
+                var textEntry = CreateText(taskEntryPanel.transform, "TaskText", "", 14);
+                var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
+                textLayoutElement.flexibleWidth = 1;
+                textEntry.alignment = TextAlignmentOptions.Left;
+                textEntry.enableAutoSizing = false;
+                textEntry.enableWordWrapping = true;
+
+                var buttonContainer = new GameObject("ButtonContainer");
+                buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
+                var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
+                buttonVLG.spacing = 2;
+                var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
+                buttonContainerLayout.minWidth = 45;
+                buttonContainerLayout.flexibleWidth = 0;
+
+                var upButton = CreateButton(buttonContainer.transform, "↑", () =>
                 {
-                    var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
-                    if (contentTransform != null) taskListContent = contentTransform;
-                    else { Debug.LogError("Could not find taskListContent transform!"); return; }
-                }
+                    GameManager.Instance.IncreaseTaskPriority(localTask);
+                    RefreshTaskList();
+                }, new Vector2(40, 40));
+                upButton.name = "UpButton";
 
-                if (GameManager.Instance?.AvailableTasks == null) return;
-
-                var currentTasks = new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentStatus != Status.Completed));
-                var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
-
-                foreach (var task in tasksToRemove)
+                var downButton = CreateButton(buttonContainer.transform, "↓", () =>
                 {
-                    Destroy(_taskUIMap[task]);
-                    _taskUIMap.Remove(task);
-                }
+                    GameManager.Instance.DecreaseTaskPriority(localTask);
+                    RefreshTaskList();
+                }, new Vector2(40, 40));
+                downButton.name = "DownButton";
 
-                var sortedTasks = GameManager.Instance.AvailableTasks
-                    .OrderByDescending(t => t.Priority)
-                    .ToList();
-
-                for (int i = 0; i < sortedTasks.Count; i++)
-                {
-                    var task = sortedTasks[i];
-                    NPCTask localTask = task; 
-
-                    GameObject taskEntryPanel;
-                    if (!_taskUIMap.ContainsKey(task))
-                    {
-                        taskEntryPanel = new GameObject($"TaskEntry_{task.GetHashCode()}");
-                        taskEntryPanel.transform.SetParent(taskListContent, false);
-                        var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
-                        hlg.spacing = 5;
-                        hlg.childControlWidth = true;
-                        hlg.childForceExpandWidth = true;
-                        var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
-                        taskEntryLayout.minHeight = 80;
-
-                        var textEntry = CreateText(taskEntryPanel.transform, "TaskText", "", 14);
-                        var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
-                        textLayoutElement.flexibleWidth = 1;
-                        textEntry.alignment = TextAlignmentOptions.Left;
-                        textEntry.enableAutoSizing = false;
-                        textEntry.enableWordWrapping = true;
-                        
-                        var buttonContainer = new GameObject("ButtonContainer");
-                        buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
-                        var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
-                        buttonVLG.spacing = 2;
-                        var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
-                        buttonContainerLayout.minWidth = 45;
-                        buttonContainerLayout.flexibleWidth = 0;
-
-                        var upButton = CreateButton(buttonContainer.transform, "↑", () => {
-                            GameManager.Instance.IncreaseTaskPriority(localTask);
-                            RefreshTaskList(); 
-                        }, new Vector2(40, 40));
-                        upButton.name = "UpButton";
-
-                        var downButton = CreateButton(buttonContainer.transform, "↓", () => {
-                            GameManager.Instance.DecreaseTaskPriority(localTask);
-                            RefreshTaskList();
-                        }, new Vector2(40, 40));
-                        downButton.name = "DownButton";
-
-                        _taskUIMap[task] = taskEntryPanel;
-                    }
-
-                    taskEntryPanel = _taskUIMap[task];
-                    taskEntryPanel.transform.SetSiblingIndex(i);
-
-                    var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
-                    string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
-                    string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
-                    string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
-                    if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
-                    taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
-                    textComponent.text = taskText;
-
-                    var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
-                    var upButtonComponent = buttons.FirstOrDefault(b => b.name == "UpButton");
-                    if (upButtonComponent != null) upButtonComponent.interactable = (i > 0);
-
-                    var downButtonComponent = buttons.FirstOrDefault(b => b.name == "DownButton");
-                    if (downButtonComponent != null) downButtonComponent.interactable = (i < sortedTasks.Count - 1);
-                }
+                _taskUIMap[task] = taskEntryPanel;
             }
+
+            taskEntryPanel = _taskUIMap[task];
+            taskEntryPanel.transform.SetSiblingIndex(i);
+
+            var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
+            string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
+            string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
+            string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
+            if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
+            taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
+            textComponent.text = taskText;
+
+            var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
+            var upButtonComponent = buttons.FirstOrDefault(b => b.name == "UpButton");
+            if (upButtonComponent != null) upButtonComponent.interactable = (i > 0);
+
+            var downButtonComponent = buttons.FirstOrDefault(b => b.name == "DownButton");
+            if (downButtonComponent != null) downButtonComponent.interactable = (i < sortedTasks.Count - 1);
+        }
+    }
 
 
     private void SetupStatsBar(Transform parent)
     {
         statTexts.Clear();
-        statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -20));
-        
+        statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1),
+            new Vector2(1, 1), new Vector2(0, -20));
+
         UIPanel uiPanel = statsBarUIContainer.GetComponent<UIPanel>();
         if (uiPanel != null)
         {
             uiPanel.titleText.text = "";
-            if(uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
+            if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
         }
 
         var layout = statsBarUIContainer.AddComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(10, 10, 5, 5);
         layout.spacing = 15;
-        
+
         gameStateText = CreateText(statsBarUIContainer.transform, "GameStateText", "State: Initializing", 18);
         gameStateText.color = Color.cyan;
 
@@ -835,7 +832,7 @@ public class UIManager : MonoBehaviour
             StatType.Difficulty,
             StatType.PRR
         };
-        
+
         foreach (StatType type in statsToDisplay)
         {
             statTexts.Add(type, CreateText(statsBarUIContainer.transform, type.ToString(), $"{type}: 0", 18));
@@ -844,14 +841,15 @@ public class UIManager : MonoBehaviour
 
     private void SetupBuildPhaseUI(Transform parent)
     {
-        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0), new Vector2(0, 0), new Vector2(210, 90));
+        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0),
+            new Vector2(0, 0), new Vector2(210, 90));
         UIPanel buildPanel = buildPhaseUIContainer.GetComponent<UIPanel>();
         if (buildPanel == null)
         {
             Debug.LogError("BuildPhaseUIContainer is missing UIPanel component.");
             return;
         }
-        
+
         buildPanel.titleText.text = "Build Phase";
 
         GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
@@ -879,36 +877,40 @@ public class UIManager : MonoBehaviour
         });
 
         // Hire DevOps Panel (Sub-panel)
-        hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), Vector2.zero);
         UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
         if (hirePanel != null)
         {
             hirePanel.titleText.text = "Hire DevOps";
-          
+
             // You might want to move this button to the top or bottom later by adjusting its sibling index
         }
+
         hireDevOpsPanel.SetActive(false); // Start hidden
     }
-    
+
     private void SetupSummaryPhaseUI(Transform parent)
     {
-        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 200),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
         CreateText(summaryPhaseUIContainer.transform, "Summary Text", "", 24);
-        
+
         GameObject textPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
         UIPanel uiPanel = summaryPhaseUIContainer.GetComponent<UIPanel>();
         summaryPhaseText = Instantiate(textPrefab, uiPanel.scrollContent).GetComponent<UITextArea>();
-       
+
         uiPanel.AddButton("Continue", () =>
         {
             GameManager.Instance.GameLoopManager.ForceBeginBuildPhase();
             summaryPhaseUIContainer.SetActive(false);
         });
     }
-    
+
     private void SetupInfrastructureDetailPanel(Transform parent)
     {
-        GameObject panelGO = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400), new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 200));
+        GameObject panelGO = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400),
+            new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 200));
         infrastructureDetailPanel = panelGO;
         UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
 
@@ -945,27 +947,36 @@ public class UIManager : MonoBehaviour
             _infrastructureDetailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
         }
 
-        _planBuildButton = uiPanel.AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure)).button;
+        _planBuildButton = uiPanel
+            .AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure)).button;
         _planBuildButton.gameObject.SetActive(false);
 
-        _upsizeButton = uiPanel.AddButton("Upsize", () => { /* Temp action */ }).button;
-        _downsizeButton = uiPanel.AddButton("Downsize", () => { /* Temp action */ }).button;
+        _upsizeButton = uiPanel.AddButton("Upsize", () =>
+        {
+            /* Temp action */
+        }).button;
+        _downsizeButton = uiPanel.AddButton("Downsize", () =>
+        {
+            /* Temp action */
+        }).button;
 
         _upsizeButton.gameObject.SetActive(false);
         _downsizeButton.gameObject.SetActive(false);
 
         infrastructureDetailPanel.SetActive(false);
     }
-    
+
     private void SetupDebugPanel(Transform parent)
     {
-        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(300, 500), new Vector2(0.5f, 1), new Vector2(0.5f, 1), new Vector2(0, -300));
+        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(300, 500), new Vector2(0.5f, 1),
+            new Vector2(0.5f, 1), new Vector2(0, -300));
         UIPanel uiPanel = debugPanel.GetComponent<UIPanel>();
-        if(uiPanel == null) 
+        if (uiPanel == null)
         {
             Debug.LogError("DebugPanel is missing UIPanel component.");
             return;
         }
+
         uiPanel.titleText.text = "Debug";
 
         var debugPanelComponent = debugPanel.AddComponent<DebugPanel>();
@@ -980,13 +991,15 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            debugPanelComponent.mouseCoordsText = CreateText(uiPanel.scrollContent, "MouseCoordsText", "X: -, Y: -", 14);
+            debugPanelComponent.mouseCoordsText =
+                CreateText(uiPanel.scrollContent, "MouseCoordsText", "X: -, Y: -", 14);
         }
 
-        debugPanelComponent.instaBuildButton = uiPanel.AddButton("Insta-Build", () => {}).button;
-        debugPanelComponent.instaResearchButton = uiPanel.AddButton("Insta-Research", () => {}).button;
-        debugPanelComponent.unlockAllTechButton = uiPanel.AddButton("Unlock All Tech", () => {}).button;
-        debugPanelComponent.triggerEventButton = uiPanel.AddButton("Trigger Event", () => ToggleEventTriggerPanel()).button;
+        debugPanelComponent.instaBuildButton = uiPanel.AddButton("Insta-Build", () => { }).button;
+        debugPanelComponent.instaResearchButton = uiPanel.AddButton("Insta-Research", () => { }).button;
+        debugPanelComponent.unlockAllTechButton = uiPanel.AddButton("Unlock All Tech", () => { }).button;
+        debugPanelComponent.triggerEventButton =
+            uiPanel.AddButton("Trigger Event", () => ToggleEventTriggerPanel()).button;
 
         SetupEventTriggerPanel(parent);
         debugPanel.SetActive(false);
@@ -999,7 +1012,8 @@ public class UIManager : MonoBehaviour
 
     private void SetupEventTriggerPanel(Transform parent)
     {
-        eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 400), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(200, 0));
+        eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 400), new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), new Vector2(200, 0));
         UIPanel uiPanel = eventTriggerPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -1008,20 +1022,21 @@ public class UIManager : MonoBehaviour
         }
 
         uiPanel.titleText.text = "Trigger Event";
-        
+
         // Populate the scroll view with buttons for each event
         if (GameManager.Instance != null && GameManager.Instance.Events != null)
         {
             foreach (var gameEvent in GameManager.Instance.Events)
             {
                 EventBase localEvent = gameEvent; // Local copy for the closure
-                uiPanel.AddButton(gameEvent.GetType().Name, () => {
+                uiPanel.AddButton(gameEvent.GetType().Name, () =>
+                {
                     GameManager.Instance.TriggerEvent(localEvent);
                     eventTriggerPanel.SetActive(false); // Close panel after triggering
                 });
             }
         }
-        
+
         // Add a "Back" button at the end
         var backButton = uiPanel.AddButton("< Back", () => eventTriggerPanel.SetActive(false));
         backButton.transform.SetAsLastSibling(); // Ensure it's at the bottom
@@ -1033,9 +1048,11 @@ public class UIManager : MonoBehaviour
     {
         eventTriggerPanel.SetActive(!eventTriggerPanel.activeSelf);
     }
+
     #endregion
-    
+
     #region Tooltip Logic
+
     public void ShowInfrastructureDetail(InfrastructureInstance instance)
     {
         _selectedInfrastructure = instance;
@@ -1048,7 +1065,8 @@ public class UIManager : MonoBehaviour
         {
             _planBuildButton.gameObject.SetActive(true);
             _planBuildButton.onClick.RemoveAllListeners();
-            _planBuildButton.onClick.AddListener(() => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
+            _planBuildButton.onClick.AddListener(() =>
+                GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
         }
         else
         {
@@ -1062,9 +1080,11 @@ public class UIManager : MonoBehaviour
 
             // Update listeners to pass integer direction
             _upsizeButton.onClick.RemoveAllListeners();
-            _upsizeButton.onClick.AddListener(() => GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, 1));
+            _upsizeButton.onClick.AddListener(() =>
+                GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, 1));
             _downsizeButton.onClick.RemoveAllListeners();
-            _downsizeButton.onClick.AddListener(() => GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, -1));
+            _downsizeButton.onClick.AddListener(() =>
+                GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, -1));
 
             // Set interactable state based on size level
             _upsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel < 4;
@@ -1085,13 +1105,14 @@ public class UIManager : MonoBehaviour
 
     private void SetupTimeControls(Transform parent)
     {
-        timeControlsContainer = CreateUIPanel(parent, "TimeControls", new Vector2(200, 50), new Vector2(1, 0), new Vector2(1, 0), new Vector2(-110, 35));
-        
+        timeControlsContainer = CreateUIPanel(parent, "TimeControls", new Vector2(200, 50), new Vector2(1, 0),
+            new Vector2(1, 0), new Vector2(-110, 35));
+
         UIPanel uiPanel = timeControlsContainer.GetComponent<UIPanel>();
         if (uiPanel != null)
         {
             uiPanel.titleText.text = "";
-            if(uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
+            if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
         }
 
         var layout = timeControlsContainer.AddComponent<HorizontalLayoutGroup>();
@@ -1110,8 +1131,10 @@ public class UIManager : MonoBehaviour
             // Fallback to old method
             pauseButton = CreateButton(timeControlsContainer.transform, "||", SetTimeScalePause, new Vector2(40, 40));
             playButton = CreateButton(timeControlsContainer.transform, ">", SetTimeScalePlay, new Vector2(40, 40));
-            fastForwardButton = CreateButton(timeControlsContainer.transform, ">>", SetTimeScaleFastForward, new Vector2(40, 40));
-            superFastForwardButton = CreateButton(timeControlsContainer.transform, ">>>", SetTimeScaleSuperFastForward, new Vector2(40, 40));
+            fastForwardButton = CreateButton(timeControlsContainer.transform, ">>", SetTimeScaleFastForward,
+                new Vector2(40, 40));
+            superFastForwardButton = CreateButton(timeControlsContainer.transform, ">>>", SetTimeScaleSuperFastForward,
+                new Vector2(40, 40));
             return;
         }
 
@@ -1128,7 +1151,7 @@ public class UIManager : MonoBehaviour
         playUI.buttonText.text = ">";
         playButton = playUI.button;
         playButton.onClick.AddListener(SetTimeScalePlay);
-        
+
         // Fast Forward Button
         GameObject ffGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
         UIButton ffUI = ffGO.GetComponent<UIButton>();
@@ -1142,12 +1165,14 @@ public class UIManager : MonoBehaviour
         sffUI.buttonText.text = ">>>";
         superFastForwardButton = sffUI.button;
         superFastForwardButton.onClick.AddListener(SetTimeScaleSuperFastForward);
-        
+
         UpdateTimeScaleButtons();
     }
+
     #endregion
 
     #region Time Controls
+
     public void SetTimeScalePause() => TogglePause();
     public void SetTimeScalePlay() => SetTimeState(TimeState.Normal);
     public void SetTimeScaleFastForward() => SetTimeState(TimeState.Fast);
@@ -1178,7 +1203,7 @@ public class UIManager : MonoBehaviour
         {
             _timeStateBeforePause = newState;
         }
-        
+
         GameManager.Instance.SetDesiredTimeScale(newTimeScale);
         UpdateTimeScaleButtons();
     }
@@ -1201,12 +1226,16 @@ public class UIManager : MonoBehaviour
         if (superFastForwardButton == null) return;
         pauseButton.GetComponent<Image>().color = _currentTimeState == TimeState.Paused ? activeColor : inactiveColor;
         playButton.GetComponent<Image>().color = _currentTimeState == TimeState.Normal ? activeColor : inactiveColor;
-        fastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
-        superFastForwardButton.GetComponent<Image>().color = _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
+        fastForwardButton.GetComponent<Image>().color =
+            _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
+        superFastForwardButton.GetComponent<Image>().color =
+            _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
     }
+
     #endregion
 
     #region UI State Management
+
     public void ShowBuildUI()
     {
         buildPhaseUIContainer.SetActive(true);
@@ -1236,7 +1265,7 @@ public class UIManager : MonoBehaviour
         {
             // The panel itself is a child of the container with the layout group.
             // We need to activate the container.
-            _currentNPCDialogPanel.transform.parent.gameObject.SetActive(true);
+            _currentNPCDialogPanel.gameObject.SetActive(true);
             _currentNPCDialogPanel.ShowDialog(portrait, dialog, options);
         }
         else
@@ -1244,76 +1273,79 @@ public class UIManager : MonoBehaviour
             Debug.LogError("_currentNPCDialogPanel has not been created. Was SetupNPCDialogPanel called?", this);
         }
     }
-    
-        public void ShowAlert(string alertText)
+
+    public void ShowAlert(string alertText)
+    {
+        alertPanel.SetActive(true);
+        if (_alertText != null)
         {
-            alertPanel.SetActive(true);
-            if (_alertText != null)
-            {
-                _alertText.text = alertText;
-            }
+            _alertText.text = alertText;
         }
-        #endregion
-    
-        #region UI Content Updates
-        public void UpdateGameStateDisplay(string state)
+    }
+
+    #endregion
+
+    #region UI Content Updates
+
+    public void UpdateGameStateDisplay(string state)
+    {
+        if (gameStateText != null) gameStateText.text = $"State: {state}";
+    }
+
+    public void UpdateClockDisplay(float timeElapsed, float dayDuration)
+    {
+        if (clockText == null) return;
+
+        int day = GameManager.Instance.GameLoopManager.currentDay;
+
+        float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
+        float totalWorkdayHours = 8f;
+        float elapsedHours = totalWorkdayHours * dayPercentage;
+        int currentHour = 9 + (int)elapsedHours;
+        int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
+
+        string amPm = currentHour < 12 ? "AM" : "PM";
+        int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
+        if (displayHour == 0) displayHour = 12;
+
+        clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
+    }
+
+    private void UpdateStatsDisplay()
+    {
+        if (GameManager.Instance == null) return;
+        foreach (var statText in statTexts)
         {
-            if (gameStateText != null) gameStateText.text = $"State: {state}";
+            statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
         }
-        
-        public void UpdateClockDisplay(float timeElapsed, float dayDuration)
+    }
+
+    private void UpdateDailyCostDisplay()
+    {
+        if (GameManager.Instance == null) return;
+        float totalCost = GameManager.Instance.CalculateTotalDailyCost();
+        if (totalDailyCostText != null)
         {
-            if (clockText == null) return; 
-            
-            int day = GameManager.Instance.GameLoopManager.currentDay;
-    
-            float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
-            float totalWorkdayHours = 8f;
-            float elapsedHours = totalWorkdayHours * dayPercentage;
-            int currentHour = 9 + (int)elapsedHours;
-            int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
-            
-            string amPm = currentHour < 12 ? "AM" : "PM";
-            int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
-            if (displayHour == 0) displayHour = 12;
-    
-            clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
+            totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
         }
-    
-        private void UpdateStatsDisplay()
-        {
-            if (GameManager.Instance == null) return;
-            foreach (var statText in statTexts)
-            {
-                statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
-            }
-        }
-    
-        private void UpdateDailyCostDisplay()
-        {
-            if (GameManager.Instance == null) return;
-            float totalCost = GameManager.Instance.CalculateTotalDailyCost();
-            if (totalDailyCostText != null)
-            {
-                totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
-            }
-        }
-    
+    }
+
     private void SetupNPCDialogPanel(Transform parent)
     {
         // A container enforces the horizontal padding and prevents stretching.
-        GameObject panelContainer = new GameObject("NPCDialogPanel_Container", typeof(RectTransform));
-        panelContainer.transform.SetParent(parent, false);
-        var containerRect = panelContainer.GetComponent<RectTransform>();
-        containerRect.anchorMin = new Vector2(0, 0);
-        containerRect.anchorMax = new Vector2(1, 0);
-        containerRect.pivot = new Vector2(0.5f, 0);
-        containerRect.sizeDelta = new Vector2(0, 220); 
-        var containerHLG = panelContainer.AddComponent<HorizontalLayoutGroup>();
-        containerHLG.padding = new RectOffset(10, 10, 10, 10);
-        
+
+
         // 1. Create the panel using the standard helper method.
-        var panelGO = CreateUIPanel(panelContainer.transform, "NPCDialogPanel", Vector2.zero, Vector2.zero, Vector2.one, Vector2.zero);
+        //new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero
+        Vector2 pos = new Vector2(100, -100);
+        var panelGO = CreateUIPanel(
+            transform, 
+            "NPCDialogPanel", 
+            new Vector2(900, 200), 
+            new Vector2(0.5f, 0.3f), 
+            new Vector2(0.5f, 0.3f), 
+            Vector2.zero
+        );
         UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
         if (uiPanel.titleText) uiPanel.titleText.gameObject.SetActive(false);
         if (uiPanel.closeButton) uiPanel.closeButton.gameObject.SetActive(false);
@@ -1328,6 +1360,8 @@ public class UIManager : MonoBehaviour
         hlg.padding = new RectOffset(15, 15, 15, 15);
         hlg.spacing = 20;
         hlg.childAlignment = TextAnchor.MiddleLeft;
+        hlg.childControlHeight = false;
+        hlg.childForceExpandWidth = false;
 
         var portraitGO = new GameObject("PortraitImage", typeof(RectTransform));
         portraitGO.transform.SetParent(mainLayout.transform, false);
@@ -1338,44 +1372,44 @@ public class UIManager : MonoBehaviour
         var arf = portraitGO.AddComponent<AspectRatioFitter>();
         arf.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
 
-        var textAndButtonContainer = new GameObject("TextAndButtonContainer", typeof(RectTransform));
-        textAndButtonContainer.transform.SetParent(mainLayout.transform, false);
-        var vlg = textAndButtonContainer.AddComponent<VerticalLayoutGroup>();
+
+     
+        
+        
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        GameObject dialogTextGO = Instantiate(textAreaPrefab, mainLayout.transform);
+
+        /*LayoutElement layoutElement = dialogTextGO.GetComponent<LayoutElement>();
+        layoutElement.minWidth = 600;
+        layoutElement.minHeight = 128;*/
+
+        // Configure the layout element to be flexible.
+        // layoutElement.flexibleHeight = 1;
+
+        UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
+        uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
+        /*var textRect = uiTextArea.textArea.rectTransform;
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.sizeDelta = Vector2.zero;*/
+
+        _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
+        
+        
+        
+        var buttonContainer = new GameObject("ButtonContainer", typeof(RectTransform));
+        buttonContainer.transform.SetParent(mainLayout.transform, false);
+        var vlg = buttonContainer.AddComponent<VerticalLayoutGroup>();
         vlg.spacing = 10;
         vlg.childControlHeight = false; // Take control of child heights
         vlg.childForceExpandHeight = true; // Force them to fill the available space
-        textAndButtonContainer.AddComponent<LayoutElement>().flexibleWidth = 1;
+        buttonContainer.AddComponent<LayoutElement>().flexibleWidth = 1;
 
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab == null) {
-            Debug.LogError("FATAL: 'UITextArea' prefab not found. Cannot create NPCDialogPanel.");
-            return;
-        }
-        GameObject dialogTextGO = Instantiate(textAreaPrefab, textAndButtonContainer.transform);
-
-        // --- CORRECT, NON-DESTRUCTIVE FIX ---
-        // Get the existing LayoutElement or add one if it doesn't exist.
-        LayoutElement layoutElement = dialogTextGO.GetComponent<LayoutElement>();
-        if (layoutElement == null)
-        {
-            layoutElement = dialogTextGO.AddComponent<LayoutElement>();
-        }
-        // Configure the layout element to be flexible.
-        layoutElement.flexibleHeight = 1;
-        
-        UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
-        uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
-        
-        var textRect = uiTextArea.textArea.rectTransform;
-        textRect.anchorMin = Vector2.zero;
-        textRect.anchorMax = Vector2.one;
-        textRect.sizeDelta = Vector2.zero;
-
-        _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
+      
 
         // Create a dedicated container for buttons and give it a fixed minimum height
         var buttonContainerGO = new GameObject("ButtonContainer", typeof(RectTransform));
-        buttonContainerGO.transform.SetParent(textAndButtonContainer.transform, false);
+        buttonContainerGO.transform.SetParent(buttonContainer.transform, false);
         var buttonHLG = buttonContainerGO.AddComponent<HorizontalLayoutGroup>();
         buttonHLG.spacing = 10;
         buttonHLG.childAlignment = TextAnchor.MiddleRight;
@@ -1385,67 +1419,69 @@ public class UIManager : MonoBehaviour
 
         _currentNPCDialogPanel._buttonContainer = buttonContainerGO.transform;
 
-        panelContainer.SetActive(false);
+        _currentNPCDialogPanel.gameObject.SetActive(false);
     }
-    
-            private void RefreshHireDevOpsPanel()
-            {
-                // Clear old candidates, but skip the first child which is the "Back" button
-                UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
-                if (hirePanel != null)
-                {
-                    // Start from 1 to skip a potential 'Back' button or header
-                    for (int i = hirePanel.scrollContent.childCount - 1; i >= 0; i--)
-                    {
-                        // A bit brittle, but for now we assume non-candidates can be cleared.
-                        // A better approach would be to have a dedicated container for candidates.
-                        Destroy(hirePanel.scrollContent.GetChild(i).gameObject);
-                    }
-                }
-                else
-                {
-                     // Fallback if no UIPanel
-                    for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--)
-                    {
-                        Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
-                    }
-                }
-        
-                var candidates = GameManager.Instance.GenerateNPCCandidates(3);
-        
-                if (hirePanel != null)
-                {
-                    foreach (var candidate in candidates)
-                    {
-                        NPCDevOpsData localCandidate = candidate; // Local copy for closure
-                        hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
-                            GameManager.Instance.HireNPCDevOps(localCandidate);
-                            hireDevOpsPanel.SetActive(false);
-                        });
-                    }
-                }
-                                else
-                                {
-                                    Debug.LogError("HireDevOpsPanel is missing UIPanel component.");
-                                    foreach (var candidate in candidates)
-                                    {
-                                        NPCDevOpsData localCandidate = candidate; // Local copy for closure
-                                        CreateButton(hireDevOpsPanel.transform, $"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
-                                            GameManager.Instance.HireNPCDevOps(localCandidate);
-                                            hireDevOpsPanel.SetActive(false);
-                                        });
-                                    }
-                                }
-                            }
-                    #endregion
-                
-                
-                
-                    #region UI Helper Methods
-                    private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
-                    {            
-     
 
+    private void RefreshHireDevOpsPanel()
+    {
+        // Clear old candidates, but skip the first child which is the "Back" button
+        UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
+        if (hirePanel != null)
+        {
+            // Start from 1 to skip a potential 'Back' button or header
+            for (int i = hirePanel.scrollContent.childCount - 1; i >= 0; i--)
+            {
+                // A bit brittle, but for now we assume non-candidates can be cleared.
+                // A better approach would be to have a dedicated container for candidates.
+                Destroy(hirePanel.scrollContent.GetChild(i).gameObject);
+            }
+        }
+        else
+        {
+            // Fallback if no UIPanel
+            for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--)
+            {
+                Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
+            }
+        }
+
+        var candidates = GameManager.Instance.GenerateNPCCandidates(3);
+
+        if (hirePanel != null)
+        {
+            foreach (var candidate in candidates)
+            {
+                NPCDevOpsData localCandidate = candidate; // Local copy for closure
+                hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () =>
+                {
+                    GameManager.Instance.HireNPCDevOps(localCandidate);
+                    hireDevOpsPanel.SetActive(false);
+                });
+            }
+        }
+        else
+        {
+            Debug.LogError("HireDevOpsPanel is missing UIPanel component.");
+            foreach (var candidate in candidates)
+            {
+                NPCDevOpsData localCandidate = candidate; // Local copy for closure
+                CreateButton(hireDevOpsPanel.transform,
+                    $"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () =>
+                    {
+                        GameManager.Instance.HireNPCDevOps(localCandidate);
+                        hireDevOpsPanel.SetActive(false);
+                    });
+            }
+        }
+    }
+
+    #endregion
+
+
+    #region UI Helper Methods
+
+    private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
+    {
         GameObject uiPanelPrefab = GameManager.Instance.prefabManager.GetPrefab("UIPanel");
 
         if (uiPanelPrefab == null)
@@ -1459,13 +1495,14 @@ public class UIManager : MonoBehaviour
         var rt = go.GetComponent<RectTransform>();
         if (rt == null)
         {
-            Debug.LogError($"Instantiated UIPanel prefab '{{uiPanelPrefab.name}}' is missing a RectTransform component. Cannot create UI Panel.");
+            Debug.LogError(
+                $"Instantiated UIPanel prefab '{{uiPanelPrefab.name}}' is missing a RectTransform component. Cannot create UI Panel.");
             return go; // Return the instantiated object, but it might not behave as expected
         }
 
-        rt.sizeDelta = s; 
-        rt.anchorMin = min; 
-        rt.anchorMax = max; 
+        rt.sizeDelta = s;
+        rt.anchorMin = min;
+        rt.anchorMax = max;
         rt.anchoredPosition = pos;
         // The Image component (or any other background graphic) is expected to be part of the prefab
 
@@ -1478,19 +1515,21 @@ public class UIManager : MonoBehaviour
             {
                 vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
             }
+
             vlg.spacing = 5; // Add 5 units of spacing between child elements
             vlg.childControlWidth = true; // Ensure children control their own width
             vlg.childForceExpandHeight = false; // Allow children to control their own height
-            
+
             // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
             var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
             if (csf == null)
             {
                 csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
             }
+
             csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
-        
+
         return go;
     }
 
@@ -1536,12 +1575,15 @@ public class UIManager : MonoBehaviour
         rt.anchoredPosition = Vector2.zero;
         return tmp;
     }
+
     #endregion
 
     #region Item Detail Panel
+
     private void SetupItemDetailPanel(Transform parent)
     {
-        itemDetailPanel = CreateUIPanel(parent, "ItemDetailPanel", new Vector2(250, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
+        itemDetailPanel = CreateUIPanel(parent, "ItemDetailPanel", new Vector2(250, 200), new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), Vector2.zero);
         UIPanel uiPanel = itemDetailPanel.GetComponent<UIPanel>();
         if (uiPanel == null)
         {
@@ -1570,13 +1612,16 @@ public class UIManager : MonoBehaviour
         hlg.childForceExpandWidth = true;
 
         // Add buttons to the horizontal container
-        var useButton = uiPanel.AddButton("Use", () => { /* Action set in ShowItemDetail */ });
+        var useButton = uiPanel.AddButton("Use", () =>
+        {
+            /* Action set in ShowItemDetail */
+        });
         useButton.name = "UseItemButton"; // Assign a name to find it later
         useButton.transform.SetParent(buttonContainer.transform);
-        
+
         var cancelButton = uiPanel.AddButton("Cancel", HideItemDetail);
         cancelButton.transform.SetParent(buttonContainer.transform);
-        
+
         itemDetailPanel.SetActive(false);
     }
 
@@ -1610,12 +1655,13 @@ public class UIManager : MonoBehaviour
                 break;
             }
         }
-        
+
         if (useButton != null)
         {
             useButton.buttonText.text = item.UseVerb();
             useButton.button.onClick.RemoveAllListeners();
-            useButton.button.onClick.AddListener(() => {
+            useButton.button.onClick.AddListener(() =>
+            {
                 GameManager.Instance.CreateUseItemTask(_selectedItem);
                 HideItemDetail();
             });
@@ -1627,7 +1673,8 @@ public class UIManager : MonoBehaviour
         _selectedItem = null;
         itemDetailPanel.SetActive(false);
         // Resume to whatever the state was before pausing
-        SetTimeState(_timeStateBeforePause); 
+        SetTimeState(_timeStateBeforePause);
     }
+
     #endregion
 }
