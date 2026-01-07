@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
-    
+    public List<EventBase> TutorialEvents = new List<EventBase>();
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
     
@@ -491,6 +491,8 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));
         Stats.Add(new StatData(StatType.ItemDropCheck, 15));
 
+        //TutorialEvents.Add();
+        
         Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());
         Events.Add(new DeploymentEvent());

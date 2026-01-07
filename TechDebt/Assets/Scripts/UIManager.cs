@@ -37,6 +37,7 @@ public class UIManager : MonoBehaviour
     private GameObject debugPanel;
     private GameObject eventTriggerPanel;
     private UITextArea summaryPhaseText;
+    private NPCDialogPanel _currentNPCDialogPanel;
     
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -92,6 +93,7 @@ public class UIManager : MonoBehaviour
         SetupItemDetailPanel(transform);
         SetupDebugPanel(transform);
         SetupEventTriggerPanel(transform);
+        SetupNPCDialogPanel(transform);
         
         // Initial state
         UpdateTimeControlsUI();
@@ -1228,101 +1230,189 @@ public class UIManager : MonoBehaviour
         summaryPhaseText.textArea.text = text;
     }
 
-    public void ShowAlert(string alertText)
+    public void ShowNPCDialog(Sprite portrait, string dialog, List<DialogButtonOption> options = null)
     {
-        alertPanel.SetActive(true);
-        if (_alertText != null)
+        if (_currentNPCDialogPanel != null)
         {
-            _alertText.text = alertText;
-        }
-    }
-    #endregion
-
-    #region UI Content Updates
-    public void UpdateGameStateDisplay(string state)
-    {
-        if (gameStateText != null) gameStateText.text = $"State: {state}";
-    }
-    
-    public void UpdateClockDisplay(float timeElapsed, float dayDuration)
-    {
-        if (clockText == null) return; 
-        
-        int day = GameManager.Instance.GameLoopManager.currentDay;
-
-        float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
-        float totalWorkdayHours = 8f;
-        float elapsedHours = totalWorkdayHours * dayPercentage;
-        int currentHour = 9 + (int)elapsedHours;
-        int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
-        
-        string amPm = currentHour < 12 ? "AM" : "PM";
-        int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
-        if (displayHour == 0) displayHour = 12;
-
-        clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
-    }
-
-    private void UpdateStatsDisplay()
-    {
-        if (GameManager.Instance == null) return;
-        foreach (var statText in statTexts)
-        {
-            statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
-        }
-    }
-
-    private void UpdateDailyCostDisplay()
-    {
-        if (GameManager.Instance == null) return;
-        float totalCost = GameManager.Instance.CalculateTotalDailyCost();
-        if (totalDailyCostText != null)
-        {
-            totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
-        }
-    }
-
-    private void RefreshHireDevOpsPanel()
-    {
-        // Clear old candidates, but skip the first child which is the "Back" button
-        for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--)
-        {
-            Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
-        }
-
-        var candidates = GameManager.Instance.GenerateNPCCandidates(3);
-        UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
-        if (hirePanel != null)
-        {
-            foreach (var candidate in candidates)
-            {
-                NPCDevOpsData localCandidate = candidate; // Local copy for closure
-                hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
-                    GameManager.Instance.HireNPCDevOps(localCandidate);
-                    hireDevOpsPanel.SetActive(false);
-                });
-            }
+            // The panel itself is a child of the container with the layout group.
+            // We need to activate the container.
+            _currentNPCDialogPanel.transform.parent.gameObject.SetActive(true);
+            _currentNPCDialogPanel.ShowDialog(portrait, dialog, options);
         }
         else
         {
-            Debug.LogError("HireDevOpsPanel is missing UIPanel component.");
-            foreach (var candidate in candidates)
-            {
-                NPCDevOpsData localCandidate = candidate; // Local copy for closure
-                CreateButton(hireDevOpsPanel.transform, $"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
-                    GameManager.Instance.HireNPCDevOps(localCandidate);
-                    hireDevOpsPanel.SetActive(false);
-                });
-            }
+            Debug.LogError("_currentNPCDialogPanel has not been created. Was SetupNPCDialogPanel called?", this);
         }
     }
-    #endregion
-
-
-
-    #region UI Helper Methods
-    private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
+    
+        public void ShowAlert(string alertText)
+        {
+            alertPanel.SetActive(true);
+            if (_alertText != null)
+            {
+                _alertText.text = alertText;
+            }
+        }
+        #endregion
+    
+        #region UI Content Updates
+        public void UpdateGameStateDisplay(string state)
+        {
+            if (gameStateText != null) gameStateText.text = $"State: {state}";
+        }
+        
+        public void UpdateClockDisplay(float timeElapsed, float dayDuration)
+        {
+            if (clockText == null) return; 
+            
+            int day = GameManager.Instance.GameLoopManager.currentDay;
+    
+            float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
+            float totalWorkdayHours = 8f;
+            float elapsedHours = totalWorkdayHours * dayPercentage;
+            int currentHour = 9 + (int)elapsedHours;
+            int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
+            
+            string amPm = currentHour < 12 ? "AM" : "PM";
+            int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
+            if (displayHour == 0) displayHour = 12;
+    
+            clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
+        }
+    
+        private void UpdateStatsDisplay()
+        {
+            if (GameManager.Instance == null) return;
+            foreach (var statText in statTexts)
+            {
+                statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
+            }
+        }
+    
+        private void UpdateDailyCostDisplay()
+        {
+            if (GameManager.Instance == null) return;
+            float totalCost = GameManager.Instance.CalculateTotalDailyCost();
+            if (totalDailyCostText != null)
+            {
+                totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
+            }
+        }
+    
+    private void SetupNPCDialogPanel(Transform parent)
     {
+        // A container enforces the horizontal padding and prevents stretching.
+        GameObject panelContainer = new GameObject("NPCDialogPanel_Container", typeof(RectTransform));
+        panelContainer.transform.SetParent(parent, false);
+        var containerRect = panelContainer.GetComponent<RectTransform>();
+        containerRect.anchorMin = new Vector2(0, 0);
+        containerRect.anchorMax = new Vector2(1, 0);
+        containerRect.pivot = new Vector2(0.5f, 0);
+        containerRect.sizeDelta = new Vector2(0, 220); 
+        var containerHLG = panelContainer.AddComponent<HorizontalLayoutGroup>();
+        containerHLG.padding = new RectOffset(10, 10, 10, 10);
+        
+        // 1. Create the panel using the standard helper method.
+        var panelGO = CreateUIPanel(panelContainer.transform, "NPCDialogPanel", Vector2.zero, Vector2.zero, Vector2.one, Vector2.zero);
+        UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
+        if (uiPanel.titleText) uiPanel.titleText.gameObject.SetActive(false);
+        if (uiPanel.closeButton) uiPanel.closeButton.gameObject.SetActive(false);
+
+        // 2. Add our custom dialog panel component.
+        _currentNPCDialogPanel = panelGO.AddComponent<NPCDialogPanel>();
+
+        // 3. Create the required hierarchy and assign the few external dependencies.
+        var mainLayout = new GameObject("MainLayout", typeof(RectTransform));
+        mainLayout.transform.SetParent(uiPanel.scrollContent, false);
+        var hlg = mainLayout.AddComponent<HorizontalLayoutGroup>();
+        hlg.padding = new RectOffset(15, 15, 15, 15);
+        hlg.spacing = 20;
+        hlg.childAlignment = TextAnchor.MiddleLeft;
+
+        var portraitGO = new GameObject("PortraitImage", typeof(RectTransform));
+        portraitGO.transform.SetParent(mainLayout.transform, false);
+        var portraitLayout = portraitGO.AddComponent<LayoutElement>();
+        portraitLayout.minWidth = 128;
+        portraitLayout.minHeight = 128;
+        _currentNPCDialogPanel._npcPortraitImage = portraitGO.AddComponent<Image>();
+
+        var textAndButtonContainer = new GameObject("TextAndButtonContainer", typeof(RectTransform));
+        textAndButtonContainer.transform.SetParent(mainLayout.transform, false);
+        var vlg = textAndButtonContainer.AddComponent<VerticalLayoutGroup>();
+        vlg.spacing = 15;
+        textAndButtonContainer.AddComponent<LayoutElement>().flexibleWidth = 1;
+
+        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+        if (textAreaPrefab == null) {
+            Debug.LogError("FATAL: 'UITextArea' prefab not found. Cannot create NPCDialogPanel.");
+            return;
+        }
+        GameObject dialogTextGO = Instantiate(textAreaPrefab, textAndButtonContainer.transform);
+        UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
+        uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
+        _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
+        
+        // The NPCDialogPanel will now add its buttons directly to the textAndButtonContainer.
+        
+        panelContainer.SetActive(false);
+    }
+    
+            private void RefreshHireDevOpsPanel()
+            {
+                // Clear old candidates, but skip the first child which is the "Back" button
+                UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
+                if (hirePanel != null)
+                {
+                    // Start from 1 to skip a potential 'Back' button or header
+                    for (int i = hirePanel.scrollContent.childCount - 1; i >= 0; i--)
+                    {
+                        // A bit brittle, but for now we assume non-candidates can be cleared.
+                        // A better approach would be to have a dedicated container for candidates.
+                        Destroy(hirePanel.scrollContent.GetChild(i).gameObject);
+                    }
+                }
+                else
+                {
+                     // Fallback if no UIPanel
+                    for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--)
+                    {
+                        Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
+                    }
+                }
+        
+                var candidates = GameManager.Instance.GenerateNPCCandidates(3);
+        
+                if (hirePanel != null)
+                {
+                    foreach (var candidate in candidates)
+                    {
+                        NPCDevOpsData localCandidate = candidate; // Local copy for closure
+                        hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
+                            GameManager.Instance.HireNPCDevOps(localCandidate);
+                            hireDevOpsPanel.SetActive(false);
+                        });
+                    }
+                }
+                                else
+                                {
+                                    Debug.LogError("HireDevOpsPanel is missing UIPanel component.");
+                                    foreach (var candidate in candidates)
+                                    {
+                                        NPCDevOpsData localCandidate = candidate; // Local copy for closure
+                                        CreateButton(hireDevOpsPanel.transform, $"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () => {
+                                            GameManager.Instance.HireNPCDevOps(localCandidate);
+                                            hireDevOpsPanel.SetActive(false);
+                                        });
+                                    }
+                                }
+                            }
+                    #endregion
+                
+                
+                
+                    #region UI Helper Methods
+                    private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
+                    {            
      
 
         GameObject uiPanelPrefab = GameManager.Instance.prefabManager.GetPrefab("UIPanel");
