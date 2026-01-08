@@ -54,7 +54,7 @@ namespace Events
                 return;
             }
             currentStep =  nextStep;
-      
+            GameManager.Instance.UIManager.SetTimeScalePlay();
             InfrastructureInstance infrastructureInstance;
             switch (currentStep)
             {
@@ -130,6 +130,7 @@ namespace Events
                         "Great work! Notice Network Packets will start flowing in from the Internet to your server.",
                         options
                     );
+                    nextStep = 8;
                     break;
                 case 8:
                      infrastructureInstance =
@@ -140,7 +141,7 @@ namespace Events
                         "Running everything on one server isn't going to work for long so lets assign your team to start researching technology to help you on your journey. Click on the Desk or the 'Tech' button in the left hand sidebar",
                         options
                     );
-                    nextStep = 0;
+                    nextStep = -1;
                     break;
                 case 9:
                      infrastructureInstance =
@@ -154,6 +155,7 @@ namespace Events
                         "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
                         options
                     );
+                    nextStep = -1;
                     break;
                
             }
@@ -164,7 +166,7 @@ namespace Events
         private void HandleInfrastructureBuilt(InfrastructureInstance instance)
         {
             Debug.Log("HandleInfrastructureBuilt Called: " + instance.data.ID + " - " + currentStep);
-            if (currentStep != 8)
+            if (currentStep != 5)
             {
                 return;
             }
