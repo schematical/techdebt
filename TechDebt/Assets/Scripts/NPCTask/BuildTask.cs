@@ -45,7 +45,6 @@ public class BuildTask : NPCTask
         CurrentStatus = Status.Completed; // Set status to completed
         
         TargetInfrastructure.SetState(InfrastructureData.State.Operational);
-        GameManager.Instance.NotifyInfrastructureBuilt(TargetInfrastructure);
         GameManager.Instance.NotifyDailyCostChanged();
 
         var serverComponent = TargetInfrastructure.GetComponent<Server>();

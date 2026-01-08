@@ -3,21 +3,24 @@ using UnityEngine;
 
 namespace Events
 {
-    public class TutorialEvent: EventBase
+    public class TutorialEvent : EventBase
     {
         protected int currentStep = 0;
         protected List<DialogButtonOption> options = new List<DialogButtonOption>();
-        
+
         protected Sprite bossSprite;
         protected Sprite botSprite;
 
         protected bool firstTechnologyResearched = false;
         protected int nextStep = -1;
+        
+        protected InfrastructureInstance firstResearchedInstance = null;
+
         public TutorialEvent()
         {
-            
-            options.Add(new DialogButtonOption() { Text = "Continue", OnClick = ()=> Next() });
+            options.Add(new DialogButtonOption() { Text = "Continue", OnClick = () => Next() });
         }
+
         public override void Apply()
         {
             if (bossSprite == null)
@@ -27,6 +30,7 @@ namespace Events
                 {
                     throw new System.Exception("Boss NPC not found");
                 }
+
                 bossSprite = bossNPC.GetComponent<SpriteRenderer>().sprite;
             }
 
@@ -37,16 +41,14 @@ namespace Events
             }
 
             GameManager.Instance.GameLoopManager.playTimerActive = false;
-            GameManager.OnInfrastructureBuilt += HandleInfrastructureBuilt;
+            GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
             GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
             GameManager.OnPhaseChange += HandlePhaseChange;
             nextStep = 0;
             Next();
-           
-       
         }
 
-       
+
         private void Next()
         {
             Debug.Log("Next step: " + currentStep + " nextStep: " + nextStep);
@@ -54,7 +56,8 @@ namespace Events
             {
                 return;
             }
-            currentStep =  nextStep;
+
+            currentStep = nextStep;
             GameManager.Instance.UIManager.SetTimeScalePlay();
             InfrastructureInstance infrastructureInstance;
             Transform transform;
@@ -70,7 +73,7 @@ namespace Events
                     );
                     nextStep = 1;
                     break;
-                
+
                 case 1:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("door");
@@ -111,8 +114,8 @@ namespace Events
                     );
                     nextStep = 5;
                     break;
-                case 5: 
-               
+                case 5:
+
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'. One of your DevOps Engineers will start building it shortly.",
@@ -122,9 +125,15 @@ namespace Events
                     break;
                 case 6:
 
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "To speed things up use the controls in the lower right hand side of the screen to manipulate in game time.",
+                        options
+                    );
+                    nextStep = -1;
                     break;
                 case 7:
-                     infrastructureInstance =
+                    infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("internetPipe");
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
@@ -134,17 +143,18 @@ namespace Events
                     );
                     nextStep = 8;
                     break;
-                
+
                 case 8:
-                    transform =
+                    NetworkPacket networkPacket =
                         GameManager.Instance.activePackets.Find((networkPacket) =>
                         {
                             return networkPacket.data.Type == NetworkPacketData.PType.Text;
-                            
-                        }).transform;
-                
-                    GameManager.Instance.cameraController.ZoomToAndFollow(transform);
-                    firstTechnologyResearched = true;
+                        });
+                    if (networkPacket != null)
+                    {
+                        GameManager.Instance.cameraController.ZoomToAndFollow(networkPacket.transform);
+                    }
+
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Notice there are different network packet types. One type is just simple text like HTML.",
@@ -152,17 +162,18 @@ namespace Events
                     );
                     nextStep = 9;
                     break;
-                
+
                 case 9:
-                     transform =
+                    NetworkPacket networkPacket2 =
                         GameManager.Instance.activePackets.Find((networkPacket) =>
                         {
                             return networkPacket.data.Type == NetworkPacketData.PType.Image;
-                            
-                        }).transform;
-                
-                    GameManager.Instance.cameraController.ZoomToAndFollow(transform);
-                    firstTechnologyResearched = true;
+                        });
+                    if (networkPacket2 != null)
+                    {
+                        GameManager.Instance.cameraController.ZoomToAndFollow(networkPacket2.transform);
+                    }
+
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Another type is binary data like images. Different NetworkPacket types will have different server load and effects on the various infrastructure and will take different routes as your cloud architecture evolves.",
@@ -173,9 +184,8 @@ namespace Events
                 case 10:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                
+
                     GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
-                    firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Notice each Network Packet type has a different load that pops up when they are processed by the server.",
@@ -190,7 +200,6 @@ namespace Events
                     infrastructureInstance.CurrentLoad =
                         infrastructureInstance.data.Stats.GetStatValue(StatType.Infra_MaxLoad);
                     GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
-                    firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "If the load gets higher then the server can handle it will freeze. If that happens network requests will start to fail. This is bad.",
@@ -202,19 +211,44 @@ namespace Events
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
-                    firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Until you research technology that monitors the servers you will need to manually tell your DevOps Engineers to fix the frozen infrastructure.",
+                        "Until you research technology that monitors the servers you will need to manually tell your DevOps Engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online.",
                         options
                     );
                     nextStep = -1;
                     break;
-                
-                
-                
-                
-                case 18:
+
+                case 13:
+
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "The server is back online. Great work! ",
+                        options
+                    );
+                    nextStep = 14;
+                    break;
+
+                case 14:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "You can increase the servers stats by increasing the instance size. Click on the server to do this.",
+                        options
+                    );
+                    nextStep = -1;
+                    break;
+                case 15:
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Great work. Just remember increasing the server size also increases its cost.",
+                        options
+                    );
+                    nextStep = 16;
+                    break;
+                case 16:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("desk");
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
@@ -225,37 +259,78 @@ namespace Events
                     );
                     nextStep = -1;
                     break;
-                case 19:
-                    infrastructureInstance =
+                case 17:
+                    firstResearchedInstance =
                         GameManager.Instance.ActiveInfrastructure.Find((instance =>
                             instance.data.CurrentState == InfrastructureData.State.Unlocked));
-                
-                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+
+                    GameManager.Instance.cameraController.ZoomTo(firstResearchedInstance.transform);
                     firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
                         options
                     );
-                    nextStep = 10;
+                    nextStep = -1;
                     break;
-               
+                case 18:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand.",
+                        options
+                    );
+                    nextStep = -1;
+                    break;
             }
-
-   
         }
 
-        private void HandleInfrastructureBuilt(InfrastructureInstance instance)
+        private void HandleInfrastructureStateChange(InfrastructureInstance instance,
+            InfrastructureData.State? previousState)
         {
-            Debug.Log("HandleInfrastructureBuilt Called: " + instance.data.ID + " - " + currentStep);
-            if (currentStep != 5)
+            Debug.Log("HandleInfrastructureBuilt Called: " + instance.data.ID + " - " + currentStep + " - Prev: " +
+                      previousState + " -> Curr: " + instance.data.CurrentState);
+            switch (currentStep)
             {
-                return;
-            }
+                case 5:
+                    nextStep = 6;
+                    Next();
+                    break;
+                case 6:
+                    if (instance.IsActive())
+                    {
+                        nextStep = 7;
+                        Next();
+                    }
 
-            nextStep = 7;
-            Next();
+                    break;
+                case 12:
+                    nextStep = 13;
+                    Next();
+                    break;
+                case 14:
+                    if (instance.IsActive())
+                    {
+                        nextStep = 15;
+                        Next();
+                    }
+
+                    break;
+                case 17:
+                    if (
+                        instance.data.ID == firstResearchedInstance.data.ID &&    
+                        instance.IsActive()
+                    )
+                    {
+                        nextStep = 18;
+                        Next();
+                    }
+                    break;
+            }
         }
+
         private void HandleTechnologyUnlocked(Technology tech)
         {
             Debug.Log("HandleTechnologyUnlocked Called: " + tech.TechnologyID + " - " + firstTechnologyResearched);
@@ -264,20 +339,19 @@ namespace Events
                 return;
             }
 
-            nextStep = 9;
+            nextStep = 17;
             Next();
-
         }
 
         public override bool IsPossible()
         {
             return true;
         }
-        
+
         public virtual void End()
         {
             GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
-            GameManager.OnInfrastructureBuilt -= HandleInfrastructureBuilt;
+            GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
             GameManager.OnPhaseChange -= HandlePhaseChange;
         }
 
@@ -300,6 +374,4 @@ namespace Events
             return true;
         }*/
     }
-
-  
 }

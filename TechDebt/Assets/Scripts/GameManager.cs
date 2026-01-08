@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     public List<EventBase> CurrentEvents { get; private set; } = new List<EventBase>();
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
-    public static event System.Action<InfrastructureInstance> OnInfrastructureBuilt;
+    public static event System.Action<InfrastructureInstance, InfrastructureData.State?> OnInfrastructureStateChange;
     public static event System.Action<Technology> OnTechnologyUnlocked;
     public static event System.Action<Technology> OnTechnologyResearchStarted;
     public static event System.Action OnCurrentEventsChanged;
@@ -344,9 +344,9 @@ public class GameManager : MonoBehaviour
         isQuitting = true;
     }
 
-    public void NotifyInfrastructureBuilt(InfrastructureInstance instance)
+    public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
     {
-        OnInfrastructureBuilt?.Invoke(instance);
+        OnInfrastructureStateChange?.Invoke(instance, previousState);
 		foreach(var activeInfra in ActiveInfrastructure) {
 			activeInfra.OnInfrastructureBuilt(instance);
 		}
@@ -377,7 +377,7 @@ public class GameManager : MonoBehaviour
         }
 
         Initialize();
-        OnInfrastructureBuilt += HandleInfrastructureBuilt;
+        OnInfrastructureStateChange += HandleInfrastructureStateChange;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
     
         ActiveInfrastructure.Clear();
@@ -386,7 +386,7 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
-        OnInfrastructureBuilt -= HandleInfrastructureBuilt;
+        OnInfrastructureStateChange -= HandleInfrastructureStateChange;
         OnTechnologyUnlocked -= HandleTechnologyUnlocked;
         if (_instance == this)
         {
@@ -400,7 +400,7 @@ public class GameManager : MonoBehaviour
         UpdateInfrastructureVisibility();
     }
 
-    private void HandleInfrastructureBuilt(InfrastructureInstance instance)
+    private void HandleInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State? previousState)
     {
         // Check if the new building is a server
         /* if (instance is Server)

@@ -262,8 +262,9 @@ public Transform GetTransform()
 
     public void SetState(InfrastructureData.State newState)
     {
+        
         if (data.CurrentState == newState) return; // No change
-
+        InfrastructureData.State previousState  = data.CurrentState;
         data.CurrentState = newState;
         if (newState == InfrastructureData.State.Operational)
         {
@@ -287,6 +288,7 @@ public Transform GetTransform()
         }
 
         UpdateAppearance();
+        GameManager.Instance.NotifyInfrastructureStateChange(this, previousState);
     }
 
     public void UpdateAppearance()
@@ -447,7 +449,7 @@ public Transform GetTransform()
             data.Stats.AddModifier(StatType.Infra_MaxLoad, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
             data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
         }
-
+        SetState(InfrastructureData.State.Operational);
         UpdateAppearance(); // Update visual state after resize
         GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display
     }

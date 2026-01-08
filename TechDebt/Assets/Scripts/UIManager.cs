@@ -1103,6 +1103,7 @@ public class UIManager : MonoBehaviour
             {
                 var buildTask = new BuildTask(_selectedInfrastructure, 7);
                 GameManager.Instance.AddTask(buildTask);
+                infrastructureDetailPanel.SetActive(false);
             });
 
             _upsizeButton.gameObject.SetActive(false);

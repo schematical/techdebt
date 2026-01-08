@@ -20,6 +20,10 @@ public class ResizeTask : NPCTask
     {
         if (hasArrived)
         {
+            if (TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
+            {
+                TargetInfrastructure.SetState(InfrastructureData.State.Unlocked);
+            }
             _duration -= Time.deltaTime;
         }
     }
