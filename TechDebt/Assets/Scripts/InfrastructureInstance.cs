@@ -18,7 +18,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     private SpriteRenderer spriteRenderer;
 
     public float CurrentLoad { get; set; }
-    public float TechDebt => data.Stats.GetStatValue(StatType.TechDebt);
+
     public int CurrentSizeLevel { get; private set; } = 0;
 
     public string Version = "0.0.1";

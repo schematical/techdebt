@@ -134,32 +134,8 @@ namespace Events
                     );
                     nextStep = 8;
                     break;
-                case 8:
-                     infrastructureInstance =
-                        GameManager.Instance.GetInfrastructureInstanceByID("desk");
-                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
-                    GameManager.Instance.UIManager.ShowNPCDialog(
-                        botSprite,
-                        "Running everything on one server isn't going to work for long so lets assign your team to start researching technology to help you on your journey. Click on the Desk or the 'Tech' button in the left hand sidebar",
-                        options
-                    );
-                    nextStep = -1;
-                    break;
-                case 9:
-                     infrastructureInstance =
-                        GameManager.Instance.ActiveInfrastructure.Find((instance =>
-                            instance.data.CurrentState == InfrastructureData.State.Unlocked));
                 
-                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
-                    firstTechnologyResearched = true;
-                    GameManager.Instance.UIManager.ShowNPCDialog(
-                        botSprite,
-                        "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
-                        options
-                    );
-                    nextStep = 10;
-                    break;
-                case 10:
+                case 8:
                     transform =
                         GameManager.Instance.activePackets.Find((networkPacket) =>
                         {
@@ -174,10 +150,10 @@ namespace Events
                         "Notice there are different network packet types. One type is just simple text like HTML.",
                         options
                     );
-                    nextStep = 11;
+                    nextStep = 9;
                     break;
                 
-                case 11:
+                case 9:
                      transform =
                         GameManager.Instance.activePackets.Find((networkPacket) =>
                         {
@@ -192,9 +168,9 @@ namespace Events
                         "Another type is binary data like images. Different NetworkPacket types will have different server load and effects on the various infrastructure and will take different routes as your cloud architecture evolves.",
                         options
                     );
-                    nextStep = 12;
+                    nextStep = 10;
                     break;
-                case 12:
+                case 10:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                 
@@ -205,12 +181,14 @@ namespace Events
                         "Notice each Network Packet type has a different load that pops up when they are processed by the server.",
                         options
                     );
-                    nextStep = 13;
+                    nextStep = 11;
                     break;
-                case 13:
+                case 11:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     infrastructureInstance.SetState(InfrastructureData.State.Frozen);
+                    infrastructureInstance.CurrentLoad =
+                        infrastructureInstance.data.Stats.GetStatValue(StatType.Infra_MaxLoad);
                     GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
                     firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
@@ -218,9 +196,9 @@ namespace Events
                         "If the load gets higher then the server can handle it will freeze. If that happens network requests will start to fail. This is bad.",
                         options
                     );
-                    nextStep = 14;
+                    nextStep = 12;
                     break;
-                case 14:
+                case 12:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
@@ -231,6 +209,35 @@ namespace Events
                         options
                     );
                     nextStep = -1;
+                    break;
+                
+                
+                
+                
+                case 18:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Running everything on one server isn't going to work for long so lets assign your team to start researching technology to help you on your journey. Click on the Desk or the 'Tech' button in the left hand sidebar",
+                        options
+                    );
+                    nextStep = -1;
+                    break;
+                case 19:
+                    infrastructureInstance =
+                        GameManager.Instance.ActiveInfrastructure.Find((instance =>
+                            instance.data.CurrentState == InfrastructureData.State.Unlocked));
+                
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                    firstTechnologyResearched = true;
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
+                        options
+                    );
+                    nextStep = 10;
                     break;
                
             }
