@@ -1336,8 +1336,6 @@ public class UIManager : MonoBehaviour
 
 
         // 1. Create the panel using the standard helper method.
-        //new Vector2(400, 200), new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero
-        Vector2 pos = new Vector2(100, -100);
         var panelGO = CreateUIPanel(
             transform, 
             "NPCDialogPanel", 
@@ -1379,9 +1377,10 @@ public class UIManager : MonoBehaviour
         GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
         GameObject dialogTextGO = Instantiate(textAreaPrefab, mainLayout.transform);
 
-        /*LayoutElement layoutElement = dialogTextGO.GetComponent<LayoutElement>();
-        layoutElement.minWidth = 600;
-        layoutElement.minHeight = 128;*/
+      
+        LayoutElement layoutElement = dialogTextGO.AddComponent<LayoutElement>();
+        layoutElement.minWidth = 500;
+        layoutElement.minHeight = 150;
 
         // Configure the layout element to be flexible.
         // layoutElement.flexibleHeight = 1;
