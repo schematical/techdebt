@@ -10,6 +10,7 @@ public class GameLoopManager : MonoBehaviour
     public GameState CurrentState { get; private set; }
 
     public float dayDurationSeconds = 120f;
+    public bool playTimerActive = true;
     public int currentDay = 0;
     public float dayTimer = 0f;
     
@@ -18,29 +19,18 @@ public class GameLoopManager : MonoBehaviour
         switch (CurrentState)
         {
             case GameState.Play:
-                dayTimer += Time.deltaTime;
-                GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, dayDurationSeconds);
-                if (dayTimer >= dayDurationSeconds)
+                if (playTimerActive)
                 {
-                    BeginSummaryPhase();
-                }
-                break;
-            /*case GameState.WaitingForNpcsToExpire:
-                bool allNpcsExpired = true;
-                foreach (var npc in GameManager.Instance.AllNpcs)
-                {
-                    if (npc.gameObject.activeInHierarchy)
+                    dayTimer += Time.deltaTime;
+                    GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, dayDurationSeconds);
+                    if (dayTimer >= dayDurationSeconds)
                     {
-                        allNpcsExpired = false;
-                        break;
+                        BeginSummaryPhase();
                     }
                 }
 
-                if (allNpcsExpired)
-                {
-                    BeginBuildPhase();
-                }
-                break;*/
+                break;
+            
         }
     }
 

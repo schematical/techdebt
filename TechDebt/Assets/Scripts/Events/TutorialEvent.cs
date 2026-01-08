@@ -36,6 +36,7 @@ namespace Events
                     .sprite;
             }
 
+            GameManager.Instance.GameLoopManager.playTimerActive = false;
             GameManager.OnInfrastructureBuilt += HandleInfrastructureBuilt;
             GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
             GameManager.OnPhaseChange += HandlePhaseChange;
@@ -56,6 +57,7 @@ namespace Events
             currentStep =  nextStep;
             GameManager.Instance.UIManager.SetTimeScalePlay();
             InfrastructureInstance infrastructureInstance;
+            Transform transform;
             switch (currentStep)
             {
                 case 0:
@@ -66,7 +68,7 @@ namespace Events
                         "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit.",
                         options
                     );
-                    nextStep = -1;
+                    nextStep = 1;
                     break;
                 
                 case 1:
@@ -78,7 +80,7 @@ namespace Events
                         "The team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day",
                         options
                     );
-                    nextStep = 2;
+                    nextStep = -1;
                     break;
                 case 2:
                     NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
@@ -155,6 +157,54 @@ namespace Events
                         "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
                         options
                     );
+                    nextStep = 10;
+                    break;
+                case 10:
+                    transform =
+                        GameManager.Instance.activePackets.Find((networkPacket) =>
+                        {
+                            return networkPacket.data.Type == NetworkPacketData.PType.Text;
+                            
+                        }).transform;
+                
+                    GameManager.Instance.cameraController.ZoomToAndFollow(transform);
+                    firstTechnologyResearched = true;
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Notice there are different network packet types. One type is just simple text like HTML.",
+                        options
+                    );
+                    nextStep = 11;
+                    break;
+                
+                case 11:
+                     transform =
+                        GameManager.Instance.activePackets.Find((networkPacket) =>
+                        {
+                            return networkPacket.data.Type == NetworkPacketData.PType.Image;
+                            
+                        }).transform;
+                
+                    GameManager.Instance.cameraController.ZoomToAndFollow(transform);
+                    firstTechnologyResearched = true;
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Another type is binary data like images. Different NetworkPacket types will have different server load and effects on the various infrastructure and will take different routes as your cloud architecture evolves.",
+                        options
+                    );
+                    nextStep = 12;
+                    break;
+                case 12:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                
+                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    firstTechnologyResearched = true;
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Notice each Network Packet type has a different load that pops up when they are processed by the server.",
+                        options
+                    );
                     nextStep = -1;
                     break;
                
@@ -201,11 +251,16 @@ namespace Events
 
         public void HandlePhaseChange(GameLoopManager.GameState state)
         {
-            if (currentStep == 0)
+            if (currentStep == 1)
             {
-                nextStep = 1;
+                nextStep = 2;
                 Next();
             }
+        }
+
+        public override string GetEventDescription()
+        {
+            return $"{base.GetEventDescription()} - Step: {currentStep} - Next: {nextStep}";
         }
 /*
         public virtual bool IsOver()

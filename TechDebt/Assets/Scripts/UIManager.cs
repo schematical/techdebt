@@ -1029,7 +1029,7 @@ public class UIManager : MonoBehaviour
             foreach (var gameEvent in GameManager.Instance.Events)
             {
                 EventBase localEvent = gameEvent; // Local copy for the closure
-                uiPanel.AddButton(gameEvent.GetType().Name, () =>
+                uiPanel.AddButton(gameEvent.GetEventDescription(), () =>
                 {
                     GameManager.Instance.TriggerEvent(localEvent);
                     eventTriggerPanel.SetActive(false); // Close panel after triggering

@@ -30,5 +30,10 @@
         {
             return true;
         }
+        
+        public virtual string GetEventDescription()
+        {
+            return GetType().Name;
+        }
     }
 }
