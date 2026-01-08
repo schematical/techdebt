@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
     public static event System.Action<Technology> OnTechnologyResearchStarted;
     public static event System.Action OnCurrentEventsChanged;
     
+    public static event System.Action OnDayEnd;
+    
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
     public List<EventBase> TutorialEvents = new List<EventBase>();
@@ -236,15 +238,16 @@ public class GameManager : MonoBehaviour
     public void CheckEvents()
     {
 
-        Debug.Log("CheckEvents");
+   
         if (TutorialEvents.Count() > 0)
         {
-            Debug.Log("TriggerEvent(TutorialEvents.First());");
-            TriggerEvent(TutorialEvents.First());
-            TutorialEvents.RemoveAt(0);
+            if (CurrentEvents.Count() == 0)
+            {
+                TriggerEvent(TutorialEvents.First());
+            }
             return;
         }
-        Debug.Log("Missed");
+
         int totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
         foreach (var e in Events)
@@ -850,5 +853,10 @@ public class GameManager : MonoBehaviour
     public void AddEffect(EffectBase effectBase)
     {
         Effects.Add(effectBase);
+    }
+
+    public void InvokeOnDayEnd()
+    {
+        OnDayEnd?.Invoke();
     }
 }

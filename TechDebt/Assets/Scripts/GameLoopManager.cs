@@ -9,7 +9,7 @@ public class GameLoopManager : MonoBehaviour
     public enum GameState { Build, Play, WaitingForNpcsToExpire, Summary }
     public GameState CurrentState { get; private set; }
 
-    public float dayDurationSeconds = 60f;
+    public float dayDurationSeconds = 120f;
     public int currentDay = 0;
     public float dayTimer = 0f;
     
@@ -120,7 +120,7 @@ public class GameLoopManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         CurrentState = GameState.WaitingForNpcsToExpire;
-   
+        GameManager.Instance.InvokeOnDayEnd();
         
         // --- Prepare Summary Text ---
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();

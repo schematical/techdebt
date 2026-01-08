@@ -9,6 +9,8 @@ namespace Events
         protected List<DialogButtonOption> options = new List<DialogButtonOption>();
         protected Sprite bossSprite;
         protected Sprite botSprite;
+
+        protected bool firstTechnologyResearched = false;
         public TutorialEvent()
         {
             
@@ -34,14 +36,32 @@ namespace Events
 
             GameManager.OnInfrastructureBuilt += HandleInfrastructureBuilt;
             GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
+            GameManager.OnDayEnd += OnDayEnd;
             Next();
            
        
         }
 
+        private void OnDayEnd()
+        {
+            Debug.Log("OnDayEnd Called: " + GameManager.Instance.GameLoopManager.currentDay + " - " + currentStep);
+            if (GameManager.Instance.GameLoopManager.currentDay == 1)
+            {
+                InfrastructureInstance infrastructureInstance =
+                    GameManager.Instance.GetInfrastructureInstanceByID("door");
+                GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                GameManager.Instance.UIManager.ShowNPCDialog(
+                    bossSprite,
+                    "That's the end of your first day. The team will exit via the door portal at the end of each day and re-enter at the beginning of the next day.",
+                    options
+                );
+            }
+        }
+
         private void Next()
         {
             Debug.Log("Next step: " + currentStep);
+            InfrastructureInstance infrastructureInstance;
             switch (currentStep)
             {
                 case 0:
@@ -65,13 +85,13 @@ namespace Events
                         options
                     );
                     break;
-                case 3:
-                    InfrastructureInstance infrastructureInstance =
+                case 3: 
+                    infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'",
+                        "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'. One of your DevOps Engineers will start building it shortly.",
                         options
                     );
                     break;
@@ -79,22 +99,29 @@ namespace Events
 
                     break;
                 case 5:
+                     infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("internetPipe");
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Great work! Running everything on one server isn't going to work for long so lets assign your team to start researching technology to help you on your journey. Click on the Desk or the 'Tech' button in the left hand sidebar",
+                        "Great work! Notice Network Packets will start flowing in from the Internet to your server.",
                         options
                     );
                     break;
                 case 6:
-
-                    break;
-                case 7:
+                     infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
+                        "Running everything on one server isn't going to work for long so lets assign your team to start researching technology to help you on your journey. Click on the Desk or the 'Tech' button in the left hand sidebar",
                         options
                     );
                     break;
+                case 7:
+
+                    break;
+               
             }
 
             currentStep++;
@@ -111,11 +138,23 @@ namespace Events
         }
         private void HandleTechnologyUnlocked(Technology tech)
         {
-            if (currentStep != 7)
+            Debug.Log("HandleTechnologyUnlocked Called: " + tech.TechnologyID + " - " + firstTechnologyResearched);
+            if (firstTechnologyResearched)
             {
                 return;
             }
-            Next();
+
+            InfrastructureInstance infrastructureInstance =
+                GameManager.Instance.ActiveInfrastructure.Find((instance =>
+                    instance.data.CurrentState == InfrastructureData.State.Unlocked));
+                
+            GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+            firstTechnologyResearched = true;
+            GameManager.Instance.UIManager.ShowNPCDialog(
+                botSprite,
+                "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
+                options
+            );
         }
 
         public override bool IsPossible()
