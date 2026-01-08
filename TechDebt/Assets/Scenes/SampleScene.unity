@@ -568,7 +568,7 @@ MonoBehaviour:
       loadPerPacket: 1
       cost: 0
       RouteType: 0
-    DailyCost: 30
+    DailyCost: 0
     BuildTime: 10
     LoadPerPacket: 20
     CostPerPacket: 0
@@ -593,7 +593,7 @@ MonoBehaviour:
       TechnologyID: 
       RequiredValue: 2
     networkPackets: []
-    DailyCost: 30
+    DailyCost: 0
     BuildTime: 1
     LoadPerPacket: 20
     CostPerPacket: 0
@@ -656,7 +656,7 @@ MonoBehaviour:
     GridPosition: {x: 50, y: 50}
     UnlockConditions: []
     networkPackets: []
-    DailyCost: 30
+    DailyCost: 0
     BuildTime: 10
     LoadPerPacket: 20
     CostPerPacket: 0
@@ -1510,6 +1510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameLoopManager
   dayDurationSeconds: 60
+  playTimerActive: 1
   currentDay: 0
   dayTimer: 0
 --- !u!114 &776996750
