@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     private Vector3 _startPosition;
     private float _startZoom;
     private float _targetZoom;
+    private bool _followAfterZoom;
     // ------------------------------------
 
     private Vector3 lastPanPosition;
@@ -41,10 +42,17 @@ public class CameraController : MonoBehaviour
         _zoomTarget = target;
         _zoomDuration = 2f;
         _zoomElapsedTime = 0f;
+        _followAfterZoom = false; // Ensure this is reset
         
         _startPosition = transform.position;
         _startZoom = mainCamera.orthographicSize;
         _targetZoom = 4f; // Sensible default close-up zoom
+    }
+
+    public void ZoomToAndFollow(Transform target)
+    {
+        ZoomTo(target);
+        _followAfterZoom = true;
     }
 
     void Update()
@@ -91,6 +99,12 @@ public class CameraController : MonoBehaviour
             // Ensure final position and zoom are set precisely
             transform.position = new Vector3(_zoomTarget.position.x, _zoomTarget.position.y, _startPosition.z);
             mainCamera.orthographicSize = _targetZoom;
+
+            if (_followAfterZoom)
+            {
+                StartFollowing(_zoomTarget);
+                _followAfterZoom = false; // Reset the flag
+            }
         }
     }
     

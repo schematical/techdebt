@@ -93,6 +93,7 @@ public class GameLoopManager : MonoBehaviour
     private void BeginPlayPhase()
     {
         CurrentState = GameState.Play;
+        GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         dayTimer = 0f;
         GameManager.Instance.SetStat(StatType.PacketsSent, 0);
         GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
@@ -120,7 +121,7 @@ public class GameLoopManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         CurrentState = GameState.WaitingForNpcsToExpire;
-        GameManager.Instance.InvokeOnDayEnd();
+        GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         
         // --- Prepare Summary Text ---
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();

@@ -18,18 +18,18 @@ public class BossNPC : NPCBase
     public override void TriggerDefaultBehavior()
     {
         // Boss-specific idle behavior: 50% chance to go to desk, otherwise wander
-        if (Random.value > 0.5f)
-        {
+        /*if (Random.value > 0.5f)
+        {*/
             // ShowWordBubble("I better get back to work");
             Sprite portrait = GetComponent<SpriteRenderer>().sprite;
            
             MoveTo(_bossDesk.transform.position);
             CurrentState = State.Wandering; // Use Wandering state to signify moving without a task
-        }
+        /*}
         else
         {
             Wander();
-        }
+        }*/
         
     }
     public override bool CanAssignTask(NPCTask task)

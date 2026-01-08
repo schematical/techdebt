@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     public static event System.Action<Technology> OnTechnologyResearchStarted;
     public static event System.Action OnCurrentEventsChanged;
     
-    public static event System.Action OnDayEnd;
+    public static event System.Action<GameLoopManager.GameState> OnPhaseChange;
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
@@ -239,14 +239,13 @@ public class GameManager : MonoBehaviour
     {
 
    
-        if (TutorialEvents.Count() > 0)
+        
+        if (CurrentEvents.Count() > 0)
         {
-            if (CurrentEvents.Count() == 0)
-            {
-                TriggerEvent(TutorialEvents.First());
-            }
             return;
         }
+     
+        
 
         int totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
@@ -454,6 +453,10 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (TutorialEvents.Count > 0 && CurrentEvents.Count == 0)
+        {
+            TriggerEvent(TutorialEvents.First());
+        }
         // Iterate over a copy of the list to prevent modification during enumeration errors.
         foreach (var effect in Effects.ToList())
         {
@@ -672,7 +675,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
             }
         }
-        var door = GetInfrastructureInstanceByID("door");
+        var door = GetInfrastructureInstanceByID("boss-desk");
         if (door != null)
         {
             GameObject npcGO = prefabManager.Create("BossNPC", door.transform.position);
@@ -682,8 +685,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Could not find 'door' to spawn BossNPC.");
+            Debug.LogWarning("Could not find 'boss-desk to spawn BossNPC.");
         }
+        
+   
     }
 
     public bool AreUnlockConditionsMet(InfrastructureData infraData)
@@ -855,8 +860,8 @@ public class GameManager : MonoBehaviour
         Effects.Add(effectBase);
     }
 
-    public void InvokeOnDayEnd()
+    public void InvokeOnPhaseChange(GameLoopManager.GameState state)
     {
-        OnDayEnd?.Invoke();
+        OnPhaseChange?.Invoke(state);
     }
 }
