@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public FloatingTextFactory FloatingTextFactory;
     public GameLoopManager GameLoopManager;
     public PrefabManager prefabManager;
+    public CameraController cameraController;
     public float desiredTimeScale = 1f;
 
     public List<InfrastructureData> AllInfrastructure;
@@ -479,7 +480,6 @@ public class GameManager : MonoBehaviour
             deliveryNpc.Initialize(door.transform.position);
             var deliveryTask = new DeliverItemTask();
             deliveryNpc.AssignTask(deliveryTask);
-            Debug.Log("A Delivery NPC has been dispatched.");
         }
         else
         {

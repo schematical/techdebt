@@ -554,6 +554,7 @@ MonoBehaviour:
   FloatingTextFactory: {fileID: 547684158}
   GameLoopManager: {fileID: 776996749}
   prefabManager: {fileID: 776996750}
+  cameraController: {fileID: 519420033}
   desiredTimeScale: 1
   AllInfrastructure:
   - ID: door
@@ -1539,6 +1540,7 @@ MonoBehaviour:
   - {fileID: 1202204626427677117, guid: a028aa5862a7d8044ba3d97d65b8e0f5, type: 3}
   - {fileID: 1680057167180731738, guid: ac9949f9babd6a3489c2bd7b7788981d, type: 3}
   - {fileID: 8151390316128164153, guid: 5d7401f8ce59dba439fb5b9b0cebae0a, type: 3}
+  - {fileID: 5176701938851786182, guid: 10549293cd0a66348b06c24b2a7752fa, type: 3}
 --- !u!1 &1216552916
 GameObject:
   m_ObjectHideFlags: 0

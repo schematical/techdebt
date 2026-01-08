@@ -66,6 +66,9 @@ namespace Events
                     );
                     break;
                 case 3:
+                    InfrastructureInstance infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'",
@@ -99,7 +102,8 @@ namespace Events
 
         private void HandleInfrastructureBuilt(InfrastructureInstance instance)
         {
-            if (currentStep != 4)
+            Debug.Log("HandleInfrastructureBuilt Called: " + instance.data.ID + " - " + currentStep);
+            if (currentStep != 5)
             {
                 return;
             }
@@ -107,7 +111,7 @@ namespace Events
         }
         private void HandleTechnologyUnlocked(Technology tech)
         {
-            if (currentStep != 6)
+            if (currentStep != 7)
             {
                 return;
             }

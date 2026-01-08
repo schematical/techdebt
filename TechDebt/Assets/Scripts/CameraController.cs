@@ -1,4 +1,3 @@
-// CameraController.cs
 using UnityEngine;
 using UnityEngine.InputSystem; // Using the new Input System
 
@@ -9,9 +8,18 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float minZoom = 2f;
     [SerializeField] private float maxZoom = 12f;
 
+    // --- Update-based Animation State ---
+    private bool _isZooming = false;
+    private Transform _zoomTarget;
+    private float _zoomDuration;
+    private float _zoomElapsedTime;
+    private Vector3 _startPosition;
+    private float _startZoom;
+    private float _targetZoom;
+    // ------------------------------------
+
     private Vector3 lastPanPosition;
     private Vector2 initialRightClickMousePosition; // Store initial mouse screen position
-    private const float panThreshold = 1.0f; // Pixels
     private Camera mainCamera;
     private Transform targetToFollow;
 
@@ -24,6 +32,20 @@ public class CameraController : MonoBehaviour
             this.enabled = false;
         }
     }
+    
+    public void ZoomTo(Transform target)
+    {
+        StopFollowing(); // Stop any current following
+        
+        _isZooming = true;
+        _zoomTarget = target;
+        _zoomDuration = 2f;
+        _zoomElapsedTime = 0f;
+        
+        _startPosition = transform.position;
+        _startZoom = mainCamera.orthographicSize;
+        _targetZoom = 4f; // Sensible default close-up zoom
+    }
 
     void Update()
     {
@@ -31,18 +53,54 @@ public class CameraController : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             StopFollowing();
+            _isZooming = false; // Also cancel zoom animation
         }
 
-        HandlePan();
-        HandleZoom();
-        HandleKeyboardInput(); // Call the new keyboard input handler
-        HandleKeyboardZoom(); // Call the new keyboard zoom handler
+        if (_isZooming)
+        {
+            HandleZoomToAnimation();
+        }
+        else // Only handle manual controls if not animating
+        {
+            HandlePan();
+            HandleZoom();
+            HandleKeyboardInput();
+            HandleKeyboardZoom();
+        }
+    }
+
+    private void HandleZoomToAnimation()
+    {
+        _zoomElapsedTime += Time.deltaTime;
+        float t = _zoomElapsedTime / _zoomDuration;
+
+        // SmoothStep interpolation for a nice ease-in and ease-out effect
+        t = t * t * (3f - 2f * t);
+
+        // Interpolate position
+        Vector3 targetPos = new Vector3(_zoomTarget.position.x, _zoomTarget.position.y, _startPosition.z);
+        transform.position = Vector3.Lerp(_startPosition, targetPos, t);
+
+        // Interpolate zoom
+        mainCamera.orthographicSize = Mathf.Lerp(_startZoom, _targetZoom, t);
+
+        // Check if animation is complete
+        if (_zoomElapsedTime >= _zoomDuration)
+        {
+            _isZooming = false;
+            // Ensure final position and zoom are set precisely
+            transform.position = new Vector3(_zoomTarget.position.x, _zoomTarget.position.y, _startPosition.z);
+            mainCamera.orthographicSize = _targetZoom;
+        }
     }
     
     // Using LateUpdate for following to ensure the target has finished its movement for the frame.
     // This prevents camera jitter.
     void LateUpdate()
     {
+        // Do not interfere if a zoom animation is in progress
+        if (_isZooming) return;
+        
         if (targetToFollow != null)
         {
             // Keep the camera's original Z position
