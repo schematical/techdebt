@@ -227,7 +227,7 @@ public class UIManager : MonoBehaviour
         {
             foreach (var ev in currentEvents)
             {
-                log += $"- {ev.GetType().Name.Replace("Event", "")}\n";
+                log += $"- {ev.GetEventDescription()}\n";
             }
         }
 
@@ -1089,6 +1089,24 @@ public class UIManager : MonoBehaviour
             // Set interactable state based on size level
             _upsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel < 4;
             _downsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel > 0;
+        }
+        else if (_selectedInfrastructure.data.CurrentState == InfrastructureData.State.Frozen)
+        {
+            _planBuildButton.gameObject.SetActive(true);
+            var buttonText = _planBuildButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = "Fix";
+            }
+            _planBuildButton.onClick.RemoveAllListeners();
+            _planBuildButton.onClick.AddListener(() =>
+            {
+                var buildTask = new BuildTask(_selectedInfrastructure, 7);
+                GameManager.Instance.AddTask(buildTask);
+            });
+
+            _upsizeButton.gameObject.SetActive(false);
+            _downsizeButton.gameObject.SetActive(false);
         }
         else
         {

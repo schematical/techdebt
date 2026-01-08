@@ -205,6 +205,31 @@ namespace Events
                         "Notice each Network Packet type has a different load that pops up when they are processed by the server.",
                         options
                     );
+                    nextStep = 13;
+                    break;
+                case 13:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    infrastructureInstance.SetState(InfrastructureData.State.Frozen);
+                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    firstTechnologyResearched = true;
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "If the load gets higher then the server can handle it will freeze. If that happens network requests will start to fail. This is bad.",
+                        options
+                    );
+                    nextStep = 14;
+                    break;
+                case 14:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    firstTechnologyResearched = true;
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Until you research technology that monitors the servers you will need to manually tell your DevOps Engineers to fix the frozen infrastructure.",
+                        options
+                    );
                     nextStep = -1;
                     break;
                

@@ -276,7 +276,10 @@ public Transform GetTransform()
             var buildTask = new BuildTask(this);
             GameManager.Instance.AddTask(buildTask);
         }
-        if (newState == InfrastructureData.State.Frozen)
+        if (
+            newState == InfrastructureData.State.Frozen &&
+            false // TODO: Make it so if the CWAlarms tech is researched then this will happen automatically.
+        )
         {
             // Create a new BuildTask and add it to the GameManager
             var buildTask = new BuildTask(this, 7);

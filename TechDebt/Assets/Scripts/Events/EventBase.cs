@@ -33,7 +33,7 @@
         
         public virtual string GetEventDescription()
         {
-            return GetType().Name;
+            return GetType().Name.Replace("Event", "");
         }
     }
 }
