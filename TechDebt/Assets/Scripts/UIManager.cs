@@ -1443,20 +1443,10 @@ public class UIManager : MonoBehaviour
         LayoutElement buttonLayoutElement = buttonContainer.AddComponent<LayoutElement>();
         buttonLayoutElement.flexibleWidth = 1;
         buttonLayoutElement.minWidth = 100;
-
-      
-
+        
         // Create a dedicated container for buttons and give it a fixed minimum height
-        var buttonContainerGO = new GameObject("ButtonContainer", typeof(RectTransform));
-        buttonContainerGO.transform.SetParent(buttonContainer.transform, false);
-        var buttonHLG = buttonContainerGO.AddComponent<HorizontalLayoutGroup>();
-        buttonHLG.spacing = 10;
-        buttonHLG.childAlignment = TextAnchor.MiddleRight;
-        var buttonContainerLayout = buttonContainerGO.AddComponent<LayoutElement>();
-        buttonContainerLayout.minHeight = 40; // Reserve 40 pixels for the buttons
-        buttonContainerLayout.flexibleHeight = 0; // Don't allow the button container to expand
-
-        _currentNPCDialogPanel._buttonContainer = buttonContainerGO.transform;
+       
+        _currentNPCDialogPanel._buttonContainer = buttonContainer.transform;
 
         _currentNPCDialogPanel.gameObject.SetActive(false);
     }

@@ -15,13 +15,13 @@ namespace Events
         {
             base.Apply();
             statModifier = new StatModifier(StatModifier.ModifierType.Multiply, 0.1f);
-            GameManager.Instance.Stats.AddModifier(StatType.Traffic, statModifier);
+            GameManager.Instance.Stats.AddModifier(StatType.DailyIncome, statModifier);
        
         }
 
         public override void End()
         {
-            GameManager.Instance.Stats.RemoveModifier(StatType.Traffic, statModifier);
+            GameManager.Instance.Stats.RemoveModifier(StatType.DailyIncome, statModifier);
             base.End();
         
 

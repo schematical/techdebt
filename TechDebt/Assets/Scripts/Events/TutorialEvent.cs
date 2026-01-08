@@ -286,6 +286,18 @@ namespace Events
                         "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand.",
                         options
                     );
+                    nextStep = 19;
+                    break;
+                case 19:
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        bossSprite,
+                        "It looks like you are settling right in. \n Now that you have the basics we are going to start the in game clock. At the end of each day you will get a summary. \n Our infrastructure budget is directly related to how many packets make it through. If we run out of money its Game Over...",
+                        options
+                    );
+                    nextStep = 20;
+                    break;
+                case 20:
+                    End();
                     nextStep = -1;
                     break;
                 //TODO: Explain the economy.
