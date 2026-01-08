@@ -1348,12 +1348,30 @@ public class UIManager : MonoBehaviour
         if (uiPanel.titleText) uiPanel.titleText.gameObject.SetActive(false);
         if (uiPanel.closeButton) uiPanel.closeButton.gameObject.SetActive(false);
 
+        // --- FIX: For this panel, we want the content to fill the space, not shrink to fit. ---
+        // By destroying the ContentSizeFitter, the scrollContent will fill its parent viewport.
+        var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
+        if (csf != null)
+        {
+            Destroy(csf);
+        }
+
         // 2. Add our custom dialog panel component.
         _currentNPCDialogPanel = panelGO.AddComponent<NPCDialogPanel>();
 
         // 3. Create the required hierarchy and assign the few external dependencies.
         var mainLayout = new GameObject("MainLayout", typeof(RectTransform));
         mainLayout.transform.SetParent(uiPanel.scrollContent, false);
+        
+        var mainLayoutRect = mainLayout.GetComponent<RectTransform>();
+        // Anchor to the top of the parent, let the width stretch.
+        mainLayoutRect.anchorMin = new Vector2(0, 1);
+        mainLayoutRect.anchorMax = new Vector2(1, 1);
+        mainLayoutRect.pivot = new Vector2(0.5f, 1);
+        // Set a fixed height of 145.
+        mainLayoutRect.sizeDelta = new Vector2(0, 145);
+        mainLayoutRect.anchoredPosition = Vector2.zero;
+        
         var hlg = mainLayout.AddComponent<HorizontalLayoutGroup>();
         hlg.padding = new RectOffset(15, 15, 15, 15);
         hlg.spacing = 20;
