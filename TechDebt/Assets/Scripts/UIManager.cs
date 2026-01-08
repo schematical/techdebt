@@ -828,7 +828,7 @@ public class UIManager : MonoBehaviour
             StatType.Traffic,
             StatType.PacketsSent,
             StatType.PacketsServiced,
-            StatType.PacketIncome,
+            StatType.DailyIncome,
             StatType.Difficulty,
             StatType.PRR
         };

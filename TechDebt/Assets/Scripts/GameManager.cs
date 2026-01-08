@@ -222,17 +222,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 		 packetsServiced = IncrStat(StatType.PacketsServiced);
-
-        // --- Calculate Income & Expenses ---
-      	float packetIncome = GetStat(StatType.PacketIncome);
-        IncrStat(StatType.Money, packetIncome);
-        FloatingTextFactory.ShowText($"+${packetIncome}", packet.transform.position, new Color(0f, 1f, 0f));//  + new Vector3(0, 1, 3));
-		/*int incrAfter = (int) Math.Floor(GetStat(StatType.PacketCountToLevelUp) * GetStat(StatType.Traffic));
-		if(packetsServiced % incrAfter == 0)
-        {
-            LevelUp();
-        	
-		} */
+         
     }
 
     public void CheckEvents()
@@ -495,13 +485,13 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        Stats.Add(new StatData(StatType.Money, 200f));
+        Stats.Add(new StatData(StatType.Money, 1000f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 0.25f));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
         Stats.Add(new StatData(StatType.PacketsFailed, 0f));
-        Stats.Add(new StatData(StatType.PacketIncome, 10f));
+        Stats.Add(new StatData(StatType.DailyIncome, 100f));
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
         Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));

@@ -69,7 +69,11 @@ namespace Events
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         bossSprite,
                         "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit.",
-                        options
+                        new List<DialogButtonOption>()
+                        {
+                            new DialogButtonOption() { Text = "Continue", OnClick = () => Next() },
+                            new DialogButtonOption() { Text = "Nah I'm Good", OnClick = () => End() },
+                        }
                     );
                     nextStep = 1;
                     break;
@@ -354,6 +358,11 @@ namespace Events
             GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
             GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
             GameManager.OnPhaseChange -= HandlePhaseChange;
+            GameManager.Instance.TutorialEvents.Clear();
+            GameManager.Instance.cameraController.StopFollowing();
+            GameManager.Instance.GameLoopManager.playTimerActive = true;
+            base.End();
+            
         }
 
         public void HandlePhaseChange(GameLoopManager.GameState state)

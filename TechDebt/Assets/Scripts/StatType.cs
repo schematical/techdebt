@@ -9,7 +9,7 @@ public enum StatType
     PacketsServiced,
     PRR, // PacketsRatioRequirements,
     PacketsFailed,
-    PacketIncome,
+    DailyIncome,
     Difficulty,
     
     // Infrastructure Stats

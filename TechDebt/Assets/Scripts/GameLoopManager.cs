@@ -1,3 +1,4 @@
+using System;
 using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +15,7 @@ public class GameLoopManager : MonoBehaviour
     public int currentDay = 0;
     public float dayTimer = 0f;
     
-    void Update()
+    void FixedUpdate()
     {
         switch (CurrentState)
         {
@@ -23,6 +24,8 @@ public class GameLoopManager : MonoBehaviour
                 {
                     dayTimer += Time.deltaTime;
                     GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, dayDurationSeconds);
+                  
+              
                     if (dayTimer >= dayDurationSeconds)
                     {
                         BeginSummaryPhase();
@@ -109,6 +112,7 @@ public class GameLoopManager : MonoBehaviour
 
     private void BeginSummaryPhase()
     {
+       
         Time.timeScale = 1f;
         CurrentState = GameState.WaitingForNpcsToExpire;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
@@ -116,8 +120,34 @@ public class GameLoopManager : MonoBehaviour
         // --- Prepare Summary Text ---
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
+        float dailyPacketIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
+    
+        float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
+    
+    
+        float packetsServiced = GameManager.Instance.GetStat(StatType.PacketsServiced);
+        
+        
+        float percentageSuccess = packetsServiced / (packetsServiced + packetsFailed);
+        if (packetsServiced < 10)
+        {
+            percentageSuccess = 0;
+        }
+        float money = GameManager.Instance.IncrStat(StatType.Money, (float) Math.Round(dailyPacketIncome * percentageSuccess));
+        /*GameManager.Instance.FloatingTextFactory.ShowText(
+            $"+${hourlyIncome}",
+            GameManager.Instance.GetInfrastructureInstanceByID("internetPipes").transform.position,
+            new Color(0f, 1f, 0f)
+        );*/
         string summaryText = $"End of Day {currentDay - 1}\n" +
-                             $"Total Costs: -${totalDailyCost}";
+                             $"Total Packets: {packetsFailed  + packetsServiced} \n" +
+                             $"Packets Failed: {packetsFailed} \n" +
+                             $"Packets Succeeded: {packetsServiced} \n" +
+                             $"Percentage Served: %{Math.Round(percentageSuccess * 100)} \n" +
+                             $"Total Costs: ${totalDailyCost} \n" +
+                             $"Total Income: ${dailyPacketIncome}\n" +
+                             $"Net Income: ${dailyPacketIncome - totalDailyCost}\n" + 
+                             $"Total: {money}";
 
         if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {
