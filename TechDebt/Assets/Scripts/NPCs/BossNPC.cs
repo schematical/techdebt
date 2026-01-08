@@ -20,12 +20,9 @@ public class BossNPC : NPCBase
         // Boss-specific idle behavior: 50% chance to go to desk, otherwise wander
         if (Random.value > 0.5f)
         {
-            ShowWordBubble("I better get back to work");
+            // ShowWordBubble("I better get back to work");
             Sprite portrait = GetComponent<SpriteRenderer>().sprite;
-            GameManager.Instance.UIManager.ShowNPCDialog(
-                portrait,
-                "Hello! Welcome to the team."
-            );
+           
             MoveTo(_bossDesk.transform.position);
             CurrentState = State.Wandering; // Use Wandering state to signify moving without a task
         }

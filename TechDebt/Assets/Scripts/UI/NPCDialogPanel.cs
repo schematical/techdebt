@@ -71,8 +71,9 @@ public class NPCDialogPanel : MonoBehaviour
             {
                 uiButton.buttonText.text = option.Text;
                 uiButton.button.onClick.AddListener(() => {
+                    gameObject.SetActive(false); // Hide the parent container
                     option.OnClick?.Invoke();
-                    transform.parent.gameObject.SetActive(false); // Hide the parent container
+                  
                 });
             }
             else

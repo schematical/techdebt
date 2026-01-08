@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
-    public List<NPCDevOps> AllNpcs = new List<NPCDevOps>();
+    public List<NPCBase> AllNpcs = new List<NPCBase>();
 
     public void AddTask(NPCTask task)
     {
@@ -234,6 +234,16 @@ public class GameManager : MonoBehaviour
 
     public void CheckEvents()
     {
+
+        Debug.Log("CheckEvents");
+        if (TutorialEvents.Count() > 0)
+        {
+            Debug.Log("TriggerEvent(TutorialEvents.First());");
+            TriggerEvent(TutorialEvents.First());
+            TutorialEvents.RemoveAt(0);
+            return;
+        }
+        Debug.Log("Missed");
         int totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
         foreach (var e in Events)
@@ -491,7 +501,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));
         Stats.Add(new StatData(StatType.ItemDropCheck, 15));
 
-        //TutorialEvents.Add();
+        TutorialEvents.Add(new TutorialEvent());
         
         Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());
@@ -665,6 +675,7 @@ public class GameManager : MonoBehaviour
             GameObject npcGO = prefabManager.Create("BossNPC", door.transform.position);
             BossNPC bossNPC = npcGO.GetComponent<BossNPC>();
             bossNPC.Initialize();
+            AllNpcs.Add(bossNPC);
         }
         else
         {

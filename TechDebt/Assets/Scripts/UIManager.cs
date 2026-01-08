@@ -1405,6 +1405,7 @@ public class UIManager : MonoBehaviour
 
         UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
         uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
+        uiTextArea.textArea.fontSize = 20;
         /*var textRect = uiTextArea.textArea.rectTransform;
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
@@ -1420,7 +1421,9 @@ public class UIManager : MonoBehaviour
         vlg.spacing = 10;
         vlg.childControlHeight = false; // Take control of child heights
         vlg.childForceExpandHeight = true; // Force them to fill the available space
-        buttonContainer.AddComponent<LayoutElement>().flexibleWidth = 1;
+        LayoutElement buttonLayoutElement = buttonContainer.AddComponent<LayoutElement>();
+        buttonLayoutElement.flexibleWidth = 1;
+        buttonLayoutElement.minWidth = 100;
 
       
 
