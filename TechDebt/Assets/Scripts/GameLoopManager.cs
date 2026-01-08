@@ -107,6 +107,10 @@ public class GameLoopManager : MonoBehaviour
             StatType.Traffic,
             new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
         );
+        GameManager.Instance. Stats.AddModifier(
+            StatType.DailyIncome,
+            new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
+        );
         GameManager.Instance.CheckEvents();
     }
 

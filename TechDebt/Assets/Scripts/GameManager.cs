@@ -485,13 +485,13 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        Stats.Add(new StatData(StatType.Money, 1000f));
+        Stats.Add(new StatData(StatType.Money, 200f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 0.25f));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
         Stats.Add(new StatData(StatType.PacketsFailed, 0f));
-        Stats.Add(new StatData(StatType.DailyIncome, 100f));
+        Stats.Add(new StatData(StatType.DailyIncome, 10f));
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
         Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));
@@ -540,17 +540,20 @@ public class GameManager : MonoBehaviour
     public float CalculateTotalDailyCost()
     {
         float totalCost = 0;
-        foreach (var infra in AllInfrastructure)
+        foreach (var infra in ActiveInfrastructure)
         {
-            if (infra.CurrentState == InfrastructureData.State.Operational)
+            if (infra.IsActive())
             {
-                totalCost += infra.Stats.GetStatValue(StatType.Infra_DailyCost);
+                totalCost += infra.data.Stats.GetStatValue(StatType.Infra_DailyCost);
             }
         }
         
-        foreach (var npc in FindObjectsOfType<NPCDevOps>())
+        foreach (var npc in AllNpcs)
         {
-            totalCost += npc.Data.Stats.GetStatValue(StatType.NPC_DailyCost);
+            NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
+            if (npcDevOps != null) {
+                totalCost += npcDevOps.Stats.GetStatValue(StatType.NPC_DailyCost);
+            }
         }
         return totalCost;
     }
