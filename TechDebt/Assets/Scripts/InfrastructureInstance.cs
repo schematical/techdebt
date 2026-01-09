@@ -159,7 +159,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                 GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
                 GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
                     Color.khaki);
-            }
+            } 
 
             if (loadPerPacket != 0)
             {
@@ -175,6 +175,12 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
                     packet.MoveToNextNode();
                     return false; // Stop processing
                 }
+            }
+
+            float loadPct = CurrentLoad / data.MaxLoad;
+            if (loadPct > .5f)
+            {
+                packet.SetSpeed(packet.BaseSpeed * loadPct);
             }
         }
 
@@ -464,5 +470,24 @@ public Transform GetTransform()
             default:
                 return false;
         }
+    }
+
+    public List<NPCTask> GetAvailableTasks()
+    {
+        List<NPCTask> availableTasks = new List<NPCTask>();
+        switch (data.CurrentState)
+        {
+            case(InfrastructureData.State.Unlocked): 
+                // TODO: Add Build task
+                break;
+            case(InfrastructureData.State.Operational): 
+                    // TODO: Add Resize tasks
+                break;
+            case(InfrastructureData.State.Frozen):
+                    //TODO: Add a build task
+                    break;
+        }
+        return availableTasks;
+
     }
 }

@@ -892,7 +892,7 @@ public class UIManager : MonoBehaviour
 
     private void SetupSummaryPhaseUI(Transform parent)
     {
-        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 200),
+        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 300),
             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
         CreateText(summaryPhaseUIContainer.transform, "Summary Text", "", 24);
 

@@ -124,14 +124,15 @@ public class CameraController : MonoBehaviour
 
     public void StartFollowing(Transform target)
     {
-        Debug.Log("Start Following");
+
         targetToFollow = target;
     }
 
     public void StopFollowing()
     {
-        Debug.Log("Stop Following");
+
         targetToFollow = null;
+        _isZooming = false;
     }
 
     void HandleKeyboardInput()

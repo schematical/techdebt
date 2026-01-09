@@ -11,13 +11,15 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler
     public string FileName { get; private set; }
     public NetworkPacketData data;
     public int Size { get; private set; } // In MB for simplicity
+    public float Speed { get; private set; }
+    public float BaseSpeed { get; private set; } = 2f;
     private SpriteRenderer spriteRenderer;
     public int returnIndex = -1;
     public Vector3 currentPosition; // Current position in world space
     public InfrastructureInstance nextHop; // The next destination for this packet
     
     public List<InfrastructureInstance> pastNodes = new List<InfrastructureInstance>();
-    public float speed = 2f;
+
 
 	void Awake()
     {
@@ -33,6 +35,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler
         data = npData;
         FileName = fileName;
         Size = size;
+        Speed = BaseSpeed;
         gameObject.name = $"Packet_{FileName}";
         pastNodes.Clear();
         pastNodes.Add(origin);
@@ -76,27 +79,22 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler
         }
 
         Vector3 destinationPosition = nextHop.GetTransform().position;
-        transform.position = Vector3.MoveTowards(transform.position, destinationPosition, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, destinationPosition, Speed * Time.deltaTime);
 
         // Check if the packet has reached its destination
         if (Vector3.Distance(transform.position, destinationPosition) < 0.1f)
         {
             // Deliver the packet
             nextHop.ReceivePacket(this);
-            
         }
     }
  	public void MarkFailed() {
 		CurrentState = State.Failed;
-		StartReturn();
-		
-		spriteRenderer.color = new Color(1f, 0,0, 0.2f);
+		GameManager.Instance.DestroyPacket(this);
 	}
     public void StartReturn()
     {
         returnIndex = pastNodes.Count - 1;
-        
-        //pastNodes.RemoveAt(pastNodes.Count - 1);
     }
     
 
@@ -108,7 +106,17 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler
         nextHop = null;
         pastNodes.Clear();
     }
-    
+
+    public void SetSpeed(float speed)
+    {
+        Speed = speed;
+        UpdateAppearance();
+    }
+    public void UpdateAppearance()
+    {
+        float loadPct = Speed /  BaseSpeed;
+        spriteRenderer.color = new Color(1 - loadPct, 0,0, 0.2f);
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         var cameraController = FindObjectOfType<CameraController>();
@@ -117,4 +125,5 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler
             cameraController.StartFollowing(transform);
         }
     }
+    
 }
