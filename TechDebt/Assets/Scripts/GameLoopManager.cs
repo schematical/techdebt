@@ -175,6 +175,10 @@ public class GameLoopManager : MonoBehaviour
             EndGame();
         }
         GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
+        Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+        GameManager.Instance.UIManager.MultiSelectPanel.Add("manual1", sprite, "Manual 1", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
+        GameManager.Instance.UIManager.MultiSelectPanel.Add("manual2", sprite, "Manual 2", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
+        GameManager.Instance.UIManager.MultiSelectPanel.Add("manual3", sprite, "Manual 3", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
         
 
         // Assign "go to door" task to all NPCs

@@ -13,6 +13,7 @@ using System.Linq;
 using Stats;
 using static NPCTask;
 using Events;
+using UI;
 
 public class UIManager : MonoBehaviour
 
@@ -45,6 +46,7 @@ public class UIManager : MonoBehaviour
     private GameObject eventTriggerPanel;
     private UITextArea summaryPhaseText;
     private NPCDialogPanel _currentNPCDialogPanel;
+    public UIMultiSelectPanel MultiSelectPanel;
 
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
@@ -112,7 +114,7 @@ public class UIManager : MonoBehaviour
         SetupEventTriggerPanel(transform);
         SetupNPCDialogPanel(transform);
         SetupSummaryPhaseUI(transform); // This was missing from Start()
-
+        MultiSelectPanel.gameObject.SetActive(false);
         // Initial state
         UpdateTimeControlsUI();
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
