@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,7 +40,20 @@ public class GameLoopManager : MonoBehaviour
 
     public void EndGame()
     {
-        currentDay = 0;
+        NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+        GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
+        GameManager.Instance.UIManager.ShowNPCDialog(
+            bossNPC.GetComponent<SpriteRenderer>().sprite,
+            "You have failed to keep our infrastructure up and running with in our budget. You are fired!",
+            new List<DialogButtonOption>()
+            {
+                new DialogButtonOption() { Text = "Game Over", OnClick = () => ResetGame() },
+            }
+        );
+    }
+    public void ResetGame()
+    {
+    currentDay = 0;
         GameManager.Instance.ResetNPCs();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -137,7 +151,9 @@ public class GameLoopManager : MonoBehaviour
         {
             percentageSuccess = 0;
         }
-        float money = GameManager.Instance.IncrStat(StatType.Money, (float) Math.Round(dailyPacketIncome * percentageSuccess));
+
+        float actualIncome = (float)Math.Round(dailyPacketIncome * percentageSuccess);
+        float money = GameManager.Instance.IncrStat(StatType.Money, actualIncome);
         /*GameManager.Instance.FloatingTextFactory.ShowText(
             $"+${hourlyIncome}",
             GameManager.Instance.GetInfrastructureInstanceByID("internetPipes").transform.position,
@@ -149,8 +165,8 @@ public class GameLoopManager : MonoBehaviour
                              $"Packets Succeeded: {packetsServiced} \n" +
                              $"Percentage Served: %{Math.Round(percentageSuccess * 100)} \n" +
                              $"Total Costs: ${totalDailyCost} \n" +
-                             $"Total Income: ${dailyPacketIncome}\n" +
-                             $"Net Income: ${dailyPacketIncome - totalDailyCost}\n" + 
+                             $"Total Income: ${actualIncome}\n" +
+                             $"Net Income: ${actualIncome - totalDailyCost}\n" + 
                              $"Total: {money}";
 
         if (GameManager.Instance.GetStat(StatType.Money) < 0)

@@ -724,20 +724,28 @@ MonoBehaviour:
       NetworkConnectionBonus:
       - PacketType: 1
         Stat: 12
-        Type: 0
+        Type: 1
         value: 0.75
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
       Cost: 0
-      NetworkConnectionBonus: []
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.75
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
       Cost: 0
-      NetworkConnectionBonus: []
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.75
     - TargetID: redis-1
       Priority: 5
       networkPacketType: 0
@@ -777,7 +785,7 @@ MonoBehaviour:
       - PacketType: 0
         Stat: 12
         Type: 1
-        value: 0.75
+        value: 0.5
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 

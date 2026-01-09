@@ -58,7 +58,7 @@ namespace Events
                 return false;
             }
 
-            return (GameManager.Instance.GameLoopManager.currentDay > 6);
+            return (GameManager.Instance.GameLoopManager.currentDay > 10);
         }
     }
 }

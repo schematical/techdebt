@@ -215,13 +215,16 @@ public class GameManager : MonoBehaviour
     {
         activePackets.Remove(packet);
         packet.gameObject.SetActive(false); // Deactivate instead of destroying
-        packet.Reset();
+
         float packetsServiced = -1;
 		if (packet.CurrentState == NetworkPacket.State.Failed) {
+            Debug.Log("Packets Failed");
             float packetsFailed = IncrStat(StatType.PacketsFailed);
+            packet.Reset();
             return;
         }
 		 packetsServiced = IncrStat(StatType.PacketsServiced);
+         packet.Reset();
          
     }
 
@@ -485,13 +488,13 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        Stats.Add(new StatData(StatType.Money, 200f));
+        Stats.Add(new StatData(StatType.Money, 1000f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 0.25f));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
         Stats.Add(new StatData(StatType.PacketsFailed, 0f));
-        Stats.Add(new StatData(StatType.DailyIncome, 10f));
+        Stats.Add(new StatData(StatType.DailyIncome, 25f));
         Stats.Add(new StatData(StatType.Difficulty, 1.5f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
         Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));

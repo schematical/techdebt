@@ -68,16 +68,16 @@ namespace Events
                     GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         bossSprite,
-                        "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit.",
+                        "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit. ",
                         new List<DialogButtonOption>()
                         {
-                            new DialogButtonOption() { Text = "Continue", OnClick = () => Next() },
-                            new DialogButtonOption() { Text = "Nah I'm Good", OnClick = () => End() },
+                            new DialogButtonOption() { Text = "Start Tutorial", OnClick = () => Next() },
+                            new DialogButtonOption() { Text = "Just Get Started", OnClick = () => End() },
                         }
                     );
                     nextStep = 1;
                     break;
-
+// TODO Make basic screen movement display.
                 case 1:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("door");
