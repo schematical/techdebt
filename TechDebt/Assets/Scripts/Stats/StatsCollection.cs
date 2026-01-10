@@ -75,6 +75,10 @@ namespace Stats
 
         public StatData Get(StatType _type)
         {
+            if (!Stats.ContainsKey(_type))
+            {
+                return null;
+            }
             return Stats[_type];
         }
     }

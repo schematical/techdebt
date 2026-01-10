@@ -50,6 +50,10 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            currentXP = 0;
            lastDisplayXP = 0;
            Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+           GameManager.Instance.UIManager.MultiSelectPanel.Display(
+               "One of your team has leveled up!",
+               "Choose a bonus to be applied to your DevOps Engineer"
+           );
            int saftyCheck = 0;
            List<NPCTrait> traits = new List<NPCTrait>();
            while (
@@ -106,5 +110,16 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         GameManager.Instance.UIManager.ShowNPCDetail(this);
+    }
+
+    public float GetBuildSpeed()
+    {
+        float npcBuildSpeed = 1;
+        if (Stats.Get(StatType.NPC_BuildSpeed) != null)
+        {
+            npcBuildSpeed = Stats.GetStatValue(StatType.NPC_BuildSpeed);
+        }
+
+        return npcBuildSpeed;
     }
 }

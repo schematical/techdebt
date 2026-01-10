@@ -10,6 +10,8 @@ namespace UI
     public class UIMultiSelectPanel: MonoBehaviour
     {
       private List<UIMultiSelectOption> _optionPool = new List<UIMultiSelectOption>();
+      public TextMeshProUGUI titleText;
+      public TextMeshProUGUI bottomText;
       public GameObject container;
       public void Clear()
       {
@@ -21,6 +23,11 @@ namespace UI
           GameManager.Instance.UIManager.TogglePause();
       }
 
+      public void Display(string title, string bottom = "")
+      {
+          titleText.text = title;
+          bottomText.text = bottom;
+      }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
           this.gameObject.SetActive(true);

@@ -872,24 +872,27 @@ public class GameManager : MonoBehaviour
                 {
                     Name = "FinOps Expert",
                     StatType = StatType.Infra_DailyCost,
+                    Type = NPCTrait.TraitType.InfraStat,
+                    BaseValue = 0.9f
                 };
             case(1): 
                 return new NPCTrait()
                 {
                     Name = "DevOps Expert",
                     StatType = StatType.Infra_LoadRecoveryRate,
+                    Type = NPCTrait.TraitType.InfraStat
                 };
             case(2):
                 return new NPCTrait()
                 {
                     Name = "Fast Worker",
-                    StatType = StatType.Infra_BuildTime,
+                    StatType = StatType.NPC_BuildSpeed,
                 };
             case(3):
                 return new NPCTrait()
                 {
-                    Name = "Fast Worker",
-                    StatType = StatType.Infra_BuildTime,
+                    Name = "Fast Researcher",
+                    StatType = StatType.NPC_ResearchSpeed,
                 };
             default:
                 throw new SyntaxErrorException("Out of range");

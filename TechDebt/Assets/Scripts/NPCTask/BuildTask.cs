@@ -1,6 +1,8 @@
 // BuildTask.cs
 
 using System;
+using NPCs;
+using Stats;
 using UnityEngine;
 
 public class BuildTask : NPCTask
@@ -21,7 +23,11 @@ public class BuildTask : NPCTask
         // Only start building after the NPC has arrived.
         if (hasArrived)
         {
-            buildProgress += Time.deltaTime;
+            NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
+        
+
+            float adjustedProgress = Time.deltaTime * npcDevOps.GetBuildSpeed();
+            buildProgress += adjustedProgress;
             int checkBuildProgress = (int)Math.Round(buildProgress/TargetInfrastructure.data.BuildTime * 100f);
             if (checkBuildProgress % 10 == 0 && displayBuildProgress != checkBuildProgress)
             {
@@ -40,6 +46,17 @@ public class BuildTask : NPCTask
     
     public override void OnEnd(NPCBase npc)
     {
+        NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
+        foreach (NPCTrait npcTrait in npcDevOps.Traits)
+        {
+            if (npcTrait.Type == NPCTrait.TraitType.InfraStat)
+            {
+                TargetInfrastructure.data.Stats.AddModifier(npcTrait.StatType, new StatModifier(StatModifier.ModifierType.Multiply, npcTrait.GetScaledValue(), npcTrait));
+                GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${npcTrait.StatType} x {Math.Round(npcTrait.GetScaledValue() * 100)}%",
+                    TargetInfrastructure.transform.position); 
+            }
+        }
+
         base.OnEnd(npc);
         
         CurrentStatus = Status.Completed; // Set status to completed
