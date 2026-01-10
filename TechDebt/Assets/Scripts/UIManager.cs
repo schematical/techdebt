@@ -327,8 +327,24 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        string content = $"<b>{_selectedNPC.name}</b>\n\n";
-        content += "<b>Stats:</b>\n";
+        string content = $"<b>{_selectedNPC.name}</b>\n";
+        content += $"Level: {_selectedNPC.level}\n";
+        content += $"XP: {_selectedNPC.currentXP:F0}\n\n";
+        
+        content += "<b>Traits:</b>\n";
+        if (_selectedNPC.Traits.Any())
+        {
+            foreach (var trait in _selectedNPC.Traits)
+            {
+                content += $"- {trait.Name}\n";
+            }
+        }
+        else
+        {
+            content += "No traits yet.\n";
+        }
+        
+        content += "\n<b>Stats:</b>\n";
 
         foreach (var stat in _selectedNPC.Data.Stats.Stats.Values)
         {

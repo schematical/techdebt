@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class UIMultiSelectPanel: MonoBehaviour
     {
-      public List<UIMultiSelectPanel> panels;
+      private List<UIMultiSelectOption> _optionPool = new List<UIMultiSelectOption>();
       public GameObject container;
       public void Clear()
       {
-          foreach (UIMultiSelectPanel panel in panels)
+          foreach (UIMultiSelectOption panel in _optionPool)
           {
-              Destroy(panel.gameObject);
+              panel.gameObject.SetActive(false);
           }
           gameObject.SetActive(false);
           GameManager.Instance.UIManager.TogglePause();
@@ -23,15 +25,29 @@ namespace UI
       {
           this.gameObject.SetActive(true);
           GameManager.Instance.UIManager.SetTimeScalePause();
-          GameObject prefab = GameManager.Instance.prefabManager.GetPrefab("UIMultiSelectOptionPanel");
-          GameObject gameObject = Instantiate(prefab, container.transform);
-          UIMultiSelectOption option = gameObject.GetComponent<UIMultiSelectOption>();
+
+          // Find an inactive option in the pool to reuse.
+          UIMultiSelectOption option = _optionPool.FirstOrDefault(o => !o.gameObject.activeSelf);
+
+          if (option == null)
+          {
+              // If no inactive option is available, create a new one.
+              GameObject prefab = GameManager.Instance.prefabManager.GetPrefab("UIMultiSelectOptionPanel");
+              GameObject gameObject = Instantiate(prefab, container.transform);
+              option = gameObject.GetComponent<UIMultiSelectOption>();
+              _optionPool.Add(option);
+          }
+          
+          option.gameObject.SetActive(true);
           option.id = id;
-          option.name = option.name + "-" + option.id;
+          option.name = "UIMultiSelectOption-" + option.id;
           option.image.sprite = sprite;
           option.primaryText.text = primaryText;
           option.secondaryText.text = secondaryText;
           
+          // Clear any previous listeners and reset the button state.
+          option.button.onClick.RemoveAllListeners();
+
           return option;
       }
     }
