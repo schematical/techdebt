@@ -365,17 +365,25 @@ namespace Events
             return true;
         }
 
-        public virtual void End()
-        {
-            GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
-            GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
-            GameManager.OnPhaseChange -= HandlePhaseChange;
-            GameManager.Instance.TutorialEvents.Clear();
-            GameManager.Instance.cameraController.StopFollowing();
-            GameManager.Instance.GameLoopManager.playTimerActive = true;
-            base.End();
-            
-        }
+                public virtual void End()
+
+                {
+
+                    GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
+
+                    GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
+
+                    GameManager.OnPhaseChange -= HandlePhaseChange;
+
+                    GameManager.Instance.cameraController.StopFollowing();
+
+                    GameManager.Instance.GameLoopManager.playTimerActive = true;
+
+                    base.End();
+
+                    
+
+                }
 
         public void HandlePhaseChange(GameLoopManager.GameState state)
         {

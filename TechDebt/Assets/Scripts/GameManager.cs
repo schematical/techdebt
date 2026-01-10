@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
-    public List<EventBase> TutorialEvents = new List<EventBase>();
+    public EventBase Tutorial;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
     
@@ -448,9 +448,10 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (TutorialEvents.Count > 0 && CurrentEvents.Count == 0)
+        if (Tutorial != null && CurrentEvents.Count == 0)
         {
-            TriggerEvent(TutorialEvents.First());
+            TriggerEvent(Tutorial);
+            Tutorial = null;
         }
         // Iterate over a copy of the list to prevent modification during enumeration errors.
         foreach (var effect in Effects.ToList())
@@ -502,7 +503,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.ItemDropChance, 0.25f));
         Stats.Add(new StatData(StatType.ItemDropCheck, 15));
 
-        TutorialEvents.Add(new TutorialEvent());
+        Tutorial = new TutorialEvent();
         
         Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());

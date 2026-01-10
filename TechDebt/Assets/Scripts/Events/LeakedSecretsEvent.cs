@@ -9,7 +9,7 @@ namespace Events
         public LeakedSecretEvent()
         {
             EventStartText = "Some how we are sending hundreds on unauthorized email. This is going to cost us...";
-            EventEndText = "TODO: Make a cycle credentials task you can trigger."; // Or perhaps an actual result
+            // EventEndText = "TODO: Make a cycle credentials task you can trigger."; // Or perhaps an actual result
             Probility = 1;
         }
          public override bool IsPossible()
