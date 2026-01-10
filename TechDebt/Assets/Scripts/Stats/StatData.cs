@@ -91,5 +91,16 @@ namespace Stats
         {
             BaseValue = value;
         }
+
+        public void ReplaceOrAdd(StatModifier statModifier)
+        {
+            int index = Modifiers.FindIndex(x => x.Source.Equals(statModifier.Source));
+            if (index != -1)
+            {
+                Modifiers.RemoveAt(index);
+            }
+            Modifiers.Add(statModifier);
+            UpdateValue();
+        }
     }
 }

@@ -28,7 +28,7 @@ public class BuildTask : NPCTask
                 displayBuildProgress = checkBuildProgress;
                 GameManager.Instance.FloatingTextFactory.ShowText($"{displayBuildProgress}%",
                     TargetInfrastructure.transform.position); //  + new Vector3(0, 1, 3));
-          
+                npc.AddXP();
             }
         }
     }

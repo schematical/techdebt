@@ -37,7 +37,7 @@ public class ResearchTask : NPCTask
             {
                 float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
                 GameManager.Instance.ApplyResearchProgress(researchGained);
-      
+                devOpsNpc.AddXP(Time.deltaTime);
                 desk.OnResearchProgress(
                     npc.transform.position
                 );

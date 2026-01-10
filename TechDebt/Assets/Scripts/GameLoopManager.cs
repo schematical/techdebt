@@ -59,9 +59,18 @@ public class GameLoopManager : MonoBehaviour
     }
     public void BeginBuildPhase()
     {
-        Debug.Log("Begin Build Phase");
+   
         Time.timeScale = 1f;
         CurrentState = GameState.Build;
+
+        /*if (currentDay > 0)
+        {
+            Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+            GameManager.Instance.UIManager.MultiSelectPanel.Add("manual1", sprite, "Manual 1", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
+            GameManager.Instance.UIManager.MultiSelectPanel.Add("manual2", sprite, "Manual 2", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
+            GameManager.Instance.UIManager.MultiSelectPanel.Add("manual3", sprite, "Manual 3", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
+
+        }*/
         currentDay++;
 
         // Notify NPCs
@@ -69,8 +78,8 @@ public class GameLoopManager : MonoBehaviour
         {
             npc.OnBuildPhaseStart();
         }
-
-   
+        
+      
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
@@ -175,11 +184,7 @@ public class GameLoopManager : MonoBehaviour
             EndGame();
         }
         GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
-        Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
-        GameManager.Instance.UIManager.MultiSelectPanel.Add("manual1", sprite, "Manual 1", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
-        GameManager.Instance.UIManager.MultiSelectPanel.Add("manual2", sprite, "Manual 2", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
-        GameManager.Instance.UIManager.MultiSelectPanel.Add("manual3", sprite, "Manual 3", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
-        
+  
 
         // Assign "go to door" task to all NPCs
         foreach (var npc in GameManager.Instance.AllNpcs)

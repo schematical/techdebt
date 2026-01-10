@@ -22,6 +22,7 @@ public class DeploymentTask : NPCTask
         if (hasArrived)
         {
             deploymentProgress += Time.deltaTime;
+            npc.AddXP(Time.deltaTime);
         }
     }
 

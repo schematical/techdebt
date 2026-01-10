@@ -43,7 +43,7 @@ public abstract class NPCBase : MonoBehaviour
     public virtual void Initialize()
     {
         Stats.Clear();
-        Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 1.5f));
+        Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
     }
 
     /// <summary>
@@ -308,5 +308,10 @@ public abstract class NPCBase : MonoBehaviour
             }
         }
         _lastPosition = transform.position;
+    }
+
+    public virtual void AddXP(float ammount = 1)
+    {
+     
     }
 }

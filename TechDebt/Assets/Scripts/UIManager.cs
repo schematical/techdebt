@@ -1229,7 +1229,7 @@ public class UIManager : MonoBehaviour
         UpdateTimeScaleButtons();
     }
 
-    private void TogglePause()
+    public void TogglePause()
     {
         if (_currentTimeState == TimeState.Paused)
         {

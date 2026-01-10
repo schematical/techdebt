@@ -32,7 +32,12 @@ public enum StatType
     
     ItemDropChance,
     ItemDropCheck,
-    NPC_MovmentSpeed
+    NPC_MovmentSpeed,
+    NPC_LearningSpeed,
+    NPC_BuildSpeed,
+    NPC_ResearchSpeed,
+    NPC_TraitSlots,
+    
     
 
 }

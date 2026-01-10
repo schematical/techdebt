@@ -30,5 +30,18 @@ namespace Stats
                     throw new NotImplementedException();
             }
         }
+        public string GetDisplayText()
+        {
+            switch (Type)
+            {
+                case ModifierType.Flat:
+                    return $"+{Value}";
+                case ModifierType.Multiply:
+                    return $"x{Value}";
+                default:
+                    throw new NotImplementedException();
+            }
+     
+        }
     }
 }

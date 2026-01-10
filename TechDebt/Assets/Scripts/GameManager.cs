@@ -7,6 +7,7 @@ using System.Linq;
 using Effects;
 using Events;
 using Items;
+using NPCs;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     public List<EventBase> TutorialEvents = new List<EventBase>();
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
+    
     
     // --- Item Spawning ---
     private float _itemDropTimer;
@@ -859,5 +861,40 @@ public class GameManager : MonoBehaviour
     public void InvokeOnPhaseChange(GameLoopManager.GameState state)
     {
         OnPhaseChange?.Invoke(state);
+    }
+    public NPCTrait GetRandomNPCTrait()
+    {
+        int i = Random.Range(0, 3);
+        switch (i)
+        {
+            case(0):
+                return new NPCTrait()
+                {
+                    Name = "FinOps Expert",
+                    StatType = StatType.Infra_DailyCost,
+                };
+            case(1): 
+                return new NPCTrait()
+                {
+                    Name = "DevOps Expert",
+                    StatType = StatType.Infra_LoadRecoveryRate,
+                };
+            case(2):
+                return new NPCTrait()
+                {
+                    Name = "Fast Worker",
+                    StatType = StatType.Infra_BuildTime,
+                };
+            case(3):
+                return new NPCTrait()
+                {
+                    Name = "Fast Worker",
+                    StatType = StatType.Infra_BuildTime,
+                };
+            default:
+                throw new SyntaxErrorException("Out of range");
+        }
+
+
     }
 }

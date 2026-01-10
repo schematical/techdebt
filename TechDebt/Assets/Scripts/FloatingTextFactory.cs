@@ -65,8 +65,8 @@ public class FloatingTextFactory : MonoBehaviour
         {
             textToShow = CreateNewObjectForPool();
         }
-
-        textToShow.Show(text, position, textColor);
+        Vector3 shake = new Vector3(Random.Range(-10, 10)/10, Random.Range(-10,10)/10, position.z);
+        textToShow.Show(text, position + shake, textColor);
         
         // Re-queue the object after its lifetime is over
         StartCoroutine(RequeueAfterLifetime(textToShow));

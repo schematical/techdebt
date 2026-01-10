@@ -16,11 +16,13 @@ namespace UI
               Destroy(panel.gameObject);
           }
           gameObject.SetActive(false);
+          GameManager.Instance.UIManager.TogglePause();
       }
 
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
           this.gameObject.SetActive(true);
+          GameManager.Instance.UIManager.SetTimeScalePause();
           GameObject prefab = GameManager.Instance.prefabManager.GetPrefab("UIMultiSelectOptionPanel");
           GameObject gameObject = Instantiate(prefab, container.transform);
           UIMultiSelectOption option = gameObject.GetComponent<UIMultiSelectOption>();
