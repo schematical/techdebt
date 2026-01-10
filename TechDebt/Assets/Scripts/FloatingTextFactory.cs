@@ -11,6 +11,7 @@ public class FloatingTextFactory : MonoBehaviour
 
     [Header("Pooling")]
     public int initialPoolSize = 20;
+    public float spawnRadius = 0.5f;
     private Queue<FloatingText> objectPool = new Queue<FloatingText>();
 
     private void Awake()
@@ -65,8 +66,9 @@ public class FloatingTextFactory : MonoBehaviour
         {
             textToShow = CreateNewObjectForPool();
         }
-        Vector3 shake = new Vector3(Random.Range(-10, 10)/10, Random.Range(-10,10)/10, position.z);
-        textToShow.Show(text, position + shake, textColor);
+
+        Vector3 spawnPosition = position + (Vector3)(Random.insideUnitCircle * spawnRadius);
+        textToShow.Show(text, spawnPosition, textColor);
         
         // Re-queue the object after its lifetime is over
         StartCoroutine(RequeueAfterLifetime(textToShow));

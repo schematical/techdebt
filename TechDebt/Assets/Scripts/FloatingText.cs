@@ -8,10 +8,12 @@ public class FloatingText : MonoBehaviour
     public float lifetime = 1.5f;
     public Vector3 moveSpeed = new Vector3(0, 0.75f, 0); // Moves upwards
     public float fadeOutTime = 0.5f;
+    public float shakeIntensity = 0f;
 
     private TextMeshProUGUI textMesh;
     private float timeElapsed = 0f;
     private Color defaultColor = Color.white;
+    private Vector3 _originalPosition;
 
     private void Awake()
     {
@@ -27,8 +29,17 @@ public class FloatingText : MonoBehaviour
     {
         if (timeElapsed < lifetime)
         {
-            // Move
-            transform.position += moveSpeed * Time.deltaTime;
+            // 1. Calculate base upward movement
+            Vector3 newPos = _originalPosition + (moveSpeed * timeElapsed);
+
+            /*// 2. Add shake
+            if (shakeIntensity != 0)
+            {
+                newPos.x += Random.Range(-shakeIntensity, shakeIntensity) * 0.1f;
+                newPos.y += Random.Range(-shakeIntensity, shakeIntensity) * 0.1f;
+            }*/
+
+            transform.position = newPos;
 
             // Fade Out
             if (timeElapsed > lifetime - fadeOutTime)
@@ -50,6 +61,7 @@ public class FloatingText : MonoBehaviour
 
     public void Show(string text, Vector3 position, Color? textColor = null)
     {
+        _originalPosition = position;
         transform.position = position;
         textMesh.text = text;
         defaultColor = textColor ?? Color.white;
