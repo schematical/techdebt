@@ -284,13 +284,19 @@ public Transform GetTransform()
             GameManager.Instance.AddTask(buildTask);
         }
         if (
-            newState == InfrastructureData.State.Frozen &&
-            false // TODO: Make it so if the CWAlarms tech is researched then this will happen automatically.
+            newState == InfrastructureData.State.Frozen
         )
         {
-            // Create a new BuildTask and add it to the GameManager
-            var buildTask = new BuildTask(this, 7);
-            GameManager.Instance.AddTask(buildTask);
+            
+            GameObject explosionEffect = GameManager.Instance.prefabManager.Create("FireExplosion", transform.position);
+            // be.transform.localPosition = Vector3.zero;
+     
+            explosionEffect.transform.SetParent(transform);
+            explosionEffect.transform.localPosition = new Vector3(0, 0, -1f);
+          
+            // TODO Create a task automatically if you have researched CWAlarm
+            //var buildTask = new BuildTask(this, 7);
+//GameManager.Instance.AddTask(buildTask);
         }
 
         UpdateAppearance();
