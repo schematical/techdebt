@@ -10,6 +10,7 @@ public class BuildTask : NPCTask
     public InfrastructureInstance TargetInfrastructure { get; }
     private float buildProgress = 0f;
     private int displayBuildProgress = -1;
+    public EnvEffectBase buildEffect;
 
     public BuildTask(InfrastructureInstance target, int priority = 5) : base(target.transform.position)
     {
@@ -23,6 +24,12 @@ public class BuildTask : NPCTask
         // Only start building after the NPC has arrived.
         if (hasArrived)
         {
+            if (buildEffect == null)
+            {
+                var be = GameManager.Instance.prefabManager.Create("BuildInfraEffect", TargetInfrastructure.transform.position);
+                // be.transform.localPosition = Vector3.zero;
+                buildEffect = be.GetComponent<EnvEffectBase>();
+            }
             NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
         
 
@@ -62,6 +69,9 @@ public class BuildTask : NPCTask
         CurrentStatus = Status.Completed; // Set status to completed
         
         TargetInfrastructure.SetState(InfrastructureData.State.Operational);
+        
+        buildEffect.gameObject.SetActive(false);
+        
         GameManager.Instance.NotifyDailyCostChanged();
 
         var serverComponent = TargetInfrastructure.GetComponent<Server>();
