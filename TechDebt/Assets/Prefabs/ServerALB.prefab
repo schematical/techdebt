@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2503354943646292200}
   - component: {fileID: 5728136831045431133}
   - component: {fileID: 7247425941512589}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ServerALB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
