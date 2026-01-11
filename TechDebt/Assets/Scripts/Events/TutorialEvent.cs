@@ -51,7 +51,7 @@ namespace Events
 
         private void Next()
         {
-            Debug.Log("Next step: " + currentStep + " nextStep: " + nextStep);
+        
             if (nextStep < 0)
             {
                 return;

@@ -127,3 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b13052d010467482818cedc424cef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnvEffectBase
+  loopFor: 5
+  sprites: []
+  frameRate: 10
