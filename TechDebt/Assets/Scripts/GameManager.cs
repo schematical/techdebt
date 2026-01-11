@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
-    public EventBase Tutorial;
+    public TutorialEvent Tutorial;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
     
@@ -288,6 +288,7 @@ public class GameManager : MonoBehaviour
 
     public void EndEvent(EventBase e)
     {
+        Tutorial = null;
         CurrentEvents.Remove(e);
         if (!string.IsNullOrEmpty(e.EventEndText))
         {
@@ -451,7 +452,7 @@ public class GameManager : MonoBehaviour
         if (Tutorial != null && CurrentEvents.Count == 0)
         {
             TriggerEvent(Tutorial);
-            Tutorial = null;
+            
         }
         // Iterate over a copy of the list to prevent modification during enumeration errors.
         foreach (var effect in Effects.ToList())

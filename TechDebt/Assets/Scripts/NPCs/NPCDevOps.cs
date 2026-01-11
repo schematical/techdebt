@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Events;
 using NPCs;
 using Stats;
 using UnityEngine;
@@ -35,6 +36,13 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
     }
     public override void AddXP(float amount = 1)
     {
+        if (
+            GameManager.Instance.Tutorial != null &&
+            !GameManager.Instance.Tutorial.NPCsCanGetXP
+        )
+        {
+            return;
+        }
        currentXP += amount;
        if (Math.Floor(currentXP) != lastDisplayXP)
        {
@@ -49,7 +57,10 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            level ++;
            currentXP = 0;
            lastDisplayXP = 0;
+           Debug.Log($"Checking  (GameManager.Instance.Tutorial != null) =  {GameManager.Instance.Tutorial != null}");
+       
            Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+         
            GameManager.Instance.UIManager.MultiSelectPanel.Display(
                "One of your team has leveled up!",
                "Choose a bonus to be applied to your DevOps Engineer"
@@ -84,7 +95,10 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
     public void AddTrait(NPCTrait trait)
     {
         Traits.Add(trait);
-        
+        if (GameManager.Instance.Tutorial != null)
+        {
+            GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
+        }   
     }
     public override bool CanAssignTask(NPCTask task)
     {

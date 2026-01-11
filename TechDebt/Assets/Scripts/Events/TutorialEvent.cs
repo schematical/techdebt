@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Events
 {
     public class TutorialEvent : EventBase
     {
+        public enum TutorialCheck
+        {
+            NPC_AddTrait
+        }
         protected int currentStep = 0;
         protected List<DialogButtonOption> options = new List<DialogButtonOption>();
 
@@ -15,7 +20,8 @@ namespace Events
         protected int nextStep = -1;
         
         protected InfrastructureInstance firstResearchedInstance = null;
-
+        public bool NPCsCanGetXP { get; private set; } = false;
+        public Dictionary<TutorialCheck, bool> States { get; private set; } = new Dictionary<TutorialCheck, bool>();
         public TutorialEvent()
         {
             options.Add(new DialogButtonOption() { Text = "Continue", OnClick = () => Next() });
@@ -289,14 +295,29 @@ namespace Events
                     nextStep = 19;
                     break;
                 case 19:
+                    NPCsCanGetXP = true;
+                    npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
+                    NPCDevOps devOps = npc.GetComponent<NPCDevOps>();
+                    devOps.AddXP(40);
+                    GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "One of your team members has leveled up. Choose a new trait to give them. Each trait comes with unique bonuses.",
+                        options
+                    );
+                    nextStep = -1;
+                    break;
+                case 20:
+         
+                    
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         bossSprite,
                         "It looks like you are settling right in. \n Now that you have the basics we are going to start the in game clock. At the end of each day you will get a summary. \n Our infrastructure budget is directly related to how many packets make it through. If we run out of money its Game Over...",
                         options
                     );
-                    nextStep = 20;
+                    nextStep = 21;
                     break;
-                case 20:
+                case 21:
                     End();
                     nextStep = -1;
                     break;
@@ -398,6 +419,30 @@ namespace Events
         {
             return $"{base.GetEventDescription()} - Step: {currentStep} - Next: {nextStep}";
         }
+
+        public void Check(TutorialCheck check)
+        {
+            bool checkValue = false;
+            if (States.ContainsKey(check))
+            {
+                checkValue = States[check];
+            }
+            switch (check)
+            {
+                case(TutorialCheck.NPC_AddTrait):
+                    if (!checkValue)
+                    {
+                        nextStep = 20;
+                        States[check] = true;
+                        Next();
+                    }
+                    break;
+                default:
+                    throw new SystemException($"No idea what this check is {check}");
+            }
+        }
+
+       
 /*
         public virtual bool IsOver()
         {
