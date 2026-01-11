@@ -28,6 +28,9 @@ public class BuildTask : NPCTask
             {
                 var be = GameManager.Instance.prefabManager.Create("BuildInfraEffect", TargetInfrastructure.transform.position);
                 // be.transform.localPosition = Vector3.zero;
+     
+                be.transform.SetParent(TargetInfrastructure.transform);
+                be.transform.localPosition = new Vector3(0, 0, -1f);
                 buildEffect = be.GetComponent<EnvEffectBase>();
             }
             NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
