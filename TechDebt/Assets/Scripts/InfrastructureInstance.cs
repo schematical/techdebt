@@ -22,7 +22,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
     public int CurrentSizeLevel { get; private set; } = 0;
 
     public string Version = "0.0.1";
-
+    public GameObject serverSmokeEffect;
 
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections =
         new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
@@ -275,7 +275,14 @@ public Transform GetTransform()
         if (newState == InfrastructureData.State.Operational)
         {
             // Create a new BuildTask and add it to the GameManager
+         
+
             CurrentLoad = 0;
+            if (serverSmokeEffect != null)
+            {
+                serverSmokeEffect.SetActive(false);
+                serverSmokeEffect = null;
+            }
         }
         if (newState == InfrastructureData.State.Planned)
         {
@@ -293,6 +300,10 @@ public Transform GetTransform()
      
             explosionEffect.transform.SetParent(transform);
             explosionEffect.transform.localPosition = new Vector3(0, 0, -1f);
+            
+            serverSmokeEffect  = GameManager.Instance.prefabManager.Create("ServerSmokeEffect", transform.position);
+            serverSmokeEffect.transform.SetParent(transform);
+            serverSmokeEffect.transform.localPosition = new Vector3(0, 0, -1f);
           
             // TODO Create a task automatically if you have researched CWAlarm
             //var buildTask = new BuildTask(this, 7);

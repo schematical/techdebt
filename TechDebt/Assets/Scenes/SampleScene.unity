@@ -1695,7 +1695,7 @@ MonoBehaviour:
   - {fileID: 7784852302109544265, guid: e9d57d1bc01ddaa42b605209b62ab719, type: 3}
   - {fileID: 5671264775928725544, guid: eecef235df368764fbdf1082c752305f, type: 3}
   - {fileID: 5153195008400888440, guid: 0956fb4d9d65b324587b7155c9439e5e, type: 3}
-  - {fileID: 9198771351413656091}
+  - {fileID: 2265433418055733470, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
 --- !u!1 &1216552916
 GameObject:
   m_ObjectHideFlags: 0
@@ -2273,93 +2273,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1001 &9198771351413656090
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2265433418055733470, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_Name
-      value: ServerSmokeEffect
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6511998119486017346, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2265433418055733470, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9198771351413656092}
-  m_SourcePrefab: {fileID: 100100000, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
---- !u!1 &9198771351413656091 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2265433418055733470, guid: fe75cbf03e3de484688a1331f3bce59c, type: 3}
-  m_PrefabInstance: {fileID: 9198771351413656090}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &9198771351413656092
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9198771351413656091}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 48c2f94e37db909448b2a97386a9740c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2370,4 +2283,3 @@ SceneRoots:
   - {fileID: 1855699587}
   - {fileID: 203743600}
   - {fileID: 547684159}
-  - {fileID: 9198771351413656090}
