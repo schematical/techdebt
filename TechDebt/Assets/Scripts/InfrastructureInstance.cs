@@ -138,6 +138,9 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         {
             packet.MarkFailed();
             packet.MoveToNextNode();
+            GameObject gameObject = GameManager.Instance.prefabManager.Create("Spark1Effect", transform.position);
+            gameObject.transform.SetParent(transform);
+            gameObject.transform.localPosition = new Vector3(0, 0, -1f);
             return false; // Stop processing
         }
 
