@@ -8,13 +8,13 @@ public class DeploymentTask : NPCTask
     public Server TargetInfrastructure { get; }
     private float deploymentProgress = 0f;
     private const float DeploymentTime = 5f; // Time in seconds to complete deployment
-    private DeploymentEvent Event;
+    private DeploymentBase Deployment;
 
-    public DeploymentTask(Server target, DeploymentEvent _event) : base(target.transform.position)
+    public DeploymentTask(Server target, DeploymentBase deployment) : base(target.transform.position)
     {
         TargetInfrastructure = target;
         Priority = 4;
-        Event = _event;
+        Deployment = deployment;
     }
 
     public override void OnUpdate(NPCBase npc)
@@ -25,7 +25,7 @@ public class DeploymentTask : NPCTask
             npc.AddXP(Time.deltaTime);
         }
     }
-
+ 
     public override bool IsFinished(NPCBase npc)
     {
         return deploymentProgress >= DeploymentTime;
@@ -34,8 +34,8 @@ public class DeploymentTask : NPCTask
     public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
-        TargetInfrastructure.Version =  Event.GetVersionString();
+        TargetInfrastructure.Version =  Deployment.GetVersionString();
         CurrentStatus = Status.Completed;
-        Event.CheckIsOver();
+        Deployment.CheckIsOver();
     }
 }

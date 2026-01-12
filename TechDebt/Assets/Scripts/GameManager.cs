@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
     public List<NPCBase> AllNpcs = new List<NPCBase>();
-
+    public List<DeploymentBase> Deployments = new List<DeploymentBase>();
     public void AddTask(NPCTask task)
     {
         AvailableTasks.Add(task);
@@ -512,6 +512,8 @@ public class GameManager : MonoBehaviour
         Events.Add(new AttackStartEvent());
         Events.Add(new DDoSEvent());
         Events.Add(new LeakedSecretEvent());
+        Events.Add(new LeakedUserCredsEvent());
+        Events.Add(new LeakedUserCredsEvent());
         
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
