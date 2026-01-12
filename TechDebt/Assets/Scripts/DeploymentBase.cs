@@ -61,5 +61,13 @@ public class DeploymentBase
         State  = DeploymentState.Completed;
         return true;
     }
+
+    public void SetState(DeploymentState state)
+    {
+        DeploymentState prevState = State;
+        
+        State = state;
+        GameManager.Instance.InvokeDeploymentChanged(this, prevState);
+    }
   
 }

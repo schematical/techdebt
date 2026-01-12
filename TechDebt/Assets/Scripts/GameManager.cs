@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     public static event System.Action<Technology> OnTechnologyResearchStarted;
     public static event System.Action OnCurrentEventsChanged;
     
+    public static event System.Action<DeploymentBase, DeploymentBase.DeploymentState> OnDeploymentChanged;
     public static event System.Action<GameLoopManager.GameState> OnPhaseChange;
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
@@ -872,6 +873,11 @@ public class GameManager : MonoBehaviour
     public void InvokeOnPhaseChange(GameLoopManager.GameState state)
     {
         OnPhaseChange?.Invoke(state);
+    }
+
+    public void InvokeDeploymentChanged(DeploymentBase deploymentBase, DeploymentBase.DeploymentState state)
+    {
+        OnDeploymentChanged?.Invoke(deploymentBase, state);
     }
     public NPCTrait GetRandomNPCTrait()
     {
