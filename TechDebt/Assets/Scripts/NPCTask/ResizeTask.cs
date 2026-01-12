@@ -40,4 +40,18 @@ public class ResizeTask : NPCTask
         // Apply the resize logic when the task is officially finished
         TargetInfrastructure.ApplyResize(SizeChange);
     }
+    
+    public override string GetAssignButtonText()
+    {
+        if (SizeChange == -1)
+        {
+            return "Downsize";
+        }
+
+        if (SizeChange == 1)
+        {
+            return "Upsize";
+        }
+        throw new System.Exception($"Invalid Size: {SizeChange}");
+    }
 }

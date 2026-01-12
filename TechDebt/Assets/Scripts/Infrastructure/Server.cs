@@ -1,5 +1,6 @@
 // Server.cs
 
+using System.Collections.Generic;
 using Stats;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,5 +20,19 @@ public class Server : InfrastructureInstance
 
         NetworkConnection db = new NetworkConnection("dedicated-db", NetworkPacketData.PType.Text);
         data.NetworkConnections.Add(db);
+    }
+
+    public List<NPCTask> GetAvailableTasks()
+    {
+        List<NPCTask> availableTasks = base.GetAvailableTasks();
+        foreach (DeploymentBase deploymentBase in GameManager.Instance.Deployments)
+        {
+            if (deploymentBase.State == DeploymentBase.DeploymentState.InProgress)
+            {
+                availableTasks.Add(new DeploymentTask(this, deploymentBase));
+            }
+        }
+
+        return availableTasks;
     }
 }

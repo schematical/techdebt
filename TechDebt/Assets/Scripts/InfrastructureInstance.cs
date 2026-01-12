@@ -499,14 +499,28 @@ public Transform GetTransform()
         {
             case(InfrastructureData.State.Unlocked): 
                 // TODO: Add Build task
+                availableTasks.Add(new BuildTask(this));
                 break;
             case(InfrastructureData.State.Operational): 
                     // TODO: Add Resize tasks
-                break;
+                    if (CurrentSizeLevel > 0)
+                    {
+                        availableTasks.Add(new ResizeTask(this, -1));
+                    }
+
+                    if (CurrentSizeLevel < 4)
+                    {
+                        availableTasks.Add(new ResizeTask(this, 1));
+                    }
+
+                    break;
             case(InfrastructureData.State.Frozen):
                     //TODO: Add a build task
+                    availableTasks.Add(new FixFrozenTask(this));
                     break;
         }
+
+        
         return availableTasks;
 
     }

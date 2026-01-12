@@ -1,4 +1,6 @@
 // NPCTask.cs
+
+using System;
 using UnityEngine;
 
 public abstract class NPCTask
@@ -91,4 +93,9 @@ public abstract class NPCTask
     // Abstract methods to be implemented by concrete tasks
     public abstract void OnUpdate(NPCBase npc);
     public abstract bool IsFinished(NPCBase npc);
+    
+    public virtual string GetAssignButtonText()
+    {
+        throw new SystemException("Overwrite me");
+    }
 }

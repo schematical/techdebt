@@ -39,4 +39,8 @@ public class UseItemTask : NPCTask
         base.OnEnd(npc);
         CurrentStatus = Status.Completed;
     }
+    public override string GetAssignButtonText()
+    {
+        return "Use Item?????";
+    }
 }

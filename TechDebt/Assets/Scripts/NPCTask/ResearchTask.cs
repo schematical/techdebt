@@ -56,4 +56,8 @@ public class ResearchTask : NPCTask
         // The task is finished if the technology is no longer being researched.
         return TargetTechnology.CurrentState != Technology.State.Researching;
     }
+    public override string GetAssignButtonText()
+    {
+        return "Research????";
+    }
 }

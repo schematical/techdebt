@@ -38,4 +38,8 @@ public class DeploymentTask : NPCTask
         CurrentStatus = Status.Completed;
         Deployment.CheckIsOver();
     }
+    public override string GetAssignButtonText()
+    {
+        return $"Deploy {Deployment.GetVersionString()}";
+    }
 }

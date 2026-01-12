@@ -92,4 +92,8 @@ public class BuildTask : NPCTask
             GameManager.Instance.ActiveInfrastructure.Add(serverComponent);
         }
     }
+    public override string GetAssignButtonText()
+    {
+        return "Build";
+    }
 }

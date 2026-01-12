@@ -1,0 +1,19 @@
+// BuildTask.cs
+
+using System;
+using Effects.Infrastructure;
+using NPCs;
+using Stats;
+using UnityEngine;
+
+public class FixFrozenTask : BuildTask
+{
+    public FixFrozenTask(InfrastructureInstance target, int priority = 5) : base(target, priority)
+    {
+    }
+
+    public override string GetAssignButtonText()
+    {
+        return "Fix";
+    }
+}
