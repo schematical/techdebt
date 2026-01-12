@@ -67,28 +67,59 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            );
            int saftyCheck = 0;
            List<NPCTrait> traits = new List<NPCTrait>();
+           int optionCount = 3;
+           if (Traits.Count >= Stats.GetStatValue(StatType.NPC_TraitSlots))
+           {
+               optionCount = (int)Stats.GetStatValue(StatType.NPC_TraitSlots);
+           }
            while (
                saftyCheck < 20 &&
-               traits.Count < 3
+               traits.Count < optionCount
            )
            {
+               saftyCheck++;
                NPCTrait trait = GameManager.Instance.GetRandomNPCTrait();
-               if (!traits.Contains(trait))
+               if (traits.Find((t) => t.Id == trait.Id) != null)
                {
-                   traits.Add(trait);
-                   GameManager.Instance.UIManager.MultiSelectPanel.Add(
-                           trait.Name, 
-                           sprite, 
-                           trait.GetDisplayText() 
+                   continue;
+               }
+               NPCTrait existingTrait = Traits.Find((t) => t.Id == trait.Id);
+               // Debug.Log($"TraitTest: {existingTrait != null} && {Traits.Count} < {Stats.GetStatValue(StatType.NPC_TraitSlots)}");
+               if (
+                   existingTrait == null
+                   
+               ) {
+                   if (Traits.Count < Stats.GetStatValue(StatType.NPC_TraitSlots))
+                   {
+                       traits.Add(trait);
+                       GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                               trait.Id,
+                               sprite,
+                               trait.GetDisplayText()
                            )
+                           .OnClick((string id) =>
+                           {
+                               AddTrait(trait);
+                               GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                           });
+                   }
+               }
+               else
+               {
+                   traits.Add(existingTrait);
+                   GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                           existingTrait.Id, 
+                           sprite, 
+                           existingTrait.GetDisplayText(1) 
+                       )
                        .OnClick((string id) =>
                        {
-                           AddTrait(trait);
+                           LevelUpTrait(existingTrait);
                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                        });
                }
 
-               saftyCheck++;
+              
            }
        }
     }
@@ -99,6 +130,10 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         {
             GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
         }   
+    }
+    public void LevelUpTrait(NPCTrait trait)
+    {
+       trait.Level++; 
     }
     public override bool CanAssignTask(NPCTask task)
     {

@@ -336,7 +336,7 @@ public class UIManager : MonoBehaviour
         {
             foreach (var trait in _selectedNPC.Traits)
             {
-                content += $"- {trait.Name}\n";
+                content += $"- {trait.Name} - Lvl: {trait.Level}\n";
             }
         }
         else

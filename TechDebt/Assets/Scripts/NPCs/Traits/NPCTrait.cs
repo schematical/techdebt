@@ -16,6 +16,7 @@ namespace NPCs
         }
         public StatType StatType { get; set; }
         public string Name { get; set; }
+        public string Id { get; set; }
 
         public int Level { get; set; } = 1;
 
@@ -25,9 +26,9 @@ namespace NPCs
         
         public StatModifier NPCStatModifier { get; private set; }
 
-        public float GetScaledValue()
+        public float GetScaledValue(int offsetLevel = 0)
         {
-            return (float)Math.Pow(BaseValue, Level);
+            return (float)Math.Pow(BaseValue, Level + offsetLevel);
         }
 
         public void Apply(NPCDevOps npc)
@@ -56,9 +57,9 @@ namespace NPCs
 
         }
 
-        public string GetDisplayText()
+        public string GetDisplayText(int offsetLevel = 0)
         {
-            return $"{Name} - {StatType} + { Math.Round(GetScaledValue() * 100) - 100}%";
+            return $"{Name} Level: {Level + offsetLevel} - {StatType}  { Math.Round(GetScaledValue(offsetLevel) * 100) - 100}%";
         }
     }
 }

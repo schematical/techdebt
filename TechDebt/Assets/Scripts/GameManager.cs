@@ -872,6 +872,7 @@ public class GameManager : MonoBehaviour
             case(0):
                 return new NPCTrait()
                 {
+                    Id = "finops_expert",
                     Name = "FinOps Expert",
                     StatType = StatType.Infra_DailyCost,
                     Type = NPCTrait.TraitType.InfraStat,
@@ -880,6 +881,7 @@ public class GameManager : MonoBehaviour
             case(1): 
                 return new NPCTrait()
                 {
+                    Id = "devops_expert",
                     Name = "DevOps Expert",
                     StatType = StatType.Infra_LoadRecoveryRate,
                     Type = NPCTrait.TraitType.InfraStat
@@ -887,12 +889,14 @@ public class GameManager : MonoBehaviour
             case(2):
                 return new NPCTrait()
                 {
+                    Id = "fast_worker",
                     Name = "Fast Worker",
                     StatType = StatType.NPC_BuildSpeed,
                 };
             case(3):
                 return new NPCTrait()
                 {
+                    Id = "fast_researcher",
                     Name = "Fast Researcher",
                     StatType = StatType.NPC_ResearchSpeed,
                 };
