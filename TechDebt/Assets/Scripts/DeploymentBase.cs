@@ -15,9 +15,12 @@ public class DeploymentBase
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
     // TODO: Optimized score, gives a latency bonus or a load bonus
-    
-    
     public DeploymentState State { get; set; } = DeploymentState.InProgress;
+    public DeploymentBase()
+    {
+        SetState(DeploymentState.InProgress);
+    }
+
 
     public void QueueUpTask()
     {
@@ -26,8 +29,6 @@ public class DeploymentBase
             Server server = infra.GetComponent<Server>();
             if (server != null && infra.data.CurrentState == InfrastructureData.State.Operational)
             {
-                    
-                  
                 GameManager.Instance.AddTask(new DeploymentTask(server, this));
             }
         }

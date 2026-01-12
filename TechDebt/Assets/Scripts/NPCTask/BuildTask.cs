@@ -78,7 +78,7 @@ public class BuildTask : NPCTask
 
         base.OnEnd(npc);
         
-        CurrentStatus = Status.Completed; // Set status to completed
+        CurrentState = State.Completed; // Set status to completed
         
         TargetInfrastructure.SetState(InfrastructureData.State.Operational);
         
@@ -95,5 +95,9 @@ public class BuildTask : NPCTask
     public override string GetAssignButtonText()
     {
         return "Build";
+    }
+    public override void OnQueued()
+    {
+        TargetInfrastructure.SetState(InfrastructureData.State.Planned);
     }
 }

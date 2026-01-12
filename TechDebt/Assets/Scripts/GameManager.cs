@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     public void AddTask(NPCTask task)
     {
         AvailableTasks.Add(task);
+        task.OnQueued();
         // Optional: Sort the list when a new task is added
         AvailableTasks = AvailableTasks.OrderByDescending(t => t.Priority).ToList();
     }
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
     public NPCTask GetHighestPriorityTask()
     {
         return AvailableTasks
-            .Where(t => t.CurrentStatus == NPCTask.Status.Pending && !t.IsAssigned)
+            .Where(t => t.CurrentState == NPCTask.State.Queued && !t.IsAssigned)
             .OrderByDescending(t => t.Priority)
             .FirstOrDefault();
     }
@@ -877,6 +878,7 @@ public class GameManager : MonoBehaviour
 
     public void InvokeDeploymentChanged(DeploymentBase deploymentBase, DeploymentBase.DeploymentState state)
     {
+        Debug.Log($"InvokeDeploymentChanged: {deploymentBase.GetVersionString()} - {state}");
         OnDeploymentChanged?.Invoke(deploymentBase, state);
     }
     public NPCTrait GetRandomNPCTrait()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8822102169522445978}
   - component: {fileID: 2161376379592289003}
   - component: {fileID: 3052031669705824061}
-  - component: {fileID: 8617920229295271715}
+  - component: {fileID: 392741141019195106}
   m_Layer: 0
   m_Name: CodePipeline
   m_TagString: Untagged
@@ -115,7 +115,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8617920229295271715
+--- !u!114 &392741141019195106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,12 +124,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5600887683244989748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
+  m_Script: {fileID: 11500000, guid: 63b68f9a811648f0b0764db5a5a8272b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
+  m_EditorClassIdentifier: Assembly-CSharp::CodePipelineInstance
   startcolor: {r: 0, g: 0, b: 0, a: 0}
   data:
-    ID: 3516ca6f-a389-48c3-9f82-52f0b2f0b8e6
+    ID: 
     DisplayName: 
     Type: 
     Prefab: {fileID: 0}

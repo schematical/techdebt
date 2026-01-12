@@ -21,7 +21,7 @@ public class DeliverItemTask : NPCTask
         if (_doorInstance == null)
         {
             Debug.LogError("DeliverItemTask cannot function without a 'door' infrastructure.");
-            CurrentStatus = Status.Completed; // End the task if there's no door
+            CurrentState = State.Completed; // End the task if there's no door
             return;
         }
 
@@ -38,7 +38,7 @@ public class DeliverItemTask : NPCTask
         if (_dropOffPosition == Vector3.zero)
         {
             Debug.LogWarning("Could not find a valid drop-off point for delivery. Aborting.");
-            CurrentStatus = Status.Completed;
+            CurrentState = State.Completed;
             return;
         }
 

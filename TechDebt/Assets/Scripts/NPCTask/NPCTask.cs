@@ -5,15 +5,16 @@ using UnityEngine;
 
 public abstract class NPCTask
 {
-    public enum Status
+    public enum State
     {
-        Pending,
+        Available,
+        Queued,
         Executing,
         Completed,
         Interrupted
     }
     public enum TaskRole { DevOps, Boss, Dev, Intern}
-    public Status CurrentStatus { get; protected set; } = Status.Pending;
+    public State CurrentState { get; protected set; } = State.Available;
     public int Priority { get; set; }
     public NPCBase AssignedNPC { get; private set; }
     public bool IsAssigned => AssignedNPC != null;
@@ -30,7 +31,7 @@ public abstract class NPCTask
 
     public virtual void OnInterrupt()
     {
-        CurrentStatus = Status.Interrupted;
+        CurrentState = State.Interrupted;
         if (AssignedNPC != null && destination.HasValue)
         {
             AssignedNPC.OnDestinationReached -= HandleArrival;
@@ -47,7 +48,7 @@ public abstract class NPCTask
             return false;
         }
         AssignedNPC = npc;
-        CurrentStatus = Status.Executing;
+        CurrentState = State.Executing;
         return true;
     }
 
@@ -55,7 +56,7 @@ public abstract class NPCTask
     {
         AssignedNPC = null;
         hasArrived = false;
-        CurrentStatus = Status.Pending;
+        CurrentState = State.Queued;
     }
 
     public virtual void OnStart(NPCBase npc)
@@ -97,5 +98,10 @@ public abstract class NPCTask
     public virtual string GetAssignButtonText()
     {
         throw new SystemException("Overwrite me");
+    }
+
+    public virtual void OnQueued()
+    {
+        CurrentState = State.Queued;
     }
 }

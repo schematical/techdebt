@@ -35,7 +35,7 @@ public class DeploymentTask : NPCTask
     {
         base.OnEnd(npc);
         TargetInfrastructure.Version =  Deployment.GetVersionString();
-        CurrentStatus = Status.Completed;
+        CurrentState = State.Completed;
         Deployment.CheckIsOver();
     }
     public override string GetAssignButtonText()

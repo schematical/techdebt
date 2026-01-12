@@ -735,7 +735,7 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance?.AvailableTasks == null) return;
 
         var currentTasks =
-            new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentStatus != Status.Completed));
+            new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentState != State.Completed));
         var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
 
         foreach (var task in tasksToRemove)
@@ -801,11 +801,11 @@ public class UIManager : MonoBehaviour
             taskEntryPanel.transform.SetSiblingIndex(i);
 
             var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
-            string statusColor = task.CurrentStatus == Status.Executing ? "yellow" : "white";
+            string statusColor = task.CurrentState == State.Executing ? "yellow" : "white";
             string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
             string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
             if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
-            taskText += $"<color={statusColor}>Status: {task.CurrentStatus}</color> | Assignee: {assignee}";
+            taskText += $"<color={statusColor}>Status: {task.CurrentState}</color> | Assignee: {assignee}";
             textComponent.text = taskText;
 
             var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
