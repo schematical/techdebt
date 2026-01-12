@@ -187,7 +187,7 @@ public class GameLoopManager : MonoBehaviour
   
 
         // Assign "go to door" task to all NPCs
-        foreach (var npc in GameManager.Instance.AllNpcs)
+        foreach (var npc in GameManager.Instance.AllNpcs.ToList())
         {
             if (npc.gameObject.activeInHierarchy)
             {
@@ -195,7 +195,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
         
-        foreach (var e in GameManager.Instance.Events)
+        foreach (var e in GameManager.Instance.CurrentEvents.ToList())
         {
             if (e.IsOver())
             {

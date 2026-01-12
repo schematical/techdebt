@@ -951,13 +951,21 @@ MonoBehaviour:
       networkPacketType: 0
       Possiblity: 0
       Cost: 0
-      NetworkConnectionBonus: []
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 0
+        Type: 1
+        value: 0.5
     - TargetID: read-replica-2
       Priority: 5
       networkPacketType: 0
       Possiblity: 0
       Cost: 0
-      NetworkConnectionBonus: []
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 0
+        Type: 1
+        value: 0.5
   - ID: s3-bucket
     DisplayName: S3Bucket
     Type: 
@@ -971,7 +979,7 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 1
       loadPerPacket: 0
-      cost: 1
+      cost: 0
       RouteType: 0
     DailyCost: 1
     BuildTime: 10
@@ -994,7 +1002,7 @@ MonoBehaviour:
     networkPackets:
     - PacketType: 1
       loadPerPacket: 0
-      cost: 2
+      cost: 1
       RouteType: 0
     DailyCost: 1
     BuildTime: 10
@@ -1272,7 +1280,7 @@ MonoBehaviour:
     networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    LoadPerPacket: 20
+    LoadPerPacket: 10
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
@@ -1291,7 +1299,7 @@ MonoBehaviour:
     networkPackets: []
     DailyCost: 30
     BuildTime: 10
-    LoadPerPacket: 20
+    LoadPerPacket: 10
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50

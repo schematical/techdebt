@@ -62,9 +62,17 @@ public class BuildTask : NPCTask
         {
             if (npcTrait.Type == NPCTrait.TraitType.InfraStat)
             {
-                TargetInfrastructure.data.Stats.AddModifier(npcTrait.StatType, new StatModifier(StatModifier.ModifierType.Multiply, npcTrait.GetScaledValue(), npcTrait));
-                GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${npcTrait.StatType} x {Math.Round(npcTrait.GetScaledValue() * 100)}%",
-                    TargetInfrastructure.transform.position); 
+                StatModifier existingStatModifier = TargetInfrastructure.data.Stats.Stats[npcTrait.StatType].Modifiers
+                    .Find((statModifier => statModifier.Source == npcTrait));
+                if(existingStatModifier == null)  {
+                    TargetInfrastructure.data.Stats.AddModifier(npcTrait.StatType, new StatModifier(StatModifier.ModifierType.Multiply, npcTrait.GetScaledValue(), npcTrait));
+                    GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${npcTrait.StatType} x {Math.Round(npcTrait.GetScaledValue() * 100)}%",
+                        TargetInfrastructure.transform.position);
+                }
+                else
+                {
+                    // existingStatModifier.Value = npcTrait.GetScaledValue()
+                }
             }
         }
 

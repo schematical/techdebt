@@ -1313,11 +1313,11 @@ public class UIManager : MonoBehaviour
 
     public void ShowAlert(string alertText)
     {
+        Debug.Log($"ShowAlert: {alertText}");
         alertPanel.SetActive(true);
-        if (_alertText != null)
-        {
-            _alertText.text = alertText;
-        }
+        
+        _alertText.text = alertText;
+        
     }
 
     #endregion
