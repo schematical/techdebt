@@ -1535,6 +1535,64 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+  - ID: cognito
+    DisplayName: Cognito
+    Type: 
+    Prefab: {fileID: 6331791535608366089, guid: 269f77018a67477449955eb0d0454e01, type: 3}
+    GridPosition: {x: 15, y: 20}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: cognito
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 2
+      loadPerPacket: 10
+      cost: 0
+      RouteType: 1
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 0
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+  - ID: codepipeline
+    DisplayName: CodePipeline
+    Type: 
+    Prefab: {fileID: 5600887683244989748, guid: 0bee7f7464887e943ad2c8baec8da75c, type: 3}
+    GridPosition: {x: 45, y: 25}
+    UnlockConditions:
+    - Type: 1
+      StatType: 0
+      TechnologyID: codepipeline
+      RequiredValue: 0
+    networkPackets:
+    - PacketType: 2
+      loadPerPacket: 10
+      cost: 0
+      RouteType: 1
+    DailyCost: 30
+    BuildTime: 10
+    LoadPerPacket: 0
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CurrentState: 0
+    NetworkConnections:
+    - TargetID: 
+      Priority: 0
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -1608,6 +1666,22 @@ MonoBehaviour:
     CurrentState: 0
   - TechnologyID: sqs
     DisplayName: Simple Queue Service
+    Description: 
+    ResearchPointCost: 25
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - load-balencer
+    CurrentState: 0
+  - TechnologyID: cognito
+    DisplayName: Cognito User Pools
+    Description: 
+    ResearchPointCost: 25
+    CurrentResearchProgress: 0
+    RequiredTechnologies:
+    - load-balencer
+    CurrentState: 0
+  - TechnologyID: codepipeline
+    DisplayName: Code Pipeline
     Description: 
     ResearchPointCost: 25
     CurrentResearchProgress: 0
