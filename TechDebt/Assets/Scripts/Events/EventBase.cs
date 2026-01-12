@@ -2,7 +2,7 @@
 {
     public abstract class EventBase
     {
-        public int Probility  { get; protected set; } = 1;
+        public int Probability  { get; protected set; } = 1;
         public string EventStartText { get; protected set; }
         public string EventEndText { get; protected set; }
         public virtual void Apply()
@@ -34,6 +34,11 @@
         public virtual string GetEventDescription()
         {
             return GetType().Name.Replace("Event", "");
+        }
+
+        public virtual int GetProbability()
+        {
+            return Probability;
         }
     }
 }

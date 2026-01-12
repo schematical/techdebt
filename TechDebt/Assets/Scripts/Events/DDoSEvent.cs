@@ -10,7 +10,7 @@ namespace Events
         {
             EventStartText = "Someone from customer service is about slow service";
             EventEndText = "DDoS Attack seems to have ended"; // Or perhaps an actual result
-            Probility = 1;
+            Probability = 1;
         }
         
         public override void Apply()

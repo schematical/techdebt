@@ -10,7 +10,7 @@ namespace Events
         {
             EventStartText = "Nothing Exciting Today";
             EventEndText = "Calm seas"; // Or perhaps an actual result
-            Probility = 1;
+            Probability = 1;
         }
         
       

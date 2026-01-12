@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
         {
             if (e.IsPossible())
             {
-                totalProb += e.Probility;
+                totalProb += e.GetProbability();
                 possibleEvents.Add(e);
             }
         }
@@ -256,24 +256,24 @@ public class GameManager : MonoBehaviour
         int currIndex = 0;
         foreach (var e in possibleEvents)
         {
-            // Debug.Log($"selectedIndex {selectedIndex} - totalProb ${totalProb}");
+   
             if (
                 selectedIndex >= currIndex && 
-                selectedIndex < currIndex + e.Probility
+                selectedIndex < currIndex + e.GetProbability()
             )
             {
                 TriggerEvent(e);
                 break;
             }
 
-            currIndex += e.Probility;
+            currIndex += e.GetProbability();
         }
     }
 
     public void TriggerEvent(EventBase e)
     {
         e.Apply();
-        // Debug.Log("Adding Event: " + e.EventEndText);
+ 
         CurrentEvents.Add(e);
         OnCurrentEventsChanged?.Invoke();
     }
