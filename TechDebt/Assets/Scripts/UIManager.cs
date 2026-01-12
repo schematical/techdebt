@@ -85,6 +85,7 @@ public class UIManager : MonoBehaviour
     private Items.ItemBase _selectedItem;
     private NPCDevOps _selectedNPC;
 
+    private List<Button> _taskButtons = new List<Button>();
     private bool _isInitialized = false;
 
     void Start()
@@ -1075,62 +1076,30 @@ public class UIManager : MonoBehaviour
     {
         _selectedInfrastructure = instance;
         infrastructureDetailPanel.SetActive(true);
-        // Update text in Update() to keep it live
+        UIPanel uiPanel = infrastructureDetailPanel.GetComponent<UIPanel>();
 
-        bool conditionsMet = GameManager.Instance.AreUnlockConditionsMet(_selectedInfrastructure.data);
-
-        if (_selectedInfrastructure.data.CurrentState == InfrastructureData.State.Unlocked && conditionsMet)
+        // Cleanup previous task buttons
+        foreach (var button in _taskButtons)
         {
-            _planBuildButton.gameObject.SetActive(true);
-            _planBuildButton.onClick.RemoveAllListeners();
-            _planBuildButton.onClick.AddListener(() =>
-                GameManager.Instance.PlanInfrastructure(_selectedInfrastructure));
+            Destroy(button.gameObject);
         }
-        else
-        {
-            _planBuildButton.gameObject.SetActive(false);
-        }
+        _taskButtons.Clear();
 
-        if (_selectedInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
+        // Hide static buttons that are no longer used.
+        _planBuildButton.gameObject.SetActive(false);
+        _upsizeButton.gameObject.SetActive(false);
+        _downsizeButton.gameObject.SetActive(false);
+        
+        var tasks = _selectedInfrastructure.GetAvailableTasks();
+        foreach (var task in tasks)
         {
-            _upsizeButton.gameObject.SetActive(true);
-            _downsizeButton.gameObject.SetActive(true);
-
-            // Update listeners to pass integer direction
-            _upsizeButton.onClick.RemoveAllListeners();
-            _upsizeButton.onClick.AddListener(() =>
-                GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, 1));
-            _downsizeButton.onClick.RemoveAllListeners();
-            _downsizeButton.onClick.AddListener(() =>
-                GameManager.Instance.RequestInfrastructureResize(_selectedInfrastructure, -1));
-
-            // Set interactable state based on size level
-            _upsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel < 4;
-            _downsizeButton.interactable = _selectedInfrastructure.CurrentSizeLevel > 0;
-        }
-        else if (_selectedInfrastructure.data.CurrentState == InfrastructureData.State.Frozen)
-        {
-            _planBuildButton.gameObject.SetActive(true);
-            var buttonText = _planBuildButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (buttonText != null)
+            NPCTask localTask = task; // Local copy for the closure
+            var newButton = uiPanel.AddButton(task.GetAssignButtonText(), () =>
             {
-                buttonText.text = "Fix";
-            }
-            _planBuildButton.onClick.RemoveAllListeners();
-            _planBuildButton.onClick.AddListener(() =>
-            {
-                var buildTask = new BuildTask(_selectedInfrastructure, 7);
-                GameManager.Instance.AddTask(buildTask);
-                infrastructureDetailPanel.SetActive(false);
+                GameManager.Instance.AddTask(localTask);
+                HideInfrastructureDetail(); 
             });
-
-            _upsizeButton.gameObject.SetActive(false);
-            _downsizeButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            _upsizeButton.gameObject.SetActive(false);
-            _downsizeButton.gameObject.SetActive(false);
+            _taskButtons.Add(newButton.button);
         }
     }
 

@@ -492,7 +492,7 @@ public Transform GetTransform()
         }
     }
 
-    public List<NPCTask> GetAvailableTasks()
+    public virtual List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = new List<NPCTask>();
         switch (data.CurrentState)

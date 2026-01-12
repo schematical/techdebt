@@ -54,10 +54,11 @@ public class DeploymentBase
                 infra.Version != GetVersionString()
             )
             {
+                
                 return false;
             }
         }
-  
+        State  = DeploymentState.Completed;
         return true;
     }
   

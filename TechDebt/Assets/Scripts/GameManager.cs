@@ -343,6 +343,13 @@ public class GameManager : MonoBehaviour
     public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
     {
         OnInfrastructureStateChange?.Invoke(instance, previousState);
+        foreach (DeploymentBase deploymentBase in GameManager.Instance.Deployments)
+        {
+            if (deploymentBase.State == DeploymentBase.DeploymentState.InProgress)
+            {
+                deploymentBase.CheckIsOver();
+            }
+        }
 		foreach(var activeInfra in ActiveInfrastructure) {
 			activeInfra.OnInfrastructureBuilt(instance);
 		}

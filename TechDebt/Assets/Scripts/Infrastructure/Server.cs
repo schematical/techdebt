@@ -22,7 +22,7 @@ public class Server : InfrastructureInstance
         data.NetworkConnections.Add(db);
     }
 
-    public List<NPCTask> GetAvailableTasks()
+    public override List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = base.GetAvailableTasks();
         foreach (DeploymentBase deploymentBase in GameManager.Instance.Deployments)

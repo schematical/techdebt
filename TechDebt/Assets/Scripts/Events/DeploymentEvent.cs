@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Events
 {
+    // TODO: Move this to something like a hotfix event or something.
     public class DeploymentEvent : EventBase
     {
  
@@ -10,7 +11,7 @@ namespace Events
         public DeploymentEvent()
         {
             EventStartText = "New deployments are available!";
-            EventEndText = "Deployment success."; // Or perhaps an actual result
+            // EventEndText = "Deployment success."; // Or perhaps an actual result
             Probability = 10;
         }
 
@@ -28,8 +29,8 @@ namespace Events
             base.Apply(); // Call base to trigger the alert
             
             GameManager.Instance.Deployments.Add(Deployment);
-            
-         
+            End();
+
         }
 
         public override bool IsPossible()
