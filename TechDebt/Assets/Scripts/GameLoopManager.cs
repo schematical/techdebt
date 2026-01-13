@@ -48,7 +48,12 @@ public class GameLoopManager : MonoBehaviour
             "You have failed to keep our infrastructure up and running with in our budget. You are fired!",
             new List<DialogButtonOption>()
             {
-                new DialogButtonOption() { Text = "Game Over", OnClick = () => ResetGame() },
+                new DialogButtonOption() { Text = "Game Over", OnClick = () =>
+                    {
+                        SceneManager.LoadScene("MainMenu");
+                        // ResetGame();
+                    }
+                },
             }
         );
     }
