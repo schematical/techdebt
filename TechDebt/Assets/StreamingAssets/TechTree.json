@@ -1,0 +1,69 @@
+{
+  "nodes": [
+    {
+      "id": "start",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "dependencies": [],
+      "unlocked": true
+    },
+    {
+      "id": "a",
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "dependencies": [
+        "start"
+      ],
+      "unlocked": false
+    },
+    {
+      "id": "b",
+      "position": {
+        "x": -2,
+        "y": 2
+      },
+      "dependencies": [
+        "start"
+      ],
+      "unlocked": false
+    },
+    {
+      "id": "c",
+      "position": {
+        "x": 4,
+        "y": 4
+      },
+      "dependencies": [
+        "a"
+      ],
+      "unlocked": false
+    },
+    {
+      "id": "d",
+      "position": {
+        "x": -4,
+        "y": 4
+      },
+      "dependencies": [
+        "b"
+      ],
+      "unlocked": false
+    },
+    {
+      "id": "e",
+      "position": {
+        "x": 0,
+        "y": 6
+      },
+      "dependencies": [
+        "c",
+        "d"
+      ],
+      "unlocked": false
+    }
+  ]
+}
