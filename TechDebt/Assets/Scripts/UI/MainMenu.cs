@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         Debug.Log("NewGame button clicked!");
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void LoadGame()
