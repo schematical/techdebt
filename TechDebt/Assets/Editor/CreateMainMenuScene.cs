@@ -4,6 +4,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem.UI;
 
 public class CreateMainMenuScene
 {
@@ -24,6 +25,14 @@ public class CreateMainMenuScene
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvasGO.AddComponent<CanvasScaler>();
         canvasGO.AddComponent<GraphicRaycaster>();
+
+        // --- Event System ---
+        if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+        {
+            GameObject eventSystemGO = new GameObject("EventSystem");
+            eventSystemGO.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            eventSystemGO.AddComponent<InputSystemUIInputModule>();
+        }
 
         // --- MainMenu Script ---
         GameObject mainMenuGO = new GameObject("MainMenu");
@@ -88,7 +97,8 @@ public class CreateMainMenuScene
         buttonText.text = text;
         buttonText.color = Color.black;
         buttonText.alignment = TextAlignmentOptions.Center;
-        
+        buttonText.raycastTarget = false; // Add this line
+
         RectTransform textRect = textGO.GetComponent<RectTransform>();
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
