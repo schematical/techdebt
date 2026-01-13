@@ -60,6 +60,7 @@ public class DeploymentBase
             }
         }
         State  = DeploymentState.Completed;
+        GameManager.Instance.UIManager.ShowAlert($"Deployment {GetVersionString()} Complete");
         return true;
     }
 
@@ -70,5 +71,9 @@ public class DeploymentBase
         State = state;
         GameManager.Instance.InvokeDeploymentChanged(this, prevState);
     }
-  
+
+    public float GetDuration()
+    {
+        return 30;
+    }
 }

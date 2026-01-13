@@ -99,5 +99,6 @@ public class BuildTask : NPCTask
     public override void OnQueued()
     {
         TargetInfrastructure.SetState(InfrastructureData.State.Planned);
+        base.OnQueued();
     }
 }

@@ -1,4 +1,6 @@
 // QueueInstance.cs
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +13,8 @@ public class CodePipelineInstance : InfrastructureInstance
 
     
     private InfrastructureInstance _targetServer;
-   
+    private int lastDisplayedProgress;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -51,19 +54,32 @@ public class CodePipelineInstance : InfrastructureInstance
             _deploymentProgress += Time.deltaTime * _deploymentSpeed;
             if (_targetServer != null)
             {
-                FloatingTextFactory.Instance.ShowText(
-                    $"Deploying to {_targetServer.data.DisplayName}: {_deploymentProgress:F0}%",
-                    transform.position
-                );
+                int progress = (int)Math.Floor((_deploymentProgress / _currentDeployment.GetDuration() )  * 100);
+                if (progress % 10 == 0 && lastDisplayedProgress != progress)
+                {
+                    FloatingTextFactory.Instance.ShowText(
+                        $"Deploying {_currentDeployment.GetVersionString()} to {_targetServer.data.DisplayName}: {progress}%",
+                        transform.position
+                    );
+                    lastDisplayedProgress = progress;
+                }
+                
             }
             
-            if (_deploymentProgress >= 100)
+            if (_deploymentProgress >= _currentDeployment.GetDuration())
             {
+                _targetServer.Version =  _currentDeployment.GetVersionString();
+                
+                
                 _deploymentProgress = 0;
                 _targetServer = FindTargetServer();
                 if (_targetServer == null)
                 {
-                    _currentDeployment.State = DeploymentBase.DeploymentState.Completed;
+                    FloatingTextFactory.Instance.ShowText(
+                        $"Done Deploying {_currentDeployment.GetVersionString()}",
+                        transform.position
+                    );
+                    _currentDeployment.CheckIsOver();
                     _currentDeployment = null;
                 }
                 
