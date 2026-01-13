@@ -1019,6 +1019,7 @@ public class UIManager : MonoBehaviour
         debugPanelComponent.unlockAllTechButton = uiPanel.AddButton("Unlock All Tech", () => { }).button;
         debugPanelComponent.triggerEventButton =
             uiPanel.AddButton("Trigger Event", () => ToggleEventTriggerPanel()).button;
+        uiPanel.AddButton("Add Schemata-Bucks", () => MetaCurrency.Add(100));
 
         SetupEventTriggerPanel(parent);
         debugPanel.SetActive(false);
