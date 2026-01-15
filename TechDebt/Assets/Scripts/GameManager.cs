@@ -442,6 +442,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Keyboard.current.f12Key.wasPressedThisFrame)
+        {
+            var techList = new TechnologyListWrapper { Technologies = AllTechnologies };
+            string json = JsonUtility.ToJson(techList, true);
+            Debug.Log(json);
+        }
+
         if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
 
         // Delivery NPC Spawning Logic
@@ -455,6 +462,12 @@ public class GameManager : MonoBehaviour
             }
             _itemDropTimer = GetStat(StatType.ItemDropCheck); // Reset timer
         }
+    }
+
+    [System.Serializable]
+    private class TechnologyListWrapper
+    {
+        public List<Technology> Technologies;
     }
 
     private void FixedUpdate()

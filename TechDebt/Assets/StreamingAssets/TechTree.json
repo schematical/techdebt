@@ -1,57 +1,119 @@
 {
-  "nodes": [
-    {
-      "id": "start",
-      "dependencies": [],
-      "unlocked": true
-    },
-    {
-      "id": "x",
-      "dependencies": ["start"],
-      "unlocked": true
-    },
-    {
-      "id": "a",
-      "dependencies": [
-        "x"
-      ],
-      "unlocked": false
-    },
-    {
-      "id": "b",
-      "dependencies": [
-        "x"
-      ],
-      "unlocked": false
-    },
-    {
-      "id": "y",
-      "dependencies": [
-        "x"
-      ],
-      "unlocked": false
-    },
-    {
-      "id": "c",
-      "dependencies": [
-        "a"
-      ],
-      "unlocked": false
-    },
-    {
-      "id": "d",
-      "dependencies": [
-        "b"
-      ],
-      "unlocked": false
-    },
-    {
-      "id": "e",
-      "dependencies": [
-        "c",
-        "d"
-      ],
-      "unlocked": false
-    }
-  ]
+    "nodes": [
+        {
+            "id": "dedicated-db",
+            "DisplayName": "Dedicated Database",
+            "Description": "",
+            "ResearchPointCost": 30,
+            "dependencies": [],
+            "unlocked": false
+        },
+        {
+            "id": "binary-storage",
+            "DisplayName": "Binary Storage",
+            "Description": "",
+            "ResearchPointCost": 40,
+            "dependencies": [],
+            "unlocked": false
+        },
+        {
+            "id": "redis",
+            "DisplayName": "Redis Caching",
+            "Description": "",
+            "ResearchPointCost": 25,
+            "dependencies": [
+                "dedicated-db"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "cdn",
+            "DisplayName": "Content Delivery Network(CDN)",
+            "Description": "",
+            "ResearchPointCost": 5,
+            "dependencies": [
+                "binary-storage"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "load-balencer",
+            "DisplayName": "Load Balencer",
+            "Description": "",
+            "ResearchPointCost": 30,
+            "dependencies": [
+                "dedicated-db",
+                "binary-storage"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "read-replicas",
+            "DisplayName": "Read Replicas",
+            "Description": "",
+            "ResearchPointCost": 60,
+            "dependencies": [
+                "dedicated-db"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "water-cooler",
+            "DisplayName": "Water Cooler",
+            "Description": "",
+            "ResearchPointCost": 5,
+            "dependencies": [
+                "dedicated-db"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "waf",
+            "DisplayName": "Web Application Firewall(WAF)",
+            "Description": "",
+            "ResearchPointCost": 25,
+            "dependencies": [
+                "load-balencer"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "secret-manager",
+            "DisplayName": "Secret Manager",
+            "Description": "",
+            "ResearchPointCost": 25,
+            "dependencies": [],
+            "unlocked": false
+        },
+        {
+            "id": "sqs",
+            "DisplayName": "Simple Queue Service",
+            "Description": "",
+            "ResearchPointCost": 25,
+            "dependencies": [
+                "load-balencer"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "cognito",
+            "DisplayName": "Cognito User Pools",
+            "Description": "",
+            "ResearchPointCost": 25,
+            "dependencies": [
+                "load-balencer"
+            ],
+            "unlocked": false
+        },
+        {
+            "id": "codepipeline",
+            "DisplayName": "Code Pipeline",
+            "Description": "",
+            "ResearchPointCost": 25,
+            "dependencies": [
+                "load-balencer"
+            ],
+            "unlocked": false
+        }
+    ]
 }

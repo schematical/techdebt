@@ -8,6 +8,9 @@ using UnityEngine;
 public class TechTreeNode
 {
     public string id;
+    public string DisplayName;
+    public string Description;
+    public int ResearchPointCost;
     [System.NonSerialized] public Vector2Int position;
     public List<string> dependencies;
     public bool unlocked;
