@@ -12,8 +12,7 @@ using UnityEngine.UI; // Added for RawImage
 public class TechTreeNode
 {
     public string id;
-    [System.NonSerialized]
-    public Vector2Int position; // This will now be calculated procedurally
+    [System.NonSerialized] public Vector2Int position; // This will now be calculated procedurally
     public List<string> dependencies;
     public bool unlocked;
 }
@@ -24,83 +23,87 @@ namespace UI
     {
         public Tilemap connectorTilemap;
         public Tilemap nodeTilemap;
+        public GameObject nameLabelPrefab;
         public Tile unlockedTile;
         public Tile lockedTile;
         public TileBase connectorTile;
-                        public UnityAction<string> onNodeClicked;
-                        public float panSpeed = 1f;
-                
-                        // Configuration for procedural layout
-                        private int columnSpacing = 3; // Horizontal spacing between dependency levels
-                        private int rowSpacing = 2;    // Vertical spacing between nodes in the same column        
-                [System.Serializable]
-                public class TechTreeData
-                {
-                    public List<TechTreeNode> nodes;
-                }
+        public UnityAction<string> onNodeClicked;
+                public float panSpeed = 1f;
         
-                private List<TechTreeNode> _techTree;
+                private List<GameObject> _nameLabels = new List<GameObject>();
         
-                private void Awake()
-                {
-                    if (connectorTilemap == null) Debug.LogError("Connector Tilemap reference is NOT set in the Inspector!");
-                    if (nodeTilemap == null) Debug.LogError("Node Tilemap reference is NOT set in the Inspector!");
-        
-                    var path = Path.Combine(Application.streamingAssetsPath, "TechTree.json");
-                    if (File.Exists(path))
-                    {
-                        var json = File.ReadAllText(path);
-                        var data = JsonUtility.FromJson<TechTreeData>(json);
-                        _techTree = data.nodes;
-                        CalculateNodePositions();
-                    }
-                    else
-                    {
-                        Debug.LogError($"TechTree.json not found at path: {path}");
-                        _techTree = new List<TechTreeNode>();
-                    }
-                }
+                // Configuration for procedural layout
+                private int columnSpacing = 3; // Horizontal spacing between dependency levels
+                private int rowSpacing = 2;    // Vertical spacing between nodes in the same column        
 
-                private void Start()
-                {
-                    DrawTechTree();
-                    CenterTilemapOnCamera();
-                    onNodeClicked += UnlockNode;
-                }
-        
-                private void CenterTilemapOnCamera()
-                {
-                    if (_techTree == null || _techTree.Count == 0 || Camera.main == null) return;
-        
-                    // Find the bounds of the entire tech tree in world space
-                    var minX = _techTree.Min(n => n.position.x);
-                    var maxX = _techTree.Max(n => n.position.x);
-                    var minY = _techTree.Min(n => n.position.y);
-                    var maxY = _techTree.Max(n => n.position.y);
-        
-                    // The +1 on max is to account for the size of the tile itself
-                    Vector3 worldCenter = new Vector3(
-                        (minX + maxX + 1) / 2.0f,
-                        (minY + maxY + 1) / 2.0f,
-                        0
-                    );
-        
-                    // The Grid's position needs to be adjusted.
-                    // We want the center of the tree to be at the camera's center (0,0 for a basic setup).
-                    // The tilemap positions are local to the grid, so moving the grid moves the whole tree.
-                    var gridTransform = connectorTilemap.transform.parent; // This gets the Grid's transform
-                    
-                    // Assuming the camera is at (0, 0, -10), we want the tree center to be at (0, 0, 0).
-                    // So we move the grid by the inverse of the tree's calculated center.
-                    gridTransform.position = -worldCenter;
-                }
-                
-                #region Procedural Layout Logic
-        
-                private void CalculateNodePositions()
-                {
-                    if (_techTree == null || _techTree.Count == 0) return;
-                    // 1. Calculate depth for each node
+        [System.Serializable]
+        public class TechTreeData
+        {
+            public List<TechTreeNode> nodes;
+        }
+
+        private List<TechTreeNode> _techTree;
+
+        private void Awake()
+        {
+            if (connectorTilemap == null) Debug.LogError("Connector Tilemap reference is NOT set in the Inspector!");
+            if (nodeTilemap == null) Debug.LogError("Node Tilemap reference is NOT set in the Inspector!");
+
+            var path = Path.Combine(Application.streamingAssetsPath, "TechTree.json");
+            if (File.Exists(path))
+            {
+                var json = File.ReadAllText(path);
+                var data = JsonUtility.FromJson<TechTreeData>(json);
+                _techTree = data.nodes;
+                CalculateNodePositions();
+            }
+            else
+            {
+                Debug.LogError($"TechTree.json not found at path: {path}");
+                _techTree = new List<TechTreeNode>();
+            }
+        }
+
+        private void Start()
+        {
+            DrawTechTree();
+            CenterTilemapOnCamera();
+            onNodeClicked += UnlockNode;
+        }
+
+        private void CenterTilemapOnCamera()
+        {
+            if (_techTree == null || _techTree.Count == 0 || Camera.main == null) return;
+
+            // Find the bounds of the entire tech tree in world space
+            var minX = _techTree.Min(n => n.position.x);
+            var maxX = _techTree.Max(n => n.position.x);
+            var minY = _techTree.Min(n => n.position.y);
+            var maxY = _techTree.Max(n => n.position.y);
+
+            // The +1 on max is to account for the size of the tile itself
+            Vector3 worldCenter = new Vector3(
+                (minX + maxX + 1) / 2.0f,
+                (minY + maxY + 1) / 2.0f,
+                0
+            );
+
+            // The Grid's position needs to be adjusted.
+            // We want the center of the tree to be at the camera's center (0,0 for a basic setup).
+            // The tilemap positions are local to the grid, so moving the grid moves the whole tree.
+            var gridTransform = connectorTilemap.transform.parent; // This gets the Grid's transform
+
+            // Assuming the camera is at (0, 0, -10), we want the tree center to be at (0, 0, 0).
+            // So we move the grid by the inverse of the tree's calculated center.
+            gridTransform.position = -worldCenter;
+        }
+
+        #region Procedural Layout Logic
+
+        private void CalculateNodePositions()
+        {
+            if (_techTree == null || _techTree.Count == 0) return;
+            // 1. Calculate depth for each node
             var nodeDepths = new Dictionary<string, int>();
             foreach (var node in _techTree)
             {
@@ -118,6 +121,7 @@ namespace UI
                     {
                         childrenMap[parentId] = new List<TechTreeNode>();
                     }
+
                     childrenMap[parentId].Add(potentialChild);
                 }
             }
@@ -180,7 +184,7 @@ namespace UI
                     if (currNode.position.y < prevNode.position.y + rowSpacing)
                     {
                         int shift = (prevNode.position.y + rowSpacing) - currNode.position.y;
-                        
+
                         // Shift the current node and its entire subtree down to resolve the overlap
                         var queue = new Queue<TechTreeNode>();
                         queue.Enqueue(currNode);
@@ -206,7 +210,7 @@ namespace UI
                     }
                 }
             }
-            
+
             // 6. Final pass: Center the entire tree vertically around Y=0
             if (_techTree.Count > 0)
             {
@@ -282,7 +286,7 @@ namespace UI
                     onNodeClicked?.Invoke(clickedNode.id);
                 }
             }
-            
+
             // Right-click and drag for horizontal panning
             if (Mouse.current.rightButton.isPressed)
             {
@@ -290,10 +294,10 @@ namespace UI
                 if (Mathf.Abs(mouseDelta.x) > 0.01f) // Add a small deadzone
                 {
                     var gridTransform = connectorTilemap.transform.parent;
-                    
+
                     // Convert mouse delta from screen space to world space
                     float scaleFactor = (Camera.main.orthographicSize * 2) / Screen.height;
-                    
+
                     // Apply the movement (adding to make the drag feel natural)
                     gridTransform.position += new Vector3(mouseDelta.x * scaleFactor * panSpeed, 0, 0);
                 }
@@ -331,7 +335,7 @@ namespace UI
                 var maxDepY = dependencyNodes.Max(d => d.position.y);
                 var busMinY = Mathf.Min(minDepY, node.position.y);
                 var busMaxY = Mathf.Max(maxDepY, node.position.y);
-                
+
                 for (int y = busMinY; y <= busMaxY; y++)
                 {
                     connectorTilemap.SetTile(new Vector3Int(busX, y, 0), connectorTile);
@@ -351,6 +355,41 @@ namespace UI
             {
                 var tile = node.unlocked ? unlockedTile : lockedTile;
                 nodeTilemap.SetTile((Vector3Int)node.position, tile);
+            }
+            
+            // 3. Instantiate name labels for each node
+            if (nameLabelPrefab != null)
+            {
+                // Clear any existing labels first
+                foreach (var label in _nameLabels)
+                {
+                    Destroy(label);
+                }
+                _nameLabels.Clear();
+
+                foreach (var node in _techTree)
+                {
+                    // Get the world position of the center of the tile
+                    Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.position);
+                    
+                    // Instantiate the prefab and position it above the node, parenting it to the Grid
+                    GameObject labelInstance = Instantiate(nameLabelPrefab, worldPos + new Vector3(0, 0f, 0), Quaternion.identity, nodeTilemap.transform.parent);
+                    
+                    // Set the text (assuming a TextMeshPro or UI Text component is on the prefab)
+                    var textComponent = labelInstance.GetComponentInChildren<TMPro.TextMeshPro>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = node.id;
+                    }
+                    else
+                    {
+                        var uiTextComponent = labelInstance.GetComponentInChildren<UnityEngine.UI.Text>();
+                        if(uiTextComponent != null)
+                            uiTextComponent.text = node.id;
+                    }
+                    
+                    _nameLabels.Add(labelInstance);
+                }
             }
 
             // Force both tilemaps to re-evaluate tiles and apply rules.
