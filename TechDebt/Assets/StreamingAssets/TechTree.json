@@ -6,16 +6,28 @@
       "unlocked": true
     },
     {
+      "id": "x",
+      "dependencies": ["start"],
+      "unlocked": true
+    },
+    {
       "id": "a",
       "dependencies": [
-        "start"
+        "x"
       ],
       "unlocked": false
     },
     {
       "id": "b",
       "dependencies": [
-        "start"
+        "x"
+      ],
+      "unlocked": false
+    },
+    {
+      "id": "y",
+      "dependencies": [
+        "x"
       ],
       "unlocked": false
     },

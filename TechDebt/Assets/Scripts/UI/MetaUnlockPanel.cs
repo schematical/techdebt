@@ -12,6 +12,7 @@ using UnityEngine.UI; // Added for RawImage
 public class TechTreeNode
 {
     public string id;
+    [System.NonSerialized]
     public Vector2Int position; // This will now be calculated procedurally
     public List<string> dependencies;
     public bool unlocked;
@@ -21,7 +22,8 @@ namespace UI
 {
     public class MetaUnlockPanel : MonoBehaviour, IDragHandler, IScrollHandler
     {
-        public Tilemap tilemap;
+        public Tilemap connectorTilemap;
+        public Tilemap nodeTilemap;
         public Tile unlockedTile;
         public Tile lockedTile;
         public TileBase connectorTile;
@@ -34,8 +36,8 @@ namespace UI
         public float maxZoom = 10f;
 
         // Configuration for procedural layout
-        private int columnSpacing = 3; // Horizontal spacing between dependency levels
-        private int rowSpacing = 3;    // Vertical spacing between nodes in the same column
+        private int columnSpacing = 2; // Horizontal spacing between dependency levels
+        private int rowSpacing = 2;    // Vertical spacing between nodes in the same column
 
         [System.Serializable]
         public class TechTreeData
@@ -44,12 +46,15 @@ namespace UI
         }
 
         private List<TechTreeNode> _techTree;
+        private Canvas _parentCanvas;
+        private Camera _uiCamera;
 
         private void Awake()
         {
             Debug.Log("MetaUnlockPanel.Awake() called.");
 
-            if (tilemap == null) Debug.LogError("Tilemap reference is NOT set in the Inspector!");
+            if (connectorTilemap == null) Debug.LogError("Connector Tilemap reference is NOT set in the Inspector!");
+            if (nodeTilemap == null) Debug.LogError("Node Tilemap reference is NOT set in the Inspector!");
             if (techTreeCamera == null) Debug.LogError("TechTreeCamera reference is NOT set in the Inspector!");
 
             var path = Path.Combine(Application.streamingAssetsPath, "TechTree.json");
@@ -73,8 +78,36 @@ namespace UI
         private void Start()
         {
             Debug.Log("MetaUnlockPanel.Start() called.");
+
+            // Find the parent canvas and its camera to correctly handle UI clicks
+            _parentCanvas = GetComponentInParent<Canvas>();
+            if (_parentCanvas != null && _parentCanvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            {
+                _uiCamera = _parentCanvas.worldCamera;
+            }
+            else
+            {
+                _uiCamera = null; // This is the correct value for ScreenSpaceOverlay canvases
+            }
+            
+            FitCameraToRawImage();
             DrawTechTree();
             onNodeClicked += UnlockNode;
+        }
+
+        private void FitCameraToRawImage()
+        {
+            if (techTreeCamera == null) return;
+            var rawImage = GetComponentInChildren<RawImage>();
+            if (rawImage == null) return;
+
+            var rawImageRect = rawImage.rectTransform.rect;
+            
+            // For an orthographic camera, the size is half the vertical height of the area it's viewing.
+            // We want the camera's view to match the RawImage's height.
+            // The grid/tilemap cell size must also be considered. Let's assume default pixels per unit of 100.
+            float pixelsPerUnit = 100f; // This should match your project's tile settings
+            techTreeCamera.orthographicSize = rawImageRect.height / (2f * pixelsPerUnit);
         }
         
         #region Procedural Layout Logic
@@ -83,32 +116,124 @@ namespace UI
         {
             if (_techTree == null || _techTree.Count == 0) return;
 
+            // 1. Calculate depth for each node
             var nodeDepths = new Dictionary<string, int>();
             foreach (var node in _techTree)
             {
                 CalculateDepth(node, nodeDepths);
             }
 
+            // 2. Build a map of parent IDs to their children nodes
+            var childrenMap = new Dictionary<string, List<TechTreeNode>>();
+            foreach (var potentialChild in _techTree)
+            {
+                if (potentialChild.dependencies == null) continue;
+                foreach (var parentId in potentialChild.dependencies)
+                {
+                    if (!childrenMap.ContainsKey(parentId))
+                    {
+                        childrenMap[parentId] = new List<TechTreeNode>();
+                    }
+                    childrenMap[parentId].Add(potentialChild);
+                }
+            }
+
+            // 3. Group nodes by depth and order from deepest to shallowest for the first pass
             var nodesByDepth = nodeDepths
-                .GroupBy(kvp => kvp.Value) // Group nodes by their depth
-                .OrderBy(g => g.Key)       // Order groups by depth (0, 1, 2...)
+                .GroupBy(kvp => kvp.Value)
+                .OrderByDescending(g => g.Key)
                 .ToList();
 
+            var yTrack = new Dictionary<int, int>(); // Tracks next available Y for childless nodes
+
+            // 4. First pass (bottom-up): Position parents based on their children's average Y
             foreach (var group in nodesByDepth)
             {
                 var depth = group.Key;
-                var nodesInGroup = group.ToList();
-                for (var i = 0; i < nodesInGroup.Count; i++)
+                if (!yTrack.ContainsKey(depth))
                 {
-                    var nodeKvp = nodesInGroup[i];
+                    yTrack[depth] = 0;
+                }
+
+                // Process nodes in the current depth group
+                foreach (var nodeKvp in group)
+                {
                     var node = _techTree.Find(n => n.id == nodeKvp.Key);
-                    if (node != null)
+                    if (node == null) continue;
+
+                    node.position.x = depth * columnSpacing;
+
+                    if (childrenMap.TryGetValue(node.id, out var children) && children.Count > 0)
                     {
-                        node.position = new Vector2Int(depth * columnSpacing, i * rowSpacing);
+                        // Position this parent in the vertical middle of its children
+                        var minY = children.Min(c => c.position.y);
+                        var maxY = children.Max(c => c.position.y);
+                        double midY = (minY + maxY) / 2.0;
+                        node.position.y = Mathf.RoundToInt((float)midY);
+                    }
+                    else
+                    {
+                        // Leaf node (no children), stack it vertically
+                        node.position.y = yTrack[depth];
+                        yTrack[depth] += rowSpacing;
                     }
                 }
             }
-             Debug.Log("Procedural node positions calculated.");
+
+            // 5. Second pass (top-down): Resolve any collisions
+            foreach (var group in nodesByDepth.AsEnumerable().Reverse()) // Iterate ascending depth
+            {
+                var nodesInGroup = group
+                    .Select(kvp => _techTree.Find(n => n.id == kvp.Key))
+                    .OrderBy(n => n.position.y)
+                    .ToList();
+
+                for (int i = 1; i < nodesInGroup.Count; i++)
+                {
+                    var prevNode = nodesInGroup[i - 1];
+                    var currNode = nodesInGroup[i];
+
+                    if (currNode.position.y < prevNode.position.y + rowSpacing)
+                    {
+                        int shift = (prevNode.position.y + rowSpacing) - currNode.position.y;
+                        
+                        // Shift the current node and its entire subtree down to resolve the overlap
+                        var queue = new Queue<TechTreeNode>();
+                        queue.Enqueue(currNode);
+                        var visited = new HashSet<string> { currNode.id };
+
+                        while (queue.Count > 0)
+                        {
+                            var nodeToShift = queue.Dequeue();
+                            nodeToShift.position.y += shift;
+
+                            if (childrenMap.TryGetValue(nodeToShift.id, out var children))
+                            {
+                                foreach (var child in children)
+                                {
+                                    if (!visited.Contains(child.id))
+                                    {
+                                        queue.Enqueue(child);
+                                        visited.Add(child.id);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 6. Final pass: Center the entire tree vertically around Y=0
+            if (_techTree.Count > 0)
+            {
+                var minY = _techTree.Min(n => n.position.y);
+                var maxY = _techTree.Max(n => n.position.y);
+                var midY = (minY + maxY) / 2;
+                foreach (var node in _techTree)
+                {
+                    node.position.y -= midY;
+                }
+            }
         }
 
         private int CalculateDepth(TechTreeNode node, Dictionary<string, int> memo)
@@ -162,32 +287,42 @@ namespace UI
         {
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                // This now needs to use the TechTreeCamera to convert screen point to world point
                 if (techTreeCamera == null) return;
                 
                 Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
-                
-                // We need to check if the mouse is over the RawImage viewport
+                Debug.Log($"[Click Debug] Mouse Screen Position: {mouseScreenPos}");
+
                 RectTransform rawImageRect = GetComponentInChildren<RawImage>().rectTransform;
-                if (!RectTransformUtility.RectangleContainsScreenPoint(rawImageRect, mouseScreenPos, Camera.main))
+                if (!RectTransformUtility.RectangleContainsScreenPoint(rawImageRect, mouseScreenPos, _uiCamera))
                 {
-                    return; // Mouse is not over the tech tree UI, do nothing
+                    return; 
                 }
 
                 Vector2 localPoint;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImageRect, mouseScreenPos, Camera.main, out localPoint);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImageRect, mouseScreenPos, _uiCamera, out localPoint);
+                Debug.Log($"[Click Debug] Converted Local Point in Rect: {localPoint}");
                 
-                // Normalize the local point to be a viewport coordinate (0,0 to 1,1)
-                Vector2 viewportPoint = new Vector2((localPoint.x / rawImageRect.rect.width) + rawImageRect.pivot.x, 
-                                                    (localPoint.y / rawImageRect.rect.height) + rawImageRect.pivot.y);
+                Vector2 viewportPoint = new Vector2(
+                    (localPoint.x / rawImageRect.rect.width) + rawImageRect.pivot.x, 
+                    (localPoint.y / rawImageRect.rect.height) + rawImageRect.pivot.y);
+                Debug.Log($"[Click Debug] Calculated Viewport Point: {viewportPoint}");
 
                 var mouseWorldPosition = techTreeCamera.ViewportToWorldPoint(viewportPoint);
-                var cellPosition = tilemap.WorldToCell(mouseWorldPosition);
+                Debug.Log($"[Click Debug] Calculated World Position: {mouseWorldPosition}");
+
+                var cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
+                Debug.Log($"[Click Debug] Calculated Tilemap Cell Position: {cellPosition}");
+
                 var clickedNode = _techTree.Find(n => n.position == (Vector2Int)cellPosition);
 
                 if (clickedNode != null)
                 {
+                    Debug.Log($"[Click Debug] SUCCESS: Found node '{clickedNode.id}' at cell {cellPosition}");
                     onNodeClicked?.Invoke(clickedNode.id);
+                }
+                else
+                {
+                    Debug.Log($"[Click Debug] FAILED: No node found at cell {cellPosition}");
                 }
             }
         }
@@ -209,59 +344,60 @@ namespace UI
 
         private void DrawTechTree()
         {
-            if (_techTree == null || _techTree.Count == 0 || tilemap == null) return;
+            if (_techTree == null || _techTree.Count == 0 || connectorTilemap == null || nodeTilemap == null) return;
 
-            tilemap.ClearAllTiles();
-            Debug.Log("Tilemap cleared for drawing.");
+            connectorTilemap.ClearAllTiles();
+            nodeTilemap.ClearAllTiles();
 
-            // Since positions are procedural, we must calculate the bounds now
-            var minX = _techTree.Min(n => n.position.x);
-            var minY = _techTree.Min(n => n.position.y);
-            var maxX = _techTree.Max(n => n.position.x);
-            var maxY = _techTree.Max(n => n.position.y);
-
-            var walkableNodes = new HashSet<Vector2Int>();
-            for (var x = minX - columnSpacing; x <= maxX + columnSpacing; x++)
-            {
-                for (var y = minY - rowSpacing; y <= maxY + rowSpacing; y++)
-                {
-                    walkableNodes.Add(new Vector2Int(x, y));
-                }
-            }
-
-            // 1. Draw paths first using the connector tile
-            Debug.Log("Drawing connector paths...");
+            // 1. Draw paths from dependencies TO nodes on the connector tilemap
             foreach (var node in _techTree)
             {
-                foreach (var dependencyId in node.dependencies)
+                if (node.dependencies == null || node.dependencies.Count == 0) continue;
+
+                var dependencyNodes = node.dependencies
+                    .Select(depId => _techTree.Find(n => n.id == depId))
+                    .Where(n => n != null)
+                    .ToList();
+
+                if (dependencyNodes.Count == 0) continue;
+
+                int maxDepX = dependencyNodes.Max(d => d.position.x);
+                int busX = maxDepX + 1;
+
+                for (int x = busX; x <= node.position.x; x++)
                 {
-                    var dependencyNode = _techTree.Find(n => n.id == dependencyId);
-                    if (dependencyNode != null)
+                    connectorTilemap.SetTile(new Vector3Int(x, node.position.y, 0), connectorTile);
+                }
+
+                var minDepY = dependencyNodes.Min(d => d.position.y);
+                var maxDepY = dependencyNodes.Max(d => d.position.y);
+                var busMinY = Mathf.Min(minDepY, node.position.y);
+                var busMaxY = Mathf.Max(maxDepY, node.position.y);
+                
+                for (int y = busMinY; y <= busMaxY; y++)
+                {
+                    connectorTilemap.SetTile(new Vector3Int(busX, y, 0), connectorTile);
+                }
+
+                foreach (var dep in dependencyNodes)
+                {
+                    for (int x = dep.position.x; x <= busX; x++)
                     {
-                        var path = AStar.FindPath(dependencyNode.position, node.position, walkableNodes);
-                        if (path != null)
-                        {
-                            foreach (var position in path)
-                            {
-                                tilemap.SetTile((Vector3Int)position, connectorTile);
-                            }
-                        }
+                        connectorTilemap.SetTile(new Vector3Int(x, dep.position.y, 0), connectorTile);
                     }
                 }
             }
 
-            // 2. Draw main technology nodes on top of the paths
-            Debug.Log($"Drawing {_techTree.Count} main nodes...");
+            // 2. Draw main technology nodes on top of the paths on the node tilemap
             foreach (var node in _techTree)
             {
                 var tile = node.unlocked ? unlockedTile : lockedTile;
-                tilemap.SetTile((Vector3Int)node.position, tile);
+                nodeTilemap.SetTile((Vector3Int)node.position, tile);
             }
 
-            // Force the tilemap to re-evaluate all tiles and apply the rules for the connector tiles.
-            tilemap.RefreshAllTiles();
-            
-            Debug.Log("Drawing complete.");
+            // Force both tilemaps to re-evaluate tiles and apply rules.
+            connectorTilemap.RefreshAllTiles();
+            nodeTilemap.RefreshAllTiles();
         }
     }
 }
