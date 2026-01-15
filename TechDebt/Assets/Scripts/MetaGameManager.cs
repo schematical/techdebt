@@ -2,7 +2,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 
-public static class MetaSaveLoadManager
+public static class MetaGameManager
 {
     private static MetaProgressData _progressData;
     private static string _savePath;
@@ -19,7 +19,7 @@ public static class MetaSaveLoadManager
         }
     }
 
-    static MetaSaveLoadManager()
+    static MetaGameManager()
     {
         // Static constructor called once when the class is first accessed
         _savePath = Path.Combine(Application.persistentDataPath, "meta_progress.json");
@@ -54,5 +54,18 @@ public static class MetaSaveLoadManager
         _progressData = new MetaProgressData();
         SaveProgress();
         Debug.Log("Meta progress reset.");
+    }
+
+    public static List<Technology> GetAllTechnologies()
+    {
+        List<Technology> technologies = new List<Technology>()
+        {
+            new Technology()
+            {
+                TechnologyID = "dedicated-db",
+                DisplayName = "Dedicated Database",
+            }
+        };
+        return technologies;
     }
 }

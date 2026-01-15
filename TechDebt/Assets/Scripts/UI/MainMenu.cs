@@ -2,13 +2,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UI;
+using UnityEngine.Serialization;
 
 public class MainMenu : MonoBehaviour
 {
     public TextMeshProUGUI metaCurrencyText;
     public Button newGameBtn;
-    public Button loadGameBtn;
+    [FormerlySerializedAs("loadGameBtn")] public Button unlockBtn;
     public Button settingsBtn;
+
     private void Start()
     {
         Debug.Log("MainMenu script started. Time scale is now 1.");
@@ -18,10 +21,11 @@ public class MainMenu : MonoBehaviour
         newGameBtn.onClick.AddListener(NewGame);
     
 
-        loadGameBtn.onClick.AddListener(LoadGame);
+        unlockBtn.onClick.AddListener(ShowUnlockPanel);
      
 
         settingsBtn.onClick.AddListener(OpenSettings);
+        
     }
 
   
@@ -31,11 +35,14 @@ public class MainMenu : MonoBehaviour
         Debug.Log("NewGame button clicked!");
         SceneManager.LoadScene("SampleScene");
     }
+    
 
-    public void LoadGame()
+    public void ShowUnlockPanel()
     {
         Debug.Log("LoadGame button clicked!");
         // Load game data
+        UIMainMenuCanvas.Instance.ClosePanels();
+        UIMainMenuCanvas.Instance.metaUnlockPanel.gameObject.SetActive(true);
     }
 
     public void OpenSettings()

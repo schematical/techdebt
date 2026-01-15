@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Keep TechTreeNode definition here as it's a data structure used by MetaUnlockPanel
 [System.Serializable]
@@ -21,6 +22,7 @@ namespace UI
     public class MetaUnlockPanel : MonoBehaviour
     {
         public TechTreeController techTreeController;
+        public Button closeButton;
 
         [System.Serializable]
         public class TechTreeData
@@ -53,10 +55,11 @@ namespace UI
 
         private void Start()
         {
+            closeButton.onClick.AddListener(OnClose);
             if (techTreeController != null && _techTree != null)
             {
                 // Apply loaded progress to the tech tree data using MetaSaveLoadManager
-                var savedProgress = MetaSaveLoadManager.ProgressData;
+                var savedProgress = MetaGameManager.ProgressData;
                 foreach (var node in _techTree)
                 {
                     node.unlocked = savedProgress.unlockedNodeIds.Contains(node.id);
@@ -65,6 +68,12 @@ namespace UI
                 techTreeController.Initialize(_techTree);
                 techTreeController.onNodeClicked += UnlockNode;
             }
+        }
+
+        public void OnClose()
+        {
+            UIMainMenuCanvas.Instance.ClosePanels();
+            UIMainMenuCanvas.Instance.mainMenu.gameObject.SetActive(true);
         }
 
         public void UnlockNode(string nodeId)
@@ -79,7 +88,7 @@ namespace UI
                 {
                     var depNode = _techTree.Find(n => n.id == depId);
                     // Use MetaSaveLoadManager to check dependency unlock status
-                    return depNode != null && MetaSaveLoadManager.ProgressData.unlockedNodeIds.Contains(depId);
+                    return depNode != null && MetaGameManager.ProgressData.unlockedNodeIds.Contains(depId);
                 });
 
                 if (allDependenciesMet)
@@ -95,14 +104,14 @@ namespace UI
                     nodeToUnlock.unlocked = true;
 
                     // Update and save the progress via MetaSaveLoadManager
-                    var progress = MetaSaveLoadManager.ProgressData;
+                    var progress = MetaGameManager.ProgressData;
                     // TODO: Subtract research points
                     // progress.researchPoints -= nodeToUnlock.ResearchPointCost;
                     if (!progress.unlockedNodeIds.Contains(nodeId))
                     {
                         progress.unlockedNodeIds.Add(nodeId);
                     }
-                    MetaSaveLoadManager.SaveProgress();
+                    MetaGameManager.SaveProgress();
 
                     // Re-initialize the controller to redraw the tree with the updated state
                     techTreeController.Initialize(_techTree);

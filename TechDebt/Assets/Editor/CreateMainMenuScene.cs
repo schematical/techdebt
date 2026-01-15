@@ -70,7 +70,7 @@ public class CreateMainMenuScene
 
         // --- Buttons ---
         CreateButton(canvasGO.transform, "New Game Button", "New Game", new Vector2(0, 50), mainMenu.NewGame);
-        CreateButton(canvasGO.transform, "Load Game Button", "Load Game", new Vector2(0, 0), mainMenu.LoadGame);
+        CreateButton(canvasGO.transform, "Load Game Button", "Load Game", new Vector2(0, 0), mainMenu.ShowUnlockPanel);
         CreateButton(canvasGO.transform, "Settings Button", "Settings", new Vector2(0, -50), mainMenu.OpenSettings);
 
         EditorSceneManager.SaveScene(newScene, "Assets/Scenes/MainMenu.unity");
