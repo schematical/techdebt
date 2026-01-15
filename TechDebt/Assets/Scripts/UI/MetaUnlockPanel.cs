@@ -27,12 +27,12 @@ namespace UI
         public Tile unlockedTile;
         public Tile lockedTile;
         public TileBase connectorTile;
-                public UnityAction<string> onNodeClicked;
-        
-                // Configuration for procedural layout
-                private int columnSpacing = 3; // Horizontal spacing between dependency levels
-                private int rowSpacing = 2;    // Vertical spacing between nodes in the same column
-        
+                        public UnityAction<string> onNodeClicked;
+                        public float panSpeed = 1f;
+                
+                        // Configuration for procedural layout
+                        private int columnSpacing = 3; // Horizontal spacing between dependency levels
+                        private int rowSpacing = 2;    // Vertical spacing between nodes in the same column        
                 [System.Serializable]
                 public class TechTreeData
                 {
@@ -269,18 +269,33 @@ namespace UI
 
         private void Update()
         {
+            // Left-click detection for unlocking nodes
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                // Get mouse position in world coordinates
                 Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
                 var cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
-
                 var clickedNode = _techTree.Find(n => n.position == (Vector2Int)cellPosition);
 
                 if (clickedNode != null)
                 {
                     Debug.Log($"Clicked on technology node: {clickedNode.id}");
                     onNodeClicked?.Invoke(clickedNode.id);
+                }
+            }
+            
+            // Right-click and drag for horizontal panning
+            if (Mouse.current.rightButton.isPressed)
+            {
+                Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+                if (Mathf.Abs(mouseDelta.x) > 0.01f) // Add a small deadzone
+                {
+                    var gridTransform = connectorTilemap.transform.parent;
+                    
+                    // Convert mouse delta from screen space to world space
+                    float scaleFactor = (Camera.main.orthographicSize * 2) / Screen.height;
+                    
+                    // Apply the movement (adding to make the drag feel natural)
+                    gridTransform.position += new Vector3(mouseDelta.x * scaleFactor * panSpeed, 0, 0);
                 }
             }
         }
