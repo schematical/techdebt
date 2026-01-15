@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Keep TechTreeNode definition here as it's a data structure used by MetaUnlockPanel
+// The TechTreeNode is now primarily a VIEW model for the TechTreeController.
+// The main data model is the Technology class from MetaGameManager.
 [System.Serializable]
 public class TechTreeNode
 {
@@ -23,14 +23,9 @@ namespace UI
     {
         public TechTreeController techTreeController;
         public Button closeButton;
-
-        [System.Serializable]
-        public class TechTreeData
-        {
-            public List<TechTreeNode> nodes;
-        }
-
-        private List<TechTreeNode> _techTree;
+        
+        // This now holds the authoritative list of technologies from the game manager.
+        private List<Technology> _technologies;
 
         private void Awake()
         {
@@ -39,36 +34,44 @@ namespace UI
                 Debug.LogError("TechTreeController reference is NOT set in the Inspector on the MetaUnlockPanel!");
             }
 
-            var path = Path.Combine(Application.streamingAssetsPath, "TechTree.json");
-            if (File.Exists(path))
+            // Get the technology data from the central manager.
+            _technologies = MetaGameManager.GetAllTechnologies();
+
+            if (_technologies == null || _technologies.Count == 0)
             {
-                var json = File.ReadAllText(path);
-                var data = JsonUtility.FromJson<TechTreeData>(json);
-                _techTree = data.nodes;
-            }
-            else
-            {
-                Debug.LogError($"TechTree.json not found at path: {path}");
-                _techTree = new List<TechTreeNode>();
+                Debug.LogError("No technologies loaded from MetaGameManager.");
             }
         }
 
         private void Start()
         {
             closeButton.onClick.AddListener(OnClose);
-            if (techTreeController != null && _techTree != null)
+            DrawTree();
+        }
+
+        private void DrawTree()
+        {
+            if (techTreeController != null && _technologies != null)
             {
-                // Apply loaded progress to the tech tree data using MetaSaveLoadManager
                 var savedProgress = MetaGameManager.ProgressData;
-                foreach (var node in _techTree)
-                {
-                    node.unlocked = savedProgress.unlockedNodeIds.Contains(node.id);
-                }
                 
-                techTreeController.Initialize(_techTree);
+                // Convert Technology list to TechTreeNode list for the controller
+                var techTreeNodes = _technologies.Select(tech => new TechTreeNode
+                {
+                    id = tech.TechnologyID,
+                    DisplayName = tech.DisplayName,
+                    Description = tech.Description,
+                    ResearchPointCost = tech.ResearchPointCost,
+                    dependencies = tech.RequiredTechnologies,
+                    unlocked = savedProgress.unlockedNodeIds.Contains(tech.TechnologyID)
+                }).ToList();
+                
+                techTreeController.Initialize(techTreeNodes);
+                techTreeController.onNodeClicked -= UnlockNode; // Ensure we don't double-subscribe
                 techTreeController.onNodeClicked += UnlockNode;
             }
         }
+
 
         public void OnClose()
         {
@@ -79,32 +82,27 @@ namespace UI
         public void UnlockNode(string nodeId)
         {
             Debug.Log($"MetaUnlockPanel received click for node: {nodeId}.");
-            var nodeToUnlock = _techTree.Find(n => n.id == nodeId);
+            var nodeToUnlock = _technologies.Find(n => n.TechnologyID == nodeId);
+            var progress = MetaGameManager.ProgressData;
 
-            if (nodeToUnlock != null && !nodeToUnlock.unlocked)
+            if (nodeToUnlock != null && !progress.unlockedNodeIds.Contains(nodeId))
             {
                 // Check if all dependencies are unlocked
-                bool allDependenciesMet = nodeToUnlock.dependencies.All(depId =>
-                {
-                    var depNode = _techTree.Find(n => n.id == depId);
-                    // Use MetaSaveLoadManager to check dependency unlock status
-                    return depNode != null && MetaGameManager.ProgressData.unlockedNodeIds.Contains(depId);
-                });
+                bool allDependenciesMet = nodeToUnlock.RequiredTechnologies.All(depId =>
+                    progress.unlockedNodeIds.Contains(depId));
 
                 if (allDependenciesMet)
                 {
                     // TODO: Check if the player has enough research points
-                    // if (MetaSaveLoadManager.ProgressData.researchPoints < nodeToUnlock.ResearchPointCost)
+                    // if (progress.researchPoints < nodeToUnlock.ResearchPointCost)
                     // {
                     //     Debug.Log($"Cannot unlock node '{nodeId}': Not enough research points.");
                     //     return;
                     // }
                     
                     Debug.Log($"Unlocking node: {nodeId}");
-                    nodeToUnlock.unlocked = true;
-
-                    // Update and save the progress via MetaSaveLoadManager
-                    var progress = MetaGameManager.ProgressData;
+                    
+                    // Update and save the progress via MetaGameManager
                     // TODO: Subtract research points
                     // progress.researchPoints -= nodeToUnlock.ResearchPointCost;
                     if (!progress.unlockedNodeIds.Contains(nodeId))
@@ -113,8 +111,8 @@ namespace UI
                     }
                     MetaGameManager.SaveProgress();
 
-                    // Re-initialize the controller to redraw the tree with the updated state
-                    techTreeController.Initialize(_techTree);
+                    // Redraw the tree with the updated state
+                    DrawTree();
                 }
                 else
                 {
