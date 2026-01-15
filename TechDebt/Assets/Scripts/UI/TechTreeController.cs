@@ -28,6 +28,7 @@ namespace UI
         private List<TechTreeNode> _techTree;
         private List<GameObject> _nameLabels = new List<GameObject>();
         private TechTreeNode _hoveredNode = null;
+        private bool _initialSetupComplete = false;
 
         // Configuration for procedural layout
         private int columnSpacing = 4;
@@ -45,7 +46,12 @@ namespace UI
             
             CalculateNodePositions();
             DrawNodesAndLabels();
-            CenterTilemapOnCamera();
+            
+            if (!_initialSetupComplete)
+            {
+                CenterTilemapOnCamera();
+                _initialSetupComplete = true;
+            }
         }
 
         private void Update()
