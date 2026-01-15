@@ -238,7 +238,7 @@ namespace UI
                     var dependencyNode = _techTree.Find(n => n.id == dependencyId);
                     if (dependencyNode != null)
                     {
-                        var path = AStar.FindPath(node.position, dependencyNode.position, walkableNodes);
+                        var path = AStar.FindPath(dependencyNode.position, node.position, walkableNodes);
                         if (path != null)
                         {
                             foreach (var position in path)
