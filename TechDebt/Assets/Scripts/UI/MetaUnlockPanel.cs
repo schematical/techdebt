@@ -34,8 +34,8 @@ namespace UI
         public float maxZoom = 10f;
 
         // Configuration for procedural layout
-        public int columnSpacing = 2; // Horizontal spacing between dependency levels
-        public int rowSpacing = 3;    // Vertical spacing between nodes in the same column
+        private int columnSpacing = 3; // Horizontal spacing between dependency levels
+        private int rowSpacing = 3;    // Vertical spacing between nodes in the same column
 
         [System.Serializable]
         public class TechTreeData
