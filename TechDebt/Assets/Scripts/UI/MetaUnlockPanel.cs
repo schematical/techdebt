@@ -20,103 +20,87 @@ public class TechTreeNode
 
 namespace UI
 {
-    public class MetaUnlockPanel : MonoBehaviour, IDragHandler, IScrollHandler
+    public class MetaUnlockPanel : MonoBehaviour
     {
         public Tilemap connectorTilemap;
         public Tilemap nodeTilemap;
         public Tile unlockedTile;
         public Tile lockedTile;
         public TileBase connectorTile;
-        public UnityAction<string> onNodeClicked;
-
-        public Camera techTreeCamera;
-        public float panSpeed = 0.01f;
-        public float zoomSpeed = 0.5f;
-        public float minZoom = 1f;
-        public float maxZoom = 10f;
-
-        // Configuration for procedural layout
-        private int columnSpacing = 2; // Horizontal spacing between dependency levels
-        private int rowSpacing = 2;    // Vertical spacing between nodes in the same column
-
-        [System.Serializable]
-        public class TechTreeData
-        {
-            public List<TechTreeNode> nodes;
-        }
-
-        private List<TechTreeNode> _techTree;
-        private Canvas _parentCanvas;
-        private Camera _uiCamera;
-
-        private void Awake()
-        {
-            Debug.Log("MetaUnlockPanel.Awake() called.");
-
-            if (connectorTilemap == null) Debug.LogError("Connector Tilemap reference is NOT set in the Inspector!");
-            if (nodeTilemap == null) Debug.LogError("Node Tilemap reference is NOT set in the Inspector!");
-            if (techTreeCamera == null) Debug.LogError("TechTreeCamera reference is NOT set in the Inspector!");
-
-            var path = Path.Combine(Application.streamingAssetsPath, "TechTree.json");
-            if (File.Exists(path))
-            {
-                var json = File.ReadAllText(path);
-                var data = JsonUtility.FromJson<TechTreeData>(json);
-                _techTree = data.nodes;
-                Debug.Log($"Successfully loaded {_techTree.Count} nodes from TechTree.json.");
-                
-                // NEW: Procedurally calculate all node positions
-                CalculateNodePositions();
-            }
-            else
-            {
-                Debug.LogError($"TechTree.json not found at path: {path}");
-                _techTree = new List<TechTreeNode>();
-            }
-        }
-
-        private void Start()
-        {
-            Debug.Log("MetaUnlockPanel.Start() called.");
-
-            // Find the parent canvas and its camera to correctly handle UI clicks
-            _parentCanvas = GetComponentInParent<Canvas>();
-            if (_parentCanvas != null && _parentCanvas.renderMode != RenderMode.ScreenSpaceOverlay)
-            {
-                _uiCamera = _parentCanvas.worldCamera;
-            }
-            else
-            {
-                _uiCamera = null; // This is the correct value for ScreenSpaceOverlay canvases
-            }
-            
-            FitCameraToRawImage();
-            DrawTechTree();
-            onNodeClicked += UnlockNode;
-        }
-
-        private void FitCameraToRawImage()
-        {
-            if (techTreeCamera == null) return;
-            var rawImage = GetComponentInChildren<RawImage>();
-            if (rawImage == null) return;
-
-            var rawImageRect = rawImage.rectTransform.rect;
-            
-            // For an orthographic camera, the size is half the vertical height of the area it's viewing.
-            // We want the camera's view to match the RawImage's height.
-            // The grid/tilemap cell size must also be considered. Let's assume default pixels per unit of 100.
-            float pixelsPerUnit = 100f; // This should match your project's tile settings
-            techTreeCamera.orthographicSize = rawImageRect.height / (2f * pixelsPerUnit);
-        }
+                public UnityAction<string> onNodeClicked;
         
-        #region Procedural Layout Logic
+                // Configuration for procedural layout
+                private int columnSpacing = 3; // Horizontal spacing between dependency levels
+                private int rowSpacing = 2;    // Vertical spacing between nodes in the same column
+        
+                [System.Serializable]
+                public class TechTreeData
+                {
+                    public List<TechTreeNode> nodes;
+                }
+        
+                private List<TechTreeNode> _techTree;
+        
+                private void Awake()
+                {
+                    if (connectorTilemap == null) Debug.LogError("Connector Tilemap reference is NOT set in the Inspector!");
+                    if (nodeTilemap == null) Debug.LogError("Node Tilemap reference is NOT set in the Inspector!");
+        
+                    var path = Path.Combine(Application.streamingAssetsPath, "TechTree.json");
+                    if (File.Exists(path))
+                    {
+                        var json = File.ReadAllText(path);
+                        var data = JsonUtility.FromJson<TechTreeData>(json);
+                        _techTree = data.nodes;
+                        CalculateNodePositions();
+                    }
+                    else
+                    {
+                        Debug.LogError($"TechTree.json not found at path: {path}");
+                        _techTree = new List<TechTreeNode>();
+                    }
+                }
 
-        private void CalculateNodePositions()
-        {
-            if (_techTree == null || _techTree.Count == 0) return;
-
-            // 1. Calculate depth for each node
+                private void Start()
+                {
+                    DrawTechTree();
+                    CenterTilemapOnCamera();
+                    onNodeClicked += UnlockNode;
+                }
+        
+                private void CenterTilemapOnCamera()
+                {
+                    if (_techTree == null || _techTree.Count == 0 || Camera.main == null) return;
+        
+                    // Find the bounds of the entire tech tree in world space
+                    var minX = _techTree.Min(n => n.position.x);
+                    var maxX = _techTree.Max(n => n.position.x);
+                    var minY = _techTree.Min(n => n.position.y);
+                    var maxY = _techTree.Max(n => n.position.y);
+        
+                    // The +1 on max is to account for the size of the tile itself
+                    Vector3 worldCenter = new Vector3(
+                        (minX + maxX + 1) / 2.0f,
+                        (minY + maxY + 1) / 2.0f,
+                        0
+                    );
+        
+                    // The Grid's position needs to be adjusted.
+                    // We want the center of the tree to be at the camera's center (0,0 for a basic setup).
+                    // The tilemap positions are local to the grid, so moving the grid moves the whole tree.
+                    var gridTransform = connectorTilemap.transform.parent; // This gets the Grid's transform
+                    
+                    // Assuming the camera is at (0, 0, -10), we want the tree center to be at (0, 0, 0).
+                    // So we move the grid by the inverse of the tree's calculated center.
+                    gridTransform.position = -worldCenter;
+                }
+                
+                #region Procedural Layout Logic
+        
+                private void CalculateNodePositions()
+                {
+                    if (_techTree == null || _techTree.Count == 0) return;
+                    // 1. Calculate depth for each node
             var nodeDepths = new Dictionary<string, int>();
             foreach (var node in _techTree)
             {
@@ -287,59 +271,18 @@ namespace UI
         {
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                if (techTreeCamera == null) return;
-                
-                Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
-                Debug.Log($"[Click Debug] Mouse Screen Position: {mouseScreenPos}");
-
-                RectTransform rawImageRect = GetComponentInChildren<RawImage>().rectTransform;
-                if (!RectTransformUtility.RectangleContainsScreenPoint(rawImageRect, mouseScreenPos, _uiCamera))
-                {
-                    return; 
-                }
-
-                Vector2 localPoint;
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(rawImageRect, mouseScreenPos, _uiCamera, out localPoint);
-                Debug.Log($"[Click Debug] Converted Local Point in Rect: {localPoint}");
-                
-                Vector2 viewportPoint = new Vector2(
-                    (localPoint.x / rawImageRect.rect.width) + rawImageRect.pivot.x, 
-                    (localPoint.y / rawImageRect.rect.height) + rawImageRect.pivot.y);
-                Debug.Log($"[Click Debug] Calculated Viewport Point: {viewportPoint}");
-
-                var mouseWorldPosition = techTreeCamera.ViewportToWorldPoint(viewportPoint);
-                Debug.Log($"[Click Debug] Calculated World Position: {mouseWorldPosition}");
-
+                // Get mouse position in world coordinates
+                Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
                 var cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
-                Debug.Log($"[Click Debug] Calculated Tilemap Cell Position: {cellPosition}");
 
                 var clickedNode = _techTree.Find(n => n.position == (Vector2Int)cellPosition);
 
                 if (clickedNode != null)
                 {
-                    Debug.Log($"[Click Debug] SUCCESS: Found node '{clickedNode.id}' at cell {cellPosition}");
+                    Debug.Log($"Clicked on technology node: {clickedNode.id}");
                     onNodeClicked?.Invoke(clickedNode.id);
                 }
-                else
-                {
-                    Debug.Log($"[Click Debug] FAILED: No node found at cell {cellPosition}");
-                }
             }
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (techTreeCamera == null) return;
-            float scaleFactor = techTreeCamera.orthographicSize * 2 / Screen.height;
-            techTreeCamera.transform.position -= new Vector3(eventData.delta.x * scaleFactor, eventData.delta.y * scaleFactor, 0);
-        }
-
-        public void OnScroll(PointerEventData eventData)
-        {
-            if (techTreeCamera == null) return;
-            var scroll = eventData.scrollDelta.y;
-            float newSize = techTreeCamera.orthographicSize - scroll * zoomSpeed;
-            techTreeCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
         }
 
         private void DrawTechTree()
