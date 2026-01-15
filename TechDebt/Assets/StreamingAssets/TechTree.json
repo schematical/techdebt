@@ -2,19 +2,11 @@
   "nodes": [
     {
       "id": "start",
-      "position": {
-        "x": 0,
-        "y": 0
-      },
       "dependencies": [],
       "unlocked": true
     },
     {
       "id": "a",
-      "position": {
-        "x": 2,
-        "y": 2
-      },
       "dependencies": [
         "start"
       ],
@@ -22,10 +14,6 @@
     },
     {
       "id": "b",
-      "position": {
-        "x": -2,
-        "y": 2
-      },
       "dependencies": [
         "start"
       ],
@@ -33,10 +21,6 @@
     },
     {
       "id": "c",
-      "position": {
-        "x": 4,
-        "y": 4
-      },
       "dependencies": [
         "a"
       ],
@@ -44,10 +28,6 @@
     },
     {
       "id": "d",
-      "position": {
-        "x": -4,
-        "y": 4
-      },
       "dependencies": [
         "b"
       ],
@@ -55,10 +35,6 @@
     },
     {
       "id": "e",
-      "position": {
-        "x": 0,
-        "y": 6
-      },
       "dependencies": [
         "c",
         "d"
