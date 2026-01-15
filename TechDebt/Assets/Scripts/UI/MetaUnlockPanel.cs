@@ -55,6 +55,13 @@ namespace UI
         {
             if (techTreeController != null && _techTree != null)
             {
+                // Apply loaded progress to the tech tree data using MetaSaveLoadManager
+                var savedProgress = MetaSaveLoadManager.ProgressData;
+                foreach (var node in _techTree)
+                {
+                    node.unlocked = savedProgress.unlockedNodeIds.Contains(node.id);
+                }
+                
                 techTreeController.Initialize(_techTree);
                 techTreeController.onNodeClicked += UnlockNode;
             }
@@ -71,14 +78,31 @@ namespace UI
                 bool allDependenciesMet = nodeToUnlock.dependencies.All(depId =>
                 {
                     var depNode = _techTree.Find(n => n.id == depId);
-                    return depNode != null && depNode.unlocked;
+                    // Use MetaSaveLoadManager to check dependency unlock status
+                    return depNode != null && MetaSaveLoadManager.ProgressData.unlockedNodeIds.Contains(depId);
                 });
 
                 if (allDependenciesMet)
                 {
-                    // Logic to spend resources would go here
+                    // TODO: Check if the player has enough research points
+                    // if (MetaSaveLoadManager.ProgressData.researchPoints < nodeToUnlock.ResearchPointCost)
+                    // {
+                    //     Debug.Log($"Cannot unlock node '{nodeId}': Not enough research points.");
+                    //     return;
+                    // }
+                    
                     Debug.Log($"Unlocking node: {nodeId}");
                     nodeToUnlock.unlocked = true;
+
+                    // Update and save the progress via MetaSaveLoadManager
+                    var progress = MetaSaveLoadManager.ProgressData;
+                    // TODO: Subtract research points
+                    // progress.researchPoints -= nodeToUnlock.ResearchPointCost;
+                    if (!progress.unlockedNodeIds.Contains(nodeId))
+                    {
+                        progress.unlockedNodeIds.Add(nodeId);
+                    }
+                    MetaSaveLoadManager.SaveProgress();
 
                     // Re-initialize the controller to redraw the tree with the updated state
                     techTreeController.Initialize(_techTree);

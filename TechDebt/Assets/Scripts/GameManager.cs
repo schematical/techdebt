@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour
     void OnApplicationQuit()
     {
         isQuitting = true;
+        MetaSaveLoadManager.SaveProgress();
     }
 
     public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
@@ -366,6 +367,8 @@ public class GameManager : MonoBehaviour
     {
         MetaCurrency.Load();
         _instance = this;
+        
+        // The MetaSaveLoadManager will handle loading progress data statically
 
         if (FindObjectOfType<DebugManager>() == null)
         {
@@ -379,7 +382,8 @@ public class GameManager : MonoBehaviour
         // Force reset of all technology data to its initial state on load.
         foreach (var tech in AllTechnologies)
         {
-            tech.CurrentState = Technology.State.Locked;
+            // Use MetaSaveLoadManager to determine unlocked status
+            tech.CurrentState = MetaSaveLoadManager.ProgressData.unlockedNodeIds.Contains(tech.TechnologyID) ? Technology.State.Unlocked : Technology.State.Locked;
         }
 
         Initialize();
@@ -678,7 +682,11 @@ public class GameManager : MonoBehaviour
             {
                 ActiveInfrastructure.Add(infraInstance);
                 infraInstance.Initialize(infraData);
-                if (infraData.CurrentState == InfrastructureData.State.Operational)
+                // Determine initial state based on MetaSaveLoadManager
+                if (MetaSaveLoadManager.ProgressData.unlockedNodeIds.Contains(infraData.ID))
+                {
+                    infraInstance.SetState(InfrastructureData.State.Unlocked);
+                } else if (infraData.CurrentState == InfrastructureData.State.Operational)
                 {
                  
                 }
@@ -725,15 +733,11 @@ public class GameManager : MonoBehaviour
             switch (condition.Type)
             {
                 case(UnlockCondition.ConditionType.Technology):
-                    Technology technology = GetTechnologyByID(condition.TechnologyID);
-                    if (technology == null)
+                    // Use MetaSaveLoadManager to check if technology is unlocked
+                    if (!MetaSaveLoadManager.ProgressData.unlockedNodeIds.Contains(condition.TechnologyID))
                     {
-                        throw new SystemException(
-                            $"Cannot find Technology {condition.TechnologyID} - {infraData.ID}");
-                    } 
-                    
-                    if(technology.CurrentState != Technology.State.Unlocked) return false;
-                    
+                        return false;
+                    }
                     break;
                 default:
                     if (GetStat(condition.StatType) < condition.RequiredValue) return false;
@@ -824,7 +828,8 @@ public class GameManager : MonoBehaviour
         foreach (var requiredTechID in tech.RequiredTechnologies)
         {
             Technology requiredTech = GetTechnologyByID(requiredTechID);
-            if (requiredTech == null || requiredTech.CurrentState != Technology.State.Unlocked)
+            // Use MetaSaveLoadManager to check if prerequisite is unlocked
+            if (requiredTech == null || !MetaSaveLoadManager.ProgressData.unlockedNodeIds.Contains(requiredTechID))
             {
                 Debug.Log($"Cannot research '{tech.DisplayName}'. Prerequisite '{requiredTech?.DisplayName ?? requiredTechID}' is not unlocked.");
                 return;
