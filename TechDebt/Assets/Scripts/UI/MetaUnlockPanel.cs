@@ -373,7 +373,7 @@ namespace UI
                     Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.position);
                     
                     // Instantiate the prefab and position it above the node, parenting it to the Grid
-                    GameObject labelInstance = Instantiate(nameLabelPrefab, worldPos + new Vector3(0, 0f, 0), Quaternion.identity, nodeTilemap.transform.parent);
+                    GameObject labelInstance = Instantiate(nameLabelPrefab, worldPos + new Vector3(0, -1.5f, 0), Quaternion.identity, nodeTilemap.transform.parent);
                     
                     // Set the text (assuming a TextMeshPro or UI Text component is on the prefab)
                     var textComponent = labelInstance.GetComponentInChildren<TMPro.TextMeshPro>();
