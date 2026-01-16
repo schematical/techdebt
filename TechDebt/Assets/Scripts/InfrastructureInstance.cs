@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using MetaChallenges;
 using NUnit.Framework;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
@@ -26,6 +27,8 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections =
         new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
+    
+    public MetaStatCollection metaStatCollection = new MetaStatCollection();
 
     void Awake()
     {
@@ -150,6 +153,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
             int loadPerPacket = data.LoadPerPacket;
             int costPerPacket = data.CostPerPacket;
 
+            metaStatCollection.Incr(MetaStat.Infra_HandleNetworkPacket);
             var packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
             if (packetData != null)
             {
@@ -266,6 +270,7 @@ public Transform GetTransform()
         data.Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
         data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
         data.Stats.Add(new StatData(StatType.TechDebt, 0f));
+        data.Stats.Add(new StatData(StatType.Infra_MaxSize, 2));// Todo get this number from a meta unlock.
     }
 
 
@@ -455,7 +460,7 @@ public Transform GetTransform()
     public void ApplyResize(int sizeChange)
     {
         // Update and clamp the size level
-        CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0, 4);
+        CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0, (int) data.Stats.GetStatValue(StatType.Infra_MaxSize));
 
         // Calculate the visual scale factor (e.g., 1.25, 1.5, etc.)
         float visualScaleFactor = 1.0f + (CurrentSizeLevel * 0.25f);
@@ -474,6 +479,11 @@ public Transform GetTransform()
             data.Stats.AddModifier(StatType.Infra_DailyCost, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
             data.Stats.AddModifier(StatType.Infra_MaxLoad, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
             data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+        }
+
+        if (metaStatCollection.Stats[MetaStat.Infra_MaxSize] < CurrentSizeLevel)
+        {
+            metaStatCollection.Stats[MetaStat.Infra_MaxSize] = CurrentSizeLevel;
         }
         SetState(InfrastructureData.State.Operational);
         UpdateAppearance(); // Update visual state after resize

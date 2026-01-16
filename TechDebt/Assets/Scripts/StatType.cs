@@ -38,6 +38,8 @@ public enum StatType
     NPC_ResearchSpeed,
     NPC_TraitSlots,
     
+    Infra_MaxSize
+    
     
 
 }

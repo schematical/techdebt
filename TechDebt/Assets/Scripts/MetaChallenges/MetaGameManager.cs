@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using MetaChallenges;
 
 public static class MetaGameManager
 {
     private static MetaProgressData _progressData;
     private static string _savePath;
+    private static List<MetaChallengeBase> _challenges = new List<MetaChallengeBase>();
 
     public static MetaProgressData ProgressData
     {
@@ -67,6 +69,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 30,
                 RequiredTechnologies = new List<string>()
+                // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
             {
@@ -75,6 +78,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 40,
                 RequiredTechnologies = new List<string>()
+                // Serve up X binary image packets with server-1
             },
             new Technology()
             {
@@ -83,6 +87,9 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "dedicated-db" }
+                
+                // Serve up X text packets with the Dedicated DB
+                
             },
             new Technology()
             {
@@ -91,6 +98,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 5,
                 RequiredTechnologies = new List<string>() { "binary-storage" }
+                // serve up X binary packets with the s3 bucket
             },
             new Technology()
             {
@@ -99,6 +107,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 30,
                 RequiredTechnologies = new List<string>() { "dedicated-db", "binary-storage" }
+                // ??? Make it to day y?
             },
             new Technology()
             {
@@ -107,6 +116,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 60,
                 RequiredTechnologies = new List<string>() { "dedicated-db" }
+                // Scale up your dedicated-db to level 2
             },
             new Technology()
             {
@@ -123,6 +133,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balencer" }
+                // Survive X malicious packets
             },
             new Technology()
             {
@@ -131,6 +142,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>()
+                // Cycle credentials Y times
             },
             new Technology()
             {
@@ -139,6 +151,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balencer" }
+                // survive Y packets in a single run.
             },
             new Technology()
             {
@@ -147,6 +160,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balencer" }
+                // Survive Y user info leaked
             },
             new Technology()
             {
@@ -155,6 +169,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balencer" }
+                // Push out Y deployments
             }
         };
         return technologies;

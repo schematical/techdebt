@@ -1,0 +1,23 @@
+namespace MetaChallenges
+{
+    public class MetaChallengeBase
+    {
+        public enum MetaChallengeType
+        {
+            Active, // They have to opt into this challenge
+            Passive, // Is always listening and checking in the background
+        }
+        public enum MetaChallengeRewardType
+        {
+            Technology
+        }
+        public string InfrastructureId { get; set; }
+        public MetaStat metaStat;
+
+        public MetaChallengeType Type = MetaChallengeType.Passive;
+        
+        public MetaChallengeRewardType RewardType= MetaChallengeRewardType.Technology;
+        public string RewardId;
+
+    }
+}
