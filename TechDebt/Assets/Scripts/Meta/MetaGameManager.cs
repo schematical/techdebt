@@ -50,6 +50,12 @@ public static class MetaGameManager
         }
     }
 
+    public static List<MetaChallengeBase> CheckChallengeProgress()
+    {
+        List<MetaChallengeBase> challengeCompletedThisRun = new List<MetaChallengeBase>();
+
+        return challengeCompletedThisRun;
+    }
     // Optional: Reset progress for testing or new game
     public static void ResetProgress()
     {
