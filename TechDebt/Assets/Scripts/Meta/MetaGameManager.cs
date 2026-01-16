@@ -5,22 +5,17 @@ using MetaChallenges;
 
 public static class MetaGameManager
 {
-
-
     private static List<MetaChallengeBase> _challenges = new List<MetaChallengeBase>();
 
     public static MetaProgressData ProgressData
     {
-        get
-        {
-            return LoadProgress();
-        }
+        get { return LoadProgress(); }
     }
 
     static MetaGameManager()
     {
         // Static constructor called once when the class is first accessed
-       
+
         LoadProgress();
     }
 
@@ -38,7 +33,6 @@ public static class MetaGameManager
 
     public static MetaProgressData LoadProgress()
     {
-
         if (!File.Exists(GetSavePath()))
         {
             return new MetaProgressData();
@@ -46,7 +40,6 @@ public static class MetaGameManager
 
         string json = File.ReadAllText(GetSavePath());
         return JsonUtility.FromJson<MetaProgressData>(json);
-        
     }
 
 
@@ -86,7 +79,7 @@ public static class MetaGameManager
                     statPair = new MetaStatPair() { statName = stat.Key.ToString() };
                     infraStats.stats.Add(statPair);
                 }
-                
+
                 statPair.value += stat.Value;
             }
         }
@@ -94,53 +87,55 @@ public static class MetaGameManager
         return progressData;
     }
 
-    
-    public static List<MetaChallengeBase> CheckChallengeProgress(MetaProgressData prevState, MetaProgressData nextState)
+    public static bool IsChallengeUnlocked(MetaProgressData state, MetaChallengeBase challenge)
     {
-        List<MetaChallengeBase> newlyCompletedChallenges =  new List<MetaChallengeBase>();
+        int value = 0;
+
+        var prevInfraStats = state.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
+        if (prevInfraStats != null)
+        {
+            var statPair = prevInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
+            if (statPair != null)
+            {
+                value = statPair.value;
+            }
+        }
+        // Check if the challenge was incomplete before but is complete now.
+        return (value > challenge.RequiredValue);
+    }
+    public static List<MetaChallengeBase> GetUnlockedChallenges(MetaProgressData state = null)
+    {
+        List<MetaChallengeBase> completedChallenges = new List<MetaChallengeBase>();
         List<MetaChallengeBase> allChallenges = GetAllChallenges(); // Get challenge definitions
 
         foreach (var challenge in allChallenges)
         {
             // Calculate the progress from AFTER this run (from the current in-memory data).
-            int prevStatValue = 0;
-            if (prevState != null && prevState.metaStats != null)
-            {
-                var prevInfraStats = prevState.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
-                if (prevInfraStats != null)
-                {
-                    var statPair = prevInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
-                    if (statPair != null)
-                    {
-                        prevStatValue = statPair.value;
-                    }
-                }
-            }
-            int currStatValue = 0;
-            if (nextState != null && nextState.metaStats != null)
-            {
-                var currentInfraStats = nextState.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
-                if (currentInfraStats != null)
-                {
-                    var statPair = currentInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
-                    if (statPair != null)
-                    {
-                        currStatValue = statPair.value;
-                    }
-                }
-            }
-
-
-            // Check if the challenge was incomplete before but is complete now.
-            if (prevStatValue < challenge.RequiredValue && currStatValue >= challenge.RequiredValue)
-            {
-                newlyCompletedChallenges.Add(challenge);
+            if(IsChallengeUnlocked(state, challenge)){
+                completedChallenges.Add(challenge);
             }
         }
 
-        return newlyCompletedChallenges;
+        return completedChallenges;
     }
-    
+
+    public static List<MetaChallengeBase> CheckChallengeProgress(
+        MetaProgressData prevState,
+        MetaProgressData nextState
+    )
+    {
+        List<MetaChallengeBase> prevCompletedChallenges = GetUnlockedChallenges(prevState);
+        List<MetaChallengeBase> currCompletedChallenges = GetUnlockedChallenges(nextState);
+        List<MetaChallengeBase> diffChallenges = new List<MetaChallengeBase>();
+        foreach (MetaChallengeBase currChallenge in currCompletedChallenges)
+        {
+            if(!prevCompletedChallenges.Contains(currChallenge)){
+                diffChallenges.Add(currChallenge);
+            }
+        }
+        return diffChallenges;
+    }
+
     public static List<Technology> GetAllTechnologies()
     {
         List<Technology> technologies = new List<Technology>()
@@ -170,9 +165,8 @@ public static class MetaGameManager
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "dedicated-db" }
-                
+
                 // Serve up X text packets with the Dedicated DB
-                
             },
             new Technology()
             {
@@ -258,7 +252,6 @@ public static class MetaGameManager
         return technologies;
     }
 
-   
 
     public static List<MetaChallengeBase> GetAllChallenges()
     {
@@ -267,17 +260,16 @@ public static class MetaGameManager
             new MetaChallengeBase()
             {
                 ChallengeID = "dedicated-db",
-                DisplayName =  "Dedicated Databases",
+                DisplayName = "Dedicated Databases",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "server1",
                 RewardId = "dedicated-db",
                 RequiredValue = 2
-                
             },
             new MetaChallengeBase()
             {
                 ChallengeID = "binary-storage",
-                DisplayName =  "Binary Storage",
+                DisplayName = "Binary Storage",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "server1",
                 RewardId = "binary-storage",
@@ -286,7 +278,7 @@ public static class MetaGameManager
             new MetaChallengeBase()
             {
                 ChallengeID = "redis",
-                DisplayName =  "Redis Cache",
+                DisplayName = "Redis Cache",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "dedicated-db",
                 RewardId = "redis",
