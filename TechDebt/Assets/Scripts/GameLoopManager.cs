@@ -75,15 +75,7 @@ public class GameLoopManager : MonoBehaviour
    
         Time.timeScale = 1f;
         CurrentState = GameState.Build;
-
-        /*if (currentDay > 0)
-        {
-            Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
-            GameManager.Instance.UIManager.MultiSelectPanel.Add("manual1", sprite, "Manual 1", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
-            GameManager.Instance.UIManager.MultiSelectPanel.Add("manual2", sprite, "Manual 2", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
-            GameManager.Instance.UIManager.MultiSelectPanel.Add("manual3", sprite, "Manual 3", "$10").OnClick((string id) => Debug.Log("OnClick: " + id));
-
-        }*/
+        
         currentDay++;
 
         // Notify NPCs
@@ -96,7 +88,6 @@ public class GameLoopManager : MonoBehaviour
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
-        GameManager.Instance.UpdateInfrastructureVisibility();
         GameManager.Instance.UIManager.ShowBuildUI();
     }
 
@@ -176,6 +167,17 @@ public class GameLoopManager : MonoBehaviour
 
         float actualIncome = (float)Math.Round(dailyPacketIncome * percentageSuccess);
         float money = GameManager.Instance.IncrStat(StatType.Money, actualIncome);
+
+        string infraCosts = "\n\n<b>Infrastructure Costs:</b>\n";
+        foreach (var instance in GameManager.Instance.ActiveInfrastructure)
+        {
+            float cost = instance.data.Stats.GetStatValue(StatType.Infra_DailyCost);
+            if (instance.IsActive() && cost > 0)
+            {
+                infraCosts += $"{instance.data.DisplayName}: ${cost}\n";
+            }
+        }
+        
         /*GameManager.Instance.FloatingTextFactory.ShowText(
             $"+${hourlyIncome}",
             GameManager.Instance.GetInfrastructureInstanceByID("internetPipes").transform.position,
@@ -190,6 +192,8 @@ public class GameLoopManager : MonoBehaviour
                              $"Total Income: ${actualIncome}\n" +
                              $"Net Income: ${actualIncome - totalDailyCost}\n" + 
                              $"Total: {money}";
+
+        summaryText += infraCosts;
 
         if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {

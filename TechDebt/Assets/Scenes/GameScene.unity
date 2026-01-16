@@ -728,11 +728,7 @@ MonoBehaviour:
     Type: 
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 40}
-    UnlockConditions:
-    - Type: 0
-      StatType: 0
-      TechnologyID: 
-      RequiredValue: 2
+    UnlockConditions: []
     networkPackets: []
     DailyCost: 0
     BuildTime: 1

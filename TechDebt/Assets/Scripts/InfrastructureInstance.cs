@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
 
-public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEnterHandler, IPointerExitHandler, */
+public class InfrastructureInstance : MonoBehaviour, /*IPointerEnterHandler, IPointerExitHandler, */
     IPointerClickHandler
 {
     public Color startcolor;
@@ -41,17 +41,6 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
 
     protected void Start()
     {
-        // Register with the routing manager
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterReceiver(data.ID, this);
-        }
-        else
-        {
-            Debug.LogError(
-                $"InfrastructureInstance '{data.ID}' attempted to register, but GameManager.Instance was NULL.");
-        }
-
         foreach (var networkPacket in data.networkPackets)
         {
             networkPacket.Init();

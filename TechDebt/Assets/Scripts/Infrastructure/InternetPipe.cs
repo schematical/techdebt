@@ -29,7 +29,7 @@ public class InternetPipe : InfrastructureInstance
                     
                     if (targetId != null)
                     {
-                        IDataReceiver targetReceiver = GameManager.Instance.GetReceiver(targetId);
+                        InfrastructureInstance targetReceiver = GameManager.Instance.GetInfrastructureInstanceByID(targetId);
 
                         if (targetReceiver is InfrastructureInstance destination)
                         {

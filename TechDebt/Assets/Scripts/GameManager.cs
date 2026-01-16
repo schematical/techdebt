@@ -303,41 +303,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    // -----------------------
-
-    // --- Network Routing ---
-    private Dictionary<string, IDataReceiver> receiverRegistry = new Dictionary<string, IDataReceiver>();
-
-    public void RegisterReceiver(string id, IDataReceiver receiver)
-    {
-        if (receiverRegistry.ContainsKey(id))
-        {
-            Debug.LogWarning($"A receiver with ID '{id}' is already registered. Overwriting.");
-            receiverRegistry[id] = receiver;
-        }
-        else
-        {
-            receiverRegistry.Add(id, receiver);
-        }
-    }
-
-    public void UnregisterReceiver(string id)
-    {
-        if (receiverRegistry.ContainsKey(id))
-        {
-            receiverRegistry.Remove(id);
-        }
-    }
-
-    public IDataReceiver GetReceiver(string id)
-    {
-        IDataReceiver receiver;
-        receiverRegistry.TryGetValue(id, out receiver);
-        return receiver;
-    }
-    // ---------------------
-
-  
  
 
     public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
@@ -680,7 +645,6 @@ public class GameManager : MonoBehaviour
         
         foreach (var infraData in AllInfrastructure)
         {
-            // Debug.Log($"1111 Initialized infrastructure {infraData.ID} {infraData.CurrentState}");
             Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
             GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
 
@@ -695,32 +659,31 @@ public class GameManager : MonoBehaviour
             }
 
             var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+
+            if (infraInstance == null)
+            {
+                throw new SystemException($"Missing `InfrastructureInstance` Component for `{infraData.ID}`.");
+            }
+
+            infraInstance.Initialize(infraData);
+            ActiveInfrastructure.Add(infraInstance);
+            Debug.Log($"Infrastructure '{infraData.DisplayName}' CHECK {infraData.CurrentState }.");
+            if (infraData.CurrentState == InfrastructureData.State.Operational)
+            {
+                Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Operational.");
+            }
+            else if (AreUnlockConditionsMet(infraData))
+            {
+                Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
+                infraInstance.SetState(InfrastructureData.State.Unlocked);
+            }
+            else 
+            {
+                Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Locked.");
+                infraInstance.SetState(InfrastructureData.State.Locked);
+                instanceGO.SetActive(false);
+            }
             
-            if (infraInstance != null)
-            {
-                ActiveInfrastructure.Add(infraInstance);
-                infraInstance.Initialize(infraData);
-                if (infraData.CurrentState == InfrastructureData.State.Operational)
-                {
-                 
-                }
-                else
-                {
-                    if (AreUnlockConditionsMet(infraData))
-                    {
-                        infraInstance.SetState(InfrastructureData.State.Unlocked);
-                    }
-                    else
-                    {
-                        infraInstance.SetState(InfrastructureData.State.Locked);
-                        instanceGO.SetActive(false);
-                    }
-                }
-            }
-            else
-            {
-                Debug.LogError($"Prefab for '{infraData.DisplayName}' is missing the InfrastructureInstance script!");
-            }
         }
         var door = GetInfrastructureInstanceByID("boss-desk");
         if (door != null)
@@ -740,7 +703,12 @@ public class GameManager : MonoBehaviour
 
     public bool AreUnlockConditionsMet(InfrastructureData infraData)
     {
-        if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0) return true;
+        if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0)
+        {
+            Debug.Log($"{infraData.ID} Is Unlocked because it has not conditions");
+            return true;
+        }
+        Debug.Log($"{infraData.ID} Is Locked because it has {infraData.UnlockConditions.Length}");
 
         foreach (var condition in infraData.UnlockConditions)
         {
