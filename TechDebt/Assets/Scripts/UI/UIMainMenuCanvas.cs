@@ -14,7 +14,7 @@ namespace UI
                 return _instance;
             }
         }
-        
+        public PrefabManager prefabManager;
         public MainMenu mainMenu;
         public MetaUnlockPanel metaUnlockPanel;
         public UIMetaChallengesPanel  uiMetaChallengesPanel;

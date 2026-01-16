@@ -1,50 +1,57 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
+using UI;
 
-public class UIMetaChallengesPanel : UIPanel
+public class UIMetaChallengesPanel: UIPanel
 {
-    public UITextArea challengeTextArea;
-
     private List<Technology> _technologies;
 
     void OnEnable()
     {
-        RefreshChallengesDisplay();
-    }
-
-    public void RefreshChallengesDisplay()
-    {
-        if (challengeTextArea == null || challengeTextArea.textArea == null)
+        // Clear existing items to prevent duplicates
+        foreach (Transform child in scrollContent)
         {
-            Debug.LogWarning("UIMetaChallengesPanel: UITextArea reference is missing.");
-            return;
+            Destroy(child.gameObject);
         }
 
         _technologies = MetaGameManager.GetAllTechnologies();
 
-        if (_technologies == null || _technologies.Count == 0)
+        if (_technologies == null)
         {
-            challengeTextArea.textArea.text = "No technologies found.";
             Debug.LogWarning("UIMetaChallengesPanel: No technologies found in MetaGameManager.");
             return;
         }
 
-        StringBuilder sb = new StringBuilder();
-        foreach (var technology in _technologies)
+        // Get the UITextArea prefab from the manager
+        GameObject uiTextAreaPrefab = UIMainMenuCanvas.Instance.prefabManager.GetPrefab("UITextArea");
+        if (uiTextAreaPrefab == null)
         {
-            sb.AppendLine($"<color={(technology.CurrentState == Technology.State.Unlocked ? "green" : "white")}>{technology.DisplayName}</color>");
-            sb.AppendLine($"  Description: {technology.Description}");
-            sb.AppendLine($"  Cost: {technology.ResearchPointCost} RP");
-            sb.AppendLine($"  Status: {technology.CurrentState}");
-            sb.AppendLine($"--------------------");
+            Debug.LogError("UITextArea prefab not found in PrefabManager. Cannot display challenges.");
+            return;
         }
 
-        challengeTextArea.textArea.text = sb.ToString();
-    }
+        foreach (var technology in _technologies)
+        {
+            // Instantiate a new UITextArea for each technology
+            GameObject textAreaGO = Instantiate(uiTextAreaPrefab, scrollContent);
+            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
 
-    public void OnMetaProgressUpdated()
-    {
-        RefreshChallengesDisplay();
+            if (uiTextArea != null && uiTextArea.textArea != null)
+            {
+                // Format the technology details into a string
+                var sb = new StringBuilder();
+                sb.AppendLine($"<color={(technology.CurrentState == Technology.State.Unlocked ? "#88FF88" : "white")}>{technology.DisplayName}</color>");
+                sb.AppendLine($"<size=10>{technology.Description}</size>");
+                sb.AppendLine($"<i>Cost: {technology.ResearchPointCost} RP | Status: {technology.CurrentState}</i>");
+                
+                // Set the text of the instantiated UITextArea
+                uiTextArea.textArea.text = sb.ToString();
+            }
+            else
+            {
+                Debug.LogError("Instantiated UITextArea prefab is missing the UITextArea component or its text area reference.");
+            }
+        }
     }
 }
