@@ -1283,7 +1283,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowAlert(string alertText)
     {
-        Debug.Log($"ShowAlert: {alertText}");
         alertPanel.SetActive(true);
         
         _alertText.text = alertText;

@@ -959,12 +959,16 @@ public class GameManager : MonoBehaviour
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(ActiveInfrastructure);
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
         MetaGameManager.SaveProgress(newMetaState);
-        string alertText = "";
-        foreach (MetaChallengeBase challenge in newlyPassedChallenges)
+        if (newlyPassedChallenges.Count > 0)
         {
-            alertText += $"Unlocked: {challenge.DisplayName!}\n";
+            string alertText = "";
+            foreach (MetaChallengeBase challenge in newlyPassedChallenges)
+            {
+                alertText += $"Unlocked: {challenge.DisplayName!}\n";
+            }
+
+            UIManager.ShowAlert(alertText);
         }
-        UIManager.ShowAlert(alertText);
-        
+
     }
 }

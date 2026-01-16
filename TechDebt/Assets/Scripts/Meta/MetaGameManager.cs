@@ -113,7 +113,7 @@ public static class MetaGameManager
             }
         }
         // Check if the challenge was incomplete before but is complete now.
-        return (value > challenge.RequiredValue);
+        return (value >= challenge.RequiredValue);
     }
     public static List<MetaChallengeBase> GetUnlockedChallenges(MetaProgressData state = null)
     {
@@ -196,7 +196,7 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "load-balencer",
-                DisplayName = "Load Balencer",
+                DisplayName = "Load Balancer",
                 Description = "",
                 ResearchPointCost = 30,
                 RequiredTechnologies = new List<string>() { "dedicated-db", "binary-storage" }
