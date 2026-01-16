@@ -53,14 +53,31 @@ public static class MetaGameManager
     public static MetaProgressData GetUpdatedMetaStats(List<InfrastructureInstance> activeInfrastructure)
     {
         MetaProgressData progressData = LoadProgress();
+        
+        if (progressData.metaStats.game == null)
+        {
+            progressData.metaStats.game = new List<MetaStatPair>();
+        }
+
+        
+        foreach (var stat in GameManager.Instance.MetaStats.Stats)
+        {
+            var statPair = 
+                progressData.metaStats.game.Find(s => s.statName == stat.Key.ToString());
+            if (statPair == null)
+            {
+                statPair = new MetaStatPair() { statName = stat.Key.ToString() };
+                progressData.metaStats.game.Add(statPair);
+            }
+
+            statPair.value += stat.Value;
+        }
+        
+        
+        
         if (progressData.metaStats == null)
         {
             progressData.metaStats = new MetaStatSaveData();
-        }
-
-        if (progressData.metaStats.infra == null)
-        {
-            progressData.metaStats.infra = new List<InfraMetaStatSaveData>();
         }
 
         foreach (var instance in activeInfrastructure)

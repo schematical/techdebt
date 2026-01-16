@@ -23,10 +23,12 @@ public class InfraMetaStatSaveData
 public class MetaStatSaveData
 {
     public List<InfraMetaStatSaveData> infra;
+    public List<MetaStatPair>  game;
 
     public MetaStatSaveData()
     {
         infra = new List<InfraMetaStatSaveData>();
+        game = new List<MetaStatPair>();
     }
 }
 
