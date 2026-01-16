@@ -17,6 +17,7 @@ namespace UI
         
         public MainMenu mainMenu;
         public MetaUnlockPanel metaUnlockPanel;
+        public UIMetaChallengesPanel  uiMetaChallengesPanel;
         void Awake()
         {
             MetaCurrency.Load();
@@ -29,6 +30,7 @@ namespace UI
         {
             mainMenu.gameObject.SetActive(false);
             metaUnlockPanel.gameObject.SetActive(false);
+            uiMetaChallengesPanel.gameObject.SetActive(false);
         }
     }
 }
