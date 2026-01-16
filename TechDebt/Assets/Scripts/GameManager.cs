@@ -700,11 +700,7 @@ public class GameManager : MonoBehaviour
             {
                 ActiveInfrastructure.Add(infraInstance);
                 infraInstance.Initialize(infraData);
-                // Determine initial state based on MetaSaveLoadManager
-                if (MetaGameManager.ProgressData.unlockedNodeIds.Contains(infraData.ID))
-                {
-                    infraInstance.SetState(InfrastructureData.State.Unlocked);
-                } else if (infraData.CurrentState == InfrastructureData.State.Operational)
+                if (infraData.CurrentState == InfrastructureData.State.Operational)
                 {
                  
                 }
@@ -751,11 +747,16 @@ public class GameManager : MonoBehaviour
             switch (condition.Type)
             {
                 case(UnlockCondition.ConditionType.Technology):
-                    // Use MetaSaveLoadManager to check if technology is unlocked
-                    if (!MetaGameManager.ProgressData.unlockedNodeIds.Contains(condition.TechnologyID))
+                    Technology technology = GetTechnologyByID(condition.TechnologyID);
+                    if (technology == null)
                     {
                         return false;
-                    }
+                        // throw new SystemException(
+                        //     $"Cannot find Technology {condition.TechnologyID} - {infraData.ID}");
+                    } 
+                    
+                    if(technology.CurrentState != Technology.State.Unlocked) return false;
+                    
                     break;
                 default:
                     if (GetStat(condition.StatType) < condition.RequiredValue) return false;
@@ -846,8 +847,7 @@ public class GameManager : MonoBehaviour
         foreach (var requiredTechID in tech.RequiredTechnologies)
         {
             Technology requiredTech = GetTechnologyByID(requiredTechID);
-            // Use MetaSaveLoadManager to check if prerequisite is unlocked
-            if (requiredTech == null || !MetaGameManager.ProgressData.unlockedNodeIds.Contains(requiredTechID))
+            if (requiredTech == null || requiredTech.CurrentState != Technology.State.Unlocked)
             {
                 Debug.Log($"Cannot research '{tech.DisplayName}'. Prerequisite '{requiredTech?.DisplayName ?? requiredTechID}' is not unlocked.");
                 return;
