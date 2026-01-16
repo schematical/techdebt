@@ -109,7 +109,7 @@ namespace UI
                     {
                         progress.unlockedNodeIds.Add(nodeId);
                     }
-                    MetaGameManager.SaveProgress();
+                    MetaGameManager.SaveProgress(progress);
 
                     // Redraw the tree with the updated state
                     DrawTree();

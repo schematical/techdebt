@@ -7,6 +7,7 @@ using System.Linq;
 using Effects;
 using Events;
 using Items;
+using MetaChallenges;
 using NPCs;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -940,9 +941,16 @@ public class GameManager : MonoBehaviour
 
     public void UpdateMetaProgress()
     {
-  
-        MetaGameManager.AggregateMetaStats(ActiveInfrastructure);
-        MetaGameManager.SaveProgress();
+        MetaProgressData prevMetaState = MetaGameManager.LoadProgress();
+        MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(ActiveInfrastructure);
+        List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
+        MetaGameManager.SaveProgress(newMetaState);
+        string alertText = "";
+        foreach (MetaChallengeBase challenge in newlyPassedChallenges)
+        {
+            alertText += $"Unlocked: {challenge.DisplayName!}\n";
+        }
+        UIManager.ShowAlert(alertText);
         
     }
 }

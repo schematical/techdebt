@@ -5,84 +5,77 @@ using MetaChallenges;
 
 public static class MetaGameManager
 {
-    private static MetaProgressData _progressData;
-    private static string _savePath;
+
+
     private static List<MetaChallengeBase> _challenges = new List<MetaChallengeBase>();
 
     public static MetaProgressData ProgressData
     {
         get
         {
-            if (_progressData == null)
-            {
-                LoadProgress();
-            }
-            return _progressData;
+            return LoadProgress();
         }
     }
 
     static MetaGameManager()
     {
         // Static constructor called once when the class is first accessed
-        _savePath = Path.Combine(Application.persistentDataPath, "meta_progress.json");
+       
         LoadProgress();
     }
 
-    public static void SaveProgress()
+    static string GetSavePath()
     {
-        string json = JsonUtility.ToJson(_progressData, true);
-        File.WriteAllText(_savePath, json);
-        Debug.Log($"Progress saved to {_savePath}");
+        return Path.Combine(Application.persistentDataPath, "meta_progress.json");
     }
 
-    public static void LoadProgress()
+    public static void SaveProgress(MetaProgressData metaProgressData)
     {
-        if (File.Exists(_savePath))
+        string json = JsonUtility.ToJson(metaProgressData, true);
+        File.WriteAllText(GetSavePath(), json);
+        Debug.Log($"Progress saved to {GetSavePath()}");
+    }
+
+    public static MetaProgressData LoadProgress()
+    {
+
+        if (!File.Exists(GetSavePath()))
         {
-            string json = File.ReadAllText(_savePath);
-            _progressData = JsonUtility.FromJson<MetaProgressData>(json);
-            Debug.Log($"Progress loaded from {_savePath}");
+            return new MetaProgressData();
         }
-        else
-        {
-            _progressData = new MetaProgressData();
-            Debug.Log("No save file found. Created new progress data.");
-        }
+
+        string json = File.ReadAllText(GetSavePath());
+        return JsonUtility.FromJson<MetaProgressData>(json);
+        
     }
 
-    public static List<MetaChallengeBase> CheckChallengeProgress()
-    {
-        List<MetaChallengeBase> challengeCompletedThisRun = new List<MetaChallengeBase>();
 
-        return challengeCompletedThisRun;
-    }
     // Optional: Reset progress for testing or new game
     public static void ResetProgress()
     {
-        _progressData = new MetaProgressData();
-        SaveProgress();
-        Debug.Log("Meta progress reset.");
+        SaveProgress(new MetaProgressData());
     }
 
-    public static void AggregateMetaStats(List<InfrastructureInstance> activeInfrastructure)
+    public static MetaProgressData GetUpdatedMetaStats(List<InfrastructureInstance> activeInfrastructure)
     {
-        if (_progressData.metaStats == null)
+        MetaProgressData progressData = LoadProgress();
+        if (progressData.metaStats == null)
         {
-            _progressData.metaStats = new MetaStatSaveData();
+            progressData.metaStats = new MetaStatSaveData();
         }
 
-        if (_progressData.metaStats.infra == null)
+        if (progressData.metaStats.infra == null)
         {
-            _progressData.metaStats.infra = new List<InfraMetaStatSaveData>();
+            progressData.metaStats.infra = new List<InfraMetaStatSaveData>();
         }
 
         foreach (var instance in activeInfrastructure)
         {
-            var infraStats = _progressData.metaStats.infra.Find(i => i.infraId == instance.data.ID);
+            var infraStats = progressData.metaStats.infra.Find(i => i.infraId == instance.data.ID);
             if (infraStats == null)
             {
                 infraStats = new InfraMetaStatSaveData() { infraId = instance.data.ID };
-                _progressData.metaStats.infra.Add(infraStats);
+                progressData.metaStats.infra.Add(infraStats);
             }
 
             foreach (var stat in instance.metaStatCollection.Stats)
@@ -93,11 +86,61 @@ public static class MetaGameManager
                     statPair = new MetaStatPair() { statName = stat.Key.ToString() };
                     infraStats.stats.Add(statPair);
                 }
+                
                 statPair.value += stat.Value;
             }
         }
+
+        return progressData;
     }
 
+    
+    public static List<MetaChallengeBase> CheckChallengeProgress(MetaProgressData prevState, MetaProgressData nextState)
+    {
+        List<MetaChallengeBase> newlyCompletedChallenges =  new List<MetaChallengeBase>();
+        List<MetaChallengeBase> allChallenges = GetAllChallenges(); // Get challenge definitions
+
+        foreach (var challenge in allChallenges)
+        {
+            // Calculate the progress from AFTER this run (from the current in-memory data).
+            int prevStatValue = 0;
+            if (prevState != null && prevState.metaStats != null)
+            {
+                var prevInfraStats = prevState.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
+                if (prevInfraStats != null)
+                {
+                    var statPair = prevInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
+                    if (statPair != null)
+                    {
+                        prevStatValue = statPair.value;
+                    }
+                }
+            }
+            int currStatValue = 0;
+            if (nextState != null && nextState.metaStats != null)
+            {
+                var currentInfraStats = nextState.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
+                if (currentInfraStats != null)
+                {
+                    var statPair = currentInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
+                    if (statPair != null)
+                    {
+                        currStatValue = statPair.value;
+                    }
+                }
+            }
+
+
+            // Check if the challenge was incomplete before but is complete now.
+            if (prevStatValue < challenge.RequiredValue && currStatValue >= challenge.RequiredValue)
+            {
+                newlyCompletedChallenges.Add(challenge);
+            }
+        }
+
+        return newlyCompletedChallenges;
+    }
+    
     public static List<Technology> GetAllTechnologies()
     {
         List<Technology> technologies = new List<Technology>()
@@ -214,6 +257,8 @@ public static class MetaGameManager
         };
         return technologies;
     }
+
+   
 
     public static List<MetaChallengeBase> GetAllChallenges()
     {
