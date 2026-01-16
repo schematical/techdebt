@@ -68,7 +68,7 @@ public class GameLoopManager : MonoBehaviour
     {
         currentDay = 0;
         GameManager.Instance.ResetNPCs();
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void BeginBuildPhase()
     {

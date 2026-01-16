@@ -96,5 +96,6 @@ public class DebugPanel : MonoBehaviour
     private void EndRun()
     {
         GameManager.Instance.Stats.Get(StatType.Money).SetBaseValue(-1000);
+        GameManager.Instance.GameLoopManager.EndGame();
     }
 }

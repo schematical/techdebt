@@ -87,7 +87,7 @@ public static class MetaGameManager
                     statPair = new MetaStatPair() { statName = stat.Key.ToString() };
                     infraStats.stats.Add(statPair);
                 }
-                statPair.value = stat.Value;
+                statPair.value += stat.Value;
             }
         }
     }
