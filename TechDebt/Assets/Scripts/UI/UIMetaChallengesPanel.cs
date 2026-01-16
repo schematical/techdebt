@@ -2,10 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Text;
 using UI;
+using MetaChallenges;
 
 public class UIMetaChallengesPanel: UIPanel
 {
-    private List<Technology> _technologies;
+    private List<MetaChallengeBase> _challenges;
 
     void OnEnable()
     {
@@ -15,15 +16,14 @@ public class UIMetaChallengesPanel: UIPanel
             Destroy(child.gameObject);
         }
 
-        _technologies = MetaGameManager.GetAllTechnologies();
+        _challenges = MetaGameManager.GetAllChallenges();
 
-        if (_technologies == null)
+        if (_challenges == null)
         {
-            Debug.LogWarning("UIMetaChallengesPanel: No technologies found in MetaGameManager.");
+            Debug.LogWarning("UIMetaChallengesPanel: No challenges found in MetaGameManager.");
             return;
         }
 
-        // Get the UITextArea prefab from the manager
         GameObject uiTextAreaPrefab = UIMainMenuCanvas.Instance.prefabManager.GetPrefab("UITextArea");
         if (uiTextAreaPrefab == null)
         {
@@ -31,21 +31,23 @@ public class UIMetaChallengesPanel: UIPanel
             return;
         }
 
-        foreach (var technology in _technologies)
+        foreach (var challenge in _challenges)
         {
-            // Instantiate a new UITextArea for each technology
             GameObject textAreaGO = Instantiate(uiTextAreaPrefab, scrollContent);
             UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
 
             if (uiTextArea != null && uiTextArea.textArea != null)
             {
-                // Format the technology details into a string
                 var sb = new StringBuilder();
-                sb.AppendLine($"<color={(technology.CurrentState == Technology.State.Unlocked ? "#88FF88" : "white")}>{technology.DisplayName}</color>");
-                sb.AppendLine($"<size=10>{technology.Description}</size>");
-                sb.AppendLine($"<i>Cost: {technology.ResearchPointCost} RP | Status: {technology.CurrentState}</i>");
                 
-                // Set the text of the instantiated UITextArea
+                // You will likely want to add DisplayName and Description to MetaChallengeBase
+                // For now, we will construct them based on the data we have.
+                string goal = $"Reach {challenge.RequiredValue} for {challenge.metaStat} on {challenge.InfrastructureId}";
+                string reward = $"Unlock: {challenge.RewardId}";
+
+                sb.AppendLine(goal);
+                sb.AppendLine($"<size=10><i>Reward: {reward}</i></size>");
+                
                 uiTextArea.textArea.text = sb.ToString();
             }
             else
