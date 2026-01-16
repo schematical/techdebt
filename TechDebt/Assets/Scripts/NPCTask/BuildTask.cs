@@ -15,7 +15,6 @@ public class BuildTask : NPCTask
 
     public BuildTask(InfrastructureInstance target, int priority = 5) : base(target.transform.position)
     {
-        Debug.Log("Building infrastructure:"+ target.data.ID);
         TargetInfrastructure = target;
         Priority = priority;
     }
@@ -96,5 +95,14 @@ public class BuildTask : NPCTask
     {
         TargetInfrastructure.SetState(InfrastructureData.State.Planned);
         base.OnQueued();
+    }
+
+    public override void OnInterrupt()
+    {
+        base.OnInterrupt();
+        if (buildEffect == null)
+        {
+            buildEffect.gameObject.SetActive(false);
+        }
     }
 }

@@ -537,7 +537,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        Stats.Add(new StatData(StatType.Money, 1000f));
+        Stats.Add(new StatData(StatType.Money, 100f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 0.25f));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
