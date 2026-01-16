@@ -47,7 +47,7 @@ public class UIMetaChallengesPanel: UIPanel
                     currentProgress = statPair.value;
                 }
             }
-            challenge.IsCompleted = currentProgress >= challenge.RequiredValue;
+            challenge.IsCompleted = MetaGameManager.IsChallengeCompleted(progressData, challenge);
 
             GameObject textAreaGO = Instantiate(uiTextAreaPrefab, scrollContent);
             UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();

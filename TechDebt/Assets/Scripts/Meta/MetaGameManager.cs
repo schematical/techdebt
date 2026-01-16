@@ -87,7 +87,7 @@ public static class MetaGameManager
         return progressData;
     }
 
-    public static bool IsChallengeUnlocked(MetaProgressData state, MetaChallengeBase challenge)
+    public static bool IsChallengeCompleted(MetaProgressData state, MetaChallengeBase challenge)
     {
         int value = 0;
 
@@ -111,7 +111,7 @@ public static class MetaGameManager
         foreach (var challenge in allChallenges)
         {
             // Calculate the progress from AFTER this run (from the current in-memory data).
-            if(IsChallengeUnlocked(state, challenge)){
+            if(IsChallengeCompleted(state, challenge)){
                 completedChallenges.Add(challenge);
             }
         }
