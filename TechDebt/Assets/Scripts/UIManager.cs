@@ -692,7 +692,10 @@ public class UIManager : MonoBehaviour
         foreach (var tech in GameManager.Instance.AllTechnologies)
         {
             Technology localTech = tech; // Create a local copy for the closure
-
+            if (localTech.CurrentState == Technology.State.MetaLocked)
+            {
+                continue;
+            }
             var techPanelGO = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 150),
                 Vector2.zero, Vector2.one, Vector2.zero);
             UIPanel techPanel = techPanelGO.GetComponent<UIPanel>();

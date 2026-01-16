@@ -179,7 +179,8 @@ public static class MetaGameManager
                 DisplayName = "Dedicated Database",
                 Description = "",
                 ResearchPointCost = 30,
-                RequiredTechnologies = new List<string>()
+                RequiredTechnologies = new List<string>(),
+                CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()

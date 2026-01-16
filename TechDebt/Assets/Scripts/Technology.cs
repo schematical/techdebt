@@ -6,7 +6,7 @@ using System; // Added for SerializableAttribute
 [Serializable]
 public class Technology
 {
-    public enum State { Locked, Researching, Unlocked }
+    public enum State { MetaLocked, Locked, Researching, Unlocked }
 
     public string TechnologyID;
     public string DisplayName;
@@ -16,5 +16,5 @@ public class Technology
     public float CurrentResearchProgress = 0;
     public List<string> RequiredTechnologies;
 
-    public State CurrentState = State.Locked;
+    public State CurrentState = State.MetaLocked;
 }

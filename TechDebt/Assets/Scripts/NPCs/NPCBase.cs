@@ -290,6 +290,10 @@ public abstract class NPCBase : MonoBehaviour
             {
                 isMoving = false;
                 currentPath = null;
+                if (CurrentTask != null)
+                {
+                    CurrentTask.HandleArrival();
+                }
                 OnDestinationReached?.Invoke();
             }
         }

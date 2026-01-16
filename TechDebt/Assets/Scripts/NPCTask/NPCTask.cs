@@ -32,10 +32,6 @@ public abstract class NPCTask
     public virtual void OnInterrupt()
     {
         CurrentState = State.Interrupted;
-        if (AssignedNPC != null && destination.HasValue)
-        {
-            AssignedNPC.OnDestinationReached -= HandleArrival;
-        }
         hasArrived = false;
         Unassign();
     }
@@ -61,34 +57,27 @@ public abstract class NPCTask
 
     public virtual void OnStart(NPCBase npc)
     {
-        if (destination.HasValue)
+        if (destination == null)
         {
-            npc.OnDestinationReached += HandleArrival;
-            npc.MoveTo(destination.Value);
+            Debug.LogWarning("No destination assigned");
+            return;
         }
         else
         {
-            hasArrived = true;
+            npc.MoveTo(destination.Value);
         }
     }
 
     public virtual void OnEnd(NPCBase npc)
     {
-        if (destination.HasValue)
-        {
-            npc.OnDestinationReached -= HandleArrival;
-        }
-
+        hasArrived = false;
         GameManager.Instance.CompleteTask(this);
     }
     
-    private void HandleArrival()
+    public void HandleArrival()
     {
         hasArrived = true;
-        if (AssignedNPC != null)
-        {
-            AssignedNPC.OnDestinationReached -= HandleArrival;
-        }
+     
     }
 
     // Abstract methods to be implemented by concrete tasks
@@ -103,5 +92,6 @@ public abstract class NPCTask
     public virtual void OnQueued()
     {
         CurrentState = State.Queued;
+        hasArrived =  false;
     }
 }

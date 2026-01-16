@@ -375,19 +375,25 @@ public class GameManager : MonoBehaviour
           
           
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
-        List<Technology> technologies = MetaGameManager.GetAllTechnologies();
-        AllTechnologies = new List<Technology>();
+        AllTechnologies = MetaGameManager.GetAllTechnologies();
+        
+       
         foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
             switch (challenge.RewardType)
             {
                 case(MetaChallengeBase.MetaChallengeRewardType.Technology):
-                    Technology technology = technologies.Find((t => t.TechnologyID == challenge.RewardId));
+                    Technology technology = AllTechnologies.Find((t => t.TechnologyID == challenge.RewardId));
                     if (technology == null)
                     {
                         throw new SystemException($"Technology '{challenge.RewardId}' is null.");
                     }
-                    AllTechnologies.Add(technology);
+
+                    if (technology.CurrentState == Technology.State.MetaLocked)
+                    {
+                        technology.CurrentState = Technology.State.Locked;
+                    }
+
                     break;
                 case(MetaChallengeBase.MetaChallengeRewardType.StartingStatValue):
                     StatType statType;
@@ -464,12 +470,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.f12Key.wasPressedThisFrame)
-        {
-            var techList = new TechnologyListWrapper { Technologies = AllTechnologies };
-            string json = JsonUtility.ToJson(techList, true);
-            Debug.Log(json);
-        }
 
         if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
 
@@ -882,6 +882,7 @@ public class GameManager : MonoBehaviour
 
     public void UnlockAllTechnologies()
     {
+        AllTechnologies = MetaGameManager.GetAllTechnologies();
         foreach (var tech in AllTechnologies)
         {
             if (tech.CurrentState != Technology.State.Unlocked)
