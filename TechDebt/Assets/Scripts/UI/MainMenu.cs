@@ -10,6 +10,8 @@ public class MainMenu : MonoBehaviour
     public TextMeshProUGUI metaCurrencyText;
     public Button newGameBtn;
     [FormerlySerializedAs("loadGameBtn")] public Button unlockBtn;
+    public Button challengesBtn;
+
     public Button settingsBtn;
 
     private void Start()
@@ -22,6 +24,7 @@ public class MainMenu : MonoBehaviour
     
 
         unlockBtn.onClick.AddListener(ShowUnlockPanel);
+        challengesBtn.onClick.AddListener(ShowChallenges);
      
 
         settingsBtn.onClick.AddListener(OpenSettings);
@@ -32,17 +35,22 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        Debug.Log("NewGame button clicked!");
         SceneManager.LoadScene("GameScene");
     }
     
 
     public void ShowUnlockPanel()
     {
-        Debug.Log("LoadGame button clicked!");
-        // Load game data
+
         UIMainMenuCanvas.Instance.ClosePanels();
         UIMainMenuCanvas.Instance.metaUnlockPanel.gameObject.SetActive(true);
+    }  
+    public void ShowChallenges()
+    {
+
+  
+        UIMainMenuCanvas.Instance.ClosePanels();
+        UIMainMenuCanvas.Instance.uiMetaChallengesPanel.gameObject.SetActive(true);
     }
 
     public void OpenSettings()
