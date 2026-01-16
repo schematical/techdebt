@@ -31,22 +31,36 @@ public class UIMetaChallengesPanel: UIPanel
             return;
         }
 
+        // Ensure MetaProgressData is loaded before trying to access metaStats
+        var progressData = MetaGameManager.ProgressData;
+
         foreach (var challenge in _challenges)
         {
+            // Calculate current progress for the challenge dynamically
+            int currentProgress = 0;
+            var infraStats = progressData.metaStats?.infra.Find(i => i.infraId == challenge.InfrastructureId);
+            if (infraStats != null)
+            {
+                var statPair = infraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
+                if (statPair != null)
+                {
+                    currentProgress = statPair.value;
+                }
+            }
+            challenge.IsCompleted = currentProgress >= challenge.RequiredValue;
+
             GameObject textAreaGO = Instantiate(uiTextAreaPrefab, scrollContent);
             UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
 
             if (uiTextArea != null && uiTextArea.textArea != null)
             {
                 var sb = new StringBuilder();
-                
-                // You will likely want to add DisplayName and Description to MetaChallengeBase
-                // For now, we will construct them based on the data we have.
-                string goal = $"Reach {challenge.RequiredValue} for {challenge.metaStat} on {challenge.InfrastructureId}";
-                string reward = $"Unlock: {challenge.RewardId}";
+                string challengeColor = challenge.IsCompleted ? "#88FF88" : "white"; // Green for completed
 
-                sb.AppendLine(goal);
-                sb.AppendLine($"<size=10><i>Reward: {reward}</i></size>");
+                sb.AppendLine($"<color={challengeColor}>{challenge.DisplayName}</color>");
+                sb.AppendLine($"<size=10>{challenge.Description}</size>");
+                sb.AppendLine($"<i>Progress: {currentProgress}/{challenge.RequiredValue} ({ (challenge.IsCompleted ? "Completed" : "In Progress") })</i>");
+                sb.AppendLine($"<i>Reward: {challenge.RewardId}</i>");
                 
                 uiTextArea.textArea.text = sb.ToString();
             }
