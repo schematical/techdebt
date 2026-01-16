@@ -1,3 +1,5 @@
+using System;
+
 namespace MetaChallenges
 {
     public class MetaChallengeBase
@@ -11,6 +13,11 @@ namespace MetaChallenges
         {
             Technology
         }
+        
+        public string ChallengeID; // Unique identifier
+        public string DisplayName; // For UI
+        public string Description; // For UI
+        
         public string InfrastructureId { get; set; }
         public MetaStat metaStat;
         public int RequiredValue = -1;
@@ -19,5 +26,7 @@ namespace MetaChallenges
         public MetaChallengeRewardType RewardType= MetaChallengeRewardType.Technology;
         public string RewardId;
 
+  
+        public bool IsCompleted;
     }
 }

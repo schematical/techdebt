@@ -215,6 +215,8 @@ public static class MetaGameManager
         {
             new MetaChallengeBase()
             {
+                ChallengeID = "dedicated-db",
+                DisplayName =  "Dedicated Databases",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "server1",
                 RewardId = "dedicated-db",
@@ -223,6 +225,8 @@ public static class MetaGameManager
             },
             new MetaChallengeBase()
             {
+                ChallengeID = "binary-storage",
+                DisplayName =  "Binary Storage",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "server1",
                 RewardId = "binary-storage",
@@ -230,6 +234,8 @@ public static class MetaGameManager
             },
             new MetaChallengeBase()
             {
+                ChallengeID = "redis",
+                DisplayName =  "Redis Cache",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "dedicated-db",
                 RewardId = "redis",
