@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
@@ -90,7 +91,18 @@ public static class MetaGameManager
     public static bool IsChallengeCompleted(MetaProgressData state, MetaChallengeBase challenge)
     {
         int value = 0;
-
+        if (state == null)
+        {
+            throw new SystemException("`state` is null");
+        }
+        if (state.metaStats == null)
+        {
+            throw new SystemException("`state.metaStats` is null");
+        }
+        if (state.metaStats.infra == null)
+        {
+            throw new SystemException("`state.metaStats.infra` is null");
+        }
         var prevInfraStats = state.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
         if (prevInfraStats != null)
         {
@@ -105,6 +117,10 @@ public static class MetaGameManager
     }
     public static List<MetaChallengeBase> GetUnlockedChallenges(MetaProgressData state = null)
     {
+        if (state == null)
+        {
+            state = LoadProgress();
+        }
         List<MetaChallengeBase> completedChallenges = new List<MetaChallengeBase>();
         List<MetaChallengeBase> allChallenges = GetAllChallenges(); // Get challenge definitions
 

@@ -375,11 +375,25 @@ public class GameManager : MonoBehaviour
         // This is the definitive fix for ensuring a clean state after a game over.
     
 
-        // Force reset of all technology data to its initial state on load.
-        foreach (var tech in AllTechnologies)
+        
+        List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
+        List<Technology> technologies = MetaGameManager.GetAllTechnologies();
+        AllTechnologies = new List<Technology>();
+        foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
-            // Use MetaSaveLoadManager to determine unlocked status
-            tech.CurrentState = MetaGameManager.ProgressData.unlockedNodeIds.Contains(tech.TechnologyID) ? Technology.State.Unlocked : Technology.State.Locked;
+            switch (challenge.RewardType)
+            {
+                case(MetaChallengeBase.MetaChallengeRewardType.Technology):
+                    Technology technology = technologies.Find((t => t.TechnologyID == challenge.RewardId));
+                    if (technology == null)
+                    {
+                        throw new SystemException($"Technology '{challenge.RewardId}' is null.");
+                    }
+                    AllTechnologies.Add(technology);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         Initialize();
