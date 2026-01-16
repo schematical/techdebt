@@ -287,9 +287,7 @@ public Transform GetTransform()
         }
         if (newState == InfrastructureData.State.Planned)
         {
-            // Create a new BuildTask and add it to the GameManager
-            var buildTask = new BuildTask(this);
-            GameManager.Instance.AddTask(buildTask);
+         
         }
         if (
             newState == InfrastructureData.State.Frozen

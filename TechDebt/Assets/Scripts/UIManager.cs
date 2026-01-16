@@ -330,7 +330,17 @@ public class UIManager : MonoBehaviour
 
         string content = $"<b>{_selectedNPC.name}</b>\n";
         content += $"Level: {_selectedNPC.level}\n";
-        content += $"XP: {_selectedNPC.currentXP:F0}\n\n";
+        content += $"XP: {_selectedNPC.currentXP:F0}\n";
+        
+        // Add the current task
+        if (_selectedNPC.CurrentTask != null)
+        {
+            content += $"Task: {_selectedNPC.CurrentTask.GetType().Name}\n\n";
+        }
+        else
+        {
+            content += "Task: Idle\n\n";
+        }
         
         content += "<b>Traits:</b>\n";
         if (_selectedNPC.Traits.Any())
