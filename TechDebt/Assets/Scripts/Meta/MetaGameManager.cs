@@ -58,6 +58,40 @@ public static class MetaGameManager
         Debug.Log("Meta progress reset.");
     }
 
+    public static void AggregateMetaStats(List<InfrastructureInstance> activeInfrastructure)
+    {
+        if (_progressData.metaStats == null)
+        {
+            _progressData.metaStats = new MetaStatSaveData();
+        }
+
+        if (_progressData.metaStats.infra == null)
+        {
+            _progressData.metaStats.infra = new List<InfraMetaStatSaveData>();
+        }
+
+        foreach (var instance in activeInfrastructure)
+        {
+            var infraStats = _progressData.metaStats.infra.Find(i => i.infraId == instance.data.ID);
+            if (infraStats == null)
+            {
+                infraStats = new InfraMetaStatSaveData() { infraId = instance.data.ID };
+                _progressData.metaStats.infra.Add(infraStats);
+            }
+
+            foreach (var stat in instance.metaStatCollection.Stats)
+            {
+                var statPair = infraStats.stats.Find(s => s.statName == stat.Key.ToString());
+                if (statPair == null)
+                {
+                    statPair = new MetaStatPair() { statName = stat.Key.ToString() };
+                    infraStats.stats.Add(statPair);
+                }
+                statPair.value = stat.Value;
+            }
+        }
+    }
+
     public static List<Technology> GetAllTechnologies()
     {
         List<Technology> technologies = new List<Technology>()

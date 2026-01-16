@@ -1385,6 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.MetaUnlockPanel
   techTreeController: {fileID: 6333734970830240476}
+  closeButton: {fileID: 4346670}
 --- !u!1 &1789810888
 GameObject:
   m_ObjectHideFlags: 0

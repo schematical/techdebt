@@ -112,14 +112,7 @@ public class InfrastructureInstance : MonoBehaviour, IDataReceiver, /*IPointerEn
         }
     }
 
-    void OnDestroy()
-    {
-        // Unregister when destroyed
-        if (GameManager.Instance != null && GameManager.Instance.isQuitting == false)
-        {
-            GameManager.Instance.UnregisterReceiver(data.ID);
-        }
-    }
+  
 
     public void ReceivePacket(NetworkPacket packet)
     {
@@ -481,9 +474,9 @@ public Transform GetTransform()
             data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
         }
 
-        if (metaStatCollection.Stats[MetaStat.Infra_MaxSize] < CurrentSizeLevel)
+        if (metaStatCollection.Get(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
         {
-            metaStatCollection.Stats[MetaStat.Infra_MaxSize] = CurrentSizeLevel;
+            metaStatCollection.Set(MetaStat.Infra_MaxSize, CurrentSizeLevel);
         }
         SetState(InfrastructureData.State.Operational);
         UpdateAppearance(); // Update visual state after resize
@@ -518,7 +511,7 @@ public Transform GetTransform()
                         availableTasks.Add(new ResizeTask(this, -1));
                     }
 
-                    if (CurrentSizeLevel < 4)
+                    if (CurrentSizeLevel < (int) data.Stats.GetStatValue(StatType.Infra_MaxSize))
                     {
                         availableTasks.Add(new ResizeTask(this, 1));
                     }

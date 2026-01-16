@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         Debug.Log("NewGame button clicked!");
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("GameScene");
     }
     
 

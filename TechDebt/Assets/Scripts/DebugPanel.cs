@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Linq;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class DebugPanel : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class DebugPanel : MonoBehaviour
         instaBuildButton.onClick.AddListener(InstaBuild);
         instaResearchButton.onClick.AddListener(InstaResearch);
         unlockAllTechButton.onClick.AddListener(UnlockAllTechnologies);
+
+        // Create and configure the End Run button
+        Button endRunButton = Instantiate(unlockAllTechButton, unlockAllTechButton.transform.parent);
+        endRunButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Run";
+        endRunButton.onClick.AddListener(EndRun);
+        endRunButton.transform.position = unlockAllTechButton.transform.position + new Vector3(0, -30, 0);
     }
 
     void Update()
@@ -84,5 +91,10 @@ public class DebugPanel : MonoBehaviour
         {
             uiManager.ForceRefreshTechTreePanel();
         }
+    }
+
+    private void EndRun()
+    {
+        GameManager.Instance.Stats.Get(StatType.Money).SetBaseValue(-1000);
     }
 }

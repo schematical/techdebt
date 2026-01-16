@@ -335,13 +335,8 @@ public class GameManager : MonoBehaviour
     }
     // ---------------------
 
-    public bool isQuitting = false; // To prevent issues when unregistering during quit
-
-    void OnApplicationQuit()
-    {
-        isQuitting = true;
-        MetaGameManager.SaveProgress();
-    }
+  
+ 
 
     public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
     {
@@ -941,5 +936,13 @@ public class GameManager : MonoBehaviour
         }
 
 
+    }
+
+    public void UpdateMetaProgress()
+    {
+  
+        MetaGameManager.AggregateMetaStats(ActiveInfrastructure);
+        MetaGameManager.SaveProgress();
+        
     }
 }

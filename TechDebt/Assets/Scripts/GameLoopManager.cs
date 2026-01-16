@@ -43,15 +43,22 @@ public class GameLoopManager : MonoBehaviour
     {
         NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
         GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
+        GameManager.Instance.UpdateMetaProgress();
         GameManager.Instance.UIManager.ShowNPCDialog(
             bossNPC.GetComponent<SpriteRenderer>().sprite,
             "You have failed to keep our infrastructure up and running with in our budget. You are fired!",
             new List<DialogButtonOption>()
             {
-                new DialogButtonOption() { Text = "Game Over", OnClick = () =>
+                new DialogButtonOption() { Text = "Start Over", OnClick = () =>
+                    {
+                        
+                        ResetGame();
+                    }
+                },
+                new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
                     {
                         SceneManager.LoadScene("MainMenu");
-                        // ResetGame();
+                        
                     }
                 },
             }
@@ -59,9 +66,9 @@ public class GameLoopManager : MonoBehaviour
     }
     public void ResetGame()
     {
-    currentDay = 0;
+        currentDay = 0;
         GameManager.Instance.ResetNPCs();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void BeginBuildPhase()
     {

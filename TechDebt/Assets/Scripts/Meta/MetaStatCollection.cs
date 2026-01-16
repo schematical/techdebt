@@ -15,5 +15,19 @@ namespace MetaChallenges
             Stats[stat] += value;
             return Stats[stat];
         }
+
+        public int Get(MetaStat stat)
+        {
+            if (!Stats.ContainsKey(stat))
+            {
+                return 0;
+            }
+            return Stats[stat];
+        }
+
+        public void Set(MetaStat stat, int val)
+        {
+            Stats[stat] = val;
+        }
     }
 }
