@@ -1847,7 +1847,6 @@ MonoBehaviour:
   titleText: {fileID: 1302193570}
   scrollContent: {fileID: 1741580035}
   closeButton: {fileID: 2029075328}
-  challengeTextArea: {fileID: 0}
 --- !u!114 &1501527401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2047,7 +2046,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -2344,6 +2343,7 @@ GameObject:
   - component: {fileID: 1918290541}
   - component: {fileID: 1918290542}
   - component: {fileID: 1918290543}
+  - component: {fileID: 1918290544}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -2494,9 +2494,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd537356fd34453a75e4acffb5957d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIMainMenuCanvas
+  prefabManager: {fileID: 1918290544}
   mainMenu: {fileID: 1030789101}
   metaUnlockPanel: {fileID: 1639904555}
   uiMetaChallengesPanel: {fileID: 1501527400}
+--- !u!114 &1918290544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918290536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30d339f04e0247f7bb964269c70b8274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabManager
+  Prefabs:
+  - {fileID: 1932772173538388464, guid: 873beff05425f304bad065155202f978, type: 3}
 --- !u!1 &1980794795
 GameObject:
   m_ObjectHideFlags: 0
