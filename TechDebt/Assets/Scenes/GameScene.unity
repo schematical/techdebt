@@ -844,7 +844,7 @@ MonoBehaviour:
     LoadPerPacket: 20
     CostPerPacket: 0
     MaxLoad: 100
-    LoadRecoveryRate: 25
+    LoadRecoveryRate: 10
     CurrentState: 1
     NetworkConnections:
     - TargetID: dedicated-db
