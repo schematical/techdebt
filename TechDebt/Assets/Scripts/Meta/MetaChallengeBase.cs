@@ -11,7 +11,8 @@ namespace MetaChallenges
         }
         public enum MetaChallengeRewardType
         {
-            Technology
+            Technology,
+            StartingStatValue
         }
         
         public string ChallengeID; // Unique identifier
@@ -19,14 +20,13 @@ namespace MetaChallenges
         public string Description; // For UI
         
         public string InfrastructureId { get; set; }
+        public float RewardValue { get; set; } = -1;
+
         public MetaStat metaStat;
         public int RequiredValue = -1;
         public MetaChallengeType Type = MetaChallengeType.Passive;
         
         public MetaChallengeRewardType RewardType= MetaChallengeRewardType.Technology;
         public string RewardId;
-
-  
-        public bool IsCompleted;
     }
 }

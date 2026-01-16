@@ -4,5 +4,6 @@ namespace MetaChallenges
     {
         Infra_HandleNetworkPacket,
         Infra_MaxSize,
+        Day
     }
 }

@@ -47,7 +47,7 @@ public class UIMetaChallengesPanel: UIPanel
                     currentProgress = statPair.value;
                 }
             }
-            challenge.IsCompleted = MetaGameManager.IsChallengeCompleted(progressData, challenge);
+            bool isCompleted = MetaGameManager.IsChallengeCompleted(progressData, challenge);
 
             GameObject textAreaGO = Instantiate(uiTextAreaPrefab, scrollContent);
             UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
@@ -55,11 +55,11 @@ public class UIMetaChallengesPanel: UIPanel
             if (uiTextArea != null && uiTextArea.textArea != null)
             {
                 var sb = new StringBuilder();
-                string challengeColor = challenge.IsCompleted ? "#88FF88" : "white"; // Green for completed
+                string challengeColor = isCompleted ? "#88FF88" : "white"; // Green for completed
 
                 sb.AppendLine($"<color={challengeColor}>{challenge.DisplayName}</color>");
                 sb.AppendLine($"<size=10>{challenge.Description}</size>");
-                sb.AppendLine($"<i>Progress: {currentProgress}/{challenge.RequiredValue} ({ (challenge.IsCompleted ? "Completed" : "In Progress") })</i>");
+                sb.AppendLine($"<i>Progress: {currentProgress}/{challenge.RequiredValue} ({ (isCompleted ? "Completed" : "In Progress") })</i>");
                 sb.AppendLine($"<i>Reward: {challenge.RewardId}</i>");
                 
                 uiTextArea.textArea.text = sb.ToString();

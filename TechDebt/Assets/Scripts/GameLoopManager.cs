@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MetaChallenges;
 using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -193,10 +194,12 @@ public class GameLoopManager : MonoBehaviour
         if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {
             summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
+            GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
             EndGame();
+            return;
         }
         GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
-  
+        GameManager.Instance.MetaStats.Incr(MetaStat.Day);
 
         // Assign "go to door" task to all NPCs
         foreach (var npc in GameManager.Instance.AllNpcs.ToList())

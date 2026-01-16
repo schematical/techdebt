@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
     public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
-    public Stats.StatsCollection Stats { get; private set; } = new StatsCollection();
+    public StatsCollection Stats { get; private set; } = new StatsCollection();
+    public MetaStatCollection MetaStats { get; private set; } = new MetaStatCollection();
     
     public Stats.StatsCollection GlobalStats { get; private set; } = new StatsCollection();
     
@@ -364,18 +365,15 @@ public class GameManager : MonoBehaviour
         MetaCurrency.Load();
         _instance = this;
         
-        // The MetaSaveLoadManager will handle loading progress data statically
-
         if (FindObjectOfType<DebugManager>() == null)
         {
             new GameObject("DebugManager").AddComponent<DebugManager>();
         }
-
-        // Force reset of all infrastructure data to its initial state on load.
-        // This is the definitive fix for ensuring a clean state after a game over.
-    
-
         
+
+        Initialize();
+          
+          
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
         List<Technology> technologies = MetaGameManager.GetAllTechnologies();
         AllTechnologies = new List<Technology>();
@@ -391,12 +389,22 @@ public class GameManager : MonoBehaviour
                     }
                     AllTechnologies.Add(technology);
                     break;
+                case(MetaChallengeBase.MetaChallengeRewardType.StartingStatValue):
+                    StatType statType;
+                    Enum.TryParse<StatType>(challenge.RewardId, out statType);
+                    
+                    Stats.AddModifier(statType, new StatModifier(
+                        StatModifier.ModifierType.Multiply,
+                        challenge.RewardValue
+                    ));
+                    break;
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        Initialize();
+       
+      
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
     

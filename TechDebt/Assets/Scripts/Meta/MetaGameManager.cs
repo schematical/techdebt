@@ -299,8 +299,18 @@ public static class MetaGameManager
                 InfrastructureId = "dedicated-db",
                 RewardId = "redis",
                 RequiredValue = 2500
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "cash1",
+                DisplayName = "Extra Starting Cash 1",
+                metaStat = MetaStat.Day,
+                RewardId = StatType.Money.ToString(),
+                RewardValue = 2f,
+                RequiredValue = 2500
             }
         };
+        
         return challenges;
     }
 }
