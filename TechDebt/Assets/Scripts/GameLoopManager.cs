@@ -57,8 +57,7 @@ public class GameLoopManager : MonoBehaviour
                 },
                 new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
                     {
-                        SceneManager.LoadScene("MainMenu");
-                        
+                        SceneManager.LoadScene("MainMenu");  
                     }
                 },
             }

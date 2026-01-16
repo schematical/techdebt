@@ -208,4 +208,34 @@ public static class MetaGameManager
         };
         return technologies;
     }
+
+    public static List<MetaChallengeBase> GetAllChallenges()
+    {
+        List<MetaChallengeBase> challenges = new List<MetaChallengeBase>()
+        {
+            new MetaChallengeBase()
+            {
+                metaStat = MetaStat.Infra_MaxSize,
+                InfrastructureId = "server1",
+                RewardId = "dedicated-db",
+                RequiredValue = 2
+                
+            },
+            new MetaChallengeBase()
+            {
+                metaStat = MetaStat.Infra_HandleNetworkPacket,
+                InfrastructureId = "server1",
+                RewardId = "binary-storage",
+                RequiredValue = 1000
+            },
+            new MetaChallengeBase()
+            {
+                metaStat = MetaStat.Infra_MaxSize,
+                InfrastructureId = "dedicated-db",
+                RewardId = "redis",
+                RequiredValue = 2500
+            }
+        };
+        return challenges;
+    }
 }

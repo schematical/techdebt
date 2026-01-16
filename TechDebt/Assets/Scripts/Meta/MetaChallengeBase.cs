@@ -13,7 +13,7 @@ namespace MetaChallenges
         }
         public string InfrastructureId { get; set; }
         public MetaStat metaStat;
-
+        public int RequiredValue = -1;
         public MetaChallengeType Type = MetaChallengeType.Passive;
         
         public MetaChallengeRewardType RewardType= MetaChallengeRewardType.Technology;
