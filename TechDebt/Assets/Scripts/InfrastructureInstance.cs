@@ -331,7 +331,7 @@ public Transform GetTransform()
         }
     }
 
-    public void OnInfrastructureBuilt(InfrastructureInstance instance)
+    public void OnInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
     {
         if (
             !(

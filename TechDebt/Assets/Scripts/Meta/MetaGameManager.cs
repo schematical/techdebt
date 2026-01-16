@@ -213,7 +213,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "load-balencer",
+                TechnologyID = "load-balancer",
                 DisplayName = "Load Balancer",
                 Description = "",
                 ResearchPointCost = 30,
@@ -243,7 +243,7 @@ public static class MetaGameManager
                 DisplayName = "Web Application Firewall(WAF)",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balencer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" }
                 // Survive X malicious packets
             },
             new Technology()
@@ -261,7 +261,7 @@ public static class MetaGameManager
                 DisplayName = "Simple Queue Service",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balencer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" }
                 // survive Y packets in a single run.
             },
             new Technology()
@@ -270,7 +270,7 @@ public static class MetaGameManager
                 DisplayName = "Cognito User Pools",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balencer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" }
                 // Survive Y user info leaked
             },
             new Technology()
@@ -279,7 +279,7 @@ public static class MetaGameManager
                 DisplayName = "Code Pipeline",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balencer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" }
                 // Push out Y deployments
             }
         };
@@ -291,7 +291,7 @@ public static class MetaGameManager
     {
         List<MetaChallengeBase> challenges = new List<MetaChallengeBase>()
         {
-            new MetaChallengeBase()
+            /*new MetaChallengeBase()
             {
                 ChallengeID = "dedicated-db",
                 DisplayName = "Dedicated Databases",
@@ -299,7 +299,7 @@ public static class MetaGameManager
                 InfrastructureId = "server1",
                 RewardId = "dedicated-db",
                 RequiredValue = 2
-            },
+            },*/
             new MetaChallengeBase()
             {
                 ChallengeID = "binary-storage",
@@ -307,16 +307,16 @@ public static class MetaGameManager
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "server1",
                 RewardId = "binary-storage",
-                RequiredValue = 1000
+                RequiredValue = 100
             },
             new MetaChallengeBase()
             {
                 ChallengeID = "redis",
                 DisplayName = "Redis Cache",
-                metaStat = MetaStat.Infra_MaxSize,
+                metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "dedicated-db",
                 RewardId = "redis",
-                RequiredValue = 2500
+                RequiredValue = 100
             },
             new MetaChallengeBase()
             {
@@ -325,8 +325,43 @@ public static class MetaGameManager
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
                 RewardValue = 2f,
-                RequiredValue = 2500
-            }
+                RequiredValue = 5
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "cdn",
+                DisplayName = "Content Delivery Network(CDN)",
+                metaStat = MetaStat.Infra_HandleNetworkPacket,
+                InfrastructureId = "s3-bucket",
+                RewardId = "cdn",
+                RequiredValue = 200
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "load-balancer",
+                DisplayName = "Load Balancer",
+                metaStat = MetaStat.Day,
+                RewardId = StatType.Money.ToString(),
+                RewardValue = 2f,
+                RequiredValue = 9
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "read-replicas",
+                DisplayName = "Read Replicas",
+                metaStat = MetaStat.Infra_MaxSize,
+                InfrastructureId = "dedicated-db",
+                RewardId = "read-replicas",
+                RequiredValue = 2
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "codepipeline",
+                DisplayName = "Code Pipeline",
+                metaStat = MetaStat.Deployments,
+                RewardId = "codepipeline",
+                RequiredValue = 50
+            },
         };
         
         return challenges;

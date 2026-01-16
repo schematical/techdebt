@@ -85,7 +85,6 @@ public class BuildTask : NPCTask
         
         GameManager.Instance.NotifyDailyCostChanged();
 
-        GameManager.Instance.ActiveInfrastructure.Add(TargetInfrastructure);
     }
     public override string GetAssignButtonText()
     {
