@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     private GameObject infrastructureDetailPanel;
     private GameObject itemDetailPanel;
     private GameObject timeControlsContainer;
-    private GameObject leftMenuBar;
+    public GameObject leftMenuBar;
     private GameObject taskListPanel;
     private GameObject techTreePanel;
     private GameObject npcListPanel;
@@ -100,7 +100,6 @@ public class UIManager : MonoBehaviour
 
         SetupTimeControls(transform);
         SetupStatsBar(transform);
-        SetupLeftMenuBar(transform);
 
         SetupEventLogPanel(transform);
         SetupNPCListPanel(transform);
@@ -205,7 +204,7 @@ public class UIManager : MonoBehaviour
         GameManager.OnCurrentEventsChanged -= UpdateEventLog;
     }
 
-    private void ToggleEventLogPanel()
+    public void ToggleEventLogPanel()
     {
         bool wasActive = eventLogPanel.activeSelf;
         CloseAllSidebarPanels();
@@ -478,7 +477,7 @@ public class UIManager : MonoBehaviour
         SetupEventLogPanel(parent);
     }
 
-    private void ToggleDeploymentHistoryPanel()
+    public void ToggleDeploymentHistoryPanel()
     {
         bool wasActive = DeploymentHistoryPanel.gameObject.activeSelf;
         CloseAllSidebarPanels();
@@ -550,7 +549,7 @@ public class UIManager : MonoBehaviour
         npcDetailPanel.SetActive(false);
     }
 
-    private void ToggleNPCListPanel()
+    public void ToggleNPCListPanel()
     {
         bool wasActive = npcListPanel.activeSelf;
         CloseAllSidebarPanels();
@@ -647,7 +646,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    private void ToggleTaskListPanel()
+    public void ToggleTaskListPanel()
     {
         bool wasActive = taskListPanel.activeSelf;
         CloseAllSidebarPanels();
@@ -1090,7 +1089,7 @@ public class UIManager : MonoBehaviour
         eventTriggerPanel.SetActive(false);
     }
 
-    private void ToggleEventTriggerPanel()
+    public void ToggleEventTriggerPanel()
     {
         eventTriggerPanel.SetActive(!eventTriggerPanel.activeSelf);
     }
