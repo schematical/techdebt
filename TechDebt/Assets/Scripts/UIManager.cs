@@ -468,6 +468,7 @@ public class UIManager : MonoBehaviour
         uiPanel.AddButton("Tech", ToggleTechTreePanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("NPCs", ToggleNPCListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         uiPanel.AddButton("Events", ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+        uiPanel.AddButton("Deployments", ToggleDeploymentHistoryPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
 
         // --- Setup all associated panels ---
         SetupTaskListPanel(parent);
@@ -475,6 +476,16 @@ public class UIManager : MonoBehaviour
         SetupNPCListPanel(parent);
         SetupNPCDetailPanel(parent);
         SetupEventLogPanel(parent);
+    }
+
+    private void ToggleDeploymentHistoryPanel()
+    {
+        bool wasActive = DeploymentHistoryPanel.gameObject.activeSelf;
+        CloseAllSidebarPanels();
+        if (!wasActive)
+        {
+            DeploymentHistoryPanel.gameObject.SetActive(true);
+        }
     }
 
     private void SetupNPCListPanel(Transform parent)
@@ -608,6 +619,7 @@ public class UIManager : MonoBehaviour
         if (npcListPanel != null) npcListPanel.SetActive(false);
         if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
         if (eventLogPanel != null) eventLogPanel.SetActive(false);
+        if (DeploymentHistoryPanel != null) DeploymentHistoryPanel.gameObject.SetActive(false);
     }
 
 

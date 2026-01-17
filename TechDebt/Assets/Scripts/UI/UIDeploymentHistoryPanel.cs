@@ -5,7 +5,6 @@ namespace UI
 {
     public class UIDeploymentHistoryPanel: UIPanel
     {
-        public GameObject Content;
 
         void OnEnable()
         {
@@ -26,7 +25,7 @@ namespace UI
         private void Refresh()
         {
             // Clear existing entries
-            foreach (Transform child in Content.transform)
+            foreach (Transform child in scrollContent.transform)
             {
                 Destroy(child.gameObject);
             }
@@ -36,8 +35,8 @@ namespace UI
 
             foreach (var deployment in deployments)
             {
-                UITextArea textArea = GameManager.Instance.prefabManager.GetPrefab("UITextArea").GetComponent<UITextArea>();
-                //TODO: Geminit Initialize it on the Content here.
+                GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
+                UITextArea textArea = Instantiate(textAreaPrefab, scrollContent.transform).GetComponent<UITextArea>(); 
                 textArea.textArea.text = deployment.GetDescription();
             }
         }
