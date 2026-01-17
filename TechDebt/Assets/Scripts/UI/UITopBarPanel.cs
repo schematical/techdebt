@@ -9,13 +9,14 @@ namespace UI
 {
     public class UITopBarPanel: UIPanel
     {
-        private UIManager uiManager;
-
+        private Dictionary<StatType, TextMeshProUGUI> _statTexts = new Dictionary<StatType, TextMeshProUGUI>();
+        private TextMeshProUGUI _gameStateText;
+        private TextMeshProUGUI _clockText;
+        
+        
         void Start()
         {
-            uiManager = FindObjectOfType<UIManager>();
-            
-            uiManager.statTexts.Clear();
+            _statTexts.Clear();
 
             if (titleText != null)
             {
@@ -26,14 +27,14 @@ namespace UI
                 closeButton.gameObject.SetActive(false);
             }
 
-            var layout = gameObject.AddComponent<HorizontalLayoutGroup>();
+            HorizontalLayoutGroup layout = gameObject.GetComponent<HorizontalLayoutGroup>();
             layout.padding = new RectOffset(10, 10, 5, 5);
             layout.spacing = 15;
 
-            uiManager.gameStateText = CreateText(transform, "GameStateText", "State: Initializing", 18);
-            uiManager.gameStateText.color = Color.cyan;
+            _gameStateText = CreateText(transform, "GameStateText", "State: Initializing", 24);
+            _gameStateText.color = Color.cyan;
 
-            uiManager.clockText = CreateText(transform, "ClockText", "9:00 AM", 18);
+            _clockText = CreateText(transform, "ClockText", "9:00 AM", 24);
 
             var statsToDisplay = new List<StatType>
             {
@@ -49,7 +50,73 @@ namespace UI
 
             foreach (StatType type in statsToDisplay)
             {
-                uiManager.statTexts.Add(type, CreateText(transform, type.ToString(), $"{type}: 0", 18));
+                _statTexts.Add(type, CreateText(transform, type.ToString(), $"{type}: 0", 24));
+            }
+            
+            UpdateStatsDisplay();
+        }
+
+        void OnEnable()
+        {
+            GameManager.OnStatsChanged += UpdateStatsDisplay;
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged += OnMoneyChanged;
+            }
+        }
+
+        void OnDisable()
+        {
+            GameManager.OnStatsChanged -= UpdateStatsDisplay;
+            if (GameManager.Instance != null)
+            {
+               GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged -= OnMoneyChanged;
+            }
+        }
+
+        private void OnMoneyChanged(float value)
+        {
+            UpdateStatText(StatType.Money, value);
+        }
+
+        public void UpdateGameStateDisplay(string state)
+        {
+            if (_gameStateText != null) _gameStateText.text = $"State: {state}";
+        }
+
+        public void UpdateClockDisplay(float timeElapsed, float dayDuration)
+        {
+            if (_clockText == null) return;
+
+            int day = GameManager.Instance.GameLoopManager.currentDay;
+
+            float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
+            float totalWorkdayHours = 8f;
+            float elapsedHours = totalWorkdayHours * dayPercentage;
+            int currentHour = 9 + (int)elapsedHours;
+            int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
+
+            string amPm = currentHour < 12 ? "AM" : "PM";
+            int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
+            if (displayHour == 0) displayHour = 12;
+
+            _clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
+        }
+
+        public void UpdateStatsDisplay()
+        {
+            if (GameManager.Instance == null) return;
+            foreach (var statText in _statTexts)
+            {
+                statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
+            }
+        }
+        
+        public void UpdateStatText(StatType statType, float value)
+        {
+            if (_statTexts.ContainsKey(statType))
+            {
+                _statTexts[statType].text = $"{statType}: {value:F2}";
             }
         }
         
@@ -75,5 +142,6 @@ namespace UI
             rt.anchoredPosition = Vector2.zero;
             return tmp;
         }
+      
     }
 }

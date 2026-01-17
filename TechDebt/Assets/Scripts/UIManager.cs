@@ -51,7 +51,6 @@ public class UIManager : MonoBehaviour
     public UIMultiSelectPanel MultiSelectPanel;
     public UIDeploymentHistoryPanel  DeploymentHistoryPanel;
     // UI Elements
-    public Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     public TextMeshProUGUI _infrastructureDetailText;
     public TextMeshProUGUI _eventLogText;
     public TextMeshProUGUI _npcDetailText;
@@ -61,8 +60,6 @@ public class UIManager : MonoBehaviour
     private Button _upsizeButton;
     private Button _downsizeButton;
     public TextMeshProUGUI totalDailyCostText;
-    public TextMeshProUGUI gameStateText;
-    public TextMeshProUGUI clockText;
 
     // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
@@ -117,10 +114,8 @@ public class UIManager : MonoBehaviour
         SetupSummaryPhaseUI(transform); // This was missing from Start()
         MultiSelectPanel.gameObject.SetActive(false);
         DeploymentHistoryPanel.gameObject.SetActive(false);
-        // Initial state
-        UpdateTimeControlsUI();
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
-            (value) => UpdateStatText(StatType.Money, value);
+            (value) => topBarPanel.UpdateStatText(StatType.Money, value);
 
         // Hide panels that shouldn't be visible at start
         if (techTreePanel != null) techTreePanel.SetActive(false);
@@ -165,17 +160,8 @@ public class UIManager : MonoBehaviour
         Initialize();
 
         // Update any displays that need it after initialization
-        UpdateStatsDisplay();
+        topBarPanel.UpdateStatsDisplay();
     }
-
-    public void UpdateStatText(StatType statType, float value)
-    {
-        if (statTexts.ContainsKey(statType))
-        {
-            statTexts[statType].text = $"{statType}: {value:F2}";
-        }
-    }
-
     private void UpdateTimeControlsUI()
     {
         if (superFastForwardButton == null) return;
@@ -189,8 +175,6 @@ public class UIManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnStatsChanged += UpdateStatsDisplay;
-        GameManager.OnDailyCostChanged += UpdateDailyCostDisplay;
         GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
         GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
         GameManager.OnCurrentEventsChanged += UpdateEventLog;
@@ -198,8 +182,6 @@ public class UIManager : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.OnStatsChanged -= UpdateStatsDisplay;
-        GameManager.OnDailyCostChanged -= UpdateDailyCostDisplay;
         GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
         GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
         GameManager.OnCurrentEventsChanged -= UpdateEventLog;
@@ -1210,7 +1192,7 @@ public class UIManager : MonoBehaviour
         timeControlsContainer.SetActive(false);
         hireDevOpsPanel.SetActive(false);
         RefreshHireDevOpsPanel();
-        UpdateDailyCostDisplay();
+        // topBarPanel.UpdateDailyCost();
     }
 
     public void HideBuildUI()
@@ -1255,36 +1237,15 @@ public class UIManager : MonoBehaviour
 
     public void UpdateGameStateDisplay(string state)
     {
-        if (gameStateText != null) gameStateText.text = $"State: {state}";
+        topBarPanel.UpdateGameStateDisplay(state);
     }
 
     public void UpdateClockDisplay(float timeElapsed, float dayDuration)
     {
-        if (clockText == null) return;
-
-        int day = GameManager.Instance.GameLoopManager.currentDay;
-
-        float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
-        float totalWorkdayHours = 8f;
-        float elapsedHours = totalWorkdayHours * dayPercentage;
-        int currentHour = 9 + (int)elapsedHours;
-        int currentMinute = (int)((elapsedHours - (int)elapsedHours) * 60);
-
-        string amPm = currentHour < 12 ? "AM" : "PM";
-        int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
-        if (displayHour == 0) displayHour = 12;
-
-        clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
+        topBarPanel.UpdateClockDisplay(timeElapsed, dayDuration);
     }
 
-    public void UpdateStatsDisplay()
-    {
-        if (GameManager.Instance == null) return;
-        foreach (var statText in statTexts)
-        {
-            statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
-        }
-    }
+  
 
     private void UpdateDailyCostDisplay()
     {
