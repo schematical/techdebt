@@ -27,9 +27,14 @@ public class UIManager : MonoBehaviour
     }
     public UILeftMenuPanel leftMenuPanel;
     public UITopBarPanel topBarPanel;
+
+    public UIDeskMenuPanel deskMenuPanel;
+    public UIMultiSelectPanel MultiSelectPanel;
+    public UIDeploymentHistoryPanel  DeploymentHistoryPanel;
+
     
-    // UI Containers
-    // private Canvas mainCanvas;
+    
+    // OLD UI Containers
     private GameObject buildPhaseUIContainer;
     private GameObject summaryPhaseUIContainer;
  
@@ -48,8 +53,6 @@ public class UIManager : MonoBehaviour
     private GameObject eventTriggerPanel;
     private UITextArea summaryPhaseText;
     private NPCDialogPanel _currentNPCDialogPanel;
-    public UIMultiSelectPanel MultiSelectPanel;
-    public UIDeploymentHistoryPanel  DeploymentHistoryPanel;
     // UI Elements
     public TextMeshProUGUI _infrastructureDetailText;
     public TextMeshProUGUI _eventLogText;
@@ -114,6 +117,7 @@ public class UIManager : MonoBehaviour
         SetupSummaryPhaseUI(transform); // This was missing from Start()
         MultiSelectPanel.gameObject.SetActive(false);
         DeploymentHistoryPanel.gameObject.SetActive(false);
+        deskMenuPanel.gameObject.SetActive(false);
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
             (value) => topBarPanel.UpdateStatText(StatType.Money, value);
 
