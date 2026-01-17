@@ -25,17 +25,19 @@ public class UIManager : MonoBehaviour
         Fast,
         SuperFast
     }
-
+    public UILeftMenuPanel leftMenuPanel;
+    public UITopBarPanel topBarPanel;
+    
     // UI Containers
     // private Canvas mainCanvas;
     private GameObject buildPhaseUIContainer;
     private GameObject summaryPhaseUIContainer;
-    private GameObject statsBarUIContainer;
+ 
     private GameObject hireDevOpsPanel;
     private GameObject infrastructureDetailPanel;
     private GameObject itemDetailPanel;
     private GameObject timeControlsContainer;
-    public GameObject leftMenuBar;
+   
     private GameObject taskListPanel;
     private GameObject techTreePanel;
     private GameObject npcListPanel;
@@ -49,18 +51,18 @@ public class UIManager : MonoBehaviour
     public UIMultiSelectPanel MultiSelectPanel;
     public UIDeploymentHistoryPanel  DeploymentHistoryPanel;
     // UI Elements
-    private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
-    private TextMeshProUGUI _infrastructureDetailText;
-    private TextMeshProUGUI _eventLogText;
-    private TextMeshProUGUI _npcDetailText;
-    private UITextArea _itemDetailDescriptionText;
-    private TextMeshProUGUI _alertText;
+    public Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
+    public TextMeshProUGUI _infrastructureDetailText;
+    public TextMeshProUGUI _eventLogText;
+    public TextMeshProUGUI _npcDetailText;
+    public UITextArea _itemDetailDescriptionText;
+    public TextMeshProUGUI _alertText;
     private Button _planBuildButton;
     private Button _upsizeButton;
     private Button _downsizeButton;
-    private TextMeshProUGUI totalDailyCostText;
-    private TextMeshProUGUI gameStateText;
-    private TextMeshProUGUI clockText;
+    public TextMeshProUGUI totalDailyCostText;
+    public TextMeshProUGUI gameStateText;
+    public TextMeshProUGUI clockText;
 
     // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
@@ -99,7 +101,6 @@ public class UIManager : MonoBehaviour
         _isInitialized = true;
 
         SetupTimeControls(transform);
-        SetupStatsBar(transform);
 
         SetupEventLogPanel(transform);
         SetupNPCListPanel(transform);
@@ -448,34 +449,7 @@ public class UIManager : MonoBehaviour
         alertPanel.SetActive(false);
     }
 
-    private void SetupLeftMenuBar(Transform parent)
-    {
-        leftMenuBar = CreateUIPanel(parent, "LeftMenuBar", new Vector2(100, 0), new Vector2(0, 0), new Vector2(0, 1),
-            new Vector2(50, 0));
-        UIPanel uiPanel = leftMenuBar.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("LeftMenuBar is missing UIPanel component.");
-            return;
-        }
-
-        uiPanel.titleText.text = "";
-        if (uiPanel.closeButton != null)
-            uiPanel.closeButton.gameObject.SetActive(false); // No close button for main menu
-
-        uiPanel.AddButton("Tasks", ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-        uiPanel.AddButton("Tech", ToggleTechTreePanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-        uiPanel.AddButton("NPCs", ToggleNPCListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-        uiPanel.AddButton("Events", ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-        uiPanel.AddButton("Deployments", ToggleDeploymentHistoryPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-
-        // --- Setup all associated panels ---
-        SetupTaskListPanel(parent);
-        SetupTechTreePanel(parent);
-        SetupNPCListPanel(parent);
-        SetupNPCDetailPanel(parent);
-        SetupEventLogPanel(parent);
-    }
+    
 
     public void ToggleDeploymentHistoryPanel()
     {
@@ -846,24 +820,24 @@ public class UIManager : MonoBehaviour
     private void SetupStatsBar(Transform parent)
     {
         statTexts.Clear();
-        statsBarUIContainer = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1),
+        topBarPanel = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1),
             new Vector2(1, 1), new Vector2(0, -20));
 
-        UIPanel uiPanel = statsBarUIContainer.GetComponent<UIPanel>();
+        UIPanel uiPanel = topBarPanel.GetComponent<UIPanel>();
         if (uiPanel != null)
         {
             uiPanel.titleText.text = "";
             if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
         }
 
-        var layout = statsBarUIContainer.AddComponent<HorizontalLayoutGroup>();
+        var layout = topBarPanel.AddComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(10, 10, 5, 5);
         layout.spacing = 15;
 
-        gameStateText = CreateText(statsBarUIContainer.transform, "GameStateText", "State: Initializing", 18);
+        gameStateText = CreateText(topBarPanel.transform, "GameStateText", "State: Initializing", 18);
         gameStateText.color = Color.cyan;
 
-        clockText = CreateText(statsBarUIContainer.transform, "ClockText", "9:00 AM", 18);
+        clockText = CreateText(topBarPanel.transform, "ClockText", "9:00 AM", 18);
 
         var statsToDisplay = new List<StatType>
         {
@@ -879,7 +853,7 @@ public class UIManager : MonoBehaviour
 
         foreach (StatType type in statsToDisplay)
         {
-            statTexts.Add(type, CreateText(statsBarUIContainer.transform, type.ToString(), $"{type}: 0", 18));
+            statTexts.Add(type, CreateText(topBarPanel.transform, type.ToString(), $"{type}: 0", 18));
         }
     }
 
@@ -1342,7 +1316,7 @@ public class UIManager : MonoBehaviour
         clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
     }
 
-    private void UpdateStatsDisplay()
+    public void UpdateStatsDisplay()
     {
         if (GameManager.Instance == null) return;
         foreach (var statText in statTexts)
