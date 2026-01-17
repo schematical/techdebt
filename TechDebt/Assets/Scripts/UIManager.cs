@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
     private UITextArea summaryPhaseText;
     private NPCDialogPanel _currentNPCDialogPanel;
     public UIMultiSelectPanel MultiSelectPanel;
-
+    public UIDeploymentHistoryPanel  DeploymentHistoryPanel;
     // UI Elements
     private Dictionary<StatType, TextMeshProUGUI> statTexts = new Dictionary<StatType, TextMeshProUGUI>();
     private TextMeshProUGUI _infrastructureDetailText;
@@ -116,6 +116,7 @@ public class UIManager : MonoBehaviour
         SetupNPCDialogPanel(transform);
         SetupSummaryPhaseUI(transform); // This was missing from Start()
         MultiSelectPanel.gameObject.SetActive(false);
+        DeploymentHistoryPanel.gameObject.SetActive(false);
         // Initial state
         UpdateTimeControlsUI();
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
