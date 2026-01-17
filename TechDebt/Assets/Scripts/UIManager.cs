@@ -816,8 +816,8 @@ public class UIManager : MonoBehaviour
             var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
             string statusColor = task.CurrentState == State.Executing ? "yellow" : "white";
             string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
-            string taskText = $"<b>{task.GetType().Name}</b> ({task.Priority})\n";
-            if (task is BuildTask buildTask) taskText += $"Target: {buildTask.TargetInfrastructure.data.ID}\n";
+            string taskText = $"<b>{task.GetType().Name}</b> ({task.GetDescription()})\n";
+            
             taskText += $"<color={statusColor}>Status: {task.CurrentState}</color> | Assignee: {assignee}";
             textComponent.text = taskText;
 

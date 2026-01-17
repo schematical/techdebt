@@ -53,6 +53,11 @@ public class BuildTask : NPCTask
     {
         return buildProgress >= TargetInfrastructure.data.BuildTime;
     }
+
+    public override string GetDescription()
+    {
+        return $"{base.GetDescription()} Progress: {buildProgress}";
+    }
     
     public override void OnEnd(NPCBase npc)
     {

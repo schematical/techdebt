@@ -94,4 +94,8 @@ public abstract class NPCTask
         CurrentState = State.Queued;
         hasArrived =  false;
     }
+    public virtual string GetDescription()
+    {
+        return $"State: {CurrentState} - Priority: {Priority} Has Arrived: {hasArrived}";
+    }
 }
