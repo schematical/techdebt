@@ -104,7 +104,7 @@ public class BuildTask : NPCTask
     public override void OnInterrupt()
     {
         base.OnInterrupt();
-        if (buildEffect == null)
+        if (buildEffect != null)
         {
             buildEffect.gameObject.SetActive(false);
         }
