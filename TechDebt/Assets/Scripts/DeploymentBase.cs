@@ -79,6 +79,6 @@ public class DeploymentBase
 
     public string GetDescription()
     {
-        return $"{GetVersionString()} {State.ToString()}"
+        return $"{GetVersionString()} {State.ToString()}";
     }
 }
