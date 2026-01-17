@@ -817,45 +817,6 @@ public class UIManager : MonoBehaviour
     }
 
 
-    private void SetupStatsBar(Transform parent)
-    {
-        statTexts.Clear();
-        topBarPanel = CreateUIPanel(parent, "StatsBarUI", new Vector2(-100, 40), new Vector2(0, 1),
-            new Vector2(1, 1), new Vector2(0, -20));
-
-        UIPanel uiPanel = topBarPanel.GetComponent<UIPanel>();
-        if (uiPanel != null)
-        {
-            uiPanel.titleText.text = "";
-            if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
-        }
-
-        var layout = topBarPanel.AddComponent<HorizontalLayoutGroup>();
-        layout.padding = new RectOffset(10, 10, 5, 5);
-        layout.spacing = 15;
-
-        gameStateText = CreateText(topBarPanel.transform, "GameStateText", "State: Initializing", 18);
-        gameStateText.color = Color.cyan;
-
-        clockText = CreateText(topBarPanel.transform, "ClockText", "9:00 AM", 18);
-
-        var statsToDisplay = new List<StatType>
-        {
-            StatType.Money,
-            StatType.TechDebt,
-            StatType.Traffic,
-            StatType.PacketsSent,
-            StatType.PacketsServiced,
-            StatType.DailyIncome,
-            StatType.Difficulty,
-            StatType.PRR
-        };
-
-        foreach (StatType type in statsToDisplay)
-        {
-            statTexts.Add(type, CreateText(topBarPanel.transform, type.ToString(), $"{type}: 0", 18));
-        }
-    }
 
     private void SetupBuildPhaseUI(Transform parent)
     {
