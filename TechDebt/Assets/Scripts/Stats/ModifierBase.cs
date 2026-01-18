@@ -76,11 +76,12 @@ namespace NPCs
                     List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
                     foreach (InfrastructureInstance inst in instances)
                     {
+                        
                         foreach (InfrastructureDataNetworkPacket networkPacketData in inst.data.networkPackets)
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-
+                                Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }

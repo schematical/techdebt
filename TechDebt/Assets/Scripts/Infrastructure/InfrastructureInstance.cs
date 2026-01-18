@@ -41,10 +41,7 @@ public class InfrastructureInstance : WorldObjectBase
 
     protected void Start()
     {
-        foreach (var networkPacket in data.networkPackets)
-        {
-            networkPacket.Init();
-        }
+        
 
     }
 
@@ -231,6 +228,10 @@ public Transform GetTransform()
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
+        foreach (var networkPacket in data.networkPackets)
+        {
+            networkPacket.Init();
+        }
     }
     public virtual void Initialize()
     {
