@@ -481,7 +481,6 @@ public Transform GetTransform()
                 availableTasks.Add(new BuildTask(this));
                 break;
             case(InfrastructureData.State.Operational): 
-                    // TODO: Add Resize tasks
                     if (CurrentSizeLevel > 0)
                     {
                         availableTasks.Add(new ResizeTask(this, -1));
