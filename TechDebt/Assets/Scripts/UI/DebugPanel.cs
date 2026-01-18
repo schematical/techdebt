@@ -1,10 +1,13 @@
 // DebugPanel.cs
+
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class DebugPanel : MonoBehaviour
 {
@@ -32,6 +35,12 @@ public class DebugPanel : MonoBehaviour
         endRunButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Run";
         endRunButton.onClick.AddListener(EndRun);
         endRunButton.transform.position = unlockAllTechButton.transform.position + new Vector3(0, -30, 0);
+
+        // Create and configure the Export State button
+        Button exportStateButton = Instantiate(unlockAllTechButton, unlockAllTechButton.transform.parent);
+        exportStateButton.GetComponentInChildren<TextMeshProUGUI>().text = "Export State";
+        exportStateButton.onClick.AddListener(ExportState);
+        exportStateButton.transform.position = endRunButton.transform.position + new Vector3(0, -30, 0);
     }
 
     void Update()
@@ -98,4 +107,41 @@ public class DebugPanel : MonoBehaviour
         GameManager.Instance.Stats.Get(StatType.Money).SetBaseValue(-1000);
         GameManager.Instance.GameLoopManager.EndGame();
     }
+    
+    private void ExportState()
+    {
+        if (gameManager == null) return;
+
+        // Create a serializable container for the data
+        GameStateExport exportData = new GameStateExport
+        {
+            ActiveInfrastructure = gameManager.ActiveInfrastructure.Select(i => i.data).ToList(),
+            NetworkPacketDatas = gameManager.NetworkPacketDatas
+        };
+
+        // Serialize to JSON using Unity's built-in utility
+        string json = JsonUtility.ToJson(exportData, true);
+
+        // Define file path using a platform-agnostic directory
+        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string fileName = $"GameState__{timestamp}.json";
+        string filePath = Path.Combine(Application.persistentDataPath, fileName);
+
+        try
+        {
+            File.WriteAllText(filePath, json);
+            Debug.Log($"Game state exported to: {filePath}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to export game state: {e.Message}");
+        }
+    }
+}
+
+[System.Serializable]
+public class GameStateExport
+{
+    public List<InfrastructureData> ActiveInfrastructure;
+    public List<NetworkPacketData> NetworkPacketDatas;
 }

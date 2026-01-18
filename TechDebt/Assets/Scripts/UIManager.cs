@@ -13,6 +13,7 @@ using System.Linq;
 using Stats;
 using static NPCTask;
 using Events;
+using Infrastructure;
 using UI;
 using UnityEngine.Serialization;
 
@@ -82,7 +83,7 @@ public class UIManager : MonoBehaviour
     // Tech Tree
     private Transform techTreeContent;
 
-    private InfrastructureInstance _selectedInfrastructure;
+    private WorldObjectBase _selectedWorldObject;
     private Items.ItemBase _selectedItem;
     private NPCDevOps _selectedNPC;
 
@@ -262,14 +263,18 @@ public class UIManager : MonoBehaviour
 
     private void UpdateInfrastructureDetailPanel()
     {
-        if (_selectedInfrastructure == null) return;
-
-        string content = $"<b>{_selectedInfrastructure.data.DisplayName}</b>\n";
-        content += $"Type: {_selectedInfrastructure.data.Type}\n";
-        content += $"State: {_selectedInfrastructure.data.CurrentState}\n\n";
+        if (_selectedWorldObject == null) return;
+        InfrastructureInstance infra = _selectedWorldObject.GetComponent<InfrastructureInstance>();
+        if (infra != null)
+        {
+            _infrastructureDetailText.text = _selectedWorldObject.name;
+        }
+        string content = $"<b>{infra.data.DisplayName}</b>\n";
+        content += $"Type: {infra.data.Type}\n";
+        content += $"State: {infra.data.CurrentState}\n\n";
 
         content += "<b>Stats:</b>\n";
-        foreach (var stat in _selectedInfrastructure.data.Stats.Stats.Values)
+        foreach (var stat in infra.data.Stats.Stats.Values)
         {
             content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
             if (stat.Modifiers.Count > 0)
@@ -283,13 +288,13 @@ public class UIManager : MonoBehaviour
         }
 
         content += "\n<b>Connections:</b>\n";
-        if (_selectedInfrastructure.CurrConnections.Count == 0)
+        if (infra.CurrConnections.Count == 0)
         {
             content += "No active connections.";
         }
         else
         {
-            foreach (var kvp in _selectedInfrastructure.CurrConnections)
+            foreach (var kvp in infra.CurrConnections)
             {
                 content += $"- <b>{kvp.Key}:</b> ";
                 content += string.Join(", ", kvp.Value.Select(conn => conn.TargetID));
@@ -856,23 +861,13 @@ public class UIManager : MonoBehaviour
             _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
             _infrastructureDetailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
         }
-
-        _planBuildButton = uiPanel
-            .AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(_selectedInfrastructure)).button;
-        _planBuildButton.gameObject.SetActive(false);
-
-        _upsizeButton = uiPanel.AddButton("Upsize", () =>
-        {
-            /* Temp action */
-        }).button;
-        _downsizeButton = uiPanel.AddButton("Downsize", () =>
-        {
-            /* Temp action */
-        }).button;
-
-        _upsizeButton.gameObject.SetActive(false);
-        _downsizeButton.gameObject.SetActive(false);
-
+        /*InfrastructureInstance infra = _selectedWorldObject.GetComponent<InfrastructureInstance>();
+        if (infra != null) {
+            _planBuildButton = uiPanel
+                .AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(infra)).button;
+            _planBuildButton.gameObject.SetActive(false);
+        }*/
+        
         infrastructureDetailPanel.SetActive(false);
     }
 
@@ -962,9 +957,9 @@ public class UIManager : MonoBehaviour
 
     
 
-    public void ShowInfrastructureDetail(InfrastructureInstance instance)
+    public void ShowWorldObjectDetail(WorldObjectBase instance)
     {
-        _selectedInfrastructure = instance;
+        _selectedWorldObject = instance;
         infrastructureDetailPanel.SetActive(true);
         UIPanel uiPanel = infrastructureDetailPanel.GetComponent<UIPanel>();
 
@@ -975,13 +970,10 @@ public class UIManager : MonoBehaviour
         }
         _taskButtons.Clear();
 
-        // Hide static buttons that are no longer used.
-        _planBuildButton.gameObject.SetActive(false);
-        _upsizeButton.gameObject.SetActive(false);
-        _downsizeButton.gameObject.SetActive(false);
+   
         
-        var tasks = _selectedInfrastructure.GetAvailableTasks();
-        foreach (var task in tasks)
+        List<NPCTask> tasks = _selectedWorldObject.GetAvailableTasks();
+        foreach (NPCTask task in tasks)
         {
             NPCTask localTask = task; // Local copy for the closure
             var newButton = uiPanel.AddButton(task.GetAssignButtonText(), () =>
@@ -995,7 +987,7 @@ public class UIManager : MonoBehaviour
 
     public void HideInfrastructureDetail()
     {
-        _selectedInfrastructure = null;
+        _selectedWorldObject = null;
         infrastructureDetailPanel.SetActive(false);
     }
 

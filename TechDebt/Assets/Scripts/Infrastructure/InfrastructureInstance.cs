@@ -4,13 +4,14 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using Infrastructure;
 using MetaChallenges;using NPCs;
 using NUnit.Framework;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
 
-public class InfrastructureInstance : MonoBehaviour, iTraitSource,   IPointerClickHandler
+public class InfrastructureInstance : WorldObjectBase
 {
     public Color startcolor;
     public InfrastructureData data;
@@ -87,18 +88,7 @@ public class InfrastructureInstance : MonoBehaviour, iTraitSource,   IPointerCli
     }
     */
 
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-
-
-        // This is where the tooltip logic should be handled.
-        // We find the UIManager and tell it to show the tooltip for this specific instance.
-        UIManager uiManager = GameManager.Instance.UIManager;
-        if (uiManager != null)
-        {
-            uiManager.ShowInfrastructureDetail(this);
-        }
-    }
+  
 
   
 
@@ -481,7 +471,7 @@ public Transform GetTransform()
         }
     }
 
-    public virtual List<NPCTask> GetAvailableTasks()
+    public override List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = new List<NPCTask>();
         switch (data.CurrentState)
