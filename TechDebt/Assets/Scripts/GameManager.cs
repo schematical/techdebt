@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public TutorialEvent Tutorial;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
-    public ModifierCollection Modifiers { get; set; }
+    public ModifierCollection Modifiers { get; set; } = new  ModifierCollection();
 
 
     // --- Item Spawning ---
@@ -940,6 +940,19 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        return results;
+    }
+
+    public List<InfrastructureInstance> GetInfrastructureInstancesByType(Type type)
+    {
+        List<InfrastructureInstance> results = new List<InfrastructureInstance>();
+        foreach (InfrastructureInstance instance in ActiveInfrastructure)
+        {
+            if (instance.GetType() == type)
+            {
+                results.Add(instance);
+            }
+        }
         return results;
     }
 }

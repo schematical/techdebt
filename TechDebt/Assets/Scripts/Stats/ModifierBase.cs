@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrastructure;
 using JetBrains.Annotations;
 using Stats;
+using UnityEngine;
 
 namespace NPCs
 {
@@ -15,7 +16,8 @@ namespace NPCs
         {
             NPC_Stat,
             NPC_InfraStat,
-            Infra_NetworkPacketStat
+            Infra_NetworkPacketStat,
+            Run_Stat
         }
         public enum ModifierTarget
         {
@@ -50,7 +52,7 @@ namespace NPCs
             return (float)Math.Pow(BaseValue, Level + offsetLevel);
         }
 
-        public void Apply([CanBeNull] NPCDevOps npc)
+        public void Apply(NPCDevOps npc = null)
         {
             switch (Type)
             {
@@ -71,8 +73,31 @@ namespace NPCs
                         GetScaledValue(),
                         this
                     );
-                    GameManager.Instance.GetInfrastructureInstanceByClass<this.InfraClassName>();
-                    npc.Stats.AddModifier(StatType, StatModifier); 
+                    List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
+                    foreach (InfrastructureInstance inst in instances)
+                    {
+                        foreach (InfrastructureDataNetworkPacket networkPacketData in inst.data.networkPackets)
+                        {
+                            if (networkPacketData.PacketType == NetworkPacketType)
+                            {
+                                foreach (StatType key in networkPacketData.Stats.Stats.Keys)
+                                {
+                                    Debug.Log($"networkPacketData.Stats {StatType} ???? {key} - {networkPacketData.Stats.Stats[key].Value}");
+                                }
+                             
+                                networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
+                            }
+                        }
+                    }
+                    break;
+                case(ModifierType.Run_Stat):
+                    StatModifier = new StatModifier(
+                        StatModifier.ModifierType.Multiply,
+                        GetScaledValue(),
+                        this
+                    );
+                    GameManager.Instance.Stats.AddModifier(StatType, StatModifier);
+                    
                     break;
             }
         }

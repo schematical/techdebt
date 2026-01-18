@@ -20,8 +20,8 @@ namespace Infrastructure
              Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
          
            GameManager.Instance.UIManager.MultiSelectPanel.Display(
-               "One of your team has leveled up!",
-               "Choose a bonus to be applied to your DevOps Engineer"
+               "Select a release focus.",
+               "Your team will start working towards a feature that will reward you once deployed."
            );
            int saftyCheck = 0;
            List<ModifierBase> traits = new List<ModifierBase>();
@@ -36,7 +36,7 @@ namespace Infrastructure
            )
            {
                saftyCheck++;
-               ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.NPC);
+               ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.Release);
                if (traits.Find((t) => t.Id == modifierBase.Id) != null)
                {
                    continue;

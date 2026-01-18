@@ -40,15 +40,14 @@ namespace Stats
 
         public void AddModifier(StatType statType, StatModifier modifier)
         {
-            if (Stats.TryGetValue(statType, out var statData))
+            if (!Stats.ContainsKey(statType))
             {
-                statData.Modifiers.Add(modifier);
-                statData.UpdateValue();
+                throw new SystemException($"StatsCollection: StatType `{statType}` does not exist ");
             }
-            else
-            {
-                throw new SystemException($"StatsCollection: StatType does not exist {statType}");
-            }
+          
+            Stats[statType].Modifiers.Add(modifier);
+            Stats[statType].UpdateValue();
+            
         }
 
         public bool RemoveModifier(StatType statType, StatModifier modifier)

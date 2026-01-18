@@ -446,6 +446,7 @@ public static class MetaGameManager
             {
                 Group = ModifierBase.ModifierGroup.Release,
                 Target = ModifierBase.ModifierTarget.InfraClass,
+                Type = ModifierBase.ModifierType.Infra_NetworkPacketStat,
                 Id = "image_optimization",
                 Name = "Image Optimization",
                 StatType = StatType.Infra_LoadPerPacket,
@@ -457,6 +458,7 @@ public static class MetaGameManager
             {
                 Group = ModifierBase.ModifierGroup.Release,
                 Target = ModifierBase.ModifierTarget.InfraClass,
+                Type = ModifierBase.ModifierType.Infra_NetworkPacketStat,
                 Id = "db_optimization",
                 Name = "Relational Database Design",
                 StatType = StatType.Infra_LoadPerPacket,
@@ -468,6 +470,7 @@ public static class MetaGameManager
             {
                 Group = ModifierBase.ModifierGroup.Release,
                 Target = ModifierBase.ModifierTarget.Run,
+                Type = ModifierBase.ModifierType.Run_Stat,
                 Id = "sale_page_optimization",
                 Name = "Sales Page Optimization",
                 StatType = StatType.DailyIncome,
