@@ -881,37 +881,37 @@ public class GameManager : MonoBehaviour
         Debug.Log($"InvokeReleaseChanged: {releaseBase.GetVersionString()} - {state}");
         OnReleaseChanged?.Invoke(releaseBase, state);
     }
-    public NPCTrait GetRandomNPCTrait()
+    public ModifierBase GetRandomNPCTrait()
     {
         int i = Random.Range(0, 3);
         switch (i)
         {
             case(0):
-                return new NPCTrait()
+                return new ModifierBase()
                 {
                     Id = "finops_expert",
                     Name = "FinOps Expert",
                     StatType = StatType.Infra_DailyCost,
-                    Type = NPCTrait.TraitType.InfraStat,
+                    Type = ModifierBase.ModifierType.InfraStat,
                     BaseValue = 0.9f
                 };
             case(1): 
-                return new NPCTrait()
+                return new ModifierBase()
                 {
                     Id = "devops_expert",
                     Name = "DevOps Expert",
                     StatType = StatType.Infra_LoadRecoveryRate,
-                    Type = NPCTrait.TraitType.InfraStat
+                    Type = ModifierBase.ModifierType.InfraStat
                 };
             case(2):
-                return new NPCTrait()
+                return new ModifierBase()
                 {
                     Id = "fast_worker",
                     Name = "Fast Worker",
                     StatType = StatType.NPC_BuildSpeed,
                 };
             case(3):
-                return new NPCTrait()
+                return new ModifierBase()
                 {
                     Id = "fast_researcher",
                     Name = "Fast Researcher",

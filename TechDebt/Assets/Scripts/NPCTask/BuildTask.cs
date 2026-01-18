@@ -62,15 +62,15 @@ public class BuildTask : NPCTask
     public override void OnEnd(NPCBase npc)
     {
         NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
-        foreach (NPCTrait npcTrait in npcDevOps.Traits)
+        foreach (ModifierBase modifier in npcDevOps.Modifiers.Modifiers)
         {
-            if (npcTrait.Type == NPCTrait.TraitType.InfraStat)
+            if (modifier.Type == ModifierBase.ModifierType.InfraStat)
             {
-                StatModifier existingStatModifier = TargetInfrastructure.data.Stats.Stats[npcTrait.StatType].Modifiers
-                    .Find((statModifier => statModifier.Source == npcTrait));
+                StatModifier existingStatModifier = TargetInfrastructure.data.Stats.Stats[modifier.StatType].Modifiers
+                    .Find((statModifier => statModifier.Source == modifier));
                 if(existingStatModifier == null)  {
-                    TargetInfrastructure.data.Stats.AddModifier(npcTrait.StatType, new StatModifier(StatModifier.ModifierType.Multiply, npcTrait.GetScaledValue(), npcTrait));
-                    GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${npcTrait.StatType} x {Math.Round(npcTrait.GetScaledValue() * 100)}%",
+                    TargetInfrastructure.data.Stats.AddModifier(modifier.StatType, new StatModifier(StatModifier.ModifierType.Multiply, modifier.GetScaledValue(), modifier));
+                    GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${modifier.StatType} x {Math.Round(modifier.GetScaledValue() * 100)}%",
                         TargetInfrastructure.transform.position);
                 }
                 else

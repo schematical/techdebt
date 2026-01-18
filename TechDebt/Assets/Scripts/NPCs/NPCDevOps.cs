@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 public class NPCDevOps : NPCBase, IPointerClickHandler
 {
     public NPCDevOpsData Data { get; private set; }
-    public List<NPCTrait> Traits { get; private set; } = new List<NPCTrait>();
+    public ModifierCollection Modifiers = new ModifierCollection(); // List<ModifierBase> Traits { get; private set; } = new List<ModifierBase>();
     public int level = 1;
     public int lastDisplayXP = 0;
     public float currentXP = 0;
@@ -66,9 +66,9 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
                "Choose a bonus to be applied to your DevOps Engineer"
            );
            int saftyCheck = 0;
-           List<NPCTrait> traits = new List<NPCTrait>();
+           List<ModifierBase> traits = new List<ModifierBase>();
            int optionCount = 3;
-           if (Traits.Count >= Stats.GetStatValue(StatType.NPC_TraitSlots))
+           if (Modifiers.Modifiers.Count >= Stats.GetStatValue(StatType.NPC_TraitSlots))
            {
                optionCount = (int)Stats.GetStatValue(StatType.NPC_TraitSlots);
            }
@@ -78,43 +78,43 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            )
            {
                saftyCheck++;
-               NPCTrait trait = GameManager.Instance.GetRandomNPCTrait();
-               if (traits.Find((t) => t.Id == trait.Id) != null)
+               ModifierBase modifierBase = GameManager.Instance.GetRandomNPCTrait();
+               if (traits.Find((t) => t.Id == modifierBase.Id) != null)
                {
                    continue;
                }
-               NPCTrait existingTrait = Traits.Find((t) => t.Id == trait.Id);
+               ModifierBase existingModifierBase = Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
                // Debug.Log($"TraitTest: {existingTrait != null} && {Traits.Count} < {Stats.GetStatValue(StatType.NPC_TraitSlots)}");
                if (
-                   existingTrait == null
+                   existingModifierBase == null
                    
                ) {
-                   if (Traits.Count < Stats.GetStatValue(StatType.NPC_TraitSlots))
+                   if (Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_TraitSlots))
                    {
-                       traits.Add(trait);
+                       traits.Add(modifierBase);
                        GameManager.Instance.UIManager.MultiSelectPanel.Add(
-                               trait.Id,
+                               modifierBase.Id,
                                sprite,
-                               trait.GetDisplayText()
+                               modifierBase.GetDisplayText()
                            )
                            .OnClick((string id) =>
                            {
-                               AddTrait(trait);
+                               AddModifier(modifierBase);
                                GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                            });
                    }
                }
                else
                {
-                   traits.Add(existingTrait);
+                   traits.Add(existingModifierBase);
                    GameManager.Instance.UIManager.MultiSelectPanel.Add(
-                           existingTrait.Id, 
+                           existingModifierBase.Id, 
                            sprite, 
-                           existingTrait.GetDisplayText(1) 
+                           existingModifierBase.GetDisplayText(1) 
                        )
                        .OnClick((string id) =>
                        {
-                           LevelUpTrait(existingTrait);
+                           LevelUpTrait(existingModifierBase);
                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                        });
                }
@@ -123,17 +123,17 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            }
        }
     }
-    public void AddTrait(NPCTrait trait)
+    public void AddModifier(ModifierBase modifierBase)
     {
-        Traits.Add(trait);
+        Modifiers.Modifiers.Add(modifierBase);
         if (GameManager.Instance.Tutorial != null)
         {
             GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
         }   
     }
-    public void LevelUpTrait(NPCTrait trait)
+    public void LevelUpTrait(ModifierBase modifierBase)
     {
-       trait.Level++; 
+       modifierBase.Level++; 
     }
     public override bool CanAssignTask(NPCTask task)
     {

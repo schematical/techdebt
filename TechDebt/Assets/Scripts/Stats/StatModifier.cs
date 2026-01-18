@@ -6,7 +6,7 @@ namespace Stats
     [Serializable]
     public class StatModifier
     {
-        public StatModifier(ModifierType type, float value, iTraitSource source = null)
+        public StatModifier(ModifierType type, float value, iModifierSource source = null)
         {
             Type = type;
             Value = value;

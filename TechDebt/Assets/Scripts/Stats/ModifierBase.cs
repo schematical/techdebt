@@ -4,12 +4,12 @@ using Stats;
 
 namespace NPCs
 {
-    public class NPCTrait: iTraitSource
+    public class ModifierBase: iModifierSource
     {
        
         
 
-        public enum TraitType
+        public enum ModifierType
         {
             NPCStat,
             InfraStat
@@ -22,9 +22,9 @@ namespace NPCs
 
         public float BaseValue { get; set; } = 1.1f;
         
-        public TraitType Type { get; set; } =  TraitType.NPCStat;
+        public ModifierType Type { get; set; } =  ModifierType.NPCStat;
         
-        public StatModifier NPCStatModifier { get; private set; }
+        public StatModifier StatModifier { get; private set; }
 
         public float GetScaledValue(int offsetLevel = 0)
         {
@@ -35,15 +35,15 @@ namespace NPCs
         {
             switch (Type)
             {
-                case(TraitType.NPCStat):
-                    NPCStatModifier = new StatModifier(
+                case(ModifierType.NPCStat):
+                    StatModifier = new StatModifier(
                         StatModifier.ModifierType.Multiply,
                         GetScaledValue(),
                         this
                     );
-                    npc.Stats.AddModifier(StatType, NPCStatModifier); 
+                    npc.Stats.AddModifier(StatType, StatModifier); 
                     break;
-                case(TraitType.InfraStat):
+                case(ModifierType.InfraStat):
                     
                     break;
             }

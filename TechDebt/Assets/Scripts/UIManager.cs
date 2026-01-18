@@ -330,9 +330,9 @@ public class UIManager : MonoBehaviour
         }
         
         content += "<b>Traits:</b>\n";
-        if (_selectedNPC.Traits.Any())
+        if (_selectedNPC.Modifiers.Modifiers.Any())
         {
-            foreach (var trait in _selectedNPC.Traits)
+            foreach (var trait in _selectedNPC.Modifiers.Modifiers)
             {
                 content += $"- {trait.Name} - Lvl: {trait.Level}\n";
             }

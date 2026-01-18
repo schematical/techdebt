@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Infrastructure
 {
-    public class WorldObjectBase: MonoBehaviour, iTraitSource,   IPointerClickHandler
+    public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler
     {
         public virtual void OnPointerClick(PointerEventData eventData)
         {

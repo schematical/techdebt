@@ -1,6 +1,6 @@
 namespace NPCs
 {
-    public interface iTraitSource
+    public interface iModifierSource
     {
         
     }
