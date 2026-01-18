@@ -942,4 +942,22 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public List<ReleaseBase> GetOpenReleases()
+    {
+        List<ReleaseBase> releases = new List<ReleaseBase>();
+        foreach (ReleaseBase release in Releases)
+        {
+            switch (release.State)
+            {
+                case(ReleaseBase.ReleaseState.DeploymentCompleted):
+                case(ReleaseBase.ReleaseState.Failed):
+                    break;
+                default:
+                    releases.Add(release);
+                    break;
+            }
+        }
+        return releases;
+    }
 }

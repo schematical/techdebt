@@ -1,11 +1,12 @@
 ﻿using System;
+using NPCs;
 
 namespace Stats
 {
     [Serializable]
     public class StatModifier
     {
-        public StatModifier(ModifierType type, float value, object source = null)
+        public StatModifier(ModifierType type, float value, iTraitSource source = null)
         {
             Type = type;
             Value = value;

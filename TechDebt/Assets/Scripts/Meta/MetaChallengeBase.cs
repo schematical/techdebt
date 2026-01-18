@@ -12,7 +12,8 @@ namespace MetaChallenges
         public enum MetaChallengeRewardType
         {
             Technology,
-            StartingStatValue
+            StartingStatValue,
+            ReleaseReward
         }
         
         public string ChallengeID; // Unique identifier

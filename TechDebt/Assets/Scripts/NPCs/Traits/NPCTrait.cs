@@ -4,7 +4,7 @@ using Stats;
 
 namespace NPCs
 {
-    public class NPCTrait
+    public class NPCTrait: iTraitSource
     {
        
         

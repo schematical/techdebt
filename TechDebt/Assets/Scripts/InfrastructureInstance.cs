@@ -4,14 +4,13 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using MetaChallenges;
+using MetaChallenges;using NPCs;
 using NUnit.Framework;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
 
-public class InfrastructureInstance : MonoBehaviour, /*IPointerEnterHandler, IPointerExitHandler, */
-    IPointerClickHandler
+public class InfrastructureInstance : MonoBehaviour, iTraitSource,   IPointerClickHandler
 {
     public Color startcolor;
     public InfrastructureData data;

@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using MetaChallenges;
+using Release;
 
 public static class MetaGameManager
 {
@@ -365,5 +366,14 @@ public static class MetaGameManager
         };
         
         return challenges;
+    }
+
+    public static List<ReleaseRewardBase> GetAllReleaseRewards()
+    {
+        return new List<ReleaseRewardBase>()
+        {
+            new ImageOptimizationReward()
+            
+        };
     }
 }
