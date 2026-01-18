@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Stats
 {
@@ -40,8 +41,16 @@ namespace Stats
 
         public void AddModifier(StatType statType, StatModifier modifier)
         {
+            foreach (StatType key in Stats.Keys)
+            {
+                Debug.Log($"networkPacketData.Stats  ???? {key} - {Stats[key].Value}");
+            }
             if (!Stats.ContainsKey(statType))
             {
+                foreach (StatType key in Stats.Keys)
+                {
+                    Debug.LogError($"networkPacketData.Stats  ???? {key} - {Stats[key].Value}");
+                }
                 throw new SystemException($"StatsCollection: StatType `{statType}` does not exist ");
             }
           

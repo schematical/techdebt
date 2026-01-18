@@ -80,11 +80,7 @@ namespace NPCs
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-                                foreach (StatType key in networkPacketData.Stats.Stats.Keys)
-                                {
-                                    Debug.Log($"networkPacketData.Stats {StatType} ???? {key} - {networkPacketData.Stats.Stats[key].Value}");
-                                }
-                             
+
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }
