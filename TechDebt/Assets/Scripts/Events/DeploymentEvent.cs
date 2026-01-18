@@ -45,7 +45,7 @@ namespace Events
             bool hasOperationalServers = false;
             foreach (var infra in GameManager.Instance.ActiveInfrastructure)
             {
-                if (infra.GetComponent<Server>() != null && infra.IsActive())
+                if (infra.GetComponent<ApplicationServer>() != null && infra.IsActive())
                 {
                     hasOperationalServers = true;
                     break;

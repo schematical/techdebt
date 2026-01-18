@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using NPCs;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Infrastructure
@@ -14,8 +16,68 @@ namespace Infrastructure
                 return;
             }
             GameManager.Instance.UIManager.MultiSelectPanel.Clear();
-            // GameManager.Instance.UIManager.MultiSelectPanel.Clear();
-            // MetaGameManager.G
+         
+             Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+         
+           GameManager.Instance.UIManager.MultiSelectPanel.Display(
+               "One of your team has leveled up!",
+               "Choose a bonus to be applied to your DevOps Engineer"
+           );
+           int saftyCheck = 0;
+           List<ModifierBase> traits = new List<ModifierBase>();
+           int optionCount = 3;
+           /*if (GameManager.Instance.Modifiers.Modifiers.Count >= GameManager.Stats.GetStatValue(StatType.NPC_ModifierSlots))
+           {
+               optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
+           }*/
+           while (
+               saftyCheck < 20 &&
+               traits.Count < optionCount
+           )
+           {
+               saftyCheck++;
+               ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.NPC);
+               if (traits.Find((t) => t.Id == modifierBase.Id) != null)
+               {
+                   continue;
+               }
+               ModifierBase existingModifierBase = GameManager.Instance.Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
+               // Debug.Log($"TraitTest: {existingTrait != null} && {Traits.Count} < {Stats.GetStatValue(StatType.NPC_TraitSlots)}");
+               if (
+                   existingModifierBase == null
+                   
+               ) {
+                   /*if (GameManager.Instance.Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
+                   {*/
+                       traits.Add(modifierBase);
+                       GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                               modifierBase.Id,
+                               sprite,
+                               modifierBase.GetDisplayText()
+                           )
+                           .OnClick((string id) =>
+                           {
+                               GameManager.Instance.AddModifier(modifierBase);
+                               GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                           });
+                   //}
+               }
+               else
+               {
+                   traits.Add(existingModifierBase);
+                   GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                           existingModifierBase.Id, 
+                           sprite, 
+                           existingModifierBase.GetDisplayText(1) 
+                       )
+                       .OnClick((string id) =>
+                       {
+                           existingModifierBase.LevelUp();
+                           GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                       });
+               }
+              
+           }
             
         }
     }

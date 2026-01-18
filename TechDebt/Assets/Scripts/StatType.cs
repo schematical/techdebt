@@ -36,7 +36,7 @@ public enum StatType
     NPC_LearningSpeed,
     NPC_BuildSpeed,
     NPC_ResearchSpeed,
-    NPC_TraitSlots,
+    NPC_ModifierSlots,
     
     Infra_MaxSize
     

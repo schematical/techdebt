@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
-
+using Infrastructure;
 using MetaChallenges;
 using NPCs;
 using UnityEngine;
@@ -372,21 +372,22 @@ public static class MetaGameManager
         return challenges;
     }
 
-    public static ModifierBase GetRandomModifier(ModifierBase.ModifierTarget target)
+    public static ModifierBase GetRandomModifier(ModifierBase.ModifierGroup group)
     {
-        List<ModifierBase> modifiers = GetModifierByTarget(target);
+        List<ModifierBase> modifiers = GetModifierByGroup(group);
  
         int i = Random.Range(0, modifiers.Count);
         return modifiers[i];
     }  
-    public static List<ModifierBase> GetModifierByTarget(ModifierBase.ModifierTarget target)
+    public static List<ModifierBase> GetModifierByGroup(ModifierBase.ModifierGroup group)
     {
         List<ModifierBase> modifiers = GetAllModifiers();
         List<ModifierBase> foundModifiers = new List<ModifierBase>();
         foreach (ModifierBase modifier in modifiers)
         {
-            if (modifier.Target == target)
+            if (modifier.Group == group)
             {
+                //TODO: Check if Meta Unlocked
                 foundModifiers.Add(modifier);
             }
         }
@@ -427,7 +428,53 @@ public static class MetaGameManager
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
                 StatType = StatType.NPC_ResearchSpeed,
+            },
+            
+            /*
+             *
+             * MATTS NOTES:
+             * Release EFFECTS
+             * - Decreased Image Load Costs
+             * - Security bonuses
+             * - Network Packet Load Costs
+             * - A/B testing, Sales Page updates, Shopping cart enhancement, Daily Income Bonus
+             * - Disk Space Bonus
+             * - Documentation - Makes it easier for new NPCS to learn infra.
+             * - Cross Training - Requires 2 NPCS or more - Enhances NPCs knowledge, prevents knowledge silo events.
+             */
+             new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.InfraClass,
+                Id = "image_optimization",
+                Name = "Image Optimization",
+                StatType = StatType.Infra_LoadPerPacket,
+                NetworkPacketType = NetworkPacketData.PType.Image,
+                BaseValue = 0.75f,
+                InfraClassName = typeof(ApplicationServer)
+            },
+            new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.InfraClass,
+                Id = "db_optimization",
+                Name = "Relational Database Design",
+                StatType = StatType.Infra_LoadPerPacket,
+                NetworkPacketType = NetworkPacketData.PType.Text,
+                BaseValue = 0.75f,
+                InfraClassName = typeof(Database)
+            },
+            new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.Run,
+                Id = "sale_page_optimization",
+                Name = "Sales Page Optimization",
+                StatType = StatType.DailyIncome,
+                NetworkPacketType = NetworkPacketData.PType.Text,
+                BaseValue = 1.1f,
             }
+            
         };
     }
 }

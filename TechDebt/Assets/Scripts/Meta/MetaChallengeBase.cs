@@ -13,7 +13,7 @@ namespace MetaChallenges
         {
             Technology,
             StartingStatValue,
-            ReleaseReward
+            Modifier
         }
         
         public string ChallengeID; // Unique identifier

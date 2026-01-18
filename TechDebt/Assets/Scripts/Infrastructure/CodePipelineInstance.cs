@@ -92,9 +92,9 @@ public class CodePipelineInstance : InfrastructureInstance
     {
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {
-            Server server = infra.GetComponent<Server>();
+            ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
             if (
-                server == null ||
+                applicationServer == null ||
                 !infra.IsActive()
             )
             {

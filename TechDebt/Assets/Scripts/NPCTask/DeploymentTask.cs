@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class DeploymentTask : NPCTask
 {
-    public Server TargetInfrastructure { get; }
+    public ApplicationServer TargetInfrastructure { get; }
     private float deploymentProgress = 0f;
     private const float DeploymentTime = 5f; // Time in seconds to complete deployment
     private ReleaseBase _release;
 
-    public DeploymentTask(Server target, ReleaseBase release) : base(target.transform.position)
+    public DeploymentTask(ApplicationServer target, ReleaseBase release) : base(target.transform.position)
     {
         TargetInfrastructure = target;
         Priority = 4;

@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using Effects;
 using Events;
+using Infrastructure;
 using Items;
 using MetaChallenges;
 using NPCs;
@@ -64,8 +65,9 @@ public class GameManager : MonoBehaviour
     public TutorialEvent Tutorial;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
-    
-    
+    public ModifierCollection Modifiers { get; set; }
+
+
     // --- Item Spawning ---
     private float _itemDropTimer;
 
@@ -918,5 +920,26 @@ public class GameManager : MonoBehaviour
             }
         }
         return releases;
+    }
+
+    public void AddModifier(ModifierBase modifierBase)
+    {
+        Modifiers.Modifiers.Add(modifierBase);
+        modifierBase.Apply();
+    }
+
+    public List<T> GetInfrastructureInstanceByClass<T>()
+    {
+        List<T> results = new List<T>();
+        foreach (WorldObjectBase wo in ActiveInfrastructure)
+        {
+            T component = wo.GetComponent<T>();
+            if (component != null)
+            {
+                results.Add(component);
+            }
+        }
+
+        return results;
     }
 }

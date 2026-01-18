@@ -21,7 +21,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         Data = data;
         gameObject.name = $"NPCDevOps_{Data.Name}";
         base.Initialize();
-        Stats.Add(new StatData(StatType.NPC_TraitSlots, 1));
+        Stats.Add(new StatData(StatType.NPC_ModifierSlots, 1));
         
     }
     
@@ -68,9 +68,9 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            int saftyCheck = 0;
            List<ModifierBase> traits = new List<ModifierBase>();
            int optionCount = 3;
-           if (Modifiers.Modifiers.Count >= Stats.GetStatValue(StatType.NPC_TraitSlots))
+           if (Modifiers.Modifiers.Count >= Stats.GetStatValue(StatType.NPC_ModifierSlots))
            {
-               optionCount = (int)Stats.GetStatValue(StatType.NPC_TraitSlots);
+               optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
            }
            while (
                saftyCheck < 20 &&
@@ -78,7 +78,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            )
            {
                saftyCheck++;
-               ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierTarget.NPC);
+               ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.NPC);
                if (traits.Find((t) => t.Id == modifierBase.Id) != null)
                {
                    continue;
@@ -89,7 +89,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
                    existingModifierBase == null
                    
                ) {
-                   if (Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_TraitSlots))
+                   if (Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                    {
                        traits.Add(modifierBase);
                        GameManager.Instance.UIManager.MultiSelectPanel.Add(
@@ -114,7 +114,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
                        )
                        .OnClick((string id) =>
                        {
-                           LevelUpTrait(existingModifierBase);
+                           existingModifierBase.LevelUp();
                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                        });
                }
@@ -131,10 +131,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
             GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
         }   
     }
-    public void LevelUpTrait(ModifierBase modifierBase)
-    {
-       modifierBase.Level++; 
-    }
+    
     public override bool CanAssignTask(NPCTask task)
     {
         return task.Role == NPCTask.TaskRole.DevOps;

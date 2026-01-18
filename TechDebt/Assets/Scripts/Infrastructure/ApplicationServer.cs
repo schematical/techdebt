@@ -5,7 +5,7 @@ using Stats;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Server : InfrastructureInstance
+public class ApplicationServer : InfrastructureInstance
 {
     
 

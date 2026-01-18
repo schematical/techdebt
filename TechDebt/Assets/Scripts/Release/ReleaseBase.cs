@@ -1,18 +1,7 @@
 ﻿
 public class ReleaseBase
 {
-    /*
-     *
-     * MATTS NOTES:
-     * DEPLOYMENT EFFECTS
-     * - Decreased Image Load Costs
-     * - Security bonuses
-     * - Network Packet Load Costs
-     * - A/B testing, Sales Page updates, Shopping cart enhancement, Daily Income Bonus
-     * - Disk Space Bonus
-     * - Documentation - Makes it easier for new NPCS to learn infra.
-     * - Cross Training - Requires 2 NPCS or more - Enhances NPCs knowledge, prevents knowledge silo events.
-     */
+
     public static int GlobalVersion = 0;
     public enum ReleaseState
     {
@@ -42,10 +31,10 @@ public class ReleaseBase
     {
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {
-            Server server = infra.GetComponent<Server>();
-            if (server != null && infra.data.CurrentState == InfrastructureData.State.Operational)
+            ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
+            if (applicationServer != null && infra.data.CurrentState == InfrastructureData.State.Operational)
             {
-                GameManager.Instance.AddTask(new DeploymentTask(server, this));
+                GameManager.Instance.AddTask(new DeploymentTask(applicationServer, this));
             }
         }
     }
@@ -59,9 +48,9 @@ public class ReleaseBase
             
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {
-            Server server = infra.GetComponent<Server>();
+            ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
             if (
-                server == null ||
+                applicationServer == null ||
                 !infra.IsActive()
             )
             {
