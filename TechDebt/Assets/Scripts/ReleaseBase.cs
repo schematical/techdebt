@@ -16,8 +16,12 @@ public class ReleaseBase
     public static int GlobalVersion = 0;
     public enum ReleaseState
     {
-        InProgress,
-        Completed,
+        InDevelopment,
+        InTesting,
+        InReview,
+        DeploymentReady,
+        DeploymentInProgress,
+        DeploymentCompleted,
         Failed
     }
     public string ServiceId { get; set; }
@@ -27,10 +31,10 @@ public class ReleaseBase
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
     // TODO: Optimized score, gives a latency bonus or a load bonus
-    public ReleaseState State { get; set; } = ReleaseState.InProgress;
+    public ReleaseState State { get; set; } = ReleaseState.InDevelopment;
     public ReleaseBase()
     {
-        SetState(ReleaseState.InProgress);
+        SetState(ReleaseState.InDevelopment);
     }
 
 
@@ -71,7 +75,7 @@ public class ReleaseBase
                 return false;
             }
         }
-        State  = ReleaseState.Completed;
+        State  = ReleaseState.DeploymentCompleted;
         GameManager.Instance.UIManager.ShowAlert($"Deployment {GetVersionString()} Complete");
         return true;
     }

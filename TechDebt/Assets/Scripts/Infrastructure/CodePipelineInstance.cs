@@ -37,7 +37,7 @@ public class CodePipelineInstance : InfrastructureInstance
             return;
         }
 
-        if (releaseBase.State != ReleaseBase.ReleaseState.InProgress)
+        if (releaseBase.State != ReleaseBase.ReleaseState.DeploymentInProgress)
         {
             return;
         }

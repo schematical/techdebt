@@ -5,6 +5,7 @@ namespace UI
     public class UIDeskMenuPanel: UIPanel
     {
         public Button researchButton;
+        public Button startReleaseButton;
 
         void Start()
         {

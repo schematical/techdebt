@@ -14,7 +14,7 @@ public class Server : InfrastructureInstance
         List<NPCTask> availableTasks = base.GetAvailableTasks();
         foreach (ReleaseBase deploymentBase in GameManager.Instance.Releases)
         {
-            if (deploymentBase.State == ReleaseBase.ReleaseState.InProgress)
+            if (deploymentBase.State == ReleaseBase.ReleaseState.DeploymentInProgress)
             {
                 availableTasks.Add(new DeploymentTask(this, deploymentBase));
             }

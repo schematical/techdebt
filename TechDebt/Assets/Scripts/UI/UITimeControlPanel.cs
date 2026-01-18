@@ -15,14 +15,8 @@ namespace UI
         void Start()
         {
             pauseButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScalePause);
-
-
             playButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScalePlay);
-
-
             fastForwardButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScaleFastForward);
-
-
             superFastForwardButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScaleSuperFastForward);
 
             UpdateTimeScaleButtons();
