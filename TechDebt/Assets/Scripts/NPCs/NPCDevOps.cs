@@ -146,7 +146,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         return 1f;
     }
     
-    public void OnBuildPhaseStart()
+    public void OnPlanPhaseStart()
     {
         if (CurrentTask != null)
         {

@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     public static event System.Action<Technology> OnTechnologyResearchStarted;
     public static event System.Action OnCurrentEventsChanged;
     
-    public static event System.Action<DeploymentBase, DeploymentBase.DeploymentState> OnDeploymentChanged;
+    public static event System.Action<ReleaseBase, ReleaseBase.ReleaseState> OnReleaseChanged;
     public static event System.Action<GameLoopManager.GameState> OnPhaseChange;
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     // --- Task Management ---
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
     public List<NPCBase> AllNpcs = new List<NPCBase>();
-    public List<DeploymentBase> Deployments = new List<DeploymentBase>();
+    public List<ReleaseBase> Releases = new List<ReleaseBase>();
     public void AddTask(NPCTask task)
     {
         AvailableTasks.Add(task);
@@ -308,13 +308,7 @@ public class GameManager : MonoBehaviour
     public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
     {
         OnInfrastructureStateChange?.Invoke(instance, previousState);
-        /*foreach (DeploymentBase deploymentBase in Deployments)
-        {
-            if (deploymentBase.State == DeploymentBase.DeploymentState.InProgress)
-            {
-                deploymentBase.CheckIsOver();
-            }
-        }*/
+        
 		foreach(var activeInfra in ActiveInfrastructure) {
 			activeInfra.OnInfrastructureStateChange(instance, previousState);
 		}
@@ -427,7 +421,7 @@ public class GameManager : MonoBehaviour
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         // --- Technology Debugging ---
         UIManager.SetupUIInfrastructure();
-        GameLoopManager.BeginBuildPhase();
+        GameLoopManager.BeginPlanPhase();
         
         // --- Item Spawning ---
         _itemDropTimer = GetStat(StatType.ItemDropCheck);
@@ -518,7 +512,7 @@ public class GameManager : MonoBehaviour
         
         Events.Add(new NothingEvent());
         Events.Add(new SlowSalesWeekEvent());
-        Events.Add(new DeploymentEvent());
+        // Events.Add(new DeploymentEvent());
         Events.Add(new AttackStartEvent());
         Events.Add(new DDoSEvent());
         Events.Add(new LeakedSecretEvent());
@@ -882,10 +876,10 @@ public class GameManager : MonoBehaviour
         OnPhaseChange?.Invoke(state);
     }
 
-    public void InvokeDeploymentChanged(DeploymentBase deploymentBase, DeploymentBase.DeploymentState state)
+    public void InvokeReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState state)
     {
-        Debug.Log($"InvokeDeploymentChanged: {deploymentBase.GetVersionString()} - {state}");
-        OnDeploymentChanged?.Invoke(deploymentBase, state);
+        Debug.Log($"InvokeReleaseChanged: {releaseBase.GetVersionString()} - {state}");
+        OnReleaseChanged?.Invoke(releaseBase, state);
     }
     public NPCTrait GetRandomNPCTrait()
     {

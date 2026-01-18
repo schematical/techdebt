@@ -10,7 +10,7 @@ public class GameLoopManager : MonoBehaviour
 {
 
 
-    public enum GameState { Build, Play, WaitingForNpcsToExpire, Summary }
+    public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary }
     public GameState CurrentState { get; private set; }
 
     public float dayDurationSeconds = 120f;
@@ -70,28 +70,28 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.ResetNPCs();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    public void BeginBuildPhase()
+    public void BeginPlanPhase()
     {
    
         Time.timeScale = 1f;
-        CurrentState = GameState.Build;
+        CurrentState = GameState.Plan;
         
         currentDay++;
 
         // Notify NPCs
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
         {
-            npc.OnBuildPhaseStart();
+            npc.OnPlanPhaseStart();
         }
         
       
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
-        GameManager.Instance.UIManager.ShowBuildUI();
+        GameManager.Instance.UIManager.ShowPlanUI();
     }
 
-    public void ForceBeginBuildPhase()
+    public void ForceBeginPlanPhase()
     {
         Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
         foreach (var npc in FindObjectsOfType<NPCDevOps>())
@@ -102,15 +102,12 @@ public class GameLoopManager : MonoBehaviour
                 npc.gameObject.SetActive(false);
             }
         }
-        BeginBuildPhase();
+        BeginPlanPhase();
     }
 
-    public void EndBuildPhaseAndStartPlayPhase()
-    {
-        BeginPlayPhase();
-    }
 
-    private void BeginPlayPhase()
+
+    public void BeginPlayPhase()
     {
         CurrentState = GameState.Play;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
@@ -128,7 +125,7 @@ public class GameLoopManager : MonoBehaviour
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
-        GameManager.Instance.UIManager.HideBuildUI();
+        GameManager.Instance.UIManager.HidePlanUI();
         
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
@@ -138,7 +135,7 @@ public class GameLoopManager : MonoBehaviour
             StatType.DailyIncome,
             new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
         );
-        GameManager.Instance.CheckEvents();
+        // GameManager.Instance.CheckEvents();
     }
 
     private void BeginSummaryPhase()

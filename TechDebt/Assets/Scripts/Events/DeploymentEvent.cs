@@ -6,8 +6,9 @@ namespace Events
     // TODO: Move this to something like a hotfix event or something.
     public class DeploymentEvent : EventBase
     {
+       
  
-        public DeploymentBase Deployment;
+        public ReleaseBase Release;
         public DeploymentEvent()
         {
             EventStartText = "New deployments are available!";
@@ -18,17 +19,17 @@ namespace Events
      
         public override void Apply()
         {
-            DeploymentBase.GlobalVersion += 1;
-            Deployment = new DeploymentBase()
+            ReleaseBase.GlobalVersion += 1;
+            Release = new ReleaseBase()
             {
                 ServiceId = "monolith",
-                Version = DeploymentBase.GlobalVersion,
+                Version = ReleaseBase.GlobalVersion,
             };
            
-            EventStartText = $"Deployments {Deployment.GetVersionString()} is ready to go live!";
+            EventStartText = $"Deployments {Release.GetVersionString()} is ready to go live!";
             base.Apply(); // Call base to trigger the alert
             
-            GameManager.Instance.Deployments.Add(Deployment);
+            GameManager.Instance.Releases.Add(Release);
             End();
 
         }

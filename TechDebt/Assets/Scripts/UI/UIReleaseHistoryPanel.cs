@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace UI
 {
-    public class UIDeploymentHistoryPanel: UIPanel
+    public class UIReleaseHistoryPanel: UIPanel
     {
 
         void OnEnable()
         {
-            GameManager.OnDeploymentChanged += HandleDeploymentChanged;
+            GameManager.OnReleaseChanged += HandleReleaseChanged;
             Refresh();
         }
 
         void OnDisable()
         {
-            GameManager.OnDeploymentChanged -= HandleDeploymentChanged;
+            GameManager.OnReleaseChanged -= HandleReleaseChanged;
         }
 
-        private void HandleDeploymentChanged(DeploymentBase deployment, DeploymentBase.DeploymentState prevState)
+        private void HandleReleaseChanged(ReleaseBase release, ReleaseBase.ReleaseState prevState)
         {
             Refresh();
         }
@@ -30,7 +30,7 @@ namespace UI
                 Destroy(child.gameObject);
             }
 
-            var deployments = GameManager.Instance.Deployments.ToList();
+            var deployments = GameManager.Instance.Releases.ToList();
             deployments.Reverse();
 
             foreach (var deployment in deployments)

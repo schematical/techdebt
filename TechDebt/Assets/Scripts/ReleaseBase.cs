@@ -1,8 +1,20 @@
 ﻿
-public class DeploymentBase
+public class ReleaseBase
 {
+    /*
+     *
+     * MATTS NOTES:
+     * DEPLOYMENT EFFECTS
+     * - Decreased Image Load Costs
+     * - Security bonuses
+     * - Network Packet Load Costs
+     * - A/B testing, Sales Page updates, Shopping cart enhancement, Daily Income Bonus
+     * - Disk Space Bonus
+     * - Documentation - Makes it easier for new NPCS to learn infra.
+     * - Cross Training - Requires 2 NPCS or more - Enhances NPCs knowledge, prevents knowledge silo events.
+     */
     public static int GlobalVersion = 0;
-    public enum DeploymentState
+    public enum ReleaseState
     {
         InProgress,
         Completed,
@@ -15,10 +27,10 @@ public class DeploymentBase
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
     // TODO: Optimized score, gives a latency bonus or a load bonus
-    public DeploymentState State { get; set; } = DeploymentState.InProgress;
-    public DeploymentBase()
+    public ReleaseState State { get; set; } = ReleaseState.InProgress;
+    public ReleaseBase()
     {
-        SetState(DeploymentState.InProgress);
+        SetState(ReleaseState.InProgress);
     }
 
 
@@ -59,17 +71,17 @@ public class DeploymentBase
                 return false;
             }
         }
-        State  = DeploymentState.Completed;
+        State  = ReleaseState.Completed;
         GameManager.Instance.UIManager.ShowAlert($"Deployment {GetVersionString()} Complete");
         return true;
     }
 
-    public void SetState(DeploymentState state)
+    public void SetState(ReleaseState state)
     {
-        DeploymentState prevState = State;
+        ReleaseState prevState = State;
         
         State = state;
-        GameManager.Instance.InvokeDeploymentChanged(this, prevState);
+        GameManager.Instance.InvokeReleaseChanged(this, prevState);
     }
 
     public float GetDuration()

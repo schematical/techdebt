@@ -7,7 +7,7 @@ using UnityEngine;
 public class CodePipelineInstance : InfrastructureInstance
 {
 
-    private DeploymentBase _currentDeployment;
+    private ReleaseBase _currentRelease;
     private float _deploymentProgress;
     private float _deploymentSpeed = 1f; // Adjust as needed
 
@@ -19,7 +19,7 @@ public class CodePipelineInstance : InfrastructureInstance
     {
         base.Initialize();
 
-        GameManager.OnDeploymentChanged += OnDeploymentChanged;
+        GameManager.OnReleaseChanged += ReleaseChanged;
     }
 
     public new void Start()
@@ -29,7 +29,7 @@ public class CodePipelineInstance : InfrastructureInstance
         
     }
 
-    public void OnDeploymentChanged(DeploymentBase deploymentBase, DeploymentBase.DeploymentState state)
+    public void ReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState state)
     {
 
         if (!IsActive())
@@ -37,28 +37,28 @@ public class CodePipelineInstance : InfrastructureInstance
             return;
         }
 
-        if (deploymentBase.State != DeploymentBase.DeploymentState.InProgress)
+        if (releaseBase.State != ReleaseBase.ReleaseState.InProgress)
         {
             return;
         }
         
-        _currentDeployment =  deploymentBase;
+        _currentRelease =  releaseBase;
         _deploymentProgress = 0;
         _targetServer = FindTargetServer();
     }
 
     private void Update()
     {
-        if (_currentDeployment != null)
+        if (_currentRelease != null)
         {
             _deploymentProgress += Time.deltaTime * _deploymentSpeed;
             if (_targetServer != null)
             {
-                int progress = (int)Math.Floor((_deploymentProgress / _currentDeployment.GetDuration() )  * 100);
+                int progress = (int)Math.Floor((_deploymentProgress / _currentRelease.GetDuration() )  * 100);
                 if (progress % 10 == 0 && lastDisplayedProgress != progress)
                 {
                     FloatingTextFactory.Instance.ShowText(
-                        $"Deploying {_currentDeployment.GetVersionString()} to {_targetServer.data.DisplayName}: {progress}%",
+                        $"Deploying {_currentRelease.GetVersionString()} to {_targetServer.data.DisplayName}: {progress}%",
                         transform.position
                     );
                     lastDisplayedProgress = progress;
@@ -66,9 +66,9 @@ public class CodePipelineInstance : InfrastructureInstance
                 
             }
             
-            if (_deploymentProgress >= _currentDeployment.GetDuration())
+            if (_deploymentProgress >= _currentRelease.GetDuration())
             {
-                _targetServer.Version =  _currentDeployment.GetVersionString();
+                _targetServer.Version =  _currentRelease.GetVersionString();
                 
                 
                 _deploymentProgress = 0;
@@ -76,11 +76,11 @@ public class CodePipelineInstance : InfrastructureInstance
                 if (_targetServer == null)
                 {
                     FloatingTextFactory.Instance.ShowText(
-                        $"Done Deploying {_currentDeployment.GetVersionString()}",
+                        $"Done Deploying {_currentRelease.GetVersionString()}",
                         transform.position
                     );
-                    _currentDeployment.CheckIsOver();
-                    _currentDeployment = null;
+                    _currentRelease.CheckIsOver();
+                    _currentRelease = null;
                 }
                 
             }
@@ -101,7 +101,7 @@ public class CodePipelineInstance : InfrastructureInstance
                 continue;
             }
             if (
-                infra.Version != _currentDeployment.GetVersionString()
+                infra.Version != _currentRelease.GetVersionString()
             )
             {
 

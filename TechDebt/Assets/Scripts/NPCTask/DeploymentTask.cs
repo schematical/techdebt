@@ -8,13 +8,13 @@ public class DeploymentTask : NPCTask
     public Server TargetInfrastructure { get; }
     private float deploymentProgress = 0f;
     private const float DeploymentTime = 5f; // Time in seconds to complete deployment
-    private DeploymentBase Deployment;
+    private ReleaseBase _release;
 
-    public DeploymentTask(Server target, DeploymentBase deployment) : base(target.transform.position)
+    public DeploymentTask(Server target, ReleaseBase release) : base(target.transform.position)
     {
         TargetInfrastructure = target;
         Priority = 4;
-        Deployment = deployment;
+        _release = release;
     }
 
     public override void OnUpdate(NPCBase npc)
@@ -34,12 +34,12 @@ public class DeploymentTask : NPCTask
     public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
-        TargetInfrastructure.Version =  Deployment.GetVersionString();
+        TargetInfrastructure.Version =  _release.GetVersionString();
         CurrentState = State.Completed;
-        Deployment.CheckIsOver();
+        _release.CheckIsOver();
     }
     public override string GetAssignButtonText()
     {
-        return $"Deploy {Deployment.GetVersionString()}";
+        return $"Deploy {_release.GetVersionString()}";
     }
 }

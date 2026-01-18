@@ -1,0 +1,63 @@
+// ResearchTask.cs
+using UnityEngine;
+using System.Linq;
+
+public class CodeTask : NPCTask
+{
+    public Technology TargetTechnology { get; private set; }
+    private readonly Desk desk;
+
+    public CodeTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.transform.position)
+    {
+        TargetTechnology = technology;
+        Priority = 2; // Research is a low-priority, background task.
+
+        // Find the desk to navigate to.
+        var deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
+        if (deskInstance != null)
+        {
+            desk = deskInstance.GetComponent<Desk>();
+        }
+        else
+        {
+            Debug.LogError("ResearchTask could not be created. No 'desk' infrastructure found or its instance is null.");
+            desk = null;
+        }
+    }
+
+    public override void OnUpdate(NPCBase npc)
+    {
+        if (desk == null) return;
+        
+        // Apply research points only if the NPC is at the desk
+        if (hasArrived)
+        {
+            var devOpsNpc = npc as NPCDevOps;
+            if (devOpsNpc != null)
+            {
+                float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
+                GameManager.Instance.ApplyResearchProgress(researchGained);
+                devOpsNpc.AddXP(Time.deltaTime);
+                desk.OnResearchProgress(
+                    npc.transform.position
+                );
+            }
+        }
+    }
+    
+    public override void OnEnd(NPCBase npc)
+    {
+        base.OnEnd(npc);
+        // No specific end action is needed beyond base functionality.
+    }
+
+    public override bool IsFinished(NPCBase npc)
+    {
+        // The task is finished if the technology is no longer being researched.
+        return TargetTechnology.CurrentState != Technology.State.Researching;
+    }
+    public override string GetAssignButtonText()
+    {
+        return "Research????";
+    }
+}

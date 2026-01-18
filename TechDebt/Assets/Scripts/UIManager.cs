@@ -14,6 +14,7 @@ using Stats;
 using static NPCTask;
 using Events;
 using UI;
+using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 
@@ -30,12 +31,11 @@ public class UIManager : MonoBehaviour
 
     public UIDeskMenuPanel deskMenuPanel;
     public UIMultiSelectPanel MultiSelectPanel;
-    public UIDeploymentHistoryPanel  DeploymentHistoryPanel;
-
-    
+    [FormerlySerializedAs("DeploymentHistoryPanel")] public UIReleaseHistoryPanel  releaseHistoryPanel;
+    public UICurrentReleasePanel currentReleasePanel;
+    public UIPlanPhaseMenuPanel planPhaseMenuPanel;
     
     // OLD UI Containers
-    private GameObject buildPhaseUIContainer;
     private GameObject summaryPhaseUIContainer;
  
     private GameObject hireDevOpsPanel;
@@ -107,7 +107,6 @@ public class UIManager : MonoBehaviour
         SetupNPCDetailPanel(transform);
         SetupTaskListPanel(transform);
         SetupTechTreePanel(transform);
-        SetupBuildPhaseUI(transform);
         SetupInfrastructureDetailPanel(transform);
         SetupAlertPanel(transform);
         SetupItemDetailPanel(transform);
@@ -115,23 +114,30 @@ public class UIManager : MonoBehaviour
         SetupEventTriggerPanel(transform);
         SetupNPCDialogPanel(transform);
         SetupSummaryPhaseUI(transform); // This was missing from Start()
-        MultiSelectPanel.gameObject.SetActive(false);
-        DeploymentHistoryPanel.gameObject.SetActive(false);
-        deskMenuPanel.gameObject.SetActive(false);
+        
+        // currentReleasePanel.gameObject.SetActive(false);
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
             (value) => topBarPanel.UpdateStatText(StatType.Money, value);
 
-        // Hide panels that shouldn't be visible at start
-        if (techTreePanel != null) techTreePanel.SetActive(false);
-        if (npcListPanel != null) npcListPanel.SetActive(false);
-        if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
-        if (taskListPanel != null) taskListPanel.SetActive(false);
-        if (infrastructureDetailPanel != null) infrastructureDetailPanel.SetActive(false);
-        if (buildPhaseUIContainer != null) buildPhaseUIContainer.SetActive(false);
-        if (summaryPhaseUIContainer != null) summaryPhaseUIContainer.SetActive(false);
-        if (timeControlsContainer != null) timeControlsContainer.SetActive(false);
+        Close();
     }
 
+    public void Close()
+    {
+        MultiSelectPanel.gameObject.SetActive(false);
+        releaseHistoryPanel.gameObject.SetActive(false);
+        deskMenuPanel.gameObject.SetActive(false);
+        planPhaseMenuPanel.gameObject.SetActive(true);
+        summaryPhaseUIContainer.SetActive(false);
+        timeControlsContainer.SetActive(false);
+        hireDevOpsPanel.SetActive(false);
+        infrastructureDetailPanel.SetActive(false);
+        taskListPanel.SetActive(false);
+        npcDetailPanel.SetActive(false);
+        npcListPanel.SetActive(false);
+        techTreePanel.SetActive(false);
+
+    }
     public void SetupUIInfrastructure()
     {
         if (FindObjectOfType<EventSystem>() == null)
@@ -439,11 +445,11 @@ public class UIManager : MonoBehaviour
 
     public void ToggleDeploymentHistoryPanel()
     {
-        bool wasActive = DeploymentHistoryPanel.gameObject.activeSelf;
+        bool wasActive = releaseHistoryPanel.gameObject.activeSelf;
         CloseAllSidebarPanels();
         if (!wasActive)
         {
-            DeploymentHistoryPanel.gameObject.SetActive(true);
+            releaseHistoryPanel.gameObject.SetActive(true);
         }
     }
 
@@ -578,7 +584,7 @@ public class UIManager : MonoBehaviour
         if (npcListPanel != null) npcListPanel.SetActive(false);
         if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
         if (eventLogPanel != null) eventLogPanel.SetActive(false);
-        if (DeploymentHistoryPanel != null) DeploymentHistoryPanel.gameObject.SetActive(false);
+        if (releaseHistoryPanel != null) releaseHistoryPanel.gameObject.SetActive(false);
     }
 
 
@@ -804,56 +810,7 @@ public class UIManager : MonoBehaviour
 
 
 
-    private void SetupBuildPhaseUI(Transform parent)
-    {
-        buildPhaseUIContainer = CreateUIPanel(parent, "BuildPhaseUI", new Vector2(220, 180), new Vector2(0, 0),
-            new Vector2(0, 0), new Vector2(210, 90));
-        UIPanel buildPanel = buildPhaseUIContainer.GetComponent<UIPanel>();
-        if (buildPanel == null)
-        {
-            Debug.LogError("BuildPhaseUIContainer is missing UIPanel component.");
-            return;
-        }
-
-        buildPanel.titleText.text = "Build Phase";
-
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textAreaGO = Instantiate(textAreaPrefab, buildPanel.scrollContent);
-            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
-            totalDailyCostText = uiTextArea.textArea;
-            totalDailyCostText.text = "Daily Cost: $0";
-            totalDailyCostText.color = Color.yellow;
-            totalDailyCostText.fontSize = 16;
-        }
-        else
-        {
-            Debug.LogError("UITextArea prefab not found. Falling back to CreateText.");
-            totalDailyCostText = CreateText(buildPanel.scrollContent, "DailyCostText", "Daily Cost: $0", 16);
-            totalDailyCostText.color = Color.yellow;
-        }
-
-        buildPanel.AddButton("Hire NPCDevOps", () => hireDevOpsPanel.SetActive(true));
-        buildPanel.AddButton("Start Day", () =>
-        {
-            GameManager.Instance.GameLoopManager.EndBuildPhaseAndStartPlayPhase();
-            buildPanel.gameObject.SetActive(false);
-        });
-
-        // Hire DevOps Panel (Sub-panel)
-        hireDevOpsPanel = CreateUIPanel(parent, "HireDevOpsPanel", new Vector2(220, 150), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), Vector2.zero);
-        UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
-        if (hirePanel != null)
-        {
-            hirePanel.titleText.text = "Hire DevOps";
-
-            // You might want to move this button to the top or bottom later by adjusting its sibling index
-        }
-
-        hireDevOpsPanel.SetActive(false); // Start hidden
-    }
+ 
 
     private void SetupSummaryPhaseUI(Transform parent)
     {
@@ -867,7 +824,7 @@ public class UIManager : MonoBehaviour
 
         uiPanel.AddButton("Continue", () =>
         {
-            GameManager.Instance.GameLoopManager.ForceBeginBuildPhase();
+            GameManager.Instance.GameLoopManager.ForceBeginPlanPhase();
             summaryPhaseUIContainer.SetActive(false);
         });
     }
@@ -1189,19 +1146,15 @@ public class UIManager : MonoBehaviour
 
     #region UI State Management
 
-    public void ShowBuildUI()
+    public void ShowPlanUI()
     {
-        buildPhaseUIContainer.SetActive(true);
-        summaryPhaseUIContainer.SetActive(false);
-        timeControlsContainer.SetActive(false);
-        hireDevOpsPanel.SetActive(false);
-        RefreshHireDevOpsPanel();
-        // topBarPanel.UpdateDailyCost();
+        Close();
+        planPhaseMenuPanel.gameObject.SetActive(true);
     }
 
-    public void HideBuildUI()
+    public void HidePlanUI()
     {
-        buildPhaseUIContainer.SetActive(false);
+        planPhaseMenuPanel.gameObject.SetActive(false);
         timeControlsContainer.SetActive(true);
     }
 
