@@ -2,8 +2,12 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+
 using MetaChallenges;
-using Release;
+using NPCs;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public static class MetaGameManager
 {
@@ -368,12 +372,62 @@ public static class MetaGameManager
         return challenges;
     }
 
-    public static List<ReleaseRewardBase> GetAllReleaseRewards()
+    public static ModifierBase GetRandomModifier(ModifierBase.ModifierTarget target)
     {
-        return new List<ReleaseRewardBase>()
+        List<ModifierBase> modifiers = GetModifierByTarget(target);
+ 
+        int i = Random.Range(0, modifiers.Count);
+        return modifiers[i];
+    }  
+    public static List<ModifierBase> GetModifierByTarget(ModifierBase.ModifierTarget target)
+    {
+        List<ModifierBase> modifiers = GetAllModifiers();
+        List<ModifierBase> foundModifiers = new List<ModifierBase>();
+        foreach (ModifierBase modifier in modifiers)
         {
-            new ImageOptimizationReward()
-            
+            if (modifier.Target == target)
+            {
+                foundModifiers.Add(modifier);
+            }
+        }
+
+        return foundModifiers;
+    }  
+    public static List<ModifierBase> GetAllModifiers()
+    {
+        return new List<ModifierBase>()
+        {
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "finops_expert",
+                Name = "FinOps Expert",
+                StatType = StatType.Infra_DailyCost,
+                Type = ModifierBase.ModifierType.NPC_InfraStat,
+                BaseValue = 0.9f
+            },
+             new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "devops_expert",
+                Name = "DevOps Expert",
+                StatType = StatType.Infra_LoadRecoveryRate,
+                Type = ModifierBase.ModifierType.NPC_InfraStat
+            },
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "fast_worker",
+                Name = "Fast Worker",
+                StatType = StatType.NPC_BuildSpeed,
+            },
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "fast_researcher",
+                Name = "Fast Researcher",
+                StatType = StatType.NPC_ResearchSpeed,
+            }
         };
     }
 }

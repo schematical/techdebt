@@ -64,7 +64,7 @@ public class BuildTask : NPCTask
         NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
         foreach (ModifierBase modifier in npcDevOps.Modifiers.Modifiers)
         {
-            if (modifier.Type == ModifierBase.ModifierType.InfraStat)
+            if (modifier.Type == ModifierBase.ModifierType.NPC_InfraStat)
             {
                 StatModifier existingStatModifier = TargetInfrastructure.data.Stats.Stats[modifier.StatType].Modifiers
                     .Find((statModifier => statModifier.Source == modifier));

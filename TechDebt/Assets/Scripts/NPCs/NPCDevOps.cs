@@ -78,7 +78,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            )
            {
                saftyCheck++;
-               ModifierBase modifierBase = GameManager.Instance.GetRandomNPCTrait();
+               ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierTarget.NPC);
                if (traits.Find((t) => t.Id == modifierBase.Id) != null)
                {
                    continue;

@@ -881,48 +881,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"InvokeReleaseChanged: {releaseBase.GetVersionString()} - {state}");
         OnReleaseChanged?.Invoke(releaseBase, state);
     }
-    public ModifierBase GetRandomNPCTrait()
-    {
-        int i = Random.Range(0, 3);
-        switch (i)
-        {
-            case(0):
-                return new ModifierBase()
-                {
-                    Id = "finops_expert",
-                    Name = "FinOps Expert",
-                    StatType = StatType.Infra_DailyCost,
-                    Type = ModifierBase.ModifierType.InfraStat,
-                    BaseValue = 0.9f
-                };
-            case(1): 
-                return new ModifierBase()
-                {
-                    Id = "devops_expert",
-                    Name = "DevOps Expert",
-                    StatType = StatType.Infra_LoadRecoveryRate,
-                    Type = ModifierBase.ModifierType.InfraStat
-                };
-            case(2):
-                return new ModifierBase()
-                {
-                    Id = "fast_worker",
-                    Name = "Fast Worker",
-                    StatType = StatType.NPC_BuildSpeed,
-                };
-            case(3):
-                return new ModifierBase()
-                {
-                    Id = "fast_researcher",
-                    Name = "Fast Researcher",
-                    StatType = StatType.NPC_ResearchSpeed,
-                };
-            default:
-                throw new SyntaxErrorException("Out of range");
-        }
-
-
-    }
+    
 
     public void UpdateMetaProgress()
     {

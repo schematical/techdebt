@@ -11,9 +11,15 @@ namespace NPCs
 
         public enum ModifierType
         {
-            NPCStat,
-            InfraStat
+            NPC_Stat,
+            NPC_InfraStat
         }
+        public enum ModifierTarget
+        {
+            NPC,
+            Run
+        }
+        public ModifierTarget  Target { get; set; } = ModifierTarget.NPC;
         public StatType StatType { get; set; }
         public string Name { get; set; }
         public string Id { get; set; }
@@ -22,7 +28,7 @@ namespace NPCs
 
         public float BaseValue { get; set; } = 1.1f;
         
-        public ModifierType Type { get; set; } =  ModifierType.NPCStat;
+        public ModifierType Type { get; set; } =  ModifierType.NPC_Stat;
         
         public StatModifier StatModifier { get; private set; }
 
@@ -35,7 +41,7 @@ namespace NPCs
         {
             switch (Type)
             {
-                case(ModifierType.NPCStat):
+                case(ModifierType.NPC_Stat):
                     StatModifier = new StatModifier(
                         StatModifier.ModifierType.Multiply,
                         GetScaledValue(),
@@ -43,7 +49,7 @@ namespace NPCs
                     );
                     npc.Stats.AddModifier(StatType, StatModifier); 
                     break;
-                case(ModifierType.InfraStat):
+                case(ModifierType.NPC_InfraStat):
                     
                     break;
             }
