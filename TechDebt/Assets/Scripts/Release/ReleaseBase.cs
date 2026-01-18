@@ -1,4 +1,7 @@
 ﻿
+using NPCs;
+using UnityEngine;
+
 public class ReleaseBase
 {
 
@@ -21,6 +24,10 @@ public class ReleaseBase
     // MajorBugs - Knock down the whole infrastructureInstance
     // TODO: Optimized score, gives a latency bonus or a load bonus
     public ReleaseState State { get; set; } = ReleaseState.InDevelopment;
+
+    public ModifierBase RewardModifier;
+    public float CurrentProgress = 0f;
+    public float RequiredProgress = 5f;// 30f;
     public ReleaseBase()
     {
         SetState(ReleaseState.InDevelopment);
@@ -64,11 +71,24 @@ public class ReleaseBase
                 return false;
             }
         }
-        State  = ReleaseState.DeploymentCompleted;
+        SetState(ReleaseState.DeploymentCompleted);
         GameManager.Instance.UIManager.ShowAlert($"Deployment {GetVersionString()} Complete");
         return true;
     }
 
+    public void OnDeploymentCompleted()// TODO Trigger me
+    {
+        if (RewardModifier != null)
+        {
+            if(!GameManager.Instance.Modifiers.Modifiers.Contains(RewardModifier)){
+                GameManager.Instance.AddModifier(RewardModifier);
+            }
+            else
+            {
+                RewardModifier.LevelUp();
+            }
+        }
+    }
     public void SetState(ReleaseState state)
     {
         ReleaseState prevState = State;
@@ -85,5 +105,51 @@ public class ReleaseBase
     public string GetDescription()
     {
         return $"{GetVersionString()} {State.ToString()}";
+    }
+
+    public void ApplyProgress(float progressGained)
+    {
+        // Debug.Log($"ReleaseBase.ApplyProgress: {CurrentProgress} += {progressGained}");
+        CurrentProgress += progressGained;
+        GameManager.Instance.InvokeReleaseChanged(this, this.State);
+        if (CurrentProgress >= RequiredProgress)
+        {
+            Debug.Log($"ReleaseBase.NextState: {CurrentProgress}  >=  {progressGained}");
+            NextState();
+        }
+    }
+
+    public void NextState()
+    {
+        switch (State)
+        {
+            case(ReleaseState.InDevelopment):
+                SetState(ReleaseState.DeploymentReady);
+                CurrentProgress = 0;
+                RequiredProgress = 30f;
+                break;
+            /*case(ReleaseState.InReview):
+                SetState(ReleaseState.InTesting);
+                CurrentProgress = 0;
+                RequiredProgress = 30f;
+                break;
+            case(ReleaseState.InTesting):
+                SetState(ReleaseState.DeploymentReady);
+                CurrentProgress = 0;
+                RequiredProgress = 30f;
+                break; */
+            case(ReleaseState.DeploymentReady):
+                SetState(ReleaseState.DeploymentInProgress);
+                CurrentProgress = 0;
+                RequiredProgress = 30f;
+                break;
+            case(ReleaseState.DeploymentInProgress):
+                SetState(ReleaseState.DeploymentCompleted);
+                CurrentProgress = 0;
+                RequiredProgress = 30f;
+                break;
+            default:
+                throw new System.Exception($"ReleaseBase.NextState - No NextStep for {State}");
+        }
     }
 }

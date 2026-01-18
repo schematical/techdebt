@@ -22,6 +22,11 @@ public class Desk : InfrastructureInstance
             lastDisplayedProgress = progress;
         }
     }
+    public void OnCodeProgress(Vector3 position)
+    {
+       
+        
+    }
     
     public override void OnPointerClick(PointerEventData eventData)
     {

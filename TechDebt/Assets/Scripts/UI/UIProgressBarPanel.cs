@@ -17,9 +17,9 @@ namespace UI
                 throw new SystemException("Missing `ProgressPanelHolder` or `ProgressPanel`");
             };
 
-            float fullWidth = ProgressPanelHolder.rect.width;
+float fullWidth = ProgressPanelHolder.rect.width;
             float newWidth = fullWidth * Mathf.Clamp01(progress);
-            ProgressBar.sizeDelta = new Vector2(newWidth, ProgressBar.sizeDelta.y);
+            ProgressBar.anchorMax = new Vector2(newWidth / fullWidth, ProgressBar.anchorMax.y);
         }
     }
 }

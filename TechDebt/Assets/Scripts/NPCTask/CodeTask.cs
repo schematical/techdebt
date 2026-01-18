@@ -4,16 +4,16 @@ using System.Linq;
 
 public class CodeTask : NPCTask
 {
-    public Technology TargetTechnology { get; private set; }
+    public ReleaseBase ReleaseBase { get; private set; }
     private readonly Desk desk;
 
-    public CodeTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.transform.position)
+    public CodeTask(ReleaseBase release) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.transform.position)
     {
-        TargetTechnology = technology;
-        Priority = 2; // Research is a low-priority, background task.
+        ReleaseBase = release;
+        Priority = 3; // Research is a low-priority, background task.
 
         // Find the desk to navigate to.
-        var deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
+        InfrastructureInstance deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
         if (deskInstance != null)
         {
             desk = deskInstance.GetComponent<Desk>();
@@ -35,12 +35,9 @@ public class CodeTask : NPCTask
             var devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)
             {
-                float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
-                GameManager.Instance.ApplyResearchProgress(researchGained);
+                float progressGained = /*devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) **/ Time.deltaTime;
+                ReleaseBase.ApplyProgress(progressGained);
                 devOpsNpc.AddXP(Time.deltaTime);
-                desk.OnResearchProgress(
-                    npc.transform.position
-                );
             }
         }
     }
@@ -53,8 +50,8 @@ public class CodeTask : NPCTask
 
     public override bool IsFinished(NPCBase npc)
     {
-        // The task is finished if the technology is no longer being researched.
-        return TargetTechnology.CurrentState != Technology.State.Researching;
+  
+        return ReleaseBase.State == ReleaseBase.ReleaseState.DeploymentReady;
     }
     public override string GetAssignButtonText()
     {

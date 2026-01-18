@@ -37,8 +37,9 @@ namespace UI
             foreach (var release in releases)
             {
                 GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UIProgressBarPanel");
-                UITextArea textArea = Instantiate(textAreaPrefab, scrollContent.transform).GetComponent<UITextArea>(); 
-                textArea.textArea.text = release.GetDescription();
+                UIProgressBarPanel progressBarPanel = Instantiate(textAreaPrefab, scrollContent.transform).GetComponent<UIProgressBarPanel>(); 
+                progressBarPanel.Text.text = release.GetDescription();
+                progressBarPanel.SetProgress(release.CurrentProgress / release.RequiredProgress);
             }
         }
     }

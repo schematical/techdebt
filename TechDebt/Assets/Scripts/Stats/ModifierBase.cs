@@ -76,12 +76,11 @@ namespace NPCs
                     List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
                     foreach (InfrastructureInstance inst in instances)
                     {
-                        
                         foreach (InfrastructureDataNetworkPacket networkPacketData in inst.data.networkPackets)
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-                                Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
+                                // Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }
@@ -103,11 +102,8 @@ namespace NPCs
 
         public void OnInfrastructureBuild(InfrastructureInstance infrastructure)
         {
-            
             StatModifier statModifier = new StatModifier(StatModifier.ModifierType.Multiply, GetScaledValue(), this);
             infrastructure.data.Stats.Get(StatType).ReplaceOrAdd(statModifier);
-
-
         }
 
         public string GetDisplayText(int offsetLevel = 0)

@@ -57,7 +57,11 @@ namespace Infrastructure
                            )
                            .OnClick((string id) =>
                            {
-                               GameManager.Instance.AddModifier(modifierBase);
+                               ReleaseBase releaseBase = new ReleaseBase();
+                               releaseBase.RewardModifier = modifierBase;
+                               GameManager.Instance.Releases.Add(releaseBase);
+                               CodeTask codeTask = new CodeTask(releaseBase);
+                               GameManager.Instance.AddTask(codeTask);
                                GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                            });
                    //}
@@ -72,7 +76,12 @@ namespace Infrastructure
                        )
                        .OnClick((string id) =>
                        {
-                           existingModifierBase.LevelUp();
+                           
+                           ReleaseBase releaseBase = new ReleaseBase();
+                           releaseBase.RewardModifier = modifierBase;
+                           GameManager.Instance.Releases.Add(releaseBase);
+                           CodeTask codeTask = new CodeTask(releaseBase);
+                           GameManager.Instance.AddTask(codeTask);
                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                        });
                }

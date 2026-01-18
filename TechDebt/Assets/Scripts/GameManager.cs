@@ -955,4 +955,9 @@ public class GameManager : MonoBehaviour
         }
         return results;
     }
+
+    public void ApplyReleaseProgress(float progressGained)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 8485096491681077919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 38.007698, y: -31.887993}
-  m_SizeDelta: {x: 76.015396, y: 20.3286}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -14.362976}
+  m_SizeDelta: {x: 0, y: 20.3286}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &6343895047304635097
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -108,11 +108,11 @@ RectTransform:
   - {fileID: 8600378213164768176}
   m_Father: {fileID: 8485096491681077919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14.8183, y: -6.9309998}
-  m_SizeDelta: {x: -42.5217, y: -38.6912}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -18.5}
+  m_SizeDelta: {x: 0, y: 12.0539}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &3481313559855317592
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -186,7 +186,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 76.015396, y: 19.554}
+  m_SizeDelta: {x: 187.1204, y: 19.554}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2669062521217066439
 CanvasRenderer:
@@ -323,8 +323,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -0.0000011920929, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &5614028972329099130
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -400,10 +400,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!222 &2725759908880132633
 CanvasRenderer:
   m_ObjectHideFlags: 0
