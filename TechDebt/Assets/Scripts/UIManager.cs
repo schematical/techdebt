@@ -34,14 +34,14 @@ public class UIManager : MonoBehaviour
     [FormerlySerializedAs("DeploymentHistoryPanel")] public UIReleaseHistoryPanel  releaseHistoryPanel;
     public UICurrentReleasePanel currentReleasePanel;
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
-    
+
+    public UITimeControlPanel timeControlPanel;
     // OLD UI Containers
     private GameObject summaryPhaseUIContainer;
  
     private GameObject hireDevOpsPanel;
     private GameObject infrastructureDetailPanel;
     private GameObject itemDetailPanel;
-    private GameObject timeControlsContainer;
    
     private GameObject taskListPanel;
     private GameObject techTreePanel;
@@ -66,9 +66,8 @@ public class UIManager : MonoBehaviour
 
     // Time Control Buttons & Colors
     private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
-    private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
-    private Color inactiveColor = Color.gray;
-    private TimeState _currentTimeState = TimeState.Normal;
+
+    private TimeState _currentTimeState { get; set; } = TimeState.Normal;
     private TimeState _timeStateBeforePause = TimeState.Normal;
 
     // Task List
@@ -99,8 +98,7 @@ public class UIManager : MonoBehaviour
     {
         if (_isInitialized) return;
         _isInitialized = true;
-
-        SetupTimeControls(transform);
+        
 
         SetupEventLogPanel(transform);
         SetupNPCListPanel(transform);
@@ -129,8 +127,8 @@ public class UIManager : MonoBehaviour
         deskMenuPanel.gameObject.SetActive(false);
         planPhaseMenuPanel.gameObject.SetActive(true);
         summaryPhaseUIContainer.SetActive(false);
-        timeControlsContainer.SetActive(false);
-        hireDevOpsPanel.SetActive(false);
+        timeControlPanel.gameObject.SetActive(false);
+        // hireDevOpsPanel.SetActive(false);
         infrastructureDetailPanel.SetActive(false);
         taskListPanel.SetActive(false);
         npcDetailPanel.SetActive(false);
@@ -172,16 +170,7 @@ public class UIManager : MonoBehaviour
         // Update any displays that need it after initialization
         topBarPanel.UpdateStatsDisplay();
     }
-    private void UpdateTimeControlsUI()
-    {
-        if (superFastForwardButton == null) return;
-        pauseButton.GetComponent<Image>().color = _currentTimeState == TimeState.Paused ? activeColor : inactiveColor;
-        playButton.GetComponent<Image>().color = _currentTimeState == TimeState.Normal ? activeColor : inactiveColor;
-        fastForwardButton.GetComponent<Image>().color =
-            _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
-        superFastForwardButton.GetComponent<Image>().color =
-            _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
-    }
+  
 
     void OnEnable()
     {
@@ -367,7 +356,6 @@ public class UIManager : MonoBehaviour
         _npcDetailText.text = content;
     }
 
-    #region UI Setup Methods
 
     private void SetupEventLogPanel(Transform parent)
     {
@@ -972,9 +960,7 @@ public class UIManager : MonoBehaviour
         eventTriggerPanel.SetActive(!eventTriggerPanel.activeSelf);
     }
 
-    #endregion
-
-    #region Tooltip Logic
+    
 
     public void ShowInfrastructureDetail(InfrastructureInstance instance)
     {
@@ -1013,82 +999,18 @@ public class UIManager : MonoBehaviour
         infrastructureDetailPanel.SetActive(false);
     }
 
-    private void SetupTimeControls(Transform parent)
-    {
-        timeControlsContainer = CreateUIPanel(parent, "TimeControls", new Vector2(200, 50), new Vector2(1, 0),
-            new Vector2(1, 0), new Vector2(-110, 35));
+  
+    
 
-        UIPanel uiPanel = timeControlsContainer.GetComponent<UIPanel>();
-        if (uiPanel != null)
-        {
-            uiPanel.titleText.text = "";
-            if (uiPanel.closeButton != null) uiPanel.closeButton.gameObject.SetActive(false);
-        }
-
-        var layout = timeControlsContainer.AddComponent<HorizontalLayoutGroup>();
-        layout.padding = new RectOffset(5, 5, 5, 5);
-        layout.spacing = 5;
-        // Make buttons fill the container
-        layout.childControlWidth = true;
-        layout.childControlHeight = true;
-        layout.childForceExpandWidth = true;
-        layout.childForceExpandHeight = true;
-
-        GameObject buttonPrefab = GameManager.Instance.prefabManager.GetPrefab("UIButton");
-        if (buttonPrefab == null)
-        {
-            Debug.LogError("UIButton prefab not found. Cannot create TimeControls.");
-            // Fallback to old method
-            pauseButton = CreateButton(timeControlsContainer.transform, "||", SetTimeScalePause, new Vector2(40, 40));
-            playButton = CreateButton(timeControlsContainer.transform, ">", SetTimeScalePlay, new Vector2(40, 40));
-            fastForwardButton = CreateButton(timeControlsContainer.transform, ">>", SetTimeScaleFastForward,
-                new Vector2(40, 40));
-            superFastForwardButton = CreateButton(timeControlsContainer.transform, ">>>", SetTimeScaleSuperFastForward,
-                new Vector2(40, 40));
-            return;
-        }
-
-        // Pause Button
-        GameObject pauseGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
-        UIButton pauseUI = pauseGO.GetComponent<UIButton>();
-        pauseUI.buttonText.text = "||";
-        pauseButton = pauseUI.button;
-        pauseButton.onClick.AddListener(SetTimeScalePause);
-
-        // Play Button
-        GameObject playGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
-        UIButton playUI = playGO.GetComponent<UIButton>();
-        playUI.buttonText.text = ">";
-        playButton = playUI.button;
-        playButton.onClick.AddListener(SetTimeScalePlay);
-
-        // Fast Forward Button
-        GameObject ffGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
-        UIButton ffUI = ffGO.GetComponent<UIButton>();
-        ffUI.buttonText.text = ">>";
-        fastForwardButton = ffUI.button;
-        fastForwardButton.onClick.AddListener(SetTimeScaleFastForward);
-
-        // Super Fast Forward Button
-        GameObject sffGO = Instantiate(buttonPrefab, timeControlsContainer.transform);
-        UIButton sffUI = sffGO.GetComponent<UIButton>();
-        sffUI.buttonText.text = ">>>";
-        superFastForwardButton = sffUI.button;
-        superFastForwardButton.onClick.AddListener(SetTimeScaleSuperFastForward);
-
-        UpdateTimeScaleButtons();
-    }
-
-    #endregion
-
-    #region Time Controls
 
     public void SetTimeScalePause() => TogglePause();
-    public void SetTimeScalePlay() => SetTimeState(TimeState.Normal);
-    public void SetTimeScaleFastForward() => SetTimeState(TimeState.Fast);
-    public void SetTimeScaleSuperFastForward() => SetTimeState(TimeState.SuperFast);
+    public void SetTimeScalePlay() => SetTimeState(UIManager.TimeState.Normal);
+    public void SetTimeScaleFastForward() => SetTimeState(UIManager.TimeState.Fast);
 
-    private void SetTimeState(TimeState newState)
+    public void SetTimeScaleSuperFastForward() =>
+        GameManager.Instance.UIManager.SetTimeState(UIManager.TimeState.SuperFast);
+
+    public void SetTimeState(TimeState newState)
     {
         _currentTimeState = newState;
 
@@ -1115,7 +1037,7 @@ public class UIManager : MonoBehaviour
         }
 
         GameManager.Instance.SetDesiredTimeScale(newTimeScale);
-        UpdateTimeScaleButtons();
+        timeControlPanel.UpdateTimeScaleButtons();
     }
 
     public void TogglePause()
@@ -1131,20 +1053,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void UpdateTimeScaleButtons()
-    {
-        if (superFastForwardButton == null) return;
-        pauseButton.GetComponent<Image>().color = _currentTimeState == TimeState.Paused ? activeColor : inactiveColor;
-        playButton.GetComponent<Image>().color = _currentTimeState == TimeState.Normal ? activeColor : inactiveColor;
-        fastForwardButton.GetComponent<Image>().color =
-            _currentTimeState == TimeState.Fast ? activeColor : inactiveColor;
-        superFastForwardButton.GetComponent<Image>().color =
-            _currentTimeState == TimeState.SuperFast ? activeColor : inactiveColor;
-    }
 
-    #endregion
-
-    #region UI State Management
+    
 
     public void ShowPlanUI()
     {
@@ -1155,7 +1065,7 @@ public class UIManager : MonoBehaviour
     public void HidePlanUI()
     {
         planPhaseMenuPanel.gameObject.SetActive(false);
-        timeControlsContainer.SetActive(true);
+        timeControlPanel.gameObject.SetActive(true);
     }
 
     public void ShowSummaryUI(string text)
@@ -1188,9 +1098,7 @@ public class UIManager : MonoBehaviour
         
     }
 
-    #endregion
-
-    #region UI Content Updates
+    
 
     public void UpdateGameStateDisplay(string state)
     {
@@ -1290,10 +1198,7 @@ public class UIManager : MonoBehaviour
         UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
         uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
         uiTextArea.textArea.fontSize = 20;
-        /*var textRect = uiTextArea.textArea.rectTransform;
-        textRect.anchorMin = Vector2.zero;
-        textRect.anchorMax = Vector2.one;
-        textRect.sizeDelta = Vector2.zero;*/
+
 
         _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
         
@@ -1368,11 +1273,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
-    #endregion
-
-
-    #region UI Helper Methods
+    
 
     private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
     {
@@ -1470,9 +1371,6 @@ public class UIManager : MonoBehaviour
         return tmp;
     }
 
-    #endregion
-
-    #region Item Detail Panel
 
     private void SetupItemDetailPanel(Transform parent)
     {
@@ -1570,5 +1468,11 @@ public class UIManager : MonoBehaviour
         SetTimeState(_timeStateBeforePause);
     }
 
-    #endregion
+    
+
+    public TimeState GetCurrentTimeState()
+    {
+        return _currentTimeState;
+    }
+
 }
