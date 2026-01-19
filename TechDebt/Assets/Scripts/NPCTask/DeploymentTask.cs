@@ -17,6 +17,11 @@ public class DeploymentTask : NPCTask
         _release = release;
     }
 
+    public virtual void OnStart(NPCBase npc)
+    {
+    base.OnStart(npc);
+        _release.SetState(ReleaseBase.ReleaseState.DeploymentInProgress);
+    }
     public override void OnUpdate(NPCBase npc)
     {
         if (hasArrived)

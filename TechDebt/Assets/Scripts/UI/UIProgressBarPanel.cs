@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -9,17 +10,24 @@ namespace UI
         public TextMeshProUGUI Text;
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
+        protected Image ProgressImage;
 
-        public void SetProgress(float progress)
+        void Start()
+        {
+            ProgressImage = ProgressPanelHolder.GetComponent<Image>();
+        }
+        public void SetProgress(float progress, Color color = new Color())
         {
             if (ProgressPanelHolder == null || ProgressBar == null)
             {
                 throw new SystemException("Missing `ProgressPanelHolder` or `ProgressPanel`");
             };
 
-float fullWidth = ProgressPanelHolder.rect.width;
+            float fullWidth = ProgressPanelHolder.rect.width;
             float newWidth = fullWidth * Mathf.Clamp01(progress);
             ProgressBar.anchorMax = new Vector2(newWidth / fullWidth, ProgressBar.anchorMax.y);
+            
+            ProgressImage.color = color;
         }
     }
 }

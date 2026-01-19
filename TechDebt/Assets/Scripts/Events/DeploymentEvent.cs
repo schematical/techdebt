@@ -19,11 +19,11 @@ namespace Events
      
         public override void Apply()
         {
-            ReleaseBase.GlobalVersion += 1;
+         
             Release = new ReleaseBase()
             {
                 ServiceId = "monolith",
-                Version = ReleaseBase.GlobalVersion,
+                Version = ReleaseBase.IncrGlobalVersion()
             };
            
             EventStartText = $"Deployments {Release.GetVersionString()} is ready to go live!";

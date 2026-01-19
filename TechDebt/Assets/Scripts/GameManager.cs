@@ -663,19 +663,19 @@ public class GameManager : MonoBehaviour
 
             infraInstance.Initialize(infraData);
             ActiveInfrastructure.Add(infraInstance);
-            Debug.Log($"Infrastructure '{infraData.DisplayName}' CHECK {infraData.CurrentState }.");
+            // Debug.Log($"Infrastructure '{infraData.DisplayName}' CHECK {infraData.CurrentState }.");
             if (infraData.CurrentState == InfrastructureData.State.Operational)
             {
-                Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Operational.");
+                // Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Operational.");
             }
             else if (AreUnlockConditionsMet(infraData))
             {
-                Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
+                //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
                 infraInstance.SetState(InfrastructureData.State.Unlocked);
             }
             else 
             {
-                Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Locked.");
+                //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Locked.");
                 infraInstance.SetState(InfrastructureData.State.Locked);
                 instanceGO.SetActive(false);
             }
@@ -701,10 +701,10 @@ public class GameManager : MonoBehaviour
     {
         if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0)
         {
-            Debug.Log($"{infraData.ID} Is Unlocked because it has not conditions");
+   
             return true;
         }
-        Debug.Log($"{infraData.ID} Is Locked because it has {infraData.UnlockConditions.Length}");
+        
 
         foreach (var condition in infraData.UnlockConditions)
         {
@@ -924,6 +924,7 @@ public class GameManager : MonoBehaviour
 
     public void AddModifier(ModifierBase modifierBase)
     {
+        Debug.Log("AddModifier:  " + modifierBase.Id);
         Modifiers.Modifiers.Add(modifierBase);
         modifierBase.Apply();
     }

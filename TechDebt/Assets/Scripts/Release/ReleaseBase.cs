@@ -73,6 +73,7 @@ public class ReleaseBase
         }
         SetState(ReleaseState.DeploymentCompleted);
         GameManager.Instance.UIManager.ShowAlert($"Deployment {GetVersionString()} Complete");
+        OnDeploymentCompleted();
         return true;
     }
 
@@ -151,5 +152,11 @@ public class ReleaseBase
             default:
                 throw new System.Exception($"ReleaseBase.NextState - No NextStep for {State}");
         }
+    }
+
+    public static int IncrGlobalVersion()
+    {
+        GlobalVersion += 1;
+        return GlobalVersion;
     }
 }

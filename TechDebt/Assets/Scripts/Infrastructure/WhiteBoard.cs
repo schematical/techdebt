@@ -24,7 +24,7 @@ namespace Infrastructure
                "Your team will start working towards a feature that will reward you once deployed."
            );
            int saftyCheck = 0;
-           List<ModifierBase> traits = new List<ModifierBase>();
+           List<ModifierBase> modifiers = new List<ModifierBase>();
            int optionCount = 3;
            /*if (GameManager.Instance.Modifiers.Modifiers.Count >= GameManager.Stats.GetStatValue(StatType.NPC_ModifierSlots))
            {
@@ -32,24 +32,24 @@ namespace Infrastructure
            }*/
            while (
                saftyCheck < 20 &&
-               traits.Count < optionCount
+               modifiers.Count < optionCount
            )
            {
                saftyCheck++;
                ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.Release);
-               if (traits.Find((t) => t.Id == modifierBase.Id) != null)
+               if (modifiers.Find((t) => t.Id == modifierBase.Id) != null)
                {
                    continue;
                }
                ModifierBase existingModifierBase = GameManager.Instance.Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
-               // Debug.Log($"TraitTest: {existingTrait != null} && {Traits.Count} < {Stats.GetStatValue(StatType.NPC_TraitSlots)}");
+              
                if (
                    existingModifierBase == null
                    
                ) {
                    /*if (GameManager.Instance.Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                    {*/
-                       traits.Add(modifierBase);
+                       modifiers.Add(modifierBase);
                        GameManager.Instance.UIManager.MultiSelectPanel.Add(
                                modifierBase.Id,
                                sprite,
@@ -57,7 +57,11 @@ namespace Infrastructure
                            )
                            .OnClick((string id) =>
                            {
-                               ReleaseBase releaseBase = new ReleaseBase();
+                               ReleaseBase releaseBase = new ReleaseBase()  
+                               {
+                                   ServiceId = "monolith",
+                                   Version = ReleaseBase.IncrGlobalVersion(),
+                               };
                                releaseBase.RewardModifier = modifierBase;
                                GameManager.Instance.Releases.Add(releaseBase);
                                CodeTask codeTask = new CodeTask(releaseBase);
@@ -68,7 +72,7 @@ namespace Infrastructure
                }
                else
                {
-                   traits.Add(existingModifierBase);
+                   modifiers.Add(existingModifierBase);
                    GameManager.Instance.UIManager.MultiSelectPanel.Add(
                            existingModifierBase.Id, 
                            sprite, 
@@ -77,7 +81,11 @@ namespace Infrastructure
                        .OnClick((string id) =>
                        {
                            
-                           ReleaseBase releaseBase = new ReleaseBase();
+                           ReleaseBase releaseBase = new ReleaseBase()  
+                           {
+                               ServiceId = "monolith",
+                               Version = ReleaseBase.IncrGlobalVersion(),
+                           };;
                            releaseBase.RewardModifier = modifierBase;
                            GameManager.Instance.Releases.Add(releaseBase);
                            CodeTask codeTask = new CodeTask(releaseBase);

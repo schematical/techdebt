@@ -509,7 +509,7 @@ public Transform GetTransform()
         string content = $"<b>{data.DisplayName}</b>\n";
         content += $"Type: {data.Type}\n";
         content += $"State: {data.CurrentState}\n\n";
-
+        content += $"Release: {Version}\n\n";
         content += "<b>Stats:</b>\n";
         foreach (var stat in data.Stats.Stats.Values)
         {

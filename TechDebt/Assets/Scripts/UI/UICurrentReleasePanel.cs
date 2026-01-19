@@ -6,6 +6,7 @@ namespace UI
 {
     public class UICurrentReleasePanel: MonoBehaviour
     {
+        public Dictionary<string, UIProgressBarPanel> ProgressBarPanels = new Dictionary<string, UIProgressBarPanel>();
         public Transform scrollContent;
         void OnEnable()
         {
@@ -25,21 +26,39 @@ namespace UI
 
         private void Refresh()
         {
-            // Clear existing entries
-            foreach (Transform child in scrollContent.transform)
+            if (GameManager.Instance == null)
             {
-                Destroy(child.gameObject);
+                return;
             }
-
+     
             List<ReleaseBase> releases = GameManager.Instance.Releases.ToList();
             releases.Reverse();
 
             foreach (var release in releases)
             {
-                GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UIProgressBarPanel");
-                UIProgressBarPanel progressBarPanel = Instantiate(textAreaPrefab, scrollContent.transform).GetComponent<UIProgressBarPanel>(); 
-                progressBarPanel.Text.text = release.GetDescription();
-                progressBarPanel.SetProgress(release.CurrentProgress / release.RequiredProgress);
+                Color color = Color.white;
+                switch (release.State) 
+                {
+                    case ReleaseBase.ReleaseState.Failed:
+                    case ReleaseBase.ReleaseState.DeploymentCompleted:
+                        if (ProgressBarPanels.ContainsKey(release.GetVersionString()))
+                        {
+                            color = new Color(1f, 1f, 1f, 0.5f);
+                            // ProgressBarPanels[release.GetVersionString()].gameObject.SetActive(false);
+                        }
+                    continue;
+                    case ReleaseBase.ReleaseState.DeploymentInProgress:
+                        color =  Color.green;
+                        break;
+                }
+                if (!ProgressBarPanels.ContainsKey(release.GetVersionString()))
+                {
+                    GameObject progrssBarPrefab = GameManager.Instance.prefabManager.GetPrefab("UIProgressBarPanel");
+                    ProgressBarPanels[release.GetVersionString()] = Instantiate(progrssBarPrefab, scrollContent.transform).GetComponent<UIProgressBarPanel>(); 
+                }
+              
+                ProgressBarPanels[release.GetVersionString()].Text.text = release.GetDescription();
+                ProgressBarPanels[release.GetVersionString()].SetProgress(release.CurrentProgress / release.RequiredProgress, color);
             }
         }
     }
