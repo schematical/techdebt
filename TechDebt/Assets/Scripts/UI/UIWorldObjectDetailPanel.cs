@@ -11,13 +11,7 @@ namespace UI
         private WorldObjectBase _selectedWorldObject;
         public UITextArea textArea;
         private List<Button> _taskButtons = new List<Button>();
-    
 
-        /*void Start()
-        {
-
-        
-        }*/
         void Update()
         {
             textArea.textArea.text = _selectedWorldObject.GetDetailText();
@@ -46,6 +40,9 @@ namespace UI
                 });
                 _taskButtons.Add(newButton.button);
             }
+            
+            textArea.transform.SetAsLastSibling();
+          
             
         }
 

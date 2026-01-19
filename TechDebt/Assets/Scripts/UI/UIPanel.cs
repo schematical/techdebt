@@ -41,7 +41,7 @@ public class UIPanel : MonoBehaviour
             return null;
         }
 
-        var buttonGO = Instantiate(uiButtonPrefab, scrollContent);
+        var buttonGO = Instantiate(uiButtonPrefab, scrollContent.transform);
         var uiButton = buttonGO.GetComponent<UIButton>();
 
         if (uiButton == null)
