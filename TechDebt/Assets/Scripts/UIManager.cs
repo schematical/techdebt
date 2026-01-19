@@ -35,13 +35,14 @@ public class UIManager : MonoBehaviour
     [FormerlySerializedAs("DeploymentHistoryPanel")] public UIReleaseHistoryPanel  releaseHistoryPanel;
     public UICurrentReleasePanel currentReleasePanel;
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
-
+    public UIWorldObjectDetailPanel worldObjectDetailPanel;
+    
     public UITimeControlPanel timeControlPanel;
     // OLD UI Containers
     private GameObject summaryPhaseUIContainer;
  
     private GameObject hireDevOpsPanel;
-    private GameObject infrastructureDetailPanel;
+    
     private GameObject itemDetailPanel;
    
     private GameObject taskListPanel;
@@ -83,11 +84,11 @@ public class UIManager : MonoBehaviour
     // Tech Tree
     private Transform techTreeContent;
 
-    private WorldObjectBase _selectedWorldObject;
+
     private Items.ItemBase _selectedItem;
     private NPCDevOps _selectedNPC;
 
-    private List<Button> _taskButtons = new List<Button>();
+  
     private bool _isInitialized = false;
 
     void Start()
@@ -106,7 +107,6 @@ public class UIManager : MonoBehaviour
         SetupNPCDetailPanel(transform);
         SetupTaskListPanel(transform);
         SetupTechTreePanel(transform);
-        SetupInfrastructureDetailPanel(transform);
         SetupAlertPanel(transform);
         SetupItemDetailPanel(transform);
         SetupDebugPanel(transform);
@@ -129,8 +129,9 @@ public class UIManager : MonoBehaviour
         planPhaseMenuPanel.gameObject.SetActive(true);
         summaryPhaseUIContainer.SetActive(false);
         timeControlPanel.gameObject.SetActive(false);
+        worldObjectDetailPanel.gameObject.SetActive(false);
         // hireDevOpsPanel.SetActive(false);
-        infrastructureDetailPanel.SetActive(false);
+        
         taskListPanel.SetActive(false);
         npcDetailPanel.SetActive(false);
         npcListPanel.SetActive(false);
@@ -250,10 +251,7 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        if (infrastructureDetailPanel != null && infrastructureDetailPanel.activeSelf)
-        {
-            UpdateInfrastructureDetailPanel();
-        }
+       
 
         if (npcDetailPanel != null && npcDetailPanel.activeSelf)
         {
@@ -261,49 +259,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void UpdateInfrastructureDetailPanel()
-    {
-        if (_selectedWorldObject == null) return;
-        InfrastructureInstance infra = _selectedWorldObject.GetComponent<InfrastructureInstance>();
-        if (infra != null)
-        {
-            _infrastructureDetailText.text = _selectedWorldObject.name;
-        }
-        string content = $"<b>{infra.data.DisplayName}</b>\n";
-        content += $"Type: {infra.data.Type}\n";
-        content += $"State: {infra.data.CurrentState}\n\n";
-
-        content += "<b>Stats:</b>\n";
-        foreach (var stat in infra.data.Stats.Stats.Values)
-        {
-            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
-            if (stat.Modifiers.Count > 0)
-            {
-                content += "  <i>Modifiers:</i>\n";
-                foreach (var mod in stat.Modifiers)
-                {
-                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {mod.Source.GetType().Name}\n";
-                }
-            }
-        }
-
-        content += "\n<b>Connections:</b>\n";
-        if (infra.CurrConnections.Count == 0)
-        {
-            content += "No active connections.";
-        }
-        else
-        {
-            foreach (var kvp in infra.CurrConnections)
-            {
-                content += $"- <b>{kvp.Key}:</b> ";
-                content += string.Join(", ", kvp.Value.Select(conn => conn.TargetID));
-                content += "\n";
-            }
-        }
-
-        _infrastructureDetailText.text = content;
-    }
+   
 
     private void UpdateNPCDetailPanel()
     {
@@ -822,54 +778,7 @@ public class UIManager : MonoBehaviour
         });
     }
 
-    private void SetupInfrastructureDetailPanel(Transform parent)
-    {
-        GameObject panelGO = CreateUIPanel(parent, "InfrastructureDetailPanel", new Vector2(300, 400),
-            new Vector2(0, 0), new Vector2(0, 0), new Vector2(250, 200));
-        infrastructureDetailPanel = panelGO;
-        UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
 
-        if (uiPanel == null)
-        {
-            Debug.LogError($"InfrastructureDetailPanel GameObject '{{panelGO.name}}' is missing a UIPanel component.");
-            return;
-        }
-
-        uiPanel.titleText.text = "Infrastructure Details";
-        uiPanel.closeButton.onClick.AddListener(HideInfrastructureDetail);
-
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
-            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
-            if (uiTextArea != null)
-            {
-                _infrastructureDetailText = uiTextArea.textArea;
-                _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
-                textAreaGO.AddComponent<LayoutElement>().flexibleHeight = 1;
-            }
-            else
-            {
-                Debug.LogError("UITextArea prefab is missing the UITextArea component.");
-            }
-        }
-        else
-        {
-            Debug.LogError("UITextArea prefab not found in PrefabManager.");
-            _infrastructureDetailText = CreateText(uiPanel.scrollContent, "DetailContentText", "", 14);
-            _infrastructureDetailText.alignment = TextAlignmentOptions.TopLeft;
-            _infrastructureDetailText.gameObject.AddComponent<LayoutElement>().flexibleHeight = 1;
-        }
-        /*InfrastructureInstance infra = _selectedWorldObject.GetComponent<InfrastructureInstance>();
-        if (infra != null) {
-            _planBuildButton = uiPanel
-                .AddButton("Plan Build", () => GameManager.Instance.PlanInfrastructure(infra)).button;
-            _planBuildButton.gameObject.SetActive(false);
-        }*/
-        
-        infrastructureDetailPanel.SetActive(false);
-    }
 
     private void SetupDebugPanel(Transform parent)
     {
@@ -957,39 +866,7 @@ public class UIManager : MonoBehaviour
 
     
 
-    public void ShowWorldObjectDetail(WorldObjectBase instance)
-    {
-        _selectedWorldObject = instance;
-        infrastructureDetailPanel.SetActive(true);
-        UIPanel uiPanel = infrastructureDetailPanel.GetComponent<UIPanel>();
-
-        // Cleanup previous task buttons
-        foreach (var button in _taskButtons)
-        {
-            Destroy(button.gameObject);
-        }
-        _taskButtons.Clear();
-
-   
-        
-        List<NPCTask> tasks = _selectedWorldObject.GetAvailableTasks();
-        foreach (NPCTask task in tasks)
-        {
-            NPCTask localTask = task; // Local copy for the closure
-            var newButton = uiPanel.AddButton(task.GetAssignButtonText(), () =>
-            {
-                GameManager.Instance.AddTask(localTask);
-                HideInfrastructureDetail(); 
-            });
-            _taskButtons.Add(newButton.button);
-        }
-    }
-
-    public void HideInfrastructureDetail()
-    {
-        _selectedWorldObject = null;
-        infrastructureDetailPanel.SetActive(false);
-    }
+    
 
   
     

@@ -16,7 +16,7 @@ namespace Infrastructure
             UIManager uiManager = GameManager.Instance.UIManager;
             if (uiManager != null)
             {
-                uiManager.ShowWorldObjectDetail(this);
+                uiManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
             }
         }
 
@@ -24,5 +24,10 @@ namespace Infrastructure
         {
             return new List<NPCTask>();
         }
+        public virtual string GetDetailText()
+             {
+                 return gameObject.name;
+             }
     }
+    
 }

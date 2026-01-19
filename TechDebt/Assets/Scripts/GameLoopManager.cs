@@ -135,6 +135,7 @@ public class GameLoopManager : MonoBehaviour
             StatType.DailyIncome,
             new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
         );
+        GameManager.Instance.UIManager.SetTimeScalePlay();
         // GameManager.Instance.CheckEvents();
     }
 

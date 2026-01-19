@@ -58,7 +58,7 @@ public class UIMetaChallengesPanel: UIPanel
                 string challengeColor = isCompleted ? "#88FF88" : "white"; // Green for completed
 
                 sb.AppendLine($"<color={challengeColor}>{challenge.DisplayName}</color>");
-                sb.AppendLine($"<size=10>{challenge.Description}</size>");
+                sb.AppendLine($"<b>{challenge.Description}</b>");
                 sb.AppendLine($"<i>Progress: {currentProgress}/{challenge.RequiredValue} ({ (isCompleted ? "Completed" : "In Progress") })</i>");
                 sb.AppendLine($"<i>Reward: {challenge.RewardId}</i>");
                 

@@ -503,4 +503,42 @@ public Transform GetTransform()
         return availableTasks;
 
     }
+
+    public override string GetDetailText()
+    {
+        string content = $"<b>{data.DisplayName}</b>\n";
+        content += $"Type: {data.Type}\n";
+        content += $"State: {data.CurrentState}\n\n";
+
+        content += "<b>Stats:</b>\n";
+        foreach (var stat in data.Stats.Stats.Values)
+        {
+            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
+            if (stat.Modifiers.Count > 0)
+            {
+                content += "  <i>Modifiers:</i>\n";
+                foreach (var mod in stat.Modifiers)
+                {
+                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {mod.Source.GetType().Name}\n";
+                }
+            }
+        }
+
+        content += "\n<b>Connections:</b>\n";
+        if (CurrConnections.Count == 0)
+        {
+            content += "No active connections.";
+        }
+        else
+        {
+            foreach (var kvp in CurrConnections)
+            {
+                content += $"- <b>{kvp.Key}:</b> ";
+                content += string.Join(", ", kvp.Value.Select(conn => conn.TargetID));
+                content += "\n";
+            }
+        }
+
+        return content;
+    }
 }

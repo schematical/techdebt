@@ -742,14 +742,14 @@ public class GameManager : MonoBehaviour
 
         infra.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
         Debug.Log($"Successfully planned {infra.data.DisplayName}.");
-        UIManager.HideInfrastructureDetail();
+        UIManager.worldObjectDetailPanel.Close();
     }
     
     public void RequestInfrastructureResize(InfrastructureInstance instance, int sizeChange)
     {
         var resizeTask = new ResizeTask(instance, sizeChange);
         AddTask(resizeTask);
-        UIManager.HideInfrastructureDetail();
+        UIManager.worldObjectDetailPanel.Close();
     }
     
     public List<NPCDevOpsData> GenerateNPCCandidates(int count)

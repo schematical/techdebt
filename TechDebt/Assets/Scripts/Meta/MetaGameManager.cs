@@ -309,6 +309,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "binary-storage",
                 DisplayName = "Binary Storage",
+                Description = "Successfully handle 100 images",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "server1",
                 RewardId = "binary-storage",
@@ -318,6 +319,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "redis",
                 DisplayName = "Redis Cache",
+                Description = "Have your dedicated database handel 100 text packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "dedicated-db",
                 RewardId = "redis",
@@ -327,6 +329,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "cash1",
                 DisplayName = "Extra Starting Cash 1",
+                Description = "Make it to day 5",
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
                 RewardValue = 2f,
@@ -336,6 +339,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "cdn",
                 DisplayName = "Content Delivery Network(CDN)",
+                Description = "Send 200 images to S3 successfully",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "s3-bucket",
                 RewardId = "cdn",
@@ -345,6 +349,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "load-balancer",
                 DisplayName = "Load Balancer",
+                Description = "Make it to day 9",
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
                 RewardValue = 2f,
@@ -354,6 +359,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "read-replicas",
                 DisplayName = "Read Replicas",
+                Description = "Upsize your database to level 2",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "dedicated-db",
                 RewardId = "read-replicas",
@@ -363,6 +369,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "codepipeline",
                 DisplayName = "Code Pipeline",
+                Description = "Successfully deploy 50 releases",
                 metaStat = MetaStat.Deployments,
                 RewardId = "codepipeline",
                 RequiredValue = 50
