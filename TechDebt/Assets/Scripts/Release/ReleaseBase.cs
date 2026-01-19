@@ -23,7 +23,7 @@ public class ReleaseBase
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
     // TODO: Optimized score, gives a latency bonus or a load bonus
-    public ReleaseState State { get; set; } = ReleaseState.InDevelopment;
+    public ReleaseState State { get; private set; } = ReleaseState.InDevelopment;
 
     public ModifierBase RewardModifier;
     public float CurrentProgress = 0f;

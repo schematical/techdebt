@@ -14,7 +14,7 @@ namespace UI
 
         void Start()
         {
-            ProgressImage = ProgressPanelHolder.GetComponent<Image>();
+            ProgressImage = ProgressBar.GetComponent<Image>();
         }
         public void SetProgress(float progress, Color color = new Color())
         {

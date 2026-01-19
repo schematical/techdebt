@@ -47,8 +47,9 @@ namespace UI
                             // ProgressBarPanels[release.GetVersionString()].gameObject.SetActive(false);
                         }
                     continue;
+                    case ReleaseBase.ReleaseState.DeploymentReady:
                     case ReleaseBase.ReleaseState.DeploymentInProgress:
-                        color =  Color.green;
+                        color =  Color.blue;
                         break;
                 }
                 if (!ProgressBarPanels.ContainsKey(release.GetVersionString()))
