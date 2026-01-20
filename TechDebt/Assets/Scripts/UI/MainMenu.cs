@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class MainMenu : MonoBehaviour
 {
-    public TextMeshProUGUI metaCurrencyText;
+
     public Button newGameBtn;
     [FormerlySerializedAs("loadGameBtn")] public Button unlockBtn;
     public Button challengesBtn;
@@ -19,7 +19,7 @@ public class MainMenu : MonoBehaviour
         Debug.Log("MainMenu script started. Time scale is now 1.");
         Time.timeScale = 1f;
         
-        UpdateMetaCurrencyText();
+        
         newGameBtn.onClick.AddListener(NewGame);
     
 
@@ -59,16 +59,5 @@ public class MainMenu : MonoBehaviour
         // Open settings menu
     }
 
-    private void UpdateMetaCurrencyText()
-    {
-        if (metaCurrencyText != null)
-        {
-            int metaDollars = PlayerPrefs.GetInt("metaDollars", 0);
-            metaCurrencyText.text = $"Schemata-Bucks: {metaDollars}";
-        }
-        else
-        {
-            Debug.LogError("metaCurrencyText is not assigned in the Inspector on the MainMenu script!");
-        }
-    }
+   
 }

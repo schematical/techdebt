@@ -53,21 +53,6 @@ public class CreateMainMenuScene
         titleRect.anchoredPosition = new Vector2(0, 150);
         titleRect.sizeDelta = new Vector2(600, 100);
 
-        // --- Meta Currency ---
-        GameObject metaCurrencyGO = new GameObject("MetaCurrencyText");
-        metaCurrencyGO.transform.SetParent(canvasGO.transform);
-        TextMeshProUGUI metaCurrencyText = metaCurrencyGO.AddComponent<TextMeshProUGUI>();
-        metaCurrencyText.text = "Schemata-Bucks: 0";
-        metaCurrencyText.fontSize = 24;
-        metaCurrencyText.alignment = TextAlignmentOptions.Center;
-        RectTransform metaCurrencyRect = metaCurrencyGO.GetComponent<RectTransform>();
-        metaCurrencyRect.anchorMin = new Vector2(0.5f, 1f);
-        metaCurrencyRect.anchorMax = new Vector2(0.5f, 1f);
-        metaCurrencyRect.pivot = new Vector2(0.5f, 1f);
-        metaCurrencyRect.anchoredPosition = new Vector2(0, -20);
-        metaCurrencyRect.sizeDelta = new Vector2(400, 50);
-        mainMenu.metaCurrencyText = metaCurrencyText;
-
         // --- Buttons ---
         CreateButton(canvasGO.transform, "New Game Button", "New Game", new Vector2(0, 50), mainMenu.NewGame);
         CreateButton(canvasGO.transform, "Load Game Button", "Load Game", new Vector2(0, 0), mainMenu.ShowUnlockPanel);
