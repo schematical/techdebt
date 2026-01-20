@@ -30,7 +30,7 @@ public class ResearchTask : NPCTask
         if (desk == null) return;
         
         // Apply research points only if the NPC is at the desk
-        if (hasArrived)
+        if (isCloseEnough())
         {
             var devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)

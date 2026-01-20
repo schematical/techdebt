@@ -18,7 +18,7 @@ public class ResizeTask : NPCTask
 
     public override void OnUpdate(NPCBase npc)
     {
-        if (hasArrived)
+        if (isCloseEnough())
         {
             npc.AddXP(Time.deltaTime);
             if (TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
@@ -31,7 +31,7 @@ public class ResizeTask : NPCTask
 
     public override bool IsFinished(NPCBase npc)
     {
-        return hasArrived && _duration <= 0;
+        return isCloseEnough() && _duration <= 0;
     }
 
     public override void OnEnd(NPCBase npc)

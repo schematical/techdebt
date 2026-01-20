@@ -15,7 +15,7 @@ public class UseItemTask : NPCTask
     {
         // The base NPCTask's Update handles movement. 
         // We only need to act when the NPC has arrived.
-        if (hasArrived && !IsFinished(npc))
+        if (isCloseEnough() && !IsFinished(npc))
         {
             if (TargetItem != null)
             {

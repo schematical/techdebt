@@ -24,7 +24,7 @@ public class DeploymentTask : NPCTask
     }
     public override void OnUpdate(NPCBase npc)
     {
-        if (hasArrived)
+        if (isCloseEnough())
         {
             deploymentProgress += Time.deltaTime;
             npc.AddXP(Time.deltaTime);

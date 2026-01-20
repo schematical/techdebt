@@ -20,19 +20,27 @@ public abstract class NPCTask
     public bool IsAssigned => AssignedNPC != null;
 
     protected Vector3? destination;
-    protected bool hasArrived;
+
+    public bool isCloseEnough()
+    {
+        if (destination == null)
+        {
+            return false;
+        }
+        return Vector3.Distance(destination.Value, AssignedNPC.transform.position) < 1f;
+    }
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
     public NPCTask(Vector3? destination = null)
     {
         this.destination = destination;
-        hasArrived = false;
+     
         
     }
 
     public virtual void OnInterrupt()
     {
         CurrentState = State.Interrupted;
-        hasArrived = false;
+
         Unassign();
     }
 
@@ -51,7 +59,7 @@ public abstract class NPCTask
     public void Unassign()
     {
         AssignedNPC = null;
-        hasArrived = false;
+
         CurrentState = State.Queued;
     }
 
@@ -70,13 +78,11 @@ public abstract class NPCTask
 
     public virtual void OnEnd(NPCBase npc)
     {
-        hasArrived = false;
         GameManager.Instance.CompleteTask(this);
     }
     
     public void HandleArrival()
     {
-        hasArrived = true;
      
     }
 
@@ -92,10 +98,9 @@ public abstract class NPCTask
     public virtual void OnQueued()
     {
         CurrentState = State.Queued;
-        hasArrived =  false;
     }
     public virtual string GetDescription()
     {
-        return $"State: {CurrentState} - Priority: {Priority} Has Arrived: {hasArrived}";
+        return $"State: {CurrentState} - Priority: {Priority} - `isCloseEnough`: {isCloseEnough()}";
     }
 }

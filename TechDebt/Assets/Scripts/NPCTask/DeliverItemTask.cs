@@ -48,7 +48,7 @@ public class DeliverItemTask : NPCTask
 
     public override void OnUpdate(NPCBase npc)
     {
-        if (!hasArrived) return;
+        if (!isCloseEnough()) return;
 
         switch (_currentState)
         {
@@ -58,7 +58,6 @@ public class DeliverItemTask : NPCTask
                 GameManager.Instance.prefabManager.Create("BoxItem", _dropOffPosition);
                 
                 // Now, set the destination back to the door and start moving.
-                hasArrived = false;
                 _currentState = DeliveryState.ReturningToDoor;
                 this.destination = _doorInstance.transform.position;
                 base.OnStart(npc); 
@@ -73,7 +72,7 @@ public class DeliverItemTask : NPCTask
     public override bool IsFinished(NPCBase npc)
     {
         // The task is finished when the NPC has returned to the door.
-        return _currentState == DeliveryState.ReturningToDoor && hasArrived;
+        return _currentState == DeliveryState.ReturningToDoor && isCloseEnough();
     }
 
     public override void OnEnd(NPCBase npc)

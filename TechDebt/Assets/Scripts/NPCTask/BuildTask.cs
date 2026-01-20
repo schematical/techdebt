@@ -22,7 +22,7 @@ public class BuildTask : NPCTask
     public override void OnUpdate(NPCBase npc)
     {
         // Only start building after the NPC has arrived.
-        if (hasArrived)
+        if (isCloseEnough())
         {
             if (buildEffect == null)
             {
