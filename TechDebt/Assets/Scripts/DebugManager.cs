@@ -43,6 +43,5 @@ public class DebugManager : MonoBehaviour
         {
             uiManager.ToggleDebugPanel();
         }
-        Debug.Log("Debug panel toggled: " + isDebugPanelOpen);
     }
 }

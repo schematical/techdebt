@@ -124,7 +124,6 @@ public class ReleaseBase
         GameManager.Instance.InvokeReleaseChanged(this, this.State);
         if (CurrentProgress >= RequiredProgress)
         {
-            Debug.Log($"ReleaseBase.NextState: {CurrentProgress}  >=  {progressGained}");
             NextState();
         }
     }

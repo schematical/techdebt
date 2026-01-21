@@ -57,7 +57,6 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            level ++;
            currentXP = 0;
            lastDisplayXP = 0;
-           Debug.Log($"Checking  (GameManager.Instance.Tutorial != null) =  {GameManager.Instance.Tutorial != null}");
        
            Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
          

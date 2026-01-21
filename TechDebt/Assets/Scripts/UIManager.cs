@@ -36,10 +36,9 @@ public class UIManager : MonoBehaviour
     public UICurrentReleasePanel currentReleasePanel;
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
     public UIWorldObjectDetailPanel worldObjectDetailPanel;
-    
+    public UISummaryPhasePanel summaryPhasePanel;
     public UITimeControlPanel timeControlPanel;
     // OLD UI Containers
-    private GameObject summaryPhaseUIContainer;
  
     private GameObject hireDevOpsPanel;
     
@@ -53,7 +52,6 @@ public class UIManager : MonoBehaviour
     private GameObject eventLogPanel;
     private GameObject debugPanel;
     private GameObject eventTriggerPanel;
-    private UITextArea summaryPhaseText;
     private NPCDialogPanel _currentNPCDialogPanel;
     // UI Elements
     public TextMeshProUGUI _infrastructureDetailText;
@@ -112,7 +110,6 @@ public class UIManager : MonoBehaviour
         SetupDebugPanel(transform);
         SetupEventTriggerPanel(transform);
         SetupNPCDialogPanel(transform);
-        SetupSummaryPhaseUI(transform); // This was missing from Start()
         
         // currentReleasePanel.gameObject.SetActive(false);
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
@@ -126,9 +123,6 @@ public class UIManager : MonoBehaviour
         MultiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.gameObject.SetActive(false);
         deskMenuPanel.gameObject.SetActive(false);
-        // planPhaseMenuPanel.gameObject.SetActive(false);
-        summaryPhaseUIContainer.SetActive(false);
-        timeControlPanel.gameObject.SetActive(false);
         worldObjectDetailPanel.gameObject.SetActive(false);
         // hireDevOpsPanel.SetActive(false);
         
@@ -751,23 +745,6 @@ public class UIManager : MonoBehaviour
 
  
 
-    private void SetupSummaryPhaseUI(Transform parent)
-    {
-        summaryPhaseUIContainer = CreateUIPanel(parent, "SummaryPhaseUI", new Vector2(400, 300),
-            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero);
-        CreateText(summaryPhaseUIContainer.transform, "Summary Text", "", 24);
-
-        GameObject textPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        UIPanel uiPanel = summaryPhaseUIContainer.GetComponent<UIPanel>();
-        summaryPhaseText = Instantiate(textPrefab, uiPanel.scrollContent).GetComponent<UITextArea>();
-
-        uiPanel.AddButton("Continue", () =>
-        {
-            GameManager.Instance.GameLoopManager.ForceBeginPlanPhase();
-            summaryPhaseUIContainer.SetActive(false);
-        });
-    }
-
 
 
     private void SetupDebugPanel(Transform parent)
@@ -929,9 +906,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowSummaryUI(string text)
     {
-        summaryPhaseUIContainer.SetActive(true);
-        // Add summary text
-        summaryPhaseText.textArea.text = text;
+        summaryPhasePanel.gameObject.SetActive(true);
+        summaryPhasePanel.textArea.textArea.text = text;
     }
 
     public void ShowNPCDialog(Sprite portrait, string dialog, List<DialogButtonOption> options = null)

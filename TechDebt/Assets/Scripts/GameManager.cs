@@ -586,7 +586,6 @@ public class GameManager : MonoBehaviour
                 {
                     instance.gameObject.SetActive(true);
                     instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
-                    Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
                 }
             }
         }
@@ -923,7 +922,7 @@ public class GameManager : MonoBehaviour
 
     public void AddModifier(ModifierBase modifierBase)
     {
-        Debug.Log("AddModifier:  " + modifierBase.Id);
+
         Modifiers.Modifiers.Add(modifierBase);
         modifierBase.Apply();
     }
