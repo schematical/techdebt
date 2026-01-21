@@ -167,7 +167,8 @@ public static class MetaGameManager
         List<MetaChallengeBase> diffChallenges = new List<MetaChallengeBase>();
         foreach (MetaChallengeBase currChallenge in currCompletedChallenges)
         {
-            if(!prevCompletedChallenges.Contains(currChallenge)){
+            MetaChallengeBase existingChallengeBase = prevCompletedChallenges.Find((c) => c.ChallengeID == currChallenge.ChallengeID);
+            if(existingChallengeBase == null){
                 diffChallenges.Add(currChallenge);
             }
         }

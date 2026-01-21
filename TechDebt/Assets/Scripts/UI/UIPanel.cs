@@ -14,15 +14,19 @@ public class UIPanel : MonoBehaviour
         if (closeButton != null)
         {
            
-            closeButton.onClick.AddListener(() =>
-            {
-                gameObject.SetActive(false);
-            });
+            closeButton.onClick.AddListener(OnClose);
         }
         else
         {
             Debug.LogError("Missing `closeButton`");
         }
+    }
+
+    protected virtual void OnClose()
+    {
+      
+        gameObject.SetActive(false);
+        
     }
 
     public UIButton AddButton(string buttonText, UnityAction onClickAction)

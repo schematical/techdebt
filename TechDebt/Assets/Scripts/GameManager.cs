@@ -897,7 +897,7 @@ public class GameManager : MonoBehaviour
             foreach (MetaChallengeBase challenge in newlyPassedChallenges)
             {
                 alertText += $"Unlocked: {challenge.DisplayName!}\n";
-            }
+            } 
 
             UIManager.ShowAlert(alertText);
         }

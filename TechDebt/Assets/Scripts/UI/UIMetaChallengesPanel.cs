@@ -70,4 +70,10 @@ public class UIMetaChallengesPanel: UIPanel
             }
         }
     }
+
+    protected override void OnClose()
+    {
+        base.OnClose();
+        UIMainMenuCanvas.Instance.mainMenu.gameObject.SetActive(true);
+    }
 }
