@@ -44,7 +44,7 @@ public class UIMetaChallengesPanel: UIPanel
                 var statPair = infraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
                 if (statPair != null)
                 {
-                    currentProgress = statPair.value;
+                    currentProgress = statPair.cumulativeValue;
                 }
             }
             bool isCompleted = MetaGameManager.IsChallengeCompleted(progressData, challenge);

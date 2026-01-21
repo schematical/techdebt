@@ -1,21 +1,24 @@
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 [System.Serializable]
-public class MetaStatPair
+public class MetaStatData
 {
     public string statName;
-    public int value;
+    [FormerlySerializedAs("value")] public int cumulativeValue;
+    public int highestValue;
+  
 }
 
 [System.Serializable]
 public class InfraMetaStatSaveData
 {
     public string infraId;
-    public List<MetaStatPair> stats;
+    public List<MetaStatData> stats;
 
     public InfraMetaStatSaveData()
     {
-        stats = new List<MetaStatPair>();
+        stats = new List<MetaStatData>();
     }
 }
 
@@ -23,12 +26,12 @@ public class InfraMetaStatSaveData
 public class MetaStatSaveData
 {
     public List<InfraMetaStatSaveData> infra;
-    public List<MetaStatPair>  game;
+    public List<MetaStatData>  game;
 
     public MetaStatSaveData()
     {
         infra = new List<InfraMetaStatSaveData>();
-        game = new List<MetaStatPair>();
+        game = new List<MetaStatData>();
     }
 }
 

@@ -61,7 +61,7 @@ public static class MetaGameManager
         
         if (progressData.metaStats.game == null)
         {
-            progressData.metaStats.game = new List<MetaStatPair>();
+            progressData.metaStats.game = new List<MetaStatData>();
         }
 
         
@@ -71,11 +71,11 @@ public static class MetaGameManager
                 progressData.metaStats.game.Find(s => s.statName == stat.Key.ToString());
             if (statPair == null)
             {
-                statPair = new MetaStatPair() { statName = stat.Key.ToString() };
+                statPair = new MetaStatData() { statName = stat.Key.ToString() };
                 progressData.metaStats.game.Add(statPair);
             }
 
-            statPair.value += stat.Value;
+            statPair.cumulativeValue += stat.Value;
         }
         
         
@@ -96,14 +96,18 @@ public static class MetaGameManager
 
             foreach (var stat in instance.metaStatCollection.Stats)
             {
-                var statPair = infraStats.stats.Find(s => s.statName == stat.Key.ToString());
-                if (statPair == null)
+                MetaStatData statData = infraStats.stats.Find(s => s.statName == stat.Key.ToString());
+                if (statData == null)
                 {
-                    statPair = new MetaStatPair() { statName = stat.Key.ToString() };
-                    infraStats.stats.Add(statPair);
+                    statData = new MetaStatData() { statName = stat.Key.ToString() };
+                    infraStats.stats.Add(statData);
                 }
 
-                statPair.value += stat.Value;
+                if (stat.Value > statData.highestValue)
+                {
+                    statData.highestValue = stat.Value;
+                }
+                statData.cumulativeValue += stat.Value;
             }
         }
 
@@ -131,7 +135,7 @@ public static class MetaGameManager
             var statPair = prevInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
             if (statPair != null)
             {
-                value = statPair.value;
+                value = statPair.cumulativeValue;
             }
         }
         // Check if the challenge was incomplete before but is complete now.
