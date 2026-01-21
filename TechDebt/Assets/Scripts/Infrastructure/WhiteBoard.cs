@@ -57,12 +57,7 @@ namespace Infrastructure
                            )
                            .OnClick((string id) =>
                            {
-                               ReleaseBase releaseBase = new ReleaseBase()  
-                               {
-                                   ServiceId = "monolith",
-                                   Version = ReleaseBase.IncrGlobalVersion(),
-                               };
-                               releaseBase.RewardModifier = modifierBase;
+                               ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
                                GameManager.Instance.Releases.Add(releaseBase);
                                CodeTask codeTask = new CodeTask(releaseBase);
                                GameManager.Instance.AddTask(codeTask);
@@ -81,12 +76,7 @@ namespace Infrastructure
                        .OnClick((string id) =>
                        {
                            
-                           ReleaseBase releaseBase = new ReleaseBase()  
-                           {
-                               ServiceId = "monolith",
-                               Version = ReleaseBase.IncrGlobalVersion(),
-                           };;
-                           releaseBase.RewardModifier = modifierBase;
+                           ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
                            GameManager.Instance.Releases.Add(releaseBase);
                            CodeTask codeTask = new CodeTask(releaseBase);
                            GameManager.Instance.AddTask(codeTask);

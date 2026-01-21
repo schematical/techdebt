@@ -81,7 +81,7 @@ public class DebugPanel : MonoBehaviour
             Debug.Log($"Insta-researched {techName}");
             if (uiManager != null)
             {
-                uiManager.ForceRefreshTechTreePanel();
+                uiManager.RefreshTechTreePanel();
             }
         }
         else
@@ -98,7 +98,7 @@ public class DebugPanel : MonoBehaviour
         Debug.Log("All technologies unlocked.");
         if (uiManager != null)
         {
-            uiManager.ForceRefreshTechTreePanel();
+            uiManager.RefreshTechTreePanel();
         }
     }
 

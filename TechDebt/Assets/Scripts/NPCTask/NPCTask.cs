@@ -27,6 +27,11 @@ public abstract class NPCTask
         {
             return false;
         }
+
+        if (AssignedNPC == null)
+        {
+            Debug.LogError("AssignedNPC is null");
+        }
         return Vector3.Distance(destination.Value, AssignedNPC.transform.position) < 1f;
     }
     public TaskRole Role { get; private set; } = TaskRole.DevOps;

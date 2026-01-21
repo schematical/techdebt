@@ -11,11 +11,7 @@ namespace UI
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
         protected Image ProgressImage;
-
-        void Start()
-        {
-            ProgressImage = ProgressBar.GetComponent<Image>();
-        }
+        
         public void SetProgress(float progress, Color color = new Color())
         {
             if (ProgressPanelHolder == null || ProgressBar == null)
@@ -26,7 +22,10 @@ namespace UI
             float fullWidth = ProgressPanelHolder.rect.width;
             float newWidth = fullWidth * Mathf.Clamp01(progress);
             ProgressBar.anchorMax = new Vector2(newWidth / fullWidth, ProgressBar.anchorMax.y);
-            
+            if (ProgressImage == null)
+            {
+                ProgressImage = ProgressBar.GetComponent<Image>();
+            }
             ProgressImage.color = color;
         }
     }

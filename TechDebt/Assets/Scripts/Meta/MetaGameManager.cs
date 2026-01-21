@@ -99,7 +99,12 @@ public static class MetaGameManager
                 MetaStatData statData = infraStats.stats.Find(s => s.statName == stat.Key.ToString());
                 if (statData == null)
                 {
-                    statData = new MetaStatData() { statName = stat.Key.ToString() };
+                    statData = new MetaStatData()
+                    {
+                        statName = stat.Key.ToString(),
+                        highestValue = 0,
+                        cumulativeValue = 0
+                    };
                     infraStats.stats.Add(statData);
                 }
 
@@ -217,7 +222,7 @@ public static class MetaGameManager
                 TechnologyID = "cdn",
                 DisplayName = "Content Delivery Network(CDN)",
                 Description = "",
-                ResearchPointCost = 5,
+                ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "binary-storage" }
                 // serve up X binary packets with the s3 bucket
             },

@@ -880,7 +880,6 @@ public class GameManager : MonoBehaviour
 
     public void InvokeReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState state)
     {
-        Debug.Log($"InvokeReleaseChanged: {releaseBase.GetVersionString()} - {state}");
         OnReleaseChanged?.Invoke(releaseBase, state);
     }
     

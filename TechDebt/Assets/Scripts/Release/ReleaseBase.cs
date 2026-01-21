@@ -1,4 +1,5 @@
 ﻿
+using System;
 using NPCs;
 using UnityEngine;
 
@@ -16,7 +17,8 @@ public class ReleaseBase
         DeploymentCompleted,
         Failed
     }
-    public string ServiceId { get; set; }
+
+    public string ServiceId { get; set; } = "monolith";
     public int Version  { get; set; }
     
     // TODO Create a hidden "Bug Count"
@@ -27,10 +29,17 @@ public class ReleaseBase
 
     public ModifierBase RewardModifier;
     public float CurrentProgress = 0f;
-    public float RequiredProgress = 5f;// 30f;
+    public float RequiredProgress =  30f;
     public ReleaseBase()
     {
         SetState(ReleaseState.InDevelopment);
+    }
+
+    public ReleaseBase(int version, ModifierBase modifierBase)
+    {
+        Version = version;
+        RewardModifier = modifierBase;
+        RequiredProgress = (float) (30f * Math.Pow(1.25f, modifierBase.Level));
     }
 
 

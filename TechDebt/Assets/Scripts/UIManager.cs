@@ -126,7 +126,7 @@ public class UIManager : MonoBehaviour
         MultiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.gameObject.SetActive(false);
         deskMenuPanel.gameObject.SetActive(false);
-        planPhaseMenuPanel.gameObject.SetActive(true);
+        // planPhaseMenuPanel.gameObject.SetActive(false);
         summaryPhaseUIContainer.SetActive(false);
         timeControlPanel.gameObject.SetActive(false);
         worldObjectDetailPanel.gameObject.SetActive(false);
@@ -136,7 +136,8 @@ public class UIManager : MonoBehaviour
         npcDetailPanel.SetActive(false);
         npcListPanel.SetActive(false);
         techTreePanel.SetActive(false);
-
+        eventLogPanel.SetActive(false);
+        
     }
     public void SetupUIInfrastructure()
     {
@@ -191,7 +192,7 @@ public class UIManager : MonoBehaviour
     public void ToggleEventLogPanel()
     {
         bool wasActive = eventLogPanel.activeSelf;
-        CloseAllSidebarPanels();
+        Close();
         if (!wasActive)
         {
             eventLogPanel.SetActive(true);
@@ -395,7 +396,7 @@ public class UIManager : MonoBehaviour
     public void ToggleDeploymentHistoryPanel()
     {
         bool wasActive = releaseHistoryPanel.gameObject.activeSelf;
-        CloseAllSidebarPanels();
+        Close();
         if (!wasActive)
         {
             releaseHistoryPanel.gameObject.SetActive(true);
@@ -467,7 +468,7 @@ public class UIManager : MonoBehaviour
     public void ToggleNPCListPanel()
     {
         bool wasActive = npcListPanel.activeSelf;
-        CloseAllSidebarPanels();
+        Close();
         if (!wasActive)
         {
             npcListPanel.SetActive(true);
@@ -515,7 +516,7 @@ public class UIManager : MonoBehaviour
     public void ShowNPCDetail(NPCDevOps npc)
     {
         _selectedNPC = npc;
-        npcListPanel.SetActive(false); // Close the list when detail is shown
+        Close();
         npcDetailPanel.SetActive(true);
         UpdateNPCDetailPanel(); // Initial update
     }
@@ -526,15 +527,7 @@ public class UIManager : MonoBehaviour
         npcDetailPanel.SetActive(false);
     }
 
-    private void CloseAllSidebarPanels()
-    {
-        if (taskListPanel != null) taskListPanel.SetActive(false);
-        if (techTreePanel != null) techTreePanel.SetActive(false);
-        if (npcListPanel != null) npcListPanel.SetActive(false);
-        if (npcDetailPanel != null) npcDetailPanel.SetActive(false);
-        if (eventLogPanel != null) eventLogPanel.SetActive(false);
-        if (releaseHistoryPanel != null) releaseHistoryPanel.gameObject.SetActive(false);
-    }
+  
 
 
     private void SetupTaskListPanel(Transform parent)
@@ -564,7 +557,7 @@ public class UIManager : MonoBehaviour
     public void ToggleTaskListPanel()
     {
         bool wasActive = taskListPanel.activeSelf;
-        CloseAllSidebarPanels();
+        Close();
         if (!wasActive)
         {
             taskListPanel.SetActive(true);
@@ -594,7 +587,7 @@ public class UIManager : MonoBehaviour
     public void ToggleTechTreePanel()
     {
         bool wasActive = techTreePanel.activeSelf;
-        CloseAllSidebarPanels();
+        Close();
         if (!wasActive)
         {
             techTreePanel.SetActive(true);
@@ -602,7 +595,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void RefreshTechTreePanel()
+    public void RefreshTechTreePanel()
     {
         if (techTreeContent == null)
         {
@@ -654,10 +647,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ForceRefreshTechTreePanel()
-    {
-        RefreshTechTreePanel();
-    }
+  
 
     private void RefreshTaskList()
     {
