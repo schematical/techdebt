@@ -1,5 +1,6 @@
 ﻿
 using System;
+using MetaChallenges;
 using NPCs;
 using UnityEngine;
 
@@ -98,6 +99,8 @@ public class ReleaseBase
                 RewardModifier.LevelUp();
             }
         }
+
+        GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
     }
     public void SetState(ReleaseState state)
     {

@@ -378,7 +378,7 @@ public static class MetaGameManager
                 RewardValue = 2f,
                 RequiredValue = 2,
                 RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
             },
             new MetaChallengeBase()
             {
@@ -388,19 +388,19 @@ public static class MetaGameManager
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "s3-bucket",
                 RewardId = "cdn",
-                RequiredValue = 200
+                RequiredValue = 50
             },
             new MetaChallengeBase()
             {
                 ChallengeID = "load-balancer",
                 DisplayName = "Load Balancer",
-                Description = "Make it to day 9",
+                Description = "Make it to day 10",
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
                 RewardValue = 2f,
-                RequiredValue = 9,
+                RequiredValue = 10,
                 RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
             },
             new MetaChallengeBase()
             {
@@ -416,10 +416,22 @@ public static class MetaGameManager
             {
                 ChallengeID = "codepipeline",
                 DisplayName = "Code Pipeline",
-                Description = "Successfully deploy 50 releases",
+                Description = "Successfully deploy 25 releases in one run",
                 metaStat = MetaStat.Deployments,
                 RewardId = "codepipeline",
-                RequiredValue = 50
+                RequiredValue = 25,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "sqs",
+                DisplayName = "Simple Queue Service",
+                Description = "Successfully handle 200 packets with the load balancer",
+                metaStat = MetaStat.Infra_HandleNetworkPacket,
+                InfrastructureId = "load-balancer",
+                RewardId = "sqs",
+                RequiredValue = 200,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
             },
         };
         
