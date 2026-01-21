@@ -10,8 +10,9 @@ public class InternetPipe : InfrastructureInstance
         if (
 			GameManager.Instance.GameLoopManager.CurrentState == GameLoopManager.GameState.Play && 
 			IsActive()
-		) {
-            float packetsPerSecond = GameManager.Instance.GetStat(StatType.Traffic);
+		)
+        {
+            float packetsPerSecond = GameManager.Instance.GetPacketsPerSecond();
             int connectionCount = data.NetworkConnections?.Count ?? 0;
 
             // Check if there are any configured network connections

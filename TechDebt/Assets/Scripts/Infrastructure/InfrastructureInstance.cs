@@ -252,40 +252,41 @@ public Transform GetTransform()
         if (data.CurrentState == newState) return; // No change
         InfrastructureData.State previousState  = data.CurrentState;
         data.CurrentState = newState;
-        if (newState == InfrastructureData.State.Operational)
+        if (serverSmokeEffect != null)
         {
-            // Create a new BuildTask and add it to the GameManager
+            serverSmokeEffect.SetActive(false);
+        }
+        switch (newState) {
+            case(InfrastructureData.State.Operational):
+        
+                CurrentLoad = 0;
+            break;
+            case(InfrastructureData.State.Planned):
+                break;
+            case(InfrastructureData.State.Frozen):
+                
+                GameObject explosionEffect = GameManager.Instance.prefabManager.Create("FireExplosion", transform.position);
          
+                explosionEffect.transform.SetParent(transform);
+                explosionEffect.transform.localPosition = new Vector3(0, 0, -1f);
+                if (
+                    serverSmokeEffect == null ||
+                    serverSmokeEffect.activeSelf
+                )
+                {
+                    serverSmokeEffect  = GameManager.Instance.prefabManager.Create("ServerSmokeEffect", transform.position);
+                    serverSmokeEffect.transform.SetParent(transform);
+                    serverSmokeEffect.transform.localPosition = new Vector3(0, 0, -1f);
+                }
+                else
+                {
+                    serverSmokeEffect.gameObject.SetActive(true);
+                }
+                
+              
+                // TODO Create a task automatically if you have researched CWAlarm
+                break;
 
-            CurrentLoad = 0;
-            if (serverSmokeEffect != null)
-            {
-                serverSmokeEffect.SetActive(false);
-                serverSmokeEffect = null;
-            }
-        }
-        if (newState == InfrastructureData.State.Planned)
-        {
-         
-        }
-        if (
-            newState == InfrastructureData.State.Frozen
-        )
-        {
-            
-            GameObject explosionEffect = GameManager.Instance.prefabManager.Create("FireExplosion", transform.position);
-            // be.transform.localPosition = Vector3.zero;
-     
-            explosionEffect.transform.SetParent(transform);
-            explosionEffect.transform.localPosition = new Vector3(0, 0, -1f);
-            
-            serverSmokeEffect  = GameManager.Instance.prefabManager.Create("ServerSmokeEffect", transform.position);
-            serverSmokeEffect.transform.SetParent(transform);
-            serverSmokeEffect.transform.localPosition = new Vector3(0, 0, -1f);
-          
-            // TODO Create a task automatically if you have researched CWAlarm
-            //var buildTask = new BuildTask(this, 7);
-//GameManager.Instance.AddTask(buildTask);
         }
 
         UpdateAppearance();
@@ -510,6 +511,7 @@ public Transform GetTransform()
         content += $"Type: {data.Type}\n";
         content += $"State: {data.CurrentState}\n\n";
         content += $"Release: {Version}\n\n";
+        content += $"Curr Load: {CurrentLoad}\n\n";
         content += "<b>Stats:</b>\n";
         foreach (var stat in data.Stats.Stats.Values)
         {
@@ -531,13 +533,25 @@ public Transform GetTransform()
         }
         else
         {
-            foreach (var kvp in CurrConnections)
+            foreach (KeyValuePair<NetworkPacketData.PType, List<NetworkConnection>> kvp in CurrConnections)
             {
-                content += $"- <b>{kvp.Key}:</b> ";
-                content += string.Join(", ", kvp.Value.Select(conn => conn.TargetID));
+                List<NetworkConnection> networkConnections = kvp.Value;
+                content += $"- <b>{kvp.Key}:</b>\n";
+                foreach (NetworkConnection networkConnection in networkConnections)
+                {
+                    content += $"-- {networkConnection.TargetID} \n";
+                    foreach (NetworkConnectionBonus networkConnectionBonus in networkConnection.NetworkConnectionBonus)
+                    {
+                        content += $"--- {networkConnectionBonus.PacketType} | {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
+                    }
+                }
+              
                 content += "\n";
-            }
+                
         }
+        }
+        
+        
 
         return content;
     }

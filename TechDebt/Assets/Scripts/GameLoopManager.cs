@@ -40,6 +40,11 @@ public class GameLoopManager : MonoBehaviour
         }
     }
 
+    public float GetDayDurationSeconds()
+    {
+        return dayDurationSeconds;
+    }
+
     public void EndGame()
     {
         NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);

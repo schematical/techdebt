@@ -12,12 +12,18 @@ public class ApplicationServer : InfrastructureInstance
     public override List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = base.GetAvailableTasks();
-        foreach (ReleaseBase releaseBase in GameManager.Instance.Releases)
+        switch (data.CurrentState)
         {
-            if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentReady)
-            {
-                availableTasks.Add(new DeploymentTask(this, releaseBase));
-            }
+            case (InfrastructureData.State.Operational):
+                foreach (ReleaseBase releaseBase in GameManager.Instance.Releases)
+                {
+                    if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentReady)
+                    {
+                        availableTasks.Add(new DeploymentTask(this, releaseBase));
+                    }
+                }
+
+                break;
         }
 
         return availableTasks;

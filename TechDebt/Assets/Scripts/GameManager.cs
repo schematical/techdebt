@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
 
         float packetsServiced = -1;
 		if (packet.CurrentState == NetworkPacket.State.Failed) {
-            Debug.Log("Packets Failed");
+           
             float packetsFailed = IncrStat(StatType.PacketsFailed);
             packet.Reset();
             return;
@@ -500,7 +500,7 @@ public class GameManager : MonoBehaviour
     {
         Stats.Add(new StatData(StatType.Money, 100f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
-        Stats.Add(new StatData(StatType.Traffic, 0.25f));
+        Stats.Add(new StatData(StatType.Traffic, 30));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
         Stats.Add(new StatData(StatType.PacketsFailed, 0f));
@@ -958,5 +958,10 @@ public class GameManager : MonoBehaviour
     public void ApplyReleaseProgress(float progressGained)
     {
         throw new NotImplementedException();
+    }
+
+    public float GetPacketsPerSecond()
+    {
+        return GameManager.Instance.GetStat(StatType.Traffic) / GameLoopManager.GetDayDurationSeconds();
     }
 }
