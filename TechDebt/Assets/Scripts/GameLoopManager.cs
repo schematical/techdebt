@@ -47,6 +47,7 @@ public class GameLoopManager : MonoBehaviour
 
     public void EndGame()
     {
+        GameManager.Instance.UIManager.SetTimeScalePause();
         NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
         GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
         GameManager.Instance.UpdateMetaProgress();

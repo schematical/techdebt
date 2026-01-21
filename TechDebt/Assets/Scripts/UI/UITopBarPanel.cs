@@ -22,10 +22,7 @@ namespace UI
             {
                 titleText.text = "";
             }
-            if (closeButton != null)
-            {
-                closeButton.gameObject.SetActive(false);
-            }
+ 
 
             HorizontalLayoutGroup layout = gameObject.GetComponent<HorizontalLayoutGroup>();
             layout.padding = new RectOffset(10, 10, 5, 5);
@@ -39,13 +36,9 @@ namespace UI
             var statsToDisplay = new List<StatType>
             {
                 StatType.Money,
-                StatType.TechDebt,
                 StatType.Traffic,
-                StatType.PacketsSent,
-                StatType.PacketsServiced,
                 StatType.DailyIncome,
                 StatType.Difficulty,
-                StatType.PRR
             };
 
             foreach (StatType type in statsToDisplay)

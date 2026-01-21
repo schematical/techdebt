@@ -66,24 +66,7 @@ public class InfrastructureInstance : WorldObjectBase
         }
 
     }
-    /*
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        startcolor = spriteRenderer.color;
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = Color.yellow;
-        }
-    }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = startcolor;
-        }
-    }
-    */
 
   
 
@@ -142,7 +125,7 @@ public class InfrastructureInstance : WorldObjectBase
                 GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
                     spriteRenderer.color);
 
-                if (CurrentLoad > data.MaxLoad)
+                if (CurrentLoad > data.Stats.GetStatValue(StatType.Infra_MaxLoad))
                 {
                     packet.MarkFailed();
                     CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
@@ -152,11 +135,11 @@ public class InfrastructureInstance : WorldObjectBase
                 }
             }
 
-            float loadPct = CurrentLoad / data.MaxLoad;
+            /*float loadPct = CurrentLoad / data.Stats.GetStatValue(StatType.Infra_MaxLoad);
             if (loadPct > .5f)
             {
                 packet.SetSpeed(packet.BaseSpeed * loadPct);
-            }
+            }*/
         }
 
         return true; // Continue processing
@@ -440,6 +423,7 @@ public Transform GetTransform()
         // Remove existing resize modifiers to apply fresh ones
         data.Stats.RemoveModifiers(StatType.Infra_DailyCost, this);
         data.Stats.RemoveModifiers(StatType.Infra_MaxLoad, this);
+        data.Stats.RemoveModifiers(StatType.Infra_LoadRecoveryRate, this);
 
         // Apply new modifiers only if the size is above base level
         if (CurrentSizeLevel > 0)
@@ -449,7 +433,8 @@ public Transform GetTransform()
 
             data.Stats.AddModifier(StatType.Infra_DailyCost, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
             data.Stats.AddModifier(StatType.Infra_MaxLoad, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
-            data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+            float loadStatMultiplier = Mathf.Pow(1.5f, CurrentSizeLevel);
+            data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, loadStatMultiplier, this));
         }
 
         if (metaStatCollection.Get(MetaStat.Infra_MaxSize) < CurrentSizeLevel)

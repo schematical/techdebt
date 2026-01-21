@@ -20,7 +20,7 @@ namespace UI
               panel.gameObject.SetActive(false);
           }
           gameObject.SetActive(false);
-          GameManager.Instance.UIManager.TogglePause();
+          GameManager.Instance.UIManager.Resume();
       }
 
       public void Display(string title, string bottom = "")

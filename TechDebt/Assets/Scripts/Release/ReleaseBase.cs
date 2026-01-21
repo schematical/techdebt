@@ -86,7 +86,7 @@ public class ReleaseBase
         return true;
     }
 
-    public void OnDeploymentCompleted()// TODO Trigger me
+    public void OnDeploymentCompleted()
     {
         if (RewardModifier != null)
         {

@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
         Fast,
         SuperFast
     }
+
+    public float userSpecifiedTimeScale = 1f;
     public UILeftMenuPanel leftMenuPanel;
     public UITopBarPanel topBarPanel;
 
@@ -839,14 +841,31 @@ public class UIManager : MonoBehaviour
     
 
 
-    public void SetTimeScalePause() => TogglePause();
-    public void SetTimeScalePlay() => SetTimeState(UIManager.TimeState.Normal);
-    public void SetTimeScaleFastForward() => SetTimeState(UIManager.TimeState.Fast);
+    public void SetTimeScalePause(bool setDesired = false) {
+        SetTimeState(TimeState.Paused, setDesired);
+    }
 
-    public void SetTimeScaleSuperFastForward() =>
-        GameManager.Instance.UIManager.SetTimeState(UIManager.TimeState.SuperFast);
+    public void Resume()
+    {
+        Time.timeScale = userSpecifiedTimeScale;
+    }
 
-    public void SetTimeState(TimeState newState)
+    public void SetTimeScalePlay(bool setDesired = false)
+    {
+        SetTimeState(UIManager.TimeState.Normal);
+    }
+
+    public void SetTimeScaleFastForward(bool setDesired = false)
+    {
+        SetTimeState(UIManager.TimeState.Fast, setDesired);
+    }
+
+    public void SetTimeScaleSuperFastForward(bool setDesired = false)
+    {
+        GameManager.Instance.UIManager.SetTimeState(UIManager.TimeState.SuperFast, setDesired);
+    }
+
+    public void SetTimeState(TimeState newState, bool setDesired = false)
     {
         _currentTimeState = newState;
 
@@ -872,7 +891,12 @@ public class UIManager : MonoBehaviour
             _timeStateBeforePause = newState;
         }
 
-        GameManager.Instance.SetDesiredTimeScale(newTimeScale);
+     
+        Time.timeScale = newTimeScale;
+        if (setDesired)
+        {
+            userSpecifiedTimeScale = newTimeScale;
+        }
         timeControlPanel.UpdateTimeScaleButtons();
     }
 

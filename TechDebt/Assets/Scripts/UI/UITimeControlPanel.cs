@@ -14,10 +14,13 @@ namespace UI
 
         void Start()
         {
-            pauseButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScalePause);
-            playButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScalePlay);
-            fastForwardButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScaleFastForward);
-            superFastForwardButton.onClick.AddListener(GameManager.Instance.UIManager.SetTimeScaleSuperFastForward);
+            pauseButton.onClick.AddListener(() =>
+            {
+                GameManager.Instance.UIManager.SetTimeScalePause(true);
+            });
+            playButton.onClick.AddListener(() => GameManager.Instance.UIManager.SetTimeScalePlay(true));
+            fastForwardButton.onClick.AddListener(() => GameManager.Instance.UIManager.SetTimeScaleFastForward(true));
+            superFastForwardButton.onClick.AddListener(() => GameManager.Instance.UIManager.SetTimeScaleSuperFastForward(true));
 
             UpdateTimeScaleButtons();
         }

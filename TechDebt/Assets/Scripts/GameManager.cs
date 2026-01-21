@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public GameLoopManager GameLoopManager;
     public PrefabManager prefabManager;
     public CameraController cameraController;
-    public float desiredTimeScale = 1f;
+  
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
@@ -546,11 +546,7 @@ public class GameManager : MonoBehaviour
 
     public float GetStat(StatType stat) => Stats.Stats[stat].Value;
 
-    public void SetDesiredTimeScale(float scale)
-    {
-        desiredTimeScale = scale;
-        Time.timeScale = scale;
-    }
+ 
 
     public float CalculateTotalDailyCost()
     {

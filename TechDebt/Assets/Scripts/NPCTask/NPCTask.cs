@@ -31,6 +31,7 @@ public abstract class NPCTask
         if (AssignedNPC == null)
         {
             Debug.LogError("AssignedNPC is null");
+            return false;
         }
         return Vector3.Distance(destination.Value, AssignedNPC.transform.position) < 1f;
     }

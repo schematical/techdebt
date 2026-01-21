@@ -505,7 +505,7 @@ public static class MetaGameManager
                 Name = "Image Optimization",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
-                BaseValue = 0.75f,
+                BaseValue = 0.9f,
                 InfraClassName = typeof(ApplicationServer)
             },
             new ModifierBase()
@@ -517,7 +517,7 @@ public static class MetaGameManager
                 Name = "Relational Database Design",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
-                BaseValue = 0.75f,
+                BaseValue = 0.9f,
                 InfraClassName = typeof(Database)
             },
             new ModifierBase()
@@ -529,7 +529,7 @@ public static class MetaGameManager
                 Name = "Sales Page Optimization",
                 StatType = StatType.DailyIncome,
                 NetworkPacketType = NetworkPacketData.PType.Text,
-                BaseValue = 1.1f,
+                BaseValue = 1.05f,
             }
             
         };
