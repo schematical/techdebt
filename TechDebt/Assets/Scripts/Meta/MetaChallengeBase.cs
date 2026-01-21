@@ -9,6 +9,11 @@ namespace MetaChallenges
             Active, // They have to opt into this challenge
             Passive, // Is always listening and checking in the background
         }
+        public enum MetaChallengeRequirementType
+        {
+            Cumulative, 
+            Highest
+        }
         public enum MetaChallengeRewardType
         {
             Technology,
@@ -19,7 +24,7 @@ namespace MetaChallenges
         public string ChallengeID; // Unique identifier
         public string DisplayName; // For UI
         public string Description; // For UI
-        
+        public MetaChallengeRequirementType RequirementType = MetaChallengeRequirementType.Cumulative;
         public string InfrastructureId { get; set; }
         public float RewardValue { get; set; } = -1;
 

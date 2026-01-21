@@ -67,15 +67,18 @@ public static class MetaGameManager
         
         foreach (var stat in GameManager.Instance.MetaStats.Stats)
         {
-            var statPair = 
+            MetaStatData statData = 
                 progressData.metaStats.game.Find(s => s.statName == stat.Key.ToString());
-            if (statPair == null)
+            if (statData == null)
             {
-                statPair = new MetaStatData() { statName = stat.Key.ToString() };
-                progressData.metaStats.game.Add(statPair);
+                statData = new MetaStatData() { statName = stat.Key.ToString() };
+                progressData.metaStats.game.Add(statData);
             }
-
-            statPair.cumulativeValue += stat.Value;
+            if (stat.Value > statData.highestValue)
+            {
+                statData.highestValue = stat.Value;
+            }
+            statData.cumulativeValue += stat.Value;
         }
         
         
@@ -130,21 +133,51 @@ public static class MetaGameManager
         {
             throw new SystemException("`state.metaStats` is null");
         }
-        if (state.metaStats.infra == null)
+      
+        MetaStatData statData = null;
+        if (challenge.InfrastructureId != null)
         {
-            throw new SystemException("`state.metaStats.infra` is null");
-        }
-        var prevInfraStats = state.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
-        if (prevInfraStats != null)
-        {
-            var statPair = prevInfraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
-            if (statPair != null)
+            if (state.metaStats.infra == null)
             {
-                value = statPair.cumulativeValue;
+                throw new SystemException("`state.metaStats.infra` is null");
             }
+            InfraMetaStatSaveData prevStats = state.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
+            if (prevStats != null)
+            {
+                statData = prevStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
+            }
+
+        }
+        else
+        {
+            statData = state.metaStats.game.Find(s => s.statName == challenge.metaStat.ToString());
+        }
+      
+        if (statData != null)
+        {
+            value = GetChallengeStatData(statData, challenge);
         }
         // Check if the challenge was incomplete before but is complete now.
         return (value >= challenge.RequiredValue);
+    }
+
+    public static int GetChallengeStatData(MetaStatData statData, MetaChallengeBase challenge)
+    {
+        int value = 0;
+        switch (challenge.RequirementType)
+        {
+            case(MetaChallengeBase.MetaChallengeRequirementType.Cumulative):
+                value = statData.cumulativeValue;
+                break;
+            case(MetaChallengeBase.MetaChallengeRequirementType.Highest):
+                value = statData.highestValue;
+                break;
+            default:
+                throw new SystemException($"`challenge.RequirementType` '{challenge.RequirementType}' doesn't exist");
+                        
+        }
+
+        return value;
     }
     public static List<MetaChallengeBase> GetUnlockedChallenges(MetaProgressData state = null)
     {
@@ -343,7 +376,9 @@ public static class MetaGameManager
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
                 RewardValue = 2f,
-                RequiredValue = 5
+                RequiredValue = 2,
+                RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
             },
             new MetaChallengeBase()
             {
@@ -363,7 +398,9 @@ public static class MetaGameManager
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
                 RewardValue = 2f,
-                RequiredValue = 9
+                RequiredValue = 9,
+                RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
             },
             new MetaChallengeBase()
             {
