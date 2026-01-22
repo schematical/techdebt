@@ -17,7 +17,7 @@ namespace Infrastructure
             }
             GameManager.Instance.UIManager.MultiSelectPanel.Clear();
          
-             Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+
          
            GameManager.Instance.UIManager.MultiSelectPanel.Display(
                "Select a release focus.",
@@ -42,7 +42,7 @@ namespace Infrastructure
                    continue;
                }
                ModifierBase existingModifierBase = GameManager.Instance.Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
-              
+               Sprite sprite = GameManager.Instance.prefabManager.GetPrefab(modifierBase.IconPrefab).GetComponent<SpriteRenderer>().sprite;
                if (
                    existingModifierBase == null
                    

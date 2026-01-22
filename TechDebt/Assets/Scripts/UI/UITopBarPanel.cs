@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Stats;
 using TMPro;
@@ -101,7 +102,7 @@ namespace UI
             if (GameManager.Instance == null) return;
             foreach (var statText in _statTexts)
             {
-                statText.Value.text = $"{statText.Key}: {GameManager.Instance.GetStat(statText.Key)}";
+                statText.Value.text = $"{statText.Key}: {Math.Round(GameManager.Instance.GetStat(statText.Key))}";
             }
         }
         

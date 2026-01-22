@@ -58,7 +58,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
            currentXP = 0;
            lastDisplayXP = 0;
        
-           Sprite sprite = GameManager.Instance.prefabManager.GetPrefab("Manual").GetComponent<SpriteRenderer>().sprite;
+
          
            GameManager.Instance.UIManager.MultiSelectPanel.Display(
                "One of your team has leveled up!",
@@ -82,6 +82,13 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
                {
                    continue;
                }
+
+               GameObject spriteGO = GameManager.Instance.prefabManager.GetPrefab(modifierBase.IconPrefab);
+               if (spriteGO == null)
+               {
+                   throw new SystemException($"modifierBase.IconPrefab: {modifierBase.IconPrefab} not found");
+               }
+               Sprite sprite = spriteGO.GetComponent<SpriteRenderer>().sprite;
                ModifierBase existingModifierBase = Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
                // Debug.Log($"TraitTest: {existingTrait != null} && {Traits.Count} < {Stats.GetStatValue(StatType.NPC_TraitSlots)}");
                if (
@@ -91,6 +98,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
                    if (Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                    {
                        traits.Add(modifierBase);
+                       
                        GameManager.Instance.UIManager.MultiSelectPanel.Add(
                                modifierBase.Id,
                                sprite,

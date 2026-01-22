@@ -35,6 +35,8 @@ namespace NPCs
         public ModifierTarget  Target { get; set; } = ModifierTarget.NPC;
         public StatType StatType { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconPrefab { get; set; }
         public string Id { get; set; }
 
         public int Level { get; set; } = 1;
@@ -46,7 +48,7 @@ namespace NPCs
         public StatModifier StatModifier { get; private set; }
         public NetworkPacketData.PType NetworkPacketType;
         public Type InfraClassName { get; set; }
-
+       
         public float GetScaledValue(int offsetLevel = 0)
         {
             return (float)Math.Pow(BaseValue, Level + offsetLevel);

@@ -471,7 +471,8 @@ public static class MetaGameManager
                 Name = "FinOps Expert",
                 StatType = StatType.Infra_DailyCost,
                 Type = ModifierBase.ModifierType.NPC_InfraStat,
-                BaseValue = 0.9f
+                BaseValue = 0.9f,
+                IconPrefab = "IconCode"
             },
              new ModifierBase()
             {
@@ -479,7 +480,9 @@ public static class MetaGameManager
                 Id = "devops_expert",
                 Name = "DevOps Expert",
                 StatType = StatType.Infra_LoadRecoveryRate,
-                Type = ModifierBase.ModifierType.NPC_InfraStat
+                Type = ModifierBase.ModifierType.NPC_InfraStat,
+                IconPrefab = "IconScale"
+                
             },
             new ModifierBase()
             {
@@ -487,6 +490,7 @@ public static class MetaGameManager
                 Id = "fast_worker",
                 Name = "Fast Worker",
                 StatType = StatType.NPC_BuildSpeed,
+                IconPrefab = "IconHand"
             },
             new ModifierBase()
             {
@@ -494,6 +498,7 @@ public static class MetaGameManager
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
                 StatType = StatType.NPC_ResearchSpeed,
+                IconPrefab = "IconResearch"
             },
             
             /*
@@ -518,7 +523,8 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
                 BaseValue = 0.9f,
-                InfraClassName = typeof(ApplicationServer)
+                InfraClassName = typeof(ApplicationServer),
+                IconPrefab = "IconImageOptimization"
             },
             new ModifierBase()
             {
@@ -530,7 +536,8 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 BaseValue = 0.9f,
-                InfraClassName = typeof(Database)
+                InfraClassName = typeof(Database),
+                IconPrefab = "IconRelationalDBDesign"
             },
             new ModifierBase()
             {
@@ -542,6 +549,7 @@ public static class MetaGameManager
                 StatType = StatType.DailyIncome,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 BaseValue = 1.05f,
+                IconPrefab = "IconCart"
             }
             
         };
