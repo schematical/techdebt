@@ -46,11 +46,7 @@ public abstract class NPCBase : MonoBehaviour
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
     }
 
-    /// <summary>
-    /// Displays a word bubble above the NPC's head.
-    /// Closes any existing bubble first.
-    /// </summary>
-    /// <param name="message">The text to display.</param>
+
     public void ShowWordBubble(string message)
     {
         if (_currentWordBubble != null)

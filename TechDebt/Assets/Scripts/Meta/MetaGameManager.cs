@@ -500,7 +500,14 @@ public static class MetaGameManager
                 StatType = StatType.NPC_ResearchSpeed,
                 IconPrefab = "IconResearch"
             },
-            
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "fast_xp",
+                Name = "Fast Learner",
+                StatType = StatType.NPC_XPSpeed,
+                IconPrefab = "IconResearch"
+            },
             /*
              *
              * MATTS NOTES:

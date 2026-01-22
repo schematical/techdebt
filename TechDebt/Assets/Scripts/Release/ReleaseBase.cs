@@ -2,6 +2,7 @@
 using System;
 using MetaChallenges;
 using NPCs;
+using Stats;
 using UnityEngine;
 
 public class ReleaseBase
@@ -21,7 +22,7 @@ public class ReleaseBase
 
     public string ServiceId { get; set; } = "monolith";
     public int Version  { get; set; }
-    
+    public StatsCollection Stats = new StatsCollection();
     // TODO Create a hidden "Bug Count"
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
@@ -34,6 +35,7 @@ public class ReleaseBase
     public ReleaseBase()
     {
         SetState(ReleaseState.InDevelopment);
+        // Stats.Add(new StatData(StatType.Release_Security));
     }
 
     public ReleaseBase(int version, ModifierBase modifierBase)
@@ -120,7 +122,7 @@ public class ReleaseBase
         return $"{GetVersionString()} {State.ToString()}";
     }
 
-    public void ApplyProgress(float progressGained)
+    public void ApplyProgress(float progressGained, NPCBase NPCBase)
     {
         // Debug.Log($"ReleaseBase.ApplyProgress: {CurrentProgress} += {progressGained}");
         CurrentProgress += progressGained;

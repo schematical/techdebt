@@ -979,7 +979,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1411d618518fc4408bef3f20824ef9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
-  metaCurrencyText: {fileID: 0}
   newGameBtn: {fileID: 572087623}
   unlockBtn: {fileID: 86278801}
   challengesBtn: {fileID: 1349816613}
@@ -2469,8 +2468,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 143.89, y: -290.6888}
-  m_SizeDelta: {x: 266.74, y: 507.1104}
+  m_AnchoredPosition: {x: 143.89, y: -352.1541}
+  m_SizeDelta: {x: 266.74, y: 630.041}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2006053277
 MonoBehaviour:
@@ -2487,7 +2486,7 @@ MonoBehaviour:
   m_Content: {fileID: 1741580035}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 0
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135

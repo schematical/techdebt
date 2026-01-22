@@ -33,12 +33,13 @@ public enum StatType
     ItemDropChance,
     ItemDropCheck,
     NPC_MovmentSpeed,
-    NPC_LearningSpeed,
+    NPC_XPSpeed,
     NPC_BuildSpeed,
     NPC_ResearchSpeed,
     NPC_ModifierSlots,
     
-    Infra_MaxSize
+    Infra_MaxSize,
+    NPC_CodeSkill
     
     
 

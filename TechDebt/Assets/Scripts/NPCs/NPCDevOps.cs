@@ -22,18 +22,12 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         gameObject.name = $"NPCDevOps_{Data.Name}";
         base.Initialize();
         Stats.Add(new StatData(StatType.NPC_ModifierSlots, 1));
+        Stats.Add(new StatData(StatType.NPC_XPSpeed, 1));
+        Stats.Add(new StatData(StatType.NPC_InfoSec, 0.75f));
         
     }
     
-    protected override void Update()
-    {
-        // The base class now handles all the task logic.
-        // We just need to ensure it only runs during the Play phase.
-       
-            base.Update();
-            
-        
-    }
+
     public override void AddXP(float amount = 1)
     {
         if (
@@ -43,7 +37,8 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         {
             return;
         }
-       currentXP += amount;
+        float adjustedAmount = Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
+       currentXP += adjustedAmount;
        if (Math.Floor(currentXP) != lastDisplayXP)
        {
            GameManager.Instance.FloatingTextFactory.ShowText($"{Math.Ceiling(amount)} XP",
