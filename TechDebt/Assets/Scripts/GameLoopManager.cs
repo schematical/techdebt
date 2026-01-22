@@ -133,15 +133,8 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.HidePlanUI();
         
-        GameManager.Instance. Stats.AddModifier(
-            StatType.Traffic,
-            new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
-        );
-        GameManager.Instance. Stats.AddModifier(
-            StatType.DailyIncome,
-            new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
-        );
-        GameManager.Instance.UIManager.SetTimeScalePlay();
+        
+        GameManager.Instance.UIManager.Resume();
         // GameManager.Instance.CheckEvents();
     }
 
@@ -181,7 +174,18 @@ public class GameLoopManager : MonoBehaviour
                 infraCosts += $"{instance.data.DisplayName}: ${cost}\n";
             }
         }
+        GameManager.Instance. Stats.AddModifier(
+            StatType.Traffic,
+            new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
+        );
         
+        float adjustedDailyIncomeMultiplier = GameManager.Instance.GetStat(StatType.Difficulty) * percentageSuccess;
+        Debug.Log($"adjustedDailyIncomeMultiplier: {adjustedDailyIncomeMultiplier} = {GameManager.Instance.GetStat(StatType.Difficulty)} * {percentageSuccess}");
+        GameManager.Instance.Stats.AddModifier(
+            StatType.DailyIncome,
+            new StatModifier(StatModifier.ModifierType.Multiply, adjustedDailyIncomeMultiplier)
+        );
+        float updatedDailyIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
         /*GameManager.Instance.FloatingTextFactory.ShowText(
             $"+${hourlyIncome}",
             GameManager.Instance.GetInfrastructureInstanceByID("internetPipes").transform.position,
@@ -195,10 +199,13 @@ public class GameLoopManager : MonoBehaviour
                              $"Total Costs: ${totalDailyCost} \n" +
                              $"Total Income: ${actualIncome}\n" +
                              $"Net Income: ${actualIncome - totalDailyCost}\n" + 
+                             $"Tomorrow's Expected Income: ${updatedDailyIncome} - ({Math.Round((1 - percentageSuccess) * 100)}% Failed Penalty)\n" +
                              $"Total: {money}";
 
         summaryText += infraCosts;
 
+       
+        
         if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {
             summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
