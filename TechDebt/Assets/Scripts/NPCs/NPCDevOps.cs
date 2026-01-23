@@ -24,6 +24,8 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         Stats.Add(new StatData(StatType.NPC_ModifierSlots, 1));
         Stats.Add(new StatData(StatType.NPC_XPSpeed, 1));
         Stats.Add(new StatData(StatType.NPC_InfoSec, 0.75f));
+        Stats.Add(new StatData(StatType.NPC_CodeSpeed, 1));
+        Stats.Add(new StatData(StatType.NPC_CodeQuality, .75f));
         
     }
     
@@ -163,9 +165,9 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
     public float GetBuildSpeed()
     {
         float npcBuildSpeed = 1;
-        if (Stats.Get(StatType.NPC_BuildSpeed) != null)
+        if (Stats.Get(StatType.NPC_DevOpsSpeed) != null)
         {
-            npcBuildSpeed = Stats.GetStatValue(StatType.NPC_BuildSpeed);
+            npcBuildSpeed = Stats.GetStatValue(StatType.NPC_DevOpsSpeed);
         }
 
         return npcBuildSpeed;

@@ -18,6 +18,7 @@ namespace UI
         public MainMenu mainMenu;
         public MetaUnlockPanel metaUnlockPanel;
         public UIMetaChallengesPanel  uiMetaChallengesPanel;
+        
         void Awake()
         {
             MetaCurrency.Load();

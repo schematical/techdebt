@@ -489,7 +489,7 @@ public static class MetaGameManager
                 Target = ModifierBase.ModifierTarget.NPC,
                 Id = "fast_worker",
                 Name = "Fast Worker",
-                StatType = StatType.NPC_BuildSpeed,
+                StatType = StatType.NPC_DevOpsSpeed,
                 IconPrefab = "IconHand"
             },
             new ModifierBase()

@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     public Button newGameBtn;
     [FormerlySerializedAs("loadGameBtn")] public Button unlockBtn;
     public Button challengesBtn;
+    public Button discordBtn;
 
     public Button settingsBtn;
 
@@ -25,13 +26,17 @@ public class MainMenu : MonoBehaviour
 
         unlockBtn.onClick.AddListener(ShowUnlockPanel);
         challengesBtn.onClick.AddListener(ShowChallenges);
-     
+        discordBtn.onClick.AddListener(OpenDiscord);
 
         settingsBtn.onClick.AddListener(OpenSettings);
         
     }
 
-  
+    private void OpenDiscord()
+    {
+        Application.OpenURL("https://discord.gg/yFDKNDBquZ");
+    }
+
 
     public void NewGame()
     {

@@ -45,12 +45,15 @@ namespace UI
                         {
                             color = new Color(1f, 1f, 1f, 0.5f);
                             // ProgressBarPanels[release.GetVersionString()].gameObject.SetActive(false);
+                            Destroy(ProgressBarPanels[release.GetVersionString()].gameObject);
                         }
                     continue;
                     case ReleaseBase.ReleaseState.DeploymentReady:
                     case ReleaseBase.ReleaseState.DeploymentInProgress:
                         color =  Color.blue;
                         break;
+         
+                        
                 }
                 if (!ProgressBarPanels.ContainsKey(release.GetVersionString()))
                 {
