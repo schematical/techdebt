@@ -390,6 +390,10 @@ namespace Events
 
                 {
 
+                    GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+                    GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
+                    GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+                    
                     GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
 
                     GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;

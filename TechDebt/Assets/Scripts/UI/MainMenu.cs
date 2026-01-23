@@ -17,17 +17,12 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("MainMenu script started. Time scale is now 1.");
-        Time.timeScale = 1f;
-        
-        
-        newGameBtn.onClick.AddListener(NewGame);
-    
 
+        Time.timeScale = 1f;
+        newGameBtn.onClick.AddListener(NewGame);
         unlockBtn.onClick.AddListener(ShowUnlockPanel);
         challengesBtn.onClick.AddListener(ShowChallenges);
         discordBtn.onClick.AddListener(OpenDiscord);
-
         settingsBtn.onClick.AddListener(OpenSettings);
         
     }

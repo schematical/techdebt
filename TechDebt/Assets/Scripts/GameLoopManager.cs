@@ -196,8 +196,8 @@ public class GameLoopManager : MonoBehaviour
                              $"Packets Failed: {packetsFailed} \n" +
                              $"Packets Succeeded: {packetsServiced} \n" +
                              $"Percentage Served: %{Math.Round(percentageSuccess * 100)} \n" +
-                             $"Total Costs: ${totalDailyCost} \n" +
-                             $"Total Income: ${actualIncome}\n" +
+                             $"Total Costs: ${Math.Round(totalDailyCost)} \n" +
+                             $"Total Income: ${Math.Round(actualIncome)}\n" +
                              $"Net Income: ${actualIncome - totalDailyCost}\n" + 
                              $"Tomorrow's Expected Income: ${updatedDailyIncome} - ({Math.Round((1 - percentageSuccess) * 100)}% Failed Penalty)\n" +
                              $"Total: {money}";

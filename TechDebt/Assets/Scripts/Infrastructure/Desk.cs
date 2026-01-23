@@ -31,6 +31,7 @@ public class Desk : InfrastructureInstance
     public override void OnPointerClick(PointerEventData eventData)
     {
         GameManager.Instance.UIManager.Close();
-        GameManager.Instance.UIManager.deskMenuPanel.gameObject.SetActive(true);
+        GameManager.Instance.UIManager.ToggleTechTreePanel();
+        //GameManager.Instance.UIManager.deskMenuPanel.gameObject.SetActive(true);
     }
 }

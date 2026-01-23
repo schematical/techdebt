@@ -362,7 +362,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "redis",
                 DisplayName = "Redis Cache",
-                Description = "Have your dedicated database handel 100 text packets",
+                Description = "Have your dedicated database handle 100 text packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "dedicated-db",
                 RewardId = "redis",
@@ -375,8 +375,8 @@ public static class MetaGameManager
                 Description = "Make it to day 5",
                 metaStat = MetaStat.Day,
                 RewardId = StatType.Money.ToString(),
-                RewardValue = 2f,
-                RequiredValue = 2,
+                RewardValue = 1.5f,
+                RequiredValue = 5,
                 RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
             },
