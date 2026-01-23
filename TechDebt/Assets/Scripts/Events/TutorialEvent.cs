@@ -50,6 +50,7 @@ namespace Events
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
             GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
             GameManager.OnPhaseChange += HandlePhaseChange;
+            GameManager.OnReleaseChanged += HandleReleaseChange;
             nextStep = 0;
             Next();
         }
@@ -60,6 +61,7 @@ namespace Events
         
             if (nextStep < 0)
             {
+                GameManager.Instance.cameraController.StopFollowing();
                 return;
             }
 
@@ -195,7 +197,7 @@ namespace Events
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
 
-                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Notice each Network Packet type has a different load that pops up when they are processed by the server.",
@@ -209,7 +211,7 @@ namespace Events
                     infrastructureInstance.SetState(InfrastructureData.State.Frozen);
                     infrastructureInstance.CurrentLoad =
                         infrastructureInstance.data.Stats.GetStatValue(StatType.Infra_MaxLoad);
-                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "If the load gets higher then the server can handle it will freeze. If that happens network requests will start to fail. This is bad.",
@@ -220,7 +222,7 @@ namespace Events
                 case 12:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Until you research technology that monitors the servers you will need to manually tell your DevOps Engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online.",
@@ -242,7 +244,7 @@ namespace Events
                 case 14:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "You can increase the servers stats by increasing the instance size. Click on the server to do this.",
@@ -286,7 +288,7 @@ namespace Events
                 case 18:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                    GameManager.Instance.cameraController.ZoomToAndFollow(infrastructureInstance.transform);
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand.",
@@ -308,6 +310,50 @@ namespace Events
                     nextStep = -1;
                     break;
                 case 20:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Great work. Another way you can level up your gameplay is to do releases. Select a release focus by clicking on the whiteboard.",
+                        options
+                    );
+                    nextStep = -1;
+                    break;
+                case 21:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("kanbanboard");
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Your team will now work on coding the next release when higher priority tasks are not available.\n" + 
+                            "You can adjust the priority of tasks by clicking on the Kanban Board.",
+                        options
+                    );
+                    nextStep =-1;
+                    break;
+                case 22:
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Your first release is ready to be deployed. Click on all available Application Servers to trigger up the deployment.\n" + 
+                        "Use Meta Challenges to unlock technologies that will automate this for you in the future.",
+                        options
+                    );
+                    nextStep = -1;
+                    break;
+                case 23:
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        botSprite,
+                        "Well done. Now you will receive the rewards that release unlocked. \n" + 
+                        "You can only focus on one release at a time right now.",
+                        options
+                    );
+                    nextStep = 24;
+                    break;
+                case 24:
          
                     
                     GameManager.Instance.UIManager.ShowNPCDialog(
@@ -315,9 +361,9 @@ namespace Events
                         "It looks like you are settling right in. \n Now that you have the basics we are going to start the in game clock. At the end of each day you will get a summary. \n Our infrastructure budget is directly related to how many packets make it through. If we run out of money its Game Over...",
                         options
                     );
-                    nextStep = 21;
+                    nextStep = 25;
                     break;
-                case 21:
+                case 25:
                     End();
                     nextStep = -1;
                     break;
@@ -333,7 +379,11 @@ namespace Events
             switch (currentStep)
             {
                 case 5:
-                    nextStep = 6;
+                    if (instance.data.CurrentState == InfrastructureData.State.Planned)
+                    {
+                        nextStep = 6;
+                    }
+
                     Next();
                     break;
                 case 6:
@@ -345,11 +395,15 @@ namespace Events
 
                     break;
                 case 12:
-                    nextStep = 13;
-                    Next();
+                    if (instance.IsActive())
+                    {
+                        nextStep = 13;
+                        Next();
+                    }
+
                     break;
                 case 14:
-                    if (instance.IsActive())
+                    if (instance.IsActive() && instance.CurrentSizeLevel > 0)
                     {
                         nextStep = 15;
                         Next();
@@ -386,9 +440,7 @@ namespace Events
             return true;
         }
 
-                public virtual void End()
-
-                {
+                public virtual void End() {
 
                     GameManager.Instance.SetStat(StatType.PacketsSent, 0);
                     GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
@@ -399,6 +451,7 @@ namespace Events
                     GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
 
                     GameManager.OnPhaseChange -= HandlePhaseChange;
+                    GameManager.OnReleaseChanged -= HandleReleaseChange;
 
                     GameManager.Instance.cameraController.StopFollowing();
 
@@ -416,6 +469,36 @@ namespace Events
             {
                 nextStep = 2;
                 Next();
+            }
+        }       
+        public void HandleReleaseChange(ReleaseBase releaseBase, ReleaseBase.ReleaseState prevState)
+        {
+            
+            switch(currentStep) {
+                case(20):
+                    if (releaseBase.State == ReleaseBase.ReleaseState.InDevelopment)
+                    {
+                        nextStep = 21;
+                        Next();
+                    }
+
+                    break;
+                case(21): 
+                    if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentReady)
+                    {
+                        nextStep = 22;
+                        Next();
+                    }
+
+                    break;
+                case(22):
+                    if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentCompleted)
+                    {
+                        nextStep = 23;
+                        Next();
+                    }
+                    break;
+              
             }
         }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using Infrastructure;
-using MetaChallenges;using NPCs;
+using MetaChallenges;
+using NPCs;
 using NUnit.Framework;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
@@ -27,7 +28,7 @@ public class InfrastructureInstance : WorldObjectBase
 
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections =
         new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
-    
+
     public MetaStatCollection metaStatCollection = new MetaStatCollection();
 
     void Awake()
@@ -41,8 +42,6 @@ public class InfrastructureInstance : WorldObjectBase
 
     protected void Start()
     {
-        
-
     }
 
     public void FixedUpdate()
@@ -57,20 +56,14 @@ public class InfrastructureInstance : WorldObjectBase
         }
 
 
-
         if (IsActive())
         {
             // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
             float c = 1 - CurrentLoad / data.Stats.GetStatValue(StatType.Infra_MaxLoad);
             spriteRenderer.color = new Color(1, c, c, 1);
         }
-
     }
 
-
-  
-
-  
 
     public void ReceivePacket(NetworkPacket packet)
     {
@@ -117,7 +110,7 @@ public class InfrastructureInstance : WorldObjectBase
                 GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
                 GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
                     Color.khaki);
-            } 
+            }
 
             if (loadPerPacket != 0)
             {
@@ -163,7 +156,6 @@ public class InfrastructureInstance : WorldObjectBase
                 }
                 else
                 {
-
                     ReturnPacket(packet);
                 }
             }
@@ -189,18 +181,17 @@ public class InfrastructureInstance : WorldObjectBase
 
         switch (packetData.RouteType)
         {
-            case(InfrastructureDataNetworkPacket.NCRouteType.End):
+            case (InfrastructureDataNetworkPacket.NCRouteType.End):
                 GameManager.Instance.DestroyPacket(packet);
                 break;
-            case(InfrastructureDataNetworkPacket.NCRouteType.Return):
+            case (InfrastructureDataNetworkPacket.NCRouteType.Return):
             default:
                 packet.StartReturn();
                 break;
-          
         }
     }
 
-public Transform GetTransform()
+    public Transform GetTransform()
     {
         return transform;
     }
@@ -216,40 +207,42 @@ public Transform GetTransform()
             networkPacket.Init();
         }
     }
+
     public virtual void Initialize()
     {
-
         data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
         data.Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
         data.Stats.Add(new StatData(StatType.Infra_LoadPerPacket, data.LoadPerPacket));
         data.Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
         data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
         data.Stats.Add(new StatData(StatType.TechDebt, 0f));
-        data.Stats.Add(new StatData(StatType.Infra_MaxSize, 2));// Todo get this number from a meta unlock.
+        data.Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
     }
 
 
     public void SetState(InfrastructureData.State newState)
     {
-        
         if (data.CurrentState == newState) return; // No change
-        InfrastructureData.State previousState  = data.CurrentState;
+        InfrastructureData.State previousState = data.CurrentState;
         data.CurrentState = newState;
         if (serverSmokeEffect != null)
         {
             serverSmokeEffect.SetActive(false);
         }
-        switch (newState) {
-            case(InfrastructureData.State.Operational):
-        
+
+        switch (newState)
+        {
+            case (InfrastructureData.State.Operational):
+
                 CurrentLoad = 0;
-            break;
-            case(InfrastructureData.State.Planned):
                 break;
-            case(InfrastructureData.State.Frozen):
-                
-                GameObject explosionEffect = GameManager.Instance.prefabManager.Create("FireExplosion", transform.position);
-         
+            case (InfrastructureData.State.Planned):
+                break;
+            case (InfrastructureData.State.Frozen):
+
+                GameObject explosionEffect =
+                    GameManager.Instance.prefabManager.Create("FireExplosion", transform.position);
+
                 explosionEffect.transform.SetParent(transform);
                 explosionEffect.transform.localPosition = new Vector3(0, 0, -1f);
                 if (
@@ -257,7 +250,8 @@ public Transform GetTransform()
                     serverSmokeEffect.activeSelf
                 )
                 {
-                    serverSmokeEffect  = GameManager.Instance.prefabManager.Create("ServerSmokeEffect", transform.position);
+                    serverSmokeEffect =
+                        GameManager.Instance.prefabManager.Create("ServerSmokeEffect", transform.position);
                     serverSmokeEffect.transform.SetParent(transform);
                     serverSmokeEffect.transform.localPosition = new Vector3(0, 0, -1f);
                 }
@@ -265,11 +259,10 @@ public Transform GetTransform()
                 {
                     serverSmokeEffect.gameObject.SetActive(true);
                 }
-                
-              
+
+
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;
-
         }
 
         UpdateAppearance();
@@ -288,7 +281,7 @@ public Transform GetTransform()
         {
             case InfrastructureData.State.Locked:
                 // Ghosted / Outlined appearance
-                spriteRenderer.color = new Color(0.3f, 0.3f, 0.3f, 0.5f); 
+                spriteRenderer.color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
                 break;
             case InfrastructureData.State.Unlocked:
                 // Available to be planned
@@ -296,11 +289,11 @@ public Transform GetTransform()
                 break;
             case InfrastructureData.State.Planned:
                 // Construction appearance
-                spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.5f); 
+                spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.5f);
                 break;
             case InfrastructureData.State.Operational:
                 // Normal appearance
-                spriteRenderer.color = Color.white; 
+                spriteRenderer.color = Color.white;
                 break;
         }
     }
@@ -315,14 +308,17 @@ public Transform GetTransform()
         {
             return;
         }
+
         UpdateNetworkTargets();
-       
+
 
         // Filter CurrConnections to see if instance is in the list
 
         NetworkConnection foundConnection = null;
-        foreach(var conn in CurrConnections.Values) {
-            foundConnection = conn.Find((connection => {
+        foreach (var conn in CurrConnections.Values)
+        {
+            foundConnection = conn.Find((connection =>
+            {
                 if (connection.TargetID == instance.data.ID)
                 {
                     return true;
@@ -335,15 +331,14 @@ public Transform GetTransform()
                 break;
             }
         }
+
         if (foundConnection == null)
         {
-        
             return;
         }
-        
+
         foreach (var bonus in foundConnection.NetworkConnectionBonus)
         {
-       
             int index = data.networkPackets.FindIndex((packetData =>
             {
                 if (packetData.PacketType == bonus.PacketType)
@@ -354,9 +349,9 @@ public Transform GetTransform()
                 return false;
             }));
             data.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(bonus.Type, bonus.value));
-
         }
     }
+
     public void UpdateNetworkTargets()
     {
         // Debug.Log("GetNextNetworkTargetId: " + data.NetworkConnections.Length);
@@ -364,16 +359,18 @@ public Transform GetTransform()
         {
             return;
         }
+
         Dictionary<NetworkPacketData.PType, int> priorities = new Dictionary<NetworkPacketData.PType, int>();
-     
+
         foreach (var conn in data.NetworkConnections)
         {
             if (!priorities.ContainsKey(conn.networkPacketType))
             {
                 priorities.Add(conn.networkPacketType, 0);
             }
+
             InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
-        
+
             if (
                 instance != null &&
                 instance.IsActive() &&
@@ -398,11 +395,14 @@ public Transform GetTransform()
                 {
                     CurrConnections.Add(conn.networkPacketType, new List<NetworkConnection>());
                 }
+
                 CurrConnections[conn.networkPacketType].Add(conn);
             }
         }
     }
-    protected virtual NetworkConnection GetNextNetworkConnection(NetworkPacketData.PType pType) {
+
+    protected virtual NetworkConnection GetNextNetworkConnection(NetworkPacketData.PType pType)
+    {
         if (CurrConnections.ContainsKey(pType))
         {
             return CurrConnections[pType][Random.Range(0, CurrConnections[pType].Count)];
@@ -414,7 +414,8 @@ public Transform GetTransform()
     public void ApplyResize(int sizeChange)
     {
         // Update and clamp the size level
-        CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0, (int) data.Stats.GetStatValue(StatType.Infra_MaxSize));
+        CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0,
+            (int)data.Stats.GetStatValue(StatType.Infra_MaxSize));
 
         // Calculate the visual scale factor (e.g., 1.25, 1.5, etc.)
         float visualScaleFactor = 1.0f + (CurrentSizeLevel * 0.25f);
@@ -431,16 +432,20 @@ public Transform GetTransform()
             // Calculate the stat multiplier (doubles with each level: 2, 4, 8, 16)
             float statMultiplier = Mathf.Pow(2, CurrentSizeLevel);
 
-            data.Stats.AddModifier(StatType.Infra_DailyCost, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
-            data.Stats.AddModifier(StatType.Infra_MaxLoad, new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+            data.Stats.AddModifier(StatType.Infra_DailyCost,
+                new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+            data.Stats.AddModifier(StatType.Infra_MaxLoad,
+                new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
             float loadStatMultiplier = Mathf.Pow(1.5f, CurrentSizeLevel);
-            data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate, new StatModifier(StatModifier.ModifierType.Multiply, loadStatMultiplier, this));
+            data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate,
+                new StatModifier(StatModifier.ModifierType.Multiply, loadStatMultiplier, this));
         }
 
         if (metaStatCollection.Get(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
         {
             metaStatCollection.Set(MetaStat.Infra_MaxSize, CurrentSizeLevel);
         }
+
         SetState(InfrastructureData.State.Operational);
         UpdateAppearance(); // Update visual state after resize
         GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display
@@ -450,8 +455,8 @@ public Transform GetTransform()
     {
         switch (data.CurrentState)
         {
-            case(InfrastructureData.State.Operational):
-            case(InfrastructureData.State.Frozen):
+            case (InfrastructureData.State.Operational):
+            case (InfrastructureData.State.Frozen):
                 return true;
             default:
                 return false;
@@ -463,31 +468,28 @@ public Transform GetTransform()
         List<NPCTask> availableTasks = new List<NPCTask>();
         switch (data.CurrentState)
         {
-            case(InfrastructureData.State.Unlocked): 
-                // TODO: Add Build task
+            case (InfrastructureData.State.Unlocked):
                 availableTasks.Add(new BuildTask(this));
                 break;
-            case(InfrastructureData.State.Operational): 
-                    if (CurrentSizeLevel > 0)
-                    {
-                        availableTasks.Add(new ResizeTask(this, -1));
-                    }
+            case (InfrastructureData.State.Operational):
+                if (CurrentSizeLevel > 0)
+                {
+                    availableTasks.Add(new ResizeTask(this, -1));
+                }
 
-                    if (CurrentSizeLevel < (int) data.Stats.GetStatValue(StatType.Infra_MaxSize))
-                    {
-                        availableTasks.Add(new ResizeTask(this, 1));
-                    }
+                if (CurrentSizeLevel < (int)data.Stats.GetStatValue(StatType.Infra_MaxSize))
+                {
+                    availableTasks.Add(new ResizeTask(this, 1));
+                }
 
-                    break;
-            case(InfrastructureData.State.Frozen):
-                    //TODO: Add a build task
-                    availableTasks.Add(new FixFrozenTask(this));
-                    break;
+                break;
+            case (InfrastructureData.State.Frozen):
+                availableTasks.Add(new FixFrozenTask(this));
+                break;
         }
 
-        
-        return availableTasks;
 
+        return availableTasks;
     }
 
     public override string GetDetailText()
@@ -496,7 +498,8 @@ public Transform GetTransform()
         content += $"Type: {data.Type}\n";
         content += $"State: {data.CurrentState}\n\n";
         content += $"Release: {Version}\n\n";
-        content += $"Curr Load: {CurrentLoad}\n\n";
+        content += $"Curr Load: {CurrentLoad}\n";
+        content += $"Curr Size: {CurrentSizeLevel}\n";
         content += "<b>Stats:</b>\n";
         foreach (var stat in data.Stats.Stats.Values)
         {
@@ -527,16 +530,15 @@ public Transform GetTransform()
                     content += $"-- {networkConnection.TargetID} \n";
                     foreach (NetworkConnectionBonus networkConnectionBonus in networkConnection.NetworkConnectionBonus)
                     {
-                        content += $"--- {networkConnectionBonus.PacketType} | {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
+                        content +=
+                            $"--- {networkConnectionBonus.PacketType} | {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
                     }
                 }
-              
+
                 content += "\n";
-                
+            }
         }
-        }
-        
-        
+
 
         return content;
     }

@@ -160,6 +160,7 @@ public class CameraController : MonoBehaviour
         if (movement.sqrMagnitude > 0.01f)
         {
             // Apply movement scaled by panSpeed and Time.deltaTime
+            GameManager.Instance.cameraController.StopFollowing();
             transform.position += movement.normalized * panSpeed * Time.deltaTime;
         }
     }
@@ -197,6 +198,7 @@ public class CameraController : MonoBehaviour
 
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
+            GameManager.Instance.cameraController.StopFollowing();
             lastPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
             initialRightClickMousePosition = mousePosition; // Store initial screen position
         }

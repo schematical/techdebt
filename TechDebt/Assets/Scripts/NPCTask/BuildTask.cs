@@ -12,6 +12,7 @@ public class BuildTask : NPCTask
     private float buildProgress = 0f;
     private int displayBuildProgress = -1;
     public EnvEffectBase buildEffect;
+    public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
 
     public BuildTask(InfrastructureInstance target, int priority = 5) : base(target.transform.position)
     {
@@ -97,7 +98,11 @@ public class BuildTask : NPCTask
     }
     public override void OnQueued()
     {
-        TargetInfrastructure.SetState(InfrastructureData.State.Planned);
+        if (OnQueuedSetState != null)
+        {
+            TargetInfrastructure.SetState(OnQueuedSetState.Value);
+        }
+
         base.OnQueued();
     }
 

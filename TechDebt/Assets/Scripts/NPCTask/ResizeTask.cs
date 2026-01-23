@@ -23,7 +23,7 @@ public class ResizeTask : NPCTask
             npc.AddXP(Time.deltaTime);
             if (TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
             {
-                TargetInfrastructure.SetState(InfrastructureData.State.Unlocked);
+                TargetInfrastructure.SetState(InfrastructureData.State.Planned);
             }
             _duration -= Time.deltaTime;
         }

@@ -10,10 +10,12 @@ public class FixFrozenTask : BuildTask
 {
     public FixFrozenTask(InfrastructureInstance target, int priority = 5) : base(target, priority)
     {
+        OnQueuedSetState = null;
     }
 
     public override string GetAssignButtonText()
     {
         return "Fix";
     }
+    
 }
