@@ -358,8 +358,8 @@ TextureImporter:
       name: IsometricInternetTIles_11
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 192
+        y: 64
         width: 64
         height: 64
       alignment: 7
@@ -380,7 +380,7 @@ TextureImporter:
       name: IsometricInternetTIles_12
       rect:
         serializedVersion: 2
-        x: 128
+        x: 0
         y: 0
         width: 64
         height: 64
@@ -402,7 +402,7 @@ TextureImporter:
       name: IsometricInternetTIles_13
       rect:
         serializedVersion: 2
-        x: 192
+        x: 64
         y: 0
         width: 64
         height: 64
@@ -416,6 +416,50 @@ TextureImporter:
       bones: []
       spriteID: 8cd1cfcd38a2f5d4f8aae19da660f4c4
       internalID: -487596470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IsometricInternetTIles_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9528015740de0be40a6369a2bfae0874
+      internalID: -364302542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IsometricInternetTIles_15
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: add72d9b4571b5046a374dd1ecb4b0d6
+      internalID: 1780418246
       vertices: []
       indices: 
       edges: []
@@ -442,6 +486,8 @@ TextureImporter:
       IsometricInternetTIles_11: -1970607323
       IsometricInternetTIles_12: 601037300
       IsometricInternetTIles_13: -487596470
+      IsometricInternetTIles_14: -364302542
+      IsometricInternetTIles_15: 1780418246
       IsometricInternetTIles_2: -2111663372
       IsometricInternetTIles_3: -1071166691
       IsometricInternetTIles_4: -1015372478
