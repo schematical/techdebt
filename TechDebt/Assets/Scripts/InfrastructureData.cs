@@ -22,7 +22,7 @@ public class InfrastructureData
     public int CostPerPacket = 0;
     public float MaxLoad = 100;
     public float LoadRecoveryRate = 50f;
-
+    public bool CanBeUpsized = false;
     public StatsCollection Stats { get; private set; } = new StatsCollection();
 
   

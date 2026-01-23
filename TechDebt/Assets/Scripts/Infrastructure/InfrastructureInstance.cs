@@ -472,12 +472,17 @@ public class InfrastructureInstance : WorldObjectBase
                 availableTasks.Add(new BuildTask(this));
                 break;
             case (InfrastructureData.State.Operational):
-                if (CurrentSizeLevel > 0)
-                {
+                if (
+                    data.CanBeUpsized && 
+                    CurrentSizeLevel > 0
+                ) {
                     availableTasks.Add(new ResizeTask(this, -1));
                 }
 
-                if (CurrentSizeLevel < (int)data.Stats.GetStatValue(StatType.Infra_MaxSize))
+                if (
+                    data.CanBeUpsized && 
+                    CurrentSizeLevel < (int)data.Stats.GetStatValue(StatType.Infra_MaxSize)
+                )
                 {
                     availableTasks.Add(new ResizeTask(this, 1));
                 }

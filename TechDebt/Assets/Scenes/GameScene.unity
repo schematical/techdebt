@@ -4334,6 +4334,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections:
     - TargetID: 
@@ -4355,6 +4356,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections:
     - TargetID: server1
@@ -4418,6 +4420,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
   - ID: desk
@@ -4433,10 +4436,11 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
   - ID: server1
-    DisplayName: Basic Server
+    DisplayName: Applciation Server
     Type: 
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 43}
@@ -4460,6 +4464,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 20
+    CanBeUpsized: 1
     CurrentState: 1
     NetworkConnections:
     - TargetID: dedicated-db
@@ -4559,6 +4564,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
     - TargetID: read-replica-1
@@ -4602,6 +4608,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 1
     NetworkConnections: []
   - ID: cdn
@@ -4625,6 +4632,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: s3-bucket
@@ -4650,6 +4658,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 1
     NetworkConnections:
     - TargetID: server1
@@ -4741,6 +4750,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 20
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
@@ -4826,6 +4836,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 20
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
     - TargetID: dedicated-db
@@ -4899,6 +4910,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections: []
   - ID: read-replica-2
@@ -4918,6 +4930,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections: []
   - ID: water-cooler
@@ -4937,6 +4950,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections: []
   - ID: waf
@@ -4960,6 +4974,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -4989,6 +5004,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5022,6 +5038,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5055,6 +5072,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5084,6 +5102,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5113,6 +5132,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: bg-worker-1
@@ -5142,6 +5162,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5171,6 +5192,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5200,6 +5222,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
     - TargetID: 
@@ -5225,6 +5248,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
   - ID: kanbanboard
@@ -5244,6 +5268,7 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
   AllTechnologies:
