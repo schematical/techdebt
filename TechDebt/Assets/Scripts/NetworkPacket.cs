@@ -80,9 +80,24 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler
 
         Vector3 destinationPosition = nextHop.GetTransform().position;
         transform.position = Vector3.MoveTowards(transform.position, destinationPosition, Speed * Time.deltaTime);
-
+        float dist = Vector3.Distance(transform.position, destinationPosition);
+        if (dist < 1f)
+        {
+            transform.localScale = new Vector3(dist,dist, 1);
+        }
+        else
+        {
+            if (transform.localScale.x < 1)
+            {
+                transform.localScale = new Vector3(transform.localScale.x + Time.deltaTime, transform.localScale.y + Time.deltaTime, 1);
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
+            }
+        }
         // Check if the packet has reached its destination
-        if (Vector3.Distance(transform.position, destinationPosition) < 0.1f)
+        if (dist < 0.1f)
         {
             // Deliver the packet
             nextHop.ReceivePacket(this);
