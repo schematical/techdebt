@@ -27,7 +27,6 @@ namespace UI
             
             float y = rectTransform.anchorMax.y;
             float nextY = y + speed;
-            Debug.Log($"Next Y: {nextY} - speed: {speed}");
             rectTransform.anchorMax = new Vector2(rectTransform.anchorMax.x, nextY);
             
            

@@ -9,7 +9,7 @@ public class PrefabManager: MonoBehaviour
     public List<GameObject> Prefabs = new List<GameObject>();
     private Dictionary<string, List<GameObject>>Pool = new Dictionary<string, List<GameObject>>();
     
-    public GameObject Create(string prefabId, Vector3 position)
+    public GameObject Create(string prefabId, Vector3 position, Transform parentTransform = null)
     {
         // Ensure a pool for this packet type exists
         if (!Pool.ContainsKey(prefabId))
@@ -35,7 +35,7 @@ public class PrefabManager: MonoBehaviour
             }
             else
             {
-                go = Instantiate(prefab, position, Quaternion.identity);
+                go = Instantiate(prefab, position, Quaternion.identity,  parentTransform);
 
                 Pool[prefabId].Add(go); 
             }
