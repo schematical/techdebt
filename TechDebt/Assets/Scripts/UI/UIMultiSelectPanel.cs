@@ -27,6 +27,17 @@ namespace UI
       {
           titleText.text = title;
           bottomText.text = bottom;
+          
+          GameObject prefab = GameManager.Instance.prefabManager.GetPrefab("UILazarBeamPanel");
+          if (prefab == null)
+          {
+              Debug.LogError("UILazerBeamPanel: prefab is null");
+              return;
+          }
+          GameObject lazerGO = Instantiate(prefab, GameManager.Instance.UIManager.transform);
+          // lazerGO.transform.SetAsFirstSibling();
+          UILazerBeam lazerBeam = lazerGO.GetComponent<UILazerBeam>();
+          lazerBeam.Restart();
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
