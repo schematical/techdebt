@@ -28,11 +28,7 @@ namespace UI
           titleText.text = title;
           bottomText.text = bottom;
           
-          GameObject lazerGO = GameManager.Instance.prefabManager.Create("UILazarBeamPanel", transform.position, transform);
-       
-          // lazerGO.transform.SetAsFirstSibling();
-          UILazerBeam lazerBeam = lazerGO.GetComponent<UILazerBeam>();
-          lazerBeam.Init(0);
+      
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
