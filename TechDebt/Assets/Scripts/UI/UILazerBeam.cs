@@ -12,14 +12,14 @@ namespace UI
         private Vector2 startingAnchorMax;
         public RectTransform rectTransform;
         public float particleCounter = 0f;
-
-        public void Start()
+      
+        public void Awake()
         {
             if (rectTransform == null)
             {
                 rectTransform = GetComponent<RectTransform>();
             }
-
+ 
             startingAnchorMax = rectTransform.anchorMax;
         }
 

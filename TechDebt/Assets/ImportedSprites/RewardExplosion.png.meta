@@ -234,6 +234,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: RewardExplosion_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4aa3a0a8c55db4448e525c89412ba57
+      internalID: -469867386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RewardExplosion_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b766d7e5000da204d8e8c7a06537e958
+      internalID: -233903120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -255,6 +299,8 @@ TextureImporter:
       RewardExplosion_2: -4783465714364819271
       RewardExplosion_3: -3972647147141862969
       RewardExplosion_4: 1833265498160508854
+      RewardExplosion_5: -469867386
+      RewardExplosion_6: -233903120
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
