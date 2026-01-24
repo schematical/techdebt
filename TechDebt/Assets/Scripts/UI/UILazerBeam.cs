@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UI
 {
@@ -6,7 +8,7 @@ namespace UI
     {
 
 
-        private float speed = 0.001f;
+        private float speed = 0.01f;
         private Vector2 startingAnchorMax;
         public RectTransform rectTransform;
         public float particleCounter = 0f;
@@ -30,14 +32,19 @@ namespace UI
             particleCounter += 0.01f;
             if (particleCounter >= 1f)
             {
-                GameObject particleGO = GameManager.Instance.prefabManager.CreateRandomParticle(transform.position, transform);
-                particleCounter = 0;
+                float halfRange = rectTransform.rect.width / 2;
+                Vector2 nextPosition = new Vector2(
+                    rectTransform.position.x + Random.Range(-1 * halfRange, halfRange), rectTransform.position.y);
+                GameObject particleGO = GameManager.Instance.prefabManager.CreateRandomParticle(nextPosition, transform);
+                UILazarBeamParticle particle = particleGO.GetComponent<UILazarBeamParticle>();
+                particle.Init(rectTransform.rotation.z);
+                particleCounter = Random.Range(0f, 10f)/10;
             }
 
 
         }
 
-        public void Init(int rotationZ = 0)
+        public void Init(float rotationZ = 0)
         {
             /*if (
                 rectTransform  != null &&

@@ -32,7 +32,7 @@ namespace UI
        
           // lazerGO.transform.SetAsFirstSibling();
           UILazerBeam lazerBeam = lazerGO.GetComponent<UILazerBeam>();
-          lazerBeam.Init(20);
+          lazerBeam.Init(0);
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
