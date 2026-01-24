@@ -9,6 +9,7 @@ namespace UI
         private float speed = 0.001f;
         private Vector2 startingAnchorMax;
         public RectTransform rectTransform;
+        public float particleCounter = 0f;
 
         public void Start()
         {
@@ -23,14 +24,17 @@ namespace UI
         public void Update()
         {
 
-   
-            
             float y = rectTransform.anchorMax.y;
             float nextY = y + speed;
             rectTransform.anchorMax = new Vector2(rectTransform.anchorMax.x, nextY);
-            
-           
-            
+            particleCounter += 0.01f;
+            if (particleCounter >= 1f)
+            {
+                GameObject particleGO = GameManager.Instance.prefabManager.CreateRandomParticle(transform.position, transform);
+                particleCounter = 0;
+            }
+
+
         }
 
         public void Init(int rotationZ = 0)

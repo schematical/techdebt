@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class PrefabManager: MonoBehaviour
 {
     public List<GameObject> Prefabs = new List<GameObject>();
     private Dictionary<string, List<GameObject>>Pool = new Dictionary<string, List<GameObject>>();
+    private List<string> particleIds;
     
     public GameObject Create(string prefabId, Vector3 position, Transform parentTransform = null)
     {
@@ -48,5 +50,25 @@ public class PrefabManager: MonoBehaviour
     {
         GameObject prefab = Prefabs.Find(p => p.name == prefabId);
         return prefab;
+    }
+
+    public GameObject CreateRandomParticle(Vector3 position, Transform parentTransform = null)
+    {
+        if (particleIds == null)
+        {
+            particleIds = new List<string>();
+            foreach (GameObject go in Prefabs)
+            {
+                if (go.name.StartsWith("Particle_"))
+                {
+                    particleIds.Add(go.name);
+                }
+            }
+        }
+
+        int index = Random.Range(0, particleIds.Count);
+        string goId = particleIds[index];
+        return Create(goId, position, parentTransform);
+
     }
 }
