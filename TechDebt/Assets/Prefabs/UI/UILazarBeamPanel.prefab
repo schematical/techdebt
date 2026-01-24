@@ -88,6 +88,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb263fc52904ce3afa6ff6cfdaaf866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILazerBeam
-  speed: 1
-  verticalScaleFactor: 2
-  holdTime: 0.5
+  rectTransform: {fileID: 1821415809952134355}

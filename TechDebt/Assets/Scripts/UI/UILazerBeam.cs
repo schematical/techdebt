@@ -8,11 +8,15 @@ namespace UI
 
         private float speed = 0.001f;
         private Vector2 startingAnchorMax;
-        private RectTransform rectTransform;
+        public RectTransform rectTransform;
 
         public void Start()
         {
-            rectTransform = GetComponent<RectTransform>();
+            if (rectTransform == null)
+            {
+                rectTransform = GetComponent<RectTransform>();
+            }
+
             startingAnchorMax = rectTransform.anchorMax;
         }
 
@@ -30,8 +34,15 @@ namespace UI
             
         }
 
-        public void Restart()
+        public void Init(int rotationZ = 0)
         {
+            if (
+                rectTransform  != null &&
+                startingAnchorMax != null)
+            {
+                rectTransform.anchorMax = startingAnchorMax;
+            }
+            // rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             gameObject.SetActive(true);
             
         }
