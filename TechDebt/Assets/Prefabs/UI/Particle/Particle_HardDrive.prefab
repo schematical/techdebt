@@ -88,4 +88,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b23fd548fa340eca81d76bdae6563ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILazarBeamParticle
-  rectTransform: {fileID: 0}
+  rectTransform: {fileID: 1721379561767921890}
