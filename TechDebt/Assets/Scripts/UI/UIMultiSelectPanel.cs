@@ -37,7 +37,7 @@ namespace UI
           GameObject lazerGO = Instantiate(prefab, GameManager.Instance.UIManager.transform);
           // lazerGO.transform.SetAsFirstSibling();
           UILazerBeam lazerBeam = lazerGO.GetComponent<UILazerBeam>();
-          lazerBeam.Init(0);
+          lazerBeam.Init(20);
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {

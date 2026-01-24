@@ -36,13 +36,14 @@ namespace UI
 
         public void Init(int rotationZ = 0)
         {
-            if (
+            /*if (
                 rectTransform  != null &&
                 startingAnchorMax != null)
             {
                 rectTransform.anchorMax = startingAnchorMax;
-            }
-            // rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
+            }*/
+           
+            rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             gameObject.SetActive(true);
             
         }
