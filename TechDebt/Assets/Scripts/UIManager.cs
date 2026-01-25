@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     public UIWorldObjectDetailPanel worldObjectDetailPanel;
     public UISummaryPhasePanel summaryPhasePanel;
     public UITimeControlPanel timeControlPanel;
+    public UIRewardPanel rewardPanel;
     // OLD UI Containers
  
     private GameObject hireDevOpsPanel;

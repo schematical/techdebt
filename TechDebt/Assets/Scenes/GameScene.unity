@@ -816,6 +816,7 @@ MonoBehaviour:
   worldObjectDetailPanel: {fileID: 418729440}
   summaryPhasePanel: {fileID: 398695512}
   timeControlPanel: {fileID: 1012913382}
+  rewardPanel: {fileID: 604598509}
   _infrastructureDetailText: {fileID: 0}
   _eventLogText: {fileID: 0}
   _npcDetailText: {fileID: 0}
@@ -3294,7 +3295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &604598508
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3313,9 +3314,9 @@ RectTransform:
   - {fileID: 808600712}
   m_Father: {fileID: 203743600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -8.215103, y: -352.09863}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -8.215103, y: 331.90137}
   m_SizeDelta: {x: 435.56, y: 324.3428}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &604598509
@@ -3330,9 +3331,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b99b9c5b3245470da780db6a693e413f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIRewardPanel
+  state: 0
   openButton: {fileID: 1490591786}
   rewardImage: {fileID: 965007578}
   animator: {fileID: 965007577}
+  timer: 0
+  lazerBeams: []
 --- !u!114 &604598510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6464,7 +6468,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 173574681823c784087fab29284ea7f4, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -9040,7 +9044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8713711653751852551, guid: bebf06e5ff8a24e49a4d2a5357a97559, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 46.875
       objectReference: {fileID: 0}
     - target: {fileID: 8713711653751852551, guid: bebf06e5ff8a24e49a4d2a5357a97559, type: 3}
       propertyPath: m_LocalPosition.x

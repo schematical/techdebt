@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI
@@ -12,21 +13,22 @@ namespace UI
             Closed,
             Opened
         };
-        public State state = State.Closed;
+        private State state = State.Closed;
         public Button openButton;
         public Image rewardImage;
         public Animator animator;
         private int count;
-        public float timer = 0;
-        public List<UILazerBeam> lazerBeams;
-        public 
+        private float timer = 0;
+        private List<UILazerBeam> lazerBeams = new List<UILazerBeam>();
+        private UnityAction onDone;
         void Start()
         {
-            Init(5);
             openButton.onClick.AddListener(OnOpenClick);
         }
-        public void Init(int _count = 1)
+        public void Show(UnityAction _onDone, int _count = 1)
         {
+           
+            GameManager.Instance.UIManager.SetTimeScalePause();
             count = _count;
             timer = 0;
             state = State.Closed;
@@ -38,20 +40,23 @@ namespace UI
                 }
             }
             lazerBeams.Clear();
+            onDone = _onDone;
+            gameObject.SetActive(true);
         }
 
-        void FixedUpdate()
+        void Update()
         {
             if (state == State.Closed)
             {
+                // Debug.Log(state);
                 return;
             }
 
-            timer += 0.02f;
-       
+            timer += Time.unscaledDeltaTime;
+            Debug.Log(timer);
             if (timer >= 2)
             {
-               
+               Debug.Log($"lazerBeams.Count {lazerBeams.Count } < count {count}");
                 if (lazerBeams.Count < count)
                 {
                     Vector2 position = rewardImage.transform.position - new Vector3(0, 30);
@@ -75,6 +80,12 @@ namespace UI
                     timer = 0;
                 }
             }
+            if (timer > 10)
+            {
+                onDone.Invoke();
+                gameObject.SetActive(false);
+            }
+           
         }
         public void OnOpenClick()
         {
@@ -82,6 +93,7 @@ namespace UI
             // bool test = animator.GetBool("IsExploding");
             animator.SetBool("IsExploding", true);
             state = State.Opened;
+            Debug.Log("OPENED!" + state);
          
             
         }

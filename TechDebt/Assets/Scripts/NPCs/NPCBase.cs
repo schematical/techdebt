@@ -74,8 +74,12 @@ public abstract class NPCBase : MonoBehaviour
     protected virtual void Update()
     {
         if (
-            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
-            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire)
+            (
+                GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
+                GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire
+            ) || 
+            GameManager.Instance.UIManager.GetCurrentTimeState() == UIManager.TimeState.Paused
+        )
         {
             return;
         }
