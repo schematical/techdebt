@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         SuperFast
     }
 
-    public float userSpecifiedTimeScale = 1f;
+
     public UILeftMenuPanel leftMenuPanel;
     public UITopBarPanel topBarPanel;
 
@@ -72,6 +72,7 @@ public class UIManager : MonoBehaviour
 
     private TimeState _currentTimeState { get; set; } = TimeState.Normal;
     private TimeState _timeStateBeforePause = TimeState.Normal;
+    private TimeState _userSpecifiedTimeState = TimeState.Normal;
 
     // Task List
     private Dictionary<NPCTask, GameObject> _taskUIMap = new Dictionary<NPCTask, GameObject>();
@@ -848,7 +849,9 @@ public class UIManager : MonoBehaviour
 
     public void Resume()
     {
-        Time.timeScale = userSpecifiedTimeScale;
+        Debug.Log($"Resume...{_userSpecifiedTimeState}");
+        SetTimeState(_userSpecifiedTimeState);
+        
     }
 
     public void SetTimeScalePlay(bool setDesired = false)
@@ -868,6 +871,7 @@ public class UIManager : MonoBehaviour
 
     public void SetTimeState(TimeState newState, bool setDesired = false)
     {
+        Debug.Log($"SetTimeState: {newState} - setDesired: {setDesired}");
         _currentTimeState = newState;
 
         float newTimeScale = 1f;
@@ -896,7 +900,8 @@ public class UIManager : MonoBehaviour
         Time.timeScale = newTimeScale;
         if (setDesired)
         {
-            userSpecifiedTimeScale = newTimeScale;
+            Debug.Log($"Setting userSpecifiedTimeScale: {_userSpecifiedTimeState}");
+            _userSpecifiedTimeState = newState;
         }
         timeControlPanel.UpdateTimeScaleButtons();
     }

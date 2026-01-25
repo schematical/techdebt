@@ -49,7 +49,7 @@ public class DebugPanel : MonoBehaviour
         {
             Vector3 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            Vector3Int cellPos = gridManager.gridComponent.WorldToCell(worldPos);
+            Vector3Int cellPos = gridManager.grid.WorldToCell(worldPos);
             mouseCoordsText.text = $"X: {cellPos.x}, Y: {cellPos.y}";
         }
     }

@@ -89,3 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILazarBeamParticle
   rectTransform: {fileID: 1721379561767921890}
+  image: {fileID: 307920475642925080}

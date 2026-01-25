@@ -2,19 +2,21 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
 
-    [SerializeField] public int gridWidth = 64;
-    [SerializeField] public int gridHeight = 64;
+    public int gridWidth = 64;
+    public int gridHeight = 64;
     
-    public Tile tilePrefab;
-    public Grid gridComponent { get; private set; }
-    
+   public Tile floorTilePrefab;
+   public IsometricRuleTile skyTilePrefab;
+    public Grid grid { get; private set; }
     private Node[,] nodeGrid;
-    private Tilemap tilemap;
+    public Tilemap floorTilemap;
+    public Tilemap skyTilemap;
 
     void Awake()
     {
@@ -29,29 +31,33 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void CreateGrid()
+    public void Init()
     {
         nodeGrid = new Node[gridWidth, gridHeight];
+        grid = GetComponent<Grid>();
+        grid.cellLayout = GridLayout.CellLayout.Isometric;
+        grid.cellSize = new Vector3(1, 0.5f, 1);
 
-        GameObject gridObject = new GameObject("Grid");
-        gridComponent = gridObject.AddComponent<Grid>();
-        gridComponent.cellLayout = GridLayout.CellLayout.Isometric;
-        gridComponent.cellSize = new Vector3(1, 0.5f, 1);
 
-        GameObject tilemapObject = new GameObject("Tilemap");
-        tilemapObject.transform.SetParent(gridObject.transform);
-        tilemap = tilemapObject.AddComponent<Tilemap>();
-        tilemapObject.AddComponent<TilemapRenderer>();
-        
-        for (int x = 0; x < gridWidth; x++)
+        int border = 20;
+        for (int x = 0 - border; x < gridWidth + border; x++)
         {
-            for (int y = 0; y < gridHeight; y++)
+            for (int y = 0 - border; y < gridHeight + border; y++)
             {
                 Vector3Int cellPosition = new Vector3Int(x, y, 0);
-                tilemap.SetTile(cellPosition, tilePrefab);
-                Vector3 worldPoint = gridComponent.CellToWorld(cellPosition);
-                // For now, all tiles are walkable
-                nodeGrid[x, y] = new Node(true, worldPoint, x, y);
+                if (x < 0 || x >= gridWidth || y < 0 || y >= gridHeight)
+                {
+                    skyTilemap.SetTile(cellPosition, skyTilePrefab);   
+                }
+                else
+                {
+                    floorTilemap.SetTile(cellPosition, floorTilePrefab);
+                    Vector3 worldPoint = grid.CellToWorld(cellPosition);
+                    // For now, all tiles are walkable
+                    nodeGrid[x, y] = new Node(true, worldPoint, x, y);
+                }
+
+     
             }
         }
     }
@@ -63,7 +69,7 @@ public class GridManager : MonoBehaviour
             throw new System.Exception("Node grid is not initialized! Cannot find node.");
         }
         
-        Vector3Int cellPos = gridComponent.WorldToCell(worldPosition);
+        Vector3Int cellPos = grid.WorldToCell(worldPosition);
 
         // Clamp the cell position to be within the grid bounds
         cellPos.x = Mathf.Clamp(cellPos.x, 0, gridWidth - 1);

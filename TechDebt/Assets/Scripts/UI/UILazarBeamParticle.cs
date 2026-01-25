@@ -1,13 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class UILazarBeamParticle: MonoBehaviour
     {
-        public enum State {Rising, Falling}
+        public enum State {Rising, Falling, Fading}
 
         protected State state;
         public RectTransform rectTransform;
+        public Image image;
         void Update()
         {
             Vector3[] corners = new Vector3[4];
@@ -22,7 +24,7 @@ namespace UI
                     if (bottomRight.y > Screen.height + 100)
                     {
                         state = State.Falling;
-                        transform.SetParent(transform.parent.parent);
+                        transform.SetParent(transform.parent.parent.parent);
                         rectTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
                         // rectTransform.sizeDelta = new Vector2(100, 100);
                         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
@@ -45,13 +47,27 @@ namespace UI
                         gameObject.SetActive(false);
                     }
                     break;
+             case(State.Fading):
+                 
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 1f);
+                    image.color = new Color(
+                        image.color.r,
+                        image.color.g,
+                        image.color.b,
+                        image.color.a - ( Time.unscaledDeltaTime)
+                    );
+                    if (image.color.a <= 0)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                    break;
             }
 
             
         }
         public void Init(float rotationZ = 0)
         {
-          
+            image.color = Color.white;
             state = State.Rising;
             rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             gameObject.SetActive(true);
@@ -59,6 +75,18 @@ namespace UI
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
             
+        }
+
+        public void Shutdown()
+        {
+            state = State.Fading;
+            
+            /*switch (state)
+            {
+                case (State.Fading):
+                    break;
+
+            }*/
         }
     }
 }

@@ -24,11 +24,10 @@ namespace UI
         void Start()
         {
             openButton.onClick.AddListener(OnOpenClick);
-            Show(() => { }, 2);
         }
         public void Show(UnityAction _onDone, int _count = 1)
         {
-           
+           Debug.Log("UIRewardPanel.Show");
             GameManager.Instance.UIManager.SetTimeScalePause();
             count = _count;
             timer = 0;
@@ -43,6 +42,7 @@ namespace UI
             lazerBeams.Clear();
             onDone = _onDone;
             gameObject.SetActive(true);
+            openButton.gameObject.SetActive(true);
         }
 
         void Update()
@@ -54,10 +54,8 @@ namespace UI
             }
 
             timer += Time.unscaledDeltaTime;
-            Debug.Log(timer);
-            if (timer >= 2)
+            if (timer >= 1)
             {
-               Debug.Log($"lazerBeams.Count {lazerBeams.Count } < count {count}");
                 if (lazerBeams.Count < count)
                 {
                     Vector2 position = rewardImage.transform.position - new Vector3(0, 30);
@@ -81,7 +79,17 @@ namespace UI
                     timer = 0;
                 }
             }
-            if (timer > 10)
+
+            if (timer > 4)
+            {
+                foreach (UILazerBeam lazerBeam in lazerBeams)
+                {
+                    lazerBeam.Shutdown();
+                }
+
+            }
+
+            if (timer > 6)
             {
                 onDone.Invoke();
                 gameObject.SetActive(false);
@@ -94,7 +102,7 @@ namespace UI
             // bool test = animator.GetBool("IsExploding");
             animator.SetBool("IsExploding", true);
             state = State.Opened;
-            Debug.Log("OPENED!" + state);
+            openButton.gameObject.SetActive(false);
          
             
         }

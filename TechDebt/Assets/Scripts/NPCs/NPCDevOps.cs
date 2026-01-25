@@ -52,14 +52,16 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
             lastDisplayXP = (int)Math.Floor(currentXP);
         }
 
-        int nextLevel = (int)Math.Round(20 * Math.Pow(1.5f, level));
+        int nextLevel = (int)Math.Round(60 * Math.Pow(1.5f, level));
         if (currentXP >= nextLevel)
         {
        
-
+            currentXP = 0;
+            lastDisplayXP = 0;
             GameManager.Instance.UIManager.rewardPanel.Show(() =>
             {
                LevelUp();
+               
             });
         }
     }
@@ -67,8 +69,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
     protected void LevelUp()
     {
         level++;
-        currentXP = 0;
-        lastDisplayXP = 0;
+     
 
 
         GameManager.Instance.UIManager.MultiSelectPanel.Display(

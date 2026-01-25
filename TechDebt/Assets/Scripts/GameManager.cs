@@ -317,8 +317,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [SerializeField] private GridManager gridManager;
-    [SerializeField] private TileBase floorTile;
+    [SerializeField] public GridManager gridManager;
     [SerializeField] private GameObject npcDevOpsPrefab;
 
     void Awake()
@@ -589,26 +588,26 @@ public class GameManager : MonoBehaviour
 
     void SetupGameScene()
     {
-        if (floorTile == null || npcDevOpsPrefab == null)
+        if (npcDevOpsPrefab == null)
         {
             Debug.LogError("FATAL: A prefab or tile is not assigned in the GameManager Inspector!");
             return;
         }
 
-        if (gridManager == null)
+        /*if (gridManager == null)
         {
             gridManager = FindObjectOfType<GridManager>();
             if (gridManager == null)
             {
                  gridManager = new GameObject("GridManager").AddComponent<GridManager>();
             }
-        }
+        }*/
         
-        gridManager.tilePrefab = floorTile as Tile;
-        gridManager.CreateGrid();
+
+        gridManager.Init();
 
         // Center the camera on the board
-        Vector3 centerWorld = gridManager.gridComponent.CellToWorld(new Vector3Int(gridManager.gridWidth / 2, gridManager.gridHeight / 2, 0));
+        Vector3 centerWorld = gridManager.grid.CellToWorld(new Vector3Int(gridManager.gridWidth / 2, gridManager.gridHeight / 2, 0));
         Camera.main.transform.position = new Vector3(centerWorld.x, centerWorld.y, Camera.main.transform.position.z);
 
         // Zoom out to show the entire board, using the maxZoom from CameraController
@@ -636,7 +635,7 @@ public class GameManager : MonoBehaviour
         
         foreach (var infraData in AllInfrastructure)
         {
-            Vector3 worldPos = gridManager.gridComponent.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
+            Vector3 worldPos = gridManager.grid.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
             GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
 
             if (instanceGO.GetComponent<Collider2D>() == null)

@@ -98,7 +98,7 @@ public class DeliverItemTask : NPCTask
                  Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
                  if (node != null && node.isWalkable)
                  {
-                     return GridManager.Instance.gridComponent.GetCellCenterWorld(new Vector3Int(node.gridX, node.gridY, 0));
+                     return GridManager.Instance.grid.GetCellCenterWorld(new Vector3Int(node.gridX, node.gridY, 0));
                  }
             }
         }
