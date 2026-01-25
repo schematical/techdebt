@@ -24,6 +24,7 @@ namespace UI
         void Start()
         {
             openButton.onClick.AddListener(OnOpenClick);
+            Show(() => { }, 2);
         }
         public void Show(UnityAction _onDone, int _count = 1)
         {

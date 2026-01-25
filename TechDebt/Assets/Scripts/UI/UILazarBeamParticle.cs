@@ -4,33 +4,60 @@ namespace UI
 {
     public class UILazarBeamParticle: MonoBehaviour
     {
+        public enum State {Rising, Falling}
+
+        protected State state;
         public RectTransform rectTransform;
         void Update()
         {
-            rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 1f);
-            
             Vector3[] corners = new Vector3[4];
             rectTransform.GetWorldCorners(corners);
             
             // Bottom-right corner is corners[2]
             Vector3 bottomRight = corners[2];
-
-            if (bottomRight.x < 0 || bottomRight.x > Screen.width || bottomRight.y < 0 || bottomRight.y > Screen.height)
+            switch (state)
             {
-                gameObject.SetActive(false);
+                case(State.Rising):
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 1f);
+                    if (bottomRight.y > Screen.height + 100)
+                    {
+                        state = State.Falling;
+                        transform.SetParent(transform.parent.parent);
+                        rectTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                        // rectTransform.sizeDelta = new Vector2(100, 100);
+                        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
+                        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+                        float newX =  Random.Range(0, Screen.width / 4);
+                        if (Random.Range(0, 2) > 0)
+                        {
+                            newX = Screen.width - newX;
+                        }
+                        
+                        rectTransform.position = new Vector2(newX, rectTransform.position.y);
+                    }
+                    break;
+                case(State.Falling):
+              
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 1f);
+                    if (bottomRight.y < 0)
+                    {
+                       
+                        gameObject.SetActive(false);
+                    }
+                    break;
             }
+
+            
         }
         public void Init(float rotationZ = 0)
         {
-            /*if (
-                rectTransform  != null &&
-                startingAnchorMax != null)
-            {
-                rectTransform.anchorMax = startingAnchorMax;
-            }*/
-           
+          
+            state = State.Rising;
             rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             gameObject.SetActive(true);
+            // rectTransform.sizeDelta = new Vector2(25, 25);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
             
         }
     }
