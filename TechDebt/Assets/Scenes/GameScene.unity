@@ -805,7 +805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098a96fd30e6754409851d34d2a9d5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  userSpecifiedTimeScale: 1
   leftMenuPanel: {fileID: 320297917}
   topBarPanel: {fileID: 2022470873}
   deskMenuPanel: {fileID: 355200704}

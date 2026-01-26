@@ -497,6 +497,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
+        OnReleaseChanged += HandleReleaseChanged;
         Stats.Add(new StatData(StatType.Money, 100f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 30));
@@ -526,8 +527,25 @@ public class GameManager : MonoBehaviour
         
         
     }
-    
-	public float IncrStat(StatType stat, float value = 1)
+
+    private void HandleReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState prevState)
+    {
+        if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentCompleted)
+        {
+            ReleaseBase openRelease = Releases.Find((r) => r.State != ReleaseBase.ReleaseState.DeploymentCompleted && r.State != ReleaseBase.ReleaseState.Failed);
+            if (openRelease != null)
+            {
+                return;
+            }
+
+            UIManager.AddAttentionIcon(
+                GetInfrastructureInstanceByID("whiteboard").transform,
+                Color.green
+            );
+        }
+    }
+
+    public float IncrStat(StatType stat, float value = 1)
     {
        
         var statval = Stats.Stats[stat].IncrStat(value);

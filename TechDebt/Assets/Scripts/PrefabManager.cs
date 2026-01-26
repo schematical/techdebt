@@ -26,6 +26,10 @@ public class PrefabManager: MonoBehaviour
             // Reactivate and re-initialize the pooled packet
             go.transform.position = position;
             go.SetActive(true);
+            if (parentTransform != null)
+            {
+                go.transform.SetParent(parentTransform);
+            }
         }
         else
         {

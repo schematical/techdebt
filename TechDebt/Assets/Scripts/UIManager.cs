@@ -27,11 +27,11 @@ public class UIManager : MonoBehaviour
         Fast,
         SuperFast
     }
-
-
-    public UILeftMenuPanel leftMenuPanel;
+ 
+    protected List<UIAttentionIcon> attentionIcons = new  List<UIAttentionIcon>();
+    
     public UITopBarPanel topBarPanel;
-
+  
     public UIDeskMenuPanel deskMenuPanel;
     public UIMultiSelectPanel MultiSelectPanel;
     [FormerlySerializedAs("DeploymentHistoryPanel")] public UIReleaseHistoryPanel  releaseHistoryPanel;
@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
     public UISummaryPhasePanel summaryPhasePanel;
     public UITimeControlPanel timeControlPanel;
     public UIRewardPanel rewardPanel;
+    
+    
     // OLD UI Containers
  
     private GameObject hireDevOpsPanel;
@@ -1338,6 +1340,15 @@ public class UIManager : MonoBehaviour
     public TimeState GetCurrentTimeState()
     {
         return _currentTimeState;
+    }
+
+    public UIAttentionIcon AddAttentionIcon(Transform _transform, Color color)
+    {
+       
+            GameObject iconGo = GameManager.Instance.prefabManager.Create("UIAttentionIcon", _transform.position, transform);
+            UIAttentionIcon attentionIcon = iconGo.GetComponent<UIAttentionIcon>();
+            attentionIcon.Show(_transform, color);
+            return attentionIcon;
     }
 
 }
