@@ -815,6 +815,7 @@ MonoBehaviour:
   summaryPhasePanel: {fileID: 398695512}
   timeControlPanel: {fileID: 1012913382}
   rewardPanel: {fileID: 604598509}
+  attentionIconBoarderPanel: {fileID: 1134520283}
   _infrastructureDetailText: {fileID: 0}
   _eventLogText: {fileID: 0}
   _npcDetailText: {fileID: 0}

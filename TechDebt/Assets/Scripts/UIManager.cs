@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
     public UITimeControlPanel timeControlPanel;
     public UIRewardPanel rewardPanel;
 
-    public GameObject attentionIconBoarderPanel;
+    public RectTransform attentionIconBoarderPanel;
     
     // OLD UI Containers
  

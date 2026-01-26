@@ -7,10 +7,12 @@ namespace UI
         public SpriteRenderer spriteRenderer;
         protected Transform targetTransform;
         
+        
         public void Show(Transform _transform, Color color)
         {
             targetTransform = _transform;
             spriteRenderer.color = color;
+       
         }
 
         void Update()
@@ -25,64 +27,49 @@ namespace UI
             Vector3 targetPosition = targetTransform.position + new Vector3(0f, 2f, -1f);
             Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
 
-            bool isOffScreen = screenPos.x <= padding || screenPos.x >= Screen.width - padding ||
-                               screenPos.y <= padding || screenPos.y >= Screen.height - padding || screenPos.z < 0;
+            float minX, maxX, minY, maxY;
+
+         
+                Vector3[] corners = new Vector3[4];
+                GameManager.Instance.UIManager.attentionIconBoarderPanel.GetWorldCorners(corners);
+                Vector3 bottomLeftScreen = RectTransformUtility.WorldToScreenPoint(null, corners[0]);
+                Vector3 topRightScreen = RectTransformUtility.WorldToScreenPoint(null, corners[2]);
+
+                minX = bottomLeftScreen.x;
+                maxX = topRightScreen.x;
+                minY = bottomLeftScreen.y;
+                maxY = topRightScreen.y;
+            
+
+            bool isOffScreen = screenPos.x <= minX + padding || screenPos.x >= maxX - padding ||
+                               screenPos.y <= minY + padding || screenPos.y >= maxY - padding || screenPos.z < 0;
 
             if (!isOffScreen)
             {
                 transform.position = targetPosition;
-                transform.rotation = Quaternion.identity; // Reset rotation when on-screen
+                transform.rotation = Quaternion.identity;
             }
             else
             {
-                // If the target is behind the camera, project it onto the camera plane
                 if (screenPos.z < 0)
                 {
-                    screenPos *= -1;
+                    screenPos.x = Screen.width - screenPos.x;
+                    screenPos.y = Screen.height - screenPos.y;
                 }
 
-                Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-                screenPos -= screenCenter;
+                float clampedX = Mathf.Clamp(screenPos.x, minX + padding, maxX - padding);
+                float clampedY = Mathf.Clamp(screenPos.y, minY + padding, maxY - padding);
                 
-                float angle = Mathf.Atan2(screenPos.y, screenPos.x);
-                angle -= 90 * Mathf.Deg2Rad;
-                
-                float cos = Mathf.Cos(angle);
-                float sin = -Mathf.Sin(angle);
-                
-                screenPos = screenCenter + new Vector3(sin * 150, cos * 150, 0);
-                
-                float m = cos / sin;
-                
-                Vector3 screenBounds = screenCenter * 0.9f;
+                Vector3 clampedScreenPos = new Vector3(clampedX, clampedY, screenPos.z);
+                // Ensure Z is positive for ScreenToWorldPoint
+                clampedScreenPos.z = Camera.main.nearClipPlane + 0.1f; 
 
-                if (cos > 0)
-                {
-                    screenPos = new Vector3(screenBounds.y / m, screenBounds.y, 0);
-                }
-                else
-                {
-                    screenPos = new Vector3(-screenBounds.y / m, -screenBounds.y, 0);
-                }
-
-                if (screenPos.x > screenBounds.x)
-                {
-                    screenPos = new Vector3(screenBounds.x, screenBounds.x * m, 0);
-                }
-                else if (screenPos.x < -screenBounds.x)
-                {
-                    screenPos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
-                }
-
-                screenPos += screenCenter;
-                
-                // We have to fudge the Z position to make sure the icon appears in front of the camera
-                Vector3 newWorldPos = Camera.main.ScreenToWorldPoint(screenPos + new Vector3(0,0,10));
+                Vector3 newWorldPos = Camera.main.ScreenToWorldPoint(clampedScreenPos);
                 transform.position = newWorldPos;
                 
                 Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
-                float rotationAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0, 0, rotationAngle + 90); // Adjust for sprite's default orientation
+                float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg + 90;
+                transform.rotation = Quaternion.Euler(0, 0, angle);
             }
         }
     }
