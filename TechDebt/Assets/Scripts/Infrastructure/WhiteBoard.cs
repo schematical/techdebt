@@ -21,11 +21,11 @@ namespace Infrastructure
                 return;
             }
 
-            if (GameManager.Instance.HasOpenBugs())
+            /*if (GameManager.Instance.HasOpenBugs())
             {
                 GameManager.Instance.UIManager.ShowAlert("You must debug the bugs introduced in the last release first.");
                 return;
-            }
+            }*/
             GameManager.Instance.UIManager.MultiSelectPanel.Clear();
          
 

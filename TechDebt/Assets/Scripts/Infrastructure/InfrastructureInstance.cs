@@ -232,8 +232,12 @@ public class InfrastructureInstance : WorldObjectBase
 
         switch (newState)
         {
+            case(InfrastructureData.State.Unlocked):
+                attentionIconColor = Color.white;
+                ShowAttentionIcon();
+                break;
             case (InfrastructureData.State.Operational):
-
+                HideAttentionIcon();
                 CurrentLoad = 0;
                 break;
             case (InfrastructureData.State.Planned):
@@ -259,7 +263,8 @@ public class InfrastructureInstance : WorldObjectBase
                 {
                     serverSmokeEffect.gameObject.SetActive(true);
                 }
-
+                attentionIconColor = Color.red;
+                ShowAttentionIcon();
 
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;
@@ -470,6 +475,7 @@ public class InfrastructureInstance : WorldObjectBase
         {
             case (InfrastructureData.State.Unlocked):
                 availableTasks.Add(new BuildTask(this));
+          
                 break;
             case (InfrastructureData.State.Operational):
                 if (
@@ -490,6 +496,7 @@ public class InfrastructureInstance : WorldObjectBase
                 break;
             case (InfrastructureData.State.Frozen):
                 availableTasks.Add(new FixFrozenTask(this));
+                
                 break;
         }
 

@@ -63,10 +63,10 @@ public class ReleaseBase
     {
         return $"0.{Version}.0";
     }
-    public bool CheckIsOver()
+
+    public List<ApplicationServer> GetUndeployedReleaseTargets()
     {
-            
-            
+        List<ApplicationServer> targets = new List<ApplicationServer>();
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {
             ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
@@ -82,8 +82,19 @@ public class ReleaseBase
             )
             {
                 
-                return false;
+                targets.Add(applicationServer);
             }
+        }
+
+        return targets;
+    }
+    public bool CheckIsOver()
+    {
+
+
+        if (GetUndeployedReleaseTargets().Count > 0)
+        {
+            return false;
         }
         SetState(ReleaseState.DeploymentCompleted);
         GameManager.Instance.UIManager.rewardPanel.Show(() =>
@@ -121,6 +132,16 @@ public class ReleaseBase
         ReleaseState prevState = State;
         
         State = state;
+        switch (State)
+        {
+            case(ReleaseState.DeploymentReady):
+                foreach (ApplicationServer applicationServer in GetUndeployedReleaseTargets())
+                {
+                    applicationServer.ShowAttentionIcon();
+                }
+
+                break;
+        }
         GameManager.Instance.InvokeReleaseChanged(this, prevState);
     }
 

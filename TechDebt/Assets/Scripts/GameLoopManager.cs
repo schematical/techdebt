@@ -79,7 +79,7 @@ public class GameLoopManager : MonoBehaviour
     public void BeginPlanPhase()
     {
    
-        Time.timeScale = 1f;
+        GameManager.Instance.UIManager.Resume();
         CurrentState = GameState.Plan;
         
         currentDay++;
@@ -141,7 +141,7 @@ public class GameLoopManager : MonoBehaviour
     private void BeginSummaryPhase()
     {
        
-        Time.timeScale = 1f;
+        
         CurrentState = GameState.WaitingForNpcsToExpire;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         

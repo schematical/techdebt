@@ -40,6 +40,7 @@ public class DeploymentTask : NPCTask
     {
         base.OnEnd(npc);
         TargetInfrastructure.Version =  _release.GetVersionString();
+        TargetInfrastructure.HideAttentionIcon();
         CurrentState = State.Completed;
         _release.CheckIsOver();
     }

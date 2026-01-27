@@ -16,7 +16,7 @@ namespace UI
         public void Show(Transform _transform, Color color, UnityAction _onClick)
         {
             targetTransform = _transform;
-            spriteRenderer.color = color;
+            spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
             onClick = _onClick;
 
         }

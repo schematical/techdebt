@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
 
-        Time.timeScale = 1f;
+        // Time.timeScale = 1f;
         newGameBtn.onClick.AddListener(NewGame);
         unlockBtn.onClick.AddListener(ShowUnlockPanel);
         challengesBtn.onClick.AddListener(ShowChallenges);

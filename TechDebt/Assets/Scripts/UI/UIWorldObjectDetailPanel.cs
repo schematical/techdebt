@@ -37,6 +37,7 @@ namespace UI
                 UIButton newButton = AddButton(task.GetAssignButtonText(), () =>
                 {
                     GameManager.Instance.AddTask(localTask);
+                    _selectedWorldObject.HideAttentionIcon();
                     Close();
                 });
                 _taskButtons.Add(newButton.button);

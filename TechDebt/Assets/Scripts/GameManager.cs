@@ -390,8 +390,8 @@ public class GameManager : MonoBehaviour
 
     private void HandleTechnologyUnlocked(Technology tech)
     {
-        Debug.Log($"Technology '{tech.DisplayName}' unlocked. Checking for newly available infrastructure...");
         UpdateInfrastructureVisibility();
+        GetInfrastructureInstanceByID("desk").ShowAttentionIcon();
     }
 
     private void HandleInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State? previousState)
@@ -418,7 +418,6 @@ public class GameManager : MonoBehaviour
         {
             throw new SystemException("Missing `GameLoopManager` reference in GameManager.");
         }*/
-        Time.timeScale = 0;
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         // --- Technology Debugging ---
         UIManager.SetupUIInfrastructure();
@@ -875,6 +874,7 @@ public class GameManager : MonoBehaviour
         
         // Add a new research task for the selected technology
         AddTask(new ResearchTask(tech));
+        GetInfrastructureInstanceByID("desk").HideAttentionIcon();
     }
 
     public void ApplyResearchProgress(float researchGained)

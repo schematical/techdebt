@@ -7,6 +7,12 @@ using UnityEngine.EventSystems;
 public class Desk : InfrastructureInstance
 {
     public int lastDisplayedProgress = -1;
+    public override void Initialize()
+    {
+        base.Initialize();
+        attentionIconColor = Color.blue;
+    }
+
     public void OnResearchProgress(Vector3 position)
     {
         if (GameManager.Instance.CurrentlyResearchingTechnology == null)

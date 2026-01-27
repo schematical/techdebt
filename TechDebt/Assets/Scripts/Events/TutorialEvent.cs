@@ -66,7 +66,7 @@ namespace Events
             }
 
             currentStep = nextStep;
-            GameManager.Instance.UIManager.SetTimeScalePlay();
+            GameManager.Instance.UIManager.Resume();
             InfrastructureInstance infrastructureInstance;
             Transform transform;
             switch (currentStep)

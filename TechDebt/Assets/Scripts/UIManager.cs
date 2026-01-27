@@ -232,7 +232,15 @@ public class UIManager : MonoBehaviour
     {
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            TogglePause();
+            if (_currentTimeState == TimeState.Paused)
+            {
+                SetTimeState(_timeStateBeforePause);
+            }
+            else
+            {
+                _timeStateBeforePause = _currentTimeState;
+                SetTimeState(TimeState.Paused);
+            }
         }
 
         if (taskListPanel != null && taskListPanel.activeSelf &&
@@ -773,7 +781,7 @@ public class UIManager : MonoBehaviour
                 newTimeScale = 2f;
                 break;
             case TimeState.SuperFast:
-                newTimeScale = 8f;
+                newTimeScale = 4f;
                 break;
         }
 
@@ -792,18 +800,7 @@ public class UIManager : MonoBehaviour
         timeControlPanel.UpdateTimeScaleButtons();
     }
 
-    public void TogglePause()
-    {
-        if (_currentTimeState == TimeState.Paused)
-        {
-            SetTimeState(_timeStateBeforePause);
-        }
-        else
-        {
-            _timeStateBeforePause = _currentTimeState;
-            SetTimeState(TimeState.Paused);
-        }
-    }
+
 
 
     
