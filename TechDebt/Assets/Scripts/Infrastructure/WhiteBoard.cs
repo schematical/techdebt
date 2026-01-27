@@ -20,6 +20,12 @@ namespace Infrastructure
                 GameManager.Instance.UIManager.ShowAlert("You already have open releases that need to be finished first.");
                 return;
             }
+
+            if (GameManager.Instance.HasOpenBugs())
+            {
+                GameManager.Instance.UIManager.ShowAlert("You must debug the bugs introduced in the last release first.");
+                return;
+            }
             GameManager.Instance.UIManager.MultiSelectPanel.Clear();
          
 

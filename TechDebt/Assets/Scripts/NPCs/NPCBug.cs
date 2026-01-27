@@ -11,6 +11,13 @@ namespace NPCs
             return task is BugConsumeItemTask;
         }
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            Stats.Get(StatType.NPC_MovmentSpeed).SetBaseValue(1.5f);
+            Debug.Log($"NPCBug Initialize {Stats.GetStatValue(StatType.NPC_MovmentSpeed)}");
+        }
+
         public override List<NPCTask> GetAvailableTasks()
         {
             List<NPCTask> tasks = new List<NPCTask>();

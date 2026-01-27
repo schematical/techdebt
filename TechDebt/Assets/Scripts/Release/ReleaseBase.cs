@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using MetaChallenges;
 using NPCs;
 using Stats;
@@ -23,6 +24,7 @@ public class ReleaseBase
     public string ServiceId { get; set; } = "monolith";
     public int Version  { get; set; }
     public StatsCollection Stats = new StatsCollection();
+    public List<NPCBug> bugs = new List<NPCBug>();
     // TODO Create a hidden "Bug Count"
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
@@ -106,7 +108,13 @@ public class ReleaseBase
         }
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
-        GameManager.Instance.SpawnNPCBug();
+        // TODO Rework this so it has to do with the devs skill
+        for (int i = 0; i < RewardModifier.Level; i++)
+        {
+            NPCBug npcBug = GameManager.Instance.SpawnNPCBug();
+            bugs.Add(npcBug);
+        }
+        
     }
     public void SetState(ReleaseState state)
     {
@@ -171,9 +179,22 @@ public class ReleaseBase
         }
     }
 
+    public bool HasOpenBugs()
+    {
+        foreach (NPCBug bug in bugs)
+        {
+            if (!bug.IsDead())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
     public static int IncrGlobalVersion()
     {
         GlobalVersion += 1;
         return GlobalVersion;
     }
+    
 }

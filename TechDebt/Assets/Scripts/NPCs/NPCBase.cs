@@ -42,7 +42,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             animator = GetComponentInChildren<Animator>();
         }
 
-        Initialize();
+       
     }
     
     public StatsCollection Stats = new StatsCollection();

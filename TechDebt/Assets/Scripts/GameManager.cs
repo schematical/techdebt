@@ -495,33 +495,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpawnNPCBug()
+    public NPCBug SpawnNPCBug()
     {
         var door = GetInfrastructureInstanceByID("server1");
         if (door == null)
         {
-            Debug.LogError("Cannot spawn NPCBug because 'server' infrastructure was not found.");
-            return;
+            throw new SystemException("Cannot spawn NPCBug because 'server' infrastructure was not found.");
         }
 
         GameObject npcGO = prefabManager.Create("NPCBug", door.transform.position);
         if (npcGO == null)
         {
-            Debug.LogError("Failed to create 'NPCBug' from PrefabManager. Is the prefab configured?");
-            return;
+            throw new SystemException("Failed to create 'NPCBug' from PrefabManager. Is the prefab configured?");
         }
 
-        /*var deliveryNpc = npcGO.GetComponent<DeliveryNPC>();
-        if (deliveryNpc != null)
+        NPCBug npcBug = npcGO.GetComponent<NPCBug>();
+        npcBug.Initialize();
+        return npcBug;
+    }
+
+    public bool HasOpenBugs()
+    {
+        foreach (ReleaseBase releaseBase in Releases)
         {
-            deliveryNpc.Initialize(door.transform.position);
-            var deliveryTask = new DeliverItemTask();
-            deliveryNpc.AssignTask(deliveryTask);
+            if (releaseBase.HasOpenBugs())
+            {
+                return true;
+            }
         }
-        else
-        {
-            Debug.LogError("'DeliveryNPC' prefab is missing the DeliveryNPC component.");
-        }*/
+
+        return false;
     }
 
     private void Initialize()

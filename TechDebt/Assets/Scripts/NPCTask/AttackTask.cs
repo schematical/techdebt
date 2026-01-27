@@ -33,13 +33,13 @@ public class AttackTask : NPCTask
               
                 npc.AttackNPC(targetNPC);
                 coolDown = 5;
-                Debug.Log($"{npc.gameObject.name} Attacked - Cooldown: {coolDown}");
+
             }
 
 
-        } else if (!npc.isMoving)
+        } else if (!npc.isMoving || coolDown <= 0)
         {
-            Debug.Log($"{npc.gameObject.name} MoveTo {targetNPC.transform.position}. - Cooldown: {coolDown}");
+            coolDown = .5f;
             npc.MoveTo(targetNPC.transform.position);
         }
     }

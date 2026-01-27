@@ -90,6 +90,7 @@ namespace Stats
         public void SetBaseValue(float value)
         {
             BaseValue = value;
+            UpdateValue();
         }
 
         public void ReplaceOrAdd(StatModifier statModifier)
