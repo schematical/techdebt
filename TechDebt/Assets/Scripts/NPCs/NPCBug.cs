@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Items;
 using UnityEngine;
 
@@ -10,6 +11,22 @@ namespace NPCs
             return task is BugConsumeItemTask;
         }
 
+        public override List<NPCTask> GetAvailableTasks()
+        {
+            List<NPCTask> tasks = new List<NPCTask>();
+            switch (CurrentState)
+            {
+                case(State.Dead):
+                    break;
+                default:
+                    tasks.Add(new AttackTask(this));
+                        
+                break;
+            }
+
+            return tasks;
+
+        }
         public override void TriggerDefaultBehavior()
         {
             

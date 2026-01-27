@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Stats;
 using UI;
+using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
+public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 {
     public enum State
     {
@@ -15,7 +16,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         ExecutingTask,
         Wandering,
         Exiting,
-        Exited
+        Exited,
+        Dead
     }
 
     [field: SerializeField]public bool isDebugging { get; set; } = false;
@@ -58,6 +60,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
     {
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
+        Stats.Add(new StatData(StatType.NPC_HP, 1f));
+        
     }
 
 
@@ -98,10 +102,16 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
             return;
         }
 
+        if (CurrentState == State.Dead)
+        {
+            return;
+        }
         HandleMovement();
 
         switch (CurrentState)
-        {
+        {  /* case(State.Dead):
+            //Do nothing for now.
+                break;*/
             case State.Idle:
                 TryToFindWork();
                 break;
@@ -205,7 +215,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         {
             CurrentState = State.Wandering;
             MoveTo(wanderDestination);
-            Debug.Log($"{gameObject.name} MoveTo {wanderDestination}.");
+
         }
         else
         {
@@ -344,6 +354,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
     {
         GameManager.Instance.UIManager.npcDetailPanel.Show(this);
     }
+    public virtual List<NPCTask> GetAvailableTasks()
+    {
+        return new List<NPCTask>();
+    }
 
     public void ShowAttentionIcon(UnityAction onClick)
     {
@@ -410,5 +424,40 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         return content;
     }
 
- 
+
+    public void AttackNPC(NPCBase targetNpc)
+    {
+        targetNpc.ReceiveAttack(this);
+        targetNpc.AddXP();
+    }
+
+    private void ReceiveAttack(NPCBase npcBase)
+    {
+        float damage = -1;
+        float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(damage);
+        GameManager.Instance.FloatingTextFactory.ShowText($"{damage} HP",
+            transform.position); 
+        
+        if (currentHP <= 0)
+        {
+            SetState(State.Dead);
+        }
+    }
+
+    protected void SetState(State state)
+    {
+        switch (state)
+        {
+            case(State.Dead):
+                    StopMovement();
+                    animator.SetBool("isDead", true);
+                break;
+        }
+        CurrentState = state;
+    }
+
+    public bool IsDead()
+    {
+        return CurrentState == State.Dead;
+    }
 }

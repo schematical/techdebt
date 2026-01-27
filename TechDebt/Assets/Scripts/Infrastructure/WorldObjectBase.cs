@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Infrastructure
 {
-    public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler
+    public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler, iAssignable
     {
         public Color attentionIconColor = Color.white;
         public UIAttentionIcon uiAttentionIcon;

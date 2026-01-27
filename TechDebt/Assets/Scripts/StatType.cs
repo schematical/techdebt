@@ -40,7 +40,9 @@ public enum StatType
     
     Infra_MaxSize,
     NPC_CodeQuality,
-    NPC_CodeSpeed
+    NPC_CodeSpeed,
+    NPC_HP,
+    NPC_CoolDown,
     
     
 
