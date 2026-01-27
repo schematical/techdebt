@@ -495,6 +495,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SpawnNPCBug()
+    {
+        var door = GetInfrastructureInstanceByID("server1");
+        if (door == null)
+        {
+            Debug.LogError("Cannot spawn NPCBug because 'server' infrastructure was not found.");
+            return;
+        }
+
+        GameObject npcGO = prefabManager.Create("NPCBug", door.transform.position);
+        if (npcGO == null)
+        {
+            Debug.LogError("Failed to create 'NPCBug' from PrefabManager. Is the prefab configured?");
+            return;
+        }
+
+        /*var deliveryNpc = npcGO.GetComponent<DeliveryNPC>();
+        if (deliveryNpc != null)
+        {
+            deliveryNpc.Initialize(door.transform.position);
+            var deliveryTask = new DeliverItemTask();
+            deliveryNpc.AssignTask(deliveryTask);
+        }
+        else
+        {
+            Debug.LogError("'DeliveryNPC' prefab is missing the DeliveryNPC component.");
+        }*/
+    }
+
     private void Initialize()
     {
         OnReleaseChanged += HandleReleaseChanged;

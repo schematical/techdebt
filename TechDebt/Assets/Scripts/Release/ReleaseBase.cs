@@ -106,6 +106,7 @@ public class ReleaseBase
         }
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
+        GameManager.Instance.SpawnNPCBug();
     }
     public void SetState(ReleaseState state)
     {

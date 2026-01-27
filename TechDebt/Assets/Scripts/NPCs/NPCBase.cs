@@ -16,6 +16,9 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         Exiting,
         Exited
     }
+
+    [field: SerializeField]public bool isDebugging { get; set; } = false;
+    [field: SerializeField]public bool flipMoventSprite { get; set; } = false;
     public UIAttentionIcon uiAttentionIcon;
     public State CurrentState { get; set; } = State.Idle;
     public event System.Action OnDestinationReached;
@@ -35,6 +38,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         {
             animator = GetComponentInChildren<Animator>();
         }
+
+        Initialize();
     }
     
     public StatsCollection Stats = new StatsCollection();
@@ -199,6 +204,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         {
             CurrentState = State.Wandering;
             MoveTo(wanderDestination);
+            Debug.Log($"{gameObject.name} MoveTo {wanderDestination}.");
+        }
+        else
+        {
+            Debug.LogError($"{gameObject.name} could not find a walkable point for {wanderDestination}.");
         }
     }
     
@@ -245,7 +255,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
             Debug.LogWarning($"{gameObject.name} could not find a path to {destination}.");
             isMoving = false;
         }
-        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isWalking", isMoving);
     }
 
     public void StopMovement()
@@ -253,7 +263,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         isMoving = false;
         currentPath = null;
         pathIndex = 0;
-        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isWalking", isMoving);
     }
 
 
@@ -289,7 +299,6 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
 
         Vector3 targetWaypoint = currentPath[pathIndex];
         targetWaypoint.z = transform.position.z; 
-
         if (Vector3.Distance(transform.position, targetWaypoint) > 0.01f)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
@@ -300,7 +309,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
             if (pathIndex >= currentPath.Count)
             {
                 isMoving = false;
-                animator.SetBool("isMoving", isMoving);
+                animator.SetBool("isWalking", isMoving);
                 currentPath = null;
                 if (CurrentTask != null)
                 {
@@ -316,11 +325,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         {
             if (xMovement > 0)
             {
-                _spriteRenderer.flipX = false; // Moving right
+                _spriteRenderer.flipX = flipMoventSprite; // Moving right
             }
             else
             {
-                _spriteRenderer.flipX = true; // Moving left
+                _spriteRenderer.flipX = !flipMoventSprite; // Moving left
             }
         }
         _lastPosition = transform.position;
@@ -361,4 +370,14 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         uiAttentionIcon.gameObject.SetActive(false);
         uiAttentionIcon = null;
     }
+
+    protected void DebugLog(string message)
+    {
+        if (isDebugging)
+        {
+            Debug.Log($"{gameObject.name} - {message}");
+        }
+    }
+
+ 
 }

@@ -237,3 +237,4 @@ MonoBehaviour:
   lifetime: 1.5
   moveSpeed: {x: 0, y: 0.75, z: 0}
   fadeOutTime: 0.5
+  shakeIntensity: 0
