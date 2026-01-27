@@ -19,7 +19,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
     public UIAttentionIcon uiAttentionIcon;
     public State CurrentState { get; set; } = State.Idle;
     public event System.Action OnDestinationReached;
-    
+    public Animator animator;
     public bool isMoving { get; private set; } = false;
 
     private List<Vector3> currentPath;
@@ -31,6 +31,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _lastPosition = transform.position;
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
     }
     
     public StatsCollection Stats = new StatsCollection();
@@ -234,12 +238,14 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
             currentPath = path;
             pathIndex = 0;
             isMoving = true;
+            
         }
         else
         {
             Debug.LogWarning($"{gameObject.name} could not find a path to {destination}.");
             isMoving = false;
         }
+        animator.SetBool("isMoving", isMoving);
     }
 
     public void StopMovement()
@@ -247,6 +253,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         isMoving = false;
         currentPath = null;
         pathIndex = 0;
+        animator.SetBool("isMoving", isMoving);
     }
 
 
@@ -293,6 +300,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
             if (pathIndex >= currentPath.Count)
             {
                 isMoving = false;
+                animator.SetBool("isMoving", isMoving);
                 currentPath = null;
                 if (CurrentTask != null)
                 {
