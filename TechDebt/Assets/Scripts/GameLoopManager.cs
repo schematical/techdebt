@@ -89,12 +89,9 @@ public class GameLoopManager : MonoBehaviour
         {
             npc.OnPlanPhaseStart();
         }
+
         
-      
-        GameManager.Instance.UIManager.AddAttentionIcon(
-            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").transform,
-            Color.green
-        );
+        
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowPlanUI();

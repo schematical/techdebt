@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem; // Using the new Input System
 
 public class CameraController : MonoBehaviour
@@ -23,6 +24,7 @@ public class CameraController : MonoBehaviour
     private Vector2 initialRightClickMousePosition; // Store initial mouse screen position
     private Camera mainCamera;
     private Transform targetToFollow;
+    private UnityAction onZoomDone;
 
     void Start()
     {
@@ -34,7 +36,7 @@ public class CameraController : MonoBehaviour
         }
     }
     
-    public void ZoomTo(Transform target)
+    public void ZoomTo(Transform target, UnityAction _onZoomDone = null)
     {
         StopFollowing(); // Stop any current following
         
@@ -47,6 +49,7 @@ public class CameraController : MonoBehaviour
         _startPosition = transform.position;
         _startZoom = mainCamera.orthographicSize;
         _targetZoom = 4f; // Sensible default close-up zoom
+        onZoomDone = _onZoomDone;
     }
 
     public void ZoomToAndFollow(Transform target)
@@ -100,10 +103,17 @@ public class CameraController : MonoBehaviour
             transform.position = new Vector3(_zoomTarget.position.x, _zoomTarget.position.y, _startPosition.z);
             mainCamera.orthographicSize = _targetZoom;
 
+            
             if (_followAfterZoom)
             {
                 StartFollowing(_zoomTarget);
                 _followAfterZoom = false; // Reset the flag
+            }
+
+            if (onZoomDone != null)
+            {
+                onZoomDone.Invoke();
+                onZoomDone = null;
             }
         }
     }

@@ -1343,12 +1343,12 @@ public class UIManager : MonoBehaviour
         return _currentTimeState;
     }
 
-    public UIAttentionIcon AddAttentionIcon(Transform _transform, Color color)
+    public UIAttentionIcon AddAttentionIcon(Transform _transform, Color color, UnityAction onClick)
     {
        
-            GameObject iconGo = GameManager.Instance.prefabManager.Create("UIAttentionIcon", _transform.position, transform);
+            GameObject iconGo = GameManager.Instance.prefabManager.Create("UIAttentionIcon", _transform.position);
             UIAttentionIcon attentionIcon = iconGo.GetComponent<UIAttentionIcon>();
-            attentionIcon.Show(_transform, color);
+            attentionIcon.Show(_transform, color, onClick);
             return attentionIcon;
     }
 

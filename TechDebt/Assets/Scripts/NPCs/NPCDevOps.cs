@@ -8,7 +8,7 @@ using Stats;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class NPCDevOps : NPCBase, IPointerClickHandler
+public class NPCDevOps : NPCBase
 {
     public NPCDevOpsData Data { get; private set; }
 
@@ -58,9 +58,11 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
        
             currentXP = 0;
             lastDisplayXP = 0;
-            GameManager.Instance.UIManager.rewardPanel.Show(() =>
+            ShowAttentionIcon(() =>
             {
-               LevelUp();
+                HideAttentionIcon();
+                LevelUp();
+               
                
             });
         }
@@ -172,8 +174,7 @@ public class NPCDevOps : NPCBase, IPointerClickHandler
         StopMovement();
         CurrentState = State.Idle;
     }
-
-    public void OnPointerClick(PointerEventData eventData)
+    public override void OnPointerClick(PointerEventData eventData)
     {
         GameManager.Instance.UIManager.ShowNPCDetail(this);
     }

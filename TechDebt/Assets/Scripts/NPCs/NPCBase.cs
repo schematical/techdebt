@@ -2,8 +2,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Stats;
+using UI;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
-public abstract class NPCBase : MonoBehaviour
+public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
 {
     public enum State
     {
@@ -13,6 +16,7 @@ public abstract class NPCBase : MonoBehaviour
         Exiting,
         Exited
     }
+    public UIAttentionIcon uiAttentionIcon;
     public State CurrentState { get; set; } = State.Idle;
     public event System.Action OnDestinationReached;
     
@@ -317,5 +321,36 @@ public abstract class NPCBase : MonoBehaviour
     public virtual void AddXP(float ammount = 1)
     {
      
+    }
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+       
+    }
+
+    public void ShowAttentionIcon(UnityAction onClick)
+    {
+        if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
+        {
+            Debug.LogWarning($"{gameObject.name} - uiAttentionIcon is already active");
+            return;
+        }
+        uiAttentionIcon = GameManager.Instance.UIManager.AddAttentionIcon(
+            transform,
+            Color.purple,
+            () =>
+            {
+                GameManager.Instance.cameraController.ZoomTo(transform, () =>
+                {
+                    onClick.Invoke();
+                });
+               
+            }
+        );
+    }
+
+    public void HideAttentionIcon()
+    {
+        uiAttentionIcon.gameObject.SetActive(false);
+        uiAttentionIcon = null;
     }
 }

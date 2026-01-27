@@ -530,19 +530,23 @@ public class GameManager : MonoBehaviour
 
     private void HandleReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState prevState)
     {
-        if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentCompleted)
-        {
+
+        InfrastructureInstance infra = GetInfrastructureInstanceByID("whiteboard");
             ReleaseBase openRelease = Releases.Find((r) => r.State != ReleaseBase.ReleaseState.DeploymentCompleted && r.State != ReleaseBase.ReleaseState.Failed);
             if (openRelease != null)
             {
-                return;
+                infra.HideAttentionIcon();
+       
+            }
+            else
+            {
+                infra.ShowAttentionIcon();
             }
 
-            UIManager.AddAttentionIcon(
-                GetInfrastructureInstanceByID("whiteboard").transform,
-                Color.green
-            );
-        }
+            
+       
+               
+       
     }
 
     public float IncrStat(StatType stat, float value = 1)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NPCs;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,6 +8,8 @@ namespace Infrastructure
 {
     public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler
     {
+        public Color attentionIconColor = Color.white;
+        public UIAttentionIcon uiAttentionIcon;
         public virtual void OnPointerClick(PointerEventData eventData)
         {
 
@@ -28,6 +31,36 @@ namespace Infrastructure
              {
                  return gameObject.name;
              }
+        public void ShowAttentionIcon()
+        {
+            if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
+            {
+                Debug.LogWarning($"{gameObject.name} - uiAttentionIcon is already active");
+                return;
+            }
+            uiAttentionIcon = GameManager.Instance.UIManager.AddAttentionIcon(
+                transform,
+                attentionIconColor,
+                () =>
+                {
+                    GameManager.Instance.cameraController.ZoomTo(transform, () =>
+                    {
+                        OnPointerClick(new PointerEventData(EventSystem.current));
+                    });
+               
+                }
+            );
+        }
+
+        public void HideAttentionIcon()
+        {
+            if (uiAttentionIcon == null)
+            {
+                return;
+            }
+            uiAttentionIcon.gameObject.SetActive(false);
+            uiAttentionIcon = null;
+        }
     }
     
 }

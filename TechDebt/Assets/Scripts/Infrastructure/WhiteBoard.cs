@@ -7,6 +7,11 @@ namespace Infrastructure
 {
     public class WhiteBoard: InfrastructureInstance
     {
+        public override void Initialize()
+        {
+            base.Initialize();
+            attentionIconColor = Color.green;
+        }
         public override void OnPointerClick(PointerEventData eventData)
         {
             List<ReleaseBase> releases = GameManager.Instance.GetOpenReleases();
@@ -62,6 +67,7 @@ namespace Infrastructure
                                CodeTask codeTask = new CodeTask(releaseBase);
                                GameManager.Instance.AddTask(codeTask);
                                GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                               HideAttentionIcon();
                            });
                    //}
                }
@@ -81,6 +87,7 @@ namespace Infrastructure
                            CodeTask codeTask = new CodeTask(releaseBase);
                            GameManager.Instance.AddTask(codeTask);
                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                           HideAttentionIcon();
                        });
                }
               
