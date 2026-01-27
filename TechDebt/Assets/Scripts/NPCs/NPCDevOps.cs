@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Events;
 using NPCs;
 using Stats;
@@ -174,11 +175,7 @@ public class NPCDevOps : NPCBase
         StopMovement();
         CurrentState = State.Idle;
     }
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        GameManager.Instance.UIManager.ShowNPCDetail(this);
-    }
-
+  
     public float GetBuildSpeed()
     {
         float npcBuildSpeed = 1;
@@ -188,5 +185,53 @@ public class NPCDevOps : NPCBase
         }
 
         return npcBuildSpeed;
+    }
+    public override string GetDetailText()
+    {
+        string content = $"<b>{name}</b>\n";
+        content += $"Level: {level}\n";
+        content += $"XP: {currentXP:F0}\n";
+        
+        // Add the current task
+        if (CurrentTask != null)
+        {
+            content += $"Task: {CurrentTask.GetType().Name}\n\n";
+        }
+        else
+        {
+            content += "Task: Idle\n\n";
+        }
+        
+        content += "<b>Traits:</b>\n";
+        if (Modifiers.Modifiers.Any())
+        {
+            foreach (var trait in Modifiers.Modifiers)
+            {
+                content += $"- {trait.Name} - Lvl: {trait.Level}\n";
+            }
+        }
+        else
+        {
+            content += "No traits yet.\n";
+        }
+        
+        content += "\n<b>Stats:</b>\n";
+
+        foreach (var stat in Data.Stats.Stats.Values)
+        {
+            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
+            if (stat.Modifiers.Any())
+            {
+                content += "  <i>Modifiers:</i>\n";
+                foreach (var mod in stat.Modifiers)
+                {
+                    string sourceName = mod.Source != null ? mod.Source.GetType().Name : "Unknown";
+                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {sourceName}\n";
+                }
+            }
+        }
+
+        return content;
+
     }
 }

@@ -1,6 +1,7 @@
 // NPCBase.cs
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Stats;
 using UI;
 using UnityEngine.Events;
@@ -341,7 +342,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
     }
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-       
+        GameManager.Instance.UIManager.npcDetailPanel.Show(this);
     }
 
     public void ShowAttentionIcon(UnityAction onClick)
@@ -377,6 +378,36 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler
         {
             Debug.Log($"{gameObject.name} - {message}");
         }
+    }
+
+    public virtual string GetDetailText()
+    {
+        string content = $"<b>{name}</b>\n";
+        // Add the current task
+        if (CurrentTask != null)
+        {
+            content += $"Task: {CurrentTask.GetType().Name}\n\n";
+        }
+        else
+        {
+            content += "Task: Idle\n\n";
+        }
+        content += "\n<b>Stats:</b>\n";
+
+        foreach (var stat in Stats.Stats.Values)
+        {
+            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
+            if (stat.Modifiers.Any())
+            {
+                content += "  <i>Modifiers:</i>\n";
+                foreach (var mod in stat.Modifiers)
+                {
+                    string sourceName = mod.Source != null ? mod.Source.GetType().Name : "Unknown";
+                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {sourceName}\n";
+                }
+            }
+        }
+        return content;
     }
 
  

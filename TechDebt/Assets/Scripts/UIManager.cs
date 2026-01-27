@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     public UISummaryPhasePanel summaryPhasePanel;
     public UITimeControlPanel timeControlPanel;
     public UIRewardPanel rewardPanel;
+  public UINPCDetailPanel npcDetailPanel;
 
     public RectTransform attentionIconBoarderPanel;
     
@@ -53,7 +54,6 @@ public class UIManager : MonoBehaviour
     private GameObject taskListPanel;
     private GameObject techTreePanel;
     private GameObject npcListPanel;
-    private GameObject npcDetailPanel;
     private GameObject alertPanel;
     private GameObject eventLogPanel;
     private GameObject debugPanel;
@@ -62,16 +62,14 @@ public class UIManager : MonoBehaviour
     // UI Elements
     public TextMeshProUGUI _infrastructureDetailText;
     public TextMeshProUGUI _eventLogText;
-    public TextMeshProUGUI _npcDetailText;
+   
     public UITextArea _itemDetailDescriptionText;
     public TextMeshProUGUI _alertText;
     private Button _planBuildButton;
     private Button _upsizeButton;
     private Button _downsizeButton;
     public TextMeshProUGUI totalDailyCostText;
-
-    // Time Control Buttons & Colors
-    private Button pauseButton, playButton, fastForwardButton, superFastForwardButton;
+    
 
     private TimeState _currentTimeState { get; set; } = TimeState.Normal;
     private TimeState _timeStateBeforePause = TimeState.Normal;
@@ -91,7 +89,7 @@ public class UIManager : MonoBehaviour
 
 
     private Items.ItemBase _selectedItem;
-    private NPCDevOps _selectedNPC;
+
 
   
     private bool _isInitialized = false;
@@ -109,7 +107,6 @@ public class UIManager : MonoBehaviour
 
         SetupEventLogPanel(transform);
         SetupNPCListPanel(transform);
-        SetupNPCDetailPanel(transform);
         SetupTaskListPanel(transform);
         SetupTechTreePanel(transform);
         SetupAlertPanel(transform);
@@ -131,10 +128,10 @@ public class UIManager : MonoBehaviour
         releaseHistoryPanel.gameObject.SetActive(false);
         deskMenuPanel.gameObject.SetActive(false);
         worldObjectDetailPanel.gameObject.SetActive(false);
+        npcDetailPanel.gameObject.SetActive(false);
         // hireDevOpsPanel.SetActive(false);
         
         taskListPanel.SetActive(false);
-        npcDetailPanel.SetActive(false);
         npcListPanel.SetActive(false);
         techTreePanel.SetActive(false);
         eventLogPanel.SetActive(false);
@@ -255,69 +252,12 @@ public class UIManager : MonoBehaviour
 
        
 
-        if (npcDetailPanel != null && npcDetailPanel.activeSelf)
-        {
-            UpdateNPCDetailPanel();
-        }
+      
     }
 
    
 
-    private void UpdateNPCDetailPanel()
-    {
-        if (_selectedNPC == null) return;
-
-        if (_npcDetailText == null)
-        {
-            Debug.LogError("_npcDetailText is not assigned. Cannot update NPC Detail Panel.");
-            return;
-        }
-
-        string content = $"<b>{_selectedNPC.name}</b>\n";
-        content += $"Level: {_selectedNPC.level}\n";
-        content += $"XP: {_selectedNPC.currentXP:F0}\n";
-        
-        // Add the current task
-        if (_selectedNPC.CurrentTask != null)
-        {
-            content += $"Task: {_selectedNPC.CurrentTask.GetType().Name}\n\n";
-        }
-        else
-        {
-            content += "Task: Idle\n\n";
-        }
-        
-        content += "<b>Traits:</b>\n";
-        if (_selectedNPC.Modifiers.Modifiers.Any())
-        {
-            foreach (var trait in _selectedNPC.Modifiers.Modifiers)
-            {
-                content += $"- {trait.Name} - Lvl: {trait.Level}\n";
-            }
-        }
-        else
-        {
-            content += "No traits yet.\n";
-        }
-        
-        content += "\n<b>Stats:</b>\n";
-
-        foreach (var stat in _selectedNPC.Data.Stats.Stats.Values)
-        {
-            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
-            if (stat.Modifiers.Any())
-            {
-                content += "  <i>Modifiers:</i>\n";
-                foreach (var mod in stat.Modifiers)
-                {
-                    string sourceName = mod.Source != null ? mod.Source.GetType().Name : "Unknown";
-                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {sourceName}\n";
-                }
-            }
-        }
-
-        _npcDetailText.text = content;
-    }
+    
 
 
     private void SetupEventLogPanel(Transform parent)
@@ -423,48 +363,7 @@ public class UIManager : MonoBehaviour
         npcListPanel.SetActive(false);
     }
 
-    private Button _followButton;
-
-    private void SetupNPCDetailPanel(Transform parent)
-    {
-      
-        npcDetailPanel = CreateUIPanel(parent, "NPCDetailPanel", new Vector2(300, 400), new Vector2(0, 0),
-            new Vector2(0, 0), new Vector2(250, 200));
-        UIPanel uiPanel = npcDetailPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("NPCDetailPanel is missing UIPanel component.");
-            return;
-        }
-
-        uiPanel.titleText.text = "NPC Details";
-        uiPanel.closeButton.onClick.AddListener(HideNPCDetail);
-
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
-            _npcDetailText = textAreaGO.GetComponent<UITextArea>().textArea;
-            _npcDetailText.alignment = TextAlignmentOptions.TopLeft;
-        }
-        else
-        {
-            Debug.LogError("UITextArea prefab not found. Falling back to CreateText for NPCDetailPanel.");
-            _npcDetailText = CreateText(uiPanel.scrollContent, "NPCDetailContentText", "", 14);
-            _npcDetailText.alignment = TextAlignmentOptions.TopLeft;
-        }
-
-        _followButton = uiPanel.AddButton("Follow", () =>
-        {
-            var cameraController = FindObjectOfType<CameraController>();
-            if (cameraController != null && _selectedNPC != null)
-            {
-                cameraController.StartFollowing(_selectedNPC.transform);
-            }
-        }).button;
-
-        npcDetailPanel.SetActive(false);
-    }
+   
 
     public void ToggleNPCListPanel()
     {
@@ -495,7 +394,7 @@ public class UIManager : MonoBehaviour
             foreach (var npc in npcs)
             {
                 NPCDevOps localNpc = npc;
-                CreateButton(npcListPanel.transform, npc.name, () => ShowNPCDetail(localNpc));
+                CreateButton(npcListPanel.transform, npc.name, () => npcDetailPanel.Show(localNpc));
             }
 
             return;
@@ -510,27 +409,11 @@ public class UIManager : MonoBehaviour
         foreach (var npc in npcs)
         {
             NPCDevOps localNpc = npc; // Local copy for the closure
-            uiPanel.AddButton(npc.name, () => ShowNPCDetail(localNpc));
+            uiPanel.AddButton(npc.name, () => npcDetailPanel.Show(localNpc));
         }
     }
 
-    public void ShowNPCDetail(NPCDevOps npc)
-    {
-        _selectedNPC = npc;
-        Close();
-        npcDetailPanel.SetActive(true);
-        UpdateNPCDetailPanel(); // Initial update
-    }
-
-    public void HideNPCDetail()
-    {
-        _selectedNPC = null;
-        npcDetailPanel.SetActive(false);
-    }
-
-  
-
-
+    
     private void SetupTaskListPanel(Transform parent)
     {
         taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0),
