@@ -47,7 +47,7 @@ public static class Pathfinding
 
             if (currentNode == targetNode)
             {
-                return RetracePath(startNode, targetNode);
+                return RetracePath(startNode, targetNode, targetWorldPos);
             }
 
             foreach (Node neighbour in GridManager.Instance.GetNeighbours(currentNode))
@@ -74,7 +74,7 @@ public static class Pathfinding
         throw new System.Exception($"No path found from {startWorldPos} to {targetWorldPos}");
     }
 
-    private static List<Vector3> RetracePath(Node startNode, Node endNode)
+    private static List<Vector3> RetracePath(Node startNode, Node endNode, Vector3 targetWorldPos)
     {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
@@ -92,6 +92,7 @@ public static class Pathfinding
         }
 
         worldPath.Reverse();
+        worldPath.Add(targetWorldPos);
         return worldPath;
     }
 

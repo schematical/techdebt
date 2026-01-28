@@ -20,6 +20,7 @@ public abstract class NPCTask
     public bool IsAssigned => AssignedNPC != null;
 
     protected Vector3? destination;
+    protected float maxTaskRange = 0.1f;
 
     public bool isCloseEnough()
     {
@@ -33,7 +34,7 @@ public abstract class NPCTask
             Debug.LogError("AssignedNPC is null");
             return false;
         }
-        return Vector3.Distance(destination.Value, AssignedNPC.transform.position) < 1f;
+        return Vector3.Distance(destination.Value, AssignedNPC.transform.position) < maxTaskRange;
     }
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
     public NPCTask(Vector3? destination = null)

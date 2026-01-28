@@ -43,6 +43,6 @@ public class Desk : InfrastructureInstance
 
     public override Vector3 GetInteractionPosition()
     {
-        return transform.position + new Vector3(0.5f, 0.5f, 0);
+        return transform.position + new Vector3(-1f, 0, 0);
     }
 }
