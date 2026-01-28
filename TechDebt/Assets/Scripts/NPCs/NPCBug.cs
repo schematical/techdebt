@@ -82,8 +82,8 @@ namespace NPCs
                             possibleTargets.Add(infrastructureInstance);
                         }
                     }
-
-                    if (possibleTargets.Count > 1)
+                    Debug.Log($"TriggerDefaultBehavior: `{possibleTargets.Count}`");
+                    if (possibleTargets.Count > 0)
                     {
                         int i = Random.Range(0, possibleTargets.Count);
                         Debug.Log($"{name} Starting to attack `{possibleTargets[i].name}`");

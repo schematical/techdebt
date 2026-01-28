@@ -33,7 +33,7 @@ public class AttackTask : NPCTask
             {
               
                 npc.Attack(target);
-                coolDown = 5;
+                coolDown = 1;
 
             }
 

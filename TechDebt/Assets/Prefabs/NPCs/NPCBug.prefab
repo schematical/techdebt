@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCs.NPCBug
   <isDebugging>k__BackingField: 0
-  <flipMoventSprite>k__BackingField: 0
+  <flipMoventSprite>k__BackingField: 1
   uiAttentionIcon: {fileID: 0}
   animator: {fileID: 0}
   severity: 1
