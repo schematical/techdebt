@@ -57,13 +57,11 @@ public class UIDebugPanel : UIPanel
 
     void Update()
     {
-        if (mouseCoordsText != null && gridManager != null && Camera.main != null)
-        {
-            Vector3 mousePos = Mouse.current.position.ReadValue();
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            Vector3Int cellPos = gridManager.grid.WorldToCell(worldPos);
-            mouseCoordsText.text = $"X: {cellPos.x}, Y: {cellPos.y}";
-        }
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3Int cellPos = GameManager.Instance.gridManager.grid.WorldToCell(worldPos);
+        mouseCoordsText.text = cellPos.ToString();
+  
     }
 
     private void InstaBuild()
