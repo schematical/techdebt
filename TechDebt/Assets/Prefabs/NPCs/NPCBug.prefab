@@ -110,6 +110,7 @@ MonoBehaviour:
   <flipMoventSprite>k__BackingField: 0
   uiAttentionIcon: {fileID: 0}
   animator: {fileID: 0}
+  severity: 1
 --- !u!95 &1599042647796318086
 Animator:
   serializedVersion: 7

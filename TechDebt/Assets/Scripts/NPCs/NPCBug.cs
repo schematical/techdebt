@@ -6,7 +6,8 @@ namespace NPCs
 {
     public class NPCBug : NPCBase
     {
-        public enum Level { Minor, Medium, Major, Critical }
+        public enum Severity { Minor, Medium, Major, Critical }
+        public Severity severity = Severity.Minor;
         public override bool CanAssignTask(NPCTask task)
         {
             return task is BugConsumeItemTask;
@@ -27,7 +28,6 @@ namespace NPCs
                     break;
                 default:
                     tasks.Add(new AttackTask(this));
-                        
                 break;
             }
 
@@ -36,31 +36,66 @@ namespace NPCs
         }
         public override void TriggerDefaultBehavior()
         {
-            Debug.Log("NPCBug TriggerDefaultBehavior");
-            ItemBase[] allItems = GameObject.FindObjectsOfType<ItemBase>();
-            ItemBase targetItem = null;
-            float minDistance = float.MaxValue;
-
-            foreach (var item in allItems)
+            switch (severity)
             {
-                if (item.gameObject.activeSelf)
-                {
-                    float distance = Vector3.Distance(Vector3.zero, item.transform.position);
-                    if (distance < minDistance)
+                case (Severity.Minor):
+                    ItemBase[] allItems = GameObject.FindObjectsOfType<ItemBase>();
+                    ItemBase targetItem = null;
+                    float minDistance = float.MaxValue;
+
+                    foreach (var item in allItems)
                     {
-                        minDistance = distance;
-                        targetItem = item;
+                        if (item.gameObject.activeSelf)
+                        {
+                            float distance = Vector3.Distance(Vector3.zero, item.transform.position);
+                            if (distance < minDistance)
+                            {
+                                minDistance = distance;
+                                targetItem = item;
+                            }
+                        }
                     }
-                }
-            }
+                    if (targetItem != null)
+                    {
+             
+                        AssignTask(new BugConsumeItemTask(targetItem));
+                        return;
+                    }
+           
+                    
+                    //TODO: Find network packets to eat
+                    
+                    break;
+                case (Severity.Medium):
+                    List<InfrastructureInstance> possibleTargets = new List<InfrastructureInstance>();
+                    foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
+                    {
+                        if (
+                            (
+                                // infrastructureInstance.data.NetworkConnections.Count > 0 ||
+                                infrastructureInstance.data.networkPackets.Count > 0
+                            ) &&
+                            infrastructureInstance.IsActive() &&
+                            !infrastructureInstance.IsDead()    
+                        )
+                        {
+                            possibleTargets.Add(infrastructureInstance);
+                        }
+                    }
 
-            if (targetItem != null)
-            {
-                Debug.Log("NPCBug TriggerDefaultBehavior 2");
-                AssignTask(new BugConsumeItemTask(targetItem));
-                return;
+                    if (possibleTargets.Count > 1)
+                    {
+                        int i = Random.Range(0, possibleTargets.Count);
+                        Debug.Log($"{name} Starting to attack `{possibleTargets[i].name}`");
+                        AssignTask(new AttackTask(possibleTargets[i]));
+                        return;
+                    }
+
+                    break;
             }
-            Debug.Log("NPCBug TriggerDefaultBehavior 3");
+            
+
+           
             base.TriggerDefaultBehavior();
         }
     }

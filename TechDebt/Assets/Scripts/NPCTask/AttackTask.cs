@@ -8,21 +8,22 @@ using UnityEngine;
 
 public class AttackTask : NPCTask
 {
-    public NPCBase targetNPC { get; }
+    public iAttackable target { get; }
 
     private float coolDown = 0f;
     // public EnvEffectBase buildEffect;
     public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
 
-    public AttackTask(NPCBase target, int priority = 7) : base(target.transform.position)
+    public AttackTask(iAttackable target, int priority = 7) : base(target.transform.position)
     {
-        targetNPC = target;
+       
+        this.target = target;
         Priority = priority;
     }
 
     public override void OnUpdate(NPCBase npc)
     {
-        destination = targetNPC.transform.position;
+        destination = target.transform.position;
         coolDown -= Time.deltaTime;
         // Only start building after the NPC has arrived.
         if (isCloseEnough())
@@ -31,7 +32,7 @@ public class AttackTask : NPCTask
             if (coolDown <= 0)
             {
               
-                npc.AttackNPC(targetNPC);
+                npc.Attack(target);
                 coolDown = 5;
 
             }
@@ -40,18 +41,18 @@ public class AttackTask : NPCTask
         } else if (!npc.isMoving || coolDown <= 0)
         {
             coolDown = .5f;
-            npc.MoveTo(targetNPC.transform.position);
+            npc.MoveTo(target.transform.position);
         }
     }
 
     public override bool IsFinished(NPCBase npc)
     {
-        return targetNPC.IsDead();
+        return target.IsDead();
     }
 
     public override string GetDescription()
     {
-        return $"{base.GetDescription()} - Target: {targetNPC.name}";
+        return $"{base.GetDescription()} - Target: {target.name}";
     }
     
     

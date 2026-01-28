@@ -5526,11 +5526,7 @@ MonoBehaviour:
     Prefab: {fileID: 3673215818000804020, guid: 7e94fbe1e851e984194e2d7fb4a6d9db, type: 3}
     GridPosition: {x: 10, y: 55}
     UnlockConditions: []
-    networkPackets:
-    - PacketType: 0
-      loadPerPacket: 1
-      cost: 0
-      RouteType: 0
+    networkPackets: []
     DailyCost: 0
     BuildTime: 10
     LoadPerPacket: 20
@@ -5539,13 +5535,7 @@ MonoBehaviour:
     LoadRecoveryRate: 50
     CanBeUpsized: 0
     CurrentState: 3
-    NetworkConnections:
-    - TargetID: 
-      Priority: 0
-      networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+    NetworkConnections: []
   - ID: internetPipe
     DisplayName: Internet Pipe
     Type: 
@@ -6440,11 +6430,7 @@ MonoBehaviour:
     Prefab: {fileID: 4771823180765048759, guid: e164a9fcc8bc8644e9a38e857eb35603, type: 3}
     GridPosition: {x: 15, y: 48}
     UnlockConditions: []
-    networkPackets:
-    - PacketType: 2
-      loadPerPacket: 10
-      cost: 0
-      RouteType: 1
+    networkPackets: []
     DailyCost: 0
     BuildTime: 10
     LoadPerPacket: 0
@@ -6460,11 +6446,7 @@ MonoBehaviour:
     Prefab: {fileID: 1495299141615287234, guid: af081fe384e8b7d4aaa1d2ccc948f7f8, type: 3}
     GridPosition: {x: 15, y: 53}
     UnlockConditions: []
-    networkPackets:
-    - PacketType: 2
-      loadPerPacket: 10
-      cost: 0
-      RouteType: 1
+    networkPackets: []
     DailyCost: 0
     BuildTime: 10
     LoadPerPacket: 0

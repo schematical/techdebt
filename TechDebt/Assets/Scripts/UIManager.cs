@@ -726,7 +726,7 @@ public class UIManager : MonoBehaviour
 
     public void SetTimeState(TimeState newState, bool setDesired = false)
     {
-        Debug.Log($"SetTimeState: {newState} - setDesired: {setDesired}");
+        
         _currentTimeState = newState;
 
         float newTimeScale = 1f;
@@ -755,7 +755,6 @@ public class UIManager : MonoBehaviour
         Time.timeScale = newTimeScale;
         if (setDesired)
         {
-            Debug.Log($"Setting userSpecifiedTimeScale: {_userSpecifiedTimeState}");
             _userSpecifiedTimeState = newState;
         }
         timeControlPanel.UpdateTimeScaleButtons();

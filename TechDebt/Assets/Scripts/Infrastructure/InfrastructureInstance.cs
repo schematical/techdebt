@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
 
-public class InfrastructureInstance : WorldObjectBase
+public class InfrastructureInstance : WorldObjectBase, iAttackable
 {
     public Color startcolor;
     public InfrastructureData data;
@@ -555,5 +555,14 @@ public class InfrastructureInstance : WorldObjectBase
         return content;
     }
 
-  
+
+    public void ReceiveAttack(NPCBase npcBase)
+    {
+        CurrentLoad += data.Stats.GetStatValue(StatType.Infra_MaxLoad) / 4f;
+    }
+
+    public bool IsDead()
+    {
+        return data.CurrentState == InfrastructureData.State.Frozen;
+    }
 }

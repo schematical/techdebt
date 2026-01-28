@@ -42,7 +42,7 @@ public class UIDebugPanel : UIPanel
             throw new SystemException("Cannot spawn NPCBug because 'server' infrastructure was not found.");
         }
 
-        GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCBugMinor", door.transform.position);
+        GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCBug", door.transform.position);
         if (npcGO == null)
         {
             throw new SystemException("Failed to create 'NPCBug' from PrefabManager. Is the prefab configured?");
@@ -50,6 +50,8 @@ public class UIDebugPanel : UIPanel
 
         NPCBug npcBug = npcGO.GetComponent<NPCBug>();
         npcBug.Initialize();
+        GameManager.Instance.cameraController.ZoomToAndFollow(npcBug.transform);
+        gameObject.SetActive(false);
         
     }
 

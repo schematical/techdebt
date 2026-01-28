@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
+public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable
 {
     public enum State
     {
@@ -426,13 +426,14 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
 
 
-    public void AttackNPC(NPCBase targetNpc)
+    public void Attack(iAttackable targetNpc)
     {
         targetNpc.ReceiveAttack(this);
-        targetNpc.AddXP();
+        animator.SetBool("isAttacking", true);
+        AddXP();
     }
 
-    private void ReceiveAttack(NPCBase npcBase)
+    public void ReceiveAttack(NPCBase npcBase)
     {
         float damage = -1;
         float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(damage);
