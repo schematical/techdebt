@@ -40,4 +40,9 @@ public class Desk : InfrastructureInstance
         GameManager.Instance.UIManager.ToggleTechTreePanel();
         //GameManager.Instance.UIManager.deskMenuPanel.gameObject.SetActive(true);
     }
+
+    public override Vector3 GetInteractionPosition()
+    {
+        return transform.position + new Vector3(0.5f, 0.5f, 0);
+    }
 }

@@ -704,7 +704,7 @@ public class UIManager : MonoBehaviour
 
     public void Resume()
     {
-        Debug.Log($"Resume...{_userSpecifiedTimeState}");
+        // Debug.Log($"Resume...{_userSpecifiedTimeState}");
         SetTimeState(_userSpecifiedTimeState);
         
     }

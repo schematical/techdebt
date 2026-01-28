@@ -61,6 +61,20 @@ namespace Infrastructure
             uiAttentionIcon.gameObject.SetActive(false);
             uiAttentionIcon = null;
         }
+
+        public virtual void Initialize()
+        {
+            /*transform.position = new Vector3(
+                transform.position.x, 
+                transform.position.y, 
+                1 - transform.position.y * -0.1f // Setting Z for sorting order
+            );*/
+        }
+
+        public virtual Vector3 GetInteractionPosition()
+        {
+            return transform.position;
+        }
     }
     
 }

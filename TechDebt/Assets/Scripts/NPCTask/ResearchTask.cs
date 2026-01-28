@@ -7,7 +7,7 @@ public class ResearchTask : NPCTask
     public Technology TargetTechnology { get; private set; }
     private readonly Desk desk;
 
-    public ResearchTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.transform.position)
+    public ResearchTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.GetInteractionPosition())
     {
         TargetTechnology = technology;
         Priority = 2; // Research is a low-priority, background task.

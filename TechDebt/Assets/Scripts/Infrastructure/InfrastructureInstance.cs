@@ -208,7 +208,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
     }
 
-    public virtual void Initialize()
+    public override void Initialize()
     {
         data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
         data.Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
@@ -217,6 +217,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
         data.Stats.Add(new StatData(StatType.TechDebt, 0f));
         data.Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
+        base.Initialize();
     }
 
 
