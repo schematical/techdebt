@@ -189,6 +189,7 @@ public class NPCDevOps : NPCBase
     public override string GetDetailText()
     {
         string content = $"<b>{name}</b>\n";
+        content += $"\nState: {CurrentState}\n";
         content += $"Level: {level}\n";
         content += $"XP: {currentXP:F0}\n";
         

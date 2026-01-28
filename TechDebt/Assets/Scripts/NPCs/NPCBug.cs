@@ -6,6 +6,7 @@ namespace NPCs
 {
     public class NPCBug : NPCBase
     {
+        public enum Level { Minor, Medium, Major, Critical }
         public override bool CanAssignTask(NPCTask task)
         {
             return task is BugConsumeItemTask;
@@ -35,7 +36,7 @@ namespace NPCs
         }
         public override void TriggerDefaultBehavior()
         {
-            
+            Debug.Log("NPCBug TriggerDefaultBehavior");
             ItemBase[] allItems = GameObject.FindObjectsOfType<ItemBase>();
             ItemBase targetItem = null;
             float minDistance = float.MaxValue;
@@ -55,10 +56,11 @@ namespace NPCs
 
             if (targetItem != null)
             {
+                Debug.Log("NPCBug TriggerDefaultBehavior 2");
                 AssignTask(new BugConsumeItemTask(targetItem));
                 return;
             }
-            
+            Debug.Log("NPCBug TriggerDefaultBehavior 3");
             base.TriggerDefaultBehavior();
         }
     }

@@ -41,8 +41,9 @@ public class UIManager : MonoBehaviour
     public UISummaryPhasePanel summaryPhasePanel;
     public UITimeControlPanel timeControlPanel;
     public UIRewardPanel rewardPanel;
-  public UINPCDetailPanel npcDetailPanel;
-
+    public UINPCDetailPanel npcDetailPanel;
+    public UIDebugPanel debugPanel;
+    
     public RectTransform attentionIconBoarderPanel;
     
     // OLD UI Containers
@@ -56,7 +57,6 @@ public class UIManager : MonoBehaviour
     private GameObject npcListPanel;
     private GameObject alertPanel;
     private GameObject eventLogPanel;
-    private GameObject debugPanel;
     private GameObject eventTriggerPanel;
     private NPCDialogPanel _currentNPCDialogPanel;
     // UI Elements
@@ -111,7 +111,6 @@ public class UIManager : MonoBehaviour
         SetupTechTreePanel(transform);
         SetupAlertPanel(transform);
         SetupItemDetailPanel(transform);
-        SetupDebugPanel(transform);
         SetupEventTriggerPanel(transform);
         SetupNPCDialogPanel(transform);
         
@@ -230,6 +229,10 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        if (Keyboard.current.backquoteKey.wasPressedThisFrame)
+        {
+            debugPanel.gameObject.SetActive(!debugPanel.gameObject.activeSelf);
+        }
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             if (_currentTimeState == TimeState.Paused)
@@ -645,50 +648,8 @@ public class UIManager : MonoBehaviour
 
 
 
-    private void SetupDebugPanel(Transform parent)
-    {
-        debugPanel = CreateUIPanel(parent, "DebugPanel", new Vector2(300, 500), new Vector2(0.5f, 1),
-            new Vector2(0.5f, 1), new Vector2(0, -300));
-        UIPanel uiPanel = debugPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("DebugPanel is missing UIPanel component.");
-            return;
-        }
 
-        uiPanel.titleText.text = "Debug";
 
-        var debugPanelComponent = debugPanel.AddComponent<DebugPanel>();
-
-        // Create and assign UI elements using prefabs
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
-            debugPanelComponent.mouseCoordsText = textGO.GetComponent<UITextArea>().textArea;
-            debugPanelComponent.mouseCoordsText.text = "X: -, Y: -";
-        }
-        else
-        {
-            debugPanelComponent.mouseCoordsText =
-                CreateText(uiPanel.scrollContent, "MouseCoordsText", "X: -, Y: -", 14);
-        }
-
-        debugPanelComponent.instaBuildButton = uiPanel.AddButton("Insta-Build", () => { }).button;
-        debugPanelComponent.instaResearchButton = uiPanel.AddButton("Insta-Research", () => { }).button;
-        debugPanelComponent.unlockAllTechButton = uiPanel.AddButton("Unlock All Tech", () => { }).button;
-        debugPanelComponent.triggerEventButton =
-            uiPanel.AddButton("Trigger Event", () => ToggleEventTriggerPanel()).button;
-        uiPanel.AddButton("Add Schemata-Bucks", () => MetaCurrency.Add(100));
-
-        SetupEventTriggerPanel(parent);
-        debugPanel.SetActive(false);
-    }
-
-    public void ToggleDebugPanel()
-    {
-        debugPanel.SetActive(!debugPanel.activeSelf);
-    }
 
     private void SetupEventTriggerPanel(Transform parent)
     {

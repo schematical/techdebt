@@ -398,6 +398,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         string content = $"<b>{name}</b>\n";
         // Add the current task
+        content += $"\nState: {CurrentState}\n";
         if (CurrentTask != null)
         {
             content += $"Task: {CurrentTask.GetType().Name}\n\n";

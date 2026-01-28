@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NPCs;
 using UnityEngine;
 
 namespace Events
@@ -15,6 +16,7 @@ namespace Events
 
         protected Sprite bossSprite;
         protected Sprite botSprite;
+        protected NPCSchematicalBot  schematicalBot;
 
         protected bool firstTechnologyResearched = false;
         protected int nextStep = -1;
@@ -40,10 +42,15 @@ namespace Events
                 bossSprite = bossNPC.GetComponent<SpriteRenderer>().sprite;
             }
 
+            if (schematicalBot == null)
+            { 
+              InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
+              GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot", server.transform.position +  new Vector3(2, 0));
+              schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
+            }
             if (botSprite == null)
             {
-                botSprite = GameManager.Instance.prefabManager.GetPrefab("SchematicaBot").GetComponent<SpriteRenderer>()
-                    .sprite;
+                botSprite = schematicalBot.GetComponent<SpriteRenderer>().sprite;
             }
 
             GameManager.Instance.GameLoopManager.playTimerActive = false;
@@ -116,18 +123,18 @@ namespace Events
                     nextStep = 4;
                     break;
                 case 4:
-                    infrastructureInstance =
-                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
+                   
+                    GameManager.Instance.cameraController.ZoomTo(schematicalBot.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Hi I am the 'Schematica-bot' from Schematical and I am here to help guide you as you setup your cloud infrastructure.",
+                        "Hi I am the consultant from Schematical and I am here to help guide you as you setup your cloud infrastructure.",
                         options
                     );
                     nextStep = 5;
                     break;
                 case 5:
-
+                    infrastructureInstance =
+                        GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'. One of your DevOps Engineers will start building it shortly.",
@@ -442,6 +449,7 @@ namespace Events
 
                 public virtual void End() {
 
+                    schematicalBot.gameObject.SetActive(false);
                     GameManager.Instance.SetStat(StatType.PacketsSent, 0);
                     GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
                     GameManager.Instance.SetStat(StatType.PacketsFailed, 0);

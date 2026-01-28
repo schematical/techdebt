@@ -1,5 +1,6 @@
 // DebugPanel.cs
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,39 +9,48 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.IO;
+using NPCs;
 
-public class DebugPanel : MonoBehaviour
+public class UIDebugPanel : UIPanel
 {
-    public Button instaBuildButton;
-    public Button instaResearchButton;
-    public Button unlockAllTechButton;
-    public Button triggerEventButton;
+   
     public TextMeshProUGUI mouseCoordsText;
-
+    public Button spawnNPC;
+    
     private GameManager gameManager;
     private UIManager uiManager;
     private GridManager gridManager;
 
     void Start()
     {
-        gameManager = GameManager.Instance;
-        uiManager = FindObjectOfType<UIManager>();
-        gridManager = GridManager.Instance;
-        instaBuildButton.onClick.AddListener(InstaBuild);
-        instaResearchButton.onClick.AddListener(InstaResearch);
-        unlockAllTechButton.onClick.AddListener(UnlockAllTechnologies);
 
-        // Create and configure the End Run button
-        Button endRunButton = Instantiate(unlockAllTechButton, unlockAllTechButton.transform.parent);
-        endRunButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Run";
-        endRunButton.onClick.AddListener(EndRun);
-        endRunButton.transform.position = unlockAllTechButton.transform.position + new Vector3(0, -30, 0);
+        AddButton("Insta-Build", () => { InstaBuild(); });
+        AddButton("Insta-Research", () => { InstaResearch(); });
+        AddButton("Unlock All Tech", () => { UnlockAllTechnologies(); });
+        AddButton("Trigger Event", () => GameManager.Instance.UIManager.ToggleEventTriggerPanel());
+        AddButton("SpawnNPC", () => { SpawnNPC(); });
+        AddButton("End Run", () => { EndRun(); });
+        AddButton("Export State", () => { ExportState(); });
 
-        // Create and configure the Export State button
-        Button exportStateButton = Instantiate(unlockAllTechButton, unlockAllTechButton.transform.parent);
-        exportStateButton.GetComponentInChildren<TextMeshProUGUI>().text = "Export State";
-        exportStateButton.onClick.AddListener(ExportState);
-        exportStateButton.transform.position = endRunButton.transform.position + new Vector3(0, -30, 0);
+    }
+
+    private void SpawnNPC()
+    {
+        var door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        if (door == null)
+        {
+            throw new SystemException("Cannot spawn NPCBug because 'server' infrastructure was not found.");
+        }
+
+        GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCBugMinor", door.transform.position);
+        if (npcGO == null)
+        {
+            throw new SystemException("Failed to create 'NPCBug' from PrefabManager. Is the prefab configured?");
+        }
+
+        NPCBug npcBug = npcGO.GetComponent<NPCBug>();
+        npcBug.Initialize();
+        
     }
 
     void Update()

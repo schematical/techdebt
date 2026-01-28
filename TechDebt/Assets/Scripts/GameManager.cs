@@ -325,10 +325,6 @@ public class GameManager : MonoBehaviour
         MetaCurrency.Load();
         _instance = this;
         
-        if (FindObjectOfType<DebugManager>() == null)
-        {
-            new GameObject("DebugManager").AddComponent<DebugManager>();
-        }
         
 
         Initialize();
