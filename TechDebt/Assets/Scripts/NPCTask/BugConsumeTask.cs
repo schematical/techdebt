@@ -8,7 +8,7 @@ public class BugConsumeTask : NPCTask
 
     public BugConsumeTask(iTargetable target, int prioity = 1): base(target, prioity)
     {
-
+        maxTaskRange = 1f;
     }
 /*
     public override void OnStart(NPCBase npc)
@@ -48,6 +48,10 @@ public class BugConsumeTask : NPCTask
         if (networkPacket != null)
         {
             networkPacket.MarkFailed();
+        }
+        else
+        {
+            target.gameObject.SetActive(false);
         }
         base.OnEnd(npc);
     }

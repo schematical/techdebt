@@ -108,6 +108,6 @@ public abstract class NPCTask
     }
     public virtual string GetDescription()
     {
-        return $"State: {CurrentState} - Priority: {Priority} - `isCloseEnough`: {IsCloseEnough()}";
+        return $"State: {CurrentState} - Priority: {Priority} - `isCloseEnough`: {IsCloseEnough()} - Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
     }
 }
