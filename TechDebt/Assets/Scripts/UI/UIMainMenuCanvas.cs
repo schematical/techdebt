@@ -21,7 +21,6 @@ namespace UI
         
         void Awake()
         {
-            MetaCurrency.Load();
             _instance = this;
             ClosePanels();
             mainMenu.gameObject.SetActive(true);

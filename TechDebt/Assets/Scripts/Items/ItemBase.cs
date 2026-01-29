@@ -3,7 +3,7 @@ using UnityEngine.EventSystems; // Required for IPointerClickHandler
 
 namespace Items
 {
-    public class ItemBase : MonoBehaviour, IPointerClickHandler
+    public class ItemBase : MonoBehaviour, IPointerClickHandler, iTargetable
     {
         private bool _isTaskCreated = false; // Add this flag to prevent multiple tasks for the same item.
 

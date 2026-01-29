@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine.EventSystems;
 
-public class NetworkPacket : MonoBehaviour, IPointerClickHandler
+public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 {
     public enum State { Running, Failed }
     public State CurrentState = State.Running;

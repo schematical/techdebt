@@ -2,26 +2,26 @@
 using Items;
 using UnityEngine;
 
-public class BugConsumeItemTask : NPCTask
+public class BugConsumeTask : NPCTask
 {
-    private ItemBase targetItem;
+    private iTargetable target;
 
-    public BugConsumeItemTask(ItemBase _targetItem)
+    public BugConsumeTask(iTargetable target)
     {
         // Find the nearest active ItemBase without a task
        
-        if (_targetItem == null)
+        if (target == null)
         {
             throw new System.Exception("targetItem is null");
         }
 
-        targetItem = _targetItem;
-        destination = targetItem.transform.position;
+        this.target = target;
+        destination = this.target.transform.position;
     }
 
     public override void OnStart(NPCBase npc)
     {
-        if (targetItem != null)
+        if (target != null)
         {
             base.OnStart(npc);
         }
@@ -34,17 +34,27 @@ public class BugConsumeItemTask : NPCTask
 
     public override bool IsFinished(NPCBase npc)
     {
-        if (targetItem == null)
+        if (target == null)
         {
             return true; // No item found, so the task is "finished"
         }
 
         if (isCloseEnough())
         {
-            targetItem.Use(npc);
+ 
             return true;
         }
 
         return false;
+    }
+
+    public override void OnEnd(NPCBase npc)
+    {
+        NetworkPacket networkPacket = target.gameObject.GetComponent<NetworkPacket>();
+        if (networkPacket != null)
+        {
+            networkPacket.MarkFailed();
+        }
+        base.OnEnd(npc);
     }
 }

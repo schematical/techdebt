@@ -6,9 +6,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Infrastructure;
 using MetaChallenges;
-using NPCs;
-using NUnit.Framework;
-using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 using Stats;
 

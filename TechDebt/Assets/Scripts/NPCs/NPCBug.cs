@@ -11,12 +11,12 @@ namespace NPCs
     {
         public enum Severity { Minor, Medium, Major, Critical }
         public Severity severity = Severity.Minor;
-        public float age = 0;
-        public float nextLevelAge = 30;
-        public bool isEvolving = false;
+        private float age = 0;
+        private float nextLevelAge = 120;
+        private bool isEvolving = false;
         public override bool CanAssignTask(NPCTask task)
         {
-            return task is BugConsumeItemTask;
+            return task is BugConsumeTask;
         }
 
         public override void Initialize()
@@ -36,11 +36,18 @@ namespace NPCs
         }
         void FixedUpdate()
         {
-            age += Time.fixedDeltaTime;
-            if (age > nextLevelAge)
+            switch (severity)
             {
-                IncreaseSeverity();
+                case (Severity.Minor):
+                    age += Time.fixedDeltaTime;
+                    if (age > nextLevelAge)
+                    {
+                        IncreaseSeverity();
+                    }
+
+                    break;
             }
+
             base.FixedUpdate();
         }
 
@@ -116,12 +123,34 @@ namespace NPCs
                     if (targetItem != null)
                     {
              
-                        AssignTask(new BugConsumeItemTask(targetItem));
+                        AssignTask(new BugConsumeTask(targetItem));
                         return;
                     }
            
-                    
-                    //TODO: Find network packets to eat
+             
+                    NetworkPacket[] allNetworkPackets = GameObject.FindObjectsOfType<NetworkPacket>();
+                    NetworkPacket targetNetworkPacket = null;
+                     minDistance = float.MaxValue;
+                    Debug.Log($"allNetworkPackets.count: {allNetworkPackets.Length}");
+                    foreach (NetworkPacket networkPackets in allNetworkPackets)
+                    {
+                        if (networkPackets.gameObject.activeSelf)
+                        {
+                            float distance = Vector3.Distance(Vector3.zero, networkPackets.transform.position);
+                            if (distance < minDistance)
+                            {
+                                minDistance = distance;
+                                targetNetworkPacket = networkPackets;
+                            }
+                        }
+                    }
+                    if (targetNetworkPacket != null)
+                    {
+                        Debug.Log($"targetNetworkPacket: {targetNetworkPacket.name}");
+                        AssignTask(new BugConsumeTask(targetNetworkPacket));
+                        return;
+                    }
+                   
                     
                     break;
                 case (Severity.Medium):

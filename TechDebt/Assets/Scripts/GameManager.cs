@@ -322,7 +322,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        MetaCurrency.Load();
+
         _instance = this;
         
         
