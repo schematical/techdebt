@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
         
         _isZooming = true;
         _zoomTarget = target;
-        _zoomDuration = 2f;
+        _zoomDuration = 1f;
         _zoomElapsedTime = 0f;
         _followAfterZoom = false; // Ensure this is reset
         
