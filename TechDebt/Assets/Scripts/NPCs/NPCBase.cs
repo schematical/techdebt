@@ -61,7 +61,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
         Stats.Add(new StatData(StatType.NPC_HP, 1f));
-        
+        if (!GameManager.Instance.AllNpcs.Contains(this))
+        {
+            GameManager.Instance.AllNpcs.Add(this);
+        }
     }
 
 
@@ -255,6 +258,16 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         StopMovement();
         CurrentState = State.Idle;
     }
+    public void OnPlanPhaseStart()
+    {
+        if (CurrentTask != null)
+        {
+            CurrentTask.Unassign();
+        }
+        HideAttentionIcon();
+        StopMovement();
+        CurrentState = State.Idle;
+    }
     
     public void MoveTo(Vector3 destination)
     {
@@ -419,11 +432,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         content += $"\nState: {CurrentState}\n";
         if (CurrentTask != null)
         {
-            content += $"Task: {CurrentTask.GetType().Name}\n\n";
+            content += $"Task: {CurrentTask.GetDescription()}\n\n";
         }
         else
         {
-            content += "Task: Idle\n\n";
+            content += "Task: None\n\n";
         }
         content += "\n<b>Stats:</b>\n";
 

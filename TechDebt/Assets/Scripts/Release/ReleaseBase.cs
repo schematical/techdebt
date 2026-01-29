@@ -99,7 +99,10 @@ public class ReleaseBase
         SetState(ReleaseState.DeploymentCompleted);
         GameManager.Instance.UIManager.rewardPanel.Show(() =>
         {
-            GameManager.Instance.Tutorial.OnRewardsPanelDone();
+            if (GameManager.Instance.Tutorial != null)
+            {
+                GameManager.Instance.Tutorial.OnRewardsPanelDone();
+            }
         });
         OnDeploymentCompleted();
         return true;

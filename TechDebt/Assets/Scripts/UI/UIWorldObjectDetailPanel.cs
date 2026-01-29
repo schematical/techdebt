@@ -18,7 +18,7 @@ namespace UI
         }
         public void ShowWorldObjectDetail(WorldObjectBase worldObject)
         {
-            Close();
+            GameManager.Instance.UIManager.Close();
             _selectedWorldObject = worldObject;
             gameObject.SetActive(true);
     

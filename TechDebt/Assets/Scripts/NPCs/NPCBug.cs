@@ -105,6 +105,11 @@ namespace NPCs
         }
         public override void TriggerDefaultBehavior()
         {
+            if (GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play)
+            {
+                base.TriggerDefaultBehavior();
+                return;
+            }
             switch (severity)
             {
                 case (Severity.Minor):

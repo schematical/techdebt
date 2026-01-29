@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
     public UIDebugPanel debugPanel;
     public UIDailyProgressPanel dailyProgressPanel;
     public RectTransform attentionIconBoarderPanel;
-    
+    public UINPCListPanel npcListPanel;
     // OLD UI Containers
  
     private GameObject hireDevOpsPanel;
@@ -54,7 +54,6 @@ public class UIManager : MonoBehaviour
    
     private GameObject taskListPanel;
     private GameObject techTreePanel;
-    private GameObject npcListPanel;
     private GameObject alertPanel;
     private GameObject eventLogPanel;
     private GameObject eventTriggerPanel;
@@ -106,7 +105,6 @@ public class UIManager : MonoBehaviour
         
 
         SetupEventLogPanel(transform);
-        SetupNPCListPanel(transform);
         SetupTaskListPanel(transform);
         SetupTechTreePanel(transform);
         SetupAlertPanel(transform);
@@ -128,10 +126,10 @@ public class UIManager : MonoBehaviour
         deskMenuPanel.gameObject.SetActive(false);
         worldObjectDetailPanel.gameObject.SetActive(false);
         npcDetailPanel.gameObject.SetActive(false);
+        npcListPanel.gameObject.SetActive(false);
         // hireDevOpsPanel.SetActive(false);
         
         taskListPanel.SetActive(false);
-        npcListPanel.SetActive(false);
         techTreePanel.SetActive(false);
         eventLogPanel.SetActive(false);
         
@@ -355,74 +353,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void SetupNPCListPanel(Transform parent)
-    {
-        npcListPanel = CreateUIPanel(parent, "NPCListPanel", new Vector2(300, 0), new Vector2(0, 0), new Vector2(0, 1),
-            new Vector2(250, 0));
-        UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
-        if (uiPanel != null)
-        {
-            uiPanel.titleText.text = "Hired NPCs";
-        }
-        else
-        {
-            Debug.LogError("NPCListPanel is missing UIPanel component. Title will not be set.");
-            CreateText(npcListPanel.transform, "Header", "Hired NPCs", 20);
-        }
-
-        // This panel will be populated at runtime
-        npcListPanel.SetActive(false);
-    }
 
    
-
-    public void ToggleNPCListPanel()
-    {
-        bool wasActive = npcListPanel.activeSelf;
-        Close();
-        if (!wasActive)
-        {
-            npcListPanel.SetActive(true);
-            RefreshNPCListPanel();
-        }
-    }
-
-    private void RefreshNPCListPanel()
-    {
-        if (npcListPanel == null) return;
-
-        var npcs = FindObjectsOfType<NPCDevOps>();
-        UIPanel uiPanel = npcListPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("NPCListPanel is missing UIPanel component. Cannot refresh list.");
-            // Fallback to old method if UIPanel is missing
-            for (int i = npcListPanel.transform.childCount - 1; i > 0; i--)
-            {
-                Destroy(npcListPanel.transform.GetChild(i).gameObject);
-            }
-
-            foreach (var npc in npcs)
-            {
-                NPCDevOps localNpc = npc;
-                CreateButton(npcListPanel.transform, npc.name, () => npcDetailPanel.Show(localNpc));
-            }
-
-            return;
-        }
-
-        // Clear existing NPCs
-        foreach (Transform child in uiPanel.scrollContent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        foreach (var npc in npcs)
-        {
-            NPCDevOps localNpc = npc; // Local copy for the closure
-            uiPanel.AddButton(npc.name, () => npcDetailPanel.Show(localNpc));
-        }
-    }
 
     
     private void SetupTaskListPanel(Transform parent)

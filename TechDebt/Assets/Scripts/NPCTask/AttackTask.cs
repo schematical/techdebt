@@ -19,7 +19,7 @@ public class AttackTask : NPCTask
        
         this.target = target;
         Priority = priority;
-        maxTaskRange = 0.25f;
+        maxTaskRange = 1.5f;
     }
 
     public override void OnUpdate(NPCBase npc)
@@ -38,7 +38,6 @@ public class AttackTask : NPCTask
 
             }
 
-
         } else if (!npc.isMoving || coolDown <= 0)
         {
             coolDown = .5f;
@@ -51,10 +50,7 @@ public class AttackTask : NPCTask
         return target.IsDead();
     }
 
-    public override string GetDescription()
-    {
-        return $"{base.GetDescription()} - Target: {target.name}";
-    }
+   
     
     
     public override string GetAssignButtonText()

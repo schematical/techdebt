@@ -607,13 +607,7 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        foreach (var npc in AllNpcs)
-        {
-            NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
-            if (npcDevOps != null) {
-                totalCost += npcDevOps.Stats.GetStatValue(StatType.NPC_DailyCost);
-            }
-        }
+   
         return totalCost;
     }
     
@@ -730,7 +724,7 @@ public class GameManager : MonoBehaviour
             GameObject npcGO = prefabManager.Create("BossNPC", desk.GetInteractionPosition());
             BossNPC bossNPC = npcGO.GetComponent<BossNPC>();
             bossNPC.Initialize();
-            AllNpcs.Add(bossNPC);
+            
         }
         else
         {
@@ -823,7 +817,6 @@ public class GameManager : MonoBehaviour
 
         NPCDevOps npc = npcObject.GetComponent<NPCDevOps>();
         npc.Initialize(candidateData);
-        AllNpcs.Add(npc);
         
         NotifyDailyCostChanged();
     }

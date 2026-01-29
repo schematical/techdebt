@@ -79,37 +79,36 @@ public class GameLoopManager : MonoBehaviour
     public void BeginPlanPhase()
     {
    
+        Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
+        foreach (NPCBase npc in GameManager.Instance.AllNpcs)
+        {
+            if (npc.gameObject.activeInHierarchy)
+            {
+                if (
+                    npc.GetComponent<BossNPC>() != null &&
+                    GameManager.Instance.Tutorial != null
+                    )
+                {
+                    continue;
+                }
+                npc.OnPlanPhaseStart();
+                npc.transform.position = vector3;
+                npc.gameObject.SetActive(false);
+          
+            }
+        }
+
         GameManager.Instance.UIManager.Resume();
         CurrentState = GameState.Plan;
         
         currentDay++;
 
-        // Notify NPCs
-        foreach (var npc in FindObjectsOfType<NPCDevOps>())
-        {
-            npc.OnPlanPhaseStart();
-        }
-
-        
-        
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowPlanUI();
     }
 
-    public void ForceBeginPlanPhase()
-    {
-        Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
-        foreach (var npc in FindObjectsOfType<NPCDevOps>())
-        {
-            if (npc.gameObject.activeInHierarchy)
-            {
-                npc.transform.position = vector3;
-                npc.gameObject.SetActive(false);
-            }
-        }
-        BeginPlanPhase();
-    }
+ 
 
 
 

@@ -22,7 +22,7 @@ namespace UI
 
             AddButton("Tasks", uiManager.ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
             AddButton("Tech", uiManager.ToggleTechTreePanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("NPCs", uiManager.ToggleNPCListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("NPCs", uiManager.npcListPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
             AddButton("Events", uiManager.ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
             AddButton("Releases", uiManager.ToggleDeploymentHistoryPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         }

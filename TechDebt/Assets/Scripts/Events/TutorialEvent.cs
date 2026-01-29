@@ -12,19 +12,21 @@ namespace Events
         {
             NPC_AddTrait
         }
+
         protected int currentStep = 0;
         protected List<DialogButtonOption> options = new List<DialogButtonOption>();
 
         protected Sprite bossSprite;
         protected Sprite botSprite;
-        protected NPCSchematicalBot  schematicalBot;
+        protected NPCSchematicalBot schematicalBot;
 
         protected bool firstTechnologyResearched = false;
         protected int nextStep = -1;
-        
+
         protected InfrastructureInstance firstResearchedInstance = null;
         public bool NPCsCanGetXP { get; private set; } = false;
         public Dictionary<TutorialCheck, bool> States { get; private set; } = new Dictionary<TutorialCheck, bool>();
+
         public TutorialEvent()
         {
             options.Add(new DialogButtonOption() { Text = "Continue", OnClick = () => Next() });
@@ -44,15 +46,18 @@ namespace Events
             }
 
             if (schematicalBot == null)
-            { 
-              InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
-              GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot", server.transform.position +  new Vector3(4, 0));
-              schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
+            {
+                InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot",
+                    server.transform.position + new Vector3(4, 0));
+                schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
             }
+
             if (botSprite == null)
             {
                 botSprite = schematicalBot.GetComponent<SpriteRenderer>().sprite;
             }
+
             GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(false);
             GameManager.Instance.GameLoopManager.playTimerActive = false;
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
@@ -66,7 +71,6 @@ namespace Events
 
         private void Next()
         {
-        
             if (nextStep < 0)
             {
                 GameManager.Instance.cameraController.StopFollowing();
@@ -124,7 +128,7 @@ namespace Events
                     nextStep = 4;
                     break;
                 case 4:
-                   
+
                     GameManager.Instance.cameraController.ZoomTo(schematicalBot.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -339,11 +343,11 @@ namespace Events
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Your team will now work on coding the next release when higher priority tasks are not available.\n" + 
-                            "You can adjust the priority of tasks by clicking on the Kanban Board.",
+                        "Your team will now work on coding the next release when higher priority tasks are not available.\n" +
+                        "You can adjust the priority of tasks by clicking on the Kanban Board.",
                         options
                     );
-                    nextStep =-1;
+                    nextStep = -1;
                     break;
                 case 22:
                     GameManager.Instance.GetInfrastructureInstanceByID("kanbanboard").HideAttentionIcon();
@@ -352,7 +356,7 @@ namespace Events
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Your first release is ready to be deployed. Click on all available Application Servers to trigger up the deployment.\n" + 
+                        "Your first release is ready to be deployed. Click on all available Application Servers to trigger up the deployment.\n" +
                         "Use Meta Challenges to unlock technologies that will automate this for you in the future.",
                         options
                     );
@@ -361,20 +365,20 @@ namespace Events
                 case 23:
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Well done. Now you will receive the rewards that release unlocked. \n" + 
+                        "Well done. Now you will receive the rewards that release unlocked. \n" +
                         "You can only focus on one release at a time right now.",
                         options
                     );
                     nextStep = 24;
                     break;
                 case 24:
-                
+
                     NPCBug bugGO = GameObject.FindObjectsOfType<NPCBug>().First();
                     GameManager.Instance.cameraController.ZoomToAndFollow(bugGO.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "A bug was introduced in the last release \n" + 
-                        "You can choose to debug it now or leave it for now. \n" + 
+                        "A bug was introduced in the last release \n" +
+                        "You can choose to debug it now or leave it for now. \n" +
                         "Be careful though, bugs left in production have consequences.",
                         options
                     );
@@ -439,13 +443,14 @@ namespace Events
                     break;
                 case 17:
                     if (
-                        instance.data.ID == firstResearchedInstance.data.ID &&    
+                        instance.data.ID == firstResearchedInstance.data.ID &&
                         instance.IsActive()
                     )
                     {
                         nextStep = 18;
                         Next();
                     }
+
                     break;
             }
         }
@@ -467,30 +472,27 @@ namespace Events
             return true;
         }
 
-                public virtual void End() {
+        public virtual void End()
+        {
+            GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(true);
+            schematicalBot.gameObject.SetActive(false);
+            GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+            GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
+            GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
-                    GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(true);
-                    schematicalBot.gameObject.SetActive(false);
-                    GameManager.Instance.SetStat(StatType.PacketsSent, 0);
-                    GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
-                    GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
-                    
-                    GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
+            GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
 
-                    GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
+            GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
 
-                    GameManager.OnPhaseChange -= HandlePhaseChange;
-                    GameManager.OnReleaseChanged -= HandleReleaseChange;
+            GameManager.OnPhaseChange -= HandlePhaseChange;
+            GameManager.OnReleaseChanged -= HandleReleaseChange;
 
-                    GameManager.Instance.cameraController.StopFollowing();
+            GameManager.Instance.cameraController.StopFollowing();
 
-                    GameManager.Instance.GameLoopManager.playTimerActive = true;
+            GameManager.Instance.GameLoopManager.playTimerActive = true;
 
-                    base.End();
-
-                    
-
-                }
+            base.End();
+        }
 
         public void HandlePhaseChange(GameLoopManager.GameState state)
         {
@@ -499,12 +501,13 @@ namespace Events
                 nextStep = 2;
                 Next();
             }
-        }       
+        }
+
         public void HandleReleaseChange(ReleaseBase releaseBase, ReleaseBase.ReleaseState prevState)
         {
-            
-            switch(currentStep) {
-                case(20):
+            switch (currentStep)
+            {
+                case (20):
                     if (releaseBase.State == ReleaseBase.ReleaseState.InDevelopment)
                     {
                         nextStep = 21;
@@ -512,7 +515,7 @@ namespace Events
                     }
 
                     break;
-                case(21): 
+                case (21):
                     if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentReady)
                     {
                         nextStep = 22;
@@ -527,7 +530,6 @@ namespace Events
                         Next();
                     }
                     break;*/
-              
             }
         }
 
@@ -543,22 +545,24 @@ namespace Events
             {
                 checkValue = States[check];
             }
+
             switch (check)
             {
-                case(TutorialCheck.NPC_AddTrait):
+                case (TutorialCheck.NPC_AddTrait):
                     if (!checkValue)
                     {
                         nextStep = 20;
                         States[check] = true;
                         Next();
                     }
+
                     break;
                 default:
                     throw new SystemException($"No idea what this check is {check}");
             }
         }
 
-       
+
 /*
         public virtual bool IsOver()
         {

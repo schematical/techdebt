@@ -13,7 +13,7 @@ namespace UI
 
         private void OnContinue()
         {
-            GameManager.Instance.GameLoopManager.ForceBeginPlanPhase();
+            GameManager.Instance.GameLoopManager.BeginPlanPhase();
             gameObject.SetActive(false);
         }
     }

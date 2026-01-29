@@ -13,7 +13,7 @@ public abstract class NPCTask
         Completed,
         Interrupted
     }
-    public enum TaskRole { DevOps, Boss, Dev, Intern}
+    public enum TaskRole { DevOps, Boss, Dev, Intern, Enemy}
     public State CurrentState { get; protected set; } = State.Available;
     public int Priority { get; set; }
     public NPCBase AssignedNPC { get; private set; }
@@ -36,7 +36,7 @@ public abstract class NPCTask
         {
             throw new SystemException("`target` is null");
         }
-        return Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position) < maxTaskRange;
+        return Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position) <= maxTaskRange;
     }
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
     public NPCTask(iTargetable target = null, int priority = 5)
@@ -79,7 +79,7 @@ public abstract class NPCTask
         {
             return;
         }
-            npc.MoveTo(target.GetInteractionPosition());
+        npc.MoveTo(target.GetInteractionPosition());
         
     }
 
@@ -108,6 +108,6 @@ public abstract class NPCTask
     }
     public virtual string GetDescription()
     {
-        return $"State: {CurrentState} - Priority: {Priority} - `isCloseEnough`: {IsCloseEnough()} - Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
+        return $"State: {CurrentState} {target.name} - Priority: {Priority} - `isCloseEnough`: {IsCloseEnough()} - Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
     }
 }

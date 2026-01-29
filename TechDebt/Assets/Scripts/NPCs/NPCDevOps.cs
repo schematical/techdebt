@@ -174,16 +174,7 @@ public class NPCDevOps : NPCBase
         return 1f;
     }
 
-    public void OnPlanPhaseStart()
-    {
-        if (CurrentTask != null)
-        {
-            CurrentTask.Unassign();
-        }
-        HideAttentionIcon();
-        StopMovement();
-        CurrentState = State.Idle;
-    }
+  
     public override void OnPlayPhaseStart()
     {
         base.OnPlayPhaseStart();
