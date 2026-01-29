@@ -42,5 +42,10 @@ namespace Items
         {
             _isTaskCreated = true;
         }
+
+        public Vector3 GetInteractionPosition()
+        {
+            return transform.position;
+        }
     }
 }

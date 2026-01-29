@@ -25,7 +25,6 @@ public class DeliverItemTask : NPCTask
             return;
         }
 
-        maxTaskRange = 1f;
         Priority = 10; 
         _currentState = DeliveryState.MovingToDropOff;
     }
@@ -35,7 +34,7 @@ public class DeliverItemTask : NPCTask
         if (_doorInstance == null) return;
         
         // Find a random walkable position within 20 units of the door.
-        _dropOffPosition = GetRandomWalkablePoint(_doorInstance.transform.position, 20f);
+        _dropOffPosition = GetRandomWalkablePoint(_doorInstance.transform.position, 10f);
         if (_dropOffPosition == Vector3.zero)
         {
             Debug.LogWarning("Could not find a valid drop-off point for delivery. Aborting.");
@@ -43,8 +42,9 @@ public class DeliverItemTask : NPCTask
             return;
         }
 
-        this.destination = _dropOffPosition;
+    
         base.OnStart(npc); // Start moving to the drop-off position
+        npc.MoveTo(_dropOffPosition);
     }
 
     public override void OnUpdate(NPCBase npc)
@@ -60,7 +60,7 @@ public class DeliverItemTask : NPCTask
                 
                 // Now, set the destination back to the door and start moving.
                 _currentState = DeliveryState.ReturningToDoor;
-                this.destination = _doorInstance.transform.position;
+                this.target = _doorInstance;
                 base.OnStart(npc); 
                 break;
             
@@ -68,6 +68,24 @@ public class DeliverItemTask : NPCTask
                 // This state is handled by IsFinished when the NPC arrives at the door.
                 break;
         }
+    }
+    public bool isCloseEnough()
+    {
+       
+
+        switch (_currentState)
+        {
+            case DeliveryState.MovingToDropOff:
+                return Vector3.Distance(_dropOffPosition, AssignedNPC.transform.position) < maxTaskRange;
+                break;
+            
+            case DeliveryState.ReturningToDoor:
+                return base.IsCloseEnough();
+                break;
+            default:
+                throw new System.NotImplementedException();
+        }
+        
     }
 
     public override bool IsFinished(NPCBase npc)

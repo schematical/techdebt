@@ -10,11 +10,12 @@ public class DeploymentTask : NPCTask
     private const float DeploymentTime = 5f; // Time in seconds to complete deployment
     private ReleaseBase _release;
 
-    public DeploymentTask(ApplicationServer target, ReleaseBase release) : base(target.transform.position)
+    public DeploymentTask(ApplicationServer target, ReleaseBase release) : base(target)
     {
         TargetInfrastructure = target;
         Priority = 4;
         _release = release;
+        maxTaskRange = .1f;
     }
 
     public virtual void OnStart(NPCBase npc)
@@ -24,7 +25,7 @@ public class DeploymentTask : NPCTask
     }
     public override void OnUpdate(NPCBase npc)
     {
-        if (isCloseEnough())
+        if (IsCloseEnough())
         {
             deploymentProgress += Time.deltaTime;
             npc.AddXP(Time.deltaTime);

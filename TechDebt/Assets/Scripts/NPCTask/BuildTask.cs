@@ -14,7 +14,7 @@ public class BuildTask : NPCTask
     public EnvEffectBase buildEffect;
     public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
 
-    public BuildTask(InfrastructureInstance target, int priority = 5) : base(target.transform.position)
+    public BuildTask(InfrastructureInstance target, int priority = 5) : base(target)
     {
         TargetInfrastructure = target;
         Priority = priority;
@@ -23,7 +23,7 @@ public class BuildTask : NPCTask
     public override void OnUpdate(NPCBase npc)
     {
         // Only start building after the NPC has arrived.
-        if (isCloseEnough())
+        if (IsCloseEnough())
         {
             if (buildEffect == null)
             {

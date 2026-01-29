@@ -7,11 +7,11 @@ public class CodeTask : NPCTask
     public ReleaseBase ReleaseBase { get; private set; }
     private readonly Desk desk;
 
-    public CodeTask(ReleaseBase release) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.transform.position)
+    public CodeTask(ReleaseBase release) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk"))
     {
         ReleaseBase = release;
         Priority = 3; // Research is a low-priority, background task.
-
+        maxTaskRange = .1f;
         // Find the desk to navigate to.
         InfrastructureInstance deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
         if (deskInstance != null)
@@ -30,7 +30,7 @@ public class CodeTask : NPCTask
         if (desk == null) return;
         
         // Apply research points only if the NPC is at the desk
-        if (isCloseEnough())
+        if (IsCloseEnough())
         {
             var devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)

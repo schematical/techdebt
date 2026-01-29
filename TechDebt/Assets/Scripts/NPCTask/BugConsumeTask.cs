@@ -4,32 +4,23 @@ using UnityEngine;
 
 public class BugConsumeTask : NPCTask
 {
-    private iTargetable target;
 
-    public BugConsumeTask(iTargetable target)
+
+    public BugConsumeTask(iTargetable target, int prioity = 1): base(target, prioity)
     {
-        // Find the nearest active ItemBase without a task
-       
-        if (target == null)
-        {
-            throw new System.Exception("targetItem is null");
-        }
 
-        this.target = target;
-        destination = this.target.transform.position;
     }
-
+/*
     public override void OnStart(NPCBase npc)
     {
-        if (target != null)
-        {
-            base.OnStart(npc);
-        }
-    }
 
+            base.OnStart(npc);
+
+    }
+*/
     public override void OnUpdate(NPCBase npc)
     {
-        // No specific update logic needed for this task
+
     }
 
     public override bool IsFinished(NPCBase npc)
@@ -38,8 +29,11 @@ public class BugConsumeTask : NPCTask
         {
             return true; // No item found, so the task is "finished"
         }
-
-        if (isCloseEnough())
+        if (!target.gameObject.activeInHierarchy)
+        {
+            return true; // No item found, so the task is "finished"
+        }
+        if (IsCloseEnough())
         {
  
             return true;

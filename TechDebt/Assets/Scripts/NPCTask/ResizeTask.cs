@@ -8,7 +8,7 @@ public class ResizeTask : NPCTask
     private float _duration;
 
     public ResizeTask(InfrastructureInstance target, int sizeChange)
-        : base(target.transform.position)
+        : base(target)
     {
         TargetInfrastructure = target;
         SizeChange = sizeChange;
@@ -18,7 +18,7 @@ public class ResizeTask : NPCTask
 
     public override void OnUpdate(NPCBase npc)
     {
-        if (isCloseEnough())
+        if (IsCloseEnough())
         {
             npc.AddXP(Time.deltaTime);
             if (TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
@@ -31,7 +31,7 @@ public class ResizeTask : NPCTask
 
     public override bool IsFinished(NPCBase npc)
     {
-        return isCloseEnough() && _duration <= 0;
+        return IsCloseEnough() && _duration <= 0;
     }
 
     public override void OnEnd(NPCBase npc)

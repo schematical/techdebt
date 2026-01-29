@@ -5,18 +5,17 @@ public class UseItemTask : NPCTask
 {
     public ItemBase TargetItem { get; }
 
-    public UseItemTask(ItemBase targetItem) : base(targetItem.transform.position)
+    public UseItemTask(ItemBase targetItem) : base(targetItem)
     {
         TargetItem = targetItem;
         Priority = 10; // High priority
-        maxTaskRange = 1f;
     }
 
     public override void OnUpdate(NPCBase npc)
     {
         // The base NPCTask's Update handles movement. 
         // We only need to act when the NPC has arrived.
-        if (isCloseEnough() && !IsFinished(npc))
+        if (IsCloseEnough() && !IsFinished(npc))
         {
             if (TargetItem != null)
             {

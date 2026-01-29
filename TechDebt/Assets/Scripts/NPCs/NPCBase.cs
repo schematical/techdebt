@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable
+public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable
 {
     public enum State
     {
@@ -475,5 +475,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     protected void FixedUpdate()
     {
+    }
+
+    public Vector3 GetInteractionPosition()
+    {
+        return transform.position;
     }
 }

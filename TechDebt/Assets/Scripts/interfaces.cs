@@ -6,6 +6,7 @@ public interface iTargetable
     Transform transform { get; }
     string name { get; }
     GameObject gameObject { get;  }
+    public Vector3 GetInteractionPosition();
 }
 public interface iAttackable: iTargetable
 {

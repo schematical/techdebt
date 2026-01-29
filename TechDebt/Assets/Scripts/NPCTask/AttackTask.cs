@@ -14,19 +14,20 @@ public class AttackTask : NPCTask
     // public EnvEffectBase buildEffect;
     public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
 
-    public AttackTask(iAttackable target, int priority = 7) : base(target.transform.position)
+    public AttackTask(iAttackable target, int priority = 7) : base(target)
     {
        
         this.target = target;
         Priority = priority;
+        maxTaskRange = 0.25f;
     }
 
     public override void OnUpdate(NPCBase npc)
     {
-        destination = target.transform.position;
+        
         coolDown -= Time.deltaTime;
         // Only start building after the NPC has arrived.
-        if (isCloseEnough())
+        if (IsCloseEnough())
         {
 
             if (coolDown <= 0)

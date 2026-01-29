@@ -136,5 +136,9 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
             cameraController.StartFollowing(transform);
         }
     }
-    
+
+    public Vector3 GetInteractionPosition()
+    {
+        return transform.position;
+    }
 }

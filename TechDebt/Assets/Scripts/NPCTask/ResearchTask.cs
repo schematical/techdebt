@@ -7,11 +7,11 @@ public class ResearchTask : NPCTask
     public Technology TargetTechnology { get; private set; }
     private readonly Desk desk;
 
-    public ResearchTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk")?.GetInteractionPosition())
+    public ResearchTask(Technology technology) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk"))
     {
         TargetTechnology = technology;
         Priority = 2; // Research is a low-priority, background task.
-
+        maxTaskRange = .1f;
         // Find the desk to navigate to.
         var deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.ID == "desk");
         if (deskInstance != null)
@@ -30,7 +30,7 @@ public class ResearchTask : NPCTask
         if (desk == null) return;
         
         // Apply research points only if the NPC is at the desk
-        if (isCloseEnough())
+        if (IsCloseEnough())
         {
             var devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)

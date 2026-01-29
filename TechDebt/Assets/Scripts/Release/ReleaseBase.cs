@@ -99,7 +99,7 @@ public class ReleaseBase
         SetState(ReleaseState.DeploymentCompleted);
         GameManager.Instance.UIManager.rewardPanel.Show(() =>
         {
-            Debug.Log("TODO Add a marker to the whiteboard to create new release.");
+           
         });
         OnDeploymentCompleted();
         return true;

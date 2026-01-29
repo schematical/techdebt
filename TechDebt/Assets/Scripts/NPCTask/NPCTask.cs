@@ -19,27 +19,30 @@ public abstract class NPCTask
     public NPCBase AssignedNPC { get; private set; }
     public bool IsAssigned => AssignedNPC != null;
 
-    protected Vector3? destination;
-    protected float maxTaskRange = 0.5f;
+    protected iTargetable? target;
+    protected float maxTaskRange = 1f;
 
-    public bool isCloseEnough()
+    public bool IsCloseEnough()
     {
-        if (destination == null)
-        {
-            return false;
-        }
+       
 
         if (AssignedNPC == null)
         {
             Debug.LogError("AssignedNPC is null");
             return false;
         }
-        return Vector3.Distance(destination.Value, AssignedNPC.transform.position) < maxTaskRange;
+
+        if (target == null)
+        {
+            throw new SystemException("`target` is null");
+        }
+        return Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position) < maxTaskRange;
     }
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
-    public NPCTask(Vector3? destination = null)
+    public NPCTask(iTargetable target = null, int priority = 5)
     {
-        this.destination = destination;
+        this.target = target;
+        this.Priority = priority;
      
         
     }
@@ -72,15 +75,12 @@ public abstract class NPCTask
 
     public virtual void OnStart(NPCBase npc)
     {
-        if (destination == null)
+        if (target == null)
         {
-            Debug.LogWarning("No destination assigned");
             return;
         }
-        else
-        {
-            npc.MoveTo(destination.Value);
-        }
+            npc.MoveTo(target.GetInteractionPosition());
+        
     }
 
     public virtual void OnEnd(NPCBase npc)
@@ -108,6 +108,6 @@ public abstract class NPCTask
     }
     public virtual string GetDescription()
     {
-        return $"State: {CurrentState} - Priority: {Priority} - `isCloseEnough`: {isCloseEnough()}";
+        return $"State: {CurrentState} - Priority: {Priority} - `isCloseEnough`: {IsCloseEnough()}";
     }
 }
