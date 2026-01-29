@@ -6601,7 +6601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc18cc804b7ccf49bb29f94845e4c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameLoopManager
-  dayDurationSeconds: 60
+  dayDurationSeconds: 120
   playTimerActive: 1
   currentDay: 0
   dayTimer: 0

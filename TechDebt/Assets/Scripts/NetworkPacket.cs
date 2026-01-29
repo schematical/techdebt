@@ -24,11 +24,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 	void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        // Check for a 2D collider, which is needed for OnPointerClick to work with the Physics2DRaycaster
-        if (GetComponent<Collider2D>() == null)
-        {
-            Debug.LogWarning($"NetworkPacket {gameObject.name} is missing a Collider2D component. It won't be clickable. Please add one in the Unity Editor.");
-        }
+       
     } 
     public void Initialize(NetworkPacketData npData, string fileName, int size, InfrastructureInstance origin = null)
     {
