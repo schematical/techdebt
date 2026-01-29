@@ -37,11 +37,13 @@ public class NPCDevOps : NPCBase
 
     public override void AddXP(float amount = 1)
     {
+        Debug.Log($"AddXP - Start");
         if (
             GameManager.Instance.Tutorial != null &&
             !GameManager.Instance.Tutorial.NPCsCanGetXP
         )
         {
+            Debug.Log($"AddXP - Exiting");
             return;
         }
 
@@ -54,12 +56,14 @@ public class NPCDevOps : NPCBase
             lastDisplayXP = (int)Math.Floor(currentXP);
         }
 
-        int nextLevel = (int)Math.Round(60 * Math.Pow(1.5f, level));
-        if (currentXP >= nextLevel)
+        int nextLevelXP = (int)Math.Round(60 * Math.Pow(1.5f, level));
+        Debug.Log($"Level {level} - Curr: {currentXP} - Next: {nextLevelXP}");
+        if (currentXP >= nextLevelXP)
         {
        
-            currentXP = 0;
+            currentXP = currentXP - nextLevelXP;
             lastDisplayXP = 0;
+            Debug.Log($"MarkReadyForLevelUp");
             MarkReadyForLevelUp();
            
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NPCs;
 using UnityEngine;
 
@@ -45,14 +46,14 @@ namespace Events
             if (schematicalBot == null)
             { 
               InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
-              GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot", server.transform.position +  new Vector3(2, 0));
+              GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot", server.transform.position +  new Vector3(4, 0));
               schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
             }
             if (botSprite == null)
             {
                 botSprite = schematicalBot.GetComponent<SpriteRenderer>().sprite;
             }
-
+            GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(false);
             GameManager.Instance.GameLoopManager.playTimerActive = false;
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
             GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
@@ -135,6 +136,8 @@ namespace Events
                 case 5:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                    infrastructureInstance.ShowAttentionIcon();
+                    GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'. One of your DevOps Engineers will start building it shortly.",
@@ -270,6 +273,7 @@ namespace Events
                 case 16:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                    infrastructureInstance.ShowAttentionIcon();
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -282,7 +286,7 @@ namespace Events
                     firstResearchedInstance =
                         GameManager.Instance.ActiveInfrastructure.Find((instance =>
                             instance.data.CurrentState == InfrastructureData.State.Unlocked));
-
+                    firstResearchedInstance.ShowAttentionIcon();
                     GameManager.Instance.cameraController.ZoomTo(firstResearchedInstance.transform);
                     firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
@@ -307,7 +311,7 @@ namespace Events
                     NPCsCanGetXP = true;
                     npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
                     NPCDevOps devOps = npc.GetComponent<NPCDevOps>();
-                    devOps.AddXP(40);
+                    devOps.AddXP(91);
                     GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -319,6 +323,7 @@ namespace Events
                 case 20:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
+                    infrastructureInstance.ShowAttentionIcon();
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -330,6 +335,7 @@ namespace Events
                 case 21:
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("kanbanboard");
+                    infrastructureInstance.ShowAttentionIcon();
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -340,6 +346,7 @@ namespace Events
                     nextStep =-1;
                     break;
                 case 22:
+                    GameManager.Instance.GetInfrastructureInstanceByID("kanbanboard").HideAttentionIcon();
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
@@ -361,16 +368,29 @@ namespace Events
                     nextStep = 24;
                     break;
                 case 24:
-         
-                    
+                
+                    NPCBug bugGO = GameObject.FindObjectsOfType<NPCBug>().First();
+                    GameManager.Instance.cameraController.ZoomToAndFollow(bugGO.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
-                        bossSprite,
-                        "It looks like you are settling right in. \n Now that you have the basics we are going to start the in game clock. At the end of each day you will get a summary. \n Our infrastructure budget is directly related to how many packets make it through. If we run out of money its Game Over...",
+                        botSprite,
+                        "A bug was introduced in the last release \n" + 
+                        "You can choose to debug it now or leave it for now. \n" + 
+                        "Be careful though, bugs left in production have consequences.",
                         options
                     );
                     nextStep = 25;
                     break;
                 case 25:
+                    bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+                    GameManager.Instance.cameraController.ZoomTo(bossNPC.transform);
+                    GameManager.Instance.UIManager.ShowNPCDialog(
+                        bossSprite,
+                        "It looks like you are settling right in. \n Now that you have the basics we are going to start the in game clock. At the end of each day you will get a summary. \n Our infrastructure budget is directly related to how many packets make it through. If we run out of money its Game Over...",
+                        options
+                    );
+                    nextStep = 26;
+                    break;
+                case 26:
                     End();
                     nextStep = -1;
                     break;
@@ -449,6 +469,7 @@ namespace Events
 
                 public virtual void End() {
 
+                    GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(false);
                     schematicalBot.gameObject.SetActive(false);
                     GameManager.Instance.SetStat(StatType.PacketsSent, 0);
                     GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
@@ -499,13 +520,13 @@ namespace Events
                     }
 
                     break;
-                case(22):
+                /*case(22):
                     if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentCompleted)
                     {
                         nextStep = 23;
                         Next();
                     }
-                    break;
+                    break;*/
               
             }
         }
@@ -543,5 +564,10 @@ namespace Events
         {
             return true;
         }*/
+        public void OnRewardsPanelDone()
+        {
+            nextStep = 23;
+            Next();
+        }
     }
 }

@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
     public UIRewardPanel rewardPanel;
     public UINPCDetailPanel npcDetailPanel;
     public UIDebugPanel debugPanel;
-    
+    public UIDailyProgressPanel dailyProgressPanel;
     public RectTransform attentionIconBoarderPanel;
     
     // OLD UI Containers
