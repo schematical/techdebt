@@ -86,13 +86,10 @@ namespace UI
                 {
                     lazerBeam.Shutdown();
                 }
-
-            }
-
-            if (timer > 6)
-            {
                 onDone.Invoke();
                 gameObject.SetActive(false);
+                GameManager.Instance.UIManager.Resume();
+
             }
            
         }

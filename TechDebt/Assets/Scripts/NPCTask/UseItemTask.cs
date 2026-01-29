@@ -9,6 +9,7 @@ public class UseItemTask : NPCTask
     {
         TargetItem = targetItem;
         Priority = 10; // High priority
+        maxTaskRange = 1f;
     }
 
     public override void OnUpdate(NPCBase npc)

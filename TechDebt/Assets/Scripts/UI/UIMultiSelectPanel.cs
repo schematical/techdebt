@@ -25,10 +25,10 @@ namespace UI
 
       public void Display(string title, string bottom = "")
       {
+          GameManager.Instance.UIManager.Close();
           titleText.text = title;
           bottomText.text = bottom;
-          
-      
+
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {

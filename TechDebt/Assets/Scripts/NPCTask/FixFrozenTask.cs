@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class FixFrozenTask : BuildTask
 {
-    public FixFrozenTask(InfrastructureInstance target, int priority = 5) : base(target, priority)
+    public FixFrozenTask(InfrastructureInstance target, int priority = 8) : base(target, priority)
     {
         OnQueuedSetState = null;
     }

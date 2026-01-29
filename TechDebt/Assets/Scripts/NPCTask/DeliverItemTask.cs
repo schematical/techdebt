@@ -25,7 +25,8 @@ public class DeliverItemTask : NPCTask
             return;
         }
 
-        Priority = 200; // Very high priority, shouldn't be interrupted
+        maxTaskRange = 1f;
+        Priority = 10; 
         _currentState = DeliveryState.MovingToDropOff;
     }
     

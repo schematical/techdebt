@@ -769,6 +769,7 @@ public class UIManager : MonoBehaviour
     {
         Close();
         planPhaseMenuPanel.gameObject.SetActive(true);
+        timeControlPanel.gameObject.SetActive(false);
     }
 
     public void HidePlanUI()
