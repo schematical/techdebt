@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using DefaultNamespace;
 using Items;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NPCs
 {
@@ -8,6 +11,9 @@ namespace NPCs
     {
         public enum Severity { Minor, Medium, Major, Critical }
         public Severity severity = Severity.Minor;
+        public float age = 0;
+        public float nextLevelAge = 30;
+        public bool isEvolving = false;
         public override bool CanAssignTask(NPCTask task)
         {
             return task is BugConsumeItemTask;
@@ -16,7 +22,59 @@ namespace NPCs
         public override void Initialize()
         {
             base.Initialize();
+            isEvolving = false;
             Stats.Get(StatType.NPC_MovmentSpeed).SetBaseValue(1.5f);
+        }
+
+        void Update()
+        {
+            if (isEvolving)
+            {
+                return;
+            } 
+            base.Update();
+        }
+        void FixedUpdate()
+        {
+            age += Time.fixedDeltaTime;
+            if (age > nextLevelAge)
+            {
+                IncreaseSeverity();
+            }
+            base.FixedUpdate();
+        }
+
+        void SetEvolving(bool isEvolving = true)
+        {
+            this.isEvolving = isEvolving;
+        }
+        private void IncreaseSeverity()
+        {
+            SetEvolving();
+            StopMovement();
+            //This is a bit screwy. TODO clean it up.
+            nextLevelAge = 100000;
+            EvolveEnvEffect evolveEnvEffect = GameManager.Instance.prefabManager.Create("EvolveEnvEffect", transform.position + new Vector3(0,0,-1)).GetComponent<EvolveEnvEffect>();
+            NPCBug npcBug = null;
+            evolveEnvEffect.Initialize(() =>
+            {
+                switch (severity)
+                {
+                    case (Severity.Minor):
+                        severity = Severity.Medium;
+                        npcBug = GameManager.Instance.prefabManager.Create("NPCBug", transform.position).GetComponent<NPCBug>();
+                        npcBug.Initialize();
+                        npcBug.SetEvolving();
+                        gameObject.SetActive(false);
+                        break;
+                    default:
+                        throw new NotImplementedException("TODO Write me");
+                }
+            }, () =>
+            {
+                npcBug.SetEvolving(false);
+            });
+           
         }
 
         public override List<NPCTask> GetAvailableTasks()

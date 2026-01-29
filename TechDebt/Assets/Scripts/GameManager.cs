@@ -498,10 +498,10 @@ public class GameManager : MonoBehaviour
             throw new SystemException("Cannot spawn NPCBug because 'server' infrastructure was not found.");
         }
 
-        GameObject npcGO = prefabManager.Create("NPCBug", door.transform.position);
+        GameObject npcGO = prefabManager.Create("NPCBugMinor", door.transform.position);
         if (npcGO == null)
         {
-            throw new SystemException("Failed to create 'NPCBug' from PrefabManager. Is the prefab configured?");
+            throw new SystemException("Failed to create 'NPCBugMinor' from PrefabManager. Is the prefab configured?");
         }
 
         NPCBug npcBug = npcGO.GetComponent<NPCBug>();

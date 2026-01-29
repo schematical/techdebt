@@ -463,4 +463,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         return CurrentState == State.Dead;
     }
+
+    protected void FixedUpdate()
+    {
+    }
 }

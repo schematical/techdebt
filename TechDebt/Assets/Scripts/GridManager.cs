@@ -72,8 +72,8 @@ public class GridManager : MonoBehaviour
         Vector3Int cellPos = grid.WorldToCell(worldPosition);
 
         // Clamp the cell position to be within the grid bounds
-        cellPos.x = Mathf.Clamp(cellPos.x, 0, gridWidth - 1);
-        cellPos.y = Mathf.Clamp(cellPos.y, 0, gridHeight - 1);
+        cellPos.x = Mathf.Clamp(cellPos.x, 5, gridWidth - 6);
+        cellPos.y = Mathf.Clamp(cellPos.y, 5, gridHeight - 6);
 
         return nodeGrid[cellPos.x, cellPos.y];
     }
