@@ -4,7 +4,7 @@ namespace Infrastructure
 {
     public class KanbanBoard: InfrastructureInstance
     {
-        public override void OnPointerClick(PointerEventData eventData)
+        public override void OnLeftClick(PointerEventData eventData)
         {
             GameManager.Instance.UIManager.ToggleTaskListPanel();
         }

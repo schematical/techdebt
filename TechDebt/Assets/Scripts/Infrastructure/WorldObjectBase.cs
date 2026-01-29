@@ -13,9 +13,16 @@ namespace Infrastructure
         public virtual void OnPointerClick(PointerEventData eventData)
         {
 
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                OnLeftClick(eventData);
+            }
+          
+        }
 
-            // This is where the tooltip logic should be handled.
-            // We find the UIManager and tell it to show the tooltip for this specific instance.
+        public virtual void OnLeftClick(PointerEventData eventData)
+        {
+            
             UIManager uiManager = GameManager.Instance.UIManager;
             if (uiManager != null)
             {

@@ -21,7 +21,6 @@ public class CameraController : MonoBehaviour
     // ------------------------------------
 
     private Vector3 lastPanPosition;
-    private Vector2 initialRightClickMousePosition; // Store initial mouse screen position
     private Camera mainCamera;
     private Transform targetToFollow;
     private UnityAction onZoomDone;
@@ -82,7 +81,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleZoomToAnimation()
     {
-        _zoomElapsedTime += Time.deltaTime;
+        _zoomElapsedTime += Time.unscaledDeltaTime;
         float t = _zoomElapsedTime / _zoomDuration;
 
         // SmoothStep interpolation for a nice ease-in and ease-out effect
@@ -169,9 +168,8 @@ public class CameraController : MonoBehaviour
 
         if (movement.sqrMagnitude > 0.01f)
         {
-            // Apply movement scaled by panSpeed and Time.deltaTime
             GameManager.Instance.cameraController.StopFollowing();
-            transform.position += movement.normalized * panSpeed * Time.deltaTime;
+            transform.position += movement.normalized * (panSpeed * Time.unscaledDeltaTime);
         }
     }
 
@@ -189,7 +187,7 @@ public class CameraController : MonoBehaviour
 
         if (zoomDelta != 0)
         {
-            float newSize = mainCamera.orthographicSize - zoomDelta * zoomSpeed * Time.deltaTime * 10; // Multiply by 10 to make it faster
+            float newSize = mainCamera.orthographicSize - zoomDelta * zoomSpeed * Time.unscaledDeltaTime * 10; // Multiply by 10 to make it faster
             mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
         }
     }
@@ -210,7 +208,6 @@ public class CameraController : MonoBehaviour
         {
             GameManager.Instance.cameraController.StopFollowing();
             lastPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
-            initialRightClickMousePosition = mousePosition; // Store initial screen position
         }
 
         if (Mouse.current.rightButton.isPressed)

@@ -81,8 +81,11 @@ namespace UI
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("OnPointerClick");
-            onClick.Invoke();
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                onClick.Invoke();
+            }
+           
         }
     }
 
