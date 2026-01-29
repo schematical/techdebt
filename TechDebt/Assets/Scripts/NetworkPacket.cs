@@ -74,7 +74,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
             return;
         }
 
-        Vector3 destinationPosition = nextHop.GetTransform().position;
+        Vector3 destinationPosition = nextHop.GetInteractionPosition();
         transform.position = Vector3.MoveTowards(transform.position, destinationPosition, Speed * Time.deltaTime);
         float dist = Vector3.Distance(transform.position, destinationPosition);
         if (dist < 1f)

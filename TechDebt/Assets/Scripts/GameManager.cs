@@ -198,14 +198,14 @@ public class GameManager : MonoBehaviour
         if (packet != null)
         {
             // Reactivate and re-initialize the pooled packet
-            packet.transform.position = origin.transform.position;
+            packet.transform.position = origin.GetInteractionPosition();
             packet.gameObject.SetActive(true);
             packet.Initialize(data, fileName, size, origin);
         }
         else
         {
             // Instantiate a new packet if the pool for this type is empty or all are active
-            GameObject packetGO = Instantiate(data.prefab, origin.transform.position, Quaternion.identity);
+            GameObject packetGO = Instantiate(data.prefab, origin.GetInteractionPosition(), Quaternion.identity);
             packet = packetGO.GetComponent<NetworkPacket>();
             packet.Initialize(data, fileName, size, origin);
             _networkPacketPool[data.Type].Add(packet); // Add the new packet to the correct pool

@@ -5601,7 +5601,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
-    interactionPositionOffset: {x: 0, y: 0, z: 0}
+    interactionPositionOffset: {x: 1, y: 2, z: 1}
   - ID: boss-desk
     DisplayName: BossDesk
     Type: 
@@ -5744,7 +5744,7 @@ MonoBehaviour:
         Stat: 12
         Type: 1
         value: 0.5
-    interactionPositionOffset: {x: 0, y: 0, z: 0}
+    interactionPositionOffset: {x: 0, y: 1, z: 0}
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
