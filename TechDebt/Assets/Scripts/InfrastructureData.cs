@@ -29,6 +29,7 @@ public class InfrastructureData
 
     public State CurrentState = State.Locked;
     public List<NetworkConnection> NetworkConnections; // Array of NetworkConnection objects
+    public Vector3 interactionPositionOffset = Vector3.zero;
 }
 
 [Serializable]

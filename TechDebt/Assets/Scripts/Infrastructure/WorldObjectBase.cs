@@ -9,7 +9,9 @@ namespace Infrastructure
     public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler, iAssignable
     {
         public Color attentionIconColor = Color.white;
-        public UIAttentionIcon uiAttentionIcon;
+        public Vector3 interactionPositionOffset = Vector3.zero;
+        private UIAttentionIcon uiAttentionIcon;
+        
         public virtual void OnPointerClick(PointerEventData eventData)
         {
 
@@ -80,7 +82,7 @@ namespace Infrastructure
 
         public virtual Vector3 GetInteractionPosition()
         {
-            return transform.position;
+            return transform.position + interactionPositionOffset;
         }
     }
     

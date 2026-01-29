@@ -1298,14 +1298,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2129149001}
+  m_Children: []
   m_Father: {fileID: 1225598924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.0000022556633}
-  m_SizeDelta: {x: 376.4638, y: 46.875}
+  m_SizeDelta: {x: 376.4638, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &242769158
 MonoBehaviour:
@@ -1628,7 +1627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &289147066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1642,14 +1641,15 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1575022205}
+  - {fileID: 2129149001}
   - {fileID: 1096876543}
   - {fileID: 495547761}
   m_Father: {fileID: 203743600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 697.4, y: 144.93051}
-  m_SizeDelta: {x: 594.79, y: 89.856}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 91.400024, y: 144.93051}
+  m_SizeDelta: {x: 594.79004, y: 89.856}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &289147068
 MonoBehaviour:
@@ -5536,6 +5536,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: internetPipe
     DisplayName: Internet Pipe
     Type: 
@@ -5600,6 +5601,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: boss-desk
     DisplayName: BossDesk
     Type: 
@@ -5616,6 +5618,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 1, z: 0}
   - ID: desk
     DisplayName: Desk
     Type: 
@@ -5632,6 +5635,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: server1
     DisplayName: Applciation Server
     Type: 
@@ -5740,6 +5744,7 @@ MonoBehaviour:
         Stat: 12
         Type: 1
         value: 0.5
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: dedicated-db
     DisplayName: Basic Server
     Type: 
@@ -5780,6 +5785,7 @@ MonoBehaviour:
         Stat: 0
         Type: 1
         value: 0.5
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: s3-bucket
     DisplayName: S3Bucket
     Type: 
@@ -5804,6 +5810,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 1
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: cdn
     DisplayName: CDN
     Type: 
@@ -5834,6 +5841,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: server-alb
     DisplayName: Load Balencer
     Type: 
@@ -5914,6 +5922,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: server2
     DisplayName: Server 2
     Type: 
@@ -6000,6 +6009,7 @@ MonoBehaviour:
         Stat: 12
         Type: 1
         value: 0.75
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: server3
     DisplayName: Server 3
     Type: 
@@ -6086,6 +6096,7 @@ MonoBehaviour:
         Stat: 12
         Type: 1
         value: 0.75
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: read-replica-1
     DisplayName: Read Replica 1
     Type: 
@@ -6106,6 +6117,7 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: read-replica-2
     DisplayName: Read Replica 2
     Type: 
@@ -6126,6 +6138,7 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: water-cooler
     DisplayName: Water Cooler
     Type: 
@@ -6146,6 +6159,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: waf
     DisplayName: WAF
     Type: 
@@ -6176,6 +6190,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: redis-1
     DisplayName: Redis
     Type: 
@@ -6206,6 +6221,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: redis-2
     DisplayName: Redis 2
     Type: 
@@ -6240,6 +6256,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: redis-3
     DisplayName: Redis 3
     Type: 
@@ -6274,6 +6291,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: secret-manager
     DisplayName: SecretManager
     Type: 
@@ -6304,6 +6322,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: sqs-queue
     DisplayName: SQS Queue
     Type: 
@@ -6334,6 +6353,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: bg-worker-1
     DisplayName: SQS Queue
     Type: 
@@ -6364,6 +6384,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: cognito
     DisplayName: Cognito
     Type: 
@@ -6394,6 +6415,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: codepipeline
     DisplayName: CodePipeline
     Type: 
@@ -6424,6 +6446,7 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: whiteboard
     DisplayName: White Board
     Type: 
@@ -6440,6 +6463,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: kanbanboard
     DisplayName: Kanban Board
     Type: 
@@ -6456,6 +6480,7 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -8348,7 +8373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1096876543
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14760,18 +14785,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129149000}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 674121440}
-  m_Father: {fileID: 242769157}
+  m_Father: {fileID: 289147066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 569.19434, y: 46.875}
+  m_AnchoredPosition: {x: 16.447144, y: -34.72014}
+  m_SizeDelta: {x: 569.19434, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2129149002
 MonoBehaviour:

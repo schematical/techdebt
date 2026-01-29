@@ -20,7 +20,7 @@ public class BossNPC : NPCBase
         // Boss-specific idle behavior: 50% chance to go to desk, otherwise wander
 
         // If we are already at the desk, do nothing.
-        if (Vector3.Distance(transform.position, _bossDesk.transform.position) < 0.1f)
+        if (Vector3.Distance(transform.position, _bossDesk.GetInteractionPosition()) < 0.1f)
         {
             return; 
         }

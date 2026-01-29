@@ -196,6 +196,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public virtual void Initialize(InfrastructureData infraData)
     {
         data = infraData;
+        interactionPositionOffset = data.interactionPositionOffset;
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();

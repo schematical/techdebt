@@ -724,17 +724,17 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        var door = GetInfrastructureInstanceByID("boss-desk");
-        if (door != null)
+        InfrastructureInstance desk = GetInfrastructureInstanceByID("boss-desk");
+        if (desk != null)
         {
-            GameObject npcGO = prefabManager.Create("BossNPC", door.transform.position);
+            GameObject npcGO = prefabManager.Create("BossNPC", desk.GetInteractionPosition());
             BossNPC bossNPC = npcGO.GetComponent<BossNPC>();
             bossNPC.Initialize();
             AllNpcs.Add(bossNPC);
         }
         else
         {
-            Debug.LogWarning("Could not find 'boss-desk to spawn BossNPC.");
+            Debug.LogError("Could not find 'boss-desk to spawn BossNPC.");
         }
         
    
