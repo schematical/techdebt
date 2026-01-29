@@ -214,7 +214,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
     public void Wander()
     {
-        Vector3 wanderDestination = GetRandomWalkablePoint(transform.position, 10f);
+        Vector3 wanderDestination = GetRandomWalkablePoint(GetHomePoint(), 10f);
   
         if (!Vector3.zero.Equals(wanderDestination))
         {
@@ -358,6 +358,14 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
     public virtual void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnLeftClick(eventData);
+        }
+    }
+
+    public virtual void OnLeftClick(PointerEventData eventData)
+    {
         GameManager.Instance.UIManager.npcDetailPanel.Show(this);
     }
     public virtual List<NPCTask> GetAvailableTasks()
@@ -480,5 +488,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public Vector3 GetInteractionPosition()
     {
         return transform.position;
+    }
+
+    public virtual Vector3 GetHomePoint()
+    {
+        return GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
     }
 }

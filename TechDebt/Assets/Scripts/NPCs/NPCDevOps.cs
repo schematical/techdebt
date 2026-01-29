@@ -260,4 +260,18 @@ public class NPCDevOps : NPCBase
         return content;
 
     }
+    public override Vector3 GetHomePoint()
+    {
+        return GameManager.Instance.GetInfrastructureInstanceByID("desk").transform.position;
+    }
+    public override void OnLeftClick(PointerEventData eventData)
+    {
+        if (level < leveledUpTo)
+        {
+            HideAttentionIcon();
+            LevelUp();
+            return;
+        }
+        base.OnLeftClick(eventData);
+    }
 }

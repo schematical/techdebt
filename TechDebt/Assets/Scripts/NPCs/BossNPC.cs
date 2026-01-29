@@ -36,4 +36,8 @@ public class BossNPC : NPCBase
     {
         return task.Role == NPCTask.TaskRole.Boss;
     }
+    public override Vector3 GetHomePoint()
+    {
+        return GameManager.Instance.GetInfrastructureInstanceByID("big-desk").transform.position;
+    }
 }

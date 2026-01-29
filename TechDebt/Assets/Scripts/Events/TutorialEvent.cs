@@ -469,7 +469,7 @@ namespace Events
 
                 public virtual void End() {
 
-                    GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(false);
+                    GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(true);
                     schematicalBot.gameObject.SetActive(false);
                     GameManager.Instance.SetStat(StatType.PacketsSent, 0);
                     GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
