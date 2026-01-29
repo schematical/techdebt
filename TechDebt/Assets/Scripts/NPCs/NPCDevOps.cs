@@ -18,9 +18,10 @@ public class NPCDevOps : NPCBase
             new ModifierCollection(); // List<ModifierBase> Traits { get; private set; } = new List<ModifierBase>();
 
     public int level = 1;
+    public int leveledUpTo = 1;
     public int lastDisplayXP = 0;
     public float currentXP = 0;
-
+    
     public void Initialize(NPCDevOpsData data)
     {
         Data = data;
@@ -59,21 +60,25 @@ public class NPCDevOps : NPCBase
        
             currentXP = 0;
             lastDisplayXP = 0;
-            ShowAttentionIcon(() =>
-            {
-                HideAttentionIcon();
-                LevelUp();
-               
-               
-            });
+            MarkReadyForLevelUp();
+           
         }
     }
 
+    protected void MarkReadyForLevelUp()
+    {
+        leveledUpTo++;
+        ShowAttentionIcon(() =>
+        {
+            HideAttentionIcon();
+            LevelUp();
+               
+               
+        });
+    }
     protected void LevelUp()
     {
         level++;
-     
-
 
         GameManager.Instance.UIManager.MultiSelectPanel.Display(
             "One of your team has leveled up!",
@@ -171,9 +176,23 @@ public class NPCDevOps : NPCBase
         {
             CurrentTask.Unassign();
         }
-
+        HideAttentionIcon();
         StopMovement();
         CurrentState = State.Idle;
+    }
+    public override void OnPlayPhaseStart()
+    {
+        base.OnPlayPhaseStart();
+        if (level < leveledUpTo)
+        {
+            ShowAttentionIcon(() =>
+            {
+                HideAttentionIcon();
+                LevelUp();
+               
+               
+            });
+        }
     }
   
     public float GetBuildSpeed()
@@ -186,6 +205,8 @@ public class NPCDevOps : NPCBase
 
         return npcBuildSpeed;
     }
+
+    
     public override string GetDetailText()
     {
         string content = $"<b>{name}</b>\n";

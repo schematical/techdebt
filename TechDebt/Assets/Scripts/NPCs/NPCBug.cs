@@ -36,6 +36,10 @@ namespace NPCs
         }
         void FixedUpdate()
         {
+            if (this.IsDead())
+            {
+                return;
+            }
             switch (severity)
             {
                 case (Severity.Minor):

@@ -92,10 +92,15 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     protected virtual void Update()
     {
         if (
-            (
-                GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
-                GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire
-            ) || 
+            
+            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
+            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire
+         )   
+        {
+            HideAttentionIcon();
+            return;
+        }
+        if(
             GameManager.Instance.UIManager.GetCurrentTimeState() == UIManager.TimeState.Paused
         )
         {
@@ -383,6 +388,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public void HideAttentionIcon()
     {
+        if (uiAttentionIcon == null)
+        {
+            return;
+        }
         uiAttentionIcon.gameObject.SetActive(false);
         uiAttentionIcon = null;
     }

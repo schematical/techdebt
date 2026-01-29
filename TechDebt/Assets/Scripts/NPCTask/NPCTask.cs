@@ -20,7 +20,7 @@ public abstract class NPCTask
     public bool IsAssigned => AssignedNPC != null;
 
     protected Vector3? destination;
-    protected float maxTaskRange = 0.25f;
+    protected float maxTaskRange = 0.5f;
 
     public bool isCloseEnough()
     {

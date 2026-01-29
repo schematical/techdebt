@@ -237,6 +237,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 break;
             case (InfrastructureData.State.Operational):
                 HideAttentionIcon();
+                attentionIconColor = Color.white;
                 CurrentLoad = 0;
                 break;
             case (InfrastructureData.State.Planned):
