@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4736931061039771366
+--- !u!1 &7281216286604570010
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5407902754867272911}
-  - component: {fileID: 2093935671562573631}
-  - component: {fileID: 68903760785813871}
-  - component: {fileID: 2126698704585447892}
+  - component: {fileID: 7857979993205690249}
+  - component: {fileID: 2788371713891931773}
+  - component: {fileID: 6986984773259956401}
+  - component: {fileID: 4752950667072523342}
   m_Layer: 5
-  m_Name: Particle_Ram
+  m_Name: UIScreenParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &5407902754867272911
+--- !u!224 &7857979993205690249
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4736931061039771366}
+  m_GameObject: {fileID: 7281216286604570010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -36,23 +36,23 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &2093935671562573631
+--- !u!222 &2788371713891931773
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4736931061039771366}
+  m_GameObject: {fileID: 7281216286604570010}
   m_CullTransparentMesh: 1
---- !u!114 &68903760785813871
+--- !u!114 &6986984773259956401
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4736931061039771366}
+  m_GameObject: {fileID: 7281216286604570010}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1101350380903433583, guid: 17cbf24393a9fa941b8d0b2cbde5d9c6, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,17 +76,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2126698704585447892
+--- !u!114 &4752950667072523342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4736931061039771366}
+  m_GameObject: {fileID: 7281216286604570010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b23fd548fa340eca81d76bdae6563ff, type: 3}
+  m_Script: {fileID: 11500000, guid: d69792a667644c8796256e961ae03113, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI.UILazarBeamParticle
-  rectTransform: {fileID: 5407902754867272911}
-  image: {fileID: 68903760785813871}
+  m_EditorClassIdentifier: Assembly-CSharp::UI.UIScreenParticle
+  rectTransform: {fileID: 7857979993205690249}
+  image: {fileID: 6986984773259956401}

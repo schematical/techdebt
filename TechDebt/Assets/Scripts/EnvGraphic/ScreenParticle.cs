@@ -9,7 +9,7 @@ namespace UI
 {
     public class ScreenParticle: MonoBehaviour
     {
-        public enum State {Rising, Falling, Fading}
+        public enum State {Rising, /*Falling, Fading*/}
 
         protected State state;
         public RectTransform rectTransform;
@@ -28,22 +28,11 @@ namespace UI
                     rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y + 0.1f, rectTransform.position.z);
                     if (bottomRight.y > Screen.height + 100)
                     {
-                        state = State.Falling;
-                        // transform.SetParent(transform.parent.parent.parent);
-                        rectTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                        // rectTransform.sizeDelta = new Vector2(100, 100);
-                        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
-                        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
-                        float newX =  Random.Range(0, Screen.width / 4);
-                        if (Random.Range(0, 2) > 0)
-                        {
-                            newX = Screen.width - newX;
-                        }
-                        
-                        rectTransform.position = new Vector3(newX, rectTransform.position.y, rectTransform.position.z);
+                        CreateUIScreenParticle();
+                        gameObject.SetActive(false);
                     }
                     break;
-                case(State.Falling):
+                /*case(State.Falling):
               
                     rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y - 1f, rectTransform.position.z);
                     if (bottomRight.y < 0)
@@ -65,10 +54,24 @@ namespace UI
                     {
                         gameObject.SetActive(false);
                     }
-                    break;
+                    break;*/
             }
 
             
+        }
+
+        public UIScreenParticle CreateUIScreenParticle()
+        {
+            float halfRange = rectTransform.rect.width / 2;
+            Vector2 nextPosition = new Vector2(
+                rectTransform.position.x + Random.Range(-1 * halfRange, halfRange),
+                rectTransform.position.y);
+            GameObject particleGO =
+                GameManager.Instance.prefabManager.Create("UIScreenParticle", nextPosition, GameManager.Instance.UIManager.transform);
+            UIScreenParticle particle = particleGO.GetComponent<UIScreenParticle>();
+            particle.transform.SetParent(transform);
+            particle.Init(spriteRenderer.sprite);
+            return particle;
         }
         public void Init(float rotationZ = 0)
         {
@@ -92,16 +95,16 @@ namespace UI
             
         }
 
-        public void Shutdown()
+        /*public void Shutdown()
         {
-            state = State.Fading;
+            // state = State.Fading;
             
             /*switch (state)
             {
                 case (State.Fading):
                     break;
 
-            }*/
-        }
+            }#1#
+        }*/
     }
 }
