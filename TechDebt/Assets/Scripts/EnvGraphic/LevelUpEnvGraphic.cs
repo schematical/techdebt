@@ -33,13 +33,7 @@ namespace DefaultNamespace.EnvGraphic
                 return;
             }
             currentDisplayTime += Time.unscaledDeltaTime;
-            
-            
-            
-            
-            
-            
-          
+
            
             particleCounter += Time.unscaledDeltaTime;
             if (particleCounter >= nextParticleAt)
@@ -47,11 +41,12 @@ namespace DefaultNamespace.EnvGraphic
                 float halfRange = rectTransform.rect.width / 2;
                 Vector2 nextPosition = new Vector2(
                     rectTransform.position.x + Random.Range(-1 * halfRange, halfRange),
-                    rectTransform.position.y);
+                    rectTransform.position.y
+                );
                 GameObject particleGO =
                     GameManager.Instance.prefabManager.Create("ScreenParticle", nextPosition);
                 ScreenParticle particle = particleGO.GetComponent<ScreenParticle>();
-                particle.transform.SetParent(transform);
+                // particle.transform.SetParent(transform);
                 particle.Init(rectTransform.rotation.z);
                 particles.Add(particle);
                 particleCounter = Random.Range(0f, 10f) / 10;
