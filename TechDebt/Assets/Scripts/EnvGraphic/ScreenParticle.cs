@@ -25,7 +25,7 @@ namespace UI
             switch (state)
             {
                 case(State.Rising):
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y + 0.1f);
+                    rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y + 0.1f, rectTransform.position.z);
                     if (bottomRight.y > Screen.height + 100)
                     {
                         state = State.Falling;
@@ -40,12 +40,12 @@ namespace UI
                             newX = Screen.width - newX;
                         }
                         
-                        rectTransform.position = new Vector2(newX, rectTransform.position.y);
+                        rectTransform.position = new Vector3(newX, rectTransform.position.y, rectTransform.position.z);
                     }
                     break;
                 case(State.Falling):
               
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 1f);
+                    rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y - 1f, rectTransform.position.z);
                     if (bottomRight.y < 0)
                     {
                        
@@ -54,7 +54,7 @@ namespace UI
                     break;
              case(State.Fading):
                  
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 1f);
+                    rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y - 1f, rectTransform.position.z);
                     spriteRenderer.color = new Color(
                         spriteRenderer.color.r,
                         spriteRenderer.color.g,
