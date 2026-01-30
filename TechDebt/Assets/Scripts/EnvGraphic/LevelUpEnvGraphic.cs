@@ -24,8 +24,22 @@ namespace DefaultNamespace.EnvGraphic
         public RectTransform rectTransform;
         public float particleCounter = 0;
         private List<ScreenParticle> particles = new List<ScreenParticle>();
-        private float nextParticleAt = 10000; 
-        
+        private float nextParticleAt = 10000;
+
+        public void Init()
+        {
+            nextParticleAt = 1000;
+            spriteRenderer.color = Color.white;
+            currentlyDisplayedRarity = Rarity.Common;
+            animator.ResetControllerState();
+            foreach (Rarity rarity in Enum.GetValues(typeof(Rarity)))
+            {
+                animator.SetBool($"Show{rarity}", false);
+                animator.SetBool($"Intro{rarity}", false);
+            }
+            animator.SetBool($"Intro{Rarity.Common}", false);
+            animationState = AnimationState.Intro;
+        }
         void Update()
         {
             if (animationState == AnimationState.Intro)
@@ -78,16 +92,20 @@ namespace DefaultNamespace.EnvGraphic
         {
             currentDisplayTime = 0;
             animationState =  AnimationState.Loop;
+            
             Debug.Log($"Show{currentlyDisplayedRarity}");
+            animator.SetBool($"Intro{currentlyDisplayedRarity}", false);
             animator.SetBool($"Show{currentlyDisplayedRarity}", true);
         }
         public void StartNextLevel()
         {
           
+            animator.SetBool($"Show{currentlyDisplayedRarity}", false);
             currentlyDisplayedRarity = RarityHelper.GetNextRarity(currentlyDisplayedRarity);
             Debug.Log($"StartNextLevel {currentlyDisplayedRarity}");
             animationState =  AnimationState.Intro;
             currentDisplayTime = 0;
+            
             animator.SetBool($"Intro{currentlyDisplayedRarity}", true);
             switch (currentlyDisplayedRarity)
             {
