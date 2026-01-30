@@ -93,7 +93,7 @@ namespace Infrastructure
             LevelUpEnvGraphic levelUpEnvGraphic = GameManager.Instance.prefabManager.Create("LevelUpEnvGraphic",
                 transform.position + new Vector3(0, 0, .1f)).GetComponent<LevelUpEnvGraphic>();
             GameManager.Instance.UIManager.SetTimeScalePause();
-            levelUpEnvGraphic.Init();
+            levelUpEnvGraphic.Init(rarity);
             return levelUpEnvGraphic;
         }
     }

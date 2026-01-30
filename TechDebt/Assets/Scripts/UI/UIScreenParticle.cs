@@ -22,7 +22,7 @@ namespace UI
               
                 case(State.Falling):
               
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 1f);
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 400f);
                     if (bottomRight.y < 0)
                     {
                        
@@ -31,7 +31,7 @@ namespace UI
                     break;
              case(State.Fading):
                  
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - 1f);
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 400f);
                     image.color = new Color(
                         image.color.r,
                         image.color.g,
@@ -62,13 +62,9 @@ namespace UI
             // rectTransform.sizeDelta = new Vector2(100, 100);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
-            float newX =  Random.Range(0, Screen.width / 4);
-            if (Random.Range(0, 2) > 0)
-            {
-                newX = Screen.width - newX;
-            }
+   
                         
-            rectTransform.position = new Vector2(newX, 0);
+          
             
         }
 

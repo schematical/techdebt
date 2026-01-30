@@ -21,7 +21,7 @@ namespace UI
             {
                 case(State.Rising):
                     // First, move the particle
-                    rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y + 0.1f, rectTransform.position.z);
+                    rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y + (10 * Time.unscaledDeltaTime), rectTransform.position.z);
                     
                     // Then, get its new world position and convert to screen coordinates to check bounds
                     Vector3[] corners = new Vector3[4];
@@ -32,7 +32,11 @@ namespace UI
 
                     if (bottomCornerScreenPos.y > Screen.height + 100)
                     {
-                        CreateUIScreenParticle();
+                        if (Random.Range(0, 5) == 0)
+                        {
+                            CreateUIScreenParticle();
+                        }
+
                         gameObject.SetActive(false);
                     }
                     break;
@@ -64,10 +68,16 @@ namespace UI
 
         public UIScreenParticle CreateUIScreenParticle()
         {
-            float halfRange = rectTransform.rect.width / 2;
-            
+      
+         
+            float newX =  Random.Range(0, Screen.width / 4);
+            if (Random.Range(0, 2) > 0)
+            {
+                newX = Screen.width - newX;
+            }
+            Vector2 startPosition = new Vector2(newX, Screen.height);
             GameObject particleGO =
-                GameManager.Instance.prefabManager.Create("UIScreenParticle", Vector2.zero, GameManager.Instance.UIManager.transform);
+                GameManager.Instance.prefabManager.Create("UIScreenParticle", startPosition, GameManager.Instance.UIManager.transform);
             UIScreenParticle particle = particleGO.GetComponent<UIScreenParticle>();
             particle.Init(spriteRenderer.sprite);
             return particle;

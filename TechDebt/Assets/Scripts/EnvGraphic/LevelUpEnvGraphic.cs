@@ -26,8 +26,9 @@ namespace DefaultNamespace.EnvGraphic
         private List<ScreenParticle> particles = new List<ScreenParticle>();
         private float nextParticleAt = 10000;
 
-        public void Init()
+        public void Init(Rarity _goalRarity)
         {
+            goalRarity =  _goalRarity;
             nextParticleAt = 1000;
             spriteRenderer.color = Color.white;
             currentlyDisplayedRarity = Rarity.Common;
@@ -55,7 +56,7 @@ namespace DefaultNamespace.EnvGraphic
                 float halfRange = rectTransform.rect.width / 2;
                 Vector2 nextPosition = new Vector2(
                     rectTransform.position.x + Random.Range(-1 * halfRange, halfRange),
-                    rectTransform.position.y
+                    rectTransform.position.y + 0.5f
                 );
                 GameObject particleGO =
                     GameManager.Instance.prefabManager.Create("ScreenParticle", nextPosition);
