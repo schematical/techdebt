@@ -17,16 +17,20 @@ namespace UI
         public SpriteRenderer spriteRenderer;
         void Update()
         {
-            Vector3[] corners = new Vector3[4];
-            rectTransform.GetWorldCorners(corners);
-            
-            // Bottom-right corner is corners[2]
-            Vector3 bottomRight = corners[2];
             switch (state)
             {
                 case(State.Rising):
+                    // First, move the particle
                     rectTransform.position = new Vector3(rectTransform.position.x, rectTransform.position.y + 0.1f, rectTransform.position.z);
-                    if (bottomRight.y > Screen.height + 100)
+                    
+                    // Then, get its new world position and convert to screen coordinates to check bounds
+                    Vector3[] corners = new Vector3[4];
+                    rectTransform.GetWorldCorners(corners);
+
+                    // We use a bottom corner (e.g., bottom-left at index 0) to see if the whole particle is off-screen.
+                    Vector3 bottomCornerScreenPos = Camera.main.WorldToScreenPoint(corners[0]);
+
+                    if (bottomCornerScreenPos.y > Screen.height + 100)
                     {
                         CreateUIScreenParticle();
                         gameObject.SetActive(false);
@@ -56,20 +60,15 @@ namespace UI
                     }
                     break;*/
             }
-
-            
         }
 
         public UIScreenParticle CreateUIScreenParticle()
         {
             float halfRange = rectTransform.rect.width / 2;
-            Vector2 nextPosition = new Vector2(
-                rectTransform.position.x + Random.Range(-1 * halfRange, halfRange),
-                rectTransform.position.y);
+            
             GameObject particleGO =
-                GameManager.Instance.prefabManager.Create("UIScreenParticle", nextPosition, GameManager.Instance.UIManager.transform);
+                GameManager.Instance.prefabManager.Create("UIScreenParticle", Vector2.zero, GameManager.Instance.UIManager.transform);
             UIScreenParticle particle = particleGO.GetComponent<UIScreenParticle>();
-            particle.transform.SetParent(transform);
             particle.Init(spriteRenderer.sprite);
             return particle;
         }

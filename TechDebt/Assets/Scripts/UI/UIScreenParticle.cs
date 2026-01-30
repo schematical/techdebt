@@ -55,8 +55,20 @@ namespace UI
             rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             gameObject.SetActive(true);
             // rectTransform.sizeDelta = new Vector2(25, 25);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
+            // rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
+            // rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
+            
+            rectTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            // rectTransform.sizeDelta = new Vector2(100, 100);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+            float newX =  Random.Range(0, Screen.width / 4);
+            if (Random.Range(0, 2) > 0)
+            {
+                newX = Screen.width - newX;
+            }
+                        
+            rectTransform.position = new Vector2(newX, 0);
             
         }
 
