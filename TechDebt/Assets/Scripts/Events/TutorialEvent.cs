@@ -317,6 +317,7 @@ namespace Events
                     NPCDevOps devOps = npc.GetComponent<NPCDevOps>();
                     devOps.AddXP(91);
                     GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
+                    GameManager.Instance.UIManager.SetTimeScalePause();
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
                         "One of your team members has leveled up. Choose a new trait to give them. Each trait comes with unique bonuses.",
@@ -474,6 +475,7 @@ namespace Events
 
         public virtual void End()
         {
+           
             GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(true);
             schematicalBot.gameObject.SetActive(false);
             GameManager.Instance.SetStat(StatType.PacketsSent, 0);
@@ -488,7 +490,10 @@ namespace Events
             GameManager.OnReleaseChanged -= HandleReleaseChange;
 
             GameManager.Instance.cameraController.StopFollowing();
-
+            if (currentStep < 2)
+            {
+                GameManager.Instance.GetInfrastructureInstanceByID("server1").ZoomTo();
+            }
             GameManager.Instance.GameLoopManager.playTimerActive = true;
 
             base.End();

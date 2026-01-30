@@ -49,6 +49,7 @@ public class CameraController : MonoBehaviour
         _startZoom = mainCamera.orthographicSize;
         _targetZoom = 4f; // Sensible default close-up zoom
         onZoomDone = _onZoomDone;
+        Debug.Log("ZoomTo 2: " + _zoomTarget.position);
     }
 
     public void ZoomToAndFollow(Transform target)
@@ -81,6 +82,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleZoomToAnimation()
     {
+        Debug.Log("HandleZoomToAnimation: " + _zoomTarget.position);
         _zoomElapsedTime += Time.unscaledDeltaTime;
         float t = _zoomElapsedTime / _zoomDuration;
 
@@ -139,7 +141,7 @@ public class CameraController : MonoBehaviour
 
     public void StopFollowing()
     {
-
+Debug.Log("StopFollowing");
         targetToFollow = null;
         _isZooming = false;
     }

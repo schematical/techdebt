@@ -96,6 +96,12 @@ namespace Infrastructure
             levelUpEnvGraphic.Init(rarity);
             return levelUpEnvGraphic;
         }
+
+        public void ZoomTo()
+        {
+            Debug.Log("ZoomTo");
+            GameManager.Instance.cameraController.ZoomTo(transform);
+        }
     }
     
 }

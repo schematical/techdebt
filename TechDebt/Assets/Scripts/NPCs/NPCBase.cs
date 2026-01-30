@@ -507,4 +507,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         return GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
     }
+    public void ZoomToAndFollow()
+    {
+        GameManager.Instance.cameraController.ZoomToAndFollow(transform);
+    }
 }
