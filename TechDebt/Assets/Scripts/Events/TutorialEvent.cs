@@ -144,7 +144,7 @@ namespace Events
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Plan Build'. One of your DevOps Engineers will start building it shortly.",
+                        "Let's start by building a server so you can start handling some internet traffic. Do this by clicking on the server then selecting 'Build'. One of your DevOps Engineers will start building it shortly.",
                         options
                     );
                     nextStep = -1;

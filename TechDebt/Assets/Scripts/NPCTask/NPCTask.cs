@@ -13,7 +13,16 @@ public abstract class NPCTask
         Completed,
         Interrupted
     }
-    public enum TaskRole { DevOps, Boss, Dev, Intern, Enemy}
+
+    public enum TaskRole
+    {
+        DevOps,
+        Boss,
+        Dev,
+        Intern,
+        Enemy
+    }
+
     public State CurrentState { get; protected set; } = State.Available;
     public int Priority { get; set; }
     public NPCBase AssignedNPC { get; private set; }
@@ -24,7 +33,7 @@ public abstract class NPCTask
 
     public bool IsCloseEnough()
     {
-       
+
 
         if (AssignedNPC == null)
         {
@@ -36,15 +45,18 @@ public abstract class NPCTask
         {
             throw new SystemException("`target` is null");
         }
+
         return Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position) <= maxTaskRange;
     }
+
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
+
     public NPCTask(iTargetable target = null, int priority = 5)
     {
         this.target = target;
         this.Priority = priority;
-     
-        
+
+
     }
 
     public virtual void OnInterrupt()
@@ -61,6 +73,7 @@ public abstract class NPCTask
         {
             return false;
         }
+
         AssignedNPC = npc;
         CurrentState = State.Executing;
         return true;
@@ -79,24 +92,25 @@ public abstract class NPCTask
         {
             return;
         }
+
         npc.MoveTo(target.GetInteractionPosition());
-        
+
     }
 
     public virtual void OnEnd(NPCBase npc)
     {
         GameManager.Instance.CompleteTask(this);
     }
-    
+
     public void HandleArrival()
     {
-     
+
     }
 
     // Abstract methods to be implemented by concrete tasks
     public abstract void OnUpdate(NPCBase npc);
     public abstract bool IsFinished(NPCBase npc);
-    
+
     public virtual string GetAssignButtonText()
     {
         throw new SystemException("Overwrite me");
@@ -106,8 +120,21 @@ public abstract class NPCTask
     {
         CurrentState = State.Queued;
     }
+
     public virtual string GetDescription()
     {
-        return $"State: {CurrentState} {target.name} - Priority: {Priority} - `isCloseEnough`: {IsCloseEnough()} - Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
-    }
+        Debug.Log($"target:" + (target == null ? "null" : target.name));
+        string description = $"State: {CurrentState} " +
+                             $"{target.name} - Priority: {Priority} - `";
+        if (AssignedNPC != null) {
+            description += $"isCloseEnough`: {IsCloseEnough()} - " +
+                           $" Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
+        }/*
+        else
+        {
+            description += " No Assigned NPC";
+        }*/
+        return description;
+}
+
 }

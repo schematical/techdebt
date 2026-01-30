@@ -30,14 +30,14 @@ namespace UI
             float succeededPercent = packetsSucceeded / packetsTotal;
             float succededWidth = fullWidth * Mathf.Clamp01(succeededPercent);
             SuccededProgressBar.anchorMax = new Vector2(succededWidth / fullWidth, SuccededProgressBar.anchorMax.y);
-            SuccededText.text = $"{Math.Round(succeededPercent * 100)}%";
+            SuccededText.text = $"Packets Succeeded: {Math.Round(succeededPercent * 100)}%";
             
             
             float failedPercent = packetsFailed / packetsTotal;
             float failedWidth = (fullWidth * Mathf.Clamp01(failedPercent));
             FailedProgressBar.anchorMin = new Vector2( ((fullWidth - failedWidth) / fullWidth), FailedProgressBar.anchorMin.y);
             // FailedProgressBar.transform.position = new Vector2(SuccededProgressBar.anchorMax.x, FailedProgressBar.transform.position.y);
-            FailedText.text = $"{Math.Round(failedPercent * 100)}%";
+            FailedText.text = $"Packets Failed: {Math.Round(failedPercent * 100)}%";
         }
     }
 }
