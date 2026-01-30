@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.IO;
+using DefaultNamespace;
 using NPCs;
 
 public class UIDebugPanel : UIPanel
@@ -30,8 +31,33 @@ public class UIDebugPanel : UIPanel
         AddButton("Trigger Event", () => GameManager.Instance.UIManager.ToggleEventTriggerPanel());
         AddButton("SpawnNPC", () => { SpawnNPC(); });
         AddButton("End Run", () => { EndRun(); });
-        AddButton("Export State", () => { ExportState(); });
+        AddButton("Export State", () => { ExportState(); }); 
+        AddButton("Misc", () => { RunMisc(); });
 
+    }
+
+    private void RunMisc()
+    {
+        InstaBuild();
+        foreach (var infra in GameManager.Instance.ActiveInfrastructure)
+        {
+            ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
+            if (
+                applicationServer == null ||
+                !infra.IsActive()
+            )
+            {
+                continue;
+            }
+
+            applicationServer.ShowLevelUpGraphic(Rarity.Legendary);
+            GameManager.Instance.cameraController.ZoomTo(applicationServer.transform);
+            
+        }
+
+
+        gameObject.SetActive(false);
+        
     }
 
     private void SpawnNPC()
