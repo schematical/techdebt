@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DefaultNamespace.EnvGraphic
 {
-    public class LevelUpEnvGraphic:MonoBehaviour
+    public class LevelUpEnvGraphic:EnvGraphicBase
     {
         
         public enum AnimationState
@@ -20,6 +20,10 @@ namespace DefaultNamespace.EnvGraphic
         public SpriteRenderer spriteRenderer;
         void Update()
         {
+            if (animationState == AnimationState.Intro)
+            {
+                return;
+            }
             currentDisplayTime += Time.unscaledDeltaTime;
             if (
                 currentDisplayTime >= GetLevelAnimationDuration()

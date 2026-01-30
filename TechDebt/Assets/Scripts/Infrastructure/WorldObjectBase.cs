@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using DefaultNamespace;
+using DefaultNamespace.EnvGraphic;
 using NPCs;
 using UI;
 using UnityEngine;
@@ -11,6 +13,7 @@ namespace Infrastructure
         public Color attentionIconColor = Color.white;
         public Vector3 interactionPositionOffset = Vector3.zero;
         private UIAttentionIcon uiAttentionIcon;
+        protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
         
         public virtual void OnPointerClick(PointerEventData eventData)
         {
@@ -83,6 +86,14 @@ namespace Infrastructure
         public virtual Vector3 GetInteractionPosition()
         {
             return transform.position + interactionPositionOffset;
+        }
+
+        public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity)
+        {
+            LevelUpEnvGraphic levelUpEnvGraphic = GameManager.Instance.prefabManager.Create("LevelUpEnvGraphic",
+                transform.position + new Vector3(0, 0, .1f)).GetComponent<LevelUpEnvGraphic>();
+            GameManager.Instance.UIManager.SetTimeScalePause();
+            return levelUpEnvGraphic;
         }
     }
     

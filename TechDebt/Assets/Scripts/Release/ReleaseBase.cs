@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using DefaultNamespace;
 using MetaChallenges;
 using NPCs;
 using Stats;
@@ -64,7 +65,7 @@ public class ReleaseBase
         return $"0.{Version}.0";
     }
 
-    public List<ApplicationServer> GetUndeployedReleaseTargets()
+    public List<ApplicationServer> GetAllReleaseTargets()
     {
         List<ApplicationServer> targets = new List<ApplicationServer>();
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
@@ -77,8 +78,20 @@ public class ReleaseBase
             {
                 continue;
             }
+
+            targets.Add(applicationServer);
+        }
+        return targets;
+        
+    }
+    public List<ApplicationServer> GetUndeployedReleaseTargets()
+    {
+        List<ApplicationServer> targets = new List<ApplicationServer>();
+        foreach (var applicationServer in GetAllReleaseTargets())
+        {
+           
             if (
-                infra.Version != GetVersionString()
+                applicationServer.Version != GetVersionString()
             )
             {
                 
@@ -97,13 +110,25 @@ public class ReleaseBase
             return false;
         }
         SetState(ReleaseState.DeploymentCompleted);
-        GameManager.Instance.UIManager.rewardPanel.Show(() =>
+        List<ApplicationServer> targets = GetAllReleaseTargets();
+        if (targets.Count == 0)
+        {
+            throw new SystemException("How did this release go with no targets?");
+        }
+        GameManager.Instance.cameraController.ZoomTo(targets[0].transform);
+        foreach (ApplicationServer applicationServer in targets)
+        {
+            applicationServer.ShowLevelUpGraphic(Rarity.Legendary);
+        }
+        
+        /*GameManager.Instance.UIManager.rewardPanel.Show(() =>
         {
             if (GameManager.Instance.Tutorial != null)
             {
                 GameManager.Instance.Tutorial.OnRewardsPanelDone();
             }
-        });
+        });*/
+        
         OnDeploymentCompleted();
         return true;
     }
