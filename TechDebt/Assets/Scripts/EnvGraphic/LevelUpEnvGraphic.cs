@@ -13,17 +13,16 @@ namespace DefaultNamespace.EnvGraphic
         };
 
         public Animator animator;
-        protected Rarity currentlyDisplayedRarity = Rarity.Uncommon; // TODO: Do something for common
-        protected Rarity goalRarity;
-        const int LEVEL_ANIMATION_DURATION = 10;
+        protected Rarity currentlyDisplayedRarity = Rarity.Common; // TODO: Do something for common
+        protected Rarity goalRarity = Rarity.Legendary;
         protected float currentDisplayTime = 0;
         protected AnimationState  animationState = AnimationState.Intro;
-
+        public SpriteRenderer spriteRenderer;
         void Update()
         {
             currentDisplayTime += Time.unscaledDeltaTime;
             if (
-                currentDisplayTime >= LEVEL_ANIMATION_DURATION
+                currentDisplayTime >= GetLevelAnimationDuration()
             )
             {
                 if (currentlyDisplayedRarity != goalRarity)
@@ -33,7 +32,14 @@ namespace DefaultNamespace.EnvGraphic
                 else
                 {
                     Debug.Log("TODO: End");
-                    gameObject.SetActive(false);
+                    if (spriteRenderer.color.a > 0)
+                    {
+                        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a - (Time.unscaledDeltaTime / 2));
+                    }
+                    else
+                    {
+                        gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -52,6 +58,22 @@ namespace DefaultNamespace.EnvGraphic
             animationState =  AnimationState.Intro;
             currentDisplayTime = 0;
             animator.SetBool($"Intro{currentlyDisplayedRarity}", true);
+        }
+
+        protected int GetLevelAnimationDuration()
+        {
+            switch (goalRarity)
+            {
+                case(Rarity.Common):
+                    return 10;
+                case(Rarity.Uncommon):
+                    return 5;
+                case(Rarity.Rare):
+                    return 3;
+                case(Rarity.Legendary):
+                    return 3;
+            }
+            throw new NotImplementedException($"GetLevelAnimationDuration {goalRarity}");
         }
         
     }

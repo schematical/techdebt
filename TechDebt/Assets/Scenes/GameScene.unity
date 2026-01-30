@@ -5785,17 +5785,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5798959015971922841, guid: 2d501832eada9c346aca83435096f9ea, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1883026983}
     - target: {fileID: 8097973076282730790, guid: 2d501832eada9c346aca83435096f9ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01331
       objectReference: {fileID: 0}
     - target: {fileID: 8097973076282730790, guid: 2d501832eada9c346aca83435096f9ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.62565
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8097973076282730790, guid: 2d501832eada9c346aca83435096f9ea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8097973076282730790, guid: 2d501832eada9c346aca83435096f9ea, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13969,6 +13973,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!212 &1883026983 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1713078645852670247, guid: 2d501832eada9c346aca83435096f9ea, type: 3}
+  m_PrefabInstance: {fileID: 744762141}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1893718878
 GameObject:
   m_ObjectHideFlags: 0
