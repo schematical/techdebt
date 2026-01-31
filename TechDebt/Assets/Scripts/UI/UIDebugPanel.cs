@@ -18,9 +18,7 @@ public class UIDebugPanel : UIPanel
     public TextMeshProUGUI mouseCoordsText;
     public Button spawnNPC;
     
-    private GameManager gameManager;
-    private UIManager uiManager;
-    private GridManager gridManager;
+
 
     void Start()
     {
@@ -92,9 +90,9 @@ public class UIDebugPanel : UIPanel
 
     private void InstaBuild()
     {
-        if (gameManager == null) return;
 
-        var plannedInfrastructure = gameManager.ActiveInfrastructure.FirstOrDefault(i => i.data.CurrentState == InfrastructureData.State.Planned);
+
+        var plannedInfrastructure = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.data.CurrentState == InfrastructureData.State.Planned);
         if (plannedInfrastructure != null)
         {
             plannedInfrastructure.SetState(InfrastructureData.State.Operational);
@@ -108,17 +106,16 @@ public class UIDebugPanel : UIPanel
 
     private void InstaResearch()
     {
-        if (gameManager == null) return;
+  
 
-        if (gameManager.CurrentlyResearchingTechnology != null)
+        if (GameManager.Instance.CurrentlyResearchingTechnology != null)
         {
-            string techName = gameManager.CurrentlyResearchingTechnology.DisplayName;
-            gameManager.ApplyResearchProgress(gameManager.CurrentlyResearchingTechnology.ResearchPointCost);
+            string techName = GameManager.Instance.CurrentlyResearchingTechnology.DisplayName;
+            GameManager.Instance.ApplyResearchProgress(GameManager.Instance.CurrentlyResearchingTechnology.ResearchPointCost);
             Debug.Log($"Insta-researched {techName}");
-            if (uiManager != null)
-            {
-                uiManager.RefreshTechTreePanel();
-            }
+     
+            GameManager.Instance.UIManager.techTreePanel.Refresh();
+            
         }
         else
         {
@@ -128,13 +125,13 @@ public class UIDebugPanel : UIPanel
 
     private void UnlockAllTechnologies()
     {
-        if (gameManager == null) return;
 
-        gameManager.UnlockAllTechnologies();
+
+        GameManager.Instance.UnlockAllTechnologies();
         Debug.Log("All technologies unlocked.");
-        if (uiManager != null)
+        if (GameManager.Instance.UIManager != null)
         {
-            uiManager.RefreshTechTreePanel();
+            GameManager.Instance.UIManager.techTreePanel.Refresh();
         }
     }
 
@@ -146,13 +143,12 @@ public class UIDebugPanel : UIPanel
     
     private void ExportState()
     {
-        if (gameManager == null) return;
 
         // Create a serializable container for the data
         GameStateExport exportData = new GameStateExport
         {
-            ActiveInfrastructure = gameManager.ActiveInfrastructure.Select(i => i.data).ToList(),
-            NetworkPacketDatas = gameManager.NetworkPacketDatas
+            ActiveInfrastructure = GameManager.Instance.ActiveInfrastructure.Select(i => i.data).ToList(),
+            NetworkPacketDatas = GameManager.Instance.NetworkPacketDatas
         };
 
         // Serialize to JSON using Unity's built-in utility

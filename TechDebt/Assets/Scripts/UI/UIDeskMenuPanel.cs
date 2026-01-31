@@ -14,7 +14,7 @@ namespace UI
 
         private void OnResearchClicked()
         {
-            GameManager.Instance.UIManager.ToggleTechTreePanel();
+            GameManager.Instance.UIManager.techTreePanel.Show();
             gameObject.SetActive(false);
         }
     }

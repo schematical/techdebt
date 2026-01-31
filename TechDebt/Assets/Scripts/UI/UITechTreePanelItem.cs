@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 
-public class TechTreeItemUI : MonoBehaviour
+public class UITechTreePanelItem : MonoBehaviour
 {
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI descriptionText;

@@ -37,7 +37,7 @@ public class Desk : InfrastructureInstance
     public override void OnLeftClick(PointerEventData eventData)
     {
         GameManager.Instance.UIManager.Close();
-        GameManager.Instance.UIManager.ToggleTechTreePanel();
+        GameManager.Instance.UIManager.techTreePanel.Show();
         //GameManager.Instance.UIManager.deskMenuPanel.gameObject.SetActive(true);
     }
 

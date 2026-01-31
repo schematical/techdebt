@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
     public UIDailyProgressPanel dailyProgressPanel;
     public RectTransform attentionIconBoarderPanel;
     public UINPCListPanel npcListPanel;
+    public UITechTreePanel techTreePanel;
     // OLD UI Containers
  
     private GameObject hireDevOpsPanel;
@@ -53,7 +54,6 @@ public class UIManager : MonoBehaviour
     private GameObject itemDetailPanel;
    
     private GameObject taskListPanel;
-    private GameObject techTreePanel;
     private GameObject alertPanel;
     private GameObject eventLogPanel;
     private GameObject eventTriggerPanel;
@@ -81,10 +81,7 @@ public class UIManager : MonoBehaviour
     private float taskListUpdateCooldown = 0.5f;
 
     private float lastTaskListUpdateTime;
-    private List<TechTreeItemUI> _techTreeItems = new List<TechTreeItemUI>();
 
-    // Tech Tree
-    private Transform techTreeContent;
 
 
     private Items.ItemBase _selectedItem;
@@ -106,7 +103,6 @@ public class UIManager : MonoBehaviour
 
         SetupEventLogPanel(transform);
         SetupTaskListPanel(transform);
-        SetupTechTreePanel(transform);
         SetupAlertPanel(transform);
         SetupItemDetailPanel(transform);
         SetupEventTriggerPanel(transform);
@@ -127,10 +123,11 @@ public class UIManager : MonoBehaviour
         worldObjectDetailPanel.gameObject.SetActive(false);
         npcDetailPanel.gameObject.SetActive(false);
         npcListPanel.gameObject.SetActive(false);
+        techTreePanel.Close();
         // hireDevOpsPanel.SetActive(false);
         
         taskListPanel.SetActive(false);
-        techTreePanel.SetActive(false);
+        
         eventLogPanel.SetActive(false);
         
     }
@@ -172,15 +169,13 @@ public class UIManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnTechnologyUnlocked += RefreshTechTreePanelOnEvent;
-        GameManager.OnTechnologyResearchStarted += RefreshTechTreePanelOnEvent;
+    
         GameManager.OnCurrentEventsChanged += UpdateEventLog;
     }
 
     void OnDisable()
     {
-        GameManager.OnTechnologyUnlocked -= RefreshTechTreePanelOnEvent;
-        GameManager.OnTechnologyResearchStarted -= RefreshTechTreePanelOnEvent;
+   
         GameManager.OnCurrentEventsChanged -= UpdateEventLog;
     }
 
@@ -217,13 +212,7 @@ public class UIManager : MonoBehaviour
         _eventLogText.text = log;
     }
 
-    public void RefreshTechTreePanelOnEvent(Technology tech)
-    {
-        if (techTreePanel != null && techTreePanel.activeSelf)
-        {
-            RefreshTechTreePanel();
-        }
-    }
+
 
     void Update()
     {
@@ -251,13 +240,7 @@ public class UIManager : MonoBehaviour
             lastTaskListUpdateTime = Time.time;
         }
 
-        if (techTreePanel != null && techTreePanel.activeSelf)
-        {
-            foreach (var item in _techTreeItems)
-            {
-                item.UpdateProgress();
-            }
-        }
+       
 
        
 
@@ -393,87 +376,11 @@ public class UIManager : MonoBehaviour
     }
 
 
-    private void SetupTechTreePanel(Transform parent)
-    {
-        // Panel stretches from top to bottom, anchored to the left.
-        techTreePanel = CreateUIPanel(parent, "TechTreePanel", new Vector2(400, 0), new Vector2(0, 0),
-            new Vector2(0, 1), new Vector2(300, 0));
-        UIPanel uiPanel = techTreePanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("TechTreePanel is missing UIPanel component.");
-            return;
-        }
 
-        uiPanel.titleText.text = "Technology Tree";
-        techTreeContent = uiPanel.scrollContent; // The content area is already set up in the prefab
 
-        techTreePanel.SetActive(false);
-    }
 
-    public void ToggleTechTreePanel()
-    {
-        bool wasActive = techTreePanel.activeSelf;
-        Close();
-        if (!wasActive)
-        {
-            techTreePanel.SetActive(true);
-            RefreshTechTreePanel();
-        }
-    }
 
-    public void RefreshTechTreePanel()
-    {
-        if (techTreeContent == null)
-        {
-            Debug.LogError("techTreeContent is null. UI will not be refreshed.");
-            return;
-        }
-
-        for (int i = techTreeContent.childCount - 1; i >= 0; i--)
-        {
-            Destroy(techTreeContent.GetChild(i).gameObject);
-        }
-
-        _techTreeItems.Clear();
-
-        if (GameManager.Instance == null || GameManager.Instance.AllTechnologies == null) return;
-
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab == null)
-        {
-            Debug.LogError("UITextArea prefab not found. Cannot create tech panel content.");
-            return;
-        }
-
-        foreach (var tech in GameManager.Instance.AllTechnologies)
-        {
-            Technology localTech = tech; // Create a local copy for the closure
-            if (localTech.CurrentState == Technology.State.MetaLocked)
-            {
-                continue;
-            }
-            var techPanelGO = CreateUIPanel(techTreeContent, $"Tech_{tech.TechnologyID}", new Vector2(0, 150),
-                Vector2.zero, Vector2.one, Vector2.zero);
-            UIPanel techPanel = techPanelGO.GetComponent<UIPanel>();
-            var techItemUI = techPanelGO.AddComponent<TechTreeItemUI>();
-
-            if (techPanel.closeButton != null) techPanel.closeButton.gameObject.SetActive(false);
-
-            var descriptionGO = Instantiate(textAreaPrefab, techPanel.scrollContent);
-            var requirementsGO = Instantiate(textAreaPrefab, techPanel.scrollContent);
-
-            techItemUI.titleText = techPanel.titleText;
-            techItemUI.descriptionText = descriptionGO.GetComponent<UITextArea>().textArea;
-            techItemUI.requirementsText = requirementsGO.GetComponent<UITextArea>().textArea;
-            techItemUI.researchButton =
-                techPanel.AddButton("Research", () => { }); // Action is now handled in TechTreeItemUI
-
-            techItemUI.Initialize(localTech);
-            _techTreeItems.Add(techItemUI);
-        }
-    }
-
+   
   
 
     private void RefreshTaskList()
