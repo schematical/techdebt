@@ -26,11 +26,41 @@ namespace DefaultNamespace
 
         public Sprite RandomizeSpriteColors(Sprite sprite)
         {
-            var originalTexture = sprite.texture;
-            var newTexture = new Texture2D(originalTexture.width, originalTexture.height);
+            Texture2D originalTexture = sprite.texture;
+            
+            // Create a temporary RenderTexture
+            RenderTexture tmp = RenderTexture.GetTemporary(
+                originalTexture.width,
+                originalTexture.height,
+                0,
+                RenderTextureFormat.Default,
+                RenderTextureReadWrite.Linear);
+
+            // Blit the pixels on texture to the RenderTexture
+            Graphics.Blit(originalTexture, tmp);
+
+            // Backup the currently active RenderTexture
+            RenderTexture previous = RenderTexture.active;
+
+            // Set the current RenderTexture to the temporary one we created
+            RenderTexture.active = tmp;
+
+            // Create a new readable Texture2D to copy the pixels to it
+            Texture2D newTexture = new Texture2D(originalTexture.width, originalTexture.height);
+
+            // Copy the pixels from the RenderTexture to the new Texture
+            newTexture.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, 0);
+            newTexture.Apply();
+
+            // Reset the active RenderTexture
+            RenderTexture.active = previous;
+
+            // Release the temporary RenderTexture
+            RenderTexture.ReleaseTemporary(tmp);
+            
             newTexture.filterMode = FilterMode.Point;
 
-            var pixels = originalTexture.GetPixels();
+            var pixels = newTexture.GetPixels();
 
             var i = -1;
             if (ColorMaps.Count > 0)
@@ -47,17 +77,16 @@ namespace DefaultNamespace
                 throw new SystemException("Couldn't find a sutable replaceColor index");
             }
 
-            i = 2; // For debug purposes
+
             for (var p = 0; p < pixels.Length; p++)
             {
                 foreach (var colorMap in ColorMaps)
                 {
                     if (pixels[p] == colorMap.findColor)
                     {
-                        if (i < colorMap.replaceColors.Count)
-                        {
-                            pixels[p] = colorMap.replaceColors[i];
-                        }
+                        
+                        pixels[p] = colorMap.replaceColors[i];
+                        
                     }
                 }
             }
