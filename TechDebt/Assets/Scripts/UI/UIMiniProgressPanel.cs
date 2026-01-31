@@ -26,8 +26,11 @@ namespace UI
 
         private void Refresh()
         {
-     
-     
+
+            if (GameManager.Instance == null)
+            {
+                return;
+            }
             List<ReleaseBase> releases = GameManager.Instance.Releases.ToList();
             releases.Reverse();
 

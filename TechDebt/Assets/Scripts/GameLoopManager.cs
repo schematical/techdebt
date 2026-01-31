@@ -73,6 +73,7 @@ public class GameLoopManager : MonoBehaviour
     public void ResetGame()
     {
         currentDay = 0;
+        ReleaseBase.GlobalVersion = 0;
         GameManager.Instance.ResetNPCs();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

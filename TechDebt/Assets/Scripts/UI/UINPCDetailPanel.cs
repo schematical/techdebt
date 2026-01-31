@@ -16,6 +16,7 @@ namespace UI
         {
             followButton.onClick.AddListener(() =>
             {
+                GameManager.Instance.UIManager.Close();
                 GameManager.Instance.cameraController.StartFollowing(_selectedNPC.transform);
             });
          
