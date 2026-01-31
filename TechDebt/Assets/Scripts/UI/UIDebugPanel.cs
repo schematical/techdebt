@@ -48,7 +48,7 @@ public class UIDebugPanel : UIPanel
                 continue;
             }
 
-            applicationServer.ShowLevelUpGraphic(Rarity.Epic);
+            applicationServer.ShowLevelUpGraphic(Rarity.Epic, () => { GameManager.Instance.UIManager.Resume(); });
             GameManager.Instance.cameraController.ZoomTo(applicationServer.transform);
             
         }

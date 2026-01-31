@@ -12,6 +12,7 @@ public class ApplicationServer : InfrastructureInstance
     public override List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = base.GetAvailableTasks();
+        availableTasks.Reverse();
         switch (data.CurrentState)
         {
             case (InfrastructureData.State.Operational):
@@ -25,7 +26,7 @@ public class ApplicationServer : InfrastructureInstance
 
                 break;
         }
-
+        availableTasks.Reverse();
         return availableTasks;
     }
 }

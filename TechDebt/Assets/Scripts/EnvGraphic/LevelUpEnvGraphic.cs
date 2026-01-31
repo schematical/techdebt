@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace.EnvGraphic
@@ -25,9 +26,11 @@ namespace DefaultNamespace.EnvGraphic
         public float particleCounter = 0;
         private List<ScreenParticle> particles = new List<ScreenParticle>();
         private float nextParticleAt = 10000;
+        private UnityAction onDone;
 
-        public void Init(Rarity _goalRarity)
+        public void Init(Rarity _goalRarity, UnityAction _onDone = null)
         {
+            onDone = _onDone;
             goalRarity =  _goalRarity;
             nextParticleAt = 1000;
             spriteRenderer.color = Color.white;
@@ -83,8 +86,8 @@ namespace DefaultNamespace.EnvGraphic
                     }
                     else
                     {
-                        Debug.Log("TODO: End");
                         gameObject.SetActive(false);
+                        onDone.Invoke();
                     }
                 }
             }

@@ -4,6 +4,7 @@ using DefaultNamespace.EnvGraphic;
 using NPCs;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Infrastructure
@@ -88,12 +89,12 @@ namespace Infrastructure
             return transform.position + interactionPositionOffset;
         }
 
-        public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity)
+        public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity, UnityAction _onDone = null)
         {
             LevelUpEnvGraphic levelUpEnvGraphic = GameManager.Instance.prefabManager.Create("LevelUpEnvGraphic",
                 transform.position + new Vector3(0, 0, .1f)).GetComponent<LevelUpEnvGraphic>();
             GameManager.Instance.UIManager.SetTimeScalePause();
-            levelUpEnvGraphic.Init(rarity);
+            levelUpEnvGraphic.Init(rarity, _onDone);
             return levelUpEnvGraphic;
         }
 

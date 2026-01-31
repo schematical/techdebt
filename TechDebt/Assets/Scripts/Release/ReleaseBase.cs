@@ -118,16 +118,17 @@ public class ReleaseBase
         GameManager.Instance.cameraController.ZoomTo(targets[0].transform);
         foreach (ApplicationServer applicationServer in targets)
         {
-            applicationServer.ShowLevelUpGraphic(Rarity.Legendary);
+            applicationServer.ShowLevelUpGraphic(Rarity.Legendary, () =>
+            {
+                GameManager.Instance.UIManager.Resume();
+                if (GameManager.Instance.Tutorial != null)
+                {
+                    GameManager.Instance.Tutorial.OnRewardsPanelDone();
+                }
+            });
         }
         
-        /*GameManager.Instance.UIManager.rewardPanel.Show(() =>
-        {
-            if (GameManager.Instance.Tutorial != null)
-            {
-                GameManager.Instance.Tutorial.OnRewardsPanelDone();
-            }
-        });*/
+   
         
         OnDeploymentCompleted();
         return true;
