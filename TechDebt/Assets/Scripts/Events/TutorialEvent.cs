@@ -99,6 +99,7 @@ namespace Events
                     break;
 // TODO Make basic screen movement display.
                 case 1:
+                    GameManager.Instance.HideAllAttentionIcons();
                     infrastructureInstance =
                         GameManager.Instance.GetInfrastructureInstanceByID("door");
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);

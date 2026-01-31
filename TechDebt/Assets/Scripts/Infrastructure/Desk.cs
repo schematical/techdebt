@@ -11,6 +11,7 @@ public class Desk : InfrastructureInstance
     {
         base.Initialize();
         attentionIconColor = Color.blue;
+        ShowAttentionIcon();
     }
 
     public void OnResearchProgress(Vector3 position)

@@ -1000,6 +1000,14 @@ public class GameManager : MonoBehaviour
 
     public float GetPacketsPerSecond()
     {
-        return GameManager.Instance.GetStat(StatType.Traffic) / GameLoopManager.GetDayDurationSeconds();
+        return Instance.GetStat(StatType.Traffic) / GameLoopManager.GetDayDurationSeconds();
+    }
+
+    public void HideAllAttentionIcons()
+    {
+        foreach (WorldObjectBase worldObjectBase in ActiveInfrastructure)
+        {
+            worldObjectBase.HideAttentionIcon();
+        }
     }
 }

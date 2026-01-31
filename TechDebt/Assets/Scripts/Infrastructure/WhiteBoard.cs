@@ -11,6 +11,7 @@ namespace Infrastructure
         {
             base.Initialize();
             attentionIconColor = Color.green;
+            ShowAttentionIcon();
         }
 
         public override void OnLeftClick(PointerEventData eventData)
