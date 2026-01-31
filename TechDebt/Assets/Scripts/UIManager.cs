@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     public UIDeskMenuPanel deskMenuPanel;
     public UIMultiSelectPanel MultiSelectPanel;
     [FormerlySerializedAs("DeploymentHistoryPanel")] public UIReleaseHistoryPanel  releaseHistoryPanel;
-    public UICurrentReleasePanel currentReleasePanel;
+    [FormerlySerializedAs("currentReleasePanel")] public UIMiniProgressPanel miniProgressPanel;
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
     public UIWorldObjectDetailPanel worldObjectDetailPanel;
     public UISummaryPhasePanel summaryPhasePanel;

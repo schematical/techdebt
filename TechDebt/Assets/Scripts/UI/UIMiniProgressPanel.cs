@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class UICurrentReleasePanel: MonoBehaviour
+    public class UIMiniProgressPanel: MonoBehaviour
     {
         public Dictionary<string, UIProgressBarPanel> ProgressBarPanels = new Dictionary<string, UIProgressBarPanel>();
         public Transform scrollContent;
@@ -26,10 +26,7 @@ namespace UI
 
         private void Refresh()
         {
-            if (GameManager.Instance == null)
-            {
-                return;
-            }
+     
      
             List<ReleaseBase> releases = GameManager.Instance.Releases.ToList();
             releases.Reverse();
@@ -50,17 +47,37 @@ namespace UI
                     continue;
                     case ReleaseBase.ReleaseState.DeploymentReady:
                     case ReleaseBase.ReleaseState.DeploymentInProgress:
-                        color =  Color.blue;
+                        color =  Color.purple;
                         break;
                 }
                 if (!ProgressBarPanels.ContainsKey(release.GetVersionString()))
                 {
-                    GameObject progrssBarPrefab = GameManager.Instance.prefabManager.GetPrefab("UIProgressBarPanel");
-                    ProgressBarPanels[release.GetVersionString()] = Instantiate(progrssBarPrefab, scrollContent.transform).GetComponent<UIProgressBarPanel>(); 
+                    GameObject progressBarGo = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", Vector3.zero, scrollContent.transform);
+                    ProgressBarPanels[release.GetVersionString()] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
                 }
               
                 ProgressBarPanels[release.GetVersionString()].Text.text = release.GetDescription();
                 ProgressBarPanels[release.GetVersionString()].SetProgress(release.CurrentProgress / release.RequiredProgress, color);
+            }
+
+            
+        }
+
+        void Update()
+        {
+            Technology tech = GameManager.Instance.CurrentlyResearchingTechnology;
+            if (tech != null && tech.CurrentState == Technology.State.Researching)
+            {
+         
+                if (!ProgressBarPanels.ContainsKey(tech.TechnologyID))
+                {
+                    GameObject progressBarGo = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", Vector3.zero, scrollContent.transform);
+                    ProgressBarPanels[tech.TechnologyID] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
+                  
+                }
+              
+                ProgressBarPanels[tech.TechnologyID].Text.text = "Researching: " + tech.DisplayName;
+                ProgressBarPanels[tech.TechnologyID].SetProgress(tech.CurrentResearchProgress /tech.ResearchPointCost, Color.blue);
             }
         }
     }

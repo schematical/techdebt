@@ -20,7 +20,7 @@ namespace UI
         {
             foreach (UITechTreePanelItem techTreePanelItem in _techTreeItems) 
             {
-                Destroy(techTreePanelItem.gameObject);
+                techTreePanelItem.gameObject.SetActive(false);
             }
 
             _techTreeItems.Clear();
