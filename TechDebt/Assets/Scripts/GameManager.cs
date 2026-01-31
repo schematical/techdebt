@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using DefaultNamespace;
 using Effects;
 using Events;
 using Infrastructure;
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
     public GameLoopManager GameLoopManager;
     public PrefabManager prefabManager;
     public CameraController cameraController;
-  
+    public SpriteManager SpriteManager;
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
