@@ -7620,16 +7620,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.SpriteManager
   ColorMaps:
-  - findColor: {r: 0.73333335, g: 0.53333336, b: 0.4, a: 0}
+  - findColor: {r: 0.73333335, g: 0.53333336, b: 0.4, a: 1}
     replaceColors:
-    - {r: 0.3773585, g: 0.20481521, b: 0.008899963, a: 0}
-    - {r: 0.9150943, g: 0.76759917, b: 0.5999911, a: 0}
-    - {r: 0.5471698, g: 0.33294767, b: 0.5032647, a: 0}
-  - findColor: {r: 0.6, g: 0.4, b: 0.33333334, a: 0}
+    - {r: 0.3773585, g: 0.20481521, b: 0.008899963, a: 1}
+    - {r: 0.9150943, g: 0.76759917, b: 0.5999911, a: 1}
+    - {r: 0.5471698, g: 0.33294767, b: 0.5032647, a: 1}
+  - findColor: {r: 0.6, g: 0.4, b: 0.33333334, a: 1}
     replaceColors:
-    - {r: 0.23584908, g: 0.13117981, b: 0.012237454, a: 0}
-    - {r: 0.764151, g: 0.5924423, b: 0.39288896, a: 0}
-    - {r: 0.3679245, g: 0.19263972, b: 0.3328676, a: 0}
+    - {r: 0.23584908, g: 0.13117981, b: 0.012237454, a: 1}
+    - {r: 0.764151, g: 0.5924423, b: 0.39288896, a: 1}
+    - {r: 0.3679245, g: 0.19263972, b: 0.3328676, a: 1}
   SpriteCollections:
   - Id: NPCHead
     Sprites:
@@ -8601,7 +8601,7 @@ Transform:
   m_GameObject: {fileID: 871336438}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
