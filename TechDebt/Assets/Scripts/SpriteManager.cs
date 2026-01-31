@@ -67,7 +67,9 @@ namespace DefaultNamespace
 
             newTexture.SetPixels(pixels);
             newTexture.Apply();
-            return Sprite.Create(newTexture, sprite.rect, sprite.pivot, sprite.pixelsPerUnit);
+
+            Vector2 pivot = new Vector2(sprite.pivot.x / sprite.rect.width, sprite.pivot.y / sprite.rect.height);
+            return Sprite.Create(newTexture, sprite.rect, pivot, sprite.pixelsPerUnit);
         }
     }
 
