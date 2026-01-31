@@ -69,15 +69,22 @@ namespace UI
             if (tech != null && tech.CurrentState == Technology.State.Researching)
             {
          
-                if (!ProgressBarPanels.ContainsKey(tech.TechnologyID))
+                if (!ProgressBarPanels.ContainsKey("tech"))
                 {
                     GameObject progressBarGo = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", Vector3.zero, scrollContent.transform);
-                    ProgressBarPanels[tech.TechnologyID] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
+                    ProgressBarPanels["tech"] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
                   
                 }
               
-                ProgressBarPanels[tech.TechnologyID].Text.text = "Researching: " + tech.DisplayName;
-                ProgressBarPanels[tech.TechnologyID].SetProgress(tech.CurrentResearchProgress /tech.ResearchPointCost, Color.blue);
+                ProgressBarPanels["tech"].Text.text = "Researching: " + tech.DisplayName;
+                ProgressBarPanels["tech"].SetProgress(tech.CurrentResearchProgress /tech.ResearchPointCost, Color.blue);
+            }
+            else
+            {
+                if (ProgressBarPanels.ContainsKey("tech"))
+                {
+                    ProgressBarPanels["tech"].gameObject.SetActive(false);
+                }
             }
         }
     }

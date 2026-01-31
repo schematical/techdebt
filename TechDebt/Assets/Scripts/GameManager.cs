@@ -387,7 +387,19 @@ public class GameManager : MonoBehaviour
     private void HandleTechnologyUnlocked(Technology tech)
     {
         UpdateInfrastructureVisibility();
-        GetInfrastructureInstanceByID("desk").ShowAttentionIcon();
+        bool hasMoreToResearch = false;
+        foreach (Technology technology in AllTechnologies)
+        {
+            if (technology.CurrentState == Technology.State.Locked)
+            {
+                hasMoreToResearch = true;
+            }
+        }
+
+        if (hasMoreToResearch)
+        {
+            GetInfrastructureInstanceByID("desk").ShowAttentionIcon();
+        }
     }
 
     private void HandleInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State? previousState)
