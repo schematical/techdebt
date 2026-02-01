@@ -20,10 +20,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Exited,
         Dead
     }
-    public SpriteLibrary bodySpriteLibrary; 
-    public SpriteRenderer headSpriteRenderer;
-    public SpriteRenderer bodySpriteRenderer; 
-    public SpriteResolver headSpriteResolver;
+
     [field: SerializeField]public bool isDebugging { get; set; } = false;
     [field: SerializeField]public bool flipMoventSprite { get; set; } = false;
     public UIAttentionIcon uiAttentionIcon;
@@ -364,13 +361,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             if (xMovement > 0)
             {
-                headSpriteRenderer.flipX = flipMoventSprite; // Moving right
-                bodySpriteRenderer.flipX = flipMoventSprite; // Moving right
+                FaceRight();
             }
             else
             {
-                headSpriteRenderer.flipX = !flipMoventSprite; // Moving left
-                bodySpriteRenderer.flipX = !flipMoventSprite; // Moving right
+                  FaceLeft();
             }
         }
 
@@ -380,25 +375,32 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             if (yMovement > 0)
             {
                 animator.SetBool("isFront", true);
-                headSpriteRenderer.transform.position = new Vector3(
-                    headSpriteRenderer.transform.position.x,
-                    headSpriteRenderer.transform.position.y,
-                    0.1f
-                );
-                headSpriteResolver.SetCategoryAndLabel("Head1", "Back");
+                FaceDown();
             }
             else
             {
                 animator.SetBool("isFront", false);
-                headSpriteRenderer.transform.position = new Vector3(
-                    headSpriteRenderer.transform.position.x,
-                    headSpriteRenderer.transform.position.y,
-                    -0.1f
-                );
-                headSpriteResolver.SetCategoryAndLabel("Head1", "Front");
+                FaceUp();
             }
         }
         _lastPosition = transform.position;
+    }
+
+    protected virtual void FaceRight()
+    {
+       
+    }
+    protected virtual void FaceLeft()
+    {
+       
+    }
+    protected virtual void FaceUp()
+    {
+       
+    }
+    protected virtual void FaceDown()
+    {
+       
     }
 
     public virtual void AddXP(float ammount = 1)

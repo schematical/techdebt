@@ -7659,6 +7659,8 @@ MonoBehaviour:
     Sprites:
     - {fileID: -2114437738713760606, guid: e16c0f74833d0f04c83c760d3ca0516a, type: 3}
     - {fileID: 7877704855510896641, guid: 8f23ad18cda454146bdbe23549cc83e0, type: 3}
+  bodySpriteLibraryAssets:
+  - {fileID: 7108339969198208228, guid: b3fa4702512259c4db3b6497b2924633, type: 3}
 --- !u!1 &788820141
 GameObject:
   m_ObjectHideFlags: 0

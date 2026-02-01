@@ -9,7 +9,7 @@ using Stats;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class NPCDevOps : NPCBase
+public class NPCDevOps : NPCAnimatedBiped
 {
     public NPCDevOpsData Data { get; private set; }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -12,7 +13,9 @@ namespace DefaultNamespace
         private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
         public List<SpriteCollection> SpriteCollections = new List<SpriteCollection>();
+        public List<SpriteLibraryAsset> bodySpriteLibraryAssets = new List<SpriteLibraryAsset>();
 
+      
         public static Color MakeDarker(Color color, float amount = .2f)
         {
             return new Color(
@@ -22,7 +25,10 @@ namespace DefaultNamespace
                 color.a
             );
         }
-
+        public SpriteLibraryAsset GetRandomBodySpriteLibraryAsset()
+        {
+            return bodySpriteLibraryAssets[Random.Range(0, bodySpriteLibraryAssets.Count)];
+        }
         public Sprite GetRandom(string spriteCollectionId)
         {
             SpriteCollection collection = SpriteCollections.Find(x => x.Id == spriteCollectionId);
