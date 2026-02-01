@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrarySourceAsset
+  m_Library:
+  - m_Name: Head1
+    m_Hash: 990112810
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Back
+      m_Hash: 234647049
+      m_Sprite: {fileID: 6652937166803794186, guid: f99576671babebc4290297ea20cd00ce, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 6652937166803794186, guid: f99576671babebc4290297ea20cd00ce, type: 3}
+    - m_Name: Front
+      m_Hash: 1060785650
+      m_Sprite: {fileID: 5042936979707775971, guid: 39f112af9c016784ebb38f2f16f3c6a5, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 5042936979707775971, guid: 39f112af9c016784ebb38f2f16f3c6a5, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 2
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 639055562153524224
+  m_Version: 1

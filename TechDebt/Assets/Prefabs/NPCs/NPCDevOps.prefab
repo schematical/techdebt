@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8941682984217713876}
   - component: {fileID: 3415685290979998124}
+  - component: {fileID: 2223348113945160399}
+  - component: {fileID: 9160090082396132817}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -91,6 +93,36 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2223348113945160399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96791800489538648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 9372ce9e6c9446648ace32a7019817aa, type: 3}
+--- !u!114 &9160090082396132817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96791800489538648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0.0020129778
+  m_labelHash: 0.72775185
+  m_SpriteKey: 0
+  m_SpriteHash: 632230911
 --- !u!1 &2424965802273628689
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCDevOps
   bodySpriteLibrary: {fileID: 3793494172128191414}
-  spriteResolver: {fileID: 4657665096636883697}
+  headSpriteRenderer: {fileID: 3415685290979998124}
+  bodySpriteRenderer: {fileID: 7639354526524102316}
+  headSpriteResolver: {fileID: 9160090082396132817}
   <isDebugging>k__BackingField: 0
   <flipMoventSprite>k__BackingField: 1
   uiAttentionIcon: {fileID: 0}

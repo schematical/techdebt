@@ -20,8 +20,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Exited,
         Dead
     }
-    public SpriteLibrary bodySpriteLibrary;
-    public SpriteResolver spriteResolver;
+    public SpriteLibrary bodySpriteLibrary; 
+    public SpriteRenderer headSpriteRenderer;
+    public SpriteRenderer bodySpriteRenderer; 
+    public SpriteResolver headSpriteResolver;
     [field: SerializeField]public bool isDebugging { get; set; } = false;
     [field: SerializeField]public bool flipMoventSprite { get; set; } = false;
     public UIAttentionIcon uiAttentionIcon;
@@ -32,12 +34,12 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     private List<Vector3> currentPath;
     private int pathIndex;
-    private SpriteRenderer _spriteRenderer;
+  
     private Vector3 _lastPosition;
+    
     
     void Awake()
     {
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _lastPosition = transform.position;
         if (animator == null)
         {
@@ -359,11 +361,38 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             if (xMovement > 0)
             {
-                _spriteRenderer.flipX = flipMoventSprite; // Moving right
+                headSpriteRenderer.flipX = flipMoventSprite; // Moving right
+                bodySpriteRenderer.flipX = flipMoventSprite; // Moving right
             }
             else
             {
-                _spriteRenderer.flipX = !flipMoventSprite; // Moving left
+                headSpriteRenderer.flipX = !flipMoventSprite; // Moving left
+                bodySpriteRenderer.flipX = !flipMoventSprite; // Moving right
+            }
+        }
+        
+        float yMovement = transform.position.y - _lastPosition.y;
+        if (Mathf.Abs(yMovement) > 0.01f) // Add a small threshold to prevent flipping when idle
+        {
+            if (yMovement > 0)
+            {
+                animator.SetBool("isFront", true);
+                headSpriteRenderer.transform.position = new Vector3(
+                    headSpriteRenderer.transform.position.x, 
+                    headSpriteRenderer.transform.position.y,
+                    0.1f
+                );
+                headSpriteResolver.SetCategoryAndLabel("Head1", "Back");
+            }
+            else
+            {
+                animator.SetBool("isFront", false);
+                headSpriteRenderer.transform.position = new Vector3(
+                    headSpriteRenderer.transform.position.x, 
+                    headSpriteRenderer.transform.position.y,
+                    -0.1f
+                );
+                headSpriteResolver.SetCategoryAndLabel("Head1", "Front");
             }
         }
         _lastPosition = transform.position;
