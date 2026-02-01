@@ -32,9 +32,10 @@ public class ResearchTask : NPCTask
         // Apply research points only if the NPC is at the desk
         if (IsCloseEnough())
         {
-            var devOpsNpc = npc as NPCDevOps;
+            NPCDevOps devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)
             {
+                
                 float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
                 GameManager.Instance.ApplyResearchProgress(researchGained);
                 devOpsNpc.AddXP(Time.deltaTime);

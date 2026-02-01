@@ -7,6 +7,7 @@ using UI;
 using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D.Animation;
 
 public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable
 {
@@ -19,7 +20,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Exited,
         Dead
     }
-
+    public SpriteLibrary bodySpriteLibrary;
+    public SpriteResolver spriteResolver;
     [field: SerializeField]public bool isDebugging { get; set; } = false;
     [field: SerializeField]public bool flipMoventSprite { get; set; } = false;
     public UIAttentionIcon uiAttentionIcon;
@@ -285,6 +287,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             isMoving = false;
         }
         animator.SetBool("isWalking", isMoving);
+        
     }
 
     public void StopMovement()
@@ -323,6 +326,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
                 CurrentState = State.Exited;
                 gameObject.SetActive(false);
             }
+            animator.SetBool("isWalking", false);
             return;
         }
 

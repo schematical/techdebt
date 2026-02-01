@@ -9,8 +9,19 @@ namespace DefaultNamespace
     [Serializable]
     public class SpriteManager : MonoBehaviour
     {
+        private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
         public List<SpriteCollection> SpriteCollections = new List<SpriteCollection>();
+
+        public static Color MakeDarker(Color color, float amount = .2f)
+        {
+            return new Color(
+                color.r - amount,
+                color.g - amount,
+                color.b - amount,
+                color.a
+            );
+        }
 
         public Sprite GetRandom(string spriteCollectionId)
         {
@@ -20,35 +31,60 @@ namespace DefaultNamespace
                 throw new SystemException("Missing sprite collection id: " + spriteCollectionId);
             }
 
+            if (collection.Sprites.Count == 0)
+            {
+                throw new SystemException("Missing sprite collection with 0 elements: " + spriteCollectionId); 
+            }
+            
             int i = Random.Range(0, collection.Sprites.Count);
             Sprite sprite = collection.Sprites[i];
             return RandomizeSpriteColors(sprite);
         }
 
+        public void Init()
+        {
+            if (_initialized)
+            {
+                return;
+            }
+            foreach(ColorMap colorMap in ColorMaps)
+            {
+              
+                colorMap.findDarkerColor = MakeDarker(colorMap.findColor);
+                colorMap.replaceDarkerColors = new List<Color>();
+                foreach(Color replaceColor in colorMap.replaceColors) {
+                    colorMap.replaceDarkerColors.Add(MakeDarker(replaceColor));
+                }
+            }
+        }
+        
         public Sprite RandomizeSpriteColors(Sprite sprite)
         {
+            Init();
             Texture2D originalTexture = sprite.texture;
             Texture2D newTexture = new Texture2D(originalTexture.width, originalTexture.height);
             newTexture.filterMode = FilterMode.Point;
 
             Color[] pixels = originalTexture.GetPixels();
 
-            int i = -1;
-            if (ColorMaps.Count > 0)
+            foreach (ColorMap colorMap in ColorMaps)
             {
-                var firstMap = ColorMaps[0];
-                if (firstMap.replaceColors.Count > 0)
+                if (colorMap.useAnyColor)
                 {
-                    i = Random.Range(0, firstMap.replaceColors.Count);
+                    colorMap.selectedReplaceColor = new Color(
+                        Random.value, Random.value, Random.value
+                    );
+                 
                 }
+                else
+                {
+                    int i = Random.Range(0, colorMap.replaceColors.Count);
+                    colorMap.selectedReplaceColor = colorMap.replaceColors[i];
+                }
+                colorMap.darkerSelectedReplaceColor = MakeDarker(colorMap.selectedReplaceColor);
+                
             }
-
-            if (i == -1)
-            {
-                throw new SystemException("Couldn't find a sutable replaceColor index");
-            }
-
-            i = 2;
+            
             for (var p = 0; p < pixels.Length; p++)
             {
                 foreach (var colorMap in ColorMaps)
@@ -58,7 +94,14 @@ namespace DefaultNamespace
                     {
                       
                         // Debug.Log($"Replacing {pixels[p]} == i: {i} - {colorMap.replaceColors[i]}");
-                        pixels[p] = colorMap.replaceColors[i];
+                        pixels[p] = colorMap.selectedReplaceColor;
+                        
+                    }
+                    if (pixels[p] == colorMap.findDarkerColor)
+                    {
+                      
+                        // Debug.Log($"Replacing {pixels[p]} == i: {i} - {colorMap.replaceColors[i]}");
+                        pixels[p] = colorMap.darkerSelectedReplaceColor;
                         
                     }
                 }
@@ -77,7 +120,12 @@ namespace DefaultNamespace
     public class ColorMap
     {
         public Color findColor;
+        public Color findDarkerColor;
+        public bool useAnyColor;
+        public Color selectedReplaceColor;
+        public Color darkerSelectedReplaceColor;
         public List<Color> replaceColors = new List<Color>();
+        public List<Color> replaceDarkerColors = new List<Color>();
     }
 
     [Serializable]
@@ -86,4 +134,13 @@ namespace DefaultNamespace
         public string Id;
         public List<Sprite> Sprites = new List<Sprite>();
     }
+    /*[Serializable]
+    public class SpriteCollection
+    {
+        public string Id;
+        public Sprite headFront;
+        public Sprite headBack;
+        public 
+        public List<Sprite> Sprites = new List<Sprite>();
+    }*/
 }
