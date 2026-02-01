@@ -356,7 +356,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
         
         // --- Sprite Flipping Logic ---
-        float xMovement = transform.position.x - _lastPosition.x;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 lastScreenPos = Camera.main.WorldToScreenPoint(_lastPosition);
+
+        float xMovement = screenPos.x - lastScreenPos.x;
         if (Mathf.Abs(xMovement) > 0.01f) // Add a small threshold to prevent flipping when idle
         {
             if (xMovement > 0)
@@ -370,15 +373,15 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
                 bodySpriteRenderer.flipX = !flipMoventSprite; // Moving right
             }
         }
-        
-        float yMovement = transform.position.y - _lastPosition.y;
+
+        float yMovement = screenPos.y - lastScreenPos.y;
         if (Mathf.Abs(yMovement) > 0.01f) // Add a small threshold to prevent flipping when idle
         {
             if (yMovement > 0)
             {
                 animator.SetBool("isFront", true);
                 headSpriteRenderer.transform.position = new Vector3(
-                    headSpriteRenderer.transform.position.x, 
+                    headSpriteRenderer.transform.position.x,
                     headSpriteRenderer.transform.position.y,
                     0.1f
                 );
@@ -388,7 +391,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             {
                 animator.SetBool("isFront", false);
                 headSpriteRenderer.transform.position = new Vector3(
-                    headSpriteRenderer.transform.position.x, 
+                    headSpriteRenderer.transform.position.x,
                     headSpriteRenderer.transform.position.y,
                     -0.1f
                 );
