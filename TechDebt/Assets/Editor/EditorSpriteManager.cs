@@ -7,6 +7,7 @@ using UnityEngine.U2D.Animation;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class EditorSpriteManager
 {
@@ -59,6 +60,18 @@ public class EditorSpriteManager
             return;
         }
         List<ColorReplaceCollection> colorReplaceCollections = spriteManager.PopulateColorReplaceCollections(masterTexture);
+        
+        string log = $"Color Replace Collections - Count{colorReplaceCollections.Count}:\n";
+        foreach (ColorReplaceCollection collection in colorReplaceCollections)
+        {
+            log += $"  Collection ID: {collection.id}\n";
+            foreach (string key in collection.replacmentCombo.Keys)
+            {
+                ColorReplaceCombo combo = collection.replacmentCombo[key];
+                log += $"    Find Color: {combo.findColor.ToHexString()}, Replace Color: {combo.selectedReplaceColor.ToHexString()}\n";
+            }
+        }
+        Debug.Log(log);
      
         /*for (int i = 0; i < spriteManager.ColorMaps.Count; i++)
         {
@@ -89,7 +102,7 @@ public class EditorSpriteManager
         }*/
     }
 
-    private static void RandomizeAndSaveTexture(Texture2D sourceTexture, List<ColorMap> colorMaps, string newPath)
+    /*private static void RandomizeAndSaveTexture(Texture2D sourceTexture, List<ColorMap> colorMaps, string newPath)
     {
         Texture2D newTexture = new Texture2D(sourceTexture.width, sourceTexture.height);
         newTexture.filterMode = FilterMode.Point;
@@ -115,7 +128,7 @@ public class EditorSpriteManager
         byte[] bytes = newTexture.EncodeToPNG();
         File.WriteAllBytes(newPath, bytes);
         AssetDatabase.ImportAsset(newPath);
-    }
+    }*/
 
     private static void CreateSpriteLibraryAsset(string texturePath, string baseName, int colorMapIndex, int colorIndex, SpriteLibraryAsset masterLibraryAsset)
     {

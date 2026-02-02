@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor.U2D.Animation;
@@ -79,6 +80,7 @@ namespace DefaultNamespace
 
         public List<ColorReplaceCollection> PopulateColorReplaceCollections(Texture2D texture)
         {
+            Init();
             List<ColorReplaceCollection> colorReplaceCollections = new List<ColorReplaceCollection>();
             Dictionary<Color, SpriteReplacementMap> colorReplacementMaps = new Dictionary<Color, SpriteReplacementMap>();
             foreach (ColorMap colorMap in ColorMaps)
@@ -115,39 +117,48 @@ namespace DefaultNamespace
 
         protected void BuildColorReplaceCollectionsRecursive(SpriteReplacementContext contex, int depth, ColorReplaceCollection currColorReplaceCollection)
         {
-
-            for (int i = depth; i < ColorMaps.Count; i++)
-            {
-                ColorMap colorMap = ColorMaps[i];
+            Debug.Log($"BuildColorReplaceCollectionsRecursive: {depth} - currColorReplaceCollection.id: {currColorReplaceCollection.id}");
+            /*for (int i = depth; i < ColorMaps.Count; i++)
+            {*/
+                if (depth == contex.colorReplacementMaps.Count -1){
+                    // This is the end of the line
+                    contex.colorReplaceCollections.Add(currColorReplaceCollection);
+                    return;
+                }
+                ColorMap colorMap = ColorMaps[depth];
                 bool isDarker = false;
-                SpriteReplacementMap spriteReplacementMap = contex.colorReplacementMaps[colorMap.findColor];
-                SpriteReplacementMap darkerSpriteReplacementMap = contex.colorReplacementMaps[colorMap.findColor];
-                if (spriteReplacementMap == null &&  darkerSpriteReplacementMap == null)
+         
+                if (
+                    !contex.colorReplacementMaps.ContainsKey(colorMap.findColor) && 
+                    !contex.colorReplacementMaps.ContainsKey(colorMap.findDarkerColor) )
                 {
+                    BuildColorReplaceCollectionsRecursive(contex, depth + 1, currColorReplaceCollection);
                     return; //No update needed
                 }
-                
+                SpriteReplacementMap spriteReplacementMap = contex.colorReplacementMaps[colorMap.findColor];
+                SpriteReplacementMap darkerSpriteReplacementMap = contex.colorReplacementMaps[colorMap.findDarkerColor];
                 for (int ii = 0; ii < colorMap.replaceColors.Count; ii++)
                 {
                     ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone();
 
                     newColorReplaceCollection.id += $"_{ii}";
-                    newColorReplaceCollection.replacmentCombo.Add(colorMap.replaceColors[ii], new ColorReplaceCombo()
+                    Debug.Log($"depth: {depth}  - ii: {ii} - colorMap.replaceColors.Count {colorMap.replaceColors.Count} - {colorMap.replaceColors[ii].ToHexString()}");
+                    if (newColorReplaceCollection.replacmentCombo.ContainsKey(colorMap.replaceColors[ii].ToHexString()))
                     {
-                        findColor = colorMap.replaceColors[ii],
-                        findDarkerColor = colorMap.replaceDarkerColors[ii],
+                        throw new SystemException("Duplicate color map found: " + colorMap.replaceColors[ii].ToHexString() + " --> Keys: "+  string.Join(", ",newColorReplaceCollection.replacmentCombo.Keys));
+                    }
+                    newColorReplaceCollection.replacmentCombo.Add(colorMap.replaceColors[ii].ToHexString(), new ColorReplaceCombo()
+                    {
+                        findColor = colorMap.findColor,
+                        findDarkerColor = colorMap.findDarkerColor,
                         selectedReplaceColor =  colorMap.replaceColors[ii],
                         darkerSelectedReplaceColor = colorMap.replaceDarkerColors[ii]
                     });
-                    if (depth < contex.colorReplacementMaps.Count)
-                    {
-                        BuildColorReplaceCollectionsRecursive(contex, depth, newColorReplaceCollection);
-                    } else {
-                        // This is the end of the line
-                        contex.colorReplaceCollections.Add(newColorReplaceCollection);
-                    }
+                    
+                    BuildColorReplaceCollectionsRecursive(contex, depth + 1, newColorReplaceCollection);
+                   
                 }
-            }
+            //}
         }
 
         public SpriteReplacementMap GetSpriteReplacementMap(Texture2D texture, Color color)
@@ -228,14 +239,14 @@ namespace DefaultNamespace
     public class ColorReplaceCollection
     {
         public string id;
-        public Dictionary<Color, ColorReplaceCombo> replacmentCombo = new Dictionary<Color, ColorReplaceCombo>();
+        public Dictionary<string, ColorReplaceCombo> replacmentCombo = new Dictionary<string, ColorReplaceCombo>();
 
         public ColorReplaceCollection Clone()
         {
             ColorReplaceCollection clone = new ColorReplaceCollection
             {
                 id = this.id,
-                replacmentCombo = new Dictionary<Color, ColorReplaceCombo>(this.replacmentCombo)
+                replacmentCombo = new Dictionary<string, ColorReplaceCombo>(this.replacmentCombo)
             };
             return clone;
         }
