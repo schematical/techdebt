@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
@@ -8,6 +9,8 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using System.Linq;
 using Unity.VisualScripting;
+using ColorUtility = UnityEngine.ColorUtility;
+using Object = UnityEngine.Object;
 
 public class EditorSpriteManager
 {
@@ -59,10 +62,10 @@ public class EditorSpriteManager
             Debug.LogError($"Could not get importer for: {masterSpriteSheetPath}");
             return;
         }
-        List<ColorReplaceCollection> colorReplaceCollections = spriteManager.PopulateColorReplaceCollections(masterTexture);
+        SpriteReplacementContext context = spriteManager.PopulateColorReplaceCollections(masterTexture);
         
-        string log = $"Color Replace Collections - Count{colorReplaceCollections.Count}:\n";
-        foreach (ColorReplaceCollection collection in colorReplaceCollections)
+        string log = $"Color Replace Collections - Count{context.colorReplaceCollections.Count}:\n";
+        foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
             log += $"  Collection ID: {collection.id}\n";
             foreach (string key in collection.replacmentCombo.Keys)
@@ -72,63 +75,70 @@ public class EditorSpriteManager
             }
         }
         Debug.Log(log);
-     
-        /*for (int i = 0; i < spriteManager.ColorMaps.Count; i++)
+        foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
-            for (int j = 0; j < spriteManager.ColorMaps[i].replaceColors.Count; j++)
+
+            string newTextureDir = $"{GeneratedAssetsPath}/{baseName}";
+            if (!Directory.Exists(newTextureDir))
             {
-                var colorMaps = spriteManager.ColorMaps;
-                colorMaps[i].selectedReplaceColor = colorMaps[i].replaceColors[j];
-                string newTextureDir = $"{GeneratedAssetsPath}/{baseName}";
-                if (!Directory.Exists(newTextureDir))
-                {
-                    Directory.CreateDirectory(newTextureDir);
-                }
-                string newTexturePath = $"{newTextureDir}/_{i}_{j}.png";
-                RandomizeAndSaveTexture(masterTexture, colorMaps, newTexturePath);
-
-                TextureImporter newImporter = AssetImporter.GetAtPath(newTexturePath) as TextureImporter;
-                newImporter.spriteImportMode = SpriteImportMode.Multiple;
-                newImporter.spritePixelsPerUnit = 32;
-                newImporter.filterMode = FilterMode.Point;
-                newImporter.textureCompression = TextureImporterCompression.Uncompressed;
-                newImporter.SetPlatformTextureSettings("Standalone", 2048, TextureImporterFormat.RGBA32, 100, false);
-                newImporter.spritesheet = masterImporter.spritesheet;
-                EditorUtility.SetDirty(newImporter);
-                newImporter.SaveAndReimport();
-
-                CreateSpriteLibraryAsset(newTexturePath, baseName, i, j, masterLibraryAsset);
+                Directory.CreateDirectory(newTextureDir);
             }
-        }*/
+
+            string newTexturePath = $"{newTextureDir}/_{collection.id}.png";
+            Texture2D newTexture = new Texture2D(masterTexture.width, masterTexture.height);
+            newTexture.filterMode = FilterMode.Point;
+
+            Color[] pixels = masterTexture.GetPixels();
+
+            foreach (string key in collection.replacmentCombo.Keys)
+            {
+                if (!context.colorReplacementMaps.ContainsKey(key))
+                {
+                    continue;
+                }
+
+                SpriteReplacementMap spriteReplacementMap = context.colorReplacementMaps[key];
+                Color color;
+                if (!ColorUtility.TryParseHtmlString(key, out color))
+                {
+                    throw new SystemException("Could not parse color RGB from color replacement map: " + key);
+                }
+
+               
+                foreach (int p in spriteReplacementMap.positions)
+                {
+                    pixels[p] = color;
+                }
+            }
+
+            newTexture.SetPixels(pixels);
+            newTexture.Apply();
+
+            byte[] bytes = newTexture.EncodeToPNG();
+            File.WriteAllBytes(newTexturePath, bytes);
+            AssetDatabase.ImportAsset(newTexturePath);
+        
+
+
+            TextureImporter newImporter = AssetImporter.GetAtPath(newTexturePath) as TextureImporter;
+            newImporter.spriteImportMode = SpriteImportMode.Multiple;
+            newImporter.spritePixelsPerUnit = 32;
+            newImporter.filterMode = FilterMode.Point;
+            newImporter.textureCompression = TextureImporterCompression.Uncompressed;
+            newImporter.SetPlatformTextureSettings("Standalone", 2048, TextureImporterFormat.RGBA32, 100, false);
+            newImporter.spritesheet = masterImporter.spritesheet;
+            EditorUtility.SetDirty(newImporter);
+            newImporter.SaveAndReimport();
+            // CreateSpriteLibraryAsset(newTexturePath, baseName, i, j, masterLibraryAsset);
+            
+        }
+
     }
 
-    /*private static void RandomizeAndSaveTexture(Texture2D sourceTexture, List<ColorMap> colorMaps, string newPath)
+    private static void UpdateAndSaveTexture(Texture2D sourceTexture, Color color, SpriteReplacementMap spriteReplacementMap , string newPath)
     {
-        Texture2D newTexture = new Texture2D(sourceTexture.width, sourceTexture.height);
-        newTexture.filterMode = FilterMode.Point;
-        
-        Color[] pixels = sourceTexture.GetPixels();
-        for (int p = 0; p < pixels.Length; p++)
-        {
-            foreach (ColorMap colorMap in colorMaps)
-            {
-                if (pixels[p] == colorMap.findColor)
-                {
-                    pixels[p] = colorMap.selectedReplaceColor;
-                }
-                if (pixels[p] == colorMap.findDarkerColor)
-                {
-                    pixels[p] = SpriteManager.MakeDarker(colorMap.selectedReplaceColor);
-                }
-            }
-        }
-        newTexture.SetPixels(pixels);
-        newTexture.Apply();
-
-        byte[] bytes = newTexture.EncodeToPNG();
-        File.WriteAllBytes(newPath, bytes);
-        AssetDatabase.ImportAsset(newPath);
-    }*/
+       
+    }
 
     private static void CreateSpriteLibraryAsset(string texturePath, string baseName, int colorMapIndex, int colorIndex, SpriteLibraryAsset masterLibraryAsset)
     {

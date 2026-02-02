@@ -78,29 +78,29 @@ namespace DefaultNamespace
             }
         }
 
-        public List<ColorReplaceCollection> PopulateColorReplaceCollections(Texture2D texture)
+        public SpriteReplacementContext PopulateColorReplaceCollections(Texture2D texture)
         {
             Init();
             List<ColorReplaceCollection> colorReplaceCollections = new List<ColorReplaceCollection>();
-            Dictionary<Color, SpriteReplacementMap> colorReplacementMaps = new Dictionary<Color, SpriteReplacementMap>();
+            Dictionary<string, SpriteReplacementMap> colorReplacementMaps = new Dictionary<string, SpriteReplacementMap>();
             foreach (ColorMap colorMap in ColorMaps)
             {
                 colorMap.findDarkerColor = MakeDarker(colorMap.findColor);
-                if (colorReplacementMaps.ContainsKey(colorMap.findColor))
+                if (colorReplacementMaps.ContainsKey(colorMap.findColor.ToHexString()))
                 {
-                    throw new SystemException("Duplicate color map found: " + colorMap.findColor);
+                    throw new SystemException("Duplicate color map found: " + colorMap.findColor.ToHexString());
                 }
                 SpriteReplacementMap spriteReplacementMap = GetSpriteReplacementMap(texture, colorMap.findColor);
                 if (spriteReplacementMap.positions.Count > 0)
                 {
-                    colorReplacementMaps.Add(colorMap.findColor, spriteReplacementMap);
+                    colorReplacementMaps.Add(colorMap.findColor.ToHexString(), spriteReplacementMap);
                 }
                
                 
                 SpriteReplacementMap darkerSpriteReplacementMap = GetSpriteReplacementMap(texture, colorMap.findColor);
                 if (spriteReplacementMap.positions.Count > 0)
                 {
-                    colorReplacementMaps.Add(colorMap.findDarkerColor, darkerSpriteReplacementMap);
+                    colorReplacementMaps.Add(colorMap.findDarkerColor.ToHexString(), darkerSpriteReplacementMap);
                 }
             
             }
@@ -112,31 +112,30 @@ namespace DefaultNamespace
             };
             BuildColorReplaceCollectionsRecursive(context,  0, new ColorReplaceCollection());
             
-            return context.colorReplaceCollections;
+            return context;
         }
 
-        protected void BuildColorReplaceCollectionsRecursive(SpriteReplacementContext contex, int depth, ColorReplaceCollection currColorReplaceCollection)
+        protected void BuildColorReplaceCollectionsRecursive(SpriteReplacementContext context, int depth, ColorReplaceCollection currColorReplaceCollection)
         {
             Debug.Log($"BuildColorReplaceCollectionsRecursive: {depth} - currColorReplaceCollection.id: {currColorReplaceCollection.id}");
             /*for (int i = depth; i < ColorMaps.Count; i++)
             {*/
-                if (depth == contex.colorReplacementMaps.Count -1){
+                if (depth == context.colorReplacementMaps.Count -1){
                     // This is the end of the line
-                    contex.colorReplaceCollections.Add(currColorReplaceCollection);
+                    context.colorReplaceCollections.Add(currColorReplaceCollection);
                     return;
                 }
                 ColorMap colorMap = ColorMaps[depth];
                 bool isDarker = false;
          
                 if (
-                    !contex.colorReplacementMaps.ContainsKey(colorMap.findColor) && 
-                    !contex.colorReplacementMaps.ContainsKey(colorMap.findDarkerColor) )
+                    !context.colorReplacementMaps.ContainsKey(colorMap.findColor.ToHexString()) && 
+                    !context.colorReplacementMaps.ContainsKey(colorMap.findDarkerColor.ToHexString()) )
                 {
-                    BuildColorReplaceCollectionsRecursive(contex, depth + 1, currColorReplaceCollection);
+                    BuildColorReplaceCollectionsRecursive(context, depth + 1, currColorReplaceCollection);
                     return; //No update needed
                 }
-                SpriteReplacementMap spriteReplacementMap = contex.colorReplacementMaps[colorMap.findColor];
-                SpriteReplacementMap darkerSpriteReplacementMap = contex.colorReplacementMaps[colorMap.findDarkerColor];
+
                 for (int ii = 0; ii < colorMap.replaceColors.Count; ii++)
                 {
                     ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone();
@@ -155,7 +154,7 @@ namespace DefaultNamespace
                         darkerSelectedReplaceColor = colorMap.replaceDarkerColors[ii]
                     });
                     
-                    BuildColorReplaceCollectionsRecursive(contex, depth + 1, newColorReplaceCollection);
+                    BuildColorReplaceCollectionsRecursive(context, depth + 1, newColorReplaceCollection);
                    
                 }
             //}
@@ -279,7 +278,7 @@ namespace DefaultNamespace
 
     public class SpriteReplacementContext
     {
-        public Dictionary<Color, SpriteReplacementMap> colorReplacementMaps;
+        public Dictionary<string, SpriteReplacementMap> colorReplacementMaps;
         public List<ColorReplaceCollection> colorReplaceCollections;
         
     }
