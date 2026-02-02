@@ -129,10 +129,10 @@ namespace DefaultNamespace
                 
                 for (int ii = 0; ii < colorMap.replaceColors.Count; ii++)
                 {
-                    ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone(currColorReplaceCollection);
+                    ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone();
 
                     newColorReplaceCollection.id += $"_{ii}";
-                    newColorReplaceCollection.replacmentCombo.Add(new ColorReplaceCombo(
+                    newColorReplaceCollection.replacmentCombo.Add(colorMap.replaceColors[ii], new ColorReplaceCombo()
                     {
                         findColor = colorMap.replaceColors[ii],
                         findDarkerColor = colorMap.replaceDarkerColors[ii],
@@ -229,6 +229,16 @@ namespace DefaultNamespace
     {
         public string id;
         public Dictionary<Color, ColorReplaceCombo> replacmentCombo = new Dictionary<Color, ColorReplaceCombo>();
+
+        public ColorReplaceCollection Clone()
+        {
+            ColorReplaceCollection clone = new ColorReplaceCollection
+            {
+                id = this.id,
+                replacmentCombo = new Dictionary<Color, ColorReplaceCombo>(this.replacmentCombo)
+            };
+            return clone;
+        }
     }
     public class ColorReplaceCombo
     {
