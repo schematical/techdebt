@@ -10,6 +10,9 @@ namespace NPCs
         public SpriteRenderer bodySpriteRenderer; 
         public SpriteResolver headSpriteResolver;
         public SpriteLibrary bodySpriteLibrary;
+        public SpriteLibrary faceSpriteLibrary;
+        public SpriteResolver faceSpriteResolver;
+        public SpriteRenderer faceSpriteRenderer;
         public void Randomize()
         {
             bodySpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.GetRandomBodySpriteLibraryAsset();
@@ -18,13 +21,15 @@ namespace NPCs
         {
             headSpriteRenderer.flipX = !flipMoventSprite; // Moving left
             bodySpriteRenderer.flipX = !flipMoventSprite; // Moving left
+            faceSpriteRenderer.flipX = !flipMoventSprite; // Moving left
         }
         protected override void FaceRight() {
             headSpriteRenderer.flipX = flipMoventSprite; // Moving right
             bodySpriteRenderer.flipX = flipMoventSprite; // Moving right
+            faceSpriteRenderer.flipX = flipMoventSprite; // Moving right
         }
 
-        protected override void FaceUp()
+        protected override void FaceDown()
         {
       
             headSpriteRenderer.transform.position = new Vector3(
@@ -33,9 +38,10 @@ namespace NPCs
                 -0.1f
             );
             headSpriteResolver.SetCategoryAndLabel(headSprite, "Front");
+            faceSpriteRenderer.gameObject.SetActive(true);
         }
 
-        protected override void FaceDown()
+        protected override void FaceUp()
         {
             headSpriteRenderer.transform.position = new Vector3(
                 headSpriteRenderer.transform.position.x,
@@ -43,6 +49,7 @@ namespace NPCs
                 0.1f
             );
             headSpriteResolver.SetCategoryAndLabel(headSprite, "Back");
+            faceSpriteRenderer.gameObject.SetActive(false);
         }
     }
 }
