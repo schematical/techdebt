@@ -117,7 +117,7 @@ namespace DefaultNamespace
 
         protected void BuildColorReplaceCollectionsRecursive(SpriteReplacementContext context, int depth, ColorReplaceCollection currColorReplaceCollection)
         {
-            Debug.Log($"BuildColorReplaceCollectionsRecursive: {depth} - currColorReplaceCollection.id: {currColorReplaceCollection.id}");
+            // Debug.Log($"BuildColorReplaceCollectionsRecursive: {depth} - currColorReplaceCollection.id: {currColorReplaceCollection.id}");
             /*for (int i = depth; i < ColorMaps.Count; i++)
             {*/
                 if (depth == context.colorReplacementMaps.Count -1){
@@ -141,7 +141,7 @@ namespace DefaultNamespace
                     ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone();
 
                     newColorReplaceCollection.id += $"_{ii}";
-                    Debug.Log($"depth: {depth}  - ii: {ii} - colorMap.replaceColors.Count {colorMap.replaceColors.Count} - {colorMap.replaceColors[ii].ToHexString()}");
+                    // Debug.Log($"depth: {depth}  - ii: {ii} - colorMap.replaceColors.Count {colorMap.replaceColors.Count} - {colorMap.replaceColors[ii].ToHexString()}");
                     if (newColorReplaceCollection.replacmentCombo.ContainsKey(colorMap.replaceColors[ii].ToHexString()))
                     {
                         throw new SystemException("Duplicate color map found: " + colorMap.replaceColors[ii].ToHexString() + " --> Keys: "+  string.Join(", ",newColorReplaceCollection.replacmentCombo.Keys));

@@ -74,6 +74,10 @@ public class EditorSpriteManager
                 log += $"    Find Color: {combo.findColor.ToHexString()}, Replace Color: {combo.selectedReplaceColor.ToHexString()}\n";
             }
         }
+        foreach(string key in context.colorReplacementMaps.Keys)
+        {
+            log += $"  Color Replacement Map: {key} - positions.Count: {context.colorReplacementMaps[key].positions.Count}\n";
+        }
         Debug.Log(log);
         foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
@@ -92,23 +96,8 @@ public class EditorSpriteManager
 
             foreach (string key in collection.replacmentCombo.Keys)
             {
-                if (!context.colorReplacementMaps.ContainsKey(key))
-                {
-                    continue;
-                }
-
-                SpriteReplacementMap spriteReplacementMap = context.colorReplacementMaps[key];
-                Color color;
-                if (!ColorUtility.TryParseHtmlString(key, out color))
-                {
-                    throw new SystemException("Could not parse color RGB from color replacement map: " + key);
-                }
-
-               
-                foreach (int p in spriteReplacementMap.positions)
-                {
-                    pixels[p] = color;
-                }
+                ColorReplaceCombo combo = collection.replacmentCombo[key];
+                pixels = UpdateTexture(context, pixels, combo.findColor, combo.selectedReplaceColor);
             }
 
             newTexture.SetPixels(pixels);
@@ -135,9 +124,23 @@ public class EditorSpriteManager
 
     }
 
-    private static void UpdateAndSaveTexture(Texture2D sourceTexture, Color color, SpriteReplacementMap spriteReplacementMap , string newPath)
+    private static Color[] UpdateTexture(SpriteReplacementContext context, Color[] pixels, Color findColor, Color replaceColor)
     {
-       
+        if (!context.colorReplacementMaps.ContainsKey(findColor.ToHexString()))
+        {
+            Debug.LogError($"MISSING: context.colorReplacementMaps {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
+            return pixels;
+        }
+        Debug.Log($"FOUND: context.colorReplacementMaps matched {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
+        SpriteReplacementMap spriteReplacementMap = context.colorReplacementMaps[findColor.ToHexString()];
+        
+        foreach (int p in spriteReplacementMap.positions)
+        {
+            Debug.Log($"Setting {p} From {pixels[p].ToString()} to {replaceColor.ToHexString()}");
+            pixels[p] = replaceColor;
+        }
+
+        return pixels;
     }
 
     private static void CreateSpriteLibraryAsset(string texturePath, string baseName, int colorMapIndex, int colorIndex, SpriteLibraryAsset masterLibraryAsset)
