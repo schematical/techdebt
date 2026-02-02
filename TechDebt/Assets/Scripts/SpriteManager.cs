@@ -77,7 +77,7 @@ namespace DefaultNamespace
             }
         }
 
-        protected List<ColorReplaceCollection> PopulateColorReplaceCollections(Sprite sprite)
+        public List<ColorReplaceCollection> PopulateColorReplaceCollections(Texture2D texture)
         {
             List<ColorReplaceCollection> colorReplaceCollections = new List<ColorReplaceCollection>();
             Dictionary<Color, SpriteReplacementMap> colorReplacementMaps = new Dictionary<Color, SpriteReplacementMap>();
@@ -88,14 +88,14 @@ namespace DefaultNamespace
                 {
                     throw new SystemException("Duplicate color map found: " + colorMap.findColor);
                 }
-                SpriteReplacementMap spriteReplacementMap = GetSpriteReplacementMap(sprite, colorMap.findColor);
+                SpriteReplacementMap spriteReplacementMap = GetSpriteReplacementMap(texture, colorMap.findColor);
                 if (spriteReplacementMap.positions.Count > 0)
                 {
                     colorReplacementMaps.Add(colorMap.findColor, spriteReplacementMap);
                 }
                
                 
-                SpriteReplacementMap darkerSpriteReplacementMap = GetSpriteReplacementMap(sprite, colorMap.findColor);
+                SpriteReplacementMap darkerSpriteReplacementMap = GetSpriteReplacementMap(texture, colorMap.findColor);
                 if (spriteReplacementMap.positions.Count > 0)
                 {
                     colorReplacementMaps.Add(colorMap.findDarkerColor, darkerSpriteReplacementMap);
@@ -110,7 +110,7 @@ namespace DefaultNamespace
             };
             BuildColorReplaceCollectionsRecursive(context,  0, new ColorReplaceCollection());
             
-            return colorReplaceCollections;
+            return context.colorReplaceCollections;
         }
 
         protected void BuildColorReplaceCollectionsRecursive(SpriteReplacementContext contex, int depth, ColorReplaceCollection currColorReplaceCollection)
@@ -150,10 +150,10 @@ namespace DefaultNamespace
             }
         }
 
-        public SpriteReplacementMap GetSpriteReplacementMap(Sprite sprite, Color color)
+        public SpriteReplacementMap GetSpriteReplacementMap(Texture2D texture, Color color)
         {
             SpriteReplacementMap spriteReplacementMap = new SpriteReplacementMap();
-            Color[] pixels = sprite.texture.GetPixels();
+            Color[] pixels = texture.GetPixels();
 
             for (int p = 0; p < pixels.Length; p++)
             {

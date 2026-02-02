@@ -58,13 +58,14 @@ public class EditorSpriteManager
             Debug.LogError($"Could not get importer for: {masterSpriteSheetPath}");
             return;
         }
-
-        for (int i = 0; i < spriteManager.ColorMaps.Count; i++)
+        List<ColorReplaceCollection> colorReplaceCollections = spriteManager.PopulateColorReplaceCollections(masterTexture);
+     
+        /*for (int i = 0; i < spriteManager.ColorMaps.Count; i++)
         {
             for (int j = 0; j < spriteManager.ColorMaps[i].replaceColors.Count; j++)
             {
                 var colorMaps = spriteManager.ColorMaps;
-                colorMaps[i].selectedReplaceColor = colorMaps[i].replaceColors[j]; 
+                colorMaps[i].selectedReplaceColor = colorMaps[i].replaceColors[j];
                 string newTextureDir = $"{GeneratedAssetsPath}/{baseName}";
                 if (!Directory.Exists(newTextureDir))
                 {
@@ -82,10 +83,10 @@ public class EditorSpriteManager
                 newImporter.spritesheet = masterImporter.spritesheet;
                 EditorUtility.SetDirty(newImporter);
                 newImporter.SaveAndReimport();
-                
+
                 CreateSpriteLibraryAsset(newTexturePath, baseName, i, j, masterLibraryAsset);
             }
-        }
+        }*/
     }
 
     private static void RandomizeAndSaveTexture(Texture2D sourceTexture, List<ColorMap> colorMaps, string newPath)
