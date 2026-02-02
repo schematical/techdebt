@@ -139,8 +139,12 @@ namespace DefaultNamespace
                 for (int ii = 0; ii < colorMap.replaceColors.Count; ii++)
                 {
                     ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone();
-
-                    newColorReplaceCollection.id += $"_{ii}";
+                    string id = ii.ToString();
+                    if (colorMap.id != null && colorMap.id.Length > 0)
+                    {
+                        id = $"{colorMap.id}-{ii}";
+                    }
+                    newColorReplaceCollection.id += $"_{id}";
                     // Debug.Log($"depth: {depth}  - ii: {ii} - colorMap.replaceColors.Count {colorMap.replaceColors.Count} - {colorMap.replaceColors[ii].ToHexString()}");
                     if (newColorReplaceCollection.replacmentCombo.ContainsKey(colorMap.replaceColors[ii].ToHexString()))
                     {

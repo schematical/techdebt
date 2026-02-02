@@ -7621,7 +7621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.SpriteManager
   ColorMaps:
-  - id: 
+  - id: skin
     findColor: {r: 0.73333335, g: 0.53333336, b: 0.4, a: 1}
     findDarkerColor: {r: 0.53333336, g: 0.33333337, b: 0.2, a: 1}
     replaceColors:
@@ -7632,7 +7632,7 @@ MonoBehaviour:
     - {r: 0.1773585, g: 0.004815206, b: -0.19110005, a: 1}
     - {r: 0.7150943, g: 0.5675992, b: 0.3999911, a: 1}
     - {r: 0.34716982, g: 0.13294767, b: 0.30326474, a: 1}
-  - id: 
+  - id: hair
     findColor: {r: 1, g: 1, b: 0, a: 1}
     findDarkerColor: {r: 0.8, g: 0.8, b: -0.2, a: 1}
     replaceColors:
@@ -7640,7 +7640,7 @@ MonoBehaviour:
     - {r: 0.9339623, g: 0.36565503, b: 0.38682234, a: 1}
     - {r: 0.6792453, g: 0.5830591, b: 0.0993236, a: 1}
     replaceDarkerColors:
-    - {r: 0.13962261, g: 0.028073281, b: -0.09587042, a: 1}
+    - {r: 0.33773583, g: 0.14035462, b: -0.070639044, a: 1}
     - {r: 0.7339623, g: 0.16565503, b: 0.18682234, a: 1}
     - {r: 0.4792453, g: 0.38305908, b: -0.1006764, a: 1}
   - id: 
@@ -7654,7 +7654,6 @@ MonoBehaviour:
     - {r: -0.011320785, g: -0.07369469, b: 0.7921569, a: 1}
     - {r: 0.6018868, g: 0.17963745, b: 0.01560162, a: 1}
     - {r: 0.8, g: -0.16698112, b: 0.7524692, a: 1}
-    - {r: 0.3372549, g: 0.22745098, b: 0.101960786, a: 1}
   SpriteCollections:
   - Id: NPCHead
     Sprites:

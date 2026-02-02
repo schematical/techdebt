@@ -46,6 +46,23 @@ public class EditorSpriteManager
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
+    [MenuItem("Tech Debt/Debug Sprite Sheets")]
+    public static void DebugSpriteSheets()
+    {
+        EditorSceneManager.OpenScene(GameScenePath);
+        SpriteManager spriteManager = Object.FindObjectOfType<SpriteManager>();
+        if (spriteManager == null)
+        {
+            Debug.LogError("Could not find SpriteManager in the scene. Please add it to the scene.");
+            return;
+        }
+
+        spriteManager.Init();
+        foreach (ColorMap colorMap in spriteManager.ColorMaps)
+        {
+            Debug.Log($"Id:  {colorMap.id} - Color: {colorMap.findColor.ToHexString()} - Darker Color: {colorMap.findDarkerColor.ToHexString()}");
+        }
+    }
 
     private static void ProcessSpriteSheet(string masterSpriteSheetPath, string baseName, SpriteManager spriteManager, SpriteLibraryAsset masterLibraryAsset)
     {
@@ -136,7 +153,6 @@ public class EditorSpriteManager
         
         foreach (int p in spriteReplacementMap.positions)
         {
-            Debug.Log($"Setting {p} From {pixels[p].ToString()} to {replaceColor.ToHexString()}");
             pixels[p] = replaceColor;
         }
 
