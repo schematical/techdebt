@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 using Random = UnityEngine.Random;
@@ -13,6 +15,7 @@ namespace DefaultNamespace
         private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
         public List<SpriteCollection> SpriteCollections = new List<SpriteCollection>();
+        public List<HeadSpriteCollection> headSpriteCollections = new List<HeadSpriteCollection>();
         public List<SpriteLibraryAsset> bodySpriteLibraryAssets = new List<SpriteLibraryAsset>();
 
       
@@ -25,10 +28,37 @@ namespace DefaultNamespace
                 color.a
             );
         }
-        public SpriteLibraryAsset GetRandomBodySpriteLibraryAsset()
+
+        public HeadSpriteCollection GetHeadSpriteCollection()
         {
-            return bodySpriteLibraryAssets[Random.Range(0, bodySpriteLibraryAssets.Count)];
+            HeadSpriteCollection found = headSpriteCollections[Random.Range(0, headSpriteCollections.Count)];
+            List<ColorMap> colorMaps = GetRandomizedColorMaps();
+            HeadSpriteCollection newColl = new HeadSpriteCollection()
+            {
+                headFront = found.headFront, // RandomizeSpriteColors(found.headFront, colorMaps),
+                headBack = found.headBack, // RandomizeSpriteColors(found.headBack, colorMaps),
+            };
+            return newColl;
         }
+        /*public SpriteLibraryAsset GetRandomBodySpriteLibraryAsset()
+        {
+            SpriteLibraryAsset originalAsset = bodySpriteLibraryAssets[Random.Range(0, bodySpriteLibraryAssets.Count)];
+            SpriteLibraryAsset newAsset = ScriptableObject.CreateInstance<SpriteLibraryAsset>();
+         
+            foreach (string category in originalAsset.GetCategoryNames())
+            {
+                foreach (string label in originalAsset.GetCategoryLabelNames(category))
+                {
+                    Sprite sprite = originalAsset.GetSprite(category, label);
+                 
+
+                    Sprite newSprite = RandomizeSpriteColors(sprite);
+                    newAsset.SaveAsSourceAsset()
+                }
+            }
+
+            return newAsset;
+        }*/
         public Sprite GetRandom(string spriteCollectionId)
         {
             SpriteCollection collection = SpriteCollections.Find(x => x.Id == spriteCollectionId);
@@ -44,6 +74,7 @@ namespace DefaultNamespace
             
             int i = Random.Range(0, collection.Sprites.Count);
             Sprite sprite = collection.Sprites[i];
+  
             return RandomizeSpriteColors(sprite);
         }
 
@@ -63,16 +94,9 @@ namespace DefaultNamespace
                 }
             }
         }
-        
-        public Sprite RandomizeSpriteColors(Sprite sprite)
+
+        protected List<ColorMap> GetRandomizedColorMaps()
         {
-            Init();
-            Texture2D originalTexture = sprite.texture;
-            Texture2D newTexture = new Texture2D(originalTexture.width, originalTexture.height);
-            newTexture.filterMode = FilterMode.Point;
-
-            Color[] pixels = originalTexture.GetPixels();
-
             foreach (ColorMap colorMap in ColorMaps)
             {
                 if (colorMap.useAnyColor)
@@ -90,10 +114,28 @@ namespace DefaultNamespace
                 colorMap.darkerSelectedReplaceColor = MakeDarker(colorMap.selectedReplaceColor);
                 
             }
-            
-            for (var p = 0; p < pixels.Length; p++)
+
+            return ColorMaps;
+        }
+        public Sprite RandomizeSpriteColors(Sprite sprite, List<ColorMap> populatedColorMaps = null)
+        {
+            Init();
+            if (populatedColorMaps == null)
             {
-                foreach (var colorMap in ColorMaps)
+                populatedColorMaps = GetRandomizedColorMaps();
+            }
+
+            Texture2D originalTexture = sprite.texture;
+            Texture2D newTexture = new Texture2D(originalTexture.width, originalTexture.height);
+            newTexture.filterMode = FilterMode.Point;
+
+            Color[] pixels = originalTexture.GetPixels();
+
+            
+            
+            for (int p = 0; p < pixels.Length; p++)
+            {
+                foreach (ColorMap colorMap in populatedColorMaps)
                 {
                     // Debug.Log($"Testing {pixels[p]} == {colorMap.findColor}");
                     if (pixels[p] == colorMap.findColor)
@@ -140,13 +182,10 @@ namespace DefaultNamespace
         public string Id;
         public List<Sprite> Sprites = new List<Sprite>();
     }
-    /*[Serializable]
-    public class SpriteCollection
+    [Serializable]
+    public class HeadSpriteCollection
     {
-        public string Id;
         public Sprite headFront;
         public Sprite headBack;
-        public 
-        public List<Sprite> Sprites = new List<Sprite>();
-    }*/
+    }
 }

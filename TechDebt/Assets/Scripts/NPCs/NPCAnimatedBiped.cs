@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -13,9 +14,16 @@ namespace NPCs
         public SpriteLibrary faceSpriteLibrary;
         public SpriteResolver faceSpriteResolver;
         public SpriteRenderer faceSpriteRenderer;
+        public HeadSpriteCollection  headSpriteCollection;
+
+        void Awake()
+        {
+            Randomize();
+        }
         public void Randomize()
         {
-            bodySpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.GetRandomBodySpriteLibraryAsset();
+            headSpriteCollection = GameManager.Instance.SpriteManager.GetHeadSpriteCollection();
+            // bodySpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.GetRandomBodySpriteLibraryAsset();
         }
         protected override void FaceLeft()
         {
@@ -37,7 +45,8 @@ namespace NPCs
                 headSpriteRenderer.transform.position.y,
                 -0.1f
             );
-            headSpriteResolver.SetCategoryAndLabel(headSprite, "Front");
+            // headSpriteResolver.SetCategoryAndLabel(headSprite, "Front");
+            headSpriteRenderer.sprite = headSpriteCollection.headFront;
             faceSpriteRenderer.gameObject.SetActive(true);
         }
 
@@ -48,7 +57,8 @@ namespace NPCs
                 headSpriteRenderer.transform.position.y,
                 0.1f
             );
-            headSpriteResolver.SetCategoryAndLabel(headSprite, "Back");
+            // headSpriteResolver.SetCategoryAndLabel(headSprite, "Back");
+            headSpriteRenderer.sprite = headSpriteCollection.headBack;
             faceSpriteRenderer.gameObject.SetActive(false);
         }
     }
