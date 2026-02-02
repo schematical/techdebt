@@ -75,6 +75,10 @@ public class EditorSpriteManager
 
                 TextureImporter newImporter = AssetImporter.GetAtPath(newTexturePath) as TextureImporter;
                 newImporter.spriteImportMode = SpriteImportMode.Multiple;
+                newImporter.spritePixelsPerUnit = 32;
+                newImporter.filterMode = FilterMode.Point;
+                newImporter.textureCompression = TextureImporterCompression.Uncompressed;
+                newImporter.SetPlatformTextureSettings("Standalone", 2048, TextureImporterFormat.RGBA32, 100, false);
                 newImporter.spritesheet = masterImporter.spritesheet;
                 EditorUtility.SetDirty(newImporter);
                 newImporter.SaveAndReimport();

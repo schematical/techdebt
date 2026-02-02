@@ -32,7 +32,7 @@ namespace DefaultNamespace
         public HeadSpriteCollection GetHeadSpriteCollection()
         {
             HeadSpriteCollection found = headSpriteCollections[Random.Range(0, headSpriteCollections.Count)];
-            List<ColorMap> colorMaps = GetRandomizedColorMaps();
+            // List<ColorMap> colorMaps = GetRandomizedColorMaps();
             HeadSpriteCollection newColl = new HeadSpriteCollection()
             {
                 headFront = found.headFront, // RandomizeSpriteColors(found.headFront, colorMaps),
@@ -56,8 +56,8 @@ namespace DefaultNamespace
             
             int i = Random.Range(0, collection.Sprites.Count);
             Sprite sprite = collection.Sprites[i];
-  
-            return RandomizeSpriteColors(sprite);
+
+            return sprite; // RandomizeSpriteColors(sprite);
         }
 
         public void Init()
@@ -77,29 +77,99 @@ namespace DefaultNamespace
             }
         }
 
-        protected List<ColorMap> GetRandomizedColorMaps()
+        protected List<ColorReplaceCollection> PopulateColorReplaceCollections(Sprite sprite)
         {
+            List<ColorReplaceCollection> colorReplaceCollections = new List<ColorReplaceCollection>();
+            Dictionary<Color, SpriteReplacementMap> colorReplacementMaps = new Dictionary<Color, SpriteReplacementMap>();
             foreach (ColorMap colorMap in ColorMaps)
             {
-                if (colorMap.useAnyColor)
+                colorMap.findDarkerColor = MakeDarker(colorMap.findColor);
+                if (colorReplacementMaps.ContainsKey(colorMap.findColor))
                 {
-                    colorMap.selectedReplaceColor = new Color(
-                        Random.value, Random.value, Random.value
-                    );
-                 
+                    throw new SystemException("Duplicate color map found: " + colorMap.findColor);
                 }
-                else
+                SpriteReplacementMap spriteReplacementMap = GetSpriteReplacementMap(sprite, colorMap.findColor);
+                if (spriteReplacementMap.positions.Count > 0)
                 {
-                    int i = Random.Range(0, colorMap.replaceColors.Count);
-                    colorMap.selectedReplaceColor = colorMap.replaceColors[i];
+                    colorReplacementMaps.Add(colorMap.findColor, spriteReplacementMap);
                 }
-                colorMap.darkerSelectedReplaceColor = MakeDarker(colorMap.selectedReplaceColor);
+               
                 
+                SpriteReplacementMap darkerSpriteReplacementMap = GetSpriteReplacementMap(sprite, colorMap.findColor);
+                if (spriteReplacementMap.positions.Count > 0)
+                {
+                    colorReplacementMaps.Add(colorMap.findDarkerColor, darkerSpriteReplacementMap);
+                }
+            
+            }
+            // Now we have all the pixels of each color that we need to replace.
+            SpriteReplacementContext context = new SpriteReplacementContext()
+            {
+                colorReplacementMaps = colorReplacementMaps,
+                colorReplaceCollections = colorReplaceCollections
+            };
+            BuildColorReplaceCollectionsRecursive(context,  0, new ColorReplaceCollection());
+            
+            return colorReplaceCollections;
+        }
+
+        protected void BuildColorReplaceCollectionsRecursive(SpriteReplacementContext contex, int depth, ColorReplaceCollection currColorReplaceCollection)
+        {
+
+            for (int i = depth; i < ColorMaps.Count; i++)
+            {
+                ColorMap colorMap = ColorMaps[i];
+                bool isDarker = false;
+                SpriteReplacementMap spriteReplacementMap = contex.colorReplacementMaps[colorMap.findColor];
+                SpriteReplacementMap darkerSpriteReplacementMap = contex.colorReplacementMaps[colorMap.findColor];
+                if (spriteReplacementMap == null &&  darkerSpriteReplacementMap == null)
+                {
+                    return; //No update needed
+                }
+                
+                for (int ii = 0; ii < colorMap.replaceColors.Count; ii++)
+                {
+                    ColorReplaceCollection newColorReplaceCollection = currColorReplaceCollection.Clone(currColorReplaceCollection);
+
+                    newColorReplaceCollection.id += $"_{ii}";
+                    newColorReplaceCollection.replacmentCombo.Add(new ColorReplaceCombo(
+                    {
+                        findColor = colorMap.replaceColors[ii],
+                        findDarkerColor = colorMap.replaceDarkerColors[ii],
+                        selectedReplaceColor =  colorMap.replaceColors[ii],
+                        darkerSelectedReplaceColor = colorMap.replaceDarkerColors[ii]
+                    });
+                    if (depth < contex.colorReplacementMaps.Count)
+                    {
+                        BuildColorReplaceCollectionsRecursive(contex, depth, newColorReplaceCollection);
+                    } else {
+                        // This is the end of the line
+                        contex.colorReplaceCollections.Add(newColorReplaceCollection);
+                    }
+                }
+            }
+        }
+
+        public SpriteReplacementMap GetSpriteReplacementMap(Sprite sprite, Color color)
+        {
+            SpriteReplacementMap spriteReplacementMap = new SpriteReplacementMap();
+            Color[] pixels = sprite.texture.GetPixels();
+
+            for (int p = 0; p < pixels.Length; p++)
+            {
+
+                if (pixels[p] == color)
+                {
+                    spriteReplacementMap.positions.Add(p);
+
+                }
+
             }
 
-            return ColorMaps;
+            return spriteReplacementMap;
         }
-        public Sprite RandomizeSpriteColors(Sprite sprite, List<ColorMap> populatedColorMaps = null)
+
+        /*public Sprite RandomizeSpriteColors(Sprite sprite, List<ColorMap> populatedColorMaps = null)
         {
             Init();
             if (populatedColorMaps == null)
@@ -143,19 +213,29 @@ namespace DefaultNamespace
 
             Vector2 pivot = new Vector2(sprite.pivot.x / sprite.rect.width, sprite.pivot.y / sprite.rect.height);
             return Sprite.Create(newTexture, sprite.rect, pivot, sprite.pixelsPerUnit);
-        }
+        }*/
     }
 
     [Serializable]
     public class ColorMap
     {
+        public string id;
         public Color findColor;
         public Color findDarkerColor;
-        public bool useAnyColor;
-        public Color selectedReplaceColor;
-        public Color darkerSelectedReplaceColor;
         public List<Color> replaceColors = new List<Color>();
         public List<Color> replaceDarkerColors = new List<Color>();
+    }
+    public class ColorReplaceCollection
+    {
+        public string id;
+        public Dictionary<Color, ColorReplaceCombo> replacmentCombo = new Dictionary<Color, ColorReplaceCombo>();
+    }
+    public class ColorReplaceCombo
+    {
+        public Color findColor;
+        public Color findDarkerColor;
+        public Color selectedReplaceColor;
+        public Color darkerSelectedReplaceColor;
     }
 
     [Serializable]
@@ -169,5 +249,17 @@ namespace DefaultNamespace
     {
         public Sprite headFront;
         public Sprite headBack;
+    }
+
+    public class SpriteReplacementMap
+    {
+        public List<int> positions = new List<int>();
+    }
+
+    public class SpriteReplacementContext
+    {
+        public Dictionary<Color, SpriteReplacementMap> colorReplacementMaps;
+        public List<ColorReplaceCollection> colorReplaceCollections;
+        
     }
 }
