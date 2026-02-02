@@ -40,25 +40,7 @@ namespace DefaultNamespace
             };
             return newColl;
         }
-        /*public SpriteLibraryAsset GetRandomBodySpriteLibraryAsset()
-        {
-            SpriteLibraryAsset originalAsset = bodySpriteLibraryAssets[Random.Range(0, bodySpriteLibraryAssets.Count)];
-            SpriteLibraryAsset newAsset = ScriptableObject.CreateInstance<SpriteLibraryAsset>();
-         
-            foreach (string category in originalAsset.GetCategoryNames())
-            {
-                foreach (string label in originalAsset.GetCategoryLabelNames(category))
-                {
-                    Sprite sprite = originalAsset.GetSprite(category, label);
-                 
 
-                    Sprite newSprite = RandomizeSpriteColors(sprite);
-                    newAsset.SaveAsSourceAsset()
-                }
-            }
-
-            return newAsset;
-        }*/
         public Sprite GetRandom(string spriteCollectionId)
         {
             SpriteCollection collection = SpriteCollections.Find(x => x.Id == spriteCollectionId);
