@@ -125,8 +125,16 @@ public class GameLoopManager : MonoBehaviour
         // Notify NPCs
         foreach (var npc in GameManager.Instance.AllNpcs)
         {
-            npc.gameObject.SetActive(true);
-            npc.OnPlayPhaseStart();
+            switch (npc.CurrentState)
+            {
+                case(NPCBase.State.Dead):
+                    break;
+                default:
+                    npc.gameObject.SetActive(true);
+                    npc.OnPlayPhaseStart();
+                    break;
+            }
+           
         }
 
         // Update UI

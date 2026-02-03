@@ -77,6 +77,7 @@ namespace NPCs
                         npcBug.Initialize();
                         npcBug.SetEvolving();
                         gameObject.SetActive(false);
+                        GameManager.Instance.AllNpcs.Remove(this);
                         break;
                     default:
                         throw new NotImplementedException("TODO Write me");

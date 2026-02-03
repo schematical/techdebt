@@ -300,6 +300,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public void EndDay()
     {
+        if (CurrentState == State.Dead)
+        {
+            return;
+        }
         CurrentState = State.Exiting;
         if (CurrentTask != null)
         {
@@ -548,5 +552,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public void ZoomToAndFollow()
     {
         GameManager.Instance.cameraController.ZoomToAndFollow(transform);
+    }
+
+    public void EndAttackAnimation()
+    {
+        animator.SetBool("isAttacking", false);
     }
 }
