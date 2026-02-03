@@ -316,10 +316,10 @@ namespace DefaultNamespace
         public Dictionary<string, SpriteReplacementMap> colorReplacementMaps;
         public List<ColorReplaceCollection> colorReplaceCollections;
     }
-
+    [Serializable]
     public class BodySpriteLibraryAssetCollection
     {
-        public string id;
+        public string catId;
         public List<SpriteLibraryAsset> assets = new List<SpriteLibraryAsset>();
     }
 }

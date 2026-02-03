@@ -38,9 +38,30 @@ public class EditorSpriteManager
         }
         Directory.CreateDirectory(GeneratedAssetsPath);
 
-        ProcessSpriteSheet(MasterBodySpriteSheetPath, "NPCBody", spriteManager, spriteManager.bodySpriteLibraryAssets[0]);
-        ProcessSpriteSheet(MasterHeadFrontSpriteSheetPath, "NPCHeadFront", spriteManager, null);
-        ProcessSpriteSheet(MasterHeadBackSpriteSheetPath, "NPCHeadBack", spriteManager, null);
+        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(MasterBodySpriteSheetPath, "NPCBody", spriteManager);
+        spriteManager.bodySpriteLibraryAssetCollections.Clear();
+        foreach (ProcessSpriteSheetResult result in  results)
+        {
+            SpriteLibraryAsset asset =
+                CreateSpriteLibraryAsset(
+                    result.newTexturePath,
+                    result.subdir,
+                    spriteManager.bodySpriteLibraryAssets[0]
+                );
+            BodySpriteLibraryAssetCollection coll =
+                spriteManager.bodySpriteLibraryAssetCollections.Find((collection => result.catId == collection.catId));
+            if (coll == null)
+            {
+                coll = new BodySpriteLibraryAssetCollection()
+                {
+                    catId = result.catId,
+                };
+            }
+            coll.assets.Add(asset); ;
+        }
+
+        ProcessSpriteSheet(MasterHeadFrontSpriteSheetPath, "NPCHeadFront", spriteManager);
+        ProcessSpriteSheet(MasterHeadBackSpriteSheetPath, "NPCHeadBack", spriteManager);
         // ProcessSpriteSheet(MasterFacialExpressionsSpriteSheetPath, "NPCFacialExpressions", spriteManager, null);
         
         AssetDatabase.SaveAssets();
@@ -97,20 +118,18 @@ public class EditorSpriteManager
         Debug.Log($"Generated Aseprite palette at: {palettePath}");
     }
 
-    private static void ProcessSpriteSheet(string masterSpriteSheetPath, string baseName, SpriteManager spriteManager, SpriteLibraryAsset masterLibraryAsset)
+    private static List<ProcessSpriteSheetResult> ProcessSpriteSheet(string masterSpriteSheetPath, string baseName, SpriteManager spriteManager)
     {
         Texture2D masterTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(masterSpriteSheetPath);
         if (masterTexture == null)
         {
-            Debug.LogError($"Could not find master sprite sheet at: {masterSpriteSheetPath}");
-            return;
+            throw new SystemException($"Could not find master sprite sheet at: {masterSpriteSheetPath}");
         }
 
         TextureImporter masterImporter = AssetImporter.GetAtPath(masterSpriteSheetPath) as TextureImporter;
         if (masterImporter == null)
         {
-            Debug.LogError($"Could not get importer for: {masterSpriteSheetPath}");
-            return;
+            throw new SystemException($"Could not get importer for: {masterSpriteSheetPath}");
         }
         SpriteReplacementContext context = spriteManager.PopulateColorReplaceCollections(masterTexture);
         
@@ -129,6 +148,7 @@ public class EditorSpriteManager
             log += $"  Color Replacement Map: {key} - positions.Count: {context.colorReplacementMaps[key].positions.Count}\n";
         }
         Debug.Log(log);*/
+        List<ProcessSpriteSheetResult> results = new List<ProcessSpriteSheetResult>();
         foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
 
@@ -185,11 +205,18 @@ public class EditorSpriteManager
             newImporter.spritesheet = masterImporter.spritesheet;
             EditorUtility.SetDirty(newImporter);
             newImporter.SaveAndReimport();
-            SpriteLibraryAsset asset = CreateSpriteLibraryAsset(newTexturePath, $"{subdir}/{collection.id}", masterLibraryAsset);
+            results.Add(new ProcessSpriteSheetResult()
+            {
+                catId = $"s_{skin.ToString()}",
+                newTexturePath = newTexturePath,
+                subdir = $"{subdir}/{collection.id}"
+            });
             
            
             
         }
+
+        return results;
 
     }
 
@@ -243,4 +270,11 @@ public class EditorSpriteManager
         AssetDatabase.CreateAsset(asset, libAssetPath);
         return asset;
     }
+}
+
+public class ProcessSpriteSheetResult
+{
+    public string newTexturePath;
+    public string subdir;
+    public string catId;
 }
