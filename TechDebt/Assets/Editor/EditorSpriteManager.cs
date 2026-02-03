@@ -81,7 +81,7 @@ public class EditorSpriteManager
         }
         SpriteReplacementContext context = spriteManager.PopulateColorReplaceCollections(masterTexture);
         
-        string log = $"Color Replace Collections - Count{context.colorReplaceCollections.Count}:\n";
+        /*string log = $"Color Replace Collections - Count{context.colorReplaceCollections.Count}:\n";
         foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
             log += $"  Collection ID: {collection.id}\n";
@@ -95,7 +95,7 @@ public class EditorSpriteManager
         {
             log += $"  Color Replacement Map: {key} - positions.Count: {context.colorReplacementMaps[key].positions.Count}\n";
         }
-        Debug.Log(log);
+        Debug.Log(log);*/
         foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
 
@@ -105,21 +105,35 @@ public class EditorSpriteManager
                 Directory.CreateDirectory(newTextureDir);
             }
 
-            string newTexturePath = $"{newTextureDir}/_{collection.id}.png";
+            
             Texture2D newTexture = new Texture2D(masterTexture.width, masterTexture.height);
             newTexture.filterMode = FilterMode.Point;
 
             Color[] pixels = masterTexture.GetPixels();
-
+            int skin = -1;
             foreach (string key in collection.replacmentCombo.Keys)
             {
                 ColorReplaceCombo combo = collection.replacmentCombo[key];
+                if (combo.colorMapId == "skin")
+                {
+                    skin = combo._index;
+                }
                 pixels = UpdateTexture(context, pixels, combo.findColor, combo.selectedReplaceColor);
             }
-
+            
             newTexture.SetPixels(pixels);
             newTexture.Apply();
+            string newTexturePath = $"{newTextureDir}/{collection.id}.png";
+            if (skin != -1)
+            {
+                newTextureDir = $"{newTextureDir}/skin_{skin}";
+                newTexturePath = $"{newTextureDir}/{collection.id}.png";
+                if (!Directory.Exists(newTextureDir))
+                {
+                    Directory.CreateDirectory(newTextureDir);
+                }
 
+            }
             byte[] bytes = newTexture.EncodeToPNG();
             File.WriteAllBytes(newTexturePath, bytes);
             AssetDatabase.ImportAsset(newTexturePath);
@@ -135,7 +149,9 @@ public class EditorSpriteManager
             newImporter.spritesheet = masterImporter.spritesheet;
             EditorUtility.SetDirty(newImporter);
             newImporter.SaveAndReimport();
-            // CreateSpriteLibraryAsset(newTexturePath, baseName, i, j, masterLibraryAsset);
+            SpriteLibraryAsset asset = CreateSpriteLibraryAsset(newTexturePath, baseName, masterLibraryAsset);
+            
+            // spriteManager.bodySpriteLibraryAssetCollections.Find((b) => b.id == );
             
         }
 
@@ -159,7 +175,7 @@ public class EditorSpriteManager
         return pixels;
     }
 
-    private static void CreateSpriteLibraryAsset(string texturePath, string baseName, int colorMapIndex, int colorIndex, SpriteLibraryAsset masterLibraryAsset)
+    private static SpriteLibraryAsset CreateSpriteLibraryAsset(string texturePath, string baseName, SpriteLibraryAsset masterLibraryAsset)
     {
         Sprite[] sprites = AssetDatabase.LoadAllAssetsAtPath(texturePath).OfType<Sprite>().ToArray();
         SpriteLibraryAsset asset = ScriptableObject.CreateInstance<SpriteLibraryAsset>();
@@ -191,7 +207,8 @@ public class EditorSpriteManager
         {
             Directory.CreateDirectory(libAssetDir);
         }
-        string libAssetPath = $"{libAssetDir}/{colorMapIndex}_{colorIndex}_lib.asset";
+        string libAssetPath = $"{libAssetDir}/TODOFIXME_lib.asset";
         AssetDatabase.CreateAsset(asset, libAssetPath);
+        return asset;
     }
 }

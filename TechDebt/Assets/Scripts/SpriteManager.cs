@@ -15,10 +15,11 @@ namespace DefaultNamespace
     {
         private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
+    
         public List<SpriteCollection> SpriteCollections = new List<SpriteCollection>();
         public List<HeadSpriteCollection> headSpriteCollections = new List<HeadSpriteCollection>();
         public List<SpriteLibraryAsset> bodySpriteLibraryAssets = new List<SpriteLibraryAsset>();
-
+        public List<BodySpriteLibraryAssetCollection>  bodySpriteLibraryAssetCollections = new List<BodySpriteLibraryAssetCollection>();
       
         public static Color MakeDarker(Color color, float amount = .2f)
         {
@@ -152,6 +153,8 @@ namespace DefaultNamespace
                     }
                     newColorReplaceCollection.replacmentCombo.Add(colorMap.replaceColors[ii].ToHexString(), new ColorReplaceCombo()
                     {
+                        colorMapId = colorMap.id,
+                        _index = ii,
                         findColor = colorMap.findColor,
                         findDarkerColor = colorMap.findDarkerColor,
                         selectedReplaceColor =  colorMap.replaceColors[ii],
@@ -256,10 +259,12 @@ namespace DefaultNamespace
     }
     public class ColorReplaceCombo
     {
+        public string colorMapId;
         public Color findColor;
         public Color findDarkerColor;
         public Color selectedReplaceColor;
         public Color darkerSelectedReplaceColor;
+        public int _index;
     }
 
     [Serializable]
@@ -285,5 +290,11 @@ namespace DefaultNamespace
         public Dictionary<string, SpriteReplacementMap> colorReplacementMaps;
         public List<ColorReplaceCollection> colorReplaceCollections;
         
+    }
+
+    public class BodySpriteLibraryAssetCollection
+    {
+        public string id;
+        public List<SpriteLibraryAsset> assets = new List<SpriteLibraryAsset>();
     }
 }
