@@ -173,9 +173,9 @@ namespace DefaultNamespace
                 // Debug.Log($"depth: {depth}  - ii: {ii} - colorMap.replaceColors.Count {colorMap.replaceColors.Count} - {colorMap.replaceColors[ii].ToHexString()}");
                 if (newColorReplaceCollection.replacmentCombo.ContainsKey(colorMap.replaceColors[ii].ToHexString()))
                 {
-                    throw new SystemException("Duplicate color map found: " + colorMap.replaceColors[ii].ToHexString() +
-                                              " --> Keys: " + string.Join(", ",
-                                                  newColorReplaceCollection.replacmentCombo.Keys));
+                    throw new SystemException("Duplicate color map found: " +id + " - " + colorMap.replaceColors[ii].ToHexString() +
+                                                                            " --> Keys: " + string.Join(", ",
+                                                                                newColorReplaceCollection.replacmentCombo.Keys));
                 }
 
                 newColorReplaceCollection.replacmentCombo.Add(colorMap.replaceColors[ii].ToHexString(),
