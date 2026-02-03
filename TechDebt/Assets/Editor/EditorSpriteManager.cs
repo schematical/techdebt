@@ -62,6 +62,39 @@ public class EditorSpriteManager
         {
             Debug.Log($"Id:  {colorMap.id} - Color: {colorMap.findColor.ToHexString()} - Darker Color: {colorMap.findDarkerColor.ToHexString()}");
         }
+
+        // Generate and save Aseprite palette
+        var allColors = new HashSet<Color>();
+        foreach (var colorMap in spriteManager.ColorMaps)
+        {
+            allColors.Add(colorMap.findColor);
+            allColors.Add(colorMap.findDarkerColor);
+        }
+
+        // Build the .gpl file content
+        var gplContent = new System.Text.StringBuilder();
+        gplContent.AppendLine("GIMP Palette");
+        gplContent.AppendLine("Name: Generated NPC Palette");
+        gplContent.AppendLine("Columns: 8");
+        gplContent.AppendLine("#");
+
+        int colorIndex = 0;
+        foreach (Color color in allColors)
+        {
+            int r = Mathf.RoundToInt(color.r * 255);
+            int g = Mathf.RoundToInt(color.g * 255);
+            int b = Mathf.RoundToInt(color.b * 255);
+            gplContent.AppendLine($"{r}\t{g}\t{b}\tColor_{colorIndex++}");
+        }
+
+        // Save the file
+        if (!Directory.Exists(GeneratedAssetsPath))
+        {
+            Directory.CreateDirectory(GeneratedAssetsPath);
+        }
+        string palettePath = Path.Combine(GeneratedAssetsPath, "GeneratedPalette.gpl");
+        File.WriteAllText(palettePath, gplContent.ToString());
+        Debug.Log($"Generated Aseprite palette at: {palettePath}");
     }
 
     private static void ProcessSpriteSheet(string masterSpriteSheetPath, string baseName, SpriteManager spriteManager, SpriteLibraryAsset masterLibraryAsset)
