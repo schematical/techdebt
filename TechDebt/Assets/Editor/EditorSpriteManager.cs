@@ -157,10 +157,12 @@ public class EditorSpriteManager
             
             newTexture.SetPixels(pixels);
             newTexture.Apply();
+            string subdir = $"{baseName}";
             string newTexturePath = $"{newTextureDir}/{collection.id}.png";
             if (skin != -1)
             {
-                newTextureDir = $"{newTextureDir}/skin_{skin}";
+                subdir = $"{baseName}/skin_{skin}";
+                newTextureDir = $"{GeneratedAssetsPath}/{subdir}";
                 newTexturePath = $"{newTextureDir}/{collection.id}.png";
                 if (!Directory.Exists(newTextureDir))
                 {
@@ -183,9 +185,9 @@ public class EditorSpriteManager
             newImporter.spritesheet = masterImporter.spritesheet;
             EditorUtility.SetDirty(newImporter);
             newImporter.SaveAndReimport();
-            SpriteLibraryAsset asset = CreateSpriteLibraryAsset(newTexturePath, baseName, masterLibraryAsset);
+            SpriteLibraryAsset asset = CreateSpriteLibraryAsset(newTexturePath, $"{subdir}/{collection.id}", masterLibraryAsset);
             
-            // spriteManager.bodySpriteLibraryAssetCollections.Find((b) => b.id == );
+           
             
         }
 
@@ -236,12 +238,8 @@ public class EditorSpriteManager
             }
         }
 
-        string libAssetDir = $"{GeneratedAssetsPath}/{baseName}";
-        if (!Directory.Exists(libAssetDir))
-        {
-            Directory.CreateDirectory(libAssetDir);
-        }
-        string libAssetPath = $"{libAssetDir}/TODOFIXME_lib.asset";
+        string libAssetPath = $"{GeneratedAssetsPath}/{baseName}.asset";
+  
         AssetDatabase.CreateAsset(asset, libAssetPath);
         return asset;
     }
