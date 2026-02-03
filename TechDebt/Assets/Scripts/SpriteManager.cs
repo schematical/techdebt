@@ -140,8 +140,7 @@ namespace DefaultNamespace
             ColorReplaceCollection currColorReplaceCollection)
         {
             // Debug.Log($"BuildColorReplaceCollectionsRecursive: {depth} - currColorReplaceCollection.id: {currColorReplaceCollection.id}");
-            /*for (int i = depth; i < ColorMaps.Count; i++)
-            {*/
+        
             if (depth == context.colorReplacementMaps.Count - 1)
             {
                 // This is the end of the line
@@ -149,6 +148,11 @@ namespace DefaultNamespace
                 return;
             }
 
+            if (depth >= ColorMaps.Count)
+            {
+                context.colorReplaceCollections.Add(currColorReplaceCollection);
+                return;
+            }
             ColorMap colorMap = ColorMaps[depth];
             bool isDarker = false;
 
@@ -171,14 +175,9 @@ namespace DefaultNamespace
 
                 newColorReplaceCollection.id += $"_{id}";
                 // Debug.Log($"depth: {depth}  - ii: {ii} - colorMap.replaceColors.Count {colorMap.replaceColors.Count} - {colorMap.replaceColors[ii].ToHexString()}");
-                if (newColorReplaceCollection.replacmentCombo.ContainsKey(colorMap.replaceColors[ii].ToHexString()))
-                {
-                    throw new SystemException("Duplicate color map found: " +id + " - " + colorMap.replaceColors[ii].ToHexString() +
-                                                                            " --> Keys: " + string.Join(", ",
-                                                                                newColorReplaceCollection.replacmentCombo.Keys));
-                }
+              
 
-                newColorReplaceCollection.replacmentCombo.Add(colorMap.replaceColors[ii].ToHexString(),
+                newColorReplaceCollection.replacmentCombo.Add(
                     new ColorReplaceCombo()
                     {
                         colorMapId = colorMap.id,
@@ -191,7 +190,7 @@ namespace DefaultNamespace
 
                 BuildColorReplaceCollectionsRecursive(context, depth + 1, newColorReplaceCollection);
             }
-            //}
+           
         }
 
         public SpriteReplacementMap GetSpriteReplacementMap(Texture2D texture, Color color)
@@ -270,14 +269,14 @@ namespace DefaultNamespace
     public class ColorReplaceCollection
     {
         public string id;
-        public Dictionary<string, ColorReplaceCombo> replacmentCombo = new Dictionary<string, ColorReplaceCombo>();
+        public List<ColorReplaceCombo> replacmentCombo = new List<ColorReplaceCombo>();
 
         public ColorReplaceCollection Clone()
         {
             ColorReplaceCollection clone = new ColorReplaceCollection
             {
                 id = this.id,
-                replacmentCombo = new Dictionary<string, ColorReplaceCombo>(this.replacmentCombo)
+                replacmentCombo = new List<ColorReplaceCombo>(this.replacmentCombo)
             };
             return clone;
         }

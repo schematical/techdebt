@@ -144,14 +144,15 @@ public class EditorSpriteManager
 
             Color[] pixels = masterTexture.GetPixels();
             int skin = -1;
-            foreach (string key in collection.replacmentCombo.Keys)
+            foreach (ColorReplaceCombo combo in collection.replacmentCombo)
             {
-                ColorReplaceCombo combo = collection.replacmentCombo[key];
                 if (combo.colorMapId == "skin")
                 {
                     skin = combo._index;
                 }
                 pixels = UpdateTexture(context, pixels, combo.findColor, combo.selectedReplaceColor);
+                Debug.Log($"Trying to replace findDarkerColor {combo.findDarkerColor.ToHexString()} with {combo.darkerSelectedReplaceColor.ToHexString()} - {context.colorReplacementMaps[combo.findDarkerColor.ToHexString()].positions.Count}");
+                pixels = UpdateTexture(context, pixels, combo.findDarkerColor, combo.darkerSelectedReplaceColor);
             }
             
             newTexture.SetPixels(pixels);
@@ -197,7 +198,7 @@ public class EditorSpriteManager
             Debug.LogError($"MISSING: context.colorReplacementMaps {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
             return pixels;
         }
-        Debug.Log($"FOUND: context.colorReplacementMaps matched {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
+        // Debug.Log($"FOUND: context.colorReplacementMaps matched {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
         SpriteReplacementMap spriteReplacementMap = context.colorReplacementMaps[findColor.ToHexString()];
         
         foreach (int p in spriteReplacementMap.positions)
