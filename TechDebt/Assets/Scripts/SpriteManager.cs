@@ -56,7 +56,7 @@ namespace DefaultNamespace
             string search = $"/{bodySpriteLibraryAssetCollection.catId}/";
             names = names.FindAll(s => s.Contains(search));
             
-            Debug.Log($"Search: {search} - names:  {names.Count} -  {string.Join(", ", names)} - From: {string.Join(", ", headSpriteLibraryAsset.GetCategoryNames().ToList())}");
+            // Debug.Log($"Search: {search} - names:  {names.Count} -  {string.Join(", ", names)} - From: {string.Join(", ", headSpriteLibraryAsset.GetCategoryNames().ToList())}");
             int i = Random.Range(0, names.Count());
             string headSpriteLibraryCategory = names[i];
             return new NPCBipedAssets()
