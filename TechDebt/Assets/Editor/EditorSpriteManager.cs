@@ -151,7 +151,7 @@ public class EditorSpriteManager
                     skin = combo._index;
                 }
                 pixels = UpdateTexture(context, pixels, combo.findColor, combo.selectedReplaceColor);
-                Debug.Log($"Trying to replace findDarkerColor {combo.findDarkerColor.ToHexString()} with {combo.darkerSelectedReplaceColor.ToHexString()} - {context.colorReplacementMaps[combo.findDarkerColor.ToHexString()].positions.Count}");
+                // Debug.Log($"Trying to replace findDarkerColor {combo.findDarkerColor.ToHexString()} with {combo.darkerSelectedReplaceColor.ToHexString()} - {context.colorReplacementMaps[combo.findDarkerColor.ToHexString()].positions.Count}");
                 pixels = UpdateTexture(context, pixels, combo.findDarkerColor, combo.darkerSelectedReplaceColor);
             }
             
@@ -195,7 +195,7 @@ public class EditorSpriteManager
     {
         if (!context.colorReplacementMaps.ContainsKey(findColor.ToHexString()))
         {
-            Debug.LogError($"MISSING: context.colorReplacementMaps {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
+            // Debug.LogError($"MISSING: context.colorReplacementMaps {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");
             return pixels;
         }
         // Debug.Log($"FOUND: context.colorReplacementMaps matched {findColor.ToHexString()} - {string.Join(", ", context.colorReplacementMaps.Keys)}");

@@ -118,8 +118,8 @@ namespace DefaultNamespace
                 }
 
 
-                SpriteReplacementMap darkerSpriteReplacementMap = GetSpriteReplacementMap(texture, colorMap.findColor);
-                if (spriteReplacementMap.positions.Count > 0)
+                SpriteReplacementMap darkerSpriteReplacementMap = GetSpriteReplacementMap(texture, colorMap.findDarkerColor);
+                if (darkerSpriteReplacementMap.positions.Count > 0)
                 {
                     colorReplacementMaps.Add(colorMap.findDarkerColor.ToHexString(), darkerSpriteReplacementMap);
                 }
