@@ -10,11 +10,12 @@ namespace NPCs
         public SpriteRenderer headSpriteRenderer;
         public SpriteRenderer bodySpriteRenderer; 
         public SpriteResolver headSpriteResolver;
+        public SpriteLibrary headSpriteLibrary;
         public SpriteLibrary bodySpriteLibrary;
         public SpriteLibrary faceSpriteLibrary;
         public SpriteResolver faceSpriteResolver;
         public SpriteRenderer faceSpriteRenderer;
-        public HeadSpriteCollection  headSpriteCollection;
+        public string  headSpriteLibraryCategory;
 
         void Awake()
         {
@@ -22,8 +23,10 @@ namespace NPCs
         }
         public void Randomize()
         {
-            headSpriteCollection = GameManager.Instance.SpriteManager.GetHeadSpriteCollection();
-            // bodySpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.GetRandomBodySpriteLibraryAsset();
+            headSpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.headSpriteLibraryAsset;
+            NPCBipedAssets assets =  GameManager.Instance.SpriteManager.GetRandomNPCBipedAssets();
+            headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
+            bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
         }
         protected override void FaceLeft()
         {
@@ -45,8 +48,10 @@ namespace NPCs
                 headSpriteRenderer.transform.position.y,
                 -0.1f
             );
-            // headSpriteResolver.SetCategoryAndLabel(headSprite, "Front");
-            headSpriteRenderer.sprite = headSpriteCollection.headFront;
+            headSpriteResolver.SetCategoryAndLabel(
+                headSpriteLibraryCategory,
+                "Front"
+            );
             faceSpriteRenderer.gameObject.SetActive(true);
         }
 
@@ -57,8 +62,10 @@ namespace NPCs
                 headSpriteRenderer.transform.position.y,
                 0.1f
             );
-            // headSpriteResolver.SetCategoryAndLabel(headSprite, "Back");
-            headSpriteRenderer.sprite = headSpriteCollection.headBack;
+            headSpriteResolver.SetCategoryAndLabel(
+                headSpriteLibraryCategory,
+                "Back"
+            );
             faceSpriteRenderer.gameObject.SetActive(false);
         }
     }

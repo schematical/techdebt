@@ -374,12 +374,12 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             if (yMovement > 0)
             {
-                animator.SetBool("isFront", true);
+                animator.SetBool("isFront", false);
                 FaceUp();
             }
             else
             {
-                animator.SetBool("isFront", false);
+                animator.SetBool("isFront", true);
                 FaceDown();
             }
         }

@@ -37,7 +37,50 @@ public class EditorSpriteManager
             Directory.Delete(GeneratedAssetsPath, true);
         }
         Directory.CreateDirectory(GeneratedAssetsPath);
+        ProcessBody(spriteManager);
+        ProcessHead(spriteManager);
 
+
+        
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    public static void ProcessHead(SpriteManager spriteManager)
+    {
+        List<ProcessSpriteSheetResult> headFrontResults =  ProcessSpriteSheet(MasterHeadFrontSpriteSheetPath, "NPCHeadFront", spriteManager);
+        List<ProcessSpriteSheetResult> headBackResults =  ProcessSpriteSheet(MasterHeadBackSpriteSheetPath, "NPCHeadBack", spriteManager);
+        SpriteLibraryAsset asset = ScriptableObject.CreateInstance<SpriteLibraryAsset>();
+        for (int i = 0; i < headFrontResults.Count; i++)
+        {
+            
+            
+            
+            Sprite[] sprites = AssetDatabase.LoadAllAssetsAtPath(headFrontResults[i].newTexturePath).OfType<Sprite>().ToArray();
+            for (int ii = 0; ii < sprites.Length; ii++)
+            {
+                Sprite sprite = sprites[ii];
+                asset.AddCategoryLabel(sprite, $"{ii}/{headFrontResults[i].catId}/{headFrontResults[i].id}", "Front");
+            }
+            
+            
+            
+            sprites = AssetDatabase.LoadAllAssetsAtPath(headBackResults[i].newTexturePath).OfType<Sprite>().ToArray();
+            for (int ii = 0; ii < sprites.Length; ii++)
+            {
+                Sprite sprite = sprites[ii];
+                asset.AddCategoryLabel(sprite, $"{ii}/{headBackResults[i].catId}/{headBackResults[i].id}", "Back");
+            }
+
+           
+        }
+        string libAssetPath = $"{GeneratedAssetsPath}/NPCHead.asset";
+
+        AssetDatabase.CreateAsset(asset, libAssetPath);
+        spriteManager.headSpriteLibraryAsset = asset;
+    }
+    public static void ProcessBody(SpriteManager spriteManager)
+    {
         List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(MasterBodySpriteSheetPath, "NPCBody", spriteManager);
         spriteManager.bodySpriteLibraryAssetCollections.Clear();
         foreach (ProcessSpriteSheetResult result in  results)
@@ -47,7 +90,7 @@ public class EditorSpriteManager
                 CreateSpriteLibraryAsset(
                     result.newTexturePath,
                     result.subdir,
-                    spriteManager.bodySpriteLibraryAssets[0]
+                    spriteManager.baseBodySpriteLibraryAsset
                 );
             BodySpriteLibraryAssetCollection coll =
                 spriteManager.bodySpriteLibraryAssetCollections.Find((collection => result.catId == collection.catId));
@@ -61,13 +104,6 @@ public class EditorSpriteManager
             }
             coll.assets.Add(asset); ;
         }
-
-        ProcessSpriteSheet(MasterHeadFrontSpriteSheetPath, "NPCHeadFront", spriteManager);
-        ProcessSpriteSheet(MasterHeadBackSpriteSheetPath, "NPCHeadBack", spriteManager);
-        // ProcessSpriteSheet(MasterFacialExpressionsSpriteSheetPath, "NPCFacialExpressions", spriteManager, null);
-        
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
     }
     [MenuItem("Tech Debt/Debug Sprite Sheets")]
     public static void DebugSpriteSheets()
@@ -209,6 +245,7 @@ public class EditorSpriteManager
             newImporter.SaveAndReimport();
             results.Add(new ProcessSpriteSheetResult()
             {
+                id = collection.id,
                 catId = $"s_{skin.ToString()}",
                 newTexturePath = newTexturePath,
                 subdir = $"{subdir}/{collection.id}"
@@ -244,28 +281,25 @@ public class EditorSpriteManager
     {
         Sprite[] sprites = AssetDatabase.LoadAllAssetsAtPath(texturePath).OfType<Sprite>().ToArray();
         SpriteLibraryAsset asset = ScriptableObject.CreateInstance<SpriteLibraryAsset>();
-        
-        if(masterLibraryAsset != null)
+
+        if (masterLibraryAsset == null)
         {
-            foreach (var category in masterLibraryAsset.GetCategoryNames())
+            throw new SystemException("Missing body masterLibraryAsset");
+        }
+
+        foreach (var category in masterLibraryAsset.GetCategoryNames())
+        {
+            foreach (var label in masterLibraryAsset.GetCategoryLabelNames(category))
             {
-                foreach (var label in masterLibraryAsset.GetCategoryLabelNames(category))
+                Sprite masterSprite = masterLibraryAsset.GetSprite(category, label);
+                Sprite newSprite = sprites.FirstOrDefault(s => s.name == masterSprite.name);
+                if (newSprite != null)
                 {
-                    Sprite masterSprite = masterLibraryAsset.GetSprite(category, label);
-                    Sprite newSprite = sprites.FirstOrDefault(s => s.name == masterSprite.name);
-                    if (newSprite != null)
-                    {
-                        asset.AddCategoryLabel(newSprite, category, label);
-                    }
+                    asset.AddCategoryLabel(newSprite, category, label);
                 }
             }
-        } else
-        {
-            foreach (Sprite sprite in sprites)
-            {
-                asset.AddCategoryLabel(sprite, sprite.name, sprite.name);
-            }
         }
+        
 
         string libAssetPath = $"{GeneratedAssetsPath}/{baseName}.asset";
   
@@ -279,4 +313,5 @@ public class ProcessSpriteSheetResult
     public string newTexturePath;
     public string subdir;
     public string catId;
+    public string id { get; set; }
 }

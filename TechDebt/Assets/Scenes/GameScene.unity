@@ -7666,6 +7666,7 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0.7921569, a: 1}
     - {r: 0.6018868, g: 0.17963745, b: 0.01560162, a: 1}
     - {r: 0.8, g: 0, b: 0.7524692, a: 1}
+    - {r: 0, g: 0.4039216, b: 0.49411768, a: 1}
   - id: secondartColor3
     findColor: {r: 0.35686275, g: 0.43137258, b: 0.882353, a: 1}
     findDarkerColor: {r: 0.15686275, g: 0.23137258, b: 0.682353, a: 1}
@@ -7684,25 +7685,9 @@ MonoBehaviour:
   - Id: NPCHair
     Sprites:
     - {fileID: -2114437738713760606, guid: e16c0f74833d0f04c83c760d3ca0516a, type: 3}
-  headSpriteCollections:
-  - headFront: {fileID: 8011713119435604174, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: -371650982909401393, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: -1648947626247034969, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: 6053888137470451634, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: 7607023245333514822, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: -5136346422675114995, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: -5227775411537289632, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: 2239313909823236488, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: 3431460639408434115, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: 8387264916074712335, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: 3334556145244980018, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: 3618153663899860866, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: -5476729951568030756, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: 4514286020382931296, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  - headFront: {fileID: -9038231279393607145, guid: 08a8881e0b65ff8479bcee697546144e, type: 3}
-    headBack: {fileID: 6399459049868641232, guid: 7b02d679bd7448247913feb579dbb8ea, type: 3}
-  bodySpriteLibraryAssets:
-  - {fileID: 7108339969198208228, guid: b3fa4702512259c4db3b6497b2924633, type: 3}
+  baseBodySpriteLibraryAsset: {fileID: 7108339969198208228, guid: b3fa4702512259c4db3b6497b2924633, type: 3}
+  headSpriteLibraryAsset: {fileID: 0}
+  bodySpriteLibraryAssetCollections: []
 --- !u!1 &788820141
 GameObject:
   m_ObjectHideFlags: 0

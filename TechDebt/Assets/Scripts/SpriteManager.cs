@@ -17,9 +17,8 @@ namespace DefaultNamespace
         public List<ColorMap> ColorMaps = new List<ColorMap>();
 
         public List<SpriteCollection> SpriteCollections = new List<SpriteCollection>();
-        public List<HeadSpriteCollection> headSpriteCollections = new List<HeadSpriteCollection>();
-        public List<SpriteLibraryAsset> bodySpriteLibraryAssets = new List<SpriteLibraryAsset>();
-
+        public SpriteLibraryAsset baseBodySpriteLibraryAsset;
+        public SpriteLibraryAsset headSpriteLibraryAsset;
         public List<BodySpriteLibraryAssetCollection> bodySpriteLibraryAssetCollections =
             new List<BodySpriteLibraryAssetCollection>();
 
@@ -48,16 +47,23 @@ namespace DefaultNamespace
             );
         }
 
-        public HeadSpriteCollection GetHeadSpriteCollection()
+        public NPCBipedAssets GetRandomNPCBipedAssets()
         {
-            HeadSpriteCollection found = headSpriteCollections[Random.Range(0, headSpriteCollections.Count)];
-            // List<ColorMap> colorMaps = GetRandomizedColorMaps();
-            HeadSpriteCollection newColl = new HeadSpriteCollection()
+
+            int collIndex = Random.Range(0, bodySpriteLibraryAssetCollections.Count());
+            BodySpriteLibraryAssetCollection bodySpriteLibraryAssetCollection = bodySpriteLibraryAssetCollections[collIndex]; 
+            List<string> names = headSpriteLibraryAsset.GetCategoryNames().ToList();
+            string search = $"/{bodySpriteLibraryAssetCollection.catId}/";
+            names = names.FindAll(s => s.Contains(search));
+            
+            Debug.Log($"Search: {search} - names:  {names.Count} -  {string.Join(", ", names)} - From: {string.Join(", ", headSpriteLibraryAsset.GetCategoryNames().ToList())}");
+            int i = Random.Range(0, names.Count());
+            string headSpriteLibraryCategory = names[i];
+            return new NPCBipedAssets()
             {
-                headFront = found.headFront, // RandomizeSpriteColors(found.headFront, colorMaps),
-                headBack = found.headBack, // RandomizeSpriteColors(found.headBack, colorMaps),
+                headSpriteLibraryCategory = headSpriteLibraryCategory,
+                bodySpriteLibraryAsset = bodySpriteLibraryAssetCollection.assets[Random.Range(0, bodySpriteLibraryAssetCollection.assets.Count)],
             };
-            return newColl;
         }
 
         public Sprite GetRandom(string spriteCollectionId)
@@ -299,12 +305,6 @@ namespace DefaultNamespace
         public List<Sprite> Sprites = new List<Sprite>();
     }
 
-    [Serializable]
-    public class HeadSpriteCollection
-    {
-        public Sprite headFront;
-        public Sprite headBack;
-    }
 
     public class SpriteReplacementMap
     {
@@ -321,5 +321,12 @@ namespace DefaultNamespace
     {
         public string catId;
         public List<SpriteLibraryAsset> assets = new List<SpriteLibraryAsset>();
+    }
+
+    public class NPCBipedAssets
+    {
+        public SpriteLibraryAsset bodySpriteLibraryAsset;
+        public string headSpriteLibraryCategory;
+
     }
 }
