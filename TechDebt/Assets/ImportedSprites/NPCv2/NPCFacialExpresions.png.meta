@@ -116,12 +116,12 @@ TextureImporter:
       name: NPCFacialExpresions_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 32
+        x: 12
+        y: 13
+        width: 5
+        height: 6
       alignment: 9
-      pivot: {x: 0.54015183, y: 0.50455964}
+      pivot: {x: 0.9485699, y: 0.48219857}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,19 +138,19 @@ TextureImporter:
       name: NPCFacialExpresions_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 44
+        y: 13
+        width: 5
+        height: 4
+      alignment: 9
+      pivot: {x: 1.3116966, y: 0.5267}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 353d2ed6a6845ab4389fbfefeeaa20cb
+      spriteID: ce1a65e34f62a6e42a1a5a358ae0269a
       internalID: 980116252
       vertices: []
       indices: 
@@ -160,10 +160,10 @@ TextureImporter:
       name: NPCFacialExpresions_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
+        x: 76
+        y: 13
+        width: 5
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,7 +172,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3af42027032cf744bcca6285bdd1a3d
+      spriteID: 423129b29bed85e4a9113d0debc1df3b
       internalID: -2093075532
       vertices: []
       indices: 
@@ -182,10 +182,10 @@ TextureImporter:
       name: NPCFacialExpresions_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
+        x: 108
+        y: 13
+        width: 7
+        height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,7 +194,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c58e243dbed0ad8408406b549d541493
+      spriteID: 38ccd44baa267834284c675047d86d6e
       internalID: 2020417670
       vertices: []
       indices: 
@@ -204,10 +204,10 @@ TextureImporter:
       name: NPCFacialExpresions_4
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
+        x: 140
+        y: 12
+        width: 5
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,7 +216,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc54176aacd71b9488138ed292e7a487
+      spriteID: 75a2d27c5c0711c4bb78b5106d63ef38
       internalID: 1346410807
       vertices: []
       indices: 
@@ -226,10 +226,10 @@ TextureImporter:
       name: NPCFacialExpresions_5
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
-        width: 32
-        height: 32
+        x: 171
+        y: 12
+        width: 7
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,7 +238,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a065134158e3bf344a9c72a139a0dce8
+      spriteID: e77ee530d5f6dc54190c0dc6d536fad0
       internalID: 384444000
       vertices: []
       indices: 
@@ -248,10 +248,10 @@ TextureImporter:
       name: NPCFacialExpresions_6
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 32
+        x: 203
+        y: 12
+        width: 7
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,7 +260,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a9ad0ac8e40a324d8a030d0dc14e67b
+      spriteID: fc50f4a2e7d38544f97e3ddf65a0eba4
       internalID: -191192997
       vertices: []
       indices: 
@@ -270,10 +270,10 @@ TextureImporter:
       name: NPCFacialExpresions_7
       rect:
         serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
+        x: 235
+        y: 12
+        width: 7
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,7 +282,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4ef8ffe864795a4c9945565485f8977
+      spriteID: 196c863474aa1734db3aad8096939b67
       internalID: -1576003367
       vertices: []
       indices: 
@@ -302,7 +302,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       NPCFacialExpresions_0: 7107329319783599734
       NPCFacialExpresions_1: 980116252

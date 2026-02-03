@@ -48,8 +48,9 @@ public class EditorSpriteManager
 
     public static void ProcessHead(SpriteManager spriteManager)
     {
-        List<ProcessSpriteSheetResult> headFrontResults =  ProcessSpriteSheet(MasterHeadFrontSpriteSheetPath, "NPCHeadFront", spriteManager);
-        List<ProcessSpriteSheetResult> headBackResults =  ProcessSpriteSheet(MasterHeadBackSpriteSheetPath, "NPCHeadBack", spriteManager);
+        Vector2 pivot =  new Vector2(0.5f, 0.375f); // 16px horizontal, 12px vertical for 32x32
+        List<ProcessSpriteSheetResult> headFrontResults =  ProcessSpriteSheet(MasterHeadFrontSpriteSheetPath, "NPCHeadFront", spriteManager, pivot);
+        List<ProcessSpriteSheetResult> headBackResults =  ProcessSpriteSheet(MasterHeadBackSpriteSheetPath, "NPCHeadBack", spriteManager, pivot);
         SpriteLibraryAsset asset = ScriptableObject.CreateInstance<SpriteLibraryAsset>();
         for (int i = 0; i < headFrontResults.Count; i++)
         {
@@ -81,7 +82,8 @@ public class EditorSpriteManager
     }
     public static void ProcessBody(SpriteManager spriteManager)
     {
-        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(MasterBodySpriteSheetPath, "NPCBody", spriteManager);
+        Vector2 pivot =  new Vector2(0.5f, 1); // 16px horizontal, 12px vertical for 32x32
+        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(MasterBodySpriteSheetPath, "NPCBody", spriteManager, pivot);
         spriteManager.bodySpriteLibraryAssetCollections.Clear();
         foreach (ProcessSpriteSheetResult result in  results)
         {
@@ -156,7 +158,7 @@ public class EditorSpriteManager
         Debug.Log($"Generated Aseprite palette at: {palettePath}");
     }
 
-    private static List<ProcessSpriteSheetResult> ProcessSpriteSheet(string masterSpriteSheetPath, string baseName, SpriteManager spriteManager)
+    private static List<ProcessSpriteSheetResult> ProcessSpriteSheet(string masterSpriteSheetPath, string baseName, SpriteManager spriteManager, Vector2 pivot)
     {
         Texture2D masterTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(masterSpriteSheetPath);
         if (masterTexture == null)
@@ -171,21 +173,6 @@ public class EditorSpriteManager
         }
         SpriteReplacementContext context = spriteManager.PopulateColorReplaceCollections(masterTexture);
         
-        /*string log = $"Color Replace Collections - Count{context.colorReplaceCollections.Count}:\n";
-        foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
-        {
-            log += $"  Collection ID: {collection.id}\n";
-            foreach (string key in collection.replacmentCombo.Keys)
-            {
-                ColorReplaceCombo combo = collection.replacmentCombo[key];
-                log += $"    Find Color: {combo.findColor.ToHexString()}, Replace Color: {combo.selectedReplaceColor.ToHexString()}\n";
-            }
-        }
-        foreach(string key in context.colorReplacementMaps.Keys)
-        {
-            log += $"  Color Replacement Map: {key} - positions.Count: {context.colorReplacementMaps[key].positions.Count}\n";
-        }
-        Debug.Log(log);*/
         List<ProcessSpriteSheetResult> results = new List<ProcessSpriteSheetResult>();
         foreach (ColorReplaceCollection collection in context.colorReplaceCollections)
         {
@@ -241,6 +228,14 @@ public class EditorSpriteManager
             newImporter.textureCompression = TextureImporterCompression.Uncompressed;
             newImporter.SetPlatformTextureSettings("Standalone", 2048, TextureImporterFormat.RGBA32, 100, false);
             newImporter.spritesheet = masterImporter.spritesheet;
+            // Adjust pivots based on sprite type
+            var newSpritesheet = newImporter.spritesheet;
+            for (int i = 0; i < newSpritesheet.Length; i++)
+            {
+                newSpritesheet[i].pivot = pivot;
+            }
+            newImporter.spritesheet = newSpritesheet;
+
             EditorUtility.SetDirty(newImporter);
             newImporter.SaveAndReimport();
             results.Add(new ProcessSpriteSheetResult()

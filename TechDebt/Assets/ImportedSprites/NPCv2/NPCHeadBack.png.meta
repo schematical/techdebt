@@ -137,20 +137,20 @@ TextureImporter:
       name: NPCHeadBack_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 10
-        width: 17
-        height: 15
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fc6a24f6661a7daf0800000000000000
-      internalID: -371650982909401393
+      spriteID: 5429a5caf003e8c468d8741aadcfb06c
+      internalID: 2118628778
       vertices: []
       indices: 
       edges: []
@@ -159,20 +159,20 @@ TextureImporter:
       name: NPCHeadBack_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 10
-        width: 17
-        height: 15
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2bf90e7af2bb30450800000000000000
-      internalID: 6053888137470451634
+      spriteID: d4036ff23de4f3b48840e2919a80c5c4
+      internalID: 1459980315
       vertices: []
       indices: 
       edges: []
@@ -181,20 +181,20 @@ TextureImporter:
       name: NPCHeadBack_2
       rect:
         serializedVersion: 2
-        x: 72
-        y: 10
-        width: 17
-        height: 15
+        x: 64
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d04f911642808b8b0800000000000000
-      internalID: -5136346422675114995
+      spriteID: 8796fac72e2205a498420b8083bcba74
+      internalID: 1454172231
       vertices: []
       indices: 
       edges: []
@@ -203,20 +203,20 @@ TextureImporter:
       name: NPCHeadBack_3
       rect:
         serializedVersion: 2
-        x: 104
-        y: 10
-        width: 17
-        height: 15
+        x: 96
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 889ea97f224a31f10800000000000000
-      internalID: 2239313909823236488
+      spriteID: b0aaee8e99a2e50418329fa1fb512fef
+      internalID: 983823276
       vertices: []
       indices: 
       edges: []
@@ -225,20 +225,20 @@ TextureImporter:
       name: NPCHeadBack_4
       rect:
         serializedVersion: 2
-        x: 136
-        y: 10
-        width: 21
-        height: 16
+        x: 128
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f0dcab7e00d856470800000000000000
-      internalID: 8387264916074712335
+      spriteID: 678400dee4696cb4aa2ca075bc24e39f
+      internalID: -112623783
       vertices: []
       indices: 
       edges: []
@@ -247,20 +247,20 @@ TextureImporter:
       name: NPCHeadBack_5
       rect:
         serializedVersion: 2
-        x: 168
-        y: 10
-        width: 21
-        height: 16
+        x: 160
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 28f77876693463230800000000000000
-      internalID: 3618153663899860866
+      spriteID: 975df1c67e3231748bbbe9744eafeaa0
+      internalID: -1055239522
       vertices: []
       indices: 
       edges: []
@@ -269,20 +269,20 @@ TextureImporter:
       name: NPCHeadBack_6
       rect:
         serializedVersion: 2
-        x: 200
-        y: 10
-        width: 21
-        height: 16
+        x: 192
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 069bf63c737f5ae30800000000000000
-      internalID: 4514286020382931296
+      spriteID: 05240cbaa89eb354fa4dc622c989e475
+      internalID: 38775365
       vertices: []
       indices: 
       edges: []
@@ -291,20 +291,20 @@ TextureImporter:
       name: NPCHeadBack_7
       rect:
         serializedVersion: 2
-        x: 232
-        y: 10
-        width: 21
-        height: 16
+        x: 224
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0d3441e99127fc850800000000000000
-      internalID: 6399459049868641232
+      spriteID: 5f7e967080473f346a03fcf6bbde06f7
+      internalID: -923882852
       vertices: []
       indices: 
       edges: []
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c188d82ef804f32439ebdfe4f1011bb0
     internalID: 0
     vertices: []
     indices: 
@@ -321,16 +321,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      NPCHeadBack_0: -371650982909401393
-      NPCHeadBack_1: 6053888137470451634
-      NPCHeadBack_2: -5136346422675114995
-      NPCHeadBack_3: 2239313909823236488
-      NPCHeadBack_4: 8387264916074712335
-      NPCHeadBack_5: 3618153663899860866
-      NPCHeadBack_6: 4514286020382931296
-      NPCHeadBack_7: 6399459049868641232
+      NPCHeadBack_0: 2118628778
+      NPCHeadBack_1: 1459980315
+      NPCHeadBack_2: 1454172231
+      NPCHeadBack_3: 983823276
+      NPCHeadBack_4: -112623783
+      NPCHeadBack_5: -1055239522
+      NPCHeadBack_6: 38775365
+      NPCHeadBack_7: -923882852
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
