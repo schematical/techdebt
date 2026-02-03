@@ -118,7 +118,7 @@ public class ReleaseBase
         GameManager.Instance.cameraController.ZoomTo(targets[0].transform);
         foreach (ApplicationServer applicationServer in targets)
         {
-            applicationServer.ShowLevelUpGraphic(Rarity.Legendary, () =>
+            applicationServer.ShowLevelUpGraphic(Rarity.Common, () =>
             {
                 GameManager.Instance.UIManager.Resume();
                 if (GameManager.Instance.Tutorial != null)

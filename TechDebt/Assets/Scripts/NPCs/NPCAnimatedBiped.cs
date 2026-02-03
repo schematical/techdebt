@@ -53,6 +53,11 @@ namespace NPCs
                 faceSpriteRenderer.transform.position.y,
                 transform.position.z - 0.0002f
             );
+            bodySpriteRenderer.transform.position = new Vector3(
+                bodySpriteRenderer.transform.position.x,
+                bodySpriteRenderer.transform.position.y,
+                transform.position.z
+            );
             headSpriteResolver.SetCategoryAndLabel(
                 headSpriteLibraryCategory,
                 "Front"
@@ -67,7 +72,11 @@ namespace NPCs
                 headSpriteRenderer.transform.position.y,
                 transform.position.z + 0.0001f
             );
-        
+            bodySpriteRenderer.transform.position = new Vector3(
+                bodySpriteRenderer.transform.position.x,
+                bodySpriteRenderer.transform.position.y,
+                transform.position.z
+            );
             headSpriteResolver.SetCategoryAndLabel(
                 headSpriteLibraryCategory,
                 "Back"
