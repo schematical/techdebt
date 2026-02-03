@@ -692,7 +692,8 @@ public class GameManager : MonoBehaviour
         foreach (var infraData in AllInfrastructure)
         {
             Vector3 worldPos = gridManager.grid.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
-            GameObject instanceGO = Instantiate(infraData.Prefab, worldPos, Quaternion.identity);
+            Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
+            GameObject instanceGO = Instantiate(infraData.Prefab, adjustedWorldPos, Quaternion.identity);
 
             if (instanceGO.GetComponent<Collider2D>() == null)
             {

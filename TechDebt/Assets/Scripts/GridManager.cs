@@ -74,8 +74,19 @@ public class GridManager : MonoBehaviour
         // Clamp the cell position to be within the grid bounds
         cellPos.x = Mathf.Clamp(cellPos.x, 5, gridWidth - 6);
         cellPos.y = Mathf.Clamp(cellPos.y, 5, gridHeight - 6);
-
+       
         return nodeGrid[cellPos.x, cellPos.y];
+    }
+
+    public Vector3 AdjustWorldPointZ(Vector3 worldPosition)
+    {
+        // Vector3 screenPoint = Camera.main.WorldToScreenPoint(worldPosition);
+        Vector3 newWorldPoint = new Vector3(
+            worldPosition.x,
+            worldPosition.y,
+            worldPosition.y / 1000
+        );
+        return newWorldPoint;
     }
 
     public List<Node> GetNeighbours(Node node)

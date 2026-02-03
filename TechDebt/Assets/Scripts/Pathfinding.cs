@@ -88,7 +88,9 @@ public static class Pathfinding
         List<Vector3> worldPath = new List<Vector3>();
         foreach(var node in path)
         {
-            worldPath.Add(node.worldPosition);
+            worldPath.Add(
+                GameManager.Instance.gridManager.AdjustWorldPointZ(node.worldPosition)
+            );
         }
 
         worldPath.Reverse();

@@ -334,11 +334,13 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
 
         Vector3 targetWaypoint = currentPath[pathIndex];
-        targetWaypoint.z = transform.position.z; // 1 - targetWaypoint.y * -0.1f;
-        if (Vector3.Distance(transform.position, targetWaypoint) > 0.01f)
+        
+        if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
-            
-            transform.position = Vector3.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
+           
+            Debug.Log($"Target: {targetWaypoint} - Adjusted: {targetWaypoint}  - Distance: {Vector2.Distance(transform.position, targetWaypoint)}");
+            Vector3 nextPos = Vector3.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
+            transform.position = nextPos;
         }
         else
         {
