@@ -42,6 +42,7 @@ public class EditorSpriteManager
         spriteManager.bodySpriteLibraryAssetCollections.Clear();
         foreach (ProcessSpriteSheetResult result in  results)
         {
+            Debug.Log($"Processing Result: {result.catId} {result.newTexturePath}");
             SpriteLibraryAsset asset =
                 CreateSpriteLibraryAsset(
                     result.newTexturePath,
@@ -56,6 +57,7 @@ public class EditorSpriteManager
                 {
                     catId = result.catId,
                 };
+                spriteManager.bodySpriteLibraryAssetCollections.Add(coll);
             }
             coll.assets.Add(asset); ;
         }
