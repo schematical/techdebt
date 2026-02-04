@@ -9706,6 +9706,7 @@ MonoBehaviour:
   titleText: {fileID: 1679908759}
   scrollContent: {fileID: 2006343112}
   closeButton: {fileID: 2127184218}
+  textArea: {fileID: 1254225053}
 --- !u!114 &1006060326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11627,6 +11628,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4701601762815363794, guid: 873beff05425f304bad065155202f978, type: 3}
   m_PrefabInstance: {fileID: 1254225049}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1254225053 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7555404778621213798, guid: 873beff05425f304bad065155202f978, type: 3}
+  m_PrefabInstance: {fileID: 1254225049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f55c832721f7b3429bf518c1d94c5d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UITextArea
 --- !u!1 &1264889430
 GameObject:
   m_ObjectHideFlags: 0

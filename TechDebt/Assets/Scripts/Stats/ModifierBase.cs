@@ -159,5 +159,21 @@ namespace NPCs
         {
             return Levels.Count;
         }
+
+        public string ToFullDetail()
+        {
+            string text = GetTitle();
+            text += "Level " + Levels.Count + "\n";
+            text += $"Scaled Value: ${GetScaledValue()}\n";
+            text += $"BaseValue: ${BaseValue}\n";
+            float percent = BaseValue;
+            for(int i = 0; i < Levels.Count; i++)
+            {
+                float scaledValue = RarityHelper.GetDefaultScaleValue(Levels[i]);
+                percent *= scaledValue;
+                text += $" - Level {i} - {Levels[i]} - Scale: {scaledValue} - Result: {percent} \n";
+            }
+            return text;
+        }
     }
 }

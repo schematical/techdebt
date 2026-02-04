@@ -12,8 +12,10 @@ namespace UI
         public enum State
         {
             Closed,
-            Opened
+            Opened,
+            Done
         };
+
         private State state = State.Closed;
         public Button openButton;
         public Image rewardImage;
@@ -23,32 +25,32 @@ namespace UI
         private ReleaseBase release;
         public Image panelImage;
         public Button panelButton;
+
         void Start()
         {
             openButton.onClick.AddListener(OnOpenClick);
             panelButton.onClick.AddListener(OnPanelClick);
         }
+
         public void Show(ReleaseBase releaseBase)
         {
-           release = releaseBase;
-           gameObject.SetActive(true);
-           rewardImage.gameObject.SetActive(false);
-           primaryText.gameObject.SetActive(false);
-           secondaryText.gameObject.SetActive(false);
-           openButton.gameObject.SetActive(true);
-           panelImage.color = new Color(0, 0, 0, 0);
-
+            state = State.Closed;
+            release = releaseBase;
+            gameObject.SetActive(true);
+            rewardImage.gameObject.SetActive(false);
+            primaryText.gameObject.SetActive(false);
+            secondaryText.gameObject.SetActive(false);
+            openButton.gameObject.SetActive(true);
+            panelImage.color = new Color(0, 0, 0, 0);
         }
 
         public void OnPanelClick()
         {
-            gameObject.SetActive(false);
-            GameManager.Instance.UIManager.Resume();
+            Finish();
         }
-        
+
         public void OnOpenClick()
         {
-            
             state = State.Opened;
             panelImage.color = Color.white;
             rewardImage.gameObject.SetActive(true);
@@ -67,22 +69,32 @@ namespace UI
                 {
                     if (isDone)
                     {
-                        release.OnDeploymentCompleted();
-                        gameObject.SetActive(false);
-                        GameManager.Instance.UIManager.Resume();
-                        if (GameManager.Instance.Tutorial != null)
-                        {
-                            GameManager.Instance.Tutorial.OnRewardsPanelDone();
-                        }
-
+                        Finish();
                         return;
                     }
                     rewardImage.sprite = RarityHelper.PaintIcon(currentlyDisplayedRarity, icon);
                     secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(currentlyDisplayedRarity);
                 });
             }
+        }
+
+        protected void Finish()
+        {
+            if (state == State.Done)
+            {
+                return;
+            }
+
+            state = State.Done;
+            release.OnDeploymentCompleted();
+            GameManager.Instance.UIManager.Resume();
+            if (GameManager.Instance.Tutorial != null)
+            {
+                GameManager.Instance.Tutorial.OnRewardsPanelDone();
+            }
+            gameObject.SetActive(false);
+          
          
-            
         }
     }
 }
