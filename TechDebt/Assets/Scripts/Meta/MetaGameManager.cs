@@ -471,8 +471,9 @@ public static class MetaGameManager
                 Name = "FinOps Expert",
                 StatType = StatType.Infra_DailyCost,
                 Type = ModifierBase.ModifierType.NPC_InfraStat,
-                BaseValue = 0.9f,
+                // BaseValue = 0.9f,
                 IconPrefab = "IconCode",
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },
              new ModifierBase()
             {
@@ -529,9 +530,10 @@ public static class MetaGameManager
                 Name = "Image Optimization",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
-                BaseValue = 0.9f,
+                // BaseValue = 0.9f,
                 InfraClassName = typeof(ApplicationServer),
                 IconPrefab = "IconImageOptimization",
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },
             new ModifierBase()
             {
@@ -542,9 +544,10 @@ public static class MetaGameManager
                 Name = "Relational Database Design",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
-                BaseValue = 0.9f,
+                // BaseValue = 0.9f,
                 InfraClassName = typeof(Database),
                 IconPrefab = "IconRelationalDBDesign",
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },
             new ModifierBase()
             {
@@ -555,7 +558,7 @@ public static class MetaGameManager
                 Name = "Sales Page Optimization",
                 StatType = StatType.DailyIncome,
                 NetworkPacketType = NetworkPacketData.PType.Text,
-                BaseValue = 1.05f,
+                // BaseValue = 1.05f,
                 IconPrefab = "IconCart"
             }
             

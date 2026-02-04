@@ -148,7 +148,6 @@ public class ReleaseBase
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
         // TODO Rework this so it has to do with the devs skill
-        Debug.Log("OnDeploymentCompleted2: " + RewardModifier.GetLevel());
         for (int i = 0; i < RewardModifier.GetLevel(); i++)
         {
             NPCBug npcBug = GameManager.Instance.SpawnNPCBug();

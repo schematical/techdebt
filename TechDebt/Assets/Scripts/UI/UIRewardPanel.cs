@@ -62,7 +62,6 @@ namespace UI
             GameManager.Instance.UIManager.SetTimeScalePause();
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconPrefab);
             rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
-            Debug.Log($"Showing {release.rewardRarity}");
             foreach (ApplicationServer applicationServer in release.GetAllReleaseTargets())
             {
                 applicationServer.ShowLevelUpGraphic(release.rewardRarity, (currentlyDisplayedRarity, isDone) =>

@@ -269,7 +269,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;
         }
-        UpdateFootPrint();
+        // UpdateFootPrint();
         UpdateAppearance();
         GameManager.Instance.NotifyInfrastructureStateChange(this, previousState);
     }

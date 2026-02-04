@@ -251,6 +251,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public virtual void OnPlayPhaseStart()
     {
+        if (IsDead())
+        {
+            return;
+        }
         if (CurrentTask != null)
         {
             CurrentTask.Unassign();
@@ -261,12 +265,17 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
     public void OnPlanPhaseStart()
     {
+        
         if (CurrentTask != null)
         {
             CurrentTask.Unassign();
         }
         HideAttentionIcon();
         StopMovement();
+        if (IsDead())
+        {
+            return;
+        }
         CurrentState = State.Idle;
     }
     

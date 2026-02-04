@@ -33,6 +33,12 @@ namespace NPCs
             NPC,
             Release
         }
+
+        public enum ModifierScaleDirection
+        {
+            Up,
+            Down,
+        }
         public ModifierGroup Group { get; set; } = ModifierGroup.NPC;
         public ModifierTarget  Target { get; set; } = ModifierTarget.NPC;
         public StatType StatType { get; set; }
@@ -43,10 +49,10 @@ namespace NPCs
         
         public List<Rarity> Levels { get; set; } = new List<Rarity>();
 
-        public float BaseValue { get; set; } = 1.1f;
+        public float BaseValue { get; set; } = 1f;
         
         public ModifierType Type { get; set; } =  ModifierType.NPC_Stat;
-        
+        public ModifierScaleDirection ScaleDirection = ModifierScaleDirection.Up;
         public StatModifier StatModifier { get; private set; }
         public NetworkPacketData.PType NetworkPacketType;
         public Type InfraClassName { get; set; }
@@ -56,9 +62,26 @@ namespace NPCs
             float percent = BaseValue;
             foreach (Rarity rarity in Levels)
             {
-                percent *= RarityHelper.GetDefaultScaleValue(rarity);
+                percent *= GetScaledAdjustmentValue(rarity);
             }
             return percent;
+        }
+
+        public float GetScaledAdjustmentValue(Rarity rarity)
+        {
+            float scaleValue =  RarityHelper.GetDefaultScaleValue(rarity);
+            switch (ScaleDirection)
+            {
+                case ModifierScaleDirection.Up:
+                    break;
+                case ModifierScaleDirection.Down:
+                    scaleValue = (1 - scaleValue) + 1;
+                    break;
+                default:
+                    throw new SystemException("Unknown scale direction: " + ScaleDirection);
+            }
+
+            return scaleValue;
         }
 
         public void Apply(NPCDevOps npc = null)
@@ -123,21 +146,46 @@ namespace NPCs
         {
             string text = $"Level: {Levels.Count + 1}\n";
             float percent = GetScaledValue();
-            float increasePercent = RarityHelper.GetDefaultScaleValue(nextLevelRarity);
+            float increasePercent = GetScaledAdjustmentValue(nextLevelRarity);
             if (Levels.Count == 0)
             {
-                text += $"{Math.Round(percent * increasePercent * 100)}%";
+                switch (ScaleDirection)
+                {
+                    //   text += $"{Math.Round(percent * increasePercent * 100)}
+                    case ModifierScaleDirection.Up:
+                        text += $"{Math.Round(percent * increasePercent * 100) - 100}%";
+                        break;
+                    case ModifierScaleDirection.Down:
+                        text += $"{100 - Math.Round(percent * increasePercent * 100)}%";
+                        break;
+                    default:
+                        throw new SystemException("Unknown scale direction: " + ScaleDirection);
+                }
                 return text;
             }
-            float nextPercent = percent * increasePercent; 
-            text += $"{Math.Round(percent * 100)}% => {Math.Round(nextPercent * 100)}%";
+            float nextPercent = percent * increasePercent;
+            text += $"{nextPercent} = {percent} * {increasePercent}\n";
+            switch (ScaleDirection)
+            {
+                  
+                    // text += $"{Math.Round(percent * 100)}% => {Math.Round(nextPercent * 100)}%";
+                case ModifierScaleDirection.Up:
+                    text += $"{Math.Round(percent * 100) - 100}% => {Math.Round(nextPercent * 100) - 100}%";
+                    break;
+                case ModifierScaleDirection.Down:
+                    text += $"{100 - Math.Round(percent * 100)}% => {100 -Math.Round(nextPercent * 100)}%";
+                    break;
+                default:
+                    throw new SystemException("Unknown scale direction: " + ScaleDirection);
+            }
+         
             return text;
         }
         
         public int LevelUp(Rarity rarity)
         {
-            string debug = "Levels.Count Before: " +  Levels.Count + "\n" +
-                           "Rarity: " + rarity + "\n";
+            /*string debug = "Levels.Count Before: " +  Levels.Count + "\n" +
+                           "Rarity: " + rarity + "\n";*/
             
             
             
@@ -147,11 +195,11 @@ namespace NPCs
             
             
             
-            debug += "Levels.Count After: " + Levels.Count + "\n";
+            /*debug += "Levels.Count After: " + Levels.Count + "\n";
             for(int i = 0; i < Levels.Count; i++){
                     debug += "Level " + i + ": " + Levels[i] + "\n";
             }
-            Debug.Log("Level up: \n" + debug);
+            Debug.Log("Level up: \n" + debug);*/
             return Levels.Count;
         }
 
@@ -164,14 +212,14 @@ namespace NPCs
         {
             string text = GetTitle();
             text += "Level " + Levels.Count + "\n";
-            text += $"Scaled Value: ${GetScaledValue()}\n";
-            text += $"BaseValue: ${BaseValue}\n";
+            text += $"Scaled Value: {GetScaledValue()}\n";
+            text += $"BaseValue: {BaseValue}\n";
             float percent = BaseValue;
             for(int i = 0; i < Levels.Count; i++)
             {
-                float scaledValue = RarityHelper.GetDefaultScaleValue(Levels[i]);
+                float scaledValue = GetScaledAdjustmentValue(Levels[i]);
                 percent *= scaledValue;
-                text += $" - Level {i} - {Levels[i]} - Scale: {scaledValue} - Result: {percent} \n";
+                text += $" - Level {i} - {Levels[i]} -  {ScaleDirection} - Scale: {scaledValue} - Result: {percent}\n";
             }
             return text;
         }

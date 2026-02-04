@@ -178,11 +178,9 @@ namespace NPCs
                             possibleTargets.Add(infrastructureInstance);
                         }
                     }
-                    Debug.Log($"TriggerDefaultBehavior: `{possibleTargets.Count}`");
                     if (possibleTargets.Count > 0)
                     {
                         int i = Random.Range(0, possibleTargets.Count);
-                        Debug.Log($"{name} Starting to attack `{possibleTargets[i].name}`");
                         AssignTask(new AttackTask(possibleTargets[i]));
                         return;
                     }

@@ -123,7 +123,6 @@ public abstract class NPCTask
 
     public virtual string GetDescription()
     {
-        Debug.Log($"target:" + (target == null ? "null" : target.name));
         string description = $"State: {CurrentState} " +
                              $"{target.name} - Priority: {Priority} - `";
         if (AssignedNPC != null) {

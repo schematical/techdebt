@@ -119,7 +119,6 @@ namespace Infrastructure
 
         public void ZoomTo()
         {
-            Debug.Log("ZoomTo");
             GameManager.Instance.cameraController.ZoomTo(transform);
         }
         

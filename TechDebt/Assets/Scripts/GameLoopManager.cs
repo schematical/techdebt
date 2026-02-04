@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Events;
 using MetaChallenges;
 using Stats;
 using UnityEngine;
@@ -89,6 +90,11 @@ public class GameLoopManager : MonoBehaviour
                     npc.GetComponent<BossNPC>() != null &&
                     GameManager.Instance.Tutorial != null
                     )
+                {
+                    continue;
+                }
+
+                if (npc.IsDead())
                 {
                     continue;
                 }
@@ -188,7 +194,6 @@ public class GameLoopManager : MonoBehaviour
         );
         
         float adjustedDailyIncomeMultiplier = GameManager.Instance.GetStat(StatType.Difficulty) * percentageSuccess;
-        Debug.Log($"adjustedDailyIncomeMultiplier: {adjustedDailyIncomeMultiplier} = {GameManager.Instance.GetStat(StatType.Difficulty)} * {percentageSuccess}");
         GameManager.Instance.Stats.AddModifier(
             StatType.DailyIncome,
             new StatModifier(StatModifier.ModifierType.Multiply, adjustedDailyIncomeMultiplier)
@@ -225,7 +230,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.MetaStats.Incr(MetaStat.Day);
 
         // Assign "go to door" task to all NPCs
-        foreach (var npc in GameManager.Instance.AllNpcs.ToList())
+        foreach (NPCBase npc in GameManager.Instance.AllNpcs.ToList())
         {
             if (npc.gameObject.activeInHierarchy)
             {
@@ -233,7 +238,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
         
-        foreach (var e in GameManager.Instance.CurrentEvents.ToList())
+        foreach (EventBase e in GameManager.Instance.CurrentEvents.ToList())
         {
             if (e.IsOver())
             {

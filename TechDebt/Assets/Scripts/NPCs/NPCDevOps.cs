@@ -130,6 +130,7 @@ public class NPCDevOps : NPCAnimatedBiped
                     GameManager.Instance.UIManager.MultiSelectPanel.Add(
                             modifierBase.Id,
                             sprite,
+                            modifierBase.GetTitle(),
                             $"New - {rarity} - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
                         .OnClick((string id) =>
@@ -147,6 +148,7 @@ public class NPCDevOps : NPCAnimatedBiped
                 GameManager.Instance.UIManager.MultiSelectPanel.Add(
                         existingModifierBase.Id,
                         sprite,
+                        existingModifierBase.GetTitle(),
                         $"{rarity} - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
                     .OnClick((string id) =>
