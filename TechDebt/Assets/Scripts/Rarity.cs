@@ -1,36 +1,53 @@
-using System;
 
-namespace DefaultNamespace
+using System;
+using UnityEngine;
+
+public enum Rarity
 {
-    public enum Rarity
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary,
+}
+
+public class RarityHelper
+{
+    public static Rarity GetNextRarity(Rarity rarity)
     {
-        Common,
-        Uncommon,
-        Rare,
-        Epic,
-        Legendary,
+        switch (rarity)
+        {
+            case (Rarity.Common):
+                return Rarity.Uncommon;
+            case (Rarity.Uncommon):
+                return Rarity.Rare;
+            case (Rarity.Rare):
+                return Rarity.Epic;
+            case (Rarity.Epic):
+                return Rarity.Legendary;
+            default:
+            case Rarity.Legendary:
+                throw new SystemException("This shouldn't hit. We are at max legendary.");
+        }
     }
 
-    public class RarityHelper
+    public static Rarity GetRandomRarity(float probibility = 0.01f)
     {
-        public static Rarity GetNextRarity(Rarity rarity)
+        Rarity resRarity = Rarity.Common;
+        foreach (Rarity rarity in Enum.GetValues(typeof(Rarity)))
         {
-            switch (rarity)
+            if (rarity == Rarity.Common)
             {
-
-                case (Rarity.Common):
-                    return Rarity.Uncommon;
-                case (Rarity.Uncommon):
-                    return Rarity.Rare;
-                case (Rarity.Rare):
-                    return Rarity.Epic;
-                case (Rarity.Epic):
-                    return Rarity.Legendary;
-                default:
-                case Rarity.Legendary:
-                    throw new SystemException("This shouldn't hit. We are at max legendary.");
-                    
+                continue;
             }
+
+            if (UnityEngine.Random.value > probibility)
+            {
+                break;
+            }
+            resRarity = rarity;
         }
+
+        return resRarity;
     }
 }

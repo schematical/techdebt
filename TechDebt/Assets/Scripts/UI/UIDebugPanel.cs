@@ -36,7 +36,12 @@ public class UIDebugPanel : UIPanel
 
     private void RunMisc()
     {
-        InstaBuild();
+
+        for (int i = 0; i < 100; i++)
+        {
+            Debug.Log($"{i} - {RarityHelper.GetRandomRarity(0.5f)}");
+        }
+        /*InstaBuild();
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {
             ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
@@ -54,7 +59,7 @@ public class UIDebugPanel : UIPanel
         }
 
 
-        gameObject.SetActive(false);
+        gameObject.SetActive(false);*/
         
     }
 

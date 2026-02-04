@@ -120,7 +120,7 @@ public class NPCDevOps : NPCAnimatedBiped
                 if (Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                 {
                     traits.Add(modifierBase);
-
+                    
                     GameManager.Instance.UIManager.MultiSelectPanel.Add(
                             modifierBase.Id,
                             sprite,
