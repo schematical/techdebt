@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using Events;
 using NPCs;
 using Stats;
@@ -49,12 +50,12 @@ public class NPCDevOps : NPCAnimatedBiped
         currentXP += adjustedAmount;
         if (Math.Floor(currentXP) != lastDisplayXP)
         {
-            GameManager.Instance.FloatingTextFactory.ShowText($"{Math.Ceiling(amount)} XP",
+            GameManager.Instance.FloatingTextFactory.ShowText($"{Math.Round(currentXP - lastDisplayXP)} XP",
                 transform.position); //  + new Vector3(0, 1, 3));
             lastDisplayXP = (int)Math.Floor(currentXP);
         }
 
-        int nextLevelXP = (int)Math.Round(60 * Math.Pow(1.5f, level));
+        int nextLevelXP = (int)Math.Round(1 * Math.Pow(1.5f, level));
         if (currentXP >= nextLevelXP)
         {
        
@@ -110,9 +111,14 @@ public class NPCDevOps : NPCAnimatedBiped
                 throw new SystemException($"modifierBase.IconPrefab: {modifierBase.IconPrefab} not found");
             }
 
-            Sprite sprite = spriteGO.GetComponent<SpriteRenderer>().sprite;
+         
+            SpriteRenderer spriteRenderer = spriteGO.GetComponent<SpriteRenderer>();
+            Rarity rarity = RarityHelper.GetRandomRarity(.5f);
+            Sprite sprite = RarityHelper.PaintIcon(rarity, spriteRenderer.sprite); // spriteRenderer.sprite;
+            
             ModifierBase existingModifierBase = Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
-            // Debug.Log($"TraitTest: {existingTrait != null} && {Traits.Count} < {Stats.GetStatValue(StatType.NPC_TraitSlots)}");
+            // Debug.Log($"TraitTest: {existingModifierBase != null} && {Modifiers.Modifiers.Count} < {Stats.GetStatValue(StatType.NPC_ModifierSlots)}");
+ 
             if (
                 existingModifierBase == null
             )
@@ -124,10 +130,11 @@ public class NPCDevOps : NPCAnimatedBiped
                     GameManager.Instance.UIManager.MultiSelectPanel.Add(
                             modifierBase.Id,
                             sprite,
-                            modifierBase.GetDisplayText()
+                            $"New - {rarity} - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
                         .OnClick((string id) =>
                         {
+                            modifierBase.LevelUp(rarity);
                             AddModifier(modifierBase);
                             GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                         });
@@ -135,15 +142,16 @@ public class NPCDevOps : NPCAnimatedBiped
             }
             else
             {
-                traits.Add(existingModifierBase);
+                traits.Add(modifierBase);
+            
                 GameManager.Instance.UIManager.MultiSelectPanel.Add(
                         existingModifierBase.Id,
                         sprite,
-                        existingModifierBase.GetDisplayText(1)
+                        $"{rarity} - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
                     .OnClick((string id) =>
                     {
-                        existingModifierBase.LevelUp();
+                        existingModifierBase.LevelUp(rarity);
                         GameManager.Instance.UIManager.MultiSelectPanel.Clear();
                     });
             }
@@ -220,7 +228,7 @@ public class NPCDevOps : NPCAnimatedBiped
         {
             foreach (var trait in Modifiers.Modifiers)
             {
-                content += $"- {trait.Name} - Lvl: {trait.Level}\n";
+                content += $"- {trait.Name} - Lvl: {trait.Levels.Count()} - {trait.GetScaledValue()}\n";
             }
         }
         else

@@ -38,8 +38,8 @@ namespace NPCs
         public string Description { get; set; }
         public string IconPrefab { get; set; }
         public string Id { get; set; }
-
-        public int Level { get; set; } = 1;
+        
+        public List<Rarity> Levels { get; set; } = new List<Rarity>();
 
         public float BaseValue { get; set; } = 1.1f;
         
@@ -49,9 +49,14 @@ namespace NPCs
         public NetworkPacketData.PType NetworkPacketType;
         public Type InfraClassName { get; set; }
        
-        public float GetScaledValue(int offsetLevel = 0)
+        public float GetScaledValue()
         {
-            return (float)Math.Pow(BaseValue, Level + offsetLevel);
+            float percent = BaseValue;
+            foreach (Rarity rarity in Levels)
+            {
+                percent *= RarityHelper.GetDefaultScaleValue(rarity);
+            }
+            return percent;
         }
 
         public void Apply(NPCDevOps npc = null)
@@ -108,14 +113,37 @@ namespace NPCs
             infrastructure.data.Stats.Get(StatType).ReplaceOrAdd(statModifier);
         }
 
-        public string GetDisplayText(int offsetLevel = 0)
+        public string GetNextLevelUpDisplayText(Rarity nextLevelRarity)
         {
-            return $"{Name} Level: {Level + offsetLevel} - {StatType}  { Math.Round(GetScaledValue(offsetLevel) * 100) - 100}%";
+            string text = $"{Name} Level: {Levels.Count + 1} \n";
+            float percent = GetScaledValue();
+            if (Levels.Count == 0)
+            {
+                text += $"{Math.Round(percent * 100) - 100}%";
+                return text;
+            }
+            float increasePercent = RarityHelper.GetDefaultScaleValue(nextLevelRarity);
+            float nextPercent = percent * increasePercent; 
+            text += $"{Math.Round(percent * 100) - 100}% => {Math.Round(nextPercent * 100) - 100}%";
+            return text;
         }
-        public int LevelUp()
+        
+        public int LevelUp(Rarity rarity)
         {
-            Level++; 
-            return Level;
+            /*string debug = "Levels.Count Before: " +  Levels.Count + "\n" +
+                           "Rarity: " + rarity + "\n"; */
+            Levels.Add(rarity);
+            /*debug += "Levels.Count After: " + Levels.Count + "\n";
+            for(int i = 0; i < Levels.Count; i++){
+                    debug += "Level " + i + ": " + Levels[i] + "\n";
+            }
+            Debug.Log("Level up: \n" + debug);*/
+            return Levels.Count;
+        }
+
+        public int GetLevel()
+        {
+            return Levels.Count;
         }
     }
 }

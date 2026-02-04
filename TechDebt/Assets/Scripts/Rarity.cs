@@ -1,5 +1,7 @@
 
 using System;
+using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public enum Rarity
@@ -49,5 +51,65 @@ public class RarityHelper
         }
 
         return resRarity;
+    }
+
+    public static float GetDefaultScaleValue(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case (Rarity.Common):
+                return 1.05f;
+            case (Rarity.Uncommon):
+                return 1.1f;
+            case (Rarity.Rare):
+                return 1.15f;
+            case (Rarity.Epic):
+                return 1.2f;
+            default:
+            case Rarity.Legendary:
+                return 1.25f;
+        }
+    }
+    public static Color GetColor(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case (Rarity.Common):
+                return Color.white;
+            case (Rarity.Uncommon):
+                return Color.green;
+            case (Rarity.Rare):
+                return Color.blue;
+            case (Rarity.Epic):
+                return Color.purple;
+            default:
+            case Rarity.Legendary:
+                return Color.yellow;;
+        }
+    }
+
+    public static Sprite PaintIcon(Rarity rarity, Sprite sprite)
+    {
+        return GameManager.Instance.SpriteManager.ReplaceSpriteColors(
+            sprite,
+            new List<SimpleColorReplaceCombo>()
+            {
+                new SimpleColorReplaceCombo()
+                {
+                    findColor = SpriteManager.FromHex("#99e550"),
+                    replaceColor = RarityHelper.GetColor(rarity)
+                },
+                new SimpleColorReplaceCombo()
+                {
+                    findColor = SpriteManager.FromHex("#75ae3e"),
+                    replaceColor = SpriteManager.MakeDarker(RarityHelper.GetColor(rarity))
+                },
+                new SimpleColorReplaceCombo()
+                {
+                    findColor = SpriteManager.FromHex("#4b692f"),
+                    replaceColor = SpriteManager.MakeDarker(RarityHelper.GetColor(rarity), 0.5f)
+                },
+            }
+        );
     }
 }

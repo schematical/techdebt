@@ -45,7 +45,7 @@ public class ReleaseBase
     {
         Version = version;
         RewardModifier = modifierBase;
-        RequiredProgress = (float) (30f * Math.Pow(1.25f, modifierBase.Level));
+        RequiredProgress = (float) (30f * Math.Pow(1.25f, modifierBase.GetLevel()));
     }
 
 
@@ -138,18 +138,19 @@ public class ReleaseBase
     {
         if (RewardModifier != null)
         {
+            Rarity rarity = RarityHelper.GetRandomRarity(); //TODO: Feed in release quality to this
             if(!GameManager.Instance.Modifiers.Modifiers.Contains(RewardModifier)){
                 GameManager.Instance.AddModifier(RewardModifier);
             }
             else
             {
-                RewardModifier.LevelUp();
+                RewardModifier.LevelUp(rarity);
             }
         }
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
         // TODO Rework this so it has to do with the devs skill
-        for (int i = 0; i < RewardModifier.Level; i++)
+        for (int i = 0; i < RewardModifier.GetLevel(); i++)
         {
             NPCBug npcBug = GameManager.Instance.SpawnNPCBug();
             bugs.Add(npcBug);

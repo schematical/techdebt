@@ -67,7 +67,7 @@ namespace Infrastructure
                        GameManager.Instance.UIManager.MultiSelectPanel.Add(
                                modifierBase.Id,
                                sprite,
-                               modifierBase.GetDisplayText()
+                               modifierBase.GetNextLevelUpDisplayText(Rarity.Common)
                            )
                            .OnClick((string id) =>
                            {
@@ -86,7 +86,7 @@ namespace Infrastructure
                    GameManager.Instance.UIManager.MultiSelectPanel.Add(
                            existingModifierBase.Id, 
                            sprite, 
-                           existingModifierBase.GetDisplayText(1) 
+                           existingModifierBase.GetNextLevelUpDisplayText(Rarity.Common) 
                        )
                        .OnClick((string id) =>
                        {

@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
+using ColorUtility = UnityEngine.ColorUtility;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -20,6 +21,12 @@ namespace DefaultNamespace
         public List<BodySpriteLibraryAssetCollection> bodySpriteLibraryAssetCollections =
             new List<BodySpriteLibraryAssetCollection>();
 
+        public static Color FromHex(string hex)
+        {
+            Color c;
+            ColorUtility.TryParseHtmlString(hex, out c);
+            return c;
+        }
         public static Color MakeDarker(Color color, float amount = .2f)
         {
             float r = color.r - amount;
@@ -213,13 +220,10 @@ namespace DefaultNamespace
             return spriteReplacementMap;
         }
 
-        /*public Sprite RandomizeSpriteColors(Sprite sprite, List<ColorMap> populatedColorMaps = null)
+        public Sprite ReplaceSpriteColors(Sprite sprite, List<SimpleColorReplaceCombo> combos)
         {
             Init();
-            if (populatedColorMaps == null)
-            {
-                populatedColorMaps = GetRandomizedColorMaps();
-            }
+   
 
             Texture2D originalTexture = sprite.texture;
             Texture2D newTexture = new Texture2D(originalTexture.width, originalTexture.height);
@@ -231,33 +235,20 @@ namespace DefaultNamespace
 
             for (int p = 0; p < pixels.Length; p++)
             {
-                foreach (ColorMap colorMap in populatedColorMaps)
+                foreach (SimpleColorReplaceCombo combo in combos)
                 {
-                    // Debug.Log($"Testing {pixels[p]} == {colorMap.findColor}");
-                    if (pixels[p] == colorMap.findColor)
+                    if (pixels[p] == combo.findColor)
                     {
-
-                        // Debug.Log($"Replacing {pixels[p]} == i: {i} - {colorMap.replaceColors[i]}");
-                        pixels[p] = colorMap.selectedReplaceColor;
-
-                    }
-                    if (pixels[p] == colorMap.findDarkerColor)
-                    {
-
-                        // Debug.Log($"Replacing {pixels[p]} == i: {i} - {colorMap.replaceColors[i]}");
-                        pixels[p] = colorMap.darkerSelectedReplaceColor;
-
+                        pixels[p] = combo.replaceColor;
                     }
                 }
             }
-
-
             newTexture.SetPixels(pixels);
             newTexture.Apply();
 
             Vector2 pivot = new Vector2(sprite.pivot.x / sprite.rect.width, sprite.pivot.y / sprite.rect.height);
             return Sprite.Create(newTexture, sprite.rect, pivot, sprite.pixelsPerUnit);
-        }*/
+        }
     }
 
     [Serializable]
@@ -286,6 +277,11 @@ namespace DefaultNamespace
         }
     }
 
+    public class SimpleColorReplaceCombo
+    {
+        public Color findColor;
+        public Color replaceColor;
+    }
     public class ColorReplaceCombo
     {
         public string colorMapId;

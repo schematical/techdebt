@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviour
 
     public void Close()
     {
-        MultiSelectPanel.gameObject.SetActive(false);
+        // MultiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.gameObject.SetActive(false);
         deskMenuPanel.gameObject.SetActive(false);
         worldObjectDetailPanel.gameObject.SetActive(false);

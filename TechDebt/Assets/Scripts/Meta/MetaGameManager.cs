@@ -506,7 +506,7 @@ public static class MetaGameManager
                 Id = "fast_xp",
                 Name = "Fast Learner",
                 StatType = StatType.NPC_XPSpeed,
-                IconPrefab = "IconResearch"
+                IconPrefab = "IconTest"
             },
             /*
              *
