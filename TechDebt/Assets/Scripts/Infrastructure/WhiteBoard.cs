@@ -59,7 +59,6 @@ namespace Infrastructure
                Sprite sprite = GameManager.Instance.prefabManager.GetPrefab(modifierBase.IconPrefab).GetComponent<SpriteRenderer>().sprite;
                if (
                    existingModifierBase == null
-                   
                ) {
                    /*if (GameManager.Instance.Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                    {*/
@@ -67,6 +66,7 @@ namespace Infrastructure
                        GameManager.Instance.UIManager.MultiSelectPanel.Add(
                                modifierBase.Id,
                                sprite,
+                               modifierBase.GetTitle(),
                                modifierBase.GetNextLevelUpDisplayText(Rarity.Common)
                            )
                            .OnClick((string id) =>
@@ -86,12 +86,13 @@ namespace Infrastructure
                    GameManager.Instance.UIManager.MultiSelectPanel.Add(
                            existingModifierBase.Id, 
                            sprite, 
+                           existingModifierBase.GetTitle(),
                            existingModifierBase.GetNextLevelUpDisplayText(Rarity.Common) 
                        )
                        .OnClick((string id) =>
                        {
                            
-                           ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
+                           ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingModifierBase);
                            GameManager.Instance.Releases.Add(releaseBase);
                            CodeTask codeTask = new CodeTask(releaseBase);
                            GameManager.Instance.AddTask(codeTask);

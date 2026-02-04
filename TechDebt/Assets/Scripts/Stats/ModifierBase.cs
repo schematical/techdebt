@@ -113,9 +113,13 @@ namespace NPCs
             infrastructure.data.Stats.Get(StatType).ReplaceOrAdd(statModifier);
         }
 
+        public string GetTitle()
+        {
+            return $"{Name}";
+        }
         public string GetNextLevelUpDisplayText(Rarity nextLevelRarity)
         {
-            string text = $"{Name} Level: {Levels.Count + 1} \n";
+            string text = $"Level: {Levels.Count + 1}\n";
             float percent = GetScaledValue();
             if (Levels.Count == 0)
             {

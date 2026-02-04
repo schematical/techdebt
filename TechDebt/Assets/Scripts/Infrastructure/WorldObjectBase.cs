@@ -108,7 +108,7 @@ namespace Infrastructure
             return transform.position + interactionPositionOffset;
         }
 
-        public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity, UnityAction _onDone = null)
+        public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity, UnityAction<Rarity, bool> _onDone = null)
         {
             LevelUpEnvGraphic levelUpEnvGraphic = GameManager.Instance.prefabManager.Create("LevelUpEnvGraphic",
                 transform.position + new Vector3(0, 0, .1f)).GetComponent<LevelUpEnvGraphic>();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -16,90 +17,62 @@ namespace UI
         private State state = State.Closed;
         public Button openButton;
         public Image rewardImage;
-        public Animator animator;
-        private int count;
-        private float timer = 0;
-        private List<UILazerBeam> lazerBeams = new List<UILazerBeam>();
+        public TextMeshProUGUI primaryText;
+        public TextMeshProUGUI secondaryText;
         private UnityAction onDone;
+        private ReleaseBase release;
+        public Image panelImage;
         void Start()
         {
             openButton.onClick.AddListener(OnOpenClick);
         }
-        public void Show(UnityAction _onDone, int _count = 1)
+        public void Show(ReleaseBase releaseBase)
         {
-           Debug.Log("UIRewardPanel.Show");
-            GameManager.Instance.UIManager.SetTimeScalePause();
-            count = _count;
-            timer = 0;
-            state = State.Closed;
-            if (lazerBeams != null)
-            {
-                foreach (UILazerBeam lazerBeam in lazerBeams)
-                {
-                    lazerBeam.gameObject.SetActive(false);
-                }
-            }
-            lazerBeams.Clear();
-            onDone = _onDone;
-            gameObject.SetActive(true);
-            openButton.gameObject.SetActive(true);
+           release = releaseBase;
+           gameObject.SetActive(true);
+           rewardImage.gameObject.SetActive(false);
+           primaryText.gameObject.SetActive(false);
+           secondaryText.gameObject.SetActive(false);
+           openButton.gameObject.SetActive(true);
+           panelImage.color = new Color(0, 0, 0, 0);
+
         }
 
-        void Update()
-        {
-            if (state == State.Closed)
-            {
-                // Debug.Log(state);
-                return;
-            }
-
-            timer += Time.unscaledDeltaTime;
-            if (timer >= 1)
-            {
-                if (lazerBeams.Count < count)
-                {
-                    Vector2 position = rewardImage.transform.position - new Vector3(0, 30);
-                    GameObject lazerGO =
-                        GameManager.Instance.prefabManager.Create("UILazarBeamPanel", position, transform);
-
-                    lazerGO.transform.SetAsFirstSibling();
-                    UILazerBeam lazerBeam = lazerGO.GetComponent<UILazerBeam>();
-                
-                    float multiplier = 1;
-                    int existingCount = lazerBeams.Count;
-                    if (existingCount % 2 == 0)
-                    {
-                        multiplier = -1;
-                    }
-
-                    double rotationOffset = Math.Ceiling((double) existingCount / 2) * 20;
-                    double rotation = rotationOffset * multiplier;
-                    lazerBeam.Init((float) rotation);
-                    lazerBeams.Add(lazerBeam);
-                    timer = 0;
-                }
-            }
-
-            if (timer > 4)
-            {
-                foreach (UILazerBeam lazerBeam in lazerBeams)
-                {
-                    lazerBeam.Shutdown();
-                }
-                onDone.Invoke();
-                gameObject.SetActive(false);
-                GameManager.Instance.UIManager.Resume();
-
-            }
-           
-        }
+        
         public void OnOpenClick()
         {
             
-            // bool test = animator.GetBool("IsExploding");
-            animator.SetBool("IsExploding", true);
             state = State.Opened;
+            panelImage.color = Color.white;
+            rewardImage.gameObject.SetActive(true);
+            primaryText.gameObject.SetActive(true);
+            primaryText.text = release.RewardModifier.GetTitle();
+            secondaryText.gameObject.SetActive(true);
+            secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
             openButton.gameObject.SetActive(false);
+            GameManager.Instance.UIManager.SetTimeScalePause();
+            Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconPrefab);
+            rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
+            Debug.Log($"Showing {release.rewardRarity}");
+            foreach (ApplicationServer applicationServer in release.GetAllReleaseTargets())
+            {
+                applicationServer.ShowLevelUpGraphic(release.rewardRarity, (currentlyDisplayedRarity, isDone) =>
+                {
+                    if (isDone)
+                    {
+                        gameObject.SetActive(false);
+                        GameManager.Instance.UIManager.Resume();
+                        if (GameManager.Instance.Tutorial != null)
+                        {
+                            GameManager.Instance.Tutorial.OnRewardsPanelDone();
+                        }
+
+                        return;
+                    }
+                    rewardImage.sprite = RarityHelper.PaintIcon(currentlyDisplayedRarity, icon);
+                    secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(currentlyDisplayedRarity);
+                });
+            }
          
             
         }

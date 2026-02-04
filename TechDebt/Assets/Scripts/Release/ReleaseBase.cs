@@ -35,6 +35,7 @@ public class ReleaseBase
     public ModifierBase RewardModifier;
     public float CurrentProgress = 0f;
     public float RequiredProgress =  30f;
+    public Rarity rewardRarity = Rarity.Common;
     public ReleaseBase()
     {
         SetState(ReleaseState.InDevelopment);
@@ -116,40 +117,35 @@ public class ReleaseBase
             throw new SystemException("How did this release go with no targets?");
         }
         GameManager.Instance.cameraController.ZoomTo(targets[0].transform);
-        foreach (ApplicationServer applicationServer in targets)
-        {
-            applicationServer.ShowLevelUpGraphic(Rarity.Common, () =>
-            {
-                GameManager.Instance.UIManager.Resume();
-                if (GameManager.Instance.Tutorial != null)
-                {
-                    GameManager.Instance.Tutorial.OnRewardsPanelDone();
-                }
-            });
-        }
-        
+        GameManager.Instance.UIManager.rewardPanel.Show(this);
    
         
         OnDeploymentCompleted();
         return true;
     }
 
+    public float GetReleaseQuality()
+    {
+        return 0.5f;
+    }
     public void OnDeploymentCompleted()
     {
+        Debug.Log("OnDeploymentCompleted");
         if (RewardModifier != null)
         {
-            Rarity rarity = RarityHelper.GetRandomRarity(); //TODO: Feed in release quality to this
+            rewardRarity = RarityHelper.GetRandomRarity(GetReleaseQuality()); //TODO: Feed in release quality to this
             if(!GameManager.Instance.Modifiers.Modifiers.Contains(RewardModifier)){
                 GameManager.Instance.AddModifier(RewardModifier);
             }
             else
             {
-                RewardModifier.LevelUp(rarity);
+                RewardModifier.LevelUp(rewardRarity);
             }
         }
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
         // TODO Rework this so it has to do with the devs skill
+        Debug.Log("OnDeploymentCompleted2: " + RewardModifier.GetLevel());
         for (int i = 0; i < RewardModifier.GetLevel(); i++)
         {
             NPCBug npcBug = GameManager.Instance.SpawnNPCBug();

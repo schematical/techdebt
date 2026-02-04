@@ -26,11 +26,11 @@ namespace DefaultNamespace.EnvGraphic
         public float particleCounter = 0;
         private List<ScreenParticle> particles = new List<ScreenParticle>();
         private float nextParticleAt = 10000;
-        private UnityAction onDone;
+        private UnityAction<Rarity, bool> onStateChange;
 
-        public void Init(Rarity _goalRarity, UnityAction _onDone = null)
+        public void Init(Rarity _goalRarity, UnityAction<Rarity, bool> _onStateChange = null)
         {
-            onDone = _onDone;
+            onStateChange = _onStateChange;
             goalRarity =  _goalRarity;
             nextParticleAt = 1000;
             spriteRenderer.color = Color.white;
@@ -87,7 +87,7 @@ namespace DefaultNamespace.EnvGraphic
                     else
                     {
                         gameObject.SetActive(false);
-                        onDone.Invoke();
+                        onStateChange.Invoke(currentlyDisplayedRarity, true);
                     }
                 }
             }
@@ -100,6 +100,7 @@ namespace DefaultNamespace.EnvGraphic
             Debug.Log($"Show{currentlyDisplayedRarity}");
             animator.SetBool($"Intro{currentlyDisplayedRarity}", false);
             animator.SetBool($"Show{currentlyDisplayedRarity}", true);
+            onStateChange.Invoke(currentlyDisplayedRarity, false);
         }
         public void StartNextLevel()
         {

@@ -65,7 +65,6 @@ public class GridManager : MonoBehaviour
 
     public void UpdateTileState(Vector3Int pos, bool isWalkable)
     {
-        Debug.Log($"Setting {pos} to {isWalkable}");
         floorTilemap.SetTile(pos, isWalkable ? floorTilePrefab : shadowTilePrefab);
         nodeGrid[pos.x, pos.y].isWalkable = isWalkable;
     }

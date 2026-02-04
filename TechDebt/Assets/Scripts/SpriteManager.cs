@@ -15,12 +15,12 @@ namespace DefaultNamespace
         private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
 
-        public List<SpriteCollection> SpriteCollections = new List<SpriteCollection>();
+      
         public SpriteLibraryAsset baseBodySpriteLibraryAsset;
         public SpriteLibraryAsset headSpriteLibraryAsset;
         public List<BodySpriteLibraryAssetCollection> bodySpriteLibraryAssetCollections =
             new List<BodySpriteLibraryAssetCollection>();
-
+        public List<Sprite> Sprites = new List<Sprite>();
         public static Color FromHex(string hex)
         {
             Color c;
@@ -52,6 +52,18 @@ namespace DefaultNamespace
             );
         }
 
+        public Sprite GetSprite(string spriteId)
+        {
+            return Sprites.Find((s) =>
+            {
+                string name = s.name;
+                if (name.Contains("_"))
+                {
+                    name =  name.Substring(0, name.IndexOf("_"));
+                }
+                return name == spriteId;
+            });
+        }
         public NPCBipedAssets GetRandomNPCBipedAssets()
         {
 
@@ -70,25 +82,7 @@ namespace DefaultNamespace
                 bodySpriteLibraryAsset = bodySpriteLibraryAssetCollection.assets[Random.Range(0, bodySpriteLibraryAssetCollection.assets.Count)],
             };
         }
-
-        public Sprite GetRandom(string spriteCollectionId)
-        {
-            SpriteCollection collection = SpriteCollections.Find(x => x.Id == spriteCollectionId);
-            if (collection == null)
-            {
-                throw new SystemException("Missing sprite collection id: " + spriteCollectionId);
-            }
-
-            if (collection.Sprites.Count == 0)
-            {
-                throw new SystemException("Missing sprite collection with 0 elements: " + spriteCollectionId);
-            }
-
-            int i = Random.Range(0, collection.Sprites.Count);
-            Sprite sprite = collection.Sprites[i];
-
-            return sprite; // RandomizeSpriteColors(sprite);
-        }
+        
 
         public void Init()
         {

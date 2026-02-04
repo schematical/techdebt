@@ -15,7 +15,7 @@ namespace EnvGraphic
 
         void Start()
         {
-            spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetRandom(type.ToString());
+            // spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetRandom(type.ToString());
         }
     }
 }
