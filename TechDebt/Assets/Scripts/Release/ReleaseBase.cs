@@ -117,10 +117,10 @@ public class ReleaseBase
             throw new SystemException("How did this release go with no targets?");
         }
         GameManager.Instance.cameraController.ZoomTo(targets[0].transform);
+        rewardRarity = RarityHelper.GetRandomRarity(GetReleaseQuality()); //TODO: Feed in release quality to this
         GameManager.Instance.UIManager.rewardPanel.Show(this);
-   
         
-        OnDeploymentCompleted();
+        
         return true;
     }
 
@@ -133,13 +133,10 @@ public class ReleaseBase
         Debug.Log("OnDeploymentCompleted");
         if (RewardModifier != null)
         {
-            rewardRarity = RarityHelper.GetRandomRarity(GetReleaseQuality()); //TODO: Feed in release quality to this
+            RewardModifier.LevelUp(rewardRarity);
             if(!GameManager.Instance.Modifiers.Modifiers.Contains(RewardModifier)){
+                
                 GameManager.Instance.AddModifier(RewardModifier);
-            }
-            else
-            {
-                RewardModifier.LevelUp(rewardRarity);
             }
         }
 

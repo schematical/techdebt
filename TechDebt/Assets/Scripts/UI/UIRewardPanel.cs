@@ -60,6 +60,7 @@ namespace UI
                 {
                     if (isDone)
                     {
+                        release.OnDeploymentCompleted();
                         gameObject.SetActive(false);
                         GameManager.Instance.UIManager.Resume();
                         if (GameManager.Instance.Tutorial != null)
