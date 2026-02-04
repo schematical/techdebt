@@ -1,3 +1,5 @@
+using Stats;
+
 namespace UI
 {
     public class UIGlobalStatsPanel: UIPanel
@@ -11,6 +13,10 @@ namespace UI
             foreach (var stat in GameManager.Instance.Stats.Stats)
             {
                 sb.AppendLine($"{stat.Key}: {stat.Value.Value}");
+                foreach (StatModifier modifier in stat.Value.Modifiers)
+                {
+                    sb.AppendLine($" - {modifier.Type}: {modifier.GetDisplayText()} {modifier.Source}");
+                }
             }
             
             sb.AppendLine("\n<b>Modifiers</b>");

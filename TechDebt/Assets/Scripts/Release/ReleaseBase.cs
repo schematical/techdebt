@@ -144,6 +144,7 @@ public class ReleaseBase
             {
                 Debug.Log($"Modifier Base Exists: {existingModifierBase.Id} - Count: {GameManager.Instance.Modifiers.Modifiers.Count}");
             }
+        
         }
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);

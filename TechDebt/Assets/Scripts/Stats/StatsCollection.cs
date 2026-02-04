@@ -45,7 +45,6 @@ namespace Stats
             {
                 throw new SystemException($"StatsCollection: StatType `{statType}` does not exist. Debug: Count: {Stats.Count} ");
             }
-          
             Stats[statType].Modifiers.Add(modifier);
             Stats[statType].UpdateValue();
             

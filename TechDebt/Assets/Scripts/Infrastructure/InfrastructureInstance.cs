@@ -515,7 +515,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         content += $"Curr Load: {CurrentLoad}\n";
         content += $"Curr Size: {CurrentSizeLevel}\n";
         content += "<b>Stats:</b>\n";
-        foreach (var stat in data.Stats.Stats.Values)
+        foreach (StatData stat in data.Stats.Stats.Values)
         {
             content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
             if (stat.Modifiers.Count > 0)
@@ -527,6 +527,27 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 }
             }
         }
+        content += "<b>NetworkPackets:</b>\n";
+        foreach (InfrastructureDataNetworkPacket packet in data.networkPackets)
+        {
+            content += $"- {packet.PacketType} Load Per Packet: {packet.loadPerPacket} - {packet.RouteType}\n";
+            {
+                content += "  <i>- Stats:</i>\n";
+                foreach (StatData stat in packet.Stats.Stats.Values)
+                {
+                    content += $"  - {stat.Type} = {stat.Type} - Base: {stat.Value}\n";
+                    if (stat.Modifiers.Count > 0)
+                    {
+                        content += "  <i>   - Modifiers:</i>\n";
+                        foreach (StatModifier modifier in stat.Modifiers)
+                        {
+                            content += $"      - {modifier.GetDisplayText()} - {modifier.Source}\n";
+                        }
+                    }
+                }
+            }
+        }
+      
 
         content += "\n<b>Connections:</b>\n";
         if (CurrConnections.Count == 0)

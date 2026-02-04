@@ -167,6 +167,7 @@ public class NPCDevOps : NPCAnimatedBiped
         {
             GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
         }
+        modifierBase.Apply(this);
     }
 
     public override bool CanAssignTask(NPCTask task)
@@ -225,12 +226,12 @@ public class NPCDevOps : NPCAnimatedBiped
             content += "Task: Idle\n\n";
         }
         
-        content += "<b>Traits:</b>\n";
+        content += "<b>Modifiers:</b>\n";
         if (Modifiers.Modifiers.Any())
         {
-            foreach (var trait in Modifiers.Modifiers)
+            foreach (ModifierBase modifierBase in Modifiers.Modifiers)
             {
-                content += $"- {trait.Name} - Lvl: {trait.Levels.Count()} - {trait.GetScaledValue()}\n";
+                content += $"- {modifierBase.Name} - Lvl: {modifierBase.GetLevel()} - {modifierBase.GetScaledValue()}\n";
             }
         }
         else
@@ -240,7 +241,7 @@ public class NPCDevOps : NPCAnimatedBiped
         
         content += "\n<b>Stats:</b>\n";
 
-        foreach (var stat in Data.Stats.Stats.Values)
+        foreach (StatData stat in Stats.Stats.Values)
         {
             content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
             if (stat.Modifiers.Any())

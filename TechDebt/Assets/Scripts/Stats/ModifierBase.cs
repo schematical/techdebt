@@ -112,7 +112,7 @@ namespace NPCs
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-                                // Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
+                                Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }
@@ -194,7 +194,6 @@ namespace NPCs
             
             
             
-            
             /*debug += "Levels.Count After: " + Levels.Count + "\n";
             for(int i = 0; i < Levels.Count; i++){
                     debug += "Level " + i + ": " + Levels[i] + "\n";
@@ -212,7 +211,6 @@ namespace NPCs
         {
             string text = GetTitle();
             text += "Level " + Levels.Count + "\n";
-            text += $"Scaled Value: {GetScaledValue()}\n";
             text += $"BaseValue: {BaseValue}\n";
             float percent = BaseValue;
             for(int i = 0; i < Levels.Count; i++)
@@ -221,6 +219,7 @@ namespace NPCs
                 percent *= scaledValue;
                 text += $" - Level {i} - {Levels[i]} -  {ScaleDirection} - Scale: {scaledValue} - Result: {percent}\n";
             }
+            text += $"Scaled Value: {GetScaledValue()}\n";
             return text;
         }
     }
