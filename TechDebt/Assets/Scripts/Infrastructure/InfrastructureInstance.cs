@@ -269,7 +269,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;
         }
-
+        UpdateFootPrint();
         UpdateAppearance();
         GameManager.Instance.NotifyInfrastructureStateChange(this, previousState);
     }
@@ -281,7 +281,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             Debug.LogError($"[UpdateAppearance] for {gameObject.name}: spriteRenderer is NULL!");
             return;
         }
-
+       
         switch (data.CurrentState)
         {
             case InfrastructureData.State.Locked:
@@ -301,6 +301,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 spriteRenderer.color = Color.white;
                 break;
         }
+
+      
     }
 
     public void OnInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
@@ -564,5 +566,13 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public bool IsDead()
     {
         return data.CurrentState == InfrastructureData.State.Frozen;
+    }
+    public override void UpdateFootPrint()
+    {
+            
+        foreach (Vector3Int pos in GetFootPrint())
+        {
+            GameManager.Instance.gridManager.UpdateTileState(Vector3Int.FloorToInt(GridPosition + pos), !IsActive());
+        }
     }
 }

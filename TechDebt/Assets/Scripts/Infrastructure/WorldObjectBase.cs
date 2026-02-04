@@ -11,6 +11,7 @@ namespace Infrastructure
 {
     public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler, iAssignable
     {
+        public Vector3Int GridPosition;
         public Color attentionIconColor = Color.white;
         public Vector3 interactionPositionOffset = Vector3.zero;
         private UIAttentionIcon uiAttentionIcon;
@@ -82,6 +83,24 @@ namespace Infrastructure
                 transform.position.y, 
                 1 - transform.position.y * -0.1f // Setting Z for sorting order
             );*/
+          
+        }
+
+        public virtual void UpdateFootPrint()
+        {
+            
+            foreach (Vector3Int pos in GetFootPrint())
+            {
+                GameManager.Instance.gridManager.UpdateTileState(Vector3Int.FloorToInt(GridPosition + pos), true);
+            }
+        }
+
+        public List<Vector3Int> GetFootPrint()
+        {
+            return new List<Vector3Int>()
+            {
+                new Vector3Int(0, 0)
+            };
         }
 
         public virtual Vector3 GetInteractionPosition()
@@ -103,6 +122,7 @@ namespace Infrastructure
             Debug.Log("ZoomTo");
             GameManager.Instance.cameraController.ZoomTo(transform);
         }
+        
     }
     
 }

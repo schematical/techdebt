@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: FloorTile
+  m_Name: ShadowTile
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
-  m_Sprite: {fileID: 4039728813656953800, guid: b6a698bd65540d5479a8465a1b1c3a3d, type: 3}
+  m_Sprite: {fileID: -1526275680, guid: b6a698bd65540d5479a8465a1b1c3a3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

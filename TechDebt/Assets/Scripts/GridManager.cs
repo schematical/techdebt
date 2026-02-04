@@ -12,6 +12,7 @@ public class GridManager : MonoBehaviour
     public int gridHeight = 64;
     
    public Tile floorTilePrefab;
+   public Tile shadowTilePrefab;
    public IsometricRuleTile skyTilePrefab;
     public Grid grid { get; private set; }
     private Node[,] nodeGrid;
@@ -60,6 +61,13 @@ public class GridManager : MonoBehaviour
      
             }
         }
+    }
+
+    public void UpdateTileState(Vector3Int pos, bool isWalkable)
+    {
+        Debug.Log($"Setting {pos} to {isWalkable}");
+        floorTilemap.SetTile(pos, isWalkable ? floorTilePrefab : shadowTilePrefab);
+        nodeGrid[pos.x, pos.y].isWalkable = isWalkable;
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)

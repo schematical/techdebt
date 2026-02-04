@@ -711,8 +711,9 @@ public class GameManager : MonoBehaviour
             {
                 throw new SystemException($"Missing `InfrastructureInstance` Component for `{infraData.ID}`.");
             }
-
+            infraInstance.GridPosition = infraData.GridPosition; // TODO: Remove this hackyness.
             infraInstance.Initialize(infraData);
+           
             ActiveInfrastructure.Add(infraInstance);
             // Debug.Log($"Infrastructure '{infraData.DisplayName}' CHECK {infraData.CurrentState }.");
             if (infraData.CurrentState == InfrastructureData.State.Operational)

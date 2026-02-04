@@ -337,8 +337,6 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
-           
-            Debug.Log($"Target: {targetWaypoint} - Adjusted: {targetWaypoint}  - Distance: {Vector2.Distance(transform.position, targetWaypoint)}");
             Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
             transform.position = new Vector3(nextPos.x, nextPos.y, targetWaypoint.z);
         }

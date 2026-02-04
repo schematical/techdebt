@@ -12,7 +12,7 @@ public class InfrastructureData
     public string DisplayName;
     public string Type; // e.g., "WebServer", "Database", "LoadBalancer"
     public GameObject Prefab;
-    public Vector2Int GridPosition;
+    public Vector3Int GridPosition;
     public UnlockCondition[] UnlockConditions;
     public List<InfrastructureDataNetworkPacket> networkPackets = new List<InfrastructureDataNetworkPacket>();
 
