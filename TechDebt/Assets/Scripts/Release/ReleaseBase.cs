@@ -134,7 +134,8 @@ public class ReleaseBase
         if (RewardModifier != null)
         {
             RewardModifier.LevelUp(rewardRarity);
-            if(!GameManager.Instance.Modifiers.Modifiers.Contains(RewardModifier)){
+            ModifierBase modifierBase = GameManager.Instance.Modifiers.Modifiers.Find((r) => r.Id == RewardModifier.Id);
+            if(modifierBase == null){
                 
                 GameManager.Instance.AddModifier(RewardModifier);
             }

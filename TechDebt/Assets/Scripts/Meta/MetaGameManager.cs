@@ -472,7 +472,7 @@ public static class MetaGameManager
                 StatType = StatType.Infra_DailyCost,
                 Type = ModifierBase.ModifierType.NPC_InfraStat,
                 BaseValue = 0.9f,
-                IconPrefab = "IconCode"
+                IconPrefab = "IconCode",
             },
              new ModifierBase()
             {
@@ -531,7 +531,7 @@ public static class MetaGameManager
                 NetworkPacketType = NetworkPacketData.PType.Image,
                 BaseValue = 0.9f,
                 InfraClassName = typeof(ApplicationServer),
-                IconPrefab = "IconImageOptimization"
+                IconPrefab = "IconImageOptimization",
             },
             new ModifierBase()
             {
@@ -544,7 +544,7 @@ public static class MetaGameManager
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 BaseValue = 0.9f,
                 InfraClassName = typeof(Database),
-                IconPrefab = "IconRelationalDBDesign"
+                IconPrefab = "IconRelationalDBDesign",
             },
             new ModifierBase()
             {

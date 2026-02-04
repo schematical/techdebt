@@ -22,9 +22,11 @@ namespace UI
         private UnityAction onDone;
         private ReleaseBase release;
         public Image panelImage;
+        public Button panelButton;
         void Start()
         {
             openButton.onClick.AddListener(OnOpenClick);
+            panelButton.onClick.AddListener(OnPanelClick);
         }
         public void Show(ReleaseBase releaseBase)
         {
@@ -38,6 +40,11 @@ namespace UI
 
         }
 
+        public void OnPanelClick()
+        {
+            gameObject.SetActive(false);
+            GameManager.Instance.UIManager.Resume();
+        }
         
         public void OnOpenClick()
         {

@@ -47,6 +47,8 @@ public class UIManager : MonoBehaviour
     public RectTransform attentionIconBoarderPanel;
     public UINPCListPanel npcListPanel;
     public UITechTreePanel techTreePanel;
+
+    public UIGlobalStatsPanel globalStatsPanel;
     // OLD UI Containers
  
     private GameObject hireDevOpsPanel;
@@ -124,6 +126,7 @@ public class UIManager : MonoBehaviour
         npcDetailPanel.gameObject.SetActive(false);
         npcListPanel.gameObject.SetActive(false);
         techTreePanel.Close();
+        globalStatsPanel.Close();
         // hireDevOpsPanel.SetActive(false);
         
         taskListPanel.SetActive(false);

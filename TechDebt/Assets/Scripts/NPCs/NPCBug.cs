@@ -141,7 +141,7 @@ namespace NPCs
                     NetworkPacket[] allNetworkPackets = GameObject.FindObjectsOfType<NetworkPacket>();
                     NetworkPacket targetNetworkPacket = null;
                      minDistance = float.MaxValue;
-                    Debug.Log($"allNetworkPackets.count: {allNetworkPackets.Length}");
+      
                     foreach (NetworkPacket networkPackets in allNetworkPackets)
                     {
                         if (networkPackets.gameObject.activeSelf)
@@ -156,7 +156,6 @@ namespace NPCs
                     }
                     if (targetNetworkPacket != null)
                     {
-                        Debug.Log($"targetNetworkPacket: {targetNetworkPacket.name}");
                         AssignTask(new BugConsumeTask(targetNetworkPacket));
                         return;
                     }

@@ -14,7 +14,7 @@ public class UIPanel : MonoBehaviour
         if (closeButton != null)
         {
            
-            closeButton.onClick.AddListener(OnClose);
+            closeButton.onClick.AddListener(Close);
         }
         else
         {
@@ -22,7 +22,7 @@ public class UIPanel : MonoBehaviour
         }
     }
 
-    protected virtual void OnClose()
+    public virtual void Close()
     {
       
         gameObject.SetActive(false);

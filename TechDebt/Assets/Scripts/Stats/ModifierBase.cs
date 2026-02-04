@@ -26,6 +26,8 @@ namespace NPCs
             InfraClass, // Applies it across all infra of that type.
         }
 
+        // public int DisplayOffset = 0;
+
         public enum ModifierGroup
         {
             NPC,
@@ -121,27 +123,35 @@ namespace NPCs
         {
             string text = $"Level: {Levels.Count + 1}\n";
             float percent = GetScaledValue();
+            float increasePercent = RarityHelper.GetDefaultScaleValue(nextLevelRarity);
             if (Levels.Count == 0)
             {
-                text += $"{Math.Round(percent * 100) - 100}%";
+                text += $"{Math.Round(percent * increasePercent * 100)}%";
                 return text;
             }
-            float increasePercent = RarityHelper.GetDefaultScaleValue(nextLevelRarity);
             float nextPercent = percent * increasePercent; 
-            text += $"{Math.Round(percent * 100) - 100}% => {Math.Round(nextPercent * 100) - 100}%";
+            text += $"{Math.Round(percent * 100)}% => {Math.Round(nextPercent * 100)}%";
             return text;
         }
         
         public int LevelUp(Rarity rarity)
         {
-            /*string debug = "Levels.Count Before: " +  Levels.Count + "\n" +
-                           "Rarity: " + rarity + "\n"; */
+            string debug = "Levels.Count Before: " +  Levels.Count + "\n" +
+                           "Rarity: " + rarity + "\n";
+            
+            
+            
+            
             Levels.Add(rarity);
-            /*debug += "Levels.Count After: " + Levels.Count + "\n";
+            
+            
+            
+            
+            debug += "Levels.Count After: " + Levels.Count + "\n";
             for(int i = 0; i < Levels.Count; i++){
                     debug += "Level " + i + ": " + Levels[i] + "\n";
             }
-            Debug.Log("Level up: \n" + debug);*/
+            Debug.Log("Level up: \n" + debug);
             return Levels.Count;
         }
 

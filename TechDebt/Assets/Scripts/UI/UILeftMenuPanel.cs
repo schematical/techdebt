@@ -19,6 +19,7 @@ namespace UI
             AddButton("NPCs", GameManager.Instance.UIManager.npcListPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
             AddButton("Events", GameManager.Instance.UIManager.ToggleEventLogPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
             AddButton("Releases", GameManager.Instance.UIManager.ToggleDeploymentHistoryPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Stats", GameManager.Instance.UIManager.ToggleDeploymentHistoryPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         }
     }
 }
