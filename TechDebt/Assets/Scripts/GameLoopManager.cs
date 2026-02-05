@@ -136,7 +136,6 @@ public class GameLoopManager : MonoBehaviour
                 case(NPCBase.State.Dead):
                     break;
                 default:
-                    npc.gameObject.SetActive(true);
                     npc.OnPlayPhaseStart();
                     break;
             }

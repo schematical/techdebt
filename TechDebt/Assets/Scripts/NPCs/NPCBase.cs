@@ -255,6 +255,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             return;
         }
+        gameObject.SetActive(true);
         if (CurrentTask != null)
         {
             CurrentTask.Unassign();

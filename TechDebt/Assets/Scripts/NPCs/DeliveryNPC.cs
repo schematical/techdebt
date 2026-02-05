@@ -37,4 +37,9 @@ public class DeliveryNPC : NPCBase
         // We return false to prevent TryToFindWork from ever assigning a task.
         return false;
     }
+
+    public override void OnPlayPhaseStart()
+    {
+        // Do nothing
+    }
 }

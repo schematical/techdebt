@@ -135,9 +135,18 @@ public class NPCDevOps : NPCAnimatedBiped
                         )
                         .OnClick((string id) =>
                         {
-                            modifierBase.LevelUp(rarity);
-                            AddModifier(modifierBase);
-                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                            try
+                            {
+                                modifierBase.LevelUp(rarity);
+                                AddModifier(modifierBase);
+                                GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError("NPC Level Up Exception Start");
+                                Debug.LogException(e);
+                                Debug.LogError("NPC Level Up Exception End");
+                            }
                         });
                 }
             }
@@ -153,8 +162,14 @@ public class NPCDevOps : NPCAnimatedBiped
                     )
                     .OnClick((string id) =>
                     {
-                        existingModifierBase.LevelUp(rarity);
-                        GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                        try {
+                            existingModifierBase.LevelUp(rarity);
+                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                        }catch (Exception e) {
+                            Debug.LogError("NPC Level Up Exception2 Start");
+                            Debug.LogException(e);
+                            Debug.LogError("NPC Level Up Exception2 End");
+                        }
                     });
             }
         }

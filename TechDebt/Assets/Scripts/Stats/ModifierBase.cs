@@ -164,11 +164,9 @@ namespace NPCs
                 return text;
             }
             float nextPercent = percent * increasePercent;
-            text += $"{nextPercent} = {percent} * {increasePercent}\n";
+            // text += $"{nextPercent} = {percent} * {increasePercent}\n";
             switch (ScaleDirection)
             {
-                  
-                    // text += $"{Math.Round(percent * 100)}% => {Math.Round(nextPercent * 100)}%";
                 case ModifierScaleDirection.Up:
                     text += $"{Math.Round(percent * 100) - 100}% => {Math.Round(nextPercent * 100) - 100}%";
                     break;
