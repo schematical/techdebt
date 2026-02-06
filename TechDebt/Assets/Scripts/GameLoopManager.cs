@@ -19,8 +19,7 @@ public class GameLoopManager : MonoBehaviour
     public int currentDay = 0;
     public float dayTimer = 0f;
    
-    public const int PACKETS_BETWEEN_SALES = 10;
-    public int packetsUntilNextSale = -1;
+   
     void FixedUpdate()
     {
         switch (CurrentState)
@@ -178,7 +177,7 @@ public class GameLoopManager : MonoBehaviour
         }
 
         float actualIncome = (float)Math.Round(dailyPacketIncome * percentageSuccess);
-        float money = GameManager.Instance.IncrStat(StatType.Money, actualIncome);
+        float money = GameManager.Instance.GetStat(StatType.Money);
 
         string infraCosts = "\n\n<b>Infrastructure Costs:</b>\n";
         foreach (var instance in GameManager.Instance.ActiveInfrastructure)

@@ -10,11 +10,12 @@ public class NetworkPacketData
         Text,
         Image,
         BatchJob,
-        MaliciousText
+        MaliciousText,
+        Purchase
     }
 
     public PType Type;
-    public GameObject prefab;
+    public string prefabId;
     public float baseLoad = 20f;
     public float probilitly = 1f;
     // public int incomePerPacket = 0;

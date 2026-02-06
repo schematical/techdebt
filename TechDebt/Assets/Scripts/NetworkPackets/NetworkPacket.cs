@@ -26,7 +26,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
        
     } 
-    public void Initialize(NetworkPacketData npData, string fileName, int size, InfrastructureInstance origin = null)
+    public virtual void Initialize(NetworkPacketData npData, string fileName, int size, InfrastructureInstance origin = null)
     {
         data = npData;
         FileName = fileName;
@@ -70,7 +70,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         if (nextHop == null)
         {
             // If there's no destination, destroy the packet to prevent clutter
-            GameManager.Instance.DestroyPacket(this);
+            CompleteTrip();
             return;
         }
 
@@ -99,11 +99,17 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
             nextHop.ReceivePacket(this);
         }
     }
- 	public void MarkFailed() {
+
+    private void CompleteTrip()
+    {
+        GameManager.Instance.DestroyPacket(this);
+    }
+
+    public void MarkFailed() {
 		CurrentState = State.Failed;
 		GameManager.Instance.DestroyPacket(this);
 	}
-    public void StartReturn()
+    public virtual void StartReturn()
     {
         returnIndex = pastNodes.Count - 1;
     }

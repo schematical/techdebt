@@ -7054,6 +7054,12 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 4
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
     interactionPositionOffset: {x: 1, y: 2, z: 1}
   - ID: boss-desk
     DisplayName: BossDesk
@@ -8095,24 +8101,29 @@ MonoBehaviour:
     - load-balencer
     CurrentState: 0
   NetworkPacketDatas:
+  - Type: 4
+    prefabId: FileCoin
+    baseLoad: 0
+    probilitly: 100
   - Type: 0
-    prefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
+    prefabId: NetworkPacket
     baseLoad: 20
-    probilitly: 50
+    probilitly: 45
   - Type: 1
-    prefab: {fileID: 1421712027124890554, guid: 58ab099786be3344fb411709d0281a78, type: 3}
+    prefabId: FileCat
     baseLoad: 60
-    probilitly: 50
+    probilitly: 45
   - Type: 3
-    prefab: {fileID: 5665823746304393093, guid: 5a2196be1f6f1b5428cbdbd78cf93863, type: 3}
+    prefabId: NetworkPacketAttack
     baseLoad: 1000
     probilitly: 0
   - Type: 2
-    prefab: {fileID: 7854790981987779252, guid: a2c41a26556afd2419ad21a3064e9e4f, type: 3}
+    prefabId: BatchJobNetworkPacket
     baseLoad: 10
     probilitly: 0
   NetworkPacketState: 0
   AllNpcs: []
+  packetsUntilNextSale: -1
   packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
   activePackets: []
   gridManager: {fileID: 747688044}
@@ -8148,7 +8159,6 @@ MonoBehaviour:
   playTimerActive: 1
   currentDay: 0
   dayTimer: 0
-  packetsUntilNextSale: -1
 --- !u!114 &776996750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8231,6 +8241,11 @@ MonoBehaviour:
   - {fileID: 7982473762959787064, guid: 4e78842578c8ff64f9e361b7bf644145, type: 3}
   - {fileID: 3605764701712668647, guid: 079c884cbb5f37a4db6e5cb75ba099b7, type: 3}
   - {fileID: 6928032624998760423, guid: f2e3c3f13446a374592ba4c28ce2d7e6, type: 3}
+  - {fileID: 2960526777979498134, guid: 2de8274908fdb9646a408f1d85d0a3e9, type: 3}
+  - {fileID: 1421712027124890554, guid: 58ab099786be3344fb411709d0281a78, type: 3}
+  - {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
+  - {fileID: 5665823746304393093, guid: 5a2196be1f6f1b5428cbdbd78cf93863, type: 3}
+  - {fileID: 7854790981987779252, guid: a2c41a26556afd2419ad21a3064e9e4f, type: 3}
 --- !u!114 &776996751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18767,9 +18782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8dcf48b7d3c473f863baf83945fcb3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIMoneyPanel
-  titleText: {fileID: 0}
-  scrollContent: {fileID: 0}
-  closeButton: {fileID: 0}
 --- !u!114 &2147147189
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -41,7 +41,40 @@ public class GameManager : MonoBehaviour
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
-    public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
+    public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
+        new NetworkPacketData() {
+            Type = NetworkPacketData.PType.Text,
+            baseLoad = 20,
+            probilitly = 100,
+            prefabId = "FileCoin"
+        },
+        new NetworkPacketData() {
+           Type = NetworkPacketData.PType.Text,
+           baseLoad = 10,
+           probilitly = 45,
+           prefabId = "NetworkPacket"
+       },
+       new NetworkPacketData() {
+           Type = NetworkPacketData.PType.Image,
+           baseLoad = 20,
+           probilitly = 45,
+           prefabId = "FileCat"
+       },
+       new NetworkPacketData() {
+           Type = NetworkPacketData.PType.MaliciousText,
+           baseLoad = 1000,
+           probilitly = 0,
+           prefabId = "NetworkPacketAttack"
+       },
+       new NetworkPacketData() {
+           Type = NetworkPacketData.PType.BatchJob,
+           baseLoad = 0,
+           probilitly = 0,
+           prefabId = "BatchJobNetworkPacket"
+       },
+       
+        
+    };
     public StatsCollection Stats { get; private set; } = new StatsCollection();
     public MetaStatCollection MetaStats { get; private set; } = new MetaStatCollection();
     
@@ -78,6 +111,8 @@ public class GameManager : MonoBehaviour
     public List<NPCBase> AllNpcs = new List<NPCBase>();
     public List<ReleaseBase> Releases = new List<ReleaseBase>();
     private float timeSinceLastPacket = 0f;
+    public const int PACKETS_BETWEEN_SALES = 10;
+    public int packetsUntilNextSale = -1;
     public void AddTask(NPCTask task)
     {
         AvailableTasks.Add(task);
@@ -159,16 +194,18 @@ public class GameManager : MonoBehaviour
 
     public NetworkPacketData GetNetworkPacketData()
     {
+       
+       
         float probTotal = 0f;
-        foreach (var npData in NetworkPacketDatas)
+        foreach (NetworkPacketData npData in NetworkPacketDatas)
         {
+            // Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
             probTotal += npData.probilitly;
         }
-
         float index = Random.Range(0, probTotal);
         float currFloor = 0;
         NetworkPacketData foundData = null;
-        foreach (var npData in NetworkPacketDatas)
+        foreach (NetworkPacketData npData in NetworkPacketDatas)
         {
             if (
                 index >= currFloor &&
@@ -185,41 +222,17 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError($"GetNetworkPacketData - Not found - probTotal: {probTotal} - currFloor: {currFloor}");
         }
+        
         return foundData;
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
     {
-        // Ensure a pool for this packet type exists
-        if (!_networkPacketPool.ContainsKey(data.Type))
-        {
-            _networkPacketPool[data.Type] = new List<NetworkPacket>();
-        }
-
-        NetworkPacket packet = _networkPacketPool[data.Type].FirstOrDefault(p => !p.gameObject.activeInHierarchy);
-
-        if (packet != null)
-        {
-            // Reactivate and re-initialize the pooled packet
-            packet.transform.position = origin.GetInteractionPosition();
-            packet.gameObject.SetActive(true);
-            packet.Initialize(data, fileName, size, origin);
-        }
-        else
-        {
-            // Instantiate a new packet if the pool for this type is empty or all are active
-            GameObject packetGO = Instantiate(data.prefab, origin.GetInteractionPosition(), Quaternion.identity);
-            packet = packetGO.GetComponent<NetworkPacket>();
-            packet.Initialize(data, fileName, size, origin);
-            _networkPacketPool[data.Type].Add(packet); // Add the new packet to the correct pool
-        }
-
+        NetworkPacket packet = prefabManager.Create(data.prefabId, origin.GetInteractionPosition()).GetComponent<NetworkPacket>();
+        packet.Initialize(data, fileName, size, origin);
         activePackets.Add(packet);
         IncrStat(StatType.PacketsSent);
         return packet;
     }
-    
-
-    
 
     public void DestroyPacket(NetworkPacket packet)
     {

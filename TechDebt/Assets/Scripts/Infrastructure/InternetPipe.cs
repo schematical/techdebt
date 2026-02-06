@@ -6,7 +6,7 @@ public class InternetPipe : InfrastructureInstance
 
     public void SendPacket(NetworkPacketData networkPacketData)
     {
-        int connectionCount = data.NetworkConnections?.Count ?? 0;
+        // int connectionCount = data.NetworkConnections?.Count ?? 0;
         NetworkConnection connection = GetNextNetworkConnection(networkPacketData.Type);
         string targetId = connection?.TargetID;
                 
@@ -17,7 +17,7 @@ public class InternetPipe : InfrastructureInstance
             if (targetReceiver is InfrastructureInstance destination)
             {
                 // Create the packet
-                string fileName = $"file_{Random.Range(1000, 9999)}.dat";
+                string fileName = $"file_{networkPacketData.Type}_{Random.Range(1000, 9999)}.dat";
                 int size = Random.Range(5, 50);
                 NetworkPacket packet = GameManager.Instance.CreatePacket(networkPacketData, fileName, size, this);
                         
