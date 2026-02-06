@@ -146,6 +146,7 @@ public class GameLoopManager : MonoBehaviour
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.HidePlanUI();
+        GameManager.Instance.UIManager.moneyPanel.Show();
         
         
         GameManager.Instance.UIManager.Resume();

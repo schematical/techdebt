@@ -8,16 +8,38 @@ namespace UI
         public RectTransform rectTransform;
         List<UICoin> coins = new List<UICoin>();
 
+        public void Show()
+        {
+            
+            foreach (UICoin coin in coins)
+            {
+                coin.gameObject.SetActive(false);
+            }
+            coins.Clear();
+            for (int i = 0; i < GameManager.Instance.GetStat(StatType.Money) / 10; i++)
+            {
+                Vector3 pos = new Vector3(
+                    rectTransform.position.x - rectTransform.rect.width /2, 
+                    i * 20 + 200, 
+                    rectTransform.position.z
+                );
+                UICoin coin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();
+                coin.Initialize(false);
+                coins.Add(coin);
+            }
+        }
+        
         public void AddCoin()
         {
            
             Vector3 pos = new Vector3(
                 rectTransform.position.x - rectTransform.rect.width /2, 
-                rectTransform.rect.height, 
+                rectTransform.rect.height * 1.25f, 
                 rectTransform.position.z
                 );
-            UICoin uiCoin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();
-            coins.Add(uiCoin);
+            UICoin coin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();
+            coin.Initialize();
+            coins.Add(coin);
         }
     }
 }

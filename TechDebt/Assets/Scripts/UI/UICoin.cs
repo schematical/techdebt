@@ -18,6 +18,12 @@ namespace UI
             animator.SetBool("hasLanded", hasLanded);
             
         }
+        protected void MarkFalling()
+        {
+            hasLanded = false;
+            animator.SetBool("hasLanded", hasLanded);
+            
+        }
         public bool HasLanded()
         {
             return hasLanded;
@@ -32,6 +38,18 @@ namespace UI
                MarkLanded();
             }
             else if(collision.gameObject.name == "BottomTrigger")
+            {
+                MarkLanded();
+            }
+        }
+
+        public void Initialize(bool isFalling = true)
+        {
+            if (isFalling)
+            {
+                MarkFalling();
+            }
+            else
             {
                 MarkLanded();
             }
