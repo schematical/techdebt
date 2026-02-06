@@ -24,12 +24,13 @@ public class PrefabManager: MonoBehaviour
         if (go != null)
         {
             // Reactivate and re-initialize the pooled packet
-            go.transform.position = position;
-            go.SetActive(true);
+          
             if (parentTransform != null)
             {
                 go.transform.SetParent(parentTransform);
             }
+            go.transform.position = position;
+            go.SetActive(true);
         }
         else
         {

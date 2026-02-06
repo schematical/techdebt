@@ -5,6 +5,15 @@ namespace UI
 {
     public class UIMoneyPanel:  MonoBehaviour
     {
+        public RectTransform rectTransform;
         List<UICoin> coins = new List<UICoin>();
+
+        public void AddCoin()
+        {
+           
+            Vector3 pos = new Vector3(rectTransform.position.x, rectTransform.anchorMax.y, rectTransform.position.z);
+            UICoin uiCoin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();
+            coins.Add(uiCoin);
+        }
     }
 }

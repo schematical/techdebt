@@ -37,10 +37,7 @@ public class UIDebugPanel : UIPanel
     private void RunMisc()
     {
 
-        for (int i = 0; i < 100; i++)
-        {
-            Debug.Log($"{i} - {RarityHelper.GetRandomRarity(0.5f)}");
-        }
+        GameManager.Instance.UIManager.moneyPanel.AddCoin();
         /*InstaBuild();
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {

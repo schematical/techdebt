@@ -78,6 +78,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected virtual bool HandleIncomingPacket(NetworkPacket packet)
     {
+       
         if (data.CurrentState == InfrastructureData.State.Frozen)
         {
             packet.MarkFailed();
@@ -100,6 +101,11 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             {
                 loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
                 costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
+            }
+
+            if (packet.data.Type == NetworkPacketData.PType.Purchase)
+            {
+                Debug.Log($"Load per packet: {loadPerPacket}");
             }
 
             if (costPerPacket != 0)

@@ -61,7 +61,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         nextHop = target;
   
     }
-    void Update()
+     protected virtual void Update()
     {
         if (GameManager.Instance.NetworkPacketState == GameManager.GlobalNetworkPacketState.Frozen)
         {
