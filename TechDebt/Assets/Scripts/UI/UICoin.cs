@@ -32,7 +32,6 @@ namespace UI
         {
           
             UICoin  coin = collision.GetComponent<UICoin>();
-            Debug.Log($"OnTriggerEnter2D{collision.gameObject.name} {collision.gameObject.tag} - {(coin == null ? "Null" :"HasComponent")}");
             if (coin !=null && coin.HasLanded())
             {
                MarkLanded();
@@ -45,6 +44,7 @@ namespace UI
 
         public void Initialize(bool isFalling = true)
         {
+            boxCollider2D.enabled = true;
             if (isFalling)
             {
                 MarkFalling();
@@ -53,6 +53,11 @@ namespace UI
             {
                 MarkLanded();
             }
+        }
+
+        public void Spend()
+        {
+            boxCollider2D.enabled = false;
         }
     }
 }

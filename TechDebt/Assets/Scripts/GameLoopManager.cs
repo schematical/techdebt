@@ -218,7 +218,7 @@ public class GameLoopManager : MonoBehaviour
 
         summaryText += infraCosts;
 
-       
+        GameManager.Instance.UIManager.moneyPanel.SpendCoins(totalDailyCost);
         
         if (GameManager.Instance.GetStat(StatType.Money) < 0)
         {

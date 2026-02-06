@@ -26,10 +26,11 @@ public class UIDebugPanel : UIPanel
         AddButton("Insta-Build", () => { InstaBuild(); });
         AddButton("Insta-Research", () => { InstaResearch(); });
         AddButton("Unlock All Tech", () => { UnlockAllTechnologies(); });
-        AddButton("Trigger Event", () => GameManager.Instance.UIManager.ToggleEventTriggerPanel());
+        // AddButton("Trigger Event", () => GameManager.Instance.UIManager.ToggleEventTriggerPanel());
         AddButton("SpawnNPC", () => { SpawnNPC(); });
+        AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
-        AddButton("Export State", () => { ExportState(); }); 
+    
         AddButton("Misc", () => { RunMisc(); });
 
     }
@@ -141,6 +142,10 @@ public class UIDebugPanel : UIPanel
     {
         GameManager.Instance.Stats.Get(StatType.Money).SetBaseValue(-1000);
         GameManager.Instance.GameLoopManager.EndGame();
+    }  
+    private void EndDay()
+    {
+        GameManager.Instance.GameLoopManager.dayTimer = 1000;
     }
     
     private void ExportState()

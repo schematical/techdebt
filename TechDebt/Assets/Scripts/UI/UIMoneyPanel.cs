@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +41,28 @@ namespace UI
             UICoin coin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();
             coin.Initialize();
             coins.Add(coin);
+        }
+
+        public void SpendCoins(float totalDailyCost)
+        {
+            int coinCount = (int)Math.Round(totalDailyCost / 10);
+            Debug.Log($"Spending - Coin Count: {coinCount}  totalDailyCost: {totalDailyCost}");
+            if (coinCount > coins.Count)
+            {
+                coinCount = coins.Count;
+            }
+            List<UICoin> coinsToRemove = new List<UICoin>();
+            for (int i = 0; i < coinCount; i++)
+            {
+                coins[i].Spend();
+                coinsToRemove.Add(coins[i]);
+             
+            }
+
+            foreach (UICoin coin in coinsToRemove)
+            {
+                coins.Remove(coin);
+            }
         }
     }
 }
