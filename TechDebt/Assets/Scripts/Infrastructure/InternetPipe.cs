@@ -2,62 +2,31 @@ using UnityEngine;
 
 public class InternetPipe : InfrastructureInstance
 {
-    private float timeSinceLastPacket = 0f;
+   
 
-    void Update()
+    public void SendPacket(NetworkPacketData networkPacketData)
     {
-        // Ensure packet generation only runs during the Play phase and the pipe is operational
-        if (
-			GameManager.Instance.GameLoopManager.CurrentState == GameLoopManager.GameState.Play && 
-			IsActive()
-		)
+        int connectionCount = data.NetworkConnections?.Count ?? 0;
+        NetworkConnection connection = GetNextNetworkConnection(networkPacketData.Type);
+        string targetId = connection?.TargetID;
+                
+        if (targetId != null)
         {
-            float packetsPerSecond = GameManager.Instance.GetPacketsPerSecond();
-            int connectionCount = data.NetworkConnections?.Count ?? 0;
+            InfrastructureInstance targetReceiver = GameManager.Instance.GetInfrastructureInstanceByID(targetId);
 
-            // Check if there are any configured network connections
-            if (packetsPerSecond > 0 && connectionCount > 0)
+            if (targetReceiver is InfrastructureInstance destination)
             {
-                timeSinceLastPacket += Time.deltaTime;
-                float delay = 1f / packetsPerSecond;
-
-                if (timeSinceLastPacket >= delay)
-                {
-                    timeSinceLastPacket -= delay;
-                    NetworkPacketData data = GameManager.Instance.GetNetworkPacketData();
-                    NetworkConnection connection = GetNextNetworkConnection(data.Type);
-                    string targetId = connection?.TargetID;
-                    
-                    if (targetId != null)
-                    {
-                        InfrastructureInstance targetReceiver = GameManager.Instance.GetInfrastructureInstanceByID(targetId);
-
-                        if (targetReceiver is InfrastructureInstance destination)
-                        {
-                            // Create the packet
-                            string fileName = $"file_{Random.Range(1000, 9999)}.dat";
-                            int size = Random.Range(5, 50);
-                            NetworkPacket packet = GameManager.Instance.CreatePacket(data, fileName, size, this);
-                            
-                            packet.SetNextTarget(destination);
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"InternetPipe cannot create packet: Target receiver '{targetId}' not found in GameManager.");
-                        }
-                    }
-                }
+                // Create the packet
+                string fileName = $"file_{Random.Range(1000, 9999)}.dat";
+                int size = Random.Range(5, 50);
+                NetworkPacket packet = GameManager.Instance.CreatePacket(networkPacketData, fileName, size, this);
+                        
+                packet.SetNextTarget(destination);
             }
             else
             {
-                // Reset timer if traffic drops or no appliance is connected
-                timeSinceLastPacket = 0f;
+                Debug.LogWarning($"InternetPipe cannot create packet: Target receiver '{targetId}' not found in GameManager.");
             }
-        }
-        else
-        {
-            // Reset timer when not in Play phase
-            timeSinceLastPacket = 0f;
         }
     }
 

@@ -18,7 +18,7 @@ public class UIPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Missing `closeButton`");
+            Debug.LogError($"{gameObject.name} is missing `closeButton`");
         }
     }
 

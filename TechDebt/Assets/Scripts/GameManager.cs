@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     public List<NPCTask> AvailableTasks = new List<NPCTask>();
     public List<NPCBase> AllNpcs = new List<NPCBase>();
     public List<ReleaseBase> Releases = new List<ReleaseBase>();
+    private float timeSinceLastPacket = 0f;
     public void AddTask(NPCTask task)
     {
         AvailableTasks.Add(task);
@@ -472,6 +473,38 @@ public class GameManager : MonoBehaviour
         {
             effect.FixedUpdate();
         }
+
+        TickNetworkPackets();
+    }
+
+    private void TickNetworkPackets()
+    {
+       // Ensure packet generation only runs during the Play phase and the pipe is operational
+       if (
+           GameLoopManager.CurrentState != GameLoopManager.GameState.Play
+       )
+       {
+           return;
+       }
+
+        float secondsBetweenPackets = GameLoopManager.GetDayDurationSeconds() / GetStat(StatType.Traffic);
+        timeSinceLastPacket += Time.deltaTime;
+    
+
+        if (timeSinceLastPacket >= secondsBetweenPackets)
+        {
+            
+            NetworkPacketData data = GetNetworkPacketData();
+            List<InternetPipe> instances = GetInfrastructureInstanceByClass<InternetPipe>();
+            if (instances.Count == 0)
+            {
+                throw new SystemException("Cannot find any `InternetPipe` instances");
+            }
+            InternetPipe pipe = instances[Random.Range(0, instances.Count)];
+            pipe.SendPacket(data);
+            timeSinceLastPacket = 0f;
+        }
+        
     }
 
     private void SpawnDeliveryNPC()
@@ -1013,10 +1046,8 @@ public class GameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    public float GetPacketsPerSecond()
-    {
-        return Instance.GetStat(StatType.Traffic) / GameLoopManager.GetDayDurationSeconds();
-    }
+   
+ 
 
     public void HideAllAttentionIcons()
     {

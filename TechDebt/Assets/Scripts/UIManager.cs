@@ -49,6 +49,8 @@ public class UIManager : MonoBehaviour
     public UITechTreePanel techTreePanel;
 
     public UIGlobalStatsPanel globalStatsPanel;
+
+    public UIMoneyPanel moneyPanel;
     // OLD UI Containers
  
     private GameObject hireDevOpsPanel;

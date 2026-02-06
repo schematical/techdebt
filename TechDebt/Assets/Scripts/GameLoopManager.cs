@@ -18,7 +18,9 @@ public class GameLoopManager : MonoBehaviour
     public bool playTimerActive = true;
     public int currentDay = 0;
     public float dayTimer = 0f;
-    
+   
+    public const int PACKETS_BETWEEN_SALES = 10;
+    public int packetsUntilNextSale = -1;
     void FixedUpdate()
     {
         switch (CurrentState)
