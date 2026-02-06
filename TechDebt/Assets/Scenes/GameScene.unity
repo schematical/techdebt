@@ -7934,6 +7934,71 @@ MonoBehaviour:
     CurrentState: 3
     NetworkConnections: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
+  - ID: internetPipe2
+    DisplayName: Internet Pipe 2
+    Type: 
+    Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
+    GridPosition: {x: 5, y: 37, z: 0}
+    UnlockConditions: []
+    networkPackets: []
+    DailyCost: 0
+    BuildTime: 1
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CanBeUpsized: 0
+    CurrentState: 3
+    NetworkConnections:
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 1
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 3
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 1
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 3
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 3
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: cdn
+      Priority: 7
+      networkPacketType: 1
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 1, y: 2, z: 1}
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -8083,6 +8148,7 @@ MonoBehaviour:
   playTimerActive: 1
   currentDay: 0
   dayTimer: 0
+  packetsUntilNextSale: -1
 --- !u!114 &776996750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18686,7 +18752,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -31.5469, y: 32.815}
+  m_AnchoredPosition: {x: -31.546875, y: 32.815002}
   m_SizeDelta: {x: 63.0938, y: -145.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2147147188
