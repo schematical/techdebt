@@ -11,7 +11,7 @@ namespace UI
         public void AddCoin()
         {
            
-            Vector3 pos = new Vector3(rectTransform.position.x, rectTransform.anchorMax.y, rectTransform.position.z);
+            Vector3 pos = new Vector3(rectTransform.position.x, rectTransform.rect.height, rectTransform.position.z);
             UICoin uiCoin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();
             coins.Add(uiCoin);
         }
