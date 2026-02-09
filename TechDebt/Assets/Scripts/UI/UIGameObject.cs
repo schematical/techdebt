@@ -64,7 +64,7 @@ namespace UI
         protected virtual void Update()
         {
             if (!IsAnimating()) return;
-            Debug.Log($"{gameObject.name} is Animating");
+            // Debug.Log($"{gameObject.name} is Animating");
             animationProgress += Time.unscaledDeltaTime / animationTime;
 
             if (animationProgress >= 1.0f)
@@ -110,24 +110,28 @@ namespace UI
                 return;
             }
             state = UIState.Opening;
+
+            float width = rectTransform.rect.x - rectTransform.rect.x;
+            float height = rectTransform.rect.y - rectTransform.rect.y;
+            Debug.Log($"width: {width}, height: {height}");
             Vector2 offscreenAnchorMin = initialAnchorMin;
             Vector2 offscreenAnchorMax = initialAnchorMax;
             
             switch(slideDirection) {
-                case SlideDirection.Left:
+                case SlideDirection.Left: // Comes from Right
                     offscreenAnchorMin.x = 1;
-                    offscreenAnchorMax.x = 2;
+                    offscreenAnchorMax.x = 1 + width;
                     break;
-                case SlideDirection.Right:
-                    offscreenAnchorMin.x = -1;
+                case SlideDirection.Right: // Comes from Left
+                    offscreenAnchorMin.x = -width;
                     offscreenAnchorMax.x = 0;
                     break;
-                case SlideDirection.Up:
+                case SlideDirection.Up: // Comes from Top
                     offscreenAnchorMin.y = 1;
-                    offscreenAnchorMax.y = 2;
+                    offscreenAnchorMax.y = 1 + height;
                     break;
-                case SlideDirection.Down:
-                    offscreenAnchorMin.y = -1;
+                case SlideDirection.Down: // Comes from Bottom
+                    offscreenAnchorMin.y = -height;
                     offscreenAnchorMax.y = 0;
                     break;
             }
@@ -148,26 +152,29 @@ namespace UI
                 return;
             }
             state = UIState.Closing;
+
+            float width = rectTransform.rect.x - rectTransform.rect.x;
+            float height = rectTransform.rect.y - rectTransform.rect.y;
+            Debug.Log($"width: {width}, height: {height}");
             Vector2 outAnchorMin = initialAnchorMin;
             Vector2 outAnchorMax = initialAnchorMax;
             
             switch(slideDirection) {
-                case SlideDirection.Left: // Slides out to the left
+                case SlideDirection.Left: // Slides out to the Right
                     outAnchorMin.x = 1;
-                    outAnchorMax.x = 2;
+                    outAnchorMax.x = 1 + width;
                     break;
-                case SlideDirection.Right: // Slides out to the right
-               
-                    outAnchorMin.x = -1;
+                case SlideDirection.Right: // Slides out to the Left
+                    outAnchorMin.x = -width;
                     outAnchorMax.x = 0;
                     break;
-                case SlideDirection.Up: // Slides out to the top
-                    outAnchorMin.y = -1;
+                case SlideDirection.Up: // Slides out to the Bottom
+                    outAnchorMin.y = -height;
                     outAnchorMax.y = 0;
                     break;
-                case SlideDirection.Down: // Slides out to the bottom
+                case SlideDirection.Down: // Slides out to the Top
                     outAnchorMin.y = 1;
-                    outAnchorMax.y = 2;
+                    outAnchorMax.y = 1 + height;
                     break;
             }
             
