@@ -35,6 +35,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_CodeQuality, .75f));
         Stats.Add(new StatData(StatType.NPC_DevOpsQuality, 1f));
         Stats.Add(new StatData(StatType.NPC_DevOpsSpeed, 1f));
+        Stats.Add(new StatData(StatType.NPC_ResearchSpeed, 1f));
     }
 
 
@@ -195,7 +196,7 @@ public class NPCDevOps : NPCAnimatedBiped
     public float GetResearchPointsPerSecond(Technology technology)
     {
         // This could be influenced by the NPC's skills or the technology type
-        return 1f;
+        return Stats.GetStatValue(StatType.NPC_ResearchSpeed);
     }
 
   

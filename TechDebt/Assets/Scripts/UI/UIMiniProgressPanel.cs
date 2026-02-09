@@ -48,6 +48,7 @@ namespace UI
                             // Destroy(ProgressBarPanels[release.GetVersionString()].gameObject);
                         }
                     continue;
+                    case ReleaseBase.ReleaseState.DeploymentRewardReady:
                     case ReleaseBase.ReleaseState.DeploymentReady:
                     case ReleaseBase.ReleaseState.DeploymentInProgress:
                         color =  Color.purple;

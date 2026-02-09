@@ -20,6 +20,15 @@ namespace Infrastructure
             List<ReleaseBase> releases = GameManager.Instance.GetOpenReleases();
             if (releases.Count > 0)
             {
+                ReleaseBase releaseBase = releases.Find((release => release.State == ReleaseBase.ReleaseState.DeploymentRewardReady));
+                if (releaseBase != null)
+                {
+                    // GameManager.Instance.UIManager.rewardPanel.Show(releaseBase);
+                    List<ApplicationServer> targets = releaseBase.GetAllReleaseTargets();
+                    targets[0].ZoomTo();
+                    GameManager.Instance.UIManager.rewardPanel.OnOpenClick();
+                    return;
+                }
                 GameManager.Instance.UIManager.ShowAlert("You already have open releases that need to be finished first.");
                 return;
             }

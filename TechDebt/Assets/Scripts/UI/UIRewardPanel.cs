@@ -59,6 +59,7 @@ namespace UI
             secondaryText.gameObject.SetActive(true);
             secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
             openButton.gameObject.SetActive(false);
+            release.NextState();
             GameManager.Instance.UIManager.SetTimeScalePause();
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconPrefab);
             rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);

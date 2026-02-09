@@ -18,6 +18,7 @@ public class ReleaseBase
         InReview,
         DeploymentReady,
         DeploymentInProgress,
+        DeploymentRewardReady,
         DeploymentCompleted,
         Failed
     }
@@ -110,13 +111,13 @@ public class ReleaseBase
         {
             return false;
         }
-        SetState(ReleaseState.DeploymentCompleted);
+        SetState(ReleaseState.DeploymentRewardReady);
         List<ApplicationServer> targets = GetAllReleaseTargets();
         if (targets.Count == 0)
         {
             throw new SystemException("How did this release go with no targets?");
         }
-        GameManager.Instance.cameraController.ZoomTo(targets[0].transform);
+        targets[0].ZoomTo();
         rewardRarity = RarityHelper.GetRandomRarity(GetReleaseQuality()); //TODO: Feed in release quality to this
         GameManager.Instance.UIManager.rewardPanel.Show(this);
         
@@ -220,6 +221,9 @@ public class ReleaseBase
                 RequiredProgress = 30f;
                 break;
             case(ReleaseState.DeploymentInProgress):
+                SetState(ReleaseState.DeploymentRewardReady);
+                break; 
+            case(ReleaseState.DeploymentRewardReady):
                 SetState(ReleaseState.DeploymentCompleted);
                 CurrentProgress = 0;
                 RequiredProgress = 30f;
