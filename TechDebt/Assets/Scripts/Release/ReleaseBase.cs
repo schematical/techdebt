@@ -126,7 +126,7 @@ public class ReleaseBase
 
     public float GetReleaseQuality()
     {
-        return 0.5f;
+        return 0.1f;
     }
     public void OnDeploymentCompleted()
     {

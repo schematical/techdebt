@@ -33,6 +33,8 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_InfoSec, 0.75f));
         Stats.Add(new StatData(StatType.NPC_CodeSpeed, 1));
         Stats.Add(new StatData(StatType.NPC_CodeQuality, .75f));
+        Stats.Add(new StatData(StatType.NPC_DevOpsQuality, 1f));
+        Stats.Add(new StatData(StatType.NPC_DevOpsSpeed, 1f));
     }
 
 
@@ -113,7 +115,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
          
             SpriteRenderer spriteRenderer = spriteGO.GetComponent<SpriteRenderer>();
-            Rarity rarity = RarityHelper.GetRandomRarity(.5f);
+            Rarity rarity = RarityHelper.GetRandomRarity();
             Sprite sprite = RarityHelper.PaintIcon(rarity, spriteRenderer.sprite); // spriteRenderer.sprite;
             
             ModifierBase existingModifierBase = Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);

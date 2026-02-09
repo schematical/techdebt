@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         new NetworkPacketData() {
             Type = NetworkPacketData.PType.Text,
             baseLoad = 20,
-            probilitly = 100,
+            probilitly = 10,
             prefabId = "FileCoin"
         },
         new NetworkPacketData() {

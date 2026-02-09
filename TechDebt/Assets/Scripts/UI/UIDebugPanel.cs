@@ -32,13 +32,15 @@ public class UIDebugPanel : UIPanel
         AddButton("End Run", () => { EndRun(); });
     
         AddButton("Misc", () => { RunMisc(); });
+        
 
     }
 
     private void RunMisc()
     {
 
-        GameManager.Instance.UIManager.moneyPanel.AddCoin();
+        // Screen.SetResolution(640, 480, true);
+        //GameManager.Instance.UIManager.moneyPanel.AddCoin();
         /*InstaBuild();
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {

@@ -23,7 +23,7 @@ public enum StatType
     NPC_DailyCost,
     NPC_FinOps,
     NPC_InfoSec,
-    NPC_DevOps,
+    NPC_DevOpsQuality,
     NPC_Energy,
     NPC_MaxEnergy,
     
