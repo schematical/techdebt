@@ -25,6 +25,12 @@ namespace Infrastructure
               
                 PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
                 SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                var sprite = spriteRenderer.sprite;
+                var pivot = new Vector2(
+                    sprite.pivot.x / sprite.pixelsPerUnit,
+                    sprite.pivot.y / sprite.pixelsPerUnit
+                );
+                
                 /*collider.points = new Vector2[4]{
                     spriteRenderer.bounds.min,
                     new Vector2(spriteRenderer.bounds.max.x, spriteRenderer.bounds.min.y),
@@ -32,10 +38,10 @@ namespace Infrastructure
                     new Vector2(spriteRenderer.bounds.min.x, spriteRenderer.bounds.max.y)
                 };*/
                 collider.points = new Vector2[4]{
-                    Vector2.zero,
-                    new Vector2(0, spriteRenderer.bounds.size.y),
-                    spriteRenderer.bounds.size,
-                    new Vector2(spriteRenderer.bounds.size.x, 0),
+                    Vector2.zero - pivot,
+                    new Vector2(0, spriteRenderer.bounds.size.y) - pivot,
+                    (Vector2)spriteRenderer.bounds.size - pivot,
+                    new Vector2(spriteRenderer.bounds.size.x, 0) - pivot,
                 };
             }
         }
