@@ -153,20 +153,21 @@ namespace UI
             
             switch(slideDirection) {
                 case SlideDirection.Left: // Slides out to the left
-                    outAnchorMin.x = -1;
-                    outAnchorMax.x = 0;
-                    break;
-                case SlideDirection.Right: // Slides out to the right
                     outAnchorMin.x = 1;
                     outAnchorMax.x = 2;
                     break;
-                case SlideDirection.Up: // Slides out to the top
-                    outAnchorMin.y = 1;
-                    outAnchorMax.y = 2;
+                case SlideDirection.Right: // Slides out to the right
+               
+                    outAnchorMin.x = -1;
+                    outAnchorMax.x = 0;
                     break;
-                case SlideDirection.Down: // Slides out to the bottom
+                case SlideDirection.Up: // Slides out to the top
                     outAnchorMin.y = -1;
                     outAnchorMax.y = 0;
+                    break;
+                case SlideDirection.Down: // Slides out to the bottom
+                    outAnchorMin.y = 1;
+                    outAnchorMax.y = 2;
                     break;
             }
             
