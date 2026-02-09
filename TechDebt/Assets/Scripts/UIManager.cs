@@ -116,10 +116,10 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
             (value) => topBarPanel.UpdateStatText(StatType.Money, value);
 
-        Close();
+        Close(true);
     }
 
-    public void Close()
+    public void Close(bool forceClose = false)
     {
         // MultiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.gameObject.SetActive(false);
@@ -127,8 +127,8 @@ public class UIManager : MonoBehaviour
         worldObjectDetailPanel.gameObject.SetActive(false);
         npcDetailPanel.gameObject.SetActive(false);
         npcListPanel.gameObject.SetActive(false);
-        techTreePanel.Close();
-        globalStatsPanel.Close();
+        techTreePanel.Close(forceClose);
+        globalStatsPanel.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
         
         taskListPanel.SetActive(false);

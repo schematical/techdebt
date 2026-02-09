@@ -8,8 +8,9 @@ namespace UI
         private List<UITechTreePanelItem> _techTreeItems = new List<UITechTreePanelItem>();
 
         public UITextArea metaUnlockTextArea;
-        void Update()
-        {
+        protected override void Update()
+        {   
+            base.Update();
             foreach (var item in _techTreeItems)
             {
                 item.UpdateProgress();
@@ -53,20 +54,22 @@ namespace UI
             metaUnlockTextArea.transform.SetAsLastSibling();
         }
 
-        public void Show()
+        public override void Show()
         {
             GameManager.Instance.UIManager.Close();
-            gameObject.SetActive(true);
+            
             GameManager.OnTechnologyUnlocked += Refresh;
             GameManager.OnTechnologyResearchStarted += Refresh;
+            base.Show();
             Refresh();
         }
 
-        public void Close()
+        public virtual void Close()
         {
+        
             GameManager.OnTechnologyUnlocked -= Refresh;
             GameManager.OnTechnologyResearchStarted -= Refresh;
-            gameObject.SetActive(false);
+            base.Close();
         }
     }
 }

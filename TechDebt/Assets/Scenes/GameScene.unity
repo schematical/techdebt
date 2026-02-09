@@ -1538,6 +1538,7 @@ GameObject:
   - component: {fileID: 228498251}
   - component: {fileID: 228498250}
   - component: {fileID: 228498252}
+  - component: {fileID: 228498253}
   m_Layer: 5
   m_Name: UITechTreePanel
   m_TagString: Untagged
@@ -1617,10 +1618,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c493b0c156e0440bb90522ffbdeef071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITechTreePanel
+  slideDirection: 1
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1618354766}
   scrollContent: {fileID: 1963610040}
   closeButton: {fileID: 718147168}
   metaUnlockTextArea: {fileID: 1494366297}
+--- !u!225 &228498253
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228498247}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &242769156
 GameObject:
   m_ObjectHideFlags: 0
@@ -2032,6 +2051,7 @@ GameObject:
   - component: {fileID: 289147069}
   - component: {fileID: 289147068}
   - component: {fileID: 289147070}
+  - component: {fileID: 289147071}
   m_Layer: 5
   m_Name: UIPlanPhaseMenuPanel
   m_TagString: Untagged
@@ -2112,10 +2132,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45683add8014f29b7cebaaaea654d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIPlanPhaseMenuPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 495547762}
   scrollContent: {fileID: 242769157}
   closeButton: {fileID: 1575022206}
   startDayButton: {fileID: 2129149004}
+--- !u!225 &289147071
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289147065}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &294216172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2128,6 +2166,7 @@ GameObject:
   - component: {fileID: 294216176}
   - component: {fileID: 294216175}
   - component: {fileID: 294216174}
+  - component: {fileID: 294216177}
   m_Layer: 5
   m_Name: UIGlobalStatsPanel
   m_TagString: Untagged
@@ -2169,6 +2208,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb27e883f34c02b4f281dd1cd6d63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeploymentHistoryPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1473252659}
   scrollContent: {fileID: 1404913490}
   closeButton: {fileID: 683097190}
@@ -2210,6 +2255,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294216172}
   m_CullTransparentMesh: 1
+--- !u!225 &294216177
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294216172}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &307626868
 GameObject:
   m_ObjectHideFlags: 0
@@ -2344,6 +2401,7 @@ GameObject:
   - component: {fileID: 320297919}
   - component: {fileID: 320297918}
   - component: {fileID: 320297917}
+  - component: {fileID: 320297921}
   m_Layer: 5
   m_Name: UILeftMenuPanel
   m_TagString: Untagged
@@ -2385,6 +2443,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e17daab6d4849809eafd858cefe5806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILeftMenuPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1827583644}
   scrollContent: {fileID: 1074732741}
   closeButton: {fileID: 727095597}
@@ -2400,6 +2464,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dd78db19ed4034b98e3ceadff7263e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1827583644}
   scrollContent: {fileID: 1074732741}
   closeButton: {fileID: 727095597}
@@ -2441,6 +2511,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 320297915}
   m_CullTransparentMesh: 1
+--- !u!225 &320297921
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320297915}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &341468131
 GameObject:
   m_ObjectHideFlags: 0
@@ -2773,6 +2855,7 @@ GameObject:
   - component: {fileID: 355200706}
   - component: {fileID: 355200705}
   - component: {fileID: 355200704}
+  - component: {fileID: 355200707}
   m_Layer: 5
   m_Name: UIDeskMenuPanel
   m_TagString: Untagged
@@ -2814,6 +2897,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d91f2b26194cc1b18d9555f2d5239a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeskMenuPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1303950704}
   scrollContent: {fileID: 1760962568}
   closeButton: {fileID: 1287930163}
@@ -2857,6 +2946,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355200702}
   m_CullTransparentMesh: 1
+--- !u!225 &355200707
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355200702}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &373465695
 GameObject:
   m_ObjectHideFlags: 0
@@ -3294,6 +3395,7 @@ GameObject:
   - component: {fileID: 398695514}
   - component: {fileID: 398695513}
   - component: {fileID: 398695512}
+  - component: {fileID: 398695515}
   m_Layer: 5
   m_Name: UISummaryPhasePanel
   m_TagString: Untagged
@@ -3337,6 +3439,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0f4c220fe3452681b13fdc5f26bced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UISummaryPhasePanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 101240259}
   scrollContent: {fileID: 1370693554}
   closeButton: {fileID: 1581534906}
@@ -3380,6 +3488,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398695510}
   m_CullTransparentMesh: 1
+--- !u!225 &398695515
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398695510}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &418729439
 GameObject:
   m_ObjectHideFlags: 0
@@ -3392,6 +3512,7 @@ GameObject:
   - component: {fileID: 418729444}
   - component: {fileID: 418729443}
   - component: {fileID: 418729440}
+  - component: {fileID: 418729445}
   m_Layer: 5
   m_Name: UIWorldObjectDetailPanel
   m_TagString: Untagged
@@ -3411,6 +3532,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d82a70f9c1d4202ad160d756b82ef10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIWorldObjectDetailPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 821073211}
   scrollContent: {fileID: 32343414}
   closeButton: {fileID: 1752309906}
@@ -3475,6 +3602,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418729439}
   m_CullTransparentMesh: 1
+--- !u!225 &418729445
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418729439}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &419268846
 GameObject:
   m_ObjectHideFlags: 0
@@ -3511,7 +3650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -55}
+  m_AnchoredPosition: {x: 0, y: -54.99994}
   m_SizeDelta: {x: 20, y: -61.225}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &419268848
@@ -3613,6 +3752,7 @@ GameObject:
   - component: {fileID: 422612851}
   - component: {fileID: 422612850}
   - component: {fileID: 422612849}
+  - component: {fileID: 422612852}
   m_Layer: 5
   m_Name: UIDebugPanel
   m_TagString: Untagged
@@ -3654,6 +3794,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e587ea2d33d84e49b8de39926ef0b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDebugPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 373465697}
   scrollContent: {fileID: 108979057}
   closeButton: {fileID: 1755616362}
@@ -3697,6 +3843,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 422612847}
   m_CullTransparentMesh: 1
+--- !u!225 &422612852
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422612847}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &430273681
 GameObject:
   m_ObjectHideFlags: 0
@@ -5655,7 +5813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -55}
+  m_AnchoredPosition: {x: 0, y: -54.99994}
   m_SizeDelta: {x: 20, y: -61.225}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &608136512
@@ -8226,7 +8384,7 @@ MonoBehaviour:
   - Type: 4
     prefabId: FileCoin
     baseLoad: 0
-    probilitly: 100
+    probilitly: 10
   - Type: 0
     prefabId: NetworkPacket
     baseLoad: 20
@@ -9116,6 +9274,7 @@ GameObject:
   - component: {fileID: 838992305}
   - component: {fileID: 838992304}
   - component: {fileID: 838992303}
+  - component: {fileID: 838992306}
   m_Layer: 5
   m_Name: NPCListPanel
   m_TagString: Untagged
@@ -9142,7 +9301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: 34.497}
+  m_AnchoredPosition: {x: 250, y: 34.49695}
   m_SizeDelta: {x: 300, y: -148.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838992303
@@ -9157,6 +9316,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb788006e43849afb6eb5f252f1dd0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UINPCListPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 508072337}
   scrollContent: {fileID: 1122219672}
   closeButton: {fileID: 1829389719}
@@ -9198,6 +9363,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838992301}
   m_CullTransparentMesh: 1
+--- !u!225 &838992306
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838992301}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &840278933
 GameObject:
   m_ObjectHideFlags: 0
@@ -10238,6 +10415,7 @@ GameObject:
   - component: {fileID: 1006060327}
   - component: {fileID: 1006060326}
   - component: {fileID: 1006060325}
+  - component: {fileID: 1006060328}
   m_Layer: 5
   m_Name: UIGlobalStatsPanel
   m_TagString: Untagged
@@ -10279,6 +10457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671a0865c16a42c580d7951571ce981b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIGlobalStatsPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1679908759}
   scrollContent: {fileID: 2006343112}
   closeButton: {fileID: 2127184218}
@@ -10321,6 +10505,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1006060323}
   m_CullTransparentMesh: 1
+--- !u!225 &1006060328
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006060323}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1012913380
 GameObject:
   m_ObjectHideFlags: 0
@@ -12712,6 +12908,7 @@ GameObject:
   - component: {fileID: 1295040728}
   - component: {fileID: 1295040727}
   - component: {fileID: 1295040729}
+  - component: {fileID: 1295040730}
   m_Layer: 5
   m_Name: UINPCDetailPanel
   m_TagString: Untagged
@@ -12791,11 +12988,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c1f8704cc409a922445e18bd228d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UINPCDetailPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1974244424}
   scrollContent: {fileID: 27617574}
   closeButton: {fileID: 1735811425}
   followButton: {fileID: 1730122662}
   textArea: {fileID: 1520081974}
+--- !u!225 &1295040730
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295040725}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1301510880
 GameObject:
   m_ObjectHideFlags: 0
@@ -13312,6 +13527,7 @@ GameObject:
   - component: {fileID: 1381266154}
   - component: {fileID: 1381266153}
   - component: {fileID: 1381266152}
+  - component: {fileID: 1381266155}
   m_Layer: 5
   m_Name: UIReleaseHistoryPanel
   m_TagString: Untagged
@@ -13353,6 +13569,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb27e883f34c02b4f281dd1cd6d63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeploymentHistoryPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1571248802}
   scrollContent: {fileID: 817476242}
   closeButton: {fileID: 788820143}
@@ -13394,6 +13616,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381266150}
   m_CullTransparentMesh: 1
+--- !u!225 &1381266155
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381266150}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1383387022
 GameObject:
   m_ObjectHideFlags: 0
@@ -16362,7 +16596,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -37, y: -17.3}
+  m_AnchoredPosition: {x: -37, y: -17.300049}
   m_SizeDelta: {x: -97.9668, y: 19.554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1827583644
@@ -18246,6 +18480,7 @@ GameObject:
   - component: {fileID: 2022470875}
   - component: {fileID: 2022470874}
   - component: {fileID: 2022470873}
+  - component: {fileID: 2022470878}
   m_Layer: 5
   m_Name: UITopBarPanel
   m_TagString: Untagged
@@ -18287,6 +18522,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5012d9474d44348a919d2b24a1e833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITopBarPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1179827174}
   scrollContent: {fileID: 1950242600}
   closeButton: {fileID: 2123207504}
@@ -18328,6 +18569,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dd78db19ed4034b98e3ceadff7263e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPanel
+  slideDirection: 0
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  initialAnchorMin: {x: 0, y: 0}
+  initialAnchorMax: {x: 0, y: 0}
   titleText: {fileID: 1179827174}
   scrollContent: {fileID: 1950242600}
   closeButton: {fileID: 2123207504}
@@ -18369,6 +18616,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022470871}
   m_CullTransparentMesh: 1
+--- !u!225 &2022470878
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022470871}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2026642349
 GameObject:
   m_ObjectHideFlags: 0

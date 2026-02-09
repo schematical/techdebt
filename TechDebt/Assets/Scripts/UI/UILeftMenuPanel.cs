@@ -6,13 +6,11 @@ namespace UI
     public class UILeftMenuPanel:  UIPanel
     {
 
-        void Start()
+        protected override void Start()
         {
-       
 
+            base.Start();
             titleText.text = "";
-            if (closeButton != null)
-                closeButton.gameObject.SetActive(false); // No close button for main menu
 
             AddButton("Tasks", GameManager.Instance.UIManager.ToggleTaskListPanel).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
             AddButton("Tech", GameManager.Instance.UIManager.techTreePanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;

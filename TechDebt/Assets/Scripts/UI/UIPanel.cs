@@ -1,33 +1,37 @@
 using UnityEngine;
 using TMPro;
+using UI;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UIPanel : MonoBehaviour
+public class UIPanel : UIGameObject
 {
     public TextMeshProUGUI titleText; // Assign the TextMeshProUGUI component for the panel title
     public Transform scrollContent;   // Assign the Transform for the scrollable content area
     public Button closeButton; // Assign the Button component for the panel's close button
 
-    void Awake()
+    protected override void Awake()
     {
         if (closeButton != null)
         {
            
-            closeButton.onClick.AddListener(Close);
+            closeButton.onClick.AddListener(() => Close());
         }
         else
         {
             Debug.LogError($"{gameObject.name} is missing `closeButton`");
         }
+        base.Awake();
     }
 
-    public virtual void Close()
+    /*
+    public override void Close()
     {
       
-        gameObject.SetActive(false);
+        base.Close();
         
     }
+    */
 
     public UIButton AddButton(string buttonText, UnityAction onClickAction)
     {
