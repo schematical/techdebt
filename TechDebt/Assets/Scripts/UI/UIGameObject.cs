@@ -127,29 +127,25 @@ namespace UI
             }
             state = UIState.Opening;
             Debug.Log($"width: {widthRatio}, height: {heightRatio}");
-            Vector2 offscreenAnchorMin = initialAnchorMin;
-            Vector2 offscreenAnchorMax = initialAnchorMax;
-            
+
+            Vector2 offset = Vector2.zero;
             switch(slideDirection) {
                 case SlideDirection.Left: // Comes from Right
-                    offscreenAnchorMin.x = 1;
-                    offscreenAnchorMax.x = 1 + widthRatio;
+                    offset = new Vector2(1, 0);
                     break;
                 case SlideDirection.Right: // Comes from Left
-                    offscreenAnchorMin.x = -widthRatio;
-                    offscreenAnchorMax.x = 0;
+                    offset = new Vector2(-1, 0);
                     break;
                 case SlideDirection.Up: // Comes from Top
-                    offscreenAnchorMin.y = 1;
-                    offscreenAnchorMax.y = 1 + heightRatio;
+                    offset = new Vector2(0, 1);
                     break;
                 case SlideDirection.Down: // Comes from Bottom
-                    offscreenAnchorMin.y = -heightRatio;
-                    offscreenAnchorMax.y = 0;
+                    offset = new Vector2(0, -1);
                     break;
             }
-            rectTransform.anchorMin = offscreenAnchorMin;
-            rectTransform.anchorMax = offscreenAnchorMax;
+            
+            rectTransform.anchorMin = initialAnchorMin + offset;
+            rectTransform.anchorMax = initialAnchorMax + offset;
      
             Animate(initialAnchorMin, initialAnchorMax, 1);
         }
@@ -165,28 +161,26 @@ namespace UI
                 return;
             }
             state = UIState.Closing;
-
-            Vector2 outAnchorMin = initialAnchorMin;
-            Vector2 outAnchorMax = initialAnchorMax;
+            
             Debug.Log($"width: {widthRatio}, height: {heightRatio}");
+            Vector2 offset = Vector2.zero;
             switch(slideDirection) {
                 case SlideDirection.Left: // Slides out to the Right
-                    outAnchorMin.x = 1;
-                    outAnchorMax.x = 1 + widthRatio;
+                    offset = new Vector2(1, 0);
                     break;
                 case SlideDirection.Right: // Slides out to the Left
-                    outAnchorMin.x = -widthRatio;
-                    outAnchorMax.x = 0;
+                    offset = new Vector2(-1, 0);
                     break;
                 case SlideDirection.Up: // Slides out to the Bottom
-                    outAnchorMin.y = -heightRatio;
-                    outAnchorMax.y = 0;
+                    offset = new Vector2(0, -1);
                     break;
                 case SlideDirection.Down: // Slides out to the Top
-                    outAnchorMin.y = 1;
-                    outAnchorMax.y = 1 + heightRatio;
+                    offset = new Vector2(0, 1);
                     break;
             }
+            
+            Vector2 outAnchorMin = initialAnchorMin + offset;
+            Vector2 outAnchorMax = initialAnchorMax + offset;
             
             Animate(outAnchorMin, outAnchorMax, 0);
         }
