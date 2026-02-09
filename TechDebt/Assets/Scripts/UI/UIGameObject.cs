@@ -63,6 +63,17 @@ namespace UI
 
         protected virtual void Update()
         {
+            if (!isInitialized && rectTransform.rect.width > 0)
+            {
+                isInitialized = true;
+                // Recalculate here to get the final, post-layout values
+                initialAnchorMin = rectTransform.anchorMin;
+                initialAnchorMax = rectTransform.anchorMax;
+                widthRatio = rectTransform.rect.width / Screen.width;
+                heightRatio = rectTransform.rect.height / Screen.height;
+                Debug.Log($"Initialize: widthRatio: {widthRatio}, height: {heightRatio}");
+            }
+
             if (!IsAnimating()) return;
             // Debug.Log($"{gameObject.name} is Animating");
             animationProgress += Time.unscaledDeltaTime / animationTime;
@@ -74,6 +85,7 @@ namespace UI
                 {
                     case(UIState.Closing):
                         state = UIState.Closed;
+                        gameObject.SetActive(false);
                         break;
                     case(UIState.Opening):
                         state = UIState.Open;
@@ -103,6 +115,10 @@ namespace UI
             targetAlpha = newTargetAlpha;
         }
 
+        private bool isInitialized = false;
+        private float widthRatio;
+        private float heightRatio;
+
         public void SlideIn()
         {
             if (state != UIState.Closed)
@@ -110,28 +126,25 @@ namespace UI
                 return;
             }
             state = UIState.Opening;
-
-            float width = rectTransform.rect.x - rectTransform.rect.x;
-            float height = rectTransform.rect.y - rectTransform.rect.y;
-            Debug.Log($"width: {width}, height: {height}");
+            Debug.Log($"width: {widthRatio}, height: {heightRatio}");
             Vector2 offscreenAnchorMin = initialAnchorMin;
             Vector2 offscreenAnchorMax = initialAnchorMax;
             
             switch(slideDirection) {
                 case SlideDirection.Left: // Comes from Right
                     offscreenAnchorMin.x = 1;
-                    offscreenAnchorMax.x = 1 + width;
+                    offscreenAnchorMax.x = 1 + widthRatio;
                     break;
                 case SlideDirection.Right: // Comes from Left
-                    offscreenAnchorMin.x = -width;
+                    offscreenAnchorMin.x = -widthRatio;
                     offscreenAnchorMax.x = 0;
                     break;
                 case SlideDirection.Up: // Comes from Top
                     offscreenAnchorMin.y = 1;
-                    offscreenAnchorMax.y = 1 + height;
+                    offscreenAnchorMax.y = 1 + heightRatio;
                     break;
                 case SlideDirection.Down: // Comes from Bottom
-                    offscreenAnchorMin.y = -height;
+                    offscreenAnchorMin.y = -heightRatio;
                     offscreenAnchorMax.y = 0;
                     break;
             }
@@ -153,28 +166,25 @@ namespace UI
             }
             state = UIState.Closing;
 
-            float width = rectTransform.rect.x - rectTransform.rect.x;
-            float height = rectTransform.rect.y - rectTransform.rect.y;
-            Debug.Log($"width: {width}, height: {height}");
             Vector2 outAnchorMin = initialAnchorMin;
             Vector2 outAnchorMax = initialAnchorMax;
-            
+            Debug.Log($"width: {widthRatio}, height: {heightRatio}");
             switch(slideDirection) {
                 case SlideDirection.Left: // Slides out to the Right
                     outAnchorMin.x = 1;
-                    outAnchorMax.x = 1 + width;
+                    outAnchorMax.x = 1 + widthRatio;
                     break;
                 case SlideDirection.Right: // Slides out to the Left
-                    outAnchorMin.x = -width;
+                    outAnchorMin.x = -widthRatio;
                     outAnchorMax.x = 0;
                     break;
                 case SlideDirection.Up: // Slides out to the Bottom
-                    outAnchorMin.y = -height;
+                    outAnchorMin.y = -heightRatio;
                     outAnchorMax.y = 0;
                     break;
                 case SlideDirection.Down: // Slides out to the Top
                     outAnchorMin.y = 1;
-                    outAnchorMax.y = 1 + height;
+                    outAnchorMax.y = 1 + heightRatio;
                     break;
             }
             
