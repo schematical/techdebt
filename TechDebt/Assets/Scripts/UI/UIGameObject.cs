@@ -63,16 +63,14 @@ namespace UI
 
         protected virtual void Update()
         {
-            if (!isInitialized && rectTransform.rect.width > 0)
+            /*if (!isInitialized && rectTransform.rect.width > 0)
             {
                 isInitialized = true;
                 // Recalculate here to get the final, post-layout values
                 initialAnchorMin = rectTransform.anchorMin;
                 initialAnchorMax = rectTransform.anchorMax;
-                widthRatio = rectTransform.rect.width / Screen.width;
-                heightRatio = rectTransform.rect.height / Screen.height;
-                Debug.Log($"Initialize: widthRatio: {widthRatio}, height: {heightRatio}");
-            }
+
+            }*/
 
             if (!IsAnimating()) return;
             // Debug.Log($"{gameObject.name} is Animating");
@@ -116,8 +114,6 @@ namespace UI
         }
 
         private bool isInitialized = false;
-        private float widthRatio;
-        private float heightRatio;
 
         public void SlideIn()
         {
@@ -126,7 +122,6 @@ namespace UI
                 return;
             }
             state = UIState.Opening;
-            Debug.Log($"width: {widthRatio}, height: {heightRatio}");
 
             Vector2 offset = Vector2.zero;
             switch(slideDirection) {
@@ -162,7 +157,6 @@ namespace UI
             }
             state = UIState.Closing;
             
-            Debug.Log($"width: {widthRatio}, height: {heightRatio}");
             Vector2 offset = Vector2.zero;
             switch(slideDirection) {
                 case SlideDirection.Left: // Slides out to the Right
