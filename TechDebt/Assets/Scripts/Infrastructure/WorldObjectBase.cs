@@ -16,7 +16,29 @@ namespace Infrastructure
         public Vector3 interactionPositionOffset = Vector3.zero;
         private UIAttentionIcon uiAttentionIcon;
         protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
-        
+        public PolygonCollider2D polygonCollider2D;
+
+        void Start()
+        {
+            if (polygonCollider2D == null)
+            {
+              
+                PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
+                SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                /*collider.points = new Vector2[4]{
+                    spriteRenderer.bounds.min,
+                    new Vector2(spriteRenderer.bounds.max.x, spriteRenderer.bounds.min.y),
+                    spriteRenderer.bounds.max,
+                    new Vector2(spriteRenderer.bounds.min.x, spriteRenderer.bounds.max.y)
+                };*/
+                collider.points = new Vector2[4]{
+                    Vector2.zero,
+                    new Vector2(0, spriteRenderer.bounds.size.y),
+                    spriteRenderer.bounds.size,
+                    new Vector2(spriteRenderer.bounds.size.x, 0),
+                };
+            }
+        }
         public virtual void OnPointerClick(PointerEventData eventData)
         {
 

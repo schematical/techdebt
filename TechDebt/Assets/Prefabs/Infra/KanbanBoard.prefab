@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7374463464212453424}
   - component: {fileID: 8059619022281658398}
   - component: {fileID: 5495523653201227589}
+  - component: {fileID: 2857838593877948507}
   m_Layer: 0
   m_Name: KanbanBoard
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.019, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,13 +105,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b16d33ad2024dd384159e27b1df79a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Infrastructure.KanbanBoard
+  GridPosition: {x: 0, y: 0, z: 0}
+  attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
+  interactionPositionOffset: {x: 0, y: 0, z: 0}
+  polygonCollider2D: {fileID: 2857838593877948507}
   startcolor: {r: 0, g: 0, b: 0, a: 0}
   data:
     ID: 26575892-5bad-4b8a-ab4d-719f3465fffb
     DisplayName: 
     Type: 
     Prefab: {fileID: 0}
-    GridPosition: {x: 0, y: 0}
+    GridPosition: {x: 0, y: 0, z: 0}
     UnlockConditions: []
     networkPackets: []
     DailyCost: 100
@@ -119,7 +124,77 @@ MonoBehaviour:
     CostPerPacket: 0
     MaxLoad: 100
     LoadRecoveryRate: 50
+    CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
+--- !u!60 &2857838593877948507
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495299141615287234}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.15625, y: 2}
+    newSize: {x: 1.15625, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.5515365, y: 0.9991571}
+      - {x: -0.39586174, y: 0.92244124}
+      - {x: -0.40408683, y: 0.47346997}
+      - {x: -0.49266195, y: 0.4018332}
+      - {x: -0.48627418, y: 0.28515634}
+      - {x: -0.13859692, y: 0.40671477}
+      - {x: -0.14674151, y: 0.5162755}
+      - {x: -0.29098618, y: 0.53935176}
+      - {x: -0.29505658, y: 0.8687391}
+      - {x: 0.29259562, y: 0.5836366}
+      - {x: 0.28501698, y: 0.20216845}
+      - {x: 0.19501078, y: 0.12995088}
+      - {x: 0.18975016, y: 0.04661791}
+      - {x: 0.2982555, y: 0}
+      - {x: 0.5496373, y: 0.12816584}
+      - {x: 0.5507983, y: 0.2242986}
+      - {x: 0.3935208, y: 0.25790128}
+      - {x: 0.3947077, y: 0.5255213}
+      - {x: 0.5549659, y: 0.49767306}
+      - {x: 0.578125, y: 1.5625}
+      - {x: -0.54670346, y: 2.0093188}
+  m_UseDelaunayMesh: 1

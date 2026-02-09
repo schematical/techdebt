@@ -22,12 +22,7 @@ public class CodePipelineInstance : InfrastructureInstance
         GameManager.OnReleaseChanged += ReleaseChanged;
     }
 
-    public new void Start()
-    {
-        base.Start();
-        
-        
-    }
+
 
     public void ReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState state)
     {

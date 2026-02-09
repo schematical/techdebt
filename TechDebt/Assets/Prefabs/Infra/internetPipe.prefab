@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1513122920564434319}
   - component: {fileID: 4102933366871729735}
   - component: {fileID: -6089119244658019923}
+  - component: {fileID: 4892160938955448877}
   m_Layer: 0
   m_Name: internetPipe
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1523653573848276037}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104,4 +105,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  InitialConnectionId: 
+  GridPosition: {x: 0, y: 0, z: 0}
+  attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
+  interactionPositionOffset: {x: 0, y: 0, z: 0}
+  polygonCollider2D: {fileID: 4892160938955448877}
+  startcolor: {r: 0, g: 0, b: 0, a: 0}
+  data:
+    ID: e7537bd7-baed-4177-9b9d-52847ad41d35
+    DisplayName: 
+    Type: 
+    Prefab: {fileID: 0}
+    GridPosition: {x: 0, y: 0, z: 0}
+    UnlockConditions: []
+    networkPackets: []
+    DailyCost: 100
+    BuildTime: 5
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CanBeUpsized: 0
+    CurrentState: 0
+    NetworkConnections: []
+    interactionPositionOffset: {x: 0, y: 0, z: 0}
+  Version: 0.0.1
+  serverSmokeEffect: {fileID: 0}
+--- !u!60 &4892160938955448877
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523653573848276037}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 3.375, y: 2.40625}
+    newSize: {x: 1.08, y: 0.77}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.6875, y: 1.40625}
+      - {x: 1.6692991, y: 2.0573487}
+      - {x: 1.5204204, y: 2.3029294}
+      - {x: 1.1150373, y: 2.429001}
+      - {x: 0.69084746, y: 2.310696}
+      - {x: 0.5194036, y: 2.063442}
+      - {x: -0.2117943, y: 1.7008898}
+      - {x: -0.576752, y: 2.2044978}
+      - {x: -1.0039488, y: 2.185696}
+      - {x: -1.1708424, y: 2.0442991}
+      - {x: -1.4126298, y: 1.9949734}
+      - {x: -1.6875, y: 1.8125}
+      - {x: -1.6875, y: 0.89105606}
+      - {x: -1.2885463, y: 0.26940352}
+      - {x: -1.0625, y: 0}
+      - {x: -0.11608483, y: 0}
+      - {x: 0.36830515, y: 0.36856586}
+      - {x: 0.30889177, y: 0.8807529}
+      - {x: 0.96875, y: 1.1875}
+      - {x: 1.2636505, y: 1.1859567}
+  m_UseDelaunayMesh: 1

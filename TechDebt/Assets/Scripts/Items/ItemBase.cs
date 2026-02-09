@@ -22,7 +22,7 @@ namespace Items
             // Ensure a Collider2D exists for click detection by the EventSystem
             if (GetComponent<Collider2D>() == null)
             {
-                var collider = gameObject.AddComponent<BoxCollider2D>();
+                BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
                 // You might want to adjust the collider size based on sprite bounds if applicable
                 // For now, a default BoxCollider2D will work for basic clicks.
                 // Ensure it's a trigger if you don't want it to block movement/physics.

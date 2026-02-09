@@ -37,9 +37,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
     }
 
-    protected void Start()
-    {
-    }
+
 
     public void FixedUpdate()
     {

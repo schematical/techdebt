@@ -741,7 +741,7 @@ public class GameManager : MonoBehaviour
             Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
             GameObject instanceGO = Instantiate(infraData.Prefab, adjustedWorldPos, Quaternion.identity);
 
-            if (instanceGO.GetComponent<Collider2D>() == null)
+            /*if (instanceGO.GetComponent<Collider2D>() == null)
             {
                 var boxCollider = instanceGO.AddComponent<BoxCollider2D>();
                 var spriteRenderer = instanceGO.GetComponentInChildren<SpriteRenderer>();
@@ -749,9 +749,9 @@ public class GameManager : MonoBehaviour
                 {
                     boxCollider.size = spriteRenderer.bounds.size;
                 }
-            }
+            }*/
 
-            var infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+            InfrastructureInstance infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
 
             if (infraInstance == null)
             {
