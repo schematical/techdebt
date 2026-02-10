@@ -245,15 +245,7 @@ public class UIManager : MonoBehaviour
 
     
 
-    public void ToggleDeploymentHistoryPanel()
-    {
-        bool wasActive = releaseHistoryPanel.gameObject.activeSelf;
-        Close();
-        if (!wasActive)
-        {
-            releaseHistoryPanel.gameObject.SetActive(true);
-        }
-    }
+
 
 
    
