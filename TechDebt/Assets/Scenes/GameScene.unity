@@ -1454,9 +1454,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 32
+  m_ReferencePixelsPerUnit: 64
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1801,8 +1801,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2058,7 +2058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &289147066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4016,7 +4016,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 173.125, y: -25}
-  m_SizeDelta: {x: 43.75, y: 0}
+  m_SizeDelta: {x: 43.75, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &435225887
 MonoBehaviour:
@@ -4031,7 +4031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!114 &435225888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5514,7 +5514,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 75.625, y: -25}
-  m_SizeDelta: {x: 43.75, y: 0}
+  m_SizeDelta: {x: 43.75, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &597706771
 MonoBehaviour:
@@ -5529,7 +5529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!114 &597706772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6255,8 +6255,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Start Day
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a11e9c1b18f247a43b269dc54824b68b, type: 2}
+  m_sharedMaterial: {fileID: -3779806870421120138, guid: a11e9c1b18f247a43b269dc54824b68b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6280,8 +6280,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9676,8 +9676,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12313,8 +12313,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13138,7 +13138,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 26.875, y: -25}
-  m_SizeDelta: {x: 43.75, y: 0}
+  m_SizeDelta: {x: 43.75, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301510882
 MonoBehaviour:
@@ -13153,7 +13153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!114 &1301510883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17427,7 +17427,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 124.375, y: -25}
-  m_SizeDelta: {x: 43.75, y: 0}
+  m_SizeDelta: {x: 43.75, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900577874
 MonoBehaviour:
@@ -17442,7 +17442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!114 &1900577875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18816,8 +18816,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -19445,7 +19445,6 @@ GameObject:
   - component: {fileID: 2129149005}
   - component: {fileID: 2129149004}
   - component: {fileID: 2129149003}
-  - component: {fileID: 2129149002}
   m_Layer: 5
   m_Name: StartDayIButton
   m_TagString: Untagged
@@ -19471,22 +19470,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 16.447144, y: -34.72014}
-  m_SizeDelta: {x: 569.19434, y: 46.875}
+  m_SizeDelta: {x: 570.4783, y: 44.5313}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &2129149002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2129149000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!114 &2129149003
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -387.19983, y: -90.35986}
-  m_SizeDelta: {x: -980.009, y: 0}
+  m_SizeDelta: {x: -980.009, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4671563454603672146
 CanvasRenderer:
@@ -135,6 +135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
+  state: 0
+  slideDirection: 1
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
   buttonText: {fileID: 4763957808039979997}
   button: {fileID: 5599540083111184560}
 --- !u!114 &-8045471401276403730
@@ -150,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &6179599307529419441
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,8 +248,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
