@@ -122,15 +122,15 @@ public class UIManager : MonoBehaviour
     public void Close(bool forceClose = false)
     {
         // MultiSelectPanel.gameObject.SetActive(false);
-        releaseHistoryPanel.gameObject.SetActive(false);
-        deskMenuPanel.gameObject.SetActive(false);
-        worldObjectDetailPanel.gameObject.SetActive(false);
-        npcDetailPanel.gameObject.SetActive(false);
-        npcListPanel.gameObject.SetActive(false);
+        releaseHistoryPanel.Close(forceClose);
+        deskMenuPanel.Close(forceClose);
+        worldObjectDetailPanel.Close(forceClose);
+        npcDetailPanel.Close(forceClose);
+        npcListPanel.Close(forceClose);
         techTreePanel.Close(forceClose);
         globalStatsPanel.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
-        
+        eventLogPanel.SetActive(false);
         taskListPanel.SetActive(false);
         
         eventLogPanel.SetActive(false);
@@ -624,7 +624,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowSummaryUI(string text)
     {
-        summaryPhasePanel.gameObject.SetActive(true);
+        summaryPhasePanel.Show();
         summaryPhasePanel.textArea.textArea.text = text;
     }
 

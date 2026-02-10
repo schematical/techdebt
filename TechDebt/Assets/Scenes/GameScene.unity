@@ -310,9 +310,9 @@ RectTransform:
   m_Father: {fileID: 480193361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &55114559
 MonoBehaviour:
@@ -1545,7 +1545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &228498248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1618,12 +1618,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c493b0c156e0440bb90522ffbdeef071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITechTreePanel
+  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1618354766}
   scrollContent: {fileID: 1963610040}
   closeButton: {fileID: 718147168}
@@ -2132,12 +2132,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45683add8014f29b7cebaaaea654d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIPlanPhaseMenuPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 495547762}
   scrollContent: {fileID: 242769157}
   closeButton: {fileID: 1575022206}
@@ -2208,12 +2208,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb27e883f34c02b4f281dd1cd6d63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeploymentHistoryPanel
+  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1473252659}
   scrollContent: {fileID: 1404913490}
   closeButton: {fileID: 683097190}
@@ -2443,12 +2443,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e17daab6d4849809eafd858cefe5806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILeftMenuPanel
+  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1827583644}
   scrollContent: {fileID: 1074732741}
   closeButton: {fileID: 727095597}
@@ -2464,12 +2464,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dd78db19ed4034b98e3ceadff7263e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPanel
+  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1827583644}
   scrollContent: {fileID: 1074732741}
   closeButton: {fileID: 727095597}
@@ -2897,12 +2897,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d91f2b26194cc1b18d9555f2d5239a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeskMenuPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1303950704}
   scrollContent: {fileID: 1760962568}
   closeButton: {fileID: 1287930163}
@@ -3439,12 +3439,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0f4c220fe3452681b13fdc5f26bced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UISummaryPhasePanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 101240259}
   scrollContent: {fileID: 1370693554}
   closeButton: {fileID: 1581534906}
@@ -3532,12 +3532,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d82a70f9c1d4202ad160d756b82ef10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIWorldObjectDetailPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 821073211}
   scrollContent: {fileID: 32343414}
   closeButton: {fileID: 1752309906}
@@ -3794,12 +3794,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e587ea2d33d84e49b8de39926ef0b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDebugPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 3
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 373465697}
   scrollContent: {fileID: 108979057}
   closeButton: {fileID: 1755616362}
@@ -5735,7 +5735,7 @@ RectTransform:
   m_Father: {fileID: 1179632918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.000030517578, y: 67.7}
   m_SizeDelta: {x: 20, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9316,12 +9316,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb788006e43849afb6eb5f252f1dd0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UINPCListPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 508072337}
   scrollContent: {fileID: 1122219672}
   closeButton: {fileID: 1829389719}
@@ -10457,12 +10457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671a0865c16a42c580d7951571ce981b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIGlobalStatsPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1679908759}
   scrollContent: {fileID: 2006343112}
   closeButton: {fileID: 2127184218}
@@ -12099,7 +12099,7 @@ RectTransform:
   m_Father: {fileID: 2089580701}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 67.7}
   m_SizeDelta: {x: 20, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12871,9 +12871,9 @@ RectTransform:
   m_Father: {fileID: 1967639382}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1293469840
 MonoBehaviour:
@@ -12988,12 +12988,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c1f8704cc409a922445e18bd228d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UINPCDetailPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1974244424}
   scrollContent: {fileID: 27617574}
   closeButton: {fileID: 1735811425}
@@ -13534,7 +13534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1381266151
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13554,8 +13554,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: 50}
-  m_SizeDelta: {x: 300, y: -100}
+  m_AnchoredPosition: {x: 100, y: 105.630005}
+  m_SizeDelta: {x: 300, y: -155.63}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1381266152
 MonoBehaviour:
@@ -13569,12 +13569,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb27e883f34c02b4f281dd1cd6d63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeploymentHistoryPanel
-  slideDirection: 0
+  state: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1571248802}
   scrollContent: {fileID: 817476242}
   closeButton: {fileID: 788820143}
@@ -14382,7 +14382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4349039941669806975, guid: 873beff05425f304bad065155202f978, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 139.15
       objectReference: {fileID: 0}
     - target: {fileID: 4349039941669806975, guid: 873beff05425f304bad065155202f978, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -14418,7 +14418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4701601762815363794, guid: 873beff05425f304bad065155202f978, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 139.15
       objectReference: {fileID: 0}
     - target: {fileID: 4701601762815363794, guid: 873beff05425f304bad065155202f978, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14904,7 +14904,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Release History
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17864,7 +17864,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.0000022556633}
-  m_SizeDelta: {x: -13, y: 0}
+  m_SizeDelta: {x: -13, y: 139.15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1963610041
 MonoBehaviour:
@@ -18522,12 +18522,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5012d9474d44348a919d2b24a1e833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITopBarPanel
+  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1179827174}
   scrollContent: {fileID: 1950242600}
   closeButton: {fileID: 2123207504}
@@ -18569,12 +18569,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dd78db19ed4034b98e3ceadff7263e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIPanel
+  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5
-  initialAnchorMin: {x: 0, y: 0}
-  initialAnchorMax: {x: 0, y: 0}
+  runUICloseOnShow: 1
   titleText: {fileID: 1179827174}
   scrollContent: {fileID: 1950242600}
   closeButton: {fileID: 2123207504}

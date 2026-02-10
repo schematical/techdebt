@@ -23,9 +23,9 @@ namespace UI
         }
         public void Show(NPCBase npc)
         {
+   
+            base.Show();
             _selectedNPC = npc;
-            GameManager.Instance.UIManager.Close();
-            gameObject.SetActive(true);
             // Cleanup previous task buttons
             foreach (var button in _taskButtons)
             {
@@ -48,8 +48,9 @@ namespace UI
             textArea.transform.SetAsLastSibling();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             if (_selectedNPC == null) return;
 
             if (textArea == null)
@@ -60,10 +61,10 @@ namespace UI
            
             textArea.textArea.text = _selectedNPC.GetDetailText();
         }
-        public void Close()
+        public override void Close(bool forceClose = false)
         {
-            _selectedNPC = null;
-            gameObject.SetActive(false);
+            // _selectedNPC = null;
+            base.Close(forceClose);
         }
     }
 }

@@ -7,11 +7,11 @@ namespace UI
    
         public void Show()
         {
+            base.Show();
             Refresh();
         }
         public void Refresh()
         {
-            gameObject.SetActive(true);
             for (int i = scrollContent.transform.childCount - 1; i > 0; i--)
             {
                 Destroy(scrollContent.transform.GetChild(i).gameObject);

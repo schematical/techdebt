@@ -57,12 +57,7 @@ namespace Infrastructure
 
         public virtual void OnLeftClick(PointerEventData eventData)
         {
-            
-            UIManager uiManager = GameManager.Instance.UIManager;
-            if (uiManager != null)
-            {
-                uiManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
-            }
+            GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
         }
 
         public virtual List<NPCTask> GetAvailableTasks()

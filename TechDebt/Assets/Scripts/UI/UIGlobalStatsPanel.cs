@@ -7,7 +7,7 @@ namespace UI
         public UITextArea textArea;
         public void Show()
         {
-            gameObject.SetActive(true);
+            base.Show();
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("<b>Stats</b>");
             foreach (var stat in GameManager.Instance.Stats.Stats)

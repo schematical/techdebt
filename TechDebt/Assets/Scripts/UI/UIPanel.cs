@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UIPanel : UIGameObject
 {
+    public bool runUICloseOnShow = true;
     public TextMeshProUGUI titleText; // Assign the TextMeshProUGUI component for the panel title
     public Transform scrollContent;   // Assign the Transform for the scrollable content area
     public Button closeButton; // Assign the Button component for the panel's close button
@@ -23,15 +24,16 @@ public class UIPanel : UIGameObject
         }
         base.Awake();
     }
-
-    /*
-    public override void Close()
+    
+    public override void Show()
     {
-      
-        base.Close();
+        if (runUICloseOnShow)
+        {
+            GameManager.Instance.UIManager.Close();
+        }
+        base.Show();
         
     }
-    */
 
     public UIButton AddButton(string buttonText, UnityAction onClickAction)
     {

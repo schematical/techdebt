@@ -12,15 +12,18 @@ namespace UI
         public UITextArea textArea;
         private List<Button> _taskButtons = new List<Button>();
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
+            
             textArea.textArea.text = _selectedWorldObject.GetDetailText();
+            
         }
         public void ShowWorldObjectDetail(WorldObjectBase worldObject)
         {
-            GameManager.Instance.UIManager.Close();
+            Debug.Log($"ShowWorldObjectDetail: {worldObject.gameObject.name}");
             _selectedWorldObject = worldObject;
-            gameObject.SetActive(true);
+            base.Show();
     
 
             // Cleanup previous task buttons
@@ -48,10 +51,10 @@ namespace UI
             
         }
 
-        public void Close()
+        /*public override void Close(bool forceClose = false)
         {
             _selectedWorldObject = null;
-            gameObject.SetActive(false);
-        }
+            base.Close(forceClose);
+        }*/
     }
 }

@@ -38,7 +38,7 @@ namespace Infrastructure
                 GameManager.Instance.UIManager.ShowAlert("You must debug the bugs introduced in the last release first.");
                 return;
             }*/
-            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+            GameManager.Instance.UIManager.MultiSelectPanel.Close();
          
 
          
@@ -84,7 +84,7 @@ namespace Infrastructure
                                GameManager.Instance.Releases.Add(releaseBase);
                                CodeTask codeTask = new CodeTask(releaseBase);
                                GameManager.Instance.AddTask(codeTask);
-                               GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                               GameManager.Instance.UIManager.MultiSelectPanel.Close();
                                HideAttentionIcon();
                            });
                    //}
@@ -105,7 +105,7 @@ namespace Infrastructure
                            GameManager.Instance.Releases.Add(releaseBase);
                            CodeTask codeTask = new CodeTask(releaseBase);
                            GameManager.Instance.AddTask(codeTask);
-                           GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                           GameManager.Instance.UIManager.MultiSelectPanel.Close();
                            HideAttentionIcon();
                        });
                }

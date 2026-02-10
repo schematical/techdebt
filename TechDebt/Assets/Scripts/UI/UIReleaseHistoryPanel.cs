@@ -6,14 +6,16 @@ namespace UI
     public class UIReleaseHistoryPanel: UIPanel
     {
 
-        void OnEnable()
+        public override void Show()
         {
+            base.Show();
             GameManager.OnReleaseChanged += HandleReleaseChanged;
             Refresh();
         }
 
-        void OnDisable()
+        public override void Close(bool forceClose = false)
         {
+            base.Close(forceClose);
             GameManager.OnReleaseChanged -= HandleReleaseChanged;
         }
 

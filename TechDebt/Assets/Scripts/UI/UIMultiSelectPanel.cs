@@ -7,25 +7,26 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIMultiSelectPanel: MonoBehaviour
+    public class UIMultiSelectPanel: UIPanel
     {
       private List<UIMultiSelectOption> _optionPool = new List<UIMultiSelectOption>();
-      public TextMeshProUGUI titleText;
       public TextMeshProUGUI bottomText;
       public GameObject container;
-      public void Clear()
+      public void Close(bool forceClose = false)
       {
+          base.Close(forceClose);
           foreach (UIMultiSelectOption panel in _optionPool)
           {
               panel.gameObject.SetActive(false);
           }
-          gameObject.SetActive(false);
+
+      
           GameManager.Instance.UIManager.Resume();
       }
 
       public void Display(string title, string bottom = "")
       {
-          GameManager.Instance.UIManager.Close();
+          base.Show();
           titleText.text = title;
           bottomText.text = bottom;
 

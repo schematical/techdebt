@@ -142,7 +142,7 @@ public class NPCDevOps : NPCAnimatedBiped
                             {
                                 modifierBase.LevelUp(rarity);
                                 AddModifier(modifierBase);
-                                GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                                GameManager.Instance.UIManager.MultiSelectPanel.Close();
                             }
                             catch (Exception e)
                             {
@@ -167,7 +167,7 @@ public class NPCDevOps : NPCAnimatedBiped
                     {
                         try {
                             existingModifierBase.LevelUp(rarity);
-                            GameManager.Instance.UIManager.MultiSelectPanel.Clear();
+                            GameManager.Instance.UIManager.MultiSelectPanel.Close();
                         }catch (Exception e) {
                             Debug.LogError("NPC Level Up Exception2 Start");
                             Debug.LogException(e);
