@@ -6,7 +6,7 @@ namespace Infrastructure
     {
         public override void OnLeftClick(PointerEventData eventData)
         {
-            GameManager.Instance.UIManager.ToggleTaskListPanel();
+            GameManager.Instance.UIManager.taskListPanel.Show();
             HideAttentionIcon();
         }
     }

@@ -47,7 +47,8 @@ public class UIManager : MonoBehaviour
     public RectTransform attentionIconBoarderPanel;
     public UINPCListPanel npcListPanel;
     public UITechTreePanel techTreePanel;
-
+    public UITaskListPanel taskListPanel;
+    
     public UIGlobalStatsPanel globalStatsPanel;
 
     public UIMoneyPanel moneyPanel;
@@ -57,20 +58,15 @@ public class UIManager : MonoBehaviour
     
     private GameObject itemDetailPanel;
    
-    private GameObject taskListPanel;
+
     private GameObject alertPanel;
-    private GameObject eventLogPanel;
     private GameObject eventTriggerPanel;
     private NPCDialogPanel _currentNPCDialogPanel;
     // UI Elements
-    public TextMeshProUGUI _infrastructureDetailText;
-    public TextMeshProUGUI _eventLogText;
-   
+
+    
     public UITextArea _itemDetailDescriptionText;
     public TextMeshProUGUI _alertText;
-    private Button _planBuildButton;
-    private Button _upsizeButton;
-    private Button _downsizeButton;
     public TextMeshProUGUI totalDailyCostText;
     
 
@@ -78,11 +74,7 @@ public class UIManager : MonoBehaviour
     private TimeState _timeStateBeforePause = TimeState.Normal;
     private TimeState _userSpecifiedTimeState = TimeState.Normal;
 
-    // Task List
-    private Dictionary<NPCTask, GameObject> _taskUIMap = new Dictionary<NPCTask, GameObject>();
-    private Transform taskListContent;
-
-    private float taskListUpdateCooldown = 0.5f;
+ 
 
     private float lastTaskListUpdateTime;
 
@@ -104,9 +96,6 @@ public class UIManager : MonoBehaviour
         if (_isInitialized) return;
         _isInitialized = true;
         
-
-        SetupEventLogPanel(transform);
-        SetupTaskListPanel(transform);
         SetupAlertPanel(transform);
         SetupItemDetailPanel(transform);
         SetupEventTriggerPanel(transform);
@@ -128,12 +117,12 @@ public class UIManager : MonoBehaviour
         npcDetailPanel.Close(forceClose);
         npcListPanel.Close(forceClose);
         techTreePanel.Close(forceClose);
+        taskListPanel.Close(forceClose);
         globalStatsPanel.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
-        eventLogPanel.SetActive(false);
-        taskListPanel.SetActive(false);
+
+     
         
-        eventLogPanel.SetActive(false);
         
     }
     public void SetupUIInfrastructure()
@@ -172,50 +161,11 @@ public class UIManager : MonoBehaviour
     }
   
 
-    void OnEnable()
-    {
-    
-        GameManager.OnCurrentEventsChanged += UpdateEventLog;
-    }
 
-    void OnDisable()
-    {
+
+  
+
    
-        GameManager.OnCurrentEventsChanged -= UpdateEventLog;
-    }
-
-    public void ToggleEventLogPanel()
-    {
-        bool wasActive = eventLogPanel.activeSelf;
-        Close();
-        if (!wasActive)
-        {
-            eventLogPanel.SetActive(true);
-            UpdateEventLog();
-        }
-    }
-
-    private void UpdateEventLog()
-    {
-        if (_eventLogText == null || !eventLogPanel.activeSelf) return;
-
-        var currentEvents = GameManager.Instance.CurrentEvents;
-
-        string log = "<b>Current Events:</b>\n";
-        if (currentEvents.Count == 0)
-        {
-            log += "No active events.";
-        }
-        else
-        {
-            foreach (var ev in currentEvents)
-            {
-                log += $"- {ev.GetEventDescription()}\n";
-            }
-        }
-
-        _eventLogText.text = log;
-    }
 
 
 
@@ -238,13 +188,6 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        if (taskListPanel != null && taskListPanel.activeSelf &&
-            Time.time - lastTaskListUpdateTime > taskListUpdateCooldown)
-        {
-            RefreshTaskList();
-            lastTaskListUpdateTime = Time.time;
-        }
-
        
 
        
@@ -257,35 +200,6 @@ public class UIManager : MonoBehaviour
     
 
 
-    private void SetupEventLogPanel(Transform parent)
-    {
-        eventLogPanel = CreateUIPanel(parent, "EventLogPanel", new Vector2(300, 0), new Vector2(0, 0),
-            new Vector2(0, 1), new Vector2(250, 0));
-        UIPanel uiPanel = eventLogPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("EventLogPanel is missing UIPanel component.");
-            return;
-        }
-
-        uiPanel.titleText.text = "Event Log";
-
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
-            _eventLogText = textAreaGO.GetComponent<UITextArea>().textArea;
-            _eventLogText.alignment = TextAlignmentOptions.TopLeft;
-        }
-        else
-        {
-            Debug.LogError("UITextArea prefab not found. Falling back to CreateText for EventLogPanel.");
-            _eventLogText = CreateText(uiPanel.scrollContent, "EventLogText", "", 14);
-            _eventLogText.alignment = TextAlignmentOptions.TopLeft;
-        }
-
-        eventLogPanel.SetActive(false); // Start hidden
-    }
 
     private void SetupAlertPanel(Transform parent)
     {
@@ -345,40 +259,8 @@ public class UIManager : MonoBehaviour
    
 
     
-    private void SetupTaskListPanel(Transform parent)
-    {
-        taskListPanel = CreateUIPanel(parent, "TaskListPanel", new Vector2(300, 0), new Vector2(0, 0),
-            new Vector2(0, 1), new Vector2(250, 0));
-        UIPanel uiPanel = taskListPanel.GetComponent<UIPanel>();
-
-        if (uiPanel != null)
-        {
-            uiPanel.titleText.text = "Available Tasks";
-            taskListContent = uiPanel.scrollContent;
-        }
-        else
-        {
-            Debug.LogError("TaskListPanel is missing UIPanel component. Panel may not function correctly.");
-            // Fallback for content to not be null
-            var contentGO = new GameObject("Content");
-            contentGO.transform.SetParent(taskListPanel.transform, false);
-            taskListContent = contentGO.transform;
-        }
-
-        taskListPanel.SetActive(false); // Start hidden
-    }
 
 
-    public void ToggleTaskListPanel()
-    {
-        bool wasActive = taskListPanel.activeSelf;
-        Close();
-        if (!wasActive)
-        {
-            taskListPanel.SetActive(true);
-            RefreshTaskList();
-        }
-    }
 
 
 
@@ -386,105 +268,7 @@ public class UIManager : MonoBehaviour
 
 
    
-  
 
-    private void RefreshTaskList()
-    {
-        if (taskListContent == null)
-        {
-            var contentTransform = taskListPanel.transform.Find("ScrollView/Viewport/Content");
-            if (contentTransform != null) taskListContent = contentTransform;
-            else
-            {
-                Debug.LogError("Could not find taskListContent transform!");
-                return;
-            }
-        }
-
-        if (GameManager.Instance?.AvailableTasks == null) return;
-
-        var currentTasks =
-            new HashSet<NPCTask>(GameManager.Instance.AvailableTasks.Where(t => t.CurrentState != State.Completed));
-        var tasksToRemove = _taskUIMap.Keys.Where(t => !currentTasks.Contains(t)).ToList();
-
-        foreach (var task in tasksToRemove)
-        {
-            Destroy(_taskUIMap[task]);
-            _taskUIMap.Remove(task);
-        }
-
-        var sortedTasks = GameManager.Instance.AvailableTasks
-            .OrderByDescending(t => t.Priority)
-            .ToList();
-
-        for (int i = 0; i < sortedTasks.Count; i++)
-        {
-            var task = sortedTasks[i];
-            NPCTask localTask = task;
-
-            GameObject taskEntryPanel;
-            if (!_taskUIMap.ContainsKey(task))
-            {
-                taskEntryPanel = new GameObject($"TaskEntry_{task.GetHashCode()}");
-                taskEntryPanel.transform.SetParent(taskListContent, false);
-                var hlg = taskEntryPanel.AddComponent<HorizontalLayoutGroup>();
-                hlg.spacing = 5;
-                hlg.childControlWidth = true;
-                hlg.childForceExpandWidth = true;
-                var taskEntryLayout = taskEntryPanel.AddComponent<LayoutElement>();
-                taskEntryLayout.minHeight = 80;
-
-                var textEntry = CreateText(taskEntryPanel.transform, "TaskText", "", 14);
-                var textLayoutElement = textEntry.gameObject.AddComponent<LayoutElement>();
-                textLayoutElement.flexibleWidth = 1;
-                textEntry.alignment = TextAlignmentOptions.Left;
-                textEntry.enableAutoSizing = false;
-                textEntry.enableWordWrapping = true;
-
-                var buttonContainer = new GameObject("ButtonContainer");
-                buttonContainer.transform.SetParent(taskEntryPanel.transform, false);
-                var buttonVLG = buttonContainer.AddComponent<VerticalLayoutGroup>();
-                buttonVLG.spacing = 2;
-                var buttonContainerLayout = buttonContainer.AddComponent<LayoutElement>();
-                buttonContainerLayout.minWidth = 45;
-                buttonContainerLayout.flexibleWidth = 0;
-
-                var upButton = CreateButton(buttonContainer.transform, "↑", () =>
-                {
-                    GameManager.Instance.IncreaseTaskPriority(localTask);
-                    RefreshTaskList();
-                }, new Vector2(40, 40));
-                upButton.name = "UpButton";
-
-                var downButton = CreateButton(buttonContainer.transform, "↓", () =>
-                {
-                    GameManager.Instance.DecreaseTaskPriority(localTask);
-                    RefreshTaskList();
-                }, new Vector2(40, 40));
-                downButton.name = "DownButton";
-
-                _taskUIMap[task] = taskEntryPanel;
-            }
-
-            taskEntryPanel = _taskUIMap[task];
-            taskEntryPanel.transform.SetSiblingIndex(i);
-
-            var textComponent = taskEntryPanel.GetComponentInChildren<TextMeshProUGUI>();
-            string statusColor = task.CurrentState == State.Executing ? "yellow" : "white";
-            string assignee = task.AssignedNPC != null ? task.AssignedNPC.name : "Unassigned";
-            string taskText = $"<b>{task.GetType().Name}</b> ({task.GetDescription()})\n";
-            
-            taskText += $"<color={statusColor}>Status: {task.CurrentState}</color> | Assignee: {assignee}";
-            textComponent.text = taskText;
-
-            var buttons = taskEntryPanel.GetComponentsInChildren<Button>();
-            var upButtonComponent = buttons.FirstOrDefault(b => b.name == "UpButton");
-            if (upButtonComponent != null) upButtonComponent.interactable = (i > 0);
-
-            var downButtonComponent = buttons.FirstOrDefault(b => b.name == "DownButton");
-            if (downButtonComponent != null) downButtonComponent.interactable = (i < sortedTasks.Count - 1);
-        }
-    }
 
 
 
