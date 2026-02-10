@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIRewardPanel : MonoBehaviour
+    public class UIRewardPanel : UIGameObject
     {
         public enum State
         {
@@ -16,7 +16,7 @@ namespace UI
             Done
         };
 
-        private State state = State.Closed;
+        private State panelState = State.Closed;
         public Button openButton;
         public Image rewardImage;
         public TextMeshProUGUI primaryText;
@@ -26,15 +26,17 @@ namespace UI
         public Image panelImage;
         public Button panelButton;
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
             openButton.onClick.AddListener(OnOpenClick);
             panelButton.onClick.AddListener(OnPanelClick);
         }
 
         public void Show(ReleaseBase releaseBase)
         {
-            state = State.Closed;
+            base.Show();
+            panelState = State.Closed;
             release = releaseBase;
             gameObject.SetActive(true);
             rewardImage.gameObject.SetActive(false);
@@ -51,7 +53,7 @@ namespace UI
 
         public void OnOpenClick()
         {
-            state = State.Opened;
+            panelState = State.Opened;
             panelImage.color = Color.white;
             rewardImage.gameObject.SetActive(true);
             primaryText.gameObject.SetActive(true);
@@ -80,19 +82,19 @@ namespace UI
 
         protected void Finish()
         {
-            if (state == State.Done)
+            if (panelState == State.Done)
             {
                 return;
             }
 
-            state = State.Done;
+            panelState = State.Done;
             release.OnDeploymentCompleted();
             GameManager.Instance.UIManager.Resume();
             if (GameManager.Instance.Tutorial != null)
             {
                 GameManager.Instance.Tutorial.OnRewardsPanelDone();
             }
-            gameObject.SetActive(false);
+            Close();
           
          
         }

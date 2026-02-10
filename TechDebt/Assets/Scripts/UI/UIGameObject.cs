@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace UI
 {
-    [RequireComponent(typeof(CanvasGroup))]
     public class UIGameObject: MonoBehaviour
     {
         public enum UIState {Closed, Open, Closing, Opening}
@@ -131,11 +130,11 @@ namespace UI
                 case SlideDirection.Right: // Comes from Left
                     offset = new Vector2(-1, 0);
                     break;
-                case SlideDirection.Up: // Comes from Top
-                    offset = new Vector2(0, 1);
-                    break;
-                case SlideDirection.Down: // Comes from Bottom
+                case SlideDirection.Up: // Comes from Bottom
                     offset = new Vector2(0, -1);
+                    break;
+                case SlideDirection.Down: // Comes from Top
+                    offset = new Vector2(0, 1);
                     break;
             }
             

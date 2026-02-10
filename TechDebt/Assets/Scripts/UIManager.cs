@@ -612,14 +612,14 @@ public class UIManager : MonoBehaviour
     public void ShowPlanUI()
     {
         Close();
-        planPhaseMenuPanel.gameObject.SetActive(true);
-        timeControlPanel.gameObject.SetActive(false);
+        planPhaseMenuPanel.Show();
+        timeControlPanel.Close();
     }
 
     public void HidePlanUI()
     {
-        planPhaseMenuPanel.gameObject.SetActive(false);
-        timeControlPanel.gameObject.SetActive(true);
+        planPhaseMenuPanel.Close();
+        timeControlPanel.Show();
     }
 
     public void ShowSummaryUI(string text)

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UITimeControlPanel : MonoBehaviour
+    public class UITimeControlPanel : UIGameObject
     {
         private Color activeColor = new Color(0.5f, 0.8f, 1f); // Light blue for active button
         private Color inactiveColor = Color.gray;
@@ -12,8 +12,9 @@ namespace UI
         public Button fastForwardButton;
         public Button superFastForwardButton;
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
             pauseButton.onClick.AddListener(() =>
             {
                 GameManager.Instance.UIManager.SetTimeScalePause(true);
