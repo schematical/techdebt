@@ -177,5 +177,10 @@ namespace UI
             
             Animate(outAnchorMin, outAnchorMax, 0);
         }
+
+        public void Shake(int repeat = -1)
+        {
+            // This should rotate the gameObject by about 15 degrees back and forth 3 times in 1 second then repeat evey `repeat` 
+        }
     }
 }
