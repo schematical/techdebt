@@ -15,10 +15,12 @@ namespace UI
             upButton.onClick.AddListener(() =>
             {
                 GameManager.Instance.IncreaseTaskPriority(npcTask);
+                GameManager.Instance.UIManager.taskListPanel.Refresh();
             });
             downButton.onClick.AddListener(() =>
             {
                 GameManager.Instance.DecreaseTaskPriority(npcTask);
+                GameManager.Instance.UIManager.taskListPanel.Refresh();
             });
         }
         public void Initialize(NPCTask task, int sortOrder, int totalTaskCount)

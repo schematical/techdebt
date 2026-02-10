@@ -12,14 +12,17 @@ namespace UI
         {
 
             base.Show();
+            Refresh();
+
+        }
+        public void Refresh() {
 
 
-
-            foreach (UITaskListPanelItem taskListPanelItem in _taskListPanelItems)
+        foreach (UITaskListPanelItem taskListPanelItem in _taskListPanelItems)
             {
-                Destroy(taskListPanelItem);
-                _taskListPanelItems.Remove(taskListPanelItem);
+                Destroy(taskListPanelItem.gameObject);
             }
+            _taskListPanelItems.Clear();
 
             List<NPCTask> currentTasks =
                 GameManager.Instance.AvailableTasks.FindAll(t => t.CurrentState != NPCTask.State.Completed)
