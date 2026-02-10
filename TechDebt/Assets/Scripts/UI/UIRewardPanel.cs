@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIRewardPanel : UIGameObject
+    public class UIRewardPanel : MonoBehaviour
     {
         public enum State
         {
@@ -18,6 +18,7 @@ namespace UI
 
         private State panelState = State.Closed;
         public Button openButton;
+        public UIGameObject uiGameObject;
         public Image rewardImage;
         public TextMeshProUGUI primaryText;
         public TextMeshProUGUI secondaryText;
@@ -26,23 +27,22 @@ namespace UI
         public Image panelImage;
         public Button panelButton;
 
-        protected override void Start()
+        protected void Start()
         {
-            base.Start();
+          
             openButton.onClick.AddListener(OnOpenClick);
             panelButton.onClick.AddListener(OnPanelClick);
         }
 
         public void Show(ReleaseBase releaseBase)
         {
-            base.Show();
             panelState = State.Closed;
             release = releaseBase;
             gameObject.SetActive(true);
-            rewardImage.gameObject.SetActive(false);
-            primaryText.gameObject.SetActive(false);
-            secondaryText.gameObject.SetActive(false);
-            openButton.gameObject.SetActive(true);
+            uiGameObject.Close(true);
+            UIButton uiButton = openButton.GetComponent<UIButton>();
+            uiButton.Show();
+            uiButton.Shake(5);
             panelImage.color = new Color(0, 0, 0, 0);
         }
 
@@ -55,17 +55,20 @@ namespace UI
         {
             panelState = State.Opened;
             panelImage.color = Color.white;
-            rewardImage.gameObject.SetActive(true);
+            uiGameObject.Show();
             primaryText.gameObject.SetActive(true);
             primaryText.text = release.RewardModifier.GetTitle();
             secondaryText.gameObject.SetActive(true);
             secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
-            openButton.gameObject.SetActive(false);
+            UIButton uiButton = openButton.GetComponent<UIButton>();
+            uiButton.Close();
             release.NextState();
             GameManager.Instance.UIManager.SetTimeScalePause();
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconPrefab);
             rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
-            foreach (ApplicationServer applicationServer in release.GetAllReleaseTargets())
+            List<ApplicationServer> targets = release.GetAllReleaseTargets();
+            targets[0].ZoomTo();
+            foreach (ApplicationServer applicationServer in targets)
             {
                 applicationServer.ShowLevelUpGraphic(release.rewardRarity, (currentlyDisplayedRarity, isDone) =>
                 {
@@ -94,7 +97,7 @@ namespace UI
             {
                 GameManager.Instance.Tutorial.OnRewardsPanelDone();
             }
-            Close();
+            uiGameObject.Close();
           
          
         }

@@ -8,6 +8,7 @@ namespace UI
         protected override void Start()
         {
             base.Start();
+            Shake(5);
             startDayButton.onClick.AddListener(OnStartDayClicked);
         }
 

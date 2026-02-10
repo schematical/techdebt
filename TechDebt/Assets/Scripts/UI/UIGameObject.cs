@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace UI
@@ -20,6 +19,13 @@ namespace UI
         private Vector2 startAnchorMin, startAnchorMax;
         private Vector2 targetAnchorMin, targetAnchorMax;
         private float startAlpha, targetAlpha;
+        
+        // Shake state
+        private bool isShaking = false;
+        private float shakeElapsedTime = 0f;
+        private float shakeRepeatDelay = 0;
+        private Quaternion initialRotation;
+        private float timeSinceLastShake = 0f;
 
         protected virtual void Awake()
         {
@@ -36,6 +42,7 @@ namespace UI
             }
             initialAnchorMin = rectTransform.anchorMin;
             initialAnchorMax = rectTransform.anchorMax;
+            initialRotation = rectTransform.rotation;
         }
         public virtual void Close(bool forceClose = false)
         {
@@ -53,6 +60,7 @@ namespace UI
             SlideIn();
         
         }
+
         protected virtual void Start()
         {
     
@@ -71,6 +79,39 @@ namespace UI
 
             }*/
 
+
+            if (isShaking)
+            {
+                timeSinceLastShake += Time.unscaledDeltaTime;
+
+                if (shakeElapsedTime > 0)
+                {
+                    if (shakeElapsedTime < 1f)
+                    {
+                        float angle = 10 * Mathf.Sin(shakeElapsedTime * 3 * 2 * Mathf.PI);
+                        rectTransform.rotation = initialRotation * Quaternion.Euler(0, 0, angle);
+                        shakeElapsedTime += Time.unscaledDeltaTime;
+                    }
+                    else
+                    {
+                        rectTransform.rotation = initialRotation;
+                        shakeElapsedTime = 0;
+                        if (shakeRepeatDelay < 0)
+                        {
+                            isShaking = false;
+                        }
+                        else
+                        {
+                            timeSinceLastShake = 0;
+                        }
+                    }
+                }
+                else if (shakeRepeatDelay >= 0 && timeSinceLastShake >= shakeRepeatDelay)
+                {
+                    shakeElapsedTime = 0.001f;
+                }
+            }
+
             if (!IsAnimating()) return;
             // Debug.Log($"{gameObject.name} is Animating");
             animationProgress += Time.unscaledDeltaTime / animationTime;
@@ -88,7 +129,7 @@ namespace UI
                         state = UIState.Open;
                         break;
                     default:
-                        throw new SystemException($"We are in a weird state {state} while trying to end an animation.");
+                        throw new System.Exception($"We are in a weird state {state} while trying to end an animation.");
                 }
             }
 
@@ -180,7 +221,14 @@ namespace UI
 
         public void Shake(int repeat = -1)
         {
-            // This should rotate the gameObject by about 15 degrees back and forth 3 times in 1 second then repeat evey `repeat` 
+            isShaking = true;
+            shakeRepeatDelay = repeat;
+            shakeElapsedTime = 0.001f;
+            timeSinceLastShake = 0;
+        }
+        public void StopShake()
+        {
+            isShaking = false;
         }
     }
 }
