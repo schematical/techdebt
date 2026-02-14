@@ -22,6 +22,7 @@ namespace NPCs
         public override void Initialize()
         {
             base.Initialize();
+
             isEvolving = false;
             Stats.Get(StatType.NPC_MovmentSpeed).SetBaseValue(1.5f);
         }

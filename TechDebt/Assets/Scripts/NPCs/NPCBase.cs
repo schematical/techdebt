@@ -64,6 +64,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
         Stats.Add(new StatData(StatType.NPC_HP, 1f));
+        coolDowns[CoolDownType.Attack] = 5f;
+        coolDowns[CoolDownType.Consume] = 5f;
         if (!GameManager.Instance.AllNpcs.Contains(this))
         {
             GameManager.Instance.AllNpcs.Add(this);
@@ -117,12 +119,12 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             return;
         }
-        foreach (CoolDownType t in coolDowns.Keys)
+        foreach (CoolDownType t in coolDowns.Keys.ToArray())
         {
             float coolDown = coolDowns[t];
             if (coolDown > 0f)
             {
-                coolDowns[t] = coolDown + Time.deltaTime;
+                coolDowns[t] = coolDown - Time.deltaTime;
             }
         }
         HandleMovement();
