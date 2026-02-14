@@ -12,10 +12,8 @@ public class DeliveryNPC : NPCBase
         // It should never pull from the main task queue.
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        // We only call the base Update method, which handles movement and task execution.
-        // We do NOT want the state machine from NPCBase's Update that tries to find new work.
         HandleMovement();
 
         if (CurrentState == State.ExecutingTask && CurrentTask != null)

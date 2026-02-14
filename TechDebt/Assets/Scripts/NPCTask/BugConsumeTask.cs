@@ -53,6 +53,8 @@ public class BugConsumeTask : NPCTask
         {
             target.gameObject.SetActive(false);
         }
+
+        npc.ResetCooldown(NPCBase.CoolDownType.Consume, 5);
         base.OnEnd(npc);
     }
 }

@@ -33,6 +33,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     private int pathIndex;
   
     private Vector3 _lastPosition;
+    public enum CoolDownType { Attack, Consume }
+    protected Dictionary<CoolDownType, float> coolDowns = new Dictionary<CoolDownType, float>();
     
     
     void Awake()
@@ -93,7 +95,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         if (
             
@@ -114,6 +116,14 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         if (CurrentState == State.Dead)
         {
             return;
+        }
+        foreach (CoolDownType t in coolDowns.Keys)
+        {
+            float coolDown = coolDowns[t];
+            if (coolDown > 0f)
+            {
+                coolDowns[t] = coolDown + Time.deltaTime;
+            }
         }
         HandleMovement();
 
@@ -505,6 +515,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
                 }
             }
         }
+        content += "\n<b>Cool Downs:</b>\n";
+        foreach (CoolDownType coolDownType in coolDowns.Keys)
+        {
+            content += $"- {coolDownType}: {coolDowns[coolDownType]}\n";
+        }
         return content;
     }
 
@@ -514,6 +529,26 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         targetNpc.ReceiveAttack(this);
         animator.SetBool("isAttacking", true);
         AddXP();
+        float coolDownTime = Stats.GetStatValue(StatType.NPC_CoolDown);
+        if (coolDownTime == 0f)
+        {
+            coolDownTime = 5;
+        }
+        coolDowns[CoolDownType.Attack] = coolDownTime;
+    }
+
+    public bool CanTakeAction(CoolDownType t)
+    {
+        if (!coolDowns.ContainsKey(t))
+        {
+            return true; // throw new System.Exception($"{gameObject.name} Has no CoolDown {t} ");
+        }
+        return (coolDowns[t] <= 0f) ;
+    }
+
+    public void ResetCooldown(CoolDownType t, float value)
+    {
+        coolDowns[t] = value;
     }
 
     public void ReceiveAttack(NPCBase npcBase)
@@ -546,9 +581,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         return CurrentState == State.Dead;
     }
 
-    protected void FixedUpdate()
-    {
-    }
+
 
     public Vector3 GetInteractionPosition()
     {

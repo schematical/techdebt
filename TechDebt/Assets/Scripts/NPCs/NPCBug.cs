@@ -26,20 +26,17 @@ namespace NPCs
             Stats.Get(StatType.NPC_MovmentSpeed).SetBaseValue(1.5f);
         }
 
-        void Update()
-        {
-            if (isEvolving)
-            {
-                return;
-            } 
-            base.Update();
-        }
-        void FixedUpdate()
+  
+        protected override void FixedUpdate()
         {
             if (this.IsDead())
             {
                 return;
-            }
+            }     
+            if (isEvolving)
+             {
+                 return;
+             } 
             switch (severity)
             {
                 case (Severity.Minor):
@@ -114,6 +111,11 @@ namespace NPCs
             switch (severity)
             {
                 case (Severity.Minor):
+                    if (!CanTakeAction(CoolDownType.Consume))
+                    {
+                        base.TriggerDefaultBehavior();
+                        return;
+                    }
                     ItemBase[] allItems = GameObject.FindObjectsOfType<ItemBase>();
                     ItemBase targetItem = null;
                     float minDistance = float.MaxValue;

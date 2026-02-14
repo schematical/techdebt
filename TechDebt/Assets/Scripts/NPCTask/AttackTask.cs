@@ -57,6 +57,7 @@ public class AttackTask : NPCTask
     {
         return "Debug";
     }
+
     /*public override void OnQueued()
     {
         if (OnQueuedSetState != null)
