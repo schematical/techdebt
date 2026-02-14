@@ -79,6 +79,10 @@ namespace UI
                     ProgressBarPanels["tech"] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
                   
                 }
+                else
+                {
+                    ProgressBarPanels["tech"].gameObject.SetActive(true); 
+                }
               
                 ProgressBarPanels["tech"].Text.text = "Researching: " + tech.DisplayName;
                 ProgressBarPanels["tech"].SetProgress(tech.CurrentResearchProgress /tech.ResearchPointCost, Color.blue);

@@ -573,11 +573,11 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        var candidates = GameManager.Instance.GenerateNPCCandidates(3);
+        List<NPCDevOpsData> candidates = GameManager.Instance.GenerateNPCCandidates(3);
 
         if (hirePanel != null)
         {
-            foreach (var candidate in candidates)
+            foreach (NPCDevOpsData candidate in candidates)
             {
                 NPCDevOpsData localCandidate = candidate; // Local copy for closure
                 hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () =>
@@ -631,7 +631,7 @@ public class UIManager : MonoBehaviour
         // The Image component (or any other background graphic) is expected to be part of the prefab
 
         // Ensure scrollContent has VerticalLayoutGroup and set spacing
-        var uiPanel = go.GetComponent<UIPanel>();
+        UIPanel uiPanel = go.GetComponent<UIPanel>();
         if (uiPanel != null && uiPanel.scrollContent != null)
         {
             var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
@@ -659,12 +659,12 @@ public class UIManager : MonoBehaviour
 
     private Button CreateButton(Transform p, string t, UnityAction a)
     {
-        var go = new GameObject($"Button_{{t}}");
+        GameObject go = new GameObject($"Button_{{t}}");
         go.transform.SetParent(p, false);
-        var rt = go.AddComponent<RectTransform>();
+        RectTransform rt = go.AddComponent<RectTransform>();
         rt.sizeDelta = new Vector2(180, 40);
         go.AddComponent<Image>().color = Color.gray;
-        var btn = go.AddComponent<Button>();
+        Button btn = go.AddComponent<Button>();
         btn.onClick.AddListener(a);
         CreateText(btn.transform, "Text", t, 14);
         return btn;
@@ -672,16 +672,16 @@ public class UIManager : MonoBehaviour
 
     private Button CreateButton(Transform p, string t, UnityAction a, Vector2 size)
     {
-        var btn = CreateButton(p, t, a);
+        Button btn = CreateButton(p, t, a);
         btn.GetComponent<RectTransform>().sizeDelta = size;
         return btn;
     }
 
     private TextMeshProUGUI CreateText(Transform p, string n, string c, int s)
     {
-        var go = new GameObject(n);
+        GameObject go = new GameObject(n);
         go.transform.SetParent(p, false);
-        var tmp = go.AddComponent<TextMeshProUGUI>();
+        TextMeshProUGUI tmp = go.AddComponent<TextMeshProUGUI>();
         tmp.raycastTarget = false;
         tmp.text = c;
         tmp.fontSize = s;
@@ -692,7 +692,7 @@ public class UIManager : MonoBehaviour
         tmp.fontSizeMin = 8;
         tmp.fontSizeMax = s;
 
-        var rt = go.GetComponent<RectTransform>();
+        RectTransform rt = go.GetComponent<RectTransform>();
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         rt.sizeDelta = Vector2.zero;

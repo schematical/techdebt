@@ -1,0 +1,9 @@
+{
+  "selectedAuthType": "gemini-api-key",
+  "theme": "Default",
+  "mcpServers": {
+    "unityMCP": {
+      "url": "http://localhost:8080/mcp"
+    }
+  }
+}

@@ -110,7 +110,18 @@ public class DeliverItemTask : NPCTask
             
             // Ensure the position is not inside an existing infrastructure's bounds
             bool isOccupied = GameManager.Instance.ActiveInfrastructure
-                .Any(infra => infra.GetComponent<Collider2D>().bounds.Contains(randomDirection));
+                .Any(infra =>
+                {
+                    if(!infra.gameObject.activeInHierarchy) return false;
+                    if(!infra.IsActive())  return false;
+                    PolygonCollider2D collider = infra.GetComponent<PolygonCollider2D>();
+                    if (collider == null)
+                    {
+                        Debug.LogError($"{infra.name} does not have a PolygonCollider2D component.");
+                        return false;
+                    }
+                    return collider.bounds.Contains(randomDirection);
+                });
 
             if (!isOccupied)
             {
