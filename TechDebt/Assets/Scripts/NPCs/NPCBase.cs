@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using Stats;
 using UI;
 using Unity.VisualScripting;
@@ -57,7 +58,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public const float TaskCheckInterval = 1f;
 
     private WordBubble _currentWordBubble;
-
+    public ShadowObject  shadow;
 
     public virtual void Initialize()
     {
@@ -70,6 +71,13 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             GameManager.Instance.AllNpcs.Add(this);
         }
+        if (shadow == null)
+        {
+            shadow = GameManager.Instance.prefabManager.Create("Shadow", transform.position).GetComponent<ShadowObject>();
+            shadow.Initialize(gameObject, new Vector2(-0.1f, -0.25f));
+            shadow.transform.localScale = new Vector3(0.75f,0.75f, 1f);
+        }
+        shadow.gameObject.SetActive(true);
     }
 
 

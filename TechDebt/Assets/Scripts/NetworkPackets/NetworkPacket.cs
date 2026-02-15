@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Data;
+using DefaultNamespace;
 using UnityEngine.EventSystems;
 
 public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
@@ -19,7 +20,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public InfrastructureInstance nextHop; // The next destination for this packet
     
     public List<InfrastructureInstance> pastNodes = new List<InfrastructureInstance>();
-
+    public ShadowObject  shadow;
 
 	void Awake()
     {
@@ -35,6 +36,15 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         gameObject.name = $"Packet_{FileName}";
         pastNodes.Clear();
         pastNodes.Add(origin);
+        if (shadow == null)
+        {
+            shadow = GameManager.Instance.prefabManager.Create("Shadow", transform.position).GetComponent<ShadowObject>();
+            shadow.Initialize(gameObject, new Vector2(0, -1f));
+            shadow.transform.localScale = new Vector3(0.5f,0.5f, 1f);
+        }
+        shadow.gameObject.SetActive(true);
+
+      
     }
 	public bool IsReturning()
 	{
