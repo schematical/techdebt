@@ -1,6 +1,7 @@
 // NPCTask.cs
 
 using System;
+using Infrastructure;
 using UnityEngine;
 
 public abstract class NPCTask
@@ -22,7 +23,7 @@ public abstract class NPCTask
         Intern,
         Enemy
     }
-
+    
     public State CurrentState { get; protected set; } = State.Available;
     public int Priority { get; set; }
     public NPCBase AssignedNPC { get; private set; }
@@ -30,7 +31,7 @@ public abstract class NPCTask
 
     protected iTargetable? target;
     protected float maxTaskRange = 1f;
-
+    protected InteractionType interactionType = InteractionType.Basic;
     public bool IsCloseEnough()
     {
 
@@ -46,7 +47,7 @@ public abstract class NPCTask
             throw new SystemException("`target` is null");
         }
 
-        return Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position) <= maxTaskRange;
+        return Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position) <= maxTaskRange;
     }
 
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
@@ -93,7 +94,7 @@ public abstract class NPCTask
             return;
         }
 
-        npc.MoveTo(target.GetInteractionPosition());
+        npc.MoveTo(target.GetInteractionPosition(interactionType));
 
     }
 

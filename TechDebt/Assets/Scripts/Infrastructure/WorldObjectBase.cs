@@ -11,6 +11,7 @@ namespace Infrastructure
 {
     public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler, iAssignable
     {
+
         public Vector3Int GridPosition;
         public Color attentionIconColor = Color.white;
         public Vector3 interactionPositionOffset = Vector3.zero;
@@ -126,9 +127,22 @@ namespace Infrastructure
             };
         }
 
-        public virtual Vector3 GetInteractionPosition()
+        public virtual Vector3 GetInteractionPosition(InteractionType interactionType =  InteractionType.Basic)
         {
-            return transform.position + interactionPositionOffset;
+            switch (interactionType)
+            {
+                case(InteractionType.Basic):
+                    return transform.position + interactionPositionOffset;
+                case(InteractionType.Block):
+                    Vector3Int cellPos = GridPosition;// GameManager.Instance.gridManager.grid.WorldToCell(transform.position);
+                    Vector3Int destPos = cellPos + new Vector3Int(-3, 0);
+                    Vector3 rPos = GameManager.Instance.gridManager.grid.CellToWorld(destPos);
+                    // Debug.Log($"{gameObject.name} - transform.position: {transform.position} - cellPos: {cellPos} - destPos: {destPos} - rPos: {rPos}");
+                    return rPos;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        
         }
 
         public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity, UnityAction<Rarity, bool> _onDone = null)

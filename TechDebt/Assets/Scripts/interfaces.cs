@@ -1,3 +1,4 @@
+using Infrastructure;
 using UnityEngine;
 
 public interface iTargetable
@@ -6,7 +7,7 @@ public interface iTargetable
     Transform transform { get; }
     string name { get; }
     GameObject gameObject { get;  }
-    public Vector3 GetInteractionPosition();
+    public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic);
 }
 public interface iAttackable: iTargetable
 {

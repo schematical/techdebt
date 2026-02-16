@@ -593,7 +593,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
 
 
-    public Vector3 GetInteractionPosition()
+    public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
         return transform.position;
     }

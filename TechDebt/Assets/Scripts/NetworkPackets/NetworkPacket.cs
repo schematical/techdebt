@@ -153,8 +153,9 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         }
     }
 
-    public Vector3 GetInteractionPosition()
+    public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
         return transform.position;
     }
+
 }

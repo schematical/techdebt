@@ -43,7 +43,7 @@ namespace Items
             _isTaskCreated = true;
         }
 
-        public Vector3 GetInteractionPosition()
+        public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
         {
             return transform.position;
         }

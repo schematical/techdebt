@@ -42,7 +42,7 @@ public class Desk : InfrastructureInstance
         //GameManager.Instance.UIManager.deskMenuPanel.gameObject.SetActive(true);
     }
 
-    public override Vector3 GetInteractionPosition()
+    public override Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
         return transform.position + new Vector3(-0.4f, 1, 0);
     }

@@ -30,7 +30,7 @@ namespace NPCs
             }
 
             List<ApplicationServer> applicationServers =
-                GameManager.Instance.GetInfrastructureInstanceByClass<ApplicationServer>();
+                GameManager.Instance.GetInfrastructureInstanceByClass<ApplicationServer>().FindAll((infra) => infra.IsActive());
             if (applicationServers.Count == 0)
             {
                 throw new System.Exception("No target: There are " + applicationServers.Count + " infrastructure instances for this NPC.");

@@ -8,6 +8,12 @@ namespace DefaultNamespace
         public Vector2 offset =  Vector2.zero;
         void Update()
         {
+            if (!target.activeInHierarchy)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
             transform.position = target.transform.position + new Vector3(offset.x,offset.y, 1);
         }
 

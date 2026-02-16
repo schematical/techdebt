@@ -1,0 +1,1 @@
+public enum InteractionType { Basic, Block, Consume }

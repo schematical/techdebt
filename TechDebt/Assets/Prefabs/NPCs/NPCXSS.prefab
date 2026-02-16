@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4093148043750785681}
   - component: {fileID: 1092090476989627020}
   - component: {fileID: 8778994964354746761}
-  - component: {fileID: 3762742200735946511}
   - component: {fileID: 5339234957960226118}
+  - component: {fileID: 102232665289357518}
   m_Layer: 0
   m_Name: NPCXSS
   m_TagString: Untagged
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 5313080223021370299}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.0013, y: 0, z: 0}
+  m_LocalScale: {x: 1.0019, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -111,8 +111,30 @@ MonoBehaviour:
   uiAttentionIcon: {fileID: 0}
   animator: {fileID: 5339234957960226118}
   shadow: {fileID: 0}
---- !u!61 &3762742200735946511
-BoxCollider2D:
+--- !u!95 &5339234957960226118
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313080223021370299}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!60 &102232665289357518
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -148,34 +170,52 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.375, y: 1.84375}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.3125, y: 1.78125}
     newSize: {x: 1.375, y: 1.84375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.375, y: 1.84375}
-  m_EdgeRadius: 0
---- !u!95 &5339234957960226118
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5313080223021370299}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.18218292, y: 1.6875861}
+      - {x: -0.040681317, y: 1.6708827}
+      - {x: -0.07972435, y: 1.4745451}
+      - {x: -0.32720894, y: 1.6048528}
+      - {x: -0.32634586, y: 1.790205}
+      - {x: -0.4375, y: 1.78125}
+      - {x: -0.65625, y: 1.59375}
+      - {x: -0.65625, y: 1.40625}
+      - {x: -0.46875, y: 1.0515016}
+      - {x: -0.3396268, y: 1.0489701}
+      - {x: -0.33343208, y: 1.1411829}
+      - {x: -0.07887623, y: 1.0193096}
+      - {x: -0.07528971, y: 0.26567966}
+      - {x: -0.15822875, y: 0.18178716}
+      - {x: -0.16449636, y: 0.07681614}
+      - {x: -0.03344012, y: -0.0074269474}
+      - {x: 0.15956791, y: -0.0016590357}
+      - {x: 0.28654075, y: 0.091001414}
+      - {x: 0.2823356, y: 0.20249976}
+      - {x: 0.19099827, y: 0.26571035}
+      - {x: 0.21155864, y: 0.8384287}
+      - {x: 0.65122193, y: 0.68199503}
+      - {x: 0.66130334, y: 1.0948809}
+      - {x: 0.20678309, y: 1.3323097}
+    - - {x: 0.375, y: 0.96875}
+      - {x: 0.40625, y: 1}
+      - {x: 0.40625, y: 1.0625}
+      - {x: 0.375, y: 1.0625}
+      - {x: 0.5, y: 0.96875}
+      - {x: 0.5, y: 0.90625}
+      - {x: 0.46875, y: 0.9375}
+    - - {x: -0.40625, y: 1.34375}
+      - {x: -0.5, y: 1.5}
+      - {x: -0.46875, y: 1.53125}
+      - {x: -0.5, y: 1.53125}
+      - {x: -0.4375, y: 1.4375}
+      - {x: -0.34375, y: 1.40625}
+      - {x: -0.3125, y: 1.3125}
+      - {x: -0.34375, y: 1.34375}
+  m_UseDelaunayMesh: 1
