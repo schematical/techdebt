@@ -9,6 +9,7 @@ using Effects;
 using Events;
 using Infrastructure;
 using Items;
+using JetBrains.Annotations;
 using MetaChallenges;
 using NPCs;
 using UnityEngine.EventSystems;
@@ -1025,7 +1026,17 @@ public class GameManager : MonoBehaviour
         Modifiers.Modifiers.Add(modifierBase);
         modifierBase.Apply();
     }
+    public T GetRandomInfrastructureInstanceByClass<T>() where T : class
+    {
+        List<T> results = GetInfrastructureInstanceByClass<T>();
+        if (results.Count == 0)
+        {
+            return null;
+        }
 
+        int i = Random.Range(0, results.Count);
+        return results[i];
+    }
     public List<T> GetInfrastructureInstanceByClass<T>()
     {
         List<T> results = new List<T>();

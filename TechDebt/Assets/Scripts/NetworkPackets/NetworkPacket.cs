@@ -115,10 +115,13 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         GameManager.Instance.DestroyPacket(this);
     }
 
-    public void MarkFailed() {
-		CurrentState = State.Failed;
+    public void MarkFailedAndDestroy() {
+		MarkFailed();
 		GameManager.Instance.DestroyPacket(this);
 	}
+    public void MarkFailed() {
+        CurrentState = State.Failed;
+    }
     public virtual void StartReturn()
     {
         returnIndex = pastNodes.Count - 1;

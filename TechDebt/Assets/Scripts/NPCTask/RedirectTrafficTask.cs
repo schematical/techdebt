@@ -4,6 +4,7 @@ using UnityEngine;
 public class RedirectTrafficTask: NPCTask
 {
     private float coolDown = 0f;
+    public int packetsRedirected = 0;
     public RedirectTrafficTask(iTargetable target, int priority = 7) : base(target)
     {
        
@@ -18,29 +19,37 @@ public class RedirectTrafficTask: NPCTask
     
         if (IsCloseEnough())
         {
+            npc.animator.SetBool("isAttacking", true);
             if (coolDown < 0)
             {
-              
+                coolDown = 1;
                 // Check to see if there are network packets near
                 NetworkPacket networkPacket = GameManager.Instance.activePackets.Find((packet =>
                 {
+                    if (packet.IsReturning() || packet.CurrentState == NetworkPacket.State.Failed)
+                    {
+                        return false;
+                    }
                     float dist = Vector3.Distance(npc.transform.position, packet.transform.position);
                     return (
                         dist < maxTaskRange
-                        
                     );
                 }));
-                Debug.Log($"Checking for NetworkPackets: {networkPacket}");
                 if (networkPacket != null)
                 {
-                    networkPacket.MarkFailed();  
-                }
-                coolDown = 1;
-            }
-          
-        
+                    networkPacket.MarkFailed();
+                    InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
+                    if (internetPipe == null)
+                    {
+                        throw new System.Exception("No Internet Pipe found");
+                    }
 
-          
+                    networkPacket.nextHop = internetPipe;
+                    packetsRedirected += 1;
+                    npc.ResetCooldown(NPCBase.CoolDownType.Attack, 5f);
+                }
+                
+            }
 
         } else if (!npc.isMoving)
         {
@@ -51,6 +60,11 @@ public class RedirectTrafficTask: NPCTask
 
     public override bool IsFinished(NPCBase npc)
     {
-        return false;
+        return packetsRedirected >= 3;
+    }
+
+    public override void OnEnd(NPCBase npc)
+    {
+        npc.animator.SetBool("isAttacking", false);
     }
 }

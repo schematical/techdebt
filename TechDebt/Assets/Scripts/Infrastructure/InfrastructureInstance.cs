@@ -79,7 +79,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
        
         if (data.CurrentState == InfrastructureData.State.Frozen)
         {
-            packet.MarkFailed();
+            packet.MarkFailedAndDestroy();
             packet.MoveToNextNode();
             GameObject gameObject = GameManager.Instance.prefabManager.Create("Spark1Effect", transform.position);
             gameObject.transform.SetParent(transform);
@@ -121,7 +121,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
                 if (CurrentLoad > data.Stats.GetStatValue(StatType.Infra_MaxLoad))
                 {
-                    packet.MarkFailed();
+                    packet.MarkFailedAndDestroy();
                     CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
                     SetState(InfrastructureData.State.Frozen);
                     packet.MoveToNextNode();

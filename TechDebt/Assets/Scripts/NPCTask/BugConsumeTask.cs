@@ -47,7 +47,7 @@ public class BugConsumeTask : NPCTask
         NetworkPacket networkPacket = target.gameObject.GetComponent<NetworkPacket>();
         if (networkPacket != null)
         {
-            networkPacket.MarkFailed();
+            networkPacket.MarkFailedAndDestroy();
         }
         else
         {
