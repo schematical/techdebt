@@ -560,6 +560,18 @@ public static class MetaGameManager
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 // BaseValue = 1.05f,
                 IconPrefab = "IconCart"
+            },
+            new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.Run,
+                Type = ModifierBase.ModifierType.Run_Stat,
+                Id = "input_validation",
+                Name = "Input Validation",
+                StatType = StatType.DailyIncome,
+                NetworkPacketType = NetworkPacketData.PType.Text,
+                // BaseValue = 1.05f,
+                IconPrefab = "IconCart"
             }
             
         };

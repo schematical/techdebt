@@ -9,15 +9,11 @@ namespace NPCs
 {
     public class NPCBug : NPCBase
     {
-        public enum Severity { Minor, Medium, Major, Critical }
+       
         public Severity severity = Severity.Minor;
         private float age = 0;
         private float nextLevelAge = 120;
         private bool isEvolving = false;
-        public override bool CanAssignTask(NPCTask task)
-        {
-            return task is BugConsumeTask;
-        }
 
         public override void Initialize()
         {
