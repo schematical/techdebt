@@ -125,6 +125,17 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
         if (CurrentState == State.Dead)
         {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer.color.a == 0)
+            {
+                gameObject.SetActive(false);
+            }
+            spriteRenderer.color = new Color(
+                spriteRenderer.color.r,
+                spriteRenderer.color.g,
+                spriteRenderer.color.b,
+                spriteRenderer.color.a - Time.fixedDeltaTime
+            );
             return;
         }
         foreach (CoolDownType t in coolDowns.Keys.ToArray())
