@@ -1822,7 +1822,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c493b0c156e0440bb90522ffbdeef071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITechTreePanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -2336,7 +2335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45683add8014f29b7cebaaaea654d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIPlanPhaseMenuPanel
-  state: 0
   slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -2412,7 +2410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb27e883f34c02b4f281dd1cd6d63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeploymentHistoryPanel
-  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -2646,7 +2643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e17daab6d4849809eafd858cefe5806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILeftMenuPanel
-  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -3015,7 +3011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d91f2b26194cc1b18d9555f2d5239a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeskMenuPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -3280,7 +3275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -3561,7 +3555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0f4c220fe3452681b13fdc5f26bced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UISummaryPhasePanel
-  state: 0
   slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -3654,7 +3647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d82a70f9c1d4202ad160d756b82ef10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIWorldObjectDetailPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -3916,7 +3908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e587ea2d33d84e49b8de39926ef0b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDebugPanel
-  state: 0
   slideDirection: 3
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -4247,7 +4238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -5745,7 +5735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -7556,6 +7545,18 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 4
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 5
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
     - TargetID: server-alb
       Priority: 6
       networkPacketType: 1
@@ -7580,15 +7581,21 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
-    - TargetID: cdn
-      Priority: 7
-      networkPacketType: 1
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 5
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+    - TargetID: server-alb
+      Priority: 6
       networkPacketType: 4
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: cdn
+      Priority: 7
+      networkPacketType: 1
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
@@ -7646,6 +7653,10 @@ MonoBehaviour:
       loadPerPacket: 1000
       cost: 0
       RouteType: 0
+    - PacketType: 5
+      loadPerPacket: 20
+      cost: 0
+      RouteType: 0
     DailyCost: 30
     BuildTime: 10
     LoadPerPacket: 20
@@ -7665,6 +7676,16 @@ MonoBehaviour:
         Stat: 12
         Type: 1
         value: 0.75
+    - TargetID: dedicated-db
+      Priority: 5
+      networkPacketType: 5
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.5
     - TargetID: s3-bucket
       Priority: 5
       networkPacketType: 1
@@ -7952,6 +7973,16 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    - TargetID: dedicated-db
+      Priority: 5
+      networkPacketType: 5
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.75
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
@@ -8039,6 +8070,16 @@ MonoBehaviour:
       Possiblity: 0
       Cost: 0
       NetworkConnectionBonus: []
+    - TargetID: dedicated-db
+      Priority: 5
+      networkPacketType: 5
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus:
+      - PacketType: 0
+        Stat: 12
+        Type: 1
+        value: 0.75
     - TargetID: read-replica-1
       Priority: 5
       networkPacketType: 0
@@ -8472,6 +8513,71 @@ MonoBehaviour:
     CurrentState: 3
     NetworkConnections: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
+  - ID: internetPipe2
+    DisplayName: Internet Pipe 2
+    Type: 
+    Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
+    GridPosition: {x: 5, y: 37, z: 0}
+    UnlockConditions: []
+    networkPackets: []
+    DailyCost: 0
+    BuildTime: 1
+    LoadPerPacket: 20
+    CostPerPacket: 0
+    MaxLoad: 100
+    LoadRecoveryRate: 50
+    CanBeUpsized: 0
+    CurrentState: 3
+    NetworkConnections:
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 1
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server1
+      Priority: 5
+      networkPacketType: 3
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 1
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 0
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 3
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: server-alb
+      Priority: 6
+      networkPacketType: 3
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    - TargetID: cdn
+      Priority: 7
+      networkPacketType: 1
+      Possiblity: 0
+      Cost: 0
+      NetworkConnectionBonus: []
+    interactionPositionOffset: {x: 1, y: 2, z: 1}
   - ID: internetPipe2
     DisplayName: Internet Pipe 2
     Type: 
@@ -9552,7 +9658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb788006e43849afb6eb5f252f1dd0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UINPCListPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -10693,7 +10798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671a0865c16a42c580d7951571ce981b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIGlobalStatsPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -10809,7 +10913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da59a12bb7b849c888ace1a1e1888b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITimeControlPanel
-  state: 0
   slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -10986,7 +11089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f8267affcb42c2ac46c19a0bce3104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIGameObject
-  state: 0
   slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -11311,7 +11413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66bca432eeb345fca391096b2834d706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITaskListPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -13496,7 +13597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5c1f8704cc409a922445e18bd228d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UINPCDetailPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -13586,7 +13686,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -14082,7 +14181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb27e883f34c02b4f281dd1cd6d63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIDeploymentHistoryPanel
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -17073,7 +17171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff56857216b4ad49e8e3ad5ff1bdee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIMultiSelectPanel
-  state: 0
   slideDirection: 2
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -18122,7 +18219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -19451,7 +19547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5012d9474d44348a919d2b24a1e833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UITopBarPanel
-  state: 0
   slideDirection: 0
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -20288,7 +20383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a0e3a9b77d37d4b974d8b5615f5584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIButton
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
@@ -20394,7 +20488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f8267affcb42c2ac46c19a0bce3104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIGameObject
-  state: 0
   slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}

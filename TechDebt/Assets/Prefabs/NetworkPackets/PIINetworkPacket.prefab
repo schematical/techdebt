@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6292786120663655188}
   - component: {fileID: 824834791853515391}
   m_Layer: 0
-  m_Name: PPINetworkPacket
+  m_Name: PIINetworkPacket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
