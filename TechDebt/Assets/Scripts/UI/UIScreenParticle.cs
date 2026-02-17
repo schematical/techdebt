@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,14 @@ namespace UI
     {
         public enum State { Falling, Fading}
 
+        public enum Effects
+        {
+            Fire,
+            Smoke,
+            Lightning
+        };
+        public List<Effects> activeEffects = new List<Effects>();
+        public Dictionary<Effects, float> effectCooldowns = new Dictionary<Effects, float>();
         protected State state;
         public RectTransform rectTransform;
         public Image image;
@@ -14,7 +23,7 @@ namespace UI
         {
             Vector3[] corners = new Vector3[4];
             rectTransform.GetWorldCorners(corners);
-            
+          
             // Bottom-right corner is corners[2]
             Vector3 bottomRight = corners[2];
             switch (state)
@@ -45,22 +54,46 @@ namespace UI
                     break;
             }
 
+            if (activeEffects.Contains(Effects.Fire))
+            {
+                float cooldown = 0;
+                if (effectCooldowns.ContainsKey(Effects.Fire))
+                {
+                    cooldown = effectCooldowns[Effects.Fire];
+                }
+                Debug.Log($" Active Effect Cooldown: {cooldown}");
+                cooldown  -= Time.unscaledDeltaTime;
+                if (cooldown < 0)
+                {
+                    Debug.Log($" Sending It");
+                    Vector3 pos = rectTransform.position + new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), 0f);
+                    GameManager.Instance.prefabManager.Create("UIFireParticle", pos, GameManager.Instance.UIManager.transform);
+                    cooldown = 0.1f;
+                }
+                effectCooldowns[Effects.Fire] = cooldown;
+            }
+
             
         }
-        public void Init(Sprite sprite, float rotationZ = 0)
+        public void Init(Sprite sprite, float rotationZ = 0, List<Effects> _activeEffects = null)
         {
             image.color = Color.white;
             image.sprite = sprite;
             state = State.Falling;
             rectTransform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             gameObject.SetActive(true);
+            if (_activeEffects != null)
+            {
+                Debug.Log($"Setting Active Effects: {_activeEffects.Count}");
+                activeEffects = _activeEffects;
+            }
             // rectTransform.sizeDelta = new Vector2(25, 25);
             // rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25);
             // rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
             
-            rectTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
             // rectTransform.sizeDelta = new Vector2(100, 100);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
+            float ratio = sprite.rect.width / sprite.rect.height;
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100 * ratio);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
    
                         

@@ -16,6 +16,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
+using UI;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -244,7 +245,29 @@ public class GameManager : MonoBehaviour
 		if (packet.CurrentState == NetworkPacket.State.Failed) {
            
             float packetsFailed = IncrStat(StatType.PacketsFailed);
+            Sprite sprite = packet.GetComponent<SpriteRenderer>().sprite;
             packet.Reset();
+            int n = Random.Range(-1, 1);
+            int middle = Screen.width / 2;
+            int min = middle + (n * Screen.width / 4);
+            int max = Screen.width;
+            if (n < 0)
+            {
+                max = min;
+                min = 0;
+            }
+
+            int x = Random.Range(min, max);
+            Vector3 pos = new Vector3(x, Screen.height, 0);
+            UIScreenParticle screenParticle = prefabManager.Create("UIScreenParticle", pos, UIManager.transform).GetComponent<UIScreenParticle>();
+            screenParticle.Init(
+                sprite, 
+                Random.value * 360, 
+                new List<UIScreenParticle.Effects>()
+                {
+                    UIScreenParticle.Effects.Fire
+                }
+            );
             return;
         }
 		 packetsServiced = IncrStat(StatType.PacketsServiced);
