@@ -61,11 +61,11 @@ namespace UI
                 {
                     cooldown = effectCooldowns[Effects.Fire];
                 }
-                Debug.Log($" Active Effect Cooldown: {cooldown}");
+
                 cooldown  -= Time.unscaledDeltaTime;
                 if (cooldown < 0)
                 {
-                    Debug.Log($" Sending It");
+                
                     Vector3 pos = rectTransform.position + new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), 0f);
                     GameManager.Instance.prefabManager.Create("UIFireParticle", pos, GameManager.Instance.UIManager.transform);
                     cooldown = 0.1f;
@@ -84,7 +84,6 @@ namespace UI
             gameObject.SetActive(true);
             if (_activeEffects != null)
             {
-                Debug.Log($"Setting Active Effects: {_activeEffects.Count}");
                 activeEffects = _activeEffects;
             }
             // rectTransform.sizeDelta = new Vector2(25, 25);

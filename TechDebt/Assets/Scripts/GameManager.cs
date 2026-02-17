@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
-    public List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
+    protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
         new NetworkPacketData() {
             Type = NetworkPacketData.PType.Text,
             baseLoad = 20,
@@ -74,7 +74,12 @@ public class GameManager : MonoBehaviour
            probilitly = 0,
            prefabId = "BatchJobNetworkPacket"
        },
-       
+       new NetworkPacketData() {
+           Type = NetworkPacketData.PType.PII,
+           baseLoad = 0,
+           probilitly = 100,
+           prefabId = "PIINetworkPacket"
+       },
         
     };
     public StatsCollection Stats { get; private set; } = new StatsCollection();
@@ -1088,19 +1093,16 @@ public class GameManager : MonoBehaviour
         return results;
     }
 
-    public void ApplyReleaseProgress(float progressGained)
-    {
-        throw new NotImplementedException();
-    }
-
-   
- 
-
     public void HideAllAttentionIcons()
     {
         foreach (WorldObjectBase worldObjectBase in ActiveInfrastructure)
         {
             worldObjectBase.HideAttentionIcon();
         }
+    }
+
+    public List<NetworkPacketData> GetNetworkPacketDatas()
+    {
+        return NetworkPacketDatas;
     }
 }

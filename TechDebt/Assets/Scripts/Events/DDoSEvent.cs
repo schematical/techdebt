@@ -16,7 +16,7 @@ namespace Events
         public override void Apply()
         {
             base.Apply();
-            NetworkPacketData networkPacketData = GameManager.Instance.NetworkPacketDatas.Find(data =>
+            NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find(data =>
             {
                 return data.Type == NetworkPacketData.PType.MaliciousText;
             });
@@ -33,7 +33,7 @@ namespace Events
         public override void End()
         {
             base.End();
-            NetworkPacketData networkPacketData = GameManager.Instance.NetworkPacketDatas.Find(data =>
+            NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find(data =>
             {
                 return data.Type == NetworkPacketData.PType.MaliciousText;
             });
@@ -48,7 +48,7 @@ namespace Events
 
         public override bool IsPossible()
         {
-            NetworkPacketData networkPacketDatas = GameManager.Instance.NetworkPacketDatas.Find(data =>
+            NetworkPacketData networkPacketDatas = GameManager.Instance.GetNetworkPacketDatas().Find(data =>
             {
                 return data.Type == NetworkPacketData.PType.MaliciousText;
             });

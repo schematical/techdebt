@@ -41,7 +41,7 @@ namespace DefaultNamespace.NetworkPackets
                 return;
             }
             float probTotal = 0f;
-            foreach (NetworkPacketData _npData in GameManager.Instance.NetworkPacketDatas)
+            foreach (NetworkPacketData _npData in GameManager.Instance.GetNetworkPacketDatas())
             {
                 // Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
                 probTotal += _npData.probilitly;

@@ -157,7 +157,7 @@ public class UIDebugPanel : UIPanel
         GameStateExport exportData = new GameStateExport
         {
             ActiveInfrastructure = GameManager.Instance.ActiveInfrastructure.Select(i => i.data).ToList(),
-            NetworkPacketDatas = GameManager.Instance.NetworkPacketDatas
+            NetworkPacketDatas = GameManager.Instance.GetNetworkPacketDatas()
         };
 
         // Serialize to JSON using Unity's built-in utility

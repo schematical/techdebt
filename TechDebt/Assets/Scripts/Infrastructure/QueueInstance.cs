@@ -8,9 +8,9 @@ using UnityEngine;
         public override void Initialize()
         {
             base.Initialize();
-            if (GameManager.Instance != null && GameManager.Instance.NetworkPacketDatas != null)
+            if (GameManager.Instance != null && GameManager.Instance.GetNetworkPacketDatas() != null)
             {
-                batchJobPacketData = GameManager.Instance.NetworkPacketDatas.Find(data => data.Type == NetworkPacketData.PType.BatchJob);
+                batchJobPacketData = GameManager.Instance.GetNetworkPacketDatas().Find(data => data.Type == NetworkPacketData.PType.BatchJob);
                 if (batchJobPacketData == null)
                 {
                     Debug.LogWarning($"QueueInstance '{data.DisplayName}': Could not find BatchJob NetworkPacketData in GameManager.");

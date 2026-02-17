@@ -11,7 +11,8 @@ public class NetworkPacketData
         Image,
         BatchJob,
         MaliciousText,
-        Purchase
+        Purchase,
+        PII
     }
 
     public PType Type;
