@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     public class UIGameObject: MonoBehaviour
     {
         public enum UIState {Closed, Open, Closing, Opening}
-        public UIState state = UIState.Closed;
+        protected UIState panelState = UIState.Closed;
         public enum SlideDirection { Left, Right, Up, Down }
         public SlideDirection slideDirection = SlideDirection.Right;
         public RectTransform rectTransform;
@@ -68,6 +69,10 @@ namespace UI
            
         }
 
+        public UIState GetPanelState()
+        {
+            return panelState;
+        }
         protected virtual void Update()
         {
             /*if (!isInitialized && rectTransform.rect.width > 0)
@@ -119,17 +124,17 @@ namespace UI
             if (animationProgress >= 1.0f)
             {
                 animationProgress = 1.0f;
-                switch (state)
+                switch (panelState)
                 {
                     case(UIState.Closing):
-                        state = UIState.Closed;
+                        panelState = UIState.Closed;
                         gameObject.SetActive(false);
                         break;
                     case(UIState.Opening):
-                        state = UIState.Open;
+                        panelState = UIState.Open;
                         break;
                     default:
-                        throw new System.Exception($"We are in a weird state {state} while trying to end an animation.");
+                        throw new System.Exception($"We are in a weird state {panelState} while trying to end an animation.");
                 }
             }
 
@@ -157,11 +162,11 @@ namespace UI
 
         public void SlideIn()
         {
-            if (state != UIState.Closed)
+            if (panelState != UIState.Closed)
             {
                 return;
             }
-            state = UIState.Opening;
+            panelState = UIState.Opening;
 
             Vector2 offset = Vector2.zero;
             switch(slideDirection) {
@@ -187,15 +192,15 @@ namespace UI
 
         protected bool IsAnimating()
         {
-            return state == UIState.Closing || state == UIState.Opening;
+            return panelState == UIState.Closing || panelState == UIState.Opening;
         }
         public void SlideOut()
         {
-            if (state != UIState.Open)
+            if (panelState != UIState.Open)
             {
                 return;
             }
-            state = UIState.Closing;
+            panelState = UIState.Closing;
             
             Vector2 offset = Vector2.zero;
             switch(slideDirection) {

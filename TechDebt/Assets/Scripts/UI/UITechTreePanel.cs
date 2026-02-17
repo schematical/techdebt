@@ -25,15 +25,7 @@ namespace UI
             }
 
             _techTreeItems.Clear();
-
-            if (GameManager.Instance == null || GameManager.Instance.AllTechnologies == null) return;
-
-            GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-            if (textAreaPrefab == null)
-            {
-                Debug.LogError("UITextArea prefab not found. Cannot create tech panel content.");
-                return;
-            }
+            
 
             foreach (var tech in GameManager.Instance.AllTechnologies)
             {

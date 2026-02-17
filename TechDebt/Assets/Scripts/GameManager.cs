@@ -703,7 +703,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateInfrastructureVisibility()
     {
-        foreach (var instance in ActiveInfrastructure)
+        foreach (InfrastructureInstance instance in ActiveInfrastructure)
         {   
             InfrastructureData infraData = instance.data;
             if (infraData.CurrentState == InfrastructureData.State.Locked && !instance.gameObject.activeSelf)

@@ -84,8 +84,9 @@ public class UIDebugPanel : UIPanel
         
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         Vector3 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector3Int cellPos = GameManager.Instance.gridManager.grid.WorldToCell(worldPos);
@@ -134,10 +135,9 @@ public class UIDebugPanel : UIPanel
 
         GameManager.Instance.UnlockAllTechnologies();
         Debug.Log("All technologies unlocked.");
-        if (GameManager.Instance.UIManager != null)
-        {
-            GameManager.Instance.UIManager.techTreePanel.Refresh();
-        }
+        
+        GameManager.Instance.UIManager.techTreePanel.Refresh();
+        
     }
 
     private void EndRun()
