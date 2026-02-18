@@ -18,7 +18,7 @@ namespace NPCs
         public override void Initialize()
         {
             base.Initialize();
-
+            shadowOffset = new Vector2(0.0f, 0.0f);
             isEvolving = false;
             Stats.Get(StatType.NPC_MovmentSpeed).SetBaseValue(1.5f);
         }
@@ -28,7 +28,8 @@ namespace NPCs
         {
             if (this.IsDead())
             {
-                return;
+                base.FixedUpdate();
+                return ;
             }     
             if (isEvolving)
              {

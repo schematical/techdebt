@@ -2261,7 +2261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &289147066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4676,8 +4676,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 73, y: -17.3}
-  m_SizeDelta: {x: 122.0332, y: 19.554}
+  m_AnchoredPosition: {x: 296.5796, y: -17.712}
+  m_SizeDelta: {x: 569.1925, y: 20.377}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &495547762
 MonoBehaviour:
@@ -7493,6 +7493,7 @@ MonoBehaviour:
   prefabManager: {fileID: 776996750}
   cameraController: {fileID: 519420033}
   SpriteManager: {fileID: 776996751}
+  activePackets: []
   AllInfrastructure:
   - ID: door
     DisplayName: Door
@@ -8738,13 +8739,9 @@ MonoBehaviour:
     RequiredTechnologies:
     - load-balencer
     CurrentState: 0
+  gridManager: {fileID: 747688044}
   NetworkPacketState: 0
   AllNpcs: []
-  packetsUntilNextSale: -1
-  packetPrefab: {fileID: 5916775937875028387, guid: c76d4280517d30e4cb10ae916d7a6f6d, type: 3}
-  activePackets: []
-  gridManager: {fileID: 747688044}
-  npcDevOpsPrefab: {fileID: 3605764701712668647, guid: 079c884cbb5f37a4db6e5cb75ba099b7, type: 3}
 --- !u!4 &776996746
 Transform:
   m_ObjectHideFlags: 0
@@ -8772,10 +8769,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc18cc804b7ccf49bb29f94845e4c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameLoopManager
-  dayDurationSeconds: 120
   playTimerActive: 1
   currentDay: 0
   dayTimer: 0
+  sprintDurationDays: 5
 --- !u!114 &776996750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9073,6 +9070,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2e7f4e13c84c30049802188bdfe4b697, type: 3}
   - {fileID: 21300000, guid: be95065c27451c048b718fef9cedd52e, type: 3}
   - {fileID: 5633149718599748814, guid: 3aba1bab0d271a442b1c01ed79a1925c, type: 3}
+  - {fileID: 5633149718599748814, guid: 3aba1bab0d271a442b1c01ed79a1925c, type: 3}
+  - {fileID: 6367370271612135678, guid: da56f26d2441736478f532302d16d38d, type: 3}
 --- !u!1 &788820141
 GameObject:
   m_ObjectHideFlags: 0

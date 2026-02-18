@@ -12,6 +12,21 @@ namespace UI
             startDayButton.onClick.AddListener(OnStartDayClicked);
         }
 
+        public override void Show()
+        {
+            base.Show();
+            int daysLeftInSprint = GameManager.Instance.GameLoopManager.GetDaysLeftInSprint();
+            if (daysLeftInSprint > 0)
+            {
+                titleText.text = $"{daysLeftInSprint} Days Left In This Sprint";
+            }
+            else
+            {
+                titleText.text = $"Launch Day!";
+            }
+
+          
+        }
         public void OnStartDayClicked()
         {
             GameManager.Instance.GameLoopManager.BeginPlayPhase();

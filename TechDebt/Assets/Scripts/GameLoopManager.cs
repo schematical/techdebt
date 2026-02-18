@@ -5,6 +5,7 @@ using Events;
 using MetaChallenges;
 using NPCs;
 using Stats;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -16,12 +17,21 @@ public class GameLoopManager : MonoBehaviour
     public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary }
     public GameState CurrentState { get; private set; }
 
-    public float dayDurationSeconds = 120f;
+    protected float dayDurationSeconds = 120f;
     public bool playTimerActive = true;
     public int currentDay = 0;
     public float dayTimer = 0f;
-   
-   
+    public int sprintDurationDays = 5;
+
+    public int GetCurrentDay()
+    {
+        return currentDay;
+    }
+
+    public int GetDaysLeftInSprint()
+    {
+        return sprintDurationDays - currentDay;
+    }
     void FixedUpdate()
     {
         switch (CurrentState)
@@ -155,10 +165,28 @@ public class GameLoopManager : MonoBehaviour
         
         GameManager.Instance.UIManager.Resume();
         // GameManager.Instance.CheckEvents();
+        if (IsLaunchDay())
+        {
+            GameManager.Instance.UIManager.ShowNPCDialog(
+                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC_0"),
+                "Today is launch day! \n Expect extra traffic."
+            );
+            GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier(StatModifier.ModifierType.Multiply, 2));
+        }
+    }
+
+    public bool IsLaunchDay()
+    {
+        return sprintDurationDays == currentDay;
     }
 
     public void CheckEnemySpawn()
     {
+        float attackPossibility = GameManager.Instance.Stats.GetStatValue(StatType.AttackPossibility);
+        if (Random.value > attackPossibility)
+        {
+            return;
+        }
         float spawnChance = 1 - GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
         if (Random.value < spawnChance)
         {
@@ -174,11 +202,18 @@ public class GameLoopManager : MonoBehaviour
     private void BeginSummaryPhase()
     {
        
-        
+        if (IsLaunchDay())
+        {
+            GameManager.Instance.UIManager.ShowNPCDialog(
+                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC_0"),
+                "TODO: Check if we hit our goals. TODO: Remove stat modifier"
+            );
+            // GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier(StatModifier.ModifierType.Multiply, 4));
+        }
         CurrentState = GameState.WaitingForNpcsToExpire;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         
-        // --- Prepare Summary Text ---
+
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
         float dailyPacketIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
@@ -218,21 +253,36 @@ public class GameLoopManager : MonoBehaviour
             new StatModifier(StatModifier.ModifierType.Multiply, adjustedDailyIncomeMultiplier)
         );
         float updatedDailyIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
-        /*GameManager.Instance.FloatingTextFactory.ShowText(
-            $"+${hourlyIncome}",
-            GameManager.Instance.GetInfrastructureInstanceByID("internetPipes").transform.position,
-            new Color(0f, 1f, 0f)
-        );*/
+   
+
+        float attackPossibility = GameManager.Instance.Stats.GetStatValue(StatType.AttackPossibility);
+        if (attackPossibility == 0f)
+        {
+            attackPossibility = GameManager.Instance.IncrStat(StatType.AttackPossibility, 0.1f);
+        }
+        else
+        {
+            attackPossibility = GameManager.Instance.Stats.AddModifier(
+                StatType.AttackPossibility,
+                new StatModifier(
+                    StatModifier.ModifierType.Multiply,
+                    1.1f  
+                )
+            );
+        }
+
         string summaryText = $"End of Day {currentDay - 1}\n" +
-                             $"Total Packets: {packetsFailed  + packetsServiced} \n" +
+                             $"Total Packets: {packetsFailed + packetsServiced} \n" +
                              $"Packets Failed: {packetsFailed} \n" +
                              $"Packets Succeeded: {packetsServiced} \n" +
-                             $"Percentage Served: %{Math.Round(percentageSuccess * 100)} \n" +
+                             $"Percentage Served: %{percentageSuccess:F2} \n" +
                              $"Total Costs: ${Math.Round(totalDailyCost)} \n" +
                              $"Total Income: ${Math.Round(actualIncome)}\n" +
-                             $"Net Income: ${actualIncome - totalDailyCost}\n" + 
-                             $"Tomorrow's Expected Income: ${updatedDailyIncome} - ({Math.Round((1 - percentageSuccess) * 100)}% Failed Penalty)\n" +
-                             $"Total: {money}";
+                             $"Net Income: ${actualIncome - totalDailyCost}\n" +
+                             $"Total: {money} \n" +
+                             $"Tomorrow's Expected Income: ${updatedDailyIncome} - ({(1 - percentageSuccess):F2}% Failed Penalty)\n" +
+                             $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n";
+                             
 
         summaryText += infraCosts;
 

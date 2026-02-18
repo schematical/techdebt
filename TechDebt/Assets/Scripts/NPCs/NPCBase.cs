@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DefaultNamespace;
 using Stats;
 using UI;
@@ -9,6 +10,9 @@ using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D.Animation;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable
 {
@@ -59,6 +63,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     private WordBubble _currentWordBubble;
     public ShadowObject  shadow;
+    public Vector2 shadowOffset = new Vector2(-0.1f, -0.25f);
+    public float shadowScale = 0.75f;
 
     public virtual void Initialize()
     {
@@ -74,8 +80,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         if (shadow == null)
         {
             shadow = GameManager.Instance.prefabManager.Create("Shadow", transform.position).GetComponent<ShadowObject>();
-            shadow.Initialize(gameObject, new Vector2(-0.1f, -0.25f));
-            shadow.transform.localScale = new Vector3(0.75f,0.75f, 1f);
+            shadow.Initialize(gameObject, shadowOffset);
+            shadow.transform.localScale = new Vector3(shadowScale, shadowScale, 1f);
         }
         shadow.gameObject.SetActive(true);
     }
@@ -136,6 +142,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
                 spriteRenderer.color.b,
                 spriteRenderer.color.a - Time.fixedDeltaTime
             );
+            shadow.gameObject.SetActive(false);
             return;
         }
         foreach (CoolDownType t in coolDowns.Keys.ToArray())

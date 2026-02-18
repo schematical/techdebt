@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
-  
+
     public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
     public List<ItemData> Items = new List<ItemData>();
     public UIManager UIManager;
@@ -40,9 +40,11 @@ public class GameManager : MonoBehaviour
     public PrefabManager prefabManager;
     public CameraController cameraController;
     public SpriteManager SpriteManager;
-
+    public List<NetworkPacket> activePackets = new List<NetworkPacket>();
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
+    
+    [SerializeField] public GridManager gridManager;
     protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
         new NetworkPacketData() {
             Type = NetworkPacketData.PType.Text,
@@ -118,8 +120,6 @@ public class GameManager : MonoBehaviour
     public List<NPCBase> AllNpcs = new List<NPCBase>();
     public List<ReleaseBase> Releases = new List<ReleaseBase>();
     private float timeSinceLastPacket = 0f;
-    public const int PACKETS_BETWEEN_SALES = 10;
-    public int packetsUntilNextSale = -1;
     public void AddTask(NPCTask task)
     {
         AvailableTasks.Add(task);
@@ -191,12 +191,6 @@ public class GameManager : MonoBehaviour
         var useTask = new UseItemTask(item);
         AddTask(useTask);
     }
-    // -----------------------
-
-    // --- Packet Management ---
-    public GameObject packetPrefab;
-    public List<NetworkPacket> activePackets = new List<NetworkPacket>();
-    private Dictionary<NetworkPacketData.PType, List<NetworkPacket>> _networkPacketPool = new Dictionary<NetworkPacketData.PType, List<NetworkPacket>>();
 
 
     public NetworkPacketData GetNetworkPacketData()
@@ -271,16 +265,10 @@ public class GameManager : MonoBehaviour
 
     public void CheckEvents()
     {
-
-   
-        
         if (CurrentEvents.Count() > 0)
         {
             return;
         }
-     
-        
-
         int totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
         foreach (var e in Events)
@@ -350,8 +338,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [SerializeField] public GridManager gridManager;
-    [SerializeField] private GameObject npcDevOpsPrefab;
 
     void Awake()
     {
@@ -614,6 +600,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.ItemDropChance, 0.1f));
         Stats.Add(new StatData(StatType.ItemDropCheck, 15));
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
+        Stats.Add(new StatData(StatType.AttackPossibility, 0f));
 
         Tutorial = new TutorialEvent();
         
@@ -709,11 +696,7 @@ public class GameManager : MonoBehaviour
 
     void SetupGameScene()
     {
-        if (npcDevOpsPrefab == null)
-        {
-            Debug.LogError("FATAL: A prefab or tile is not assigned in the GameManager Inspector!");
-            return;
-        }
+     
 
         /*if (gridManager == null)
         {

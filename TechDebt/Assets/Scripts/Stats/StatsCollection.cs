@@ -39,14 +39,14 @@ namespace Stats
             return 0f;
         }
 
-        public void AddModifier(StatType statType, StatModifier modifier)
+        public float AddModifier(StatType statType, StatModifier modifier)
         {
             if (!Stats.ContainsKey(statType))
             {
                 throw new SystemException($"StatsCollection: StatType `{statType}` does not exist. Debug: Count: {Stats.Count} ");
             }
             Stats[statType].Modifiers.Add(modifier);
-            Stats[statType].UpdateValue();
+            return Stats[statType].UpdateValue();
             
         }
 

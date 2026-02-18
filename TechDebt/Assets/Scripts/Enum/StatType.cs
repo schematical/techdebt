@@ -43,7 +43,8 @@ public enum StatType
     NPC_CodeSpeed,
     NPC_HP,
     NPC_CoolDown,
-    Infra_InputValidation
+    Infra_InputValidation,
+    AttackPossibility
     
     
 
