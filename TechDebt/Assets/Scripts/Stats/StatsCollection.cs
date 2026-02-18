@@ -63,11 +63,11 @@ namespace Stats
             return false;
         }
 
-        public void RemoveModifiers(StatType statType, object source)
+        public void RemoveModifier(StatType statType, string id)
         {
             if (Stats.TryGetValue(statType, out var statData))
             {
-                statData.Modifiers.RemoveAll(mod => mod.Source == source);
+                statData.Modifiers.RemoveAll(mod => mod.Id == id);
                 statData.UpdateValue();
             }
         }

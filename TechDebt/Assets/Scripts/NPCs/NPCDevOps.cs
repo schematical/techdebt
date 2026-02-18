@@ -267,8 +267,8 @@ public class NPCDevOps : NPCAnimatedBiped
                 content += "  <i>Modifiers:</i>\n";
                 foreach (var mod in stat.Modifiers)
                 {
-                    string sourceName = mod.Source != null ? mod.Source.GetType().Name : "Unknown";
-                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {sourceName}\n";
+       
+                    content += $"  - {mod.Id} - {mod.Value:F2} ({mod.Type})\n";
                 }
             }
         }

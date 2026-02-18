@@ -7,7 +7,7 @@ public class NetworkConnectionBonus
 {
 
 
-
+    public string Id;
     public NetworkPacketData.PType PacketType;
     public StatType Stat;
     public StatModifier.ModifierType Type;

@@ -348,7 +348,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             return;
         }
 
-        foreach (var bonus in foundConnection.NetworkConnectionBonus)
+        foreach (NetworkConnectionBonus bonus in foundConnection.NetworkConnectionBonus)
         {
             int index = data.networkPackets.FindIndex((packetData =>
             {
@@ -359,7 +359,11 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
                 return false;
             }));
-            data.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(bonus.Type, bonus.value));
+            data.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
+                $"networkConnectionBonus_{bonus.Id}",
+                bonus.value, 
+                bonus.Type
+            ));
         }
     }
 
@@ -433,9 +437,9 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         transform.localScale = Vector3.one * visualScaleFactor;
 
         // Remove existing resize modifiers to apply fresh ones
-        data.Stats.RemoveModifiers(StatType.Infra_DailyCost, this);
-        data.Stats.RemoveModifiers(StatType.Infra_MaxLoad, this);
-        data.Stats.RemoveModifiers(StatType.Infra_LoadRecoveryRate, this);
+        data.Stats.RemoveModifier(StatType.Infra_DailyCost, "infra_resize");
+        data.Stats.RemoveModifier(StatType.Infra_MaxLoad, "infra_resize");
+        data.Stats.RemoveModifier(StatType.Infra_LoadRecoveryRate, "infra_resize");
 
         // Apply new modifiers only if the size is above base level
         if (CurrentSizeLevel > 0)
@@ -444,12 +448,12 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             float statMultiplier = Mathf.Pow(2, CurrentSizeLevel);
 
             data.Stats.AddModifier(StatType.Infra_DailyCost,
-                new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+                new StatModifier("infra_resize", statMultiplier));
             data.Stats.AddModifier(StatType.Infra_MaxLoad,
-                new StatModifier(StatModifier.ModifierType.Multiply, statMultiplier, this));
+                new StatModifier("infra_resize", statMultiplier));
             float loadStatMultiplier = Mathf.Pow(1.5f, CurrentSizeLevel);
             data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate,
-                new StatModifier(StatModifier.ModifierType.Multiply, loadStatMultiplier, this));
+                new StatModifier("infra_resize", loadStatMultiplier));
         }
 
         if (metaStatCollection.Get(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
@@ -525,9 +529,9 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             if (stat.Modifiers.Count > 0)
             {
                 content += "  <i>Modifiers:</i>\n";
-                foreach (var mod in stat.Modifiers)
+                foreach (StatModifier modifier in stat.Modifiers)
                 {
-                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {mod.Source.GetType().Name}\n";
+                    content += $"  - {modifier.Id} -{modifier.Value:F2} ({modifier.Type})\n";
                 }
             }
         }
@@ -545,7 +549,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                         content += "  <i>   - Modifiers:</i>\n";
                         foreach (StatModifier modifier in stat.Modifiers)
                         {
-                            content += $"      - {modifier.GetDisplayText()} - {modifier.Source}\n";
+                            content += $"      - {modifier.Id} - {modifier.GetDisplayText()}\n";
                         }
                     }
                 }

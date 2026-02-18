@@ -15,7 +15,7 @@ namespace UI
                 sb.AppendLine($"{stat.Key}: {stat.Value.Value}");
                 foreach (StatModifier modifier in stat.Value.Modifiers)
                 {
-                    sb.AppendLine($" - {modifier.Type}: {modifier.GetDisplayText()} {modifier.Source}");
+                    sb.AppendLine($" -  {modifier.Id} - {modifier.Type}: {modifier.GetDisplayText()}");
                 }
             }
             

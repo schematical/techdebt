@@ -375,7 +375,7 @@ public class GameManager : MonoBehaviour
                     Enum.TryParse<StatType>(challenge.RewardId, out statType);
                     
                     Stats.AddModifier(statType, new StatModifier(
-                        StatModifier.ModifierType.Multiply,
+                        $"metaChallenge_{challenge.RewardId}",
                         challenge.RewardValue
                     ));
                     break;

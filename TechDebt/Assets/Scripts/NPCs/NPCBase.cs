@@ -536,10 +536,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             if (stat.Modifiers.Any())
             {
                 content += "  <i>Modifiers:</i>\n";
-                foreach (var mod in stat.Modifiers)
+                foreach (StatModifier modifier in stat.Modifiers)
                 {
-                    string sourceName = mod.Source != null ? mod.Source.GetType().Name : "Unknown";
-                    content += $"  - {mod.Value:F2} ({mod.Type}) @ {sourceName}\n";
+
+                    content += $"  - {modifier.Id} - {modifier.Value:F2} ({modifier.Type})\n";
                 }
             }
         }

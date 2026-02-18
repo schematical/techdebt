@@ -12,7 +12,7 @@ namespace Items
 
         public override void Use(NPCBase npc)
         {
-            StatModifier statModifier = new StatModifier(StatModifier.ModifierType.Multiply, 2f);
+            StatModifier statModifier = new StatModifier("item_EnergyDrink", 2f);
             GameManager.Instance.AddEffect(new EnergyDrinkEffect(npc, statModifier));
             npc.Stats.AddModifier(StatType.NPC_MovmentSpeed, statModifier);
             // Deactivate the nuke item after use so it can be pooled.

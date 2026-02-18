@@ -14,7 +14,7 @@ namespace Events
         public override void Apply()
         {
             base.Apply();
-            statModifier = new StatModifier(StatModifier.ModifierType.Multiply, 0.1f);
+            statModifier = new StatModifier("event_slowSalesWeek", 0.1f);
             GameManager.Instance.Stats.AddModifier(StatType.DailyIncome, statModifier);
        
         }

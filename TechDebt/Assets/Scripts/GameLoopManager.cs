@@ -171,7 +171,7 @@ public class GameLoopManager : MonoBehaviour
                 GameManager.Instance.SpriteManager.GetSprite("Suit1NPC_0"),
                 "Today is launch day! \n Expect extra traffic."
             );
-            GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier(StatModifier.ModifierType.Multiply, 2));
+            GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier("launch_day_traffic", 2));
         }
     }
 
@@ -244,13 +244,13 @@ public class GameLoopManager : MonoBehaviour
         }
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
-            new StatModifier(StatModifier.ModifierType.Multiply,  GameManager.Instance.GetStat(StatType.Difficulty))
+            new StatModifier($"traffic_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))
         );
         
         float adjustedDailyIncomeMultiplier = GameManager.Instance.GetStat(StatType.Difficulty) * percentageSuccess;
         GameManager.Instance.Stats.AddModifier(
             StatType.DailyIncome,
-            new StatModifier(StatModifier.ModifierType.Multiply, adjustedDailyIncomeMultiplier)
+            new StatModifier($"dailyIncome_day_{currentDay}", adjustedDailyIncomeMultiplier)
         );
         float updatedDailyIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
    
@@ -265,7 +265,7 @@ public class GameLoopManager : MonoBehaviour
             attackPossibility = GameManager.Instance.Stats.AddModifier(
                 StatType.AttackPossibility,
                 new StatModifier(
-                    StatModifier.ModifierType.Multiply,
+                    $"attackPossibility_Day_{currentDay}",
                     1.1f  
                 )
             );

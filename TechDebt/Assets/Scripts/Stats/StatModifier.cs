@@ -6,25 +6,25 @@ namespace Stats
     [Serializable]
     public class StatModifier
     {
-        public StatModifier(ModifierType type, float value, iModifierSource source = null)
-        {
-            Type = type;
-            Value = value;
-            Source = source;
-        }
-
-        public enum ModifierType { Flat, Multiply }
+    
+        public string Id { get; protected set; }
+        public enum ModifierType {  Multiply /*Flat,*/ }
         
         public ModifierType Type { get; private set; }
         public float Value { get; private set; }
-        public object Source { get; private set; }
+        public StatModifier(string id, float value, ModifierType type = ModifierType.Multiply)
+        {
+            Id = id;
+            Type = type;
+            Value = value;
+        }
 
         public float Apply(StatData statData, float value)
         {
             switch (Type)
             {
-                case ModifierType.Flat:
-                    return value + Value;
+                /*case ModifierType.Flat:
+                    return value + Value;*/
                 case ModifierType.Multiply:
                     return value * Value;
                 default:
@@ -35,8 +35,8 @@ namespace Stats
         {
             switch (Type)
             {
-                case ModifierType.Flat:
-                    return $"+{Value}";
+                /*case ModifierType.Flat:
+                    return $"+{Value}";*/
                 case ModifierType.Multiply:
                     return $"x{Value}";
                 default:

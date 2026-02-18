@@ -95,7 +95,7 @@ namespace Stats
 
         public void ReplaceOrAdd(StatModifier statModifier)
         {
-            int index = Modifiers.FindIndex(x => x.Source.Equals(statModifier.Source));
+            int index = Modifiers.FindIndex(x => x.Id.Equals(statModifier.Id));
             if (index != -1)
             {
                 Modifiers.RemoveAt(index);

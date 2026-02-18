@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace Infrastructure
 {
-    public class WorldObjectBase: MonoBehaviour, iModifierSource,   IPointerClickHandler, iAssignable
+    public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable
     {
 
         public Vector3Int GridPosition;

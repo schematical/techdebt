@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace NPCs
 {
-    public class ModifierBase: iModifierSource
+    public class ModifierBase
     {
        
         
@@ -90,9 +90,8 @@ namespace NPCs
             {
                 case(ModifierType.NPC_Stat):
                     StatModifier = new StatModifier(
-                        StatModifier.ModifierType.Multiply,
-                        GetScaledValue(),
-                        this
+                        Id,
+                        GetScaledValue()
                     );
                     npc.Stats.AddModifier(StatType, StatModifier); 
                     break;
@@ -101,9 +100,8 @@ namespace NPCs
                     break;
                 case(ModifierType.Infra_NetworkPacketStat):
                     StatModifier = new StatModifier(
-                        StatModifier.ModifierType.Multiply,
-                        GetScaledValue(),
-                        this
+                        Id,
+                        GetScaledValue()
                     );
                     List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
                     foreach (InfrastructureInstance inst in instances)
@@ -120,9 +118,8 @@ namespace NPCs
                     break;
                 case(ModifierType.Run_Stat):
                     StatModifier = new StatModifier(
-                        StatModifier.ModifierType.Multiply,
-                        GetScaledValue(),
-                        this
+                        Id,
+                        GetScaledValue()
                     );
                     GameManager.Instance.Stats.AddModifier(StatType, StatModifier);
                     
@@ -134,7 +131,7 @@ namespace NPCs
 
         public void OnInfrastructureBuild(InfrastructureInstance infrastructure)
         {
-            StatModifier statModifier = new StatModifier(StatModifier.ModifierType.Multiply, GetScaledValue(), this);
+            StatModifier statModifier = new StatModifier( Id, GetScaledValue());
             infrastructure.data.Stats.Get(StatType).ReplaceOrAdd(statModifier);
         }
 
