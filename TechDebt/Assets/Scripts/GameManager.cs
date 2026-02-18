@@ -247,36 +247,23 @@ public class GameManager : MonoBehaviour
         packet.gameObject.SetActive(false); // Deactivate instead of destroying
 
         float packetsServiced = -1;
-		if (packet.CurrentState == NetworkPacket.State.Failed) {
-           
-            float packetsFailed = IncrStat(StatType.PacketsFailed);
-            Sprite sprite = packet.GetComponent<SpriteRenderer>().sprite;
-            packet.Reset();
-            int n = Random.Range(-1, 1);
-            int middle = Screen.width / 2;
-            int min = middle + (n * Screen.width / 4);
-            int max = Screen.width;
-            if (n < 0)
-            {
-                max = min;
-                min = 0;
-            }
-
-            int x = Random.Range(min, max);
-            Vector3 pos = new Vector3(x, Screen.height, 0);
-            UIScreenParticle screenParticle = prefabManager.Create("UIScreenParticle", pos, UIManager.transform).GetComponent<UIScreenParticle>();
-            screenParticle.Init(
-                sprite, 
-                Random.value * 360, 
-                new List<UIScreenParticle.Effects>()
-                {
-                    UIScreenParticle.Effects.Fire
-                }
-            );
-            return;
+		switch (packet.CurrentState) {
+            case(NetworkPacket.State.Failed):
+                IncrStat(StatType.PacketsFailed);
+                Sprite sprite = packet.GetComponent<SpriteRenderer>().sprite;
+                UIManager.ShowPacketFail(sprite);
+            break;
+            case(NetworkPacket.State.Stolen):
+                IncrStat(StatType.PacketsFailed);
+                UIManager.moneyPanel.ExplodeCoins(10);
+            break;
+            case(NetworkPacket.State.Running):
+            	 packetsServiced = IncrStat(StatType.PacketsServiced);
+                break;
+            default:
+                throw new NotImplementedException();
         }
-		 packetsServiced = IncrStat(StatType.PacketsServiced);
-         packet.Reset();
+        packet.Reset();
          
     }
 

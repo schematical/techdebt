@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 {
-    public enum State { Running, Failed }
+    public enum State { Running, Failed, Stolen }
     public State CurrentState = State.Running;
     public string FileName { get; private set; }
     public NetworkPacketData data;
@@ -161,4 +161,8 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         return transform.position;
     }
 
+    public void MarkStolen()
+    {
+        CurrentState = State.Stolen;
+    }
 }

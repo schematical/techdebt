@@ -38,7 +38,8 @@ public class UIDebugPanel : UIPanel
 
     private void RunMisc()
     {
-
+        GameManager.Instance.UIManager.moneyPanel.AddCoin();
+        GameManager.Instance.UIManager.moneyPanel.ExplodeCoins(30);
         // Screen.SetResolution(640, 480, true);
         //GameManager.Instance.UIManager.moneyPanel.AddCoin();
         /*InstaBuild();

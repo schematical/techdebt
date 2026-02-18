@@ -16,6 +16,7 @@ using Events;
 using Infrastructure;
 using UI;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class UIManager : MonoBehaviour
 
@@ -822,4 +823,28 @@ public class UIManager : MonoBehaviour
             return attentionIcon;
     }
 
+    public void ShowPacketFail(Sprite sprite)
+    {
+        int n = Random.Range(-1, 1);
+        int middle = Screen.width / 2;
+        int min = middle + (n * Screen.width / 4);
+        int max = Screen.width;
+        if (n < 0)
+        {
+            max = min;
+            min = 0;
+        }
+
+        int x = Random.Range(min, max);
+        Vector3 pos = new Vector3(x, Screen.height, 0);
+        UIScreenParticle screenParticle = GameManager.Instance.prefabManager.Create("UIScreenParticle", pos, transform).GetComponent<UIScreenParticle>();
+        screenParticle.Init(
+            sprite, 
+            Random.value * 360, 
+            new List<UIScreenParticle.Effects>()
+            {
+                UIScreenParticle.Effects.Fire
+            }
+        );
+    }
 }

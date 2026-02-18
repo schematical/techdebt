@@ -64,5 +64,25 @@ namespace UI
                 coins.Remove(coin);
             }
         }
+        public void ExplodeCoins(float cost)
+        {
+            int coinCount = (int)Math.Round(cost / 10);
+            if (coinCount > coins.Count)
+            {
+                coinCount = coins.Count;
+            }
+            List<UICoin> coinsToRemove = new List<UICoin>();
+            for (int i = 0; i < coinCount; i++)
+            {
+                coins[i].Explode();
+                coinsToRemove.Add(coins[i]);
+             
+            }
+
+            foreach (UICoin coin in coinsToRemove)
+            {
+                coins.Remove(coin);
+            }
+        }
     }
 }

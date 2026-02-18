@@ -26,7 +26,7 @@ public class RedirectTrafficTask: NPCTask
                 // Check to see if there are network packets near
                 NetworkPacket networkPacket = GameManager.Instance.activePackets.Find((packet =>
                 {
-                    if (packet.IsReturning() || packet.CurrentState == NetworkPacket.State.Failed)
+                    if (packet.IsReturning() || packet.CurrentState != NetworkPacket.State.Running)
                     {
                         return false;
                     }
@@ -37,7 +37,7 @@ public class RedirectTrafficTask: NPCTask
                 }));
                 if (networkPacket != null)
                 {
-                    networkPacket.MarkFailed();
+                    networkPacket.MarkStolen();
                     InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
                     if (internetPipe == null)
                     {
