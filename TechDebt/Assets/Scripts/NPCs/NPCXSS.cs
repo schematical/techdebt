@@ -46,7 +46,9 @@ namespace NPCs
                 });
             if (applicationServers.Count == 0)
             {
-                throw new System.Exception("No target: There are " + applicationServers.Count + " infrastructure instances for this NPC.");
+                // throw new System.Exception("No target: There are " + applicationServers.Count + " infrastructure instances for this NPC.");
+                base.TriggerDefaultBehavior();
+                return;
             }
             int i = Random.Range(0, applicationServers.Count);
             ApplicationServer applicationServer = applicationServers[i];

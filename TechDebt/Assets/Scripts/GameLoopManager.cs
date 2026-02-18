@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Events;
 using MetaChallenges;
+using NPCs;
 using Stats;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class GameLoopManager : MonoBehaviour
 {
@@ -143,6 +145,8 @@ public class GameLoopManager : MonoBehaviour
            
         }
 
+        CheckEnemySpawn();
+
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.HidePlanUI();
@@ -151,6 +155,20 @@ public class GameLoopManager : MonoBehaviour
         
         GameManager.Instance.UIManager.Resume();
         // GameManager.Instance.CheckEvents();
+    }
+
+    public void CheckEnemySpawn()
+    {
+        float spawnChance = 1 - GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
+        if (Random.value < spawnChance)
+        {
+            InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
+
+            GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCXSS", internetPipe.transform.position);
+
+            NPCXSS npc = npcGO.GetComponent<NPCXSS>();
+            npc.Initialize();
+        }
     }
 
     private void BeginSummaryPhase()

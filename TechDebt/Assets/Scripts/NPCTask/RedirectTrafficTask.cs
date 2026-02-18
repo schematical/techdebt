@@ -37,7 +37,14 @@ public class RedirectTrafficTask: NPCTask
                 }));
                 if (networkPacket != null)
                 {
-                    networkPacket.MarkStolen();
+                    if (networkPacket.data.Type == NetworkPacketData.PType.PII)
+                    {
+                        networkPacket.MarkStolen();
+                    }
+                    else
+                    {
+                        networkPacket.MarkFailed();
+                    }
                     InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
                     if (internetPipe == null)
                     {

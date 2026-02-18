@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
        new NetworkPacketData() {
            Type = NetworkPacketData.PType.PII,
            baseLoad = 0,
-           probilitly = 100,
+           probilitly = 10,
            prefabId = "PIINetworkPacket"
        },
         
@@ -255,6 +255,8 @@ public class GameManager : MonoBehaviour
             break;
             case(NetworkPacket.State.Stolen):
                 IncrStat(StatType.PacketsFailed);
+                int cost = 10;
+                IncrStat(StatType.Money, cost * -1);
                 UIManager.moneyPanel.ExplodeCoins(10);
             break;
             case(NetworkPacket.State.Running):
@@ -611,6 +613,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.PRR, 0.5f));
         Stats.Add(new StatData(StatType.ItemDropChance, 0.1f));
         Stats.Add(new StatData(StatType.ItemDropCheck, 15));
+        Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
 
         Tutorial = new TutorialEvent();
         
