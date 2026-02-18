@@ -87,6 +87,7 @@ namespace UI
         {
             if (panelState == State.Done)
             {
+                uiGameObject.Close();
                 return;
             }
 

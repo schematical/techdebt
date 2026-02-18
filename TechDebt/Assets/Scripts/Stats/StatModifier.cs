@@ -12,6 +12,8 @@ namespace Stats
         
         public ModifierType Type { get; private set; }
         public float Value { get; private set; }
+        protected StatType statType;
+        protected StatsCollection statsCollection;
         public StatModifier(string id, float value, ModifierType type = ModifierType.Multiply)
         {
             Id = id;
@@ -19,6 +21,11 @@ namespace Stats
             Value = value;
         }
 
+        public void Initialize(StatsCollection _statsCollection, StatType _statType)
+        {
+            statType = _statType;
+            statsCollection = _statsCollection;
+        }
         public float Apply(StatData statData, float value)
         {
             switch (Type)
@@ -30,6 +37,12 @@ namespace Stats
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public void SetValue(float value)
+        {
+            Value = value;
+            statsCollection.RefreshStatValue(statType);
         }
         public string GetDisplayText()
         {

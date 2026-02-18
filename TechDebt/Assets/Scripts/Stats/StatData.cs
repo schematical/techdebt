@@ -26,33 +26,25 @@ namespace Stats
         {
             Type = statType;
             BaseValue = baseValue;
-            UpdateValue();
+            RefreshValue();
         }
         public float IncrStat(float value = 1)
         {
             BaseValue += value;
-            return UpdateValue();
+            return RefreshValue();
         }
         public event Action<float> OnStatChanged;
 
-        public float UpdateValue()
+        public float RefreshValue()
         {
             float value = BaseValue;
-            if (Type == StatType.Traffic)
-            {
-                // Debug.Log($"BaseValue: {BaseValue}");
-            }
             // Apply modifier
-            foreach (var modifier in Modifiers)
+            foreach (StatModifier modifier in Modifiers)
             {
                 value = modifier.Apply(this, value);
-                if (Type == StatType.Traffic)
-                {
-                    // Debug.Log($"Modifying: {modifier.Type} - {modifier.Value} = {value}");
-                }
             }
 
-            if (
+            /*if (
                 GameManager.Instance  != null &&
                 GameManager.Instance.GlobalStats.Stats.ContainsKey(Type)
                 )
@@ -64,17 +56,23 @@ namespace Stats
                     value = globalModifier.Apply(this, value);
                     
                 }
-            }
+            }*/
 
-            if (Type == StatType.Traffic)
+            /*if (Type == StatType.Traffic)
             {
                //  Debug.Log($"End Value: {Value}");
-            }
+            }*/
             Value = value;
             if (_broadcastByDefault && Math.Abs(Value - value) > 0.00001f)
             {
                 Broadcast();
             }
+
+            if (Type == StatType.Infra_LoadPerPacket)
+            {
+                Debug.Log($"RefreshValue - {Type} BaseValue: {BaseValue} - NewValue: {Value}");
+            }
+
             return Value;
         }
 
@@ -90,7 +88,7 @@ namespace Stats
         public void SetBaseValue(float value)
         {
             BaseValue = value;
-            UpdateValue();
+            RefreshValue();
         }
 
         public void ReplaceOrAdd(StatModifier statModifier)
@@ -101,7 +99,7 @@ namespace Stats
                 Modifiers.RemoveAt(index);
             }
             Modifiers.Add(statModifier);
-            UpdateValue();
+            RefreshValue();
         }
     }
 }

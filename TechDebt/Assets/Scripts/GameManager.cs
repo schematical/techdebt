@@ -652,7 +652,7 @@ public class GameManager : MonoBehaviour
     public void SetStat(StatType stat, float value)
     {
         Stats.Stats[stat].SetBaseValue(value);
-        Stats.Stats[stat].UpdateValue();
+        Stats.Stats[stat].RefreshValue();
         OnStatsChanged?.Invoke();
     }
 

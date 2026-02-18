@@ -97,7 +97,7 @@ namespace DefaultNamespace.EnvGraphic
             currentDisplayTime = 0;
             animationState =  AnimationState.Loop;
             
-            Debug.Log($"Show{currentlyDisplayedRarity}");
+   
             animator.SetBool($"Intro{currentlyDisplayedRarity}", false);
             animator.SetBool($"Show{currentlyDisplayedRarity}", true);
             onStateChange.Invoke(currentlyDisplayedRarity, false);
@@ -107,7 +107,7 @@ namespace DefaultNamespace.EnvGraphic
           
             animator.SetBool($"Show{currentlyDisplayedRarity}", false);
             currentlyDisplayedRarity = RarityHelper.GetNextRarity(currentlyDisplayedRarity);
-            Debug.Log($"StartNextLevel {currentlyDisplayedRarity}");
+
             animationState =  AnimationState.Intro;
             currentDisplayTime = 0;
             

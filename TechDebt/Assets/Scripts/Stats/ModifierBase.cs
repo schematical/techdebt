@@ -86,6 +86,10 @@ namespace NPCs
 
         public void Apply(NPCDevOps npc = null)
         {
+            if (StatModifier != null)
+            {
+                throw new SystemException("`StatModifier` already exists");
+            }
             switch (Type)
             {
                 case(ModifierType.NPC_Stat):
@@ -110,7 +114,7 @@ namespace NPCs
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-                                Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
+                                //Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }
@@ -186,7 +190,7 @@ namespace NPCs
             
             
             Levels.Add(rarity);
-            
+            StatModifier.SetValue(GetScaledValue());
             
             
             /*debug += "Levels.Count After: " + Levels.Count + "\n";

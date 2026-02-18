@@ -134,7 +134,7 @@ public class ReleaseBase
         Debug.Log("OnDeploymentCompleted");
         if (RewardModifier != null)
         {
-            RewardModifier.LevelUp(rewardRarity);
+         
             ModifierBase existingModifierBase = GameManager.Instance.Modifiers.Modifiers.Find((r) => r.Id == RewardModifier.Id);
             if(existingModifierBase == null){
                 
@@ -145,6 +145,7 @@ public class ReleaseBase
             {
                 Debug.Log($"Modifier Base Exists: {existingModifierBase.Id} - Count: {GameManager.Instance.Modifiers.Modifiers.Count}");
             }
+            RewardModifier.LevelUp(rewardRarity);
         
         }
 

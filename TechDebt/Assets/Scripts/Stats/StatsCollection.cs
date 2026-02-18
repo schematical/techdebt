@@ -45,8 +45,14 @@ namespace Stats
             {
                 throw new SystemException($"StatsCollection: StatType `{statType}` does not exist. Debug: Count: {Stats.Count} ");
             }
+            StatModifier existingStatModifier = Stats[statType].Modifiers.Find(mod => mod.Id == modifier.Id);
+            if (existingStatModifier != null)
+            {
+                throw new SystemException($"A StatModifier with ID {modifier.Id} already exists - {statType}");
+            }
+            modifier.Initialize(this, statType);
             Stats[statType].Modifiers.Add(modifier);
-            return Stats[statType].UpdateValue();
+            return Stats[statType].RefreshValue();
             
         }
 
@@ -56,7 +62,7 @@ namespace Stats
             {
                 if (statData.Modifiers.Remove(modifier))
                 {
-                    statData.UpdateValue();
+                    statData.RefreshValue();
                     return true;
                 }
             }
@@ -68,7 +74,7 @@ namespace Stats
             if (Stats.TryGetValue(statType, out var statData))
             {
                 statData.Modifiers.RemoveAll(mod => mod.Id == id);
-                statData.UpdateValue();
+                statData.RefreshValue();
             }
         }
 
@@ -79,6 +85,11 @@ namespace Stats
                 return null;
             }
             return Stats[_type];
+        }
+
+        public void RefreshStatValue(StatType statType)
+        {
+            Stats[statType].RefreshValue();
         }
     }
 }

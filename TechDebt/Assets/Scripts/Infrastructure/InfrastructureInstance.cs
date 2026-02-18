@@ -538,12 +538,12 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         content += "<b>NetworkPackets:</b>\n";
         foreach (InfrastructureDataNetworkPacket packet in data.networkPackets)
         {
-            content += $"- {packet.PacketType} Load Per Packet: {packet.loadPerPacket} - {packet.RouteType}\n";
+            content += $"- {packet.PacketType}\n";//  Load Per Packet: {packet.loadPerPacket} - {packet.RouteType}\n";
             {
                 content += "  <i>- Stats:</i>\n";
                 foreach (StatData stat in packet.Stats.Stats.Values)
                 {
-                    content += $"  - {stat.Type} = {stat.Type} - Base: {stat.Value}\n";
+                    content += $"  - {stat.Type}  - Base: {stat.BaseValue} - Calculated: {stat.Value}\n";
                     if (stat.Modifiers.Count > 0)
                     {
                         content += "  <i>   - Modifiers:</i>\n";
