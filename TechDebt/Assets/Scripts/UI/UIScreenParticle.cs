@@ -19,6 +19,7 @@ namespace UI
         protected State state;
         public RectTransform rectTransform;
         public Image image;
+        public UIFireParticle fireParticle;
         void Update()
         {
             Vector3[] corners = new Vector3[4];
@@ -32,10 +33,14 @@ namespace UI
                 case(State.Falling):
               
                     rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 400f);
-                    if (bottomRight.y < 0)
+                    if (bottomRight.y < -100)
                     {
                        
                         gameObject.SetActive(false);
+                        if (fireParticle != null)
+                        {
+                            fireParticle.gameObject.SetActive(false);
+                        }
                     }
                     break;
              case(State.Fading):
@@ -50,11 +55,15 @@ namespace UI
                     if (image.color.a <= 0)
                     {
                         gameObject.SetActive(false);
+                        if (fireParticle != null)
+                        {
+                            fireParticle.gameObject.SetActive(false);
+                        }
                     }
                     break;
             }
 
-            if (activeEffects.Contains(Effects.Fire))
+            /*if (activeEffects.Contains(Effects.Fire))
             {
                 float cooldown = 0;
                 if (effectCooldowns.ContainsKey(Effects.Fire))
@@ -71,7 +80,7 @@ namespace UI
                     cooldown = 0.1f;
                 }
                 effectCooldowns[Effects.Fire] = cooldown;
-            }
+            }*/
 
             
         }
@@ -94,6 +103,11 @@ namespace UI
             float ratio = sprite.rect.width / sprite.rect.height;
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100 * ratio);
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
+            if (activeEffects.Contains(Effects.Fire))
+            {
+                fireParticle = GameManager.Instance.prefabManager.Create("UIFireParticle", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIFireParticle>();
+                fireParticle.Initialize(this.transform);
+            }
    
                         
           
