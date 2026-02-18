@@ -32,11 +32,10 @@ namespace Stats
 
         public float GetStatValue(StatType statType)
         {
-            if (Stats.TryGetValue(statType, out var statData))
-            {
-                return statData.Value;
+            if(!Stats.ContainsKey(statType)) {
+                throw new SystemException($"StatsCollection Missing StatType `{statType}`");
             }
-            return 0f;
+            return Stats[statType].Value;
         }
 
         public float AddModifier(StatType statType, StatModifier modifier)

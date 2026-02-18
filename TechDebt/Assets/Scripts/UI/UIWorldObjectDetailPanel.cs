@@ -21,7 +21,6 @@ namespace UI
         }
         public void ShowWorldObjectDetail(WorldObjectBase worldObject)
         {
-            Debug.Log($"ShowWorldObjectDetail: {worldObject.gameObject.name}");
             _selectedWorldObject = worldObject;
             base.Show();
     

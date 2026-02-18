@@ -103,6 +103,8 @@ namespace NPCs
                     
                     break;
                 case(ModifierType.Infra_NetworkPacketStat):
+                    // MATTTTTTT
+                    Debug.LogError("Matt Look here! This will need to be an array if we do this. It it likely time to rework how infra works so there is a base class for each major infra type.");
                     StatModifier = new StatModifier(
                         Id,
                         GetScaledValue()
@@ -114,7 +116,7 @@ namespace NPCs
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-                                //Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
+                                Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }

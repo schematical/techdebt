@@ -1,3 +1,4 @@
+using NPCs;
 using Stats;
 
 namespace UI
@@ -12,15 +13,15 @@ namespace UI
             sb.AppendLine("<b>Stats</b>");
             foreach (var stat in GameManager.Instance.Stats.Stats)
             {
-                sb.AppendLine($"{stat.Key}: {stat.Value.Value}");
+                sb.AppendLine($" - {stat.Key}: B: {stat.Value.BaseValue}/V: {stat.Value.Value}");
                 foreach (StatModifier modifier in stat.Value.Modifiers)
                 {
-                    sb.AppendLine($" -  {modifier.Id} - {modifier.Type}: {modifier.GetDisplayText()}");
+                    sb.AppendLine($"   -  {modifier.Id} - {modifier.Type}: {modifier.GetDisplayText()}");
                 }
             }
             
-            sb.AppendLine("\n<b>Modifiers</b>");
-            foreach (var modifier in GameManager.Instance.Modifiers.Modifiers)
+            sb.AppendLine("\n\n\n<b>Modifiers</b>");
+            foreach (ModifierBase modifier in GameManager.Instance.Modifiers.Modifiers)
             {
                 sb.AppendLine(modifier.ToFullDetail());
             }

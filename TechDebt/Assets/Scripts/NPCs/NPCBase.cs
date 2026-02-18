@@ -71,6 +71,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
         Stats.Add(new StatData(StatType.NPC_HP, 1f));
+        Stats.Add(new StatData(StatType.NPC_CoolDown, 1f));
         coolDowns[CoolDownType.Attack] = 5f;
         coolDowns[CoolDownType.Consume] = 5f;
         if (!GameManager.Instance.AllNpcs.Contains(this))

@@ -43,6 +43,7 @@ public class InfrastructureDataNetworkPacket
     public NCRouteType RouteType = NCRouteType.Return;
     public void Init()
     {
+        Debug.Log("InfrastructureDataNetworkPacket Initializing");
         Stats.Add(new StatData(StatType.Infra_LoadPerPacket, loadPerPacket));
         Stats.Add(new StatData(StatType.Infra_PacketCost, cost));
     }

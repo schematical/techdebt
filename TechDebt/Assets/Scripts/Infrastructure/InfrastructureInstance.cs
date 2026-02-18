@@ -94,7 +94,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             int costPerPacket = data.CostPerPacket;
 
             metaStatCollection.Incr(MetaStat.Infra_HandleNetworkPacket);
-            var packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
+            InfrastructureDataNetworkPacket packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
             if (packetData != null)
             {
                 loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
@@ -173,7 +173,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected virtual void ReturnPacket(NetworkPacket packet)
     {
-        var packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
+        InfrastructureDataNetworkPacket packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
         if (packetData == null)
         {
             packet.StartReturn();
@@ -204,7 +204,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
-        foreach (var networkPacket in data.networkPackets)
+        foreach (InfrastructureDataNetworkPacket networkPacket in data.networkPackets)
         {
             networkPacket.Init();
         }
