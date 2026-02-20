@@ -681,7 +681,30 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 25,
+            LoadRecoveryRate = 10,
+            networkPackets = new List<InfrastructureDataNetworkPacket>()
+            {
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.Text,
+                    loadPerPacket = 20
+                },
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.Image,
+                    loadPerPacket = 40
+                },
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.PII,
+                    loadPerPacket = 20
+                },
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.Purchase,
+                    loadPerPacket = 20
+                }
+            },
             NetworkConnections = new List<NetworkConnection>()
             {
                 new NetworkConnection()
@@ -721,7 +744,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 25,
             
             UnlockConditions = new List<UnlockCondition>()
             {
@@ -740,7 +762,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 1,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -758,7 +779,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 25,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -776,7 +796,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 25,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -794,7 +813,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = false,
-            LoadPerPacket = 1,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -812,7 +830,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 25,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -830,7 +847,6 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadPerPacket = 25,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()

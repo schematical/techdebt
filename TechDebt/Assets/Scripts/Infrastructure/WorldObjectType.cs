@@ -27,8 +27,8 @@ namespace Infrastructure
 
         public float DailyCost = 0;
         public float BuildTime = 0f;
-        public int LoadPerPacket = 0; 
-        public int CostPerPacket = 0;
+        // public int LoadPerPacket = 0; 
+        // public int CostPerPacket = 0;
         public float MaxLoad = 100;
         public float LoadRecoveryRate = 0f;
         public bool CanBeUpsized = false;
@@ -41,11 +41,15 @@ namespace Infrastructure
         {
             Stats.Add(new StatData(StatType.Infra_DailyCost, DailyCost));
             Stats.Add(new StatData(StatType.Infra_BuildTime, BuildTime));
-            Stats.Add(new StatData(StatType.Infra_LoadPerPacket, LoadPerPacket));
+            // Stats.Add(new StatData(StatType.Infra_LoadPerPacket, LoadPerPacket));
             Stats.Add(new StatData(StatType.Infra_MaxLoad, MaxLoad));
             Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, LoadRecoveryRate));
             Stats.Add(new StatData(StatType.TechDebt, 0f));
             Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
+            foreach (InfrastructureDataNetworkPacket networkPacket in networkPackets)
+            {
+                networkPacket.Init();
+            }
         }
 
     }

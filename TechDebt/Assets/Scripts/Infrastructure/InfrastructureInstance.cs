@@ -206,10 +206,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
-        foreach (InfrastructureDataNetworkPacket networkPacket in worldObjectType.networkPackets)
-        {
-            networkPacket.Init();
-        }
+      
     }
 
     /*
