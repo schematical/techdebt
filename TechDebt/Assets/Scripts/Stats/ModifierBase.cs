@@ -103,25 +103,20 @@ namespace NPCs
                     
                     break;
                 case(ModifierType.Infra_NetworkPacketStat):
-                    // MATTTTTTT
-                    Debug.LogError("Matt Look here! This will need to be an array if we do this. It it likely time to rework how infra works so there is a base class for each major infra type.");
                     StatModifier = new StatModifier(
                         Id,
                         GetScaledValue()
                     );
-                    GameManager.Instance.WorldObjectTypes[this.WorldObjectType].Stats.AddModifier(StatType, StatModifier);
-                    /*List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
-                    foreach (InfrastructureInstance inst in instances)
+                    
+                    foreach (InfrastructureDataNetworkPacket networkPacketData in  GameManager.Instance.WorldObjectTypes[this.WorldObjectType].networkPackets)
                     {
-                        foreach (InfrastructureDataNetworkPacket networkPacketData in inst.GetWorldObjectType().networkPackets)
+                        if (networkPacketData.PacketType == NetworkPacketType)
                         {
-                            if (networkPacketData.PacketType == NetworkPacketType)
-                            {
-                                Debug.Log($"[DEBUG] {inst.data.Id} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
-                                networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
-                            }
+                            // Debug.Log($"[DEBUG] {WorldObjectType} Applying modifier to packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
+                            networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                         }
-                    }*/
+                    }
+                    
                     break;
                 case(ModifierType.Run_Stat):
                     StatModifier = new StatModifier(

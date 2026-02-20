@@ -7614,13 +7614,17 @@ MonoBehaviour:
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
     GridPosition: {x: 30, y: 34, z: 0}
     CurrentState: 0
-    UnlockConditions: []
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: read-replicas
   - Id: redis-3
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
     GridPosition: {x: 30, y: 46, z: 0}
     CurrentState: 0
-    UnlockConditions: []
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: read-replicas
   - Id: secret-manager
     worldObjectType: 0
     Prefab: {fileID: 4690569163655073366, guid: 19679e1167f287e4992ba2a5b1e4085e, type: 3}
@@ -13819,7 +13823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -54.99994}
+  m_AnchoredPosition: {x: 0, y: -54.999878}
   m_SizeDelta: {x: 20, y: -61.225}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1462538384

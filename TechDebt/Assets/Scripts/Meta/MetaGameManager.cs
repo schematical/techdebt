@@ -464,27 +464,7 @@ public static class MetaGameManager
     {
         return new List<ModifierBase>()
         {
-            new ModifierBase()
-            {
-                Target = ModifierBase.ModifierTarget.NPC,
-                Id = "finops_expert",
-                Name = "FinOps Expert",
-                StatType = StatType.Infra_DailyCost,
-                Type = ModifierBase.ModifierType.NPC_InfraStat,
-                // BaseValue = 0.9f,
-                IconPrefab = "IconCode",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
-            },
-             new ModifierBase()
-            {
-                Target = ModifierBase.ModifierTarget.NPC,
-                Id = "devops_expert",
-                Name = "DevOps Expert",
-                StatType = StatType.Infra_LoadRecoveryRate,
-                Type = ModifierBase.ModifierType.NPC_InfraStat,
-                IconPrefab = "IconScale"
-                
-            },
+           
             new ModifierBase()
             {
                 Target = ModifierBase.ModifierTarget.NPC,
@@ -508,6 +488,14 @@ public static class MetaGameManager
                 Name = "Fast Learner",
                 StatType = StatType.NPC_XPSpeed,
                 IconPrefab = "IconTest"
+            },
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "move_speed",
+                Name = "Fast Move Speed",
+                StatType = StatType.NPC_MovmentSpeed,
+                IconPrefab = "IconMovementSpeed"
             },
             /*
              *
