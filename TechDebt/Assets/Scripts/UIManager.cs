@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
     public UINPCListPanel npcListPanel;
     public UITechTreePanel techTreePanel;
     public UITaskListPanel taskListPanel;
-    
+    public UIProductRoadMap productRoadMap;
     public UIGlobalStatsPanel globalStatsPanel;
 
     public UIMoneyPanel moneyPanel;
@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
         techTreePanel.Close(forceClose);
         taskListPanel.Close(forceClose);
         globalStatsPanel.Close(forceClose);
+        productRoadMap.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
 
      
@@ -130,12 +131,12 @@ public class UIManager : MonoBehaviour
     {
         if (FindObjectOfType<EventSystem>() == null)
         {
-            var esGO = new GameObject("EventSystem");
+            GameObject esGO = new GameObject("EventSystem");
             esGO.AddComponent<EventSystem>();
             esGO.AddComponent<InputSystemUIInputModule>();
         }
 
-        var canvas = GetComponentInParent<Canvas>();
+        Canvas canvas = GetComponentInParent<Canvas>();
         if (canvas != null)
         {
             if (canvas.GetComponent<GraphicRaycaster>() == null)

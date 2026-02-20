@@ -709,13 +709,40 @@ public class GameManager : MonoBehaviour
             {
                 new NetworkConnection()
                 {
-                    worldObjectType = WorldObjectType.Type.DedicadedDB,
-                    networkPacketType = NetworkPacketData.PType.Text
+                    worldObjectType = WorldObjectType.Type.BinaryStorage,
+                    networkPacketType = NetworkPacketData.PType.Image,
+                    networkConnectionBonus = new List<NetworkConnectionBonus>()
+                    {
+                        new NetworkConnectionBonus()
+                        {
+                            value = 0.75f
+                        }
+                    }
                 },
                 new NetworkConnection()
                 {
                     worldObjectType = WorldObjectType.Type.DedicadedDB,
-                    networkPacketType = NetworkPacketData.PType.PII
+                    networkPacketType = NetworkPacketData.PType.Text,
+                    networkConnectionBonus = new List<NetworkConnectionBonus>()
+                    {
+                        new NetworkConnectionBonus()
+                        {
+                            value = 0.75f
+                        }
+                    }
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.DedicadedDB,
+                    networkPacketType = NetworkPacketData.PType.PII,
+                    networkConnectionBonus = new List<NetworkConnectionBonus>()
+                    {
+                        new NetworkConnectionBonus()
+                        {
+                            value = 0.75f
+                        }
+                    }
+                    
                 },
                 new NetworkConnection()
                 {
@@ -725,12 +752,26 @@ public class GameManager : MonoBehaviour
                 new NetworkConnection()
                 {
                     worldObjectType = WorldObjectType.Type.Redis,
-                    networkPacketType = NetworkPacketData.PType.Text
+                    networkPacketType = NetworkPacketData.PType.Text,
+                    networkConnectionBonus = new List<NetworkConnectionBonus>()
+                    {
+                        new NetworkConnectionBonus()
+                        {
+                            value = 0.75f
+                        }
+                    }
                 },
                 new NetworkConnection()
                 {
                     worldObjectType = WorldObjectType.Type.Queue,
-                    networkPacketType = NetworkPacketData.PType.Text
+                    networkPacketType = NetworkPacketData.PType.Text,
+                    networkConnectionBonus = new List<NetworkConnectionBonus>()
+                    {
+                        new NetworkConnectionBonus()
+                        {
+                            value = 0.5f
+                        }
+                    }
                 },
 
                 
@@ -752,7 +793,8 @@ public class GameManager : MonoBehaviour
                     Type = UnlockCondition.ConditionType.Technology,
                     TechnologyID = "binary-storage"
                 }
-            }
+            },
+            
             
         };
         WorldObjectTypes[WorldObjectType.Type.CDN] = new WorldObjectType()
@@ -769,6 +811,14 @@ public class GameManager : MonoBehaviour
                     Type = UnlockCondition.ConditionType.Technology,
                     TechnologyID = "cdn"
                 }
+            },
+            NetworkConnections = new List<NetworkConnection>()
+            {
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.BinaryStorage,
+                    networkPacketType = NetworkPacketData.PType.Image,
+                },
             }
             
         };
@@ -820,6 +870,29 @@ public class GameManager : MonoBehaviour
                     Type = UnlockCondition.ConditionType.Technology,
                     TechnologyID = "load-balancer"
                 }
+            },
+            NetworkConnections = new List<NetworkConnection>()
+            {
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Text
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.PII
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.MaliciousText
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Purchase
+                },
             }
             
         };

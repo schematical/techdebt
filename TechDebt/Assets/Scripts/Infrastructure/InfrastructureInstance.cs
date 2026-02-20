@@ -354,7 +354,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             int index = worldObjectType.networkPackets.FindIndex((packetData =>
             {
-                if (packetData.PacketType == bonus.PacketType)
+                if (packetData.PacketType == foundConnection.networkPacketType)
                 {
                     return true;
                 }
@@ -362,7 +362,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 return false;
             }));
             worldObjectType.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
-                $"networkConnectionBonus_{bonus.Id}",
+                $"networkConnectionBonus", // $"networkConnectionBonus_{bonus.Id}",
                 bonus.value, 
                 bonus.Type
             ));
@@ -580,11 +580,11 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 content += $"- <b>{kvp.Key}:</b>\n";
                 foreach (NetworkConnection networkConnection in networkConnections)
                 {
-                    content += $"-- {networkConnection.worldObjectType} \n";
+                    content += $"-- {networkConnection.networkPacketType} - {networkConnection.worldObjectType} \n";
                     foreach (NetworkConnectionBonus networkConnectionBonus in networkConnection.networkConnectionBonus)
                     {
                         content +=
-                            $"--- {networkConnectionBonus.PacketType} | {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
+                            $"--- {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
                     }
                 }
 
