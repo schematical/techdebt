@@ -27,7 +27,7 @@ public class BuildTask : NPCTask
         {
             if (buildEffect == null)
             {
-                var be = GameManager.Instance.prefabManager.Create("BuildInfraEffect", TargetInfrastructure.transform.position);
+                GameObject be = GameManager.Instance.prefabManager.Create("BuildInfraEffect", TargetInfrastructure.transform.position);
                 // be.transform.localPosition = Vector3.zero;
      
                 be.transform.SetParent(TargetInfrastructure.transform);

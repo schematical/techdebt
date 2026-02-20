@@ -8,11 +8,19 @@ public class InternetPipe : InfrastructureInstance
     {
         // int connectionCount = data.NetworkConnections?.Count ?? 0;
         NetworkConnection connection = GetNextNetworkConnection(networkPacketData.Type);
-
+        if (connection == null)
+        {
+            // Debug.LogError($"{gameObject.name} Could find  send packet {networkPacketData.Type}");
+            return;
+        }
                 
    
         InfrastructureInstance targetReceiver = GameManager.Instance.GetRandomWorldObjectByType(connection.worldObjectType);
-
+        if (targetReceiver == null)
+        {
+            Debug.LogError($"{gameObject.name} Could find world object {connection.worldObjectType}");
+            return;
+        }
         
         // Create the packet
         string fileName = $"file_{networkPacketData.Type}_{Random.Range(1000, 9999)}.dat";

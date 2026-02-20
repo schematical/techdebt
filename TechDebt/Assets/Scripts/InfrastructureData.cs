@@ -15,7 +15,7 @@ public class InfrastructureData
     public GameObject Prefab;
     public Vector3Int GridPosition;
     public State CurrentState = State.Locked;
-    public UnlockCondition[] UnlockConditions;
+    public List<UnlockCondition> UnlockConditions;
 }
 
 [Serializable]

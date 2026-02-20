@@ -473,12 +473,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    private class TechnologyListWrapper
-    {
-        public List<Technology> Technologies;
-    }
-
     private void FixedUpdate()
     {
         if (Tutorial != null && CurrentEvents.Count == 0)
@@ -519,8 +513,9 @@ public class GameManager : MonoBehaviour
                 throw new SystemException("Cannot find any `InternetPipe` instances");
             }
             InternetPipe pipe = instances[Random.Range(0, instances.Count)];
-            pipe.SendPacket(data);
             timeSinceLastPacket = 0f;
+            pipe.SendPacket(data);
+         
         }
         
     }
@@ -617,7 +612,10 @@ public class GameManager : MonoBehaviour
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "EnergyDrinkItem", Probability = 1});
-
+        WorldObjectTypes[WorldObjectType.Type.Misc] = new WorldObjectType()
+        {
+            DisplayName = "Misc",
+        };
         WorldObjectTypes[WorldObjectType.Type.InternetPipe] = new WorldObjectType()
         {
             DisplayName = "Internet Pipe",
@@ -680,6 +678,10 @@ public class GameManager : MonoBehaviour
         {
             DisplayName = "Application Server",
             PrefabId = "ServerPrefab",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 25,
             NetworkConnections = new List<NetworkConnection>()
             {
                 new NetworkConnection()
@@ -707,19 +709,56 @@ public class GameManager : MonoBehaviour
                     worldObjectType = WorldObjectType.Type.Queue,
                     networkPacketType = NetworkPacketData.PType.Text
                 },
-               
-               
-                
-                
+
                 
             }
         };
         
-        
+        WorldObjectTypes[WorldObjectType.Type.BinaryStorage] = new WorldObjectType()
+        {
+            DisplayName = "Binary Storage",
+            PrefabId = "S3Bucket",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 25,
+            
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "binary-storage"
+                }
+            }
+            
+        };
+        WorldObjectTypes[WorldObjectType.Type.CDN] = new WorldObjectType()
+        {
+            DisplayName = "CDN",
+            PrefabId = "CloudFront",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 1,
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "cdn"
+                }
+            }
+            
+        };
         WorldObjectTypes[WorldObjectType.Type.DedicadedDB] = new WorldObjectType()
         {
             DisplayName = "Database",
             PrefabId = "DedicatedDB",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 25,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -729,6 +768,77 @@ public class GameManager : MonoBehaviour
                 }
             }
             
+        };
+        WorldObjectTypes[WorldObjectType.Type.Redis] = new WorldObjectType()
+        {
+            DisplayName = "Key Value Store",
+            PrefabId = "Redis",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 25,
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "redis"
+                }
+            }
+            
+        };
+        WorldObjectTypes[WorldObjectType.Type.ALB] = new WorldObjectType()
+        {
+            DisplayName = "Load Balancer",
+            PrefabId = "ServerALB",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = false,
+            LoadPerPacket = 1,
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "load-balancer"
+                }
+            }
+            
+        };
+        WorldObjectTypes[WorldObjectType.Type.Queue] = new WorldObjectType()
+        {
+            DisplayName = "Queue",
+            PrefabId = "SQS",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 25,
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "sqs"
+                }
+            }
+            
+        };
+        WorldObjectTypes[WorldObjectType.Type.WorkerServer] = new WorldObjectType()
+        {
+            DisplayName = "Background Worker",
+            PrefabId = "ServerWorker",
+            BuildTime = 30,
+            DailyCost = 30,
+            CanBeUpsized = true,
+            LoadPerPacket = 25,
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "sqs"
+                }
+            }
         };
         foreach (WorldObjectType worldObjectType in WorldObjectTypes.Values)
         {
@@ -918,9 +1028,18 @@ public class GameManager : MonoBehaviour
     public bool AreUnlockConditionsMet(InfrastructureInstance infrastructureInstance)
     {
         WorldObjectType worldObjectType = infrastructureInstance.GetWorldObjectType();
+    
         List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
-        unlockConditions.AddRange(worldObjectType.UnlockConditions);
-        unlockConditions.AddRange(infrastructureInstance.data.UnlockConditions);
+        if (worldObjectType.UnlockConditions != null && worldObjectType.UnlockConditions.Count > 0)
+        {
+            unlockConditions.AddRange(worldObjectType.UnlockConditions);
+        }
+
+        if (infrastructureInstance.data.UnlockConditions.Count > 0)
+        {
+            unlockConditions.AddRange(infrastructureInstance.data.UnlockConditions);
+        }
+
         if (unlockConditions.Count == 0)
         {
    
@@ -1093,7 +1212,10 @@ public class GameManager : MonoBehaviour
 
     public InfrastructureInstance GetRandomWorldObjectByType(WorldObjectType.Type type)
     {
-        List<InfrastructureInstance> targets = ActiveInfrastructure.FindAll(t => t.Type == type);
+        List<InfrastructureInstance> targets = ActiveInfrastructure.FindAll(t =>
+        {
+            return t.IsActive() && t.Type == type;
+        });
         int i = Random.Range(0, targets.Count);
         return targets[i];
     }

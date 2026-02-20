@@ -92,10 +92,13 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
            
             metaStatCollection.Incr(MetaStat.Infra_HandleNetworkPacket);
             InfrastructureDataNetworkPacket packetData = GetWorldObjectType().networkPackets.Find(p => p.PacketType == packet.data.Type);
-            
-            int loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
-            int costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
-        
+            int loadPerPacket = 0;
+            int costPerPacket = 0;
+            if (packetData != null)
+            {
+                 loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
+                 costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
+            }
 
             if (packet.data.Type == NetworkPacketData.PType.Purchase)
             {
