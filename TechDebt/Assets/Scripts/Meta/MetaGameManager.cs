@@ -90,10 +90,10 @@ public static class MetaGameManager
 
         foreach (var instance in activeInfrastructure)
         {
-            var infraStats = progressData.metaStats.infra.Find(i => i.infraId == instance.data.ID);
+            var infraStats = progressData.metaStats.infra.Find(i => i.infraId == instance.data.Id);
             if (infraStats == null)
             {
-                infraStats = new InfraMetaStatSaveData() { infraId = instance.data.ID };
+                infraStats = new InfraMetaStatSaveData() { infraId = instance.data.Id };
                 progressData.metaStats.infra.Add(infraStats);
             }
 
@@ -531,7 +531,7 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
                 // BaseValue = 0.9f,
-                InfraClassName = typeof(ApplicationServer),
+                WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconPrefab = "IconImageOptimization",
                 ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },
@@ -545,7 +545,7 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 // BaseValue = 0.9f,
-                InfraClassName = typeof(Database),
+                WorldObjectType = WorldObjectType.Type.DedicadedDB,
                 IconPrefab = "IconRelationalDBDesign",
                 ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },

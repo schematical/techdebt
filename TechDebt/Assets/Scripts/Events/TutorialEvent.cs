@@ -225,7 +225,7 @@ namespace Events
                         GameManager.Instance.GetInfrastructureInstanceByID("server1");
                     infrastructureInstance.SetState(InfrastructureData.State.Frozen);
                     infrastructureInstance.CurrentLoad =
-                        infrastructureInstance.data.Stats.GetStatValue(StatType.Infra_MaxLoad);
+                        infrastructureInstance.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
                     GameManager.Instance.cameraController.ZoomTo(infrastructureInstance.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -407,7 +407,7 @@ namespace Events
         private void HandleInfrastructureStateChange(InfrastructureInstance instance,
             InfrastructureData.State? previousState)
         {
-            Debug.Log("HandleInfrastructureBuilt Called: " + instance.data.ID + " - " + currentStep + " - Prev: " +
+            Debug.Log("HandleInfrastructureBuilt Called: " + instance.data.Id + " - " + currentStep + " - Prev: " +
                       previousState + " -> Curr: " + instance.data.CurrentState);
             switch (currentStep)
             {
@@ -445,7 +445,7 @@ namespace Events
                     break;
                 case 17:
                     if (
-                        instance.data.ID == firstResearchedInstance.data.ID &&
+                        instance.data.Id == firstResearchedInstance.data.Id &&
                         instance.IsActive()
                     )
                     {

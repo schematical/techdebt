@@ -6464,7 +6464,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 550688315}
   m_HandleRect: {fileID: 550688314}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7536,78 +7536,78 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections:
-    - TargetID: server1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 4
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 5
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 5
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 4
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: cdn
-      Priority: 7
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 7
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 1, y: 2, z: 1}
   - ID: boss-desk
     DisplayName: BossDesk
@@ -7675,100 +7675,100 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 1
     NetworkConnections:
-    - TargetID: dedicated-db
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: dedicated-db
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 5
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.5
-    - TargetID: s3-bucket
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 1
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: read-replica-1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: read-replica-2
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-2
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-3
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: sqs-queue
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
@@ -7795,23 +7795,23 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
-    - TargetID: read-replica-1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 0
         Type: 1
         value: 0.5
-    - TargetID: read-replica-2
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 0
@@ -7867,12 +7867,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: s3-bucket
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: server-alb
     DisplayName: Load Balencer
@@ -7894,66 +7894,66 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 1
     NetworkConnections:
-    - TargetID: server1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server2
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server3
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server2
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server3
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server2
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server3
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: waf
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: server2
     DisplayName: Server 2
@@ -7987,69 +7987,69 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
-    - TargetID: dedicated-db
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: dedicated-db
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 5
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: read-replica-1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: read-replica-2
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: s3-bucket
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: redis-1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-2
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-3
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
@@ -8088,69 +8088,69 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
-    - TargetID: dedicated-db
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: dedicated-db
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 5
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: read-replica-1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: read-replica-2
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: s3-bucket
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: redis-1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-2
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
         Type: 1
         value: 0.75
-    - TargetID: redis-3
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus:
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus:
       - Id: 
         PacketType: 0
         Stat: 12
@@ -8244,12 +8244,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: redis-1
     DisplayName: Redis
@@ -8275,12 +8275,12 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: redis-2
     DisplayName: Redis 2
@@ -8310,12 +8310,12 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: redis-3
     DisplayName: Redis 3
@@ -8345,12 +8345,12 @@ MonoBehaviour:
     CanBeUpsized: 1
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: secret-manager
     DisplayName: SecretManager
@@ -8376,12 +8376,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: sqs-queue
     DisplayName: SQS Queue
@@ -8407,12 +8407,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: bg-worker-1
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 2
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: bg-worker-1
     DisplayName: SQS Queue
@@ -8438,12 +8438,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: cognito
     DisplayName: Cognito
@@ -8469,12 +8469,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: codepipeline
     DisplayName: CodePipeline
@@ -8500,12 +8500,12 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 0
     NetworkConnections:
-    - TargetID: 
-      Priority: 0
+    - worldObjectType: 0
+      priority: 0
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 0, y: 0, z: 0}
   - ID: whiteboard
     DisplayName: White Board
@@ -8557,54 +8557,54 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections:
-    - TargetID: server1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: cdn
-      Priority: 7
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 7
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 1, y: 2, z: 1}
   - ID: internetPipe2
     DisplayName: Internet Pipe 2
@@ -8622,54 +8622,54 @@ MonoBehaviour:
     CanBeUpsized: 0
     CurrentState: 3
     NetworkConnections:
-    - TargetID: server1
-      Priority: 5
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server1
-      Priority: 5
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 5
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 0
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: server-alb
-      Priority: 6
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 6
       networkPacketType: 3
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
-    - TargetID: cdn
-      Priority: 7
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
+    - worldObjectType: 0
+      priority: 7
       networkPacketType: 1
-      Possiblity: 0
-      Cost: 0
-      NetworkConnectionBonus: []
+      possiblity: 0
+      cost: 0
+      networkConnectionBonus: []
     interactionPositionOffset: {x: 1, y: 2, z: 1}
   AllTechnologies:
   - TechnologyID: dedicated-db

@@ -12,6 +12,7 @@ namespace Infrastructure
     public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable
     {
 
+        public WorldObjectType.Type Type;
         public Vector3Int GridPosition;
         public Color attentionIconColor = Color.white;
         public Vector3 interactionPositionOffset = Vector3.zero;
@@ -69,6 +70,15 @@ namespace Infrastructure
              {
                  return gameObject.name;
              }
+
+        public WorldObjectType GetWorldObjectType()
+        {
+            if (!GameManager.Instance.WorldObjectTypes.ContainsKey(Type))
+            {
+                throw new System.Exception($"WorldObjectType not found: {Type}");
+            }
+            return GameManager.Instance.WorldObjectTypes[Type];
+        }
         public void ShowAttentionIcon()
         {
             if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)

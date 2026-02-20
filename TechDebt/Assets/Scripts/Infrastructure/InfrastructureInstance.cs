@@ -43,7 +43,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     {
         if (data.CurrentState == InfrastructureData.State.Operational)
         {
-            CurrentLoad -= data.Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * Time.fixedDeltaTime;
+            CurrentLoad -= GetWorldObjectType().Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * Time.fixedDeltaTime;
             if (CurrentLoad < 0)
             {
                 CurrentLoad = 0;
@@ -54,7 +54,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         if (IsActive())
         {
             // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
-            float c = 1 - CurrentLoad / data.Stats.GetStatValue(StatType.Infra_MaxLoad);
+            float c = 1 - CurrentLoad / GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
             spriteRenderer.color = new Color(1, c, c, 1);
         }
     }
@@ -89,17 +89,13 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
         if (!packet.IsReturning())
         {
-            // --- Standard Load and Cost Calculation ---
-            int loadPerPacket = data.LoadPerPacket;
-            int costPerPacket = data.CostPerPacket;
-
+           
             metaStatCollection.Incr(MetaStat.Infra_HandleNetworkPacket);
-            InfrastructureDataNetworkPacket packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
-            if (packetData != null)
-            {
-                loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
-                costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
-            }
+            InfrastructureDataNetworkPacket packetData = GetWorldObjectType().networkPackets.Find(p => p.PacketType == packet.data.Type);
+            
+            int loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
+            int costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
+        
 
             if (packet.data.Type == NetworkPacketData.PType.Purchase)
             {
@@ -119,17 +115,17 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
                     spriteRenderer.color);
 
-                if (CurrentLoad > data.Stats.GetStatValue(StatType.Infra_MaxLoad))
+                if (CurrentLoad > GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad))
                 {
                     packet.MarkFailedAndDestroy();
-                    CurrentLoad = data.Stats.GetStatValue(StatType.Infra_MaxLoad);
+                    CurrentLoad = GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
                     SetState(InfrastructureData.State.Frozen);
                     packet.MoveToNextNode();
                     return false; // Stop processing
                 }
             }
 
-            /*float loadPct = CurrentLoad / data.Stats.GetStatValue(StatType.Infra_MaxLoad);
+            /*float loadPct = CurrentLoad / GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
             if (loadPct > .5f)
             {
                 packet.SetSpeed(packet.BaseSpeed * loadPct);
@@ -141,16 +137,17 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected virtual void RoutePacket(NetworkPacket packet)
     {
-        if (data.NetworkConnections != null && data.NetworkConnections.Count > 0 &&
+        WorldObjectType worldObjectType = GetWorldObjectType();
+        if (worldObjectType.NetworkConnections != null && worldObjectType.NetworkConnections.Count > 0 &&
             data.CurrentState == InfrastructureData.State.Operational)
         {
             NetworkConnection connection = GetNextNetworkConnection(packet.data.Type);
             if (connection != null)
             {
-                string nextTargetId = connection.TargetID;
-                GameManager.Instance.IncrStat(StatType.Money, connection.Cost * -1);
+                WorldObjectType.Type type = connection.worldObjectType;
+                // GameManager.Instance.IncrStat(StatType.Money, connection.cost * -1); // TODO: Work this back in
 
-                InfrastructureInstance nextReceiver = GameManager.Instance.GetInfrastructureInstanceByID(nextTargetId);
+                InfrastructureInstance nextReceiver = GameManager.Instance.GetRandomWorldObjectByType(type);
                 if (nextReceiver != null && nextReceiver.IsActive())
                 {
                     packet.SetNextTarget(nextReceiver);
@@ -173,7 +170,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected virtual void ReturnPacket(NetworkPacket packet)
     {
-        InfrastructureDataNetworkPacket packetData = data.networkPackets.Find(p => p.PacketType == packet.data.Type);
+        InfrastructureDataNetworkPacket packetData = GetWorldObjectType().networkPackets.Find(p => p.PacketType == packet.data.Type);
         if (packetData == null)
         {
             packet.StartReturn();
@@ -200,27 +197,32 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public virtual void Initialize(InfrastructureData infraData)
     {
         data = infraData;
-        interactionPositionOffset = data.interactionPositionOffset;
+        Type = data.worldObjectType;
+        WorldObjectType worldObjectType = GetWorldObjectType();
+        interactionPositionOffset = worldObjectType.interactionPositionOffset;
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
-        foreach (InfrastructureDataNetworkPacket networkPacket in data.networkPackets)
+        foreach (InfrastructureDataNetworkPacket networkPacket in worldObjectType.networkPackets)
         {
             networkPacket.Init();
         }
     }
 
+    /*
     public override void Initialize()
     {
-        data.Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
-        data.Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
-        data.Stats.Add(new StatData(StatType.Infra_LoadPerPacket, data.LoadPerPacket));
-        data.Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
-        data.Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
-        data.Stats.Add(new StatData(StatType.TechDebt, 0f));
-        data.Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
+        WorldObjectType worldObjectType = GetWorldObjectType();
+        GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
+        GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_BuildTime, data.BuildTime));
+        GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_LoadPerPacket, data.LoadPerPacket));
+        GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_MaxLoad, data.MaxLoad));
+        GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
+        GetWorldObjectType().Stats.Add(new StatData(StatType.TechDebt, 0f));
+        GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
         base.Initialize();
     }
+    */
 
 
     public void SetState(InfrastructureData.State newState)
@@ -326,11 +328,11 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         // Filter CurrConnections to see if instance is in the list
 
         NetworkConnection foundConnection = null;
-        foreach (var conn in CurrConnections.Values)
+        foreach (List<NetworkConnection> conn in CurrConnections.Values)
         {
             foundConnection = conn.Find((connection =>
             {
-                if (connection.TargetID == instance.data.ID)
+                if (connection.worldObjectType == instance.Type)
                 {
                     return true;
                 }
@@ -347,10 +349,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             return;
         }
-
-        foreach (NetworkConnectionBonus bonus in foundConnection.NetworkConnectionBonus)
+        WorldObjectType worldObjectType = GetWorldObjectType();
+        foreach (NetworkConnectionBonus bonus in foundConnection.networkConnectionBonus)
         {
-            int index = data.networkPackets.FindIndex((packetData =>
+            int index = worldObjectType.networkPackets.FindIndex((packetData =>
             {
                 if (packetData.PacketType == bonus.PacketType)
                 {
@@ -359,7 +361,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
                 return false;
             }));
-            data.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
+            worldObjectType.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
                 $"networkConnectionBonus_{bonus.Id}",
                 bonus.value, 
                 bonus.Type
@@ -369,49 +371,56 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public void UpdateNetworkTargets()
     {
+        WorldObjectType worldObjectType = GetWorldObjectType();
         // Debug.Log("GetNextNetworkTargetId: " + data.NetworkConnections.Length);
-        if (data.NetworkConnections == null || data.NetworkConnections.Count() == 0)
+        if (worldObjectType.NetworkConnections == null || worldObjectType.NetworkConnections.Count() == 0)
         {
             return;
         }
 
         Dictionary<NetworkPacketData.PType, int> priorities = new Dictionary<NetworkPacketData.PType, int>();
 
-        foreach (var conn in data.NetworkConnections)
+        foreach (NetworkConnection conn in worldObjectType.NetworkConnections)
         {
             if (!priorities.ContainsKey(conn.networkPacketType))
             {
                 priorities.Add(conn.networkPacketType, 0);
             }
 
-            InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
-
-            if (
-                instance != null &&
-                instance.IsActive() &&
-                conn.Priority > priorities[conn.networkPacketType]
-            )
+            List<InfrastructureInstance> instances = GameManager.Instance.GetWorldObjectByType(conn.worldObjectType);
+            foreach (InfrastructureInstance instance in instances)
             {
-                priorities[conn.networkPacketType] = conn.Priority;
+                if (
+                    instance != null &&
+                    instance.IsActive() &&
+                    conn.priority > priorities[conn.networkPacketType]
+                )
+                {
+                    priorities[conn.networkPacketType] = conn.priority;
+                }
             }
+           
         }
 
         CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
-        foreach (var conn in data.NetworkConnections)
+        foreach (var conn in worldObjectType.NetworkConnections)
         {
-            InfrastructureInstance instance = GameManager.Instance.GetInfrastructureInstanceByID(conn.TargetID);
-            if (
-                conn.Priority == priorities[conn.networkPacketType] &&
-                instance != null &&
-                instance.IsActive()
-            )
+            List<InfrastructureInstance> instances = GameManager.Instance.GetWorldObjectByType(conn.worldObjectType);
+            foreach (InfrastructureInstance instance in instances)
             {
-                if (!CurrConnections.ContainsKey(conn.networkPacketType))
+                if (
+                    conn.priority == priorities[conn.networkPacketType] &&
+                    instance != null &&
+                    instance.IsActive()
+                )
                 {
-                    CurrConnections.Add(conn.networkPacketType, new List<NetworkConnection>());
-                }
+                    if (!CurrConnections.ContainsKey(conn.networkPacketType))
+                    {
+                        CurrConnections.Add(conn.networkPacketType, new List<NetworkConnection>());
+                    }
 
-                CurrConnections[conn.networkPacketType].Add(conn);
+                    CurrConnections[conn.networkPacketType].Add(conn);
+                }
             }
         }
     }
@@ -430,16 +439,16 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     {
         // Update and clamp the size level
         CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0,
-            (int)data.Stats.GetStatValue(StatType.Infra_MaxSize));
+            (int)GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxSize));
 
         // Calculate the visual scale factor (e.g., 1.25, 1.5, etc.)
         float visualScaleFactor = 1.0f + (CurrentSizeLevel * 0.25f);
         transform.localScale = Vector3.one * visualScaleFactor;
 
         // Remove existing resize modifiers to apply fresh ones
-        data.Stats.RemoveModifier(StatType.Infra_DailyCost, "infra_resize");
-        data.Stats.RemoveModifier(StatType.Infra_MaxLoad, "infra_resize");
-        data.Stats.RemoveModifier(StatType.Infra_LoadRecoveryRate, "infra_resize");
+        GetWorldObjectType().Stats.RemoveModifier(StatType.Infra_DailyCost, "infra_resize");
+        GetWorldObjectType().Stats.RemoveModifier(StatType.Infra_MaxLoad, "infra_resize");
+        GetWorldObjectType().Stats.RemoveModifier(StatType.Infra_LoadRecoveryRate, "infra_resize");
 
         // Apply new modifiers only if the size is above base level
         if (CurrentSizeLevel > 0)
@@ -447,12 +456,12 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             // Calculate the stat multiplier (doubles with each level: 2, 4, 8, 16)
             float statMultiplier = Mathf.Pow(2, CurrentSizeLevel);
 
-            data.Stats.AddModifier(StatType.Infra_DailyCost,
+            GetWorldObjectType().Stats.AddModifier(StatType.Infra_DailyCost,
                 new StatModifier("infra_resize", statMultiplier));
-            data.Stats.AddModifier(StatType.Infra_MaxLoad,
+            GetWorldObjectType().Stats.AddModifier(StatType.Infra_MaxLoad,
                 new StatModifier("infra_resize", statMultiplier));
             float loadStatMultiplier = Mathf.Pow(1.5f, CurrentSizeLevel);
-            data.Stats.AddModifier(StatType.Infra_LoadRecoveryRate,
+            GetWorldObjectType().Stats.AddModifier(StatType.Infra_LoadRecoveryRate,
                 new StatModifier("infra_resize", loadStatMultiplier));
         }
 
@@ -480,6 +489,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public override List<NPCTask> GetAvailableTasks()
     {
+        WorldObjectType worldObjectType = GetWorldObjectType();
         List<NPCTask> availableTasks = new List<NPCTask>();
         switch (data.CurrentState)
         {
@@ -489,15 +499,15 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 break;
             case (InfrastructureData.State.Operational):
                 if (
-                    data.CanBeUpsized && 
+                    worldObjectType.CanBeUpsized && 
                     CurrentSizeLevel > 0
                 ) {
                     availableTasks.Add(new ResizeTask(this, -1));
                 }
 
                 if (
-                    data.CanBeUpsized && 
-                    CurrentSizeLevel < (int)data.Stats.GetStatValue(StatType.Infra_MaxSize)
+                    worldObjectType.CanBeUpsized && 
+                    CurrentSizeLevel < (int)GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxSize)
                 )
                 {
                     availableTasks.Add(new ResizeTask(this, 1));
@@ -516,14 +526,14 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public override string GetDetailText()
     {
-        string content = $"<b>{data.DisplayName}</b>\n";
-        content += $"Type: {data.Type}\n";
+        WorldObjectType type = GetWorldObjectType();
+        string content = $"<b>{type.DisplayName}</b>\n";
         content += $"State: {data.CurrentState}\n\n";
         content += $"Release: {Version}\n\n";
         content += $"Curr Load: {CurrentLoad}\n";
         content += $"Curr Size: {CurrentSizeLevel}\n";
         content += "<b>Stats:</b>\n";
-        foreach (StatData stat in data.Stats.Stats.Values)
+        foreach (StatData stat in type.Stats.Stats.Values)
         {
             content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
             if (stat.Modifiers.Count > 0)
@@ -536,7 +546,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             }
         }
         content += "<b>NetworkPackets:</b>\n";
-        foreach (InfrastructureDataNetworkPacket packet in data.networkPackets)
+        foreach (InfrastructureDataNetworkPacket packet in type.networkPackets)
         {
             content += $"- {packet.PacketType}\n";//  Load Per Packet: {packet.loadPerPacket} - {packet.RouteType}\n";
             {
@@ -570,8 +580,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 content += $"- <b>{kvp.Key}:</b>\n";
                 foreach (NetworkConnection networkConnection in networkConnections)
                 {
-                    content += $"-- {networkConnection.TargetID} \n";
-                    foreach (NetworkConnectionBonus networkConnectionBonus in networkConnection.NetworkConnectionBonus)
+                    content += $"-- {networkConnection.worldObjectType} \n";
+                    foreach (NetworkConnectionBonus networkConnectionBonus in networkConnection.networkConnectionBonus)
                     {
                         content +=
                             $"--- {networkConnectionBonus.PacketType} | {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
@@ -589,7 +599,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public void ReceiveAttack(NPCBase npcBase)
     {
-        CurrentLoad += data.Stats.GetStatValue(StatType.Infra_MaxLoad) / 4f;
+        CurrentLoad += GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad) / 4f;
     }
 
     public bool IsDead()

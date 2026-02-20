@@ -13,7 +13,7 @@ using UnityEngine;
                 batchJobPacketData = GameManager.Instance.GetNetworkPacketDatas().Find(data => data.Type == NetworkPacketData.PType.BatchJob);
                 if (batchJobPacketData == null)
                 {
-                    Debug.LogWarning($"QueueInstance '{data.DisplayName}': Could not find BatchJob NetworkPacketData in GameManager.");
+                    Debug.LogWarning($"QueueInstance '{data.Id}': Could not find BatchJob NetworkPacketData in GameManager.");
                 }
             }
         }
@@ -28,7 +28,7 @@ using UnityEngine;
                 NetworkConnection connection = GetNextNetworkConnection(NetworkPacketData.PType.BatchJob);
                 if (connection != null)
                 {
-                    InfrastructureInstance nextTarget = GameManager.Instance.GetInfrastructureInstanceByID(connection.TargetID);
+                    InfrastructureInstance nextTarget = GameManager.Instance.GetRandomWorldObjectByType(connection.worldObjectType);
                     if (nextTarget != null && nextTarget.IsActive())
                     {
                         NetworkPacket batchPacket = GameManager.Instance.CreatePacket(batchJobPacketData, "batch.dat", 100, this);

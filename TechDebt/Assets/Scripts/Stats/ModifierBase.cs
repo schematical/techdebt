@@ -55,7 +55,7 @@ namespace NPCs
         public ModifierScaleDirection ScaleDirection = ModifierScaleDirection.Up;
         public StatModifier StatModifier { get; private set; }
         public NetworkPacketData.PType NetworkPacketType;
-        public Type InfraClassName { get; set; }
+        public WorldObjectType.Type WorldObjectType { get; set; }
        
         public float GetScaledValue()
         {
@@ -109,18 +109,19 @@ namespace NPCs
                         Id,
                         GetScaledValue()
                     );
-                    List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
+                    GameManager.Instance.WorldObjectTypes[this.WorldObjectType].Stats.AddModifier(StatType, StatModifier);
+                    /*List<InfrastructureInstance> instances = GameManager.Instance.GetInfrastructureInstancesByType(this.InfraClassName);
                     foreach (InfrastructureInstance inst in instances)
                     {
-                        foreach (InfrastructureDataNetworkPacket networkPacketData in inst.data.networkPackets)
+                        foreach (InfrastructureDataNetworkPacket networkPacketData in inst.GetWorldObjectType().networkPackets)
                         {
                             if (networkPacketData.PacketType == NetworkPacketType)
                             {
-                                Debug.Log($"[DEBUG] {inst.data.ID} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
+                                Debug.Log($"[DEBUG] {inst.data.Id} Applying modifier to {inst.gameObject.name} for packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
                                 networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
                             }
                         }
-                    }
+                    }*/
                     break;
                 case(ModifierType.Run_Stat):
                     StatModifier = new StatModifier(
@@ -135,11 +136,11 @@ namespace NPCs
 
 
 
-        public void OnInfrastructureBuild(InfrastructureInstance infrastructure)
+        /*public void OnInfrastructureBuild(InfrastructureInstance infrastructure)
         {
             StatModifier statModifier = new StatModifier( Id, GetScaledValue());
             infrastructure.data.Stats.Get(StatType).ReplaceOrAdd(statModifier);
-        }
+        }*/
 
         public string GetTitle()
         {

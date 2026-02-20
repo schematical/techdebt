@@ -103,7 +103,7 @@ public class UIDebugPanel : UIPanel
         if (plannedInfrastructure != null)
         {
             plannedInfrastructure.SetState(InfrastructureData.State.Operational);
-            Debug.Log($"Insta-built {plannedInfrastructure.data.DisplayName}");
+            Debug.Log($"Insta-built {plannedInfrastructure.data.Id}");
         }
         else
         {

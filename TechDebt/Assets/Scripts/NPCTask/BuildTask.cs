@@ -39,7 +39,7 @@ public class BuildTask : NPCTask
 
             float adjustedProgress = Time.deltaTime * npcDevOps.GetBuildSpeed();
             buildProgress += adjustedProgress;
-            int checkBuildProgress = (int)Math.Round(buildProgress/TargetInfrastructure.data.BuildTime * 100f);
+            int checkBuildProgress = (int)Math.Round(buildProgress/TargetInfrastructure.GetWorldObjectType().BuildTime * 100f);
             if (checkBuildProgress % 10 == 0 && displayBuildProgress != checkBuildProgress)
             {
                 displayBuildProgress = checkBuildProgress;
@@ -52,7 +52,7 @@ public class BuildTask : NPCTask
 
     public override bool IsFinished(NPCBase npc)
     {
-        return buildProgress >= TargetInfrastructure.data.BuildTime;
+        return buildProgress >= TargetInfrastructure.GetWorldObjectType().BuildTime;
     }
 
     public override string GetDescription()
@@ -63,14 +63,14 @@ public class BuildTask : NPCTask
     public override void OnEnd(NPCBase npc)
     {
         NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
-        foreach (ModifierBase modifier in npcDevOps.Modifiers.Modifiers)
+        /*foreach (ModifierBase modifier in npcDevOps.Modifiers.Modifiers)
         {
             if (modifier.Type == ModifierBase.ModifierType.NPC_InfraStat)
             {
-                StatModifier existingStatModifier = TargetInfrastructure.data.Stats.Stats[modifier.StatType].Modifiers
+                StatModifier existingStatModifier = TargetInfrastructure.GetWorldObjectType().Stats.Stats[modifier.StatType].Modifiers
                     .Find((statModifier => statModifier.Id == modifier.Id));
                 if(existingStatModifier == null)  {
-                    TargetInfrastructure.data.Stats.AddModifier(modifier.StatType, new StatModifier(modifier.Id, modifier.GetScaledValue()));
+                    TargetInfrastructure.GetWorldObjectType().Stats.AddModifier(modifier.StatType, new StatModifier(modifier.Id, modifier.GetScaledValue()));
                     GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${modifier.StatType} x {Math.Round(modifier.GetScaledValue() * 100)}%",
                         TargetInfrastructure.transform.position);
                 }
@@ -79,7 +79,7 @@ public class BuildTask : NPCTask
                     // existingStatModifier.Value = npcTrait.GetScaledValue()
                 }
             }
-        }
+        }*/
 
         base.OnEnd(npc);
         

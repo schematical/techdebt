@@ -8,7 +8,7 @@ public class BossNPC : NPCBase
     public override void Initialize()
     {
         base.Initialize();
-        _bossDesk = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.data.ID == "boss-desk");
+        _bossDesk = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.data.Id == "boss-desk");
         if (_bossDesk == null)
         {
             Debug.LogError("BossNPC: Could not find 'boss-desk'. Boss will wander.");

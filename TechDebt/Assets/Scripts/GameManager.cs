@@ -43,7 +43,8 @@ public class GameManager : MonoBehaviour
     public List<NetworkPacket> activePackets = new List<NetworkPacket>();
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
-    
+    public Dictionary<WorldObjectType.Type, WorldObjectType> WorldObjectTypes = new Dictionary<WorldObjectType.Type, WorldObjectType>();
+   
     [SerializeField] public GridManager gridManager;
     protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
         new NetworkPacketData() {
@@ -616,8 +617,125 @@ public class GameManager : MonoBehaviour
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "EnergyDrinkItem", Probability = 1});
+
+        WorldObjectTypes[WorldObjectType.Type.InternetPipe] = new WorldObjectType()
+        {
+            DisplayName = "Internet Pipe",
+            PrefabId = "InternetPipe",
+            NetworkConnections = new List<NetworkConnection>()
+            {
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Text
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Image
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.PII
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.MaliciousText
+                },
+                
+                
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ALB,
+                    networkPacketType = NetworkPacketData.PType.Text,
+                    priority = 6
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.PII,
+                    priority = 6
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.MaliciousText,
+                    priority = 6
+                },
+                
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Image,
+                    priority = 7
+                }
+                
+            }
+        };
         
         
+        WorldObjectTypes[WorldObjectType.Type.ApplicationServer] = new WorldObjectType()
+        {
+            DisplayName = "Application Server",
+            PrefabId = "ServerPrefab",
+            NetworkConnections = new List<NetworkConnection>()
+            {
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.DedicadedDB,
+                    networkPacketType = NetworkPacketData.PType.Text
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.DedicadedDB,
+                    networkPacketType = NetworkPacketData.PType.PII
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.DedicadedDB,
+                    networkPacketType = NetworkPacketData.PType.MaliciousText
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.Redis,
+                    networkPacketType = NetworkPacketData.PType.Text
+                },
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.Queue,
+                    networkPacketType = NetworkPacketData.PType.Text
+                },
+               
+               
+                
+                
+                
+            }
+        };
+        
+        
+        WorldObjectTypes[WorldObjectType.Type.DedicadedDB] = new WorldObjectType()
+        {
+            DisplayName = "Database",
+            PrefabId = "DedicatedDB",
+            UnlockConditions = new List<UnlockCondition>()
+            {
+                new UnlockCondition()
+                {
+                    Type = UnlockCondition.ConditionType.Technology,
+                    TechnologyID = "dedicated-db"
+                }
+            }
+            
+        };
+        foreach (WorldObjectType worldObjectType in WorldObjectTypes.Values)
+        {
+            worldObjectType.Initialize();
+        }
+
+
     }
 
     private void HandleReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState prevState)
@@ -668,7 +786,7 @@ public class GameManager : MonoBehaviour
         {
             if (infra.IsActive())
             {
-                totalCost += infra.data.Stats.GetStatValue(StatType.Infra_DailyCost);
+                totalCost += infra.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost);
             }
         }
         
@@ -685,7 +803,7 @@ public class GameManager : MonoBehaviour
             InfrastructureData infraData = instance.data;
             if (infraData.CurrentState == InfrastructureData.State.Locked && !instance.gameObject.activeSelf)
             {
-                if (AreUnlockConditionsMet(infraData))
+                if (AreUnlockConditionsMet(instance))
                 {
                     instance.gameObject.SetActive(true);
                     instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
@@ -757,7 +875,7 @@ public class GameManager : MonoBehaviour
 
             if (infraInstance == null)
             {
-                throw new SystemException($"Missing `InfrastructureInstance` Component for `{infraData.ID}`.");
+                throw new SystemException($"Missing `InfrastructureInstance` Component for `{infraData.Id}`.");
             }
             infraInstance.GridPosition = infraData.GridPosition; // TODO: Remove this hackyness.
             infraInstance.Initialize(infraData);
@@ -768,7 +886,7 @@ public class GameManager : MonoBehaviour
             {
                 // Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Operational.");
             }
-            else if (AreUnlockConditionsMet(infraData))
+            else if (AreUnlockConditionsMet(infraInstance))
             {
                 //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
                 infraInstance.SetState(InfrastructureData.State.Unlocked);
@@ -797,20 +915,25 @@ public class GameManager : MonoBehaviour
    
     }
 
-    public bool AreUnlockConditionsMet(InfrastructureData infraData)
+    public bool AreUnlockConditionsMet(InfrastructureInstance infrastructureInstance)
     {
-        if (infraData.UnlockConditions == null || infraData.UnlockConditions.Length == 0)
+        WorldObjectType worldObjectType = infrastructureInstance.GetWorldObjectType();
+        List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
+        unlockConditions.AddRange(worldObjectType.UnlockConditions);
+        unlockConditions.AddRange(infrastructureInstance.data.UnlockConditions);
+        if (unlockConditions.Count == 0)
         {
    
             return true;
         }
         
-
-        foreach (var condition in infraData.UnlockConditions)
+        foreach (UnlockCondition condition in unlockConditions)
         {
             switch (condition.Type)
             {
+                default:
                 case(UnlockCondition.ConditionType.Technology):
+                    
                     Technology technology = GetTechnologyByID(condition.TechnologyID);
                     if (technology == null)
                     {
@@ -820,10 +943,6 @@ public class GameManager : MonoBehaviour
                     } 
                     
                     if(technology.CurrentState != Technology.State.Unlocked) return false;
-                    
-                    break;
-                default:
-                    if (GetStat(condition.StatType) < condition.RequiredValue) return false;
                     break;
             }
         }
@@ -834,14 +953,14 @@ public class GameManager : MonoBehaviour
     {
         if (infra.data.CurrentState != InfrastructureData.State.Unlocked) return; // MUST BE UNLOCKED TO PLAN
 
-        if (!AreUnlockConditionsMet(infra.data))
+        if (!AreUnlockConditionsMet(infra))
         {
             Debug.Log("Unlock conditions not met for this infrastructure.");
             return;
         }
 
         infra.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
-        Debug.Log($"Successfully planned {infra.data.DisplayName}.");
+        Debug.Log($"Successfully planned {infra.data.Id}.");
         UIManager.worldObjectDetailPanel.Close();
     }
     
@@ -965,9 +1084,19 @@ public class GameManager : MonoBehaviour
     }
     public InfrastructureInstance GetInfrastructureInstanceByID(string id)
     {
-        return ActiveInfrastructure.FirstOrDefault(t => t.data.ID == id);
+        return ActiveInfrastructure.FirstOrDefault(t => t.data.Id == id);
+    }
+    public List<InfrastructureInstance> GetWorldObjectByType(WorldObjectType.Type type)
+    {
+        return ActiveInfrastructure.FindAll(t => t.Type == type);
     }
 
+    public InfrastructureInstance GetRandomWorldObjectByType(WorldObjectType.Type type)
+    {
+        List<InfrastructureInstance> targets = ActiveInfrastructure.FindAll(t => t.Type == type);
+        int i = Random.Range(0, targets.Count);
+        return targets[i];
+    }
     public void AddEffect(EffectBase effectBase)
     {
         Effects.Add(effectBase);

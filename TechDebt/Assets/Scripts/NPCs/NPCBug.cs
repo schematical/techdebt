@@ -167,10 +167,9 @@ namespace NPCs
                     foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
                     {
                         if (
-                            (
-                                // infrastructureInstance.data.NetworkConnections.Count > 0 ||
+                            /*(
                                 infrastructureInstance.data.networkPackets.Count > 0
-                            ) &&
+                            ) &&*/
                             infrastructureInstance.IsActive() &&
                             !infrastructureInstance.IsDead()    
                         )

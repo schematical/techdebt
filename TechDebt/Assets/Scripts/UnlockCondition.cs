@@ -5,14 +5,12 @@ using System;
 public class UnlockCondition
 {
 
-    public enum ConditionType { Stat, Technology }
+    public enum ConditionType { Technology }
 
     public ConditionType Type;
-    public StatType StatType = StatType.Money;
-    
-    public string TechnologyID;
 
-    public int RequiredValue = 0;
+    public string TechnologyID;
+    
     
     
     public string GetDescription()

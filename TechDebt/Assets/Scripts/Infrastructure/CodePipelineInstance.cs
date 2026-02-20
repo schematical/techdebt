@@ -53,7 +53,7 @@ public class CodePipelineInstance : InfrastructureInstance
                 if (progress % 10 == 0 && lastDisplayedProgress != progress)
                 {
                     FloatingTextFactory.Instance.ShowText(
-                        $"Deploying {_currentRelease.GetVersionString()} to {_targetServer.data.DisplayName}: {progress}%",
+                        $"Deploying {_currentRelease.GetVersionString()} to {_targetServer.data.Id}: {progress}%",
                         transform.position
                     );
                     lastDisplayedProgress = progress;
