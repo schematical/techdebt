@@ -24,6 +24,7 @@ namespace NPCs
             Run,
             NPC,
             InfraClass, // Applies it across all infra of that type.
+            Sprint
         }
 
         // public int DisplayOffset = 0;

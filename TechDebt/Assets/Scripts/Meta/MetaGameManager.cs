@@ -497,6 +497,22 @@ public static class MetaGameManager
                 StatType = StatType.NPC_MovmentSpeed,
                 IconPrefab = "IconMovementSpeed"
             },
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "fast_coder",
+                Name = "Fast Coder",
+                StatType = StatType.NPC_CodeSpeed,
+                IconPrefab = "IconCode"
+            },
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "better_coder",
+                Name = "Better Coder",
+                StatType = StatType.NPC_CodeQuality,
+                IconPrefab = "IconCode"
+            },
             /*
              *
              * MATTS NOTES:
@@ -558,8 +574,31 @@ public static class MetaGameManager
                 Name = "Input Validation",
                 StatType = StatType.Infra_InputValidation,
                 // BaseValue = 1.05f,
-                IconPrefab = "IconCart"
+                IconPrefab = "IconCode"
+            },
+            new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.Run,
+                Type = ModifierBase.ModifierType.Run_Stat,
+                Id = "tech_debt",
+                Name = "Tech Debt",
+                StatType = StatType.TechDebt,
+                // BaseValue = 1.05f,
+                IconPrefab = "TechDebt"
             }
+            
+            
+            /**
+             * Sprint Modifiers
+             *
+             * Difficulty
+                Daily Income
+                Research Speed
+                Coding Speed
+                Distractions? Dumb ass questions that get asked by NPCS like the sales guy.
+                Increase tech debt rate, requires more frequent deployments
+             */
             
         };
     }
