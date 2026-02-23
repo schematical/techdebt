@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public List<InfrastructureData> AllInfrastructure;
     public List<Technology> AllTechnologies;
     public Dictionary<WorldObjectType.Type, WorldObjectType> WorldObjectTypes = new Dictionary<WorldObjectType.Type, WorldObjectType>();
-   
+    public ProductRoadMap ProductRoadMap;
     [SerializeField] public GridManager gridManager;
     protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
         new NetworkPacketData() {
@@ -934,6 +934,8 @@ public class GameManager : MonoBehaviour
             worldObjectType.Initialize();
         }
 
+        ProductRoadMap = new ProductRoadMap();
+        ProductRoadMap.Randomize();
 
     }
 
