@@ -41,6 +41,17 @@ public class ProductRoadMap
     {
         return Stages[CurrentStage].GetSelectedLevel();
     }
+
+    public void SelectLevel(ProductRoadMapLevel level)
+    {
+        var stage = Stages[CurrentStage];
+        int index = stage.Levels.IndexOf(level);
+        if (index != -1)
+        {
+            stage.SetSelectedLevel(index);
+            CurrentStage++;
+        }
+    }
 }
 public class ProductRoadMapStage
 {

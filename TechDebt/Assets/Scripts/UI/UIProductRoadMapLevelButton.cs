@@ -6,6 +6,14 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    public enum ButtonState
+    {
+        Locked,
+        Available,
+        Selected,
+        Passed
+    }
+
     public class UIProductRoadMapLevelButton: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public Image image;
@@ -14,13 +22,38 @@ namespace UI
         
         private ProductRoadMapLevel _level;
         private Action<string> _onHover;
+        private Action<ProductRoadMapLevel> _onClick;
 
-        public void Init(ProductRoadMapLevel level, Action<string> onHover)
+        public void Init(ProductRoadMapLevel level, ButtonState state, Action<string> onHover, Action<ProductRoadMapLevel> onClick)
         {
             _level = level;
             _onHover = onHover;
+            _onClick = onClick;
             text.text = level.Name;
             image.sprite = GameManager.Instance.SpriteManager.GetSprite(level.SpriteId);
+            
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() => _onClick?.Invoke(_level));
+
+            switch (state)
+            {
+                case ButtonState.Locked:
+                    button.interactable = false;
+                    image.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                    break;
+                case ButtonState.Available:
+                    button.interactable = true;
+                    image.color = Color.white;
+                    break;
+                case ButtonState.Selected:
+                    button.interactable = false;
+                    image.color = Color.green; // Example for selected/active
+                    break;
+                case ButtonState.Passed:
+                    button.interactable = false;
+                    image.color = Color.gray; // Visually distinct from locked? Or same?
+                    break;
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
