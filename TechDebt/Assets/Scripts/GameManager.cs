@@ -386,10 +386,20 @@ public class GameManager : MonoBehaviour
       
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
-    
+        Restart();
+    }
+
+    void Restart()
+    {
+        
         ActiveInfrastructure.Clear();
+        
+        
         Initialize();
-        SetupGameScene();
+      
+        UIManager.SetupUIInfrastructure();
+        SetupSprint(); 
+        UIManager.productRoadMap.Show();
     }
 
     void OnDestroy()
@@ -437,39 +447,26 @@ public class GameManager : MonoBehaviour
         } */
     }
 
-    void Start()
-    {
-        /*GameLoopManager = GetComponent<GameLoopManager>();
-        if (GameLoopManager == null)
-        {
-            throw new SystemException("Missing `GameLoopManager` reference in GameManager.");
-        }*/
-        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
-        // --- Technology Debugging ---
-        UIManager.SetupUIInfrastructure();
-        GameLoopManager.BeginPlanPhase();
-        
-        // --- Item Spawning ---
-        _eventTimer = GetStat(StatType.EventCheckEverySeconds);
-    }
+
 
 
     private void FixedUpdate()
     {
-        if (Tutorial != null && CurrentEvents.Count == 0)
+        if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
+        /*if (Tutorial != null && CurrentEvents.Count == 0)
         {
             TriggerEvent(Tutorial);
             
-        }
+        }*/
         // Iterate over a copy of the list to prevent modification during enumeration errors.
-        foreach (var effect in Effects.ToList())
+        foreach (EffectBase effect in Effects.ToList())
         {
             effect.FixedUpdate();
         }
 
         TickNetworkPackets();
         
-        if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
+    
 
         // Delivery NPC Spawning Logic
         _eventTimer -= Time.fixedDeltaTime;
@@ -972,9 +969,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetupGameScene()
+    void SetupSprint()
     {
-     
+        _eventTimer = GetStat(StatType.EventCheckEverySeconds);
 
         /*if (gridManager == null)
         {
@@ -1071,7 +1068,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("Could not find 'boss-desk to spawn BossNPC.");
         }
-        
+           
+        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+      
+  
    
     }
 

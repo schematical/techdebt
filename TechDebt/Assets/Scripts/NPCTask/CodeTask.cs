@@ -35,7 +35,7 @@ public class CodeTask : NPCTask
             var devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)
             {
-                float progressGained = /*devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) **/ Time.deltaTime;
+                float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.deltaTime;
                 ReleaseBase.ApplyProgress(progressGained, AssignedNPC);
                 devOpsNpc.AddXP(Time.deltaTime);
             }

@@ -64,7 +64,7 @@ namespace UI
             uiButton.Close();
             release.NextState();
             GameManager.Instance.UIManager.SetTimeScalePause();
-            Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconPrefab);
+            Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconSpriteId);
             rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
             List<ApplicationServer> targets = release.GetAllReleaseTargets();
             targets[0].ZoomTo();

@@ -45,7 +45,7 @@ namespace NPCs
         public StatType StatType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string IconPrefab { get; set; }
+        public string IconSpriteId { get; set; }
         public string Id { get; set; }
         
         public List<Rarity> Levels { get; set; } = new List<Rarity>();

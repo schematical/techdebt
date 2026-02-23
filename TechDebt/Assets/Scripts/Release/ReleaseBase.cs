@@ -37,6 +37,7 @@ public class ReleaseBase
     public float CurrentProgress = 0f;
     public float RequiredProgress =  30f;
     public Rarity rewardRarity = Rarity.Common;
+    public float CurrentQuality = 0f;
     public ReleaseBase()
     {
         SetState(ReleaseState.InDevelopment);
@@ -118,16 +119,16 @@ public class ReleaseBase
             throw new SystemException("How did this release go with no targets?");
         }
         targets[0].ZoomTo();
-        rewardRarity = RarityHelper.GetRandomRarity(GetReleaseQuality()); //TODO: Feed in release quality to this
+        rewardRarity = RarityHelper.GetRandomRarity(GetQuality()); //TODO: Feed in release quality to this
         GameManager.Instance.UIManager.rewardPanel.Show(this);
         
         
         return true;
     }
 
-    public float GetReleaseQuality()
+    public float GetQuality()
     {
-        return 0.1f;
+        return CurrentQuality;
     }
     public void OnDeploymentCompleted()
     {
@@ -183,7 +184,7 @@ public class ReleaseBase
 
     public string GetDescription()
     {
-        return $"{GetVersionString()} {State.ToString()}";
+        return $"{GetVersionString()} {State.ToString()} - Quality: {GetQuality()}";
     }
 
     public void ApplyProgress(float progressGained, NPCBase NPCBase)
@@ -191,6 +192,7 @@ public class ReleaseBase
         // Debug.Log($"ReleaseBase.ApplyProgress: {CurrentProgress} += {progressGained}");
         CurrentProgress += progressGained;
         GameManager.Instance.InvokeReleaseChanged(this, this.State);
+        CurrentQuality = ((CurrentQuality * CurrentProgress + NPCBase.Stats.GetStatValue(StatType.NPC_CodeQuality)) / (CurrentProgress + 1));
         if (CurrentProgress >= RequiredProgress)
         {
             NextState();

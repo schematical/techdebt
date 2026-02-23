@@ -12,11 +12,7 @@ namespace UI
         public RectTransform RectTransform;
         public TextMeshProUGUI LevelDescriptionText;
         private List<GameObject> Lines = new List<GameObject>();
-
-        protected override void Start()
-        {
-            base.Start();
-        }
+        
 
         public void Show()
         {
@@ -70,7 +66,8 @@ namespace UI
                     
                     button.Init(level, state, (name) => { LevelDescriptionText.text = name; }, (lvl) => {
                         Map.SelectLevel(lvl);
-                        Show();
+                        Close();
+                        GameManager.Instance.GameLoopManager.BeginPlanPhase();
                     });
 
                     float x = (width / Map.Stages.Count) * (stageX + 0.5f) - width / 2;

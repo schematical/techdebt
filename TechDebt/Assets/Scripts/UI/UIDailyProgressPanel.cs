@@ -17,6 +17,10 @@ namespace UI
 
         public void Update()
         {
+            if (GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play)
+            {
+                return;
+            }
             if (ProgressPanelHolder == null || SuccededProgressBar == null)
             {
                 throw new SystemException("Missing `ProgressPanelHolder` or `ProgressPanel`");

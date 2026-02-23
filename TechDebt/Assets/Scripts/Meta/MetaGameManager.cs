@@ -471,7 +471,7 @@ public static class MetaGameManager
                 Id = "fast_worker",
                 Name = "Fast Worker",
                 StatType = StatType.NPC_DevOpsSpeed,
-                IconPrefab = "IconHand"
+                IconSpriteId = "IconHand"
             },
             new ModifierBase()
             {
@@ -479,7 +479,7 @@ public static class MetaGameManager
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
                 StatType = StatType.NPC_ResearchSpeed,
-                IconPrefab = "IconResearch"
+                IconSpriteId = "IconResearch"
             },
             new ModifierBase()
             {
@@ -487,7 +487,7 @@ public static class MetaGameManager
                 Id = "fast_xp",
                 Name = "Fast Learner",
                 StatType = StatType.NPC_XPSpeed,
-                IconPrefab = "IconTest"
+                IconSpriteId = "IconTest"
             },
             new ModifierBase()
             {
@@ -495,7 +495,7 @@ public static class MetaGameManager
                 Id = "move_speed",
                 Name = "Fast Move Speed",
                 StatType = StatType.NPC_MovmentSpeed,
-                IconPrefab = "IconMovementSpeed"
+                IconSpriteId = "IconMovementSpeed"
             },
             new ModifierBase()
             {
@@ -503,7 +503,7 @@ public static class MetaGameManager
                 Id = "fast_coder",
                 Name = "Fast Coder",
                 StatType = StatType.NPC_CodeSpeed,
-                IconPrefab = "IconCode"
+                IconSpriteId = "IconCode"
             },
             new ModifierBase()
             {
@@ -511,7 +511,7 @@ public static class MetaGameManager
                 Id = "better_coder",
                 Name = "Better Coder",
                 StatType = StatType.NPC_CodeQuality,
-                IconPrefab = "IconCode"
+                IconSpriteId = "IconCode"
             },
             /*
              *
@@ -536,7 +536,7 @@ public static class MetaGameManager
                 NetworkPacketType = NetworkPacketData.PType.Image,
                 // BaseValue = 0.9f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
-                IconPrefab = "IconImageOptimization",
+                IconSpriteId = "IconImageOptimization",
                 ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },
             new ModifierBase()
@@ -550,7 +550,7 @@ public static class MetaGameManager
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 // BaseValue = 0.9f,
                 WorldObjectType = WorldObjectType.Type.DedicadedDB,
-                IconPrefab = "IconRelationalDBDesign",
+                IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             },
             new ModifierBase()
@@ -563,7 +563,7 @@ public static class MetaGameManager
                 StatType = StatType.DailyIncome,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 // BaseValue = 1.05f,
-                IconPrefab = "IconCart"
+                IconSpriteId = "IconCart"
             },
             new ModifierBase()
             {
@@ -574,7 +574,7 @@ public static class MetaGameManager
                 Name = "Input Validation",
                 StatType = StatType.Infra_InputValidation,
                 // BaseValue = 1.05f,
-                IconPrefab = "IconCode"
+                IconSpriteId = "IconCode"
             },
             new ModifierBase()
             {
@@ -585,7 +585,7 @@ public static class MetaGameManager
                 Name = "Tech Debt",
                 StatType = StatType.TechDebt,
                 // BaseValue = 1.05f,
-                IconPrefab = "TechDebt"
+                IconSpriteId = "IconTechDebt"
             }
             
             

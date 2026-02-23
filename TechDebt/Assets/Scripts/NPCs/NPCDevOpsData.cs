@@ -15,6 +15,6 @@ public class NPCDevOpsData
     public void InitializeStats()
     {
         
-        // Stats.Add(new StatData(StatType.NPC_DailyCost, DailyCost));
+        
     }
 }

@@ -65,7 +65,7 @@ namespace Infrastructure
                    continue;
                }
                ModifierBase existingModifierBase = GameManager.Instance.Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
-               Sprite sprite = GameManager.Instance.prefabManager.GetPrefab(modifierBase.IconPrefab).GetComponent<SpriteRenderer>().sprite;
+               Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(modifierBase.IconSpriteId);
                if (
                    existingModifierBase == null
                ) {

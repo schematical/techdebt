@@ -31,8 +31,8 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_ModifierSlots, 1));
         Stats.Add(new StatData(StatType.NPC_XPSpeed, 1));
         Stats.Add(new StatData(StatType.NPC_InfoSec, 0.75f));
-        Stats.Add(new StatData(StatType.NPC_CodeSpeed, 1));
-        Stats.Add(new StatData(StatType.NPC_CodeQuality, .75f));
+        Stats.Add(new StatData(StatType.NPC_CodeSpeed, 0.5f));
+        Stats.Add(new StatData(StatType.NPC_CodeQuality, .1f));
         Stats.Add(new StatData(StatType.NPC_DevOpsQuality, 1f));
         Stats.Add(new StatData(StatType.NPC_DevOpsSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_ResearchSpeed, 1f));
@@ -108,16 +108,13 @@ public class NPCDevOps : NPCAnimatedBiped
                 continue;
             }
 
-            GameObject spriteGO = GameManager.Instance.prefabManager.GetPrefab(modifierBase.IconPrefab);
-            if (spriteGO == null)
-            {
-                throw new SystemException($"modifierBase.IconPrefab: {modifierBase.IconPrefab} not found");
-            }
+            Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(modifierBase.IconSpriteId);
+       
 
          
-            SpriteRenderer spriteRenderer = spriteGO.GetComponent<SpriteRenderer>();
+  
             Rarity rarity = RarityHelper.GetRandomRarity();
-            Sprite sprite = RarityHelper.PaintIcon(rarity, spriteRenderer.sprite); // spriteRenderer.sprite;
+            Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite); // spriteRenderer.sprite;
             
             ModifierBase existingModifierBase = Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
             // Debug.Log($"TraitTest: {existingModifierBase != null} && {Modifiers.Modifiers.Count} < {Stats.GetStatValue(StatType.NPC_ModifierSlots)}");
@@ -132,7 +129,7 @@ public class NPCDevOps : NPCAnimatedBiped
                     
                     GameManager.Instance.UIManager.MultiSelectPanel.Add(
                             modifierBase.Id,
-                            sprite,
+                            spriteOut,
                             modifierBase.GetTitle(),
                             $"New - {rarity} - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
