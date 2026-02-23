@@ -44,8 +44,6 @@ public enum StatType
     NPC_HP,
     NPC_CoolDown,
     Infra_InputValidation,
-    AttackPossibility
-    
-    
-
+    AttackPossibility,
+    NPC_AttackDamage
 }

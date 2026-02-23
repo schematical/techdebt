@@ -70,8 +70,9 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         Stats.Clear();
         Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
-        Stats.Add(new StatData(StatType.NPC_HP, 1f));
+        Stats.Add(new StatData(StatType.NPC_HP, 5f));
         Stats.Add(new StatData(StatType.NPC_CoolDown, 1f));
+        Stats.Add(new StatData(StatType.NPC_AttackDamage, 1f));
         coolDowns[CoolDownType.Attack] = 5f;
         coolDowns[CoolDownType.Consume] = 5f;
         if (!GameManager.Instance.AllNpcs.Contains(this))
@@ -582,7 +583,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public void ReceiveAttack(NPCBase npcBase)
     {
-        float damage = -1;
+        float damage = -1 * npcBase.Stats.GetStatValue(StatType.NPC_AttackDamage);
         float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(damage);
         GameManager.Instance.FloatingTextFactory.ShowText($"{damage} HP",
             transform.position); 

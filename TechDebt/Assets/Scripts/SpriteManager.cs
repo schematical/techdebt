@@ -54,7 +54,7 @@ namespace DefaultNamespace
 
         public Sprite GetSprite(string spriteId)
         {
-            return Sprites.Find((s) =>
+            Sprite sprite = Sprites.Find((s) =>
             {
                 string name = s.name;
                 if (name.Contains("_"))
@@ -63,6 +63,12 @@ namespace DefaultNamespace
                 }
                 return name == spriteId;
             });
+            if(sprite == null) 
+            {
+                throw new SystemException($"Could not find sprite {spriteId}");
+            }
+
+            return sprite;
         }
         public NPCBipedAssets GetRandomNPCBipedAssets()
         {

@@ -34,7 +34,7 @@ namespace UI
             List<ReleaseBase> releases = GameManager.Instance.Releases.ToList();
             releases.Reverse();
 
-            foreach (var release in releases)
+            foreach (ReleaseBase release in releases)
             {
                 Color color = Color.white;
                 switch (release.State) 
@@ -57,6 +57,7 @@ namespace UI
                 if (!ProgressBarPanels.ContainsKey(release.GetVersionString()))
                 {
                     GameObject progressBarGo = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", Vector3.zero, scrollContent.transform);
+                    progressBarGo.SetActive(true);
                     ProgressBarPanels[release.GetVersionString()] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
                 }
               

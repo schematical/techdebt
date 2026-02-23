@@ -511,7 +511,17 @@ public static class MetaGameManager
                 Id = "better_coder",
                 Name = "Better Coder",
                 StatType = StatType.NPC_CodeQuality,
+                BaseValue = 2f,
                 IconSpriteId = "IconCode"
+            },
+            new ModifierBase()
+            {
+                Target = ModifierBase.ModifierTarget.NPC,
+                Id = "better_debugger",
+                Name = "Better Debugger",
+                StatType = StatType.NPC_AttackDamage,
+                // BaseValue = 2f,
+                IconSpriteId = "IconDebug"
             },
             /*
              *
@@ -584,7 +594,7 @@ public static class MetaGameManager
                 Id = "tech_debt",
                 Name = "Tech Debt",
                 StatType = StatType.TechDebt,
-                // BaseValue = 1.05f,
+           
                 IconSpriteId = "IconTechDebt"
             }
             
