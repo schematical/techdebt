@@ -19,6 +19,7 @@ namespace UI
                         GameManager.Instance.prefabManager
                             .Create("UIProductRoadMapLevelButton", new Vector3(), transform)
                             .GetComponent<UIProductRoadMapLevelButton>();
+                    button.Init(level);
                     levelX += 1;
                 }
 
