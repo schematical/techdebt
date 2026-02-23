@@ -6,21 +6,31 @@ public class ProductRoadMap
 
     public void Randomize()
     {
+        Stages = new List<ProductRoadMapStage>();
         // Level 1 is just launch
-        Stages[0] = new ProductRoadMapStage();
-        Stages[0].Levels.Add(new LaunchProductRoadMapLevel());
+        ProductRoadMapStage Stage;
+        Stage = new ProductRoadMapStage();
+        Stage.Levels.Add(new LaunchProductRoadMapLevel());
+        Stages.Add(Stage);
         
-        Stages[1] = new ProductRoadMapStage();
-        Stages[1].Levels.Add(new MobileProductRoadMapLevel());
-        Stages[1].Levels.Add(new EmailProductRoadMapLevel());
+        Stage = new ProductRoadMapStage();
+        Stage.Levels.Add(new MobileProductRoadMapLevel());
+        Stage.Levels.Add(new EmailProductRoadMapLevel());
+        Stages.Add(Stage);
         
-        Stages[2] = new ProductRoadMapStage();
-        Stages[2].Levels.Add(new SecurityAuditProductRoadMapLevel());
+        Stage = new ProductRoadMapStage();
+        Stage.Levels.Add(new SecurityAuditProductRoadMapLevel());
+        Stages.Add(Stage);
+        
+        Stage = new ProductRoadMapStage();
+        Stage.Levels.Add(new SocketChatProductRoadMapLevel());
+        Stage.Levels.Add(new GeoLocationProductRoadMapLevel());
+        Stages.Add(Stage);
     }
 }
 public class ProductRoadMapStage
 {
-    public List<ProductRoadMapLevel>  Levels { get; set; }
+    public List<ProductRoadMapLevel>  Levels { get; set; } = new List<ProductRoadMapLevel>();
 }
 
 public class ProductRoadMapLevel
