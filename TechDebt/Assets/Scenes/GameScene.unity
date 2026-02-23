@@ -1437,7 +1437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -58.105957, y: 74.99707}
+  m_AnchoredPosition: {x: -58.105835, y: 74.99707}
   m_SizeDelta: {x: -316.20203, y: 49.995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &201570045
@@ -6466,7 +6466,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 550688315}
   m_HandleRect: {fileID: 550688314}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11780,7 +11780,7 @@ GameObject:
   - component: {fileID: 1236192463}
   - component: {fileID: 1236192462}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: LevelDescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13181,7 +13181,9 @@ MonoBehaviour:
   titleText: {fileID: 1589099823}
   scrollContent: {fileID: 0}
   closeButton: {fileID: 1930343115}
-  RectTransform: {fileID: 0}
+  Buttons: []
+  RectTransform: {fileID: 1664984701}
+  LevelDescriptionText: {fileID: 1236192462}
 --- !u!224 &1354808290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14120,7 +14122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -54.999878}
+  m_AnchoredPosition: {x: 0, y: -54.99994}
   m_SizeDelta: {x: 20, y: -61.225}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1462538384
