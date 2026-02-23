@@ -31,7 +31,7 @@ public enum StatType
     
     
     ItemDropChance,
-    ItemDropCheck,
+    EventCheckEverySeconds,
     NPC_MovmentSpeed,
     NPC_XPSpeed,
     NPC_DevOpsSpeed,

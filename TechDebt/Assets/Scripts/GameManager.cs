@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
 
     // --- Item Spawning ---
-    private float _itemDropTimer;
+    private float _eventTimer;
 
 
     // --- Task Management ---
@@ -266,13 +266,9 @@ public class GameManager : MonoBehaviour
 
     public void CheckEvents()
     {
-        if (CurrentEvents.Count() > 0)
-        {
-            return;
-        }
         int totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
-        foreach (var e in Events)
+        foreach (EventBase e in Events)
         {
             if (e.IsPossible())
             {
@@ -282,9 +278,10 @@ public class GameManager : MonoBehaviour
         }
         int selectedIndex =  Random.Range(0, totalProb + 1);
         int currIndex = 0;
-        foreach (var e in possibleEvents)
+       
+        foreach (EventBase e in possibleEvents)
         {
-   
+           
             if (
                 selectedIndex >= currIndex && 
                 selectedIndex < currIndex + e.GetProbability()
@@ -347,7 +344,7 @@ public class GameManager : MonoBehaviour
         
         
 
-        Initialize();
+       
           
           
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
@@ -391,6 +388,7 @@ public class GameManager : MonoBehaviour
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
     
         ActiveInfrastructure.Clear();
+        Initialize();
         SetupGameScene();
     }
 
@@ -452,26 +450,9 @@ public class GameManager : MonoBehaviour
         GameLoopManager.BeginPlanPhase();
         
         // --- Item Spawning ---
-        _itemDropTimer = GetStat(StatType.ItemDropCheck);
+        _eventTimer = GetStat(StatType.EventCheckEverySeconds);
     }
 
-    void Update()
-    {
-
-        if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
-
-        // Delivery NPC Spawning Logic
-        _itemDropTimer -= Time.deltaTime;
-        if (_itemDropTimer <= 0)
-        {
-            float dropChance = GetStat(StatType.ItemDropChance);
-            if (Random.value <= dropChance)
-            {
-                SpawnDeliveryNPC();
-            }
-            _itemDropTimer = GetStat(StatType.ItemDropCheck); // Reset timer
-        }
-    }
 
     private void FixedUpdate()
     {
@@ -487,6 +468,18 @@ public class GameManager : MonoBehaviour
         }
 
         TickNetworkPackets();
+        
+        if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
+
+        // Delivery NPC Spawning Logic
+        _eventTimer -= Time.fixedDeltaTime;
+        if (_eventTimer <= 0)
+        {
+            //Find Random Event
+            CheckEvents();
+            _eventTimer = GetStat(StatType.EventCheckEverySeconds);
+        }
+        
     }
 
     private void TickNetworkPackets()
@@ -520,34 +513,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void SpawnDeliveryNPC()
-    {
-        var door = GetInfrastructureInstanceByID("door");
-        if (door == null)
-        {
-            Debug.LogError("Cannot spawn DeliveryNPC because 'door' infrastructure was not found.");
-            return;
-        }
-
-        GameObject npcGO = prefabManager.Create("DeliveryNPC", door.transform.position);
-        if (npcGO == null)
-        {
-            Debug.LogError("Failed to create 'DeliveryNPC' from PrefabManager. Is the prefab configured?");
-            return;
-        }
-
-        var deliveryNpc = npcGO.GetComponent<DeliveryNPC>();
-        if (deliveryNpc != null)
-        {
-            deliveryNpc.Initialize(door.transform.position);
-            var deliveryTask = new DeliverItemTask();
-            deliveryNpc.AssignTask(deliveryTask);
-        }
-        else
-        {
-            Debug.LogError("'DeliveryNPC' prefab is missing the DeliveryNPC component.");
-        }
-    }
+  
 
     public NPCBug SpawnNPCBug()
     {
@@ -594,20 +560,13 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.Difficulty, 1.25f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
         Stats.Add(new StatData(StatType.ItemDropChance, 0.1f));
-        Stats.Add(new StatData(StatType.ItemDropCheck, 15));
+        Stats.Add(new StatData(StatType.EventCheckEverySeconds, 15));
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
         Stats.Add(new StatData(StatType.AttackPossibility, 0f));
 
         Tutorial = new TutorialEvent();
         
-        Events.Add(new NothingEvent());
-        Events.Add(new SlowSalesWeekEvent());
-        // Events.Add(new DeploymentEvent());
-        Events.Add(new AttackStartEvent());
-        Events.Add(new DDoSEvent());
-        Events.Add(new LeakedSecretEvent());
-        Events.Add(new LeakedUserCredsEvent());
-        Events.Add(new LeakedUserCredsEvent());
+        Events.Add(new ItemDeliveryEvent());
         
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
