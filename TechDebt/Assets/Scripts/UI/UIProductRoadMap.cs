@@ -40,7 +40,7 @@ namespace UI
                         GameManager.Instance.prefabManager
                             .Create("UIProductRoadMapLevelButton", new Vector3(), transform)
                             .GetComponent<UIProductRoadMapLevelButton>();
-                    button.Init(level);
+                    button.Init(level, (name) => { LevelDescriptionText.text = name; });
 
                     float x = (width / Map.Stages.Count) * (stageX + 0.5f) - width / 2;
                     float y = (height / stage.Levels.Count) * (levelY + 0.5f) - height / 2;
