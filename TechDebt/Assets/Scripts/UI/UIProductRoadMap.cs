@@ -108,7 +108,7 @@ namespace UI
             lineObj.transform.SetAsFirstSibling(); 
             
             Image img = lineObj.GetComponent<Image>();
-            img.color = new Color(1, 1, 1, 0.5f); 
+            img.color = new Color(0.2f, 0.2f, 0.2f, 1.0f); 
             
             RectTransform rect = lineObj.GetComponent<RectTransform>();
             Vector2 dir = (end - start).normalized;

@@ -39,7 +39,7 @@ namespace UI
             {
                 case ButtonState.Locked:
                     button.interactable = false;
-                    image.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                    image.color = new Color(0.3f, 0.3f, 0.3f, 1.0f);
                     break;
                 case ButtonState.Available:
                     button.interactable = true;
@@ -47,11 +47,11 @@ namespace UI
                     break;
                 case ButtonState.Selected:
                     button.interactable = false;
-                    image.color = Color.green; // Example for selected/active
+                    image.color = Color.green;
                     break;
                 case ButtonState.Passed:
                     button.interactable = false;
-                    image.color = Color.gray; // Visually distinct from locked? Or same?
+                    image.color = new Color(0.5f, 0.5f, 0.5f, 1.0f);
                     break;
             }
         }
