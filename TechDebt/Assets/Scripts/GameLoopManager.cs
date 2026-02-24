@@ -221,7 +221,7 @@ public class GameLoopManager : MonoBehaviour
         string infraCosts = "\n\n<b>Infrastructure Costs:</b>\n";
         foreach (InfrastructureInstance instance in GameManager.Instance.ActiveInfrastructure)
         {
-            float cost = instance.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost);
+            float cost = instance.GetDailyCost();
             if (instance.IsActive() && cost > 0)
             {
                 infraCosts += $"{instance.GetWorldObjectType().DisplayName}: ${cost}\n";

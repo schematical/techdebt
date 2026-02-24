@@ -945,7 +945,7 @@ public class GameManager : MonoBehaviour
         {
             if (infra.IsActive())
             {
-                totalCost += infra.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost);
+                totalCost += infra.GetDailyCost();
             }
         }
         
@@ -995,18 +995,8 @@ public class GameManager : MonoBehaviour
         if (Camera.main.orthographic)
         {
             CameraController cameraController = FindObjectOfType<CameraController>();
-            if (cameraController != null)
-            {
-                // Access maxZoom via reflection or make maxZoom public if needed
-                // For now, assume a reasonable default or make maxZoom public in CameraController
-                // I will add a temporary public accessor to CameraController.cs to make this work for now.
-                Camera.main.orthographicSize = 12f; // Using the default maxZoom value from CameraController
-            }
-            else
-            {
-                Debug.LogWarning("CameraController not found, using default max zoom value.");
-                Camera.main.orthographicSize = 12f; // Fallback to a reasonable default
-            }
+            Camera.main.orthographicSize = 12f; 
+            
         }
 
         if (Camera.main.GetComponent<Physics2DRaycaster>() == null)
@@ -1019,16 +1009,6 @@ public class GameManager : MonoBehaviour
             Vector3 worldPos = gridManager.grid.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
             Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
             GameObject instanceGO = Instantiate(infraData.Prefab, adjustedWorldPos, Quaternion.identity);
-
-            /*if (instanceGO.GetComponent<Collider2D>() == null)
-            {
-                var boxCollider = instanceGO.AddComponent<BoxCollider2D>();
-                var spriteRenderer = instanceGO.GetComponentInChildren<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    boxCollider.size = spriteRenderer.bounds.size;
-                }
-            }*/
 
             InfrastructureInstance infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
 

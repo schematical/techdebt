@@ -54,11 +54,20 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         if (IsActive())
         {
             // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
-            float c = 1 - CurrentLoad / GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
+            float c = 1 - CurrentLoad / GetMaxLoad();
             spriteRenderer.color = new Color(1, c, c, 1);
         }
     }
 
+    public float GetMaxLoad()
+    {
+        return GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad) * GetSizeMultiplier();
+    }
+
+    protected float GetSizeMultiplier()
+    {
+        return (float) Math.Pow(2, CurrentSizeLevel);
+    }
 
     public void ReceivePacket(NetworkPacket packet)
     {
@@ -118,10 +127,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
                     spriteRenderer.color);
 
-                if (CurrentLoad > GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad))
+                if (CurrentLoad > GetMaxLoad())
                 {
                     packet.MarkFailedAndDestroy();
-                    CurrentLoad = GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
+                    CurrentLoad = GetMaxLoad();
                     SetState(InfrastructureData.State.Frozen);
                     packet.MoveToNextNode();
                     return false; // Stop processing
@@ -445,26 +454,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         float visualScaleFactor = 1.0f + (CurrentSizeLevel * 0.25f);
         transform.localScale = Vector3.one * visualScaleFactor;
 
-        // Remove existing resize modifiers to apply fresh ones
-        GetWorldObjectType().Stats.RemoveModifier(StatType.Infra_DailyCost, "infra_resize");
-        GetWorldObjectType().Stats.RemoveModifier(StatType.Infra_MaxLoad, "infra_resize");
-        GetWorldObjectType().Stats.RemoveModifier(StatType.Infra_LoadRecoveryRate, "infra_resize");
-
-        // Apply new modifiers only if the size is above base level
-        if (CurrentSizeLevel > 0)
-        {
-            // Calculate the stat multiplier (doubles with each level: 2, 4, 8, 16)
-            float statMultiplier = Mathf.Pow(2, CurrentSizeLevel);
-
-            GetWorldObjectType().Stats.AddModifier(StatType.Infra_DailyCost,
-                new StatModifier("infra_resize", statMultiplier));
-            GetWorldObjectType().Stats.AddModifier(StatType.Infra_MaxLoad,
-                new StatModifier("infra_resize", statMultiplier));
-            float loadStatMultiplier = Mathf.Pow(1.5f, CurrentSizeLevel);
-            GetWorldObjectType().Stats.AddModifier(StatType.Infra_LoadRecoveryRate,
-                new StatModifier("infra_resize", loadStatMultiplier));
-        }
-
+        
         if (metaStatCollection.Get(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
         {
             metaStatCollection.Set(MetaStat.Infra_MaxSize, CurrentSizeLevel);
@@ -530,7 +520,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         string content = $"<b>{type.DisplayName}</b>\n";
         content += $"State: {data.CurrentState}\n\n";
         content += $"Release: {Version}\n\n";
-        content += $"Curr Load: {CurrentLoad}\n";
+        content += $"Curr Load: {CurrentLoad}/{GetMaxLoad()}\n";
+        content += $"Daily Cost: ${GetDailyCost()}\n";
         content += $"Curr Size: {CurrentSizeLevel}\n";
         content += "<b>Stats:</b>\n";
         foreach (StatData stat in type.Stats.Stats.Values)
@@ -599,7 +590,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public void ReceiveAttack(NPCBase npcBase)
     {
-        CurrentLoad += GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad) / 4f;
+        CurrentLoad += GetMaxLoad() / 4f;
     }
 
     public bool IsDead()
@@ -613,5 +604,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             GameManager.Instance.gridManager.UpdateTileState(Vector3Int.FloorToInt(GridPosition + pos), !IsActive());
         }
+    }
+
+    public float GetDailyCost()
+    {
+        return GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost) * GetSizeMultiplier();
     }
 }

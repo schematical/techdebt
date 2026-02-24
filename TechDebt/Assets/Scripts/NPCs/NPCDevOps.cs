@@ -58,7 +58,7 @@ public class NPCDevOps : NPCAnimatedBiped
             lastDisplayXP = (int)Math.Floor(currentXP);
         }
 
-        int nextLevelXP = (int)Math.Round(5 * Math.Pow(1.5f, level));
+        int nextLevelXP = (int)Math.Round(30 * Math.Pow(1.5f, level));
         if (currentXP >= nextLevelXP)
         {
        
