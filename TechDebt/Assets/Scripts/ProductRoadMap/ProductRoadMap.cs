@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using NPCs;
+using Stats;
+using UnityEngine;
 
 public class ProductRoadMap
 {
@@ -42,16 +44,7 @@ public class ProductRoadMap
         return Stages[CurrentStage].GetSelectedLevel();
     }
 
-    public void SelectLevel(ProductRoadMapLevel level)
-    {
-        ProductRoadMapStage stage = Stages[CurrentStage];
-        int index = stage.Levels.IndexOf(level);
-        if (index != -1)
-        {
-            stage.SetSelectedLevel(index);
-            CurrentStage++;
-        }
-    }
+   
 }
 public class ProductRoadMapStage
 {
@@ -72,6 +65,7 @@ public class ProductRoadMapStage
     }
     public ProductRoadMapLevel SetSelectedLevel(int level)
     {
+        Debug.Log($"SetSelectedLevel - {level}");
         SelectedLevel = level;
         return Levels[SelectedLevel];
     }
@@ -107,6 +101,42 @@ public class ProductRoadMapLevel
        {
            
        }
+   }
+
+   public virtual bool IsLaunchDay()
+   {
+       return SprintDuration == GameManager.Instance.GameLoopManager.currentDay;
+   }
+
+   public virtual void PlanPhaseCheck()
+   {
+       if (IsLaunchDay())
+       {
+           OnLaunchDayPlan();
+       }
+      
+   }
+
+   public virtual void OnLaunchDayPlan()
+   {
+       
+   }
+   public virtual void SummaryPhaseCheck()
+   {
+       if (IsLaunchDay())
+       {
+           OnLaunchDaySummary();
+       }
+      
+   }
+   public virtual void OnLaunchDaySummary()
+   {
+       
+   }
+
+   public virtual void OnLaunchDay()
+   {
+       Debug.LogError("TODO: Write this");
    }
 
    public virtual string GetDescription()

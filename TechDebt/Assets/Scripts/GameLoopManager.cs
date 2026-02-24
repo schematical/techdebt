@@ -21,7 +21,6 @@ public class GameLoopManager : MonoBehaviour
     public bool playTimerActive = true;
     public int currentDay = 0;
     public float dayTimer = 0f;
-    public int sprintDurationDays = 5;
 
     public int GetCurrentDay()
     {
@@ -30,7 +29,7 @@ public class GameLoopManager : MonoBehaviour
 
     public int GetDaysLeftInSprint()
     {
-        return sprintDurationDays - currentDay;
+        return GameManager.Instance.ProductRoadMap.GetCurrentLevel().SprintDuration - currentDay;
     }
     void FixedUpdate()
     {
@@ -126,6 +125,7 @@ public class GameLoopManager : MonoBehaviour
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowPlanUI();
+        GameManager.Instance.ProductRoadMap.GetCurrentLevel().PlanPhaseCheck();
     }
 
  
@@ -162,23 +162,15 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.HidePlanUI();
         GameManager.Instance.UIManager.moneyPanel.Show();
         
+
         
         GameManager.Instance.UIManager.Resume();
-        // GameManager.Instance.CheckEvents();
-        if (IsLaunchDay())
-        {
-            GameManager.Instance.UIManager.ShowNPCDialog(
-                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC_0"),
-                "Today is launch day! \n Expect extra traffic."
-            );
-            GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier("launch_day_traffic", 2));
-        }
+      
+
+        
     }
 
-    public bool IsLaunchDay()
-    {
-        return sprintDurationDays == currentDay;
-    }
+   
 
     public void CheckEnemySpawn()
     {
@@ -201,15 +193,8 @@ public class GameLoopManager : MonoBehaviour
 
     private void BeginSummaryPhase()
     {
+        GameManager.Instance.ProductRoadMap.GetCurrentLevel().SummaryPhaseCheck();
        
-        if (IsLaunchDay())
-        {
-            GameManager.Instance.UIManager.ShowNPCDialog(
-                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC_0"),
-                "TODO: Check if we hit our goals. TODO: Remove stat modifier"
-            );
-            // GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier(StatModifier.ModifierType.Multiply, 4));
-        }
         CurrentState = GameState.WaitingForNpcsToExpire;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         

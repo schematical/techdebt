@@ -64,8 +64,9 @@ namespace UI
                         state = ButtonState.Available;
                     }
                     
-                    button.Init(level, state, (name) => { LevelDescriptionText.text = name; }, (lvl) => {
-                        Map.SelectLevel(lvl);
+                    button.Init(level, levelY, state, (name) => { LevelDescriptionText.text = name; }, (lvl) =>
+                    {
+                        stage.SetSelectedLevel(button.LevelIndex);
                         Close();
                         GameManager.Instance.GameLoopManager.BeginPlanPhase();
                     });

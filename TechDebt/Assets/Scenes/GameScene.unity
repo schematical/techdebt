@@ -7815,7 +7815,6 @@ MonoBehaviour:
   playTimerActive: 1
   currentDay: 0
   dayTimer: 0
-  sprintDurationDays: 5
 --- !u!114 &776996750
 MonoBehaviour:
   m_ObjectHideFlags: 0

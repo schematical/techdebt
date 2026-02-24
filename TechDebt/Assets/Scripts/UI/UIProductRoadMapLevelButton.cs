@@ -21,12 +21,14 @@ namespace UI
         public Button button;
         
         private ProductRoadMapLevel _level;
+        public int LevelIndex { get; private set; }
         private Action<string> _onHover;
         private Action<ProductRoadMapLevel> _onClick;
 
-        public void Init(ProductRoadMapLevel level, ButtonState state, Action<string> onHover, Action<ProductRoadMapLevel> onClick)
+        public void Init(ProductRoadMapLevel level, int levelIndex, ButtonState state, Action<string> onHover, Action<ProductRoadMapLevel> onClick)
         {
             _level = level;
+            LevelIndex = levelIndex;
             _onHover = onHover;
             _onClick = onClick;
             text.text = level.Name;
