@@ -26,11 +26,13 @@ public class UIDebugPanel : UIPanel
         AddButton("Insta-Build", () => { InstaBuild(); });
         AddButton("Insta-Research", () => { InstaResearch(); });
         AddButton("Unlock All Tech", () => { UnlockAllTechnologies(); });
-        // AddButton("Trigger Event", () => GameManager.Instance.UIManager.ToggleEventTriggerPanel());
         AddButton("SpawnNPC", () => { SpawnNPC(); });
         AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
-    
+        AddButton("Events", () =>
+        {
+            GameManager.Instance.UIManager.eventDebugPanel.Show();
+        });
         AddButton("Misc", () => { RunMisc(); });
         
 

@@ -17,7 +17,7 @@ public class GameLoopManager : MonoBehaviour
     public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary }
     public GameState CurrentState { get; private set; }
 
-    protected float dayDurationSeconds = 120f;
+    protected float DayDurationSeconds = 120f;
     public bool playTimerActive = true;
     public int currentDay = 0;
     public float dayTimer = 0f;
@@ -39,10 +39,10 @@ public class GameLoopManager : MonoBehaviour
                 if (playTimerActive)
                 {
                     dayTimer += Time.deltaTime;
-                    GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, dayDurationSeconds);
+                    GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, DayDurationSeconds);
                   
               
-                    if (dayTimer >= dayDurationSeconds)
+                    if (dayTimer >= DayDurationSeconds)
                     {
                         BeginSummaryPhase();
                     }
@@ -55,7 +55,7 @@ public class GameLoopManager : MonoBehaviour
 
     public float GetDayDurationSeconds()
     {
-        return dayDurationSeconds;
+        return DayDurationSeconds;
     }
 
     public void EndGame()

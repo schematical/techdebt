@@ -189,7 +189,7 @@ public class ReleaseBase
 
     public string GetDescription()
     {
-        return $"{GetVersionString()} {State.ToString()} - Quality: {GetQuality()}";
+        return $"{GetVersionString()} {State.ToString()} - Quality: {GetQuality():F2}";
     }
 
     public void ApplyProgress(float progressGained, NPCBase NPCBase)

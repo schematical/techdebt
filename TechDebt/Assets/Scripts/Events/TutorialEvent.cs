@@ -375,7 +375,7 @@ namespace Events
                     break;
                 case 24:
 
-                    NPCBug bugGO = GameObject.FindObjectsOfType<NPCBug>().First();
+                    NPCBug bugGO = GameManager.Instance.SpawnNPCBug();
                     GameManager.Instance.cameraController.ZoomToAndFollow(bugGO.transform);
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
@@ -539,9 +539,9 @@ namespace Events
             }
         }
 
-        public override string GetEventDescription()
+        public override string GetDescription()
         {
-            return $"{base.GetEventDescription()} - Step: {currentStep} - Next: {nextStep}";
+            return $"{base.GetDescription()} - Step: {currentStep} - Next: {nextStep}";
         }
 
         public void Check(TutorialCheck check)

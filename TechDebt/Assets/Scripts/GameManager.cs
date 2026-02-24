@@ -276,7 +276,12 @@ public class GameManager : MonoBehaviour
                 possibleEvents.Add(e);
             }
         }
-        int selectedIndex =  Random.Range(0, totalProb + 1);
+        int selectedIndex =  Random.Range(0, totalProb + 1  + 10 /* This is the nothing prob */);
+        if (selectedIndex > totalProb)
+        {
+            Debug.Log($"Nothing Event Hit {selectedIndex} / {totalProb}");
+            return;
+        }
         int currIndex = 0;
        
         foreach (EventBase e in possibleEvents)

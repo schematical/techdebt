@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
     public UITaskListPanel taskListPanel;
     public UIProductRoadMap productRoadMap;
     public UIGlobalStatsPanel globalStatsPanel;
-
+    public UIEventDebugPanel eventDebugPanel;
     public UIMoneyPanel moneyPanel;
     // OLD UI Containers
  
@@ -121,6 +121,7 @@ public class UIManager : MonoBehaviour
         taskListPanel.Close(forceClose);
         globalStatsPanel.Close(forceClose);
         productRoadMap.Close(forceClose);
+        eventDebugPanel.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
 
      
@@ -301,7 +302,7 @@ public class UIManager : MonoBehaviour
             foreach (var gameEvent in GameManager.Instance.Events)
             {
                 EventBase localEvent = gameEvent; // Local copy for the closure
-                uiPanel.AddButton(gameEvent.GetEventDescription(), () =>
+                uiPanel.AddButton(gameEvent.GetDescription(), () =>
                 {
                     GameManager.Instance.TriggerEvent(localEvent);
                     eventTriggerPanel.SetActive(false); // Close panel after triggering

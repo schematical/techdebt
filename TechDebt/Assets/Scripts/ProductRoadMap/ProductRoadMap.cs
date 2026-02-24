@@ -139,12 +139,12 @@ public class ProductRoadMapLevel
    }
    public virtual void OnLaunchDaySummary()
    {
-       
+       throw new NotImplementedException();
    }
 
    public virtual void OnLaunchDay()
    {
-       Debug.LogError("TODO: Write this");
+       throw new NotImplementedException();
    }
 
    public virtual string GetDescription()
