@@ -8,7 +8,7 @@ namespace DefaultNamespace
         public Vector2 offset =  Vector2.zero;
         void Update()
         {
-            if (!target.activeInHierarchy)
+            if (target == null || !target.activeInHierarchy)
             {
                 gameObject.SetActive(false);
                 return;

@@ -15,7 +15,7 @@ public class GameLoopManager : MonoBehaviour
 
 
     public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary }
-    public GameState CurrentState { get; private set; }
+    public GameState CurrentState { get; set; }
 
     protected float DayDurationSeconds = 120f;
     public bool playTimerActive = true;
@@ -58,38 +58,7 @@ public class GameLoopManager : MonoBehaviour
         return DayDurationSeconds;
     }
 
-    public void EndGame()
-    {
-        GameManager.Instance.UIManager.SetTimeScalePause();
-        NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
-        GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
-        GameManager.Instance.UpdateMetaProgress();
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            bossNPC.GetComponent<SpriteRenderer>().sprite,
-            "You have failed to keep our infrastructure up and running with in our budget. You are fired!",
-            new List<DialogButtonOption>()
-            {
-                new DialogButtonOption() { Text = "Start Over", OnClick = () =>
-                    {
-                        
-                        ResetGame();
-                    }
-                },
-                new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
-                    {
-                        SceneManager.LoadScene("MainMenu");  
-                    }
-                },
-            }
-        );
-    }
-    public void ResetGame()
-    {
-        currentDay = 0;
-        ReleaseBase.GlobalVersion = 0;
-        GameManager.Instance.ResetNPCs();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+
     public void BeginPlanPhase()
     {
    
@@ -155,7 +124,6 @@ public class GameLoopManager : MonoBehaviour
            
         }
 
-        CheckEnemySpawn();
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
@@ -170,26 +138,7 @@ public class GameLoopManager : MonoBehaviour
         
     }
 
-   
 
-    public void CheckEnemySpawn()
-    {
-        float attackPossibility = GameManager.Instance.Stats.GetStatValue(StatType.AttackPossibility);
-        if (Random.value > attackPossibility)
-        {
-            return;
-        }
-        float spawnChance = 1 - GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
-        if (Random.value < spawnChance)
-        {
-            InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
-
-            GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCXSS", internetPipe.transform.position);
-
-            NPCXSS npc = npcGO.GetComponent<NPCXSS>();
-            npc.Initialize();
-        }
-    }
 
     private void BeginSummaryPhase()
     {
@@ -273,13 +222,7 @@ public class GameLoopManager : MonoBehaviour
 
         GameManager.Instance.UIManager.moneyPanel.SpendCoins(totalDailyCost);
         
-        if (GameManager.Instance.GetStat(StatType.Money) < 0)
-        {
-            summaryText += "\n\n<color=red>GAME OVER! You ran out of money.</color>";
-            GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
-            EndGame();
-            return;
-        }
+        
         GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
         GameManager.Instance.MetaStats.Incr(MetaStat.Day);
 

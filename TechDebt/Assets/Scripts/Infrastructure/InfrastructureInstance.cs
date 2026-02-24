@@ -371,7 +371,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 return false;
             }));
             worldObjectType.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
-                $"networkConnectionBonus", // $"networkConnectionBonus_{bonus.Id}",
+                $"networkConnectionBonus_{foundConnection.networkPacketType}_{bonus.Stat}", // $"networkConnectionBonus_{bonus.Id}",
                 bonus.value, 
                 bonus.Type
             ));

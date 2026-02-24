@@ -594,7 +594,8 @@ public static class MetaGameManager
                 Id = "tech_debt",
                 Name = "Tech Debt",
                 StatType = StatType.TechDebt,
-           
+                BaseValue = 0.9f,
+                ScaleDirection =   ModifierBase.ModifierScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
             }
             

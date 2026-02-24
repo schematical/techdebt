@@ -103,8 +103,8 @@ public class UIManager : MonoBehaviour
         SetupNPCDialogPanel(transform);
         
         // currentReleasePanel.gameObject.SetActive(false);
-        GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
-            (value) => topBarPanel.UpdateStatText(StatType.Money, value);
+        /*GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
+            (value) => topBarPanel.UpdateStatText(StatType.Money, value);*/
 
         Close(true);
     }

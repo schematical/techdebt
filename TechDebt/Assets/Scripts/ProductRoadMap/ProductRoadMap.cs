@@ -131,6 +131,11 @@ public class ProductRoadMapLevel
    }
    public virtual void SummaryPhaseCheck()
    {
+       if (GameManager.Instance.GetStat(StatType.Money) < 0)
+       {
+           EndGame();
+           return;
+       }
        if (IsLaunchDay())
        {
            OnLaunchDaySummary();
@@ -152,5 +157,31 @@ public class ProductRoadMapLevel
        string res = $"{Name}";
        // TODO: Add the modifiers here
        return res;
+   }
+
+   public virtual void EndGame()
+   {
+       GameManager.Instance.UIManager.SetTimeScalePause();
+       NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+       GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
+       GameManager.Instance.UpdateMetaProgress();
+       GameManager.Instance.UIManager.ShowNPCDialog(
+           GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+           "You have failed to keep our infrastructure up and running with in our budget. You are fired!",
+           new List<DialogButtonOption>()
+           {
+               new DialogButtonOption() { Text = "Start Over", OnClick = () =>
+                   {
+                        
+                       GameManager.Instance.Reset();
+                   }
+               }/*,
+               new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
+                   {
+                        
+                   }
+               },*/
+           }
+       );
    }
 }

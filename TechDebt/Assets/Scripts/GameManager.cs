@@ -279,7 +279,7 @@ public class GameManager : MonoBehaviour
         int selectedIndex =  Random.Range(0, totalProb + 1  + 10 /* This is the nothing prob */);
         if (selectedIndex > totalProb)
         {
-            Debug.Log($"Nothing Event Hit {selectedIndex} / {totalProb}");
+            // Debug.Log($"Nothing Event Hit {selectedIndex} / {totalProb}");
             return;
         }
         int currIndex = 0;
@@ -391,19 +391,32 @@ public class GameManager : MonoBehaviour
       
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
-        Restart();
+        OnReleaseChanged += HandleReleaseChanged;
+        
+        UIManager.Initialize();
+        Reset();
+    
     }
 
-    void Restart()
+    public void Reset()
     {
-        
-        ActiveInfrastructure.Clear();
-        
-        
+        Releases.Clear();
+        GameLoopManager.currentDay = 0;
+        GameLoopManager.CurrentState = GameLoopManager.GameState.Plan;
+        ReleaseBase.GlobalVersion = 0;
+        foreach (NPCBase npc in AllNpcs)
+        {
+            Destroy(npc.gameObject);
+        }
+        AllNpcs.Clear();
+        foreach (WorldObjectBase worldObjectBase in ActiveInfrastructure)
+        {
+            worldObjectBase.gameObject.SetActive(false);
+        }
+       
         Initialize();
-      
-        UIManager.SetupUIInfrastructure();
-        SetupSprint(); 
+        SetupSprint();
+
         UIManager.productRoadMap.Show();
     }
 
@@ -552,7 +565,10 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
-        OnReleaseChanged += HandleReleaseChanged;
+ 
+        ActiveInfrastructure.Clear();
+        AvailableTasks.Clear();
+        Stats.Clear();
         Stats.Add(new StatData(StatType.Money, 100f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 30));
@@ -569,12 +585,19 @@ public class GameManager : MonoBehaviour
 
         Tutorial = new TutorialEvent();
         
+ 
+        Events.Clear();
         Events.Add(new ItemDeliveryEvent());
         Events.Add(new SpawnBugEvent());
-        
+        Events.Add(new SpawnXSSEvent());
+
+        Items.Clear();
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "EnergyDrinkItem", Probability = 1});
+        
+
+        WorldObjectTypes.Clear();
         WorldObjectTypes[WorldObjectType.Type.Misc] = new WorldObjectType()
         {
             DisplayName = "Misc",
@@ -980,15 +1003,7 @@ public class GameManager : MonoBehaviour
     {
         _eventTimer = GetStat(StatType.EventCheckEverySeconds);
 
-        /*if (gridManager == null)
-        {
-            gridManager = FindObjectOfType<GridManager>();
-            if (gridManager == null)
-            {
-                 gridManager = new GameObject("GridManager").AddComponent<GridManager>();
-            }
-        }*/
-        
+       
 
         gridManager.Init();
 
@@ -1009,7 +1024,7 @@ public class GameManager : MonoBehaviour
             Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
         }
         
-        foreach (var infraData in AllInfrastructure)
+        foreach (InfrastructureData infraData in AllInfrastructure)
         {
             Vector3 worldPos = gridManager.grid.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
             Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
@@ -1159,14 +1174,7 @@ public class GameManager : MonoBehaviour
         NotifyDailyCostChanged();
     }
 
-    public void ResetNPCs()
-    {
-        foreach (var npc in FindObjectsOfType<NPCDevOps>())
-        {
-            Destroy(npc.gameObject);
-        }
-        AllNpcs.Clear();
-    }
+  
 
     public void SelectTechnologyForResearch(Technology tech)
     {
