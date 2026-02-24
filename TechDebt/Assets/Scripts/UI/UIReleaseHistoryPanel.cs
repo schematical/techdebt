@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace UI
 {
     public class UIReleaseHistoryPanel: UIPanel
     {
-
+        public Dictionary<string, UITextArea> textAreas = new Dictionary<string, UITextArea>();
         public override void Show()
         {
             base.Show();
@@ -27,19 +28,18 @@ namespace UI
         private void Refresh()
         {
             // Clear existing entries
-            foreach (Transform child in scrollContent.transform)
-            {
-                Destroy(child.gameObject);
-            }
+           
 
-            var deployments = GameManager.Instance.Releases.ToList();
-            deployments.Reverse();
+            List<ReleaseBase> releases = GameManager.Instance.Releases.ToList();
+            releases.Reverse();
 
-            foreach (var deployment in deployments)
+            foreach (ReleaseBase release in releases)
             {
-                GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-                UITextArea textArea = Instantiate(textAreaPrefab, scrollContent.transform).GetComponent<UITextArea>(); 
-                textArea.textArea.text = deployment.GetDescription();
+                if (!textAreas.ContainsKey(release.GetVersionString()))
+                {
+                    textAreas[release.GetVersionString()] = GameManager.Instance.prefabManager.Create("UITextArea", Vector3.zero, scrollContent.transform).GetComponent<UITextArea>();
+                }
+                textAreas[release.GetVersionString()] .textArea.text = release.GetDescription();
             }
         }
     }

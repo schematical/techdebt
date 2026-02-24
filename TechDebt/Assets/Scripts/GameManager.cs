@@ -469,6 +469,7 @@ public class GameManager : MonoBehaviour
     
 
         // Delivery NPC Spawning Logic
+        IncrStat(StatType.TechDebt, Time.fixedDeltaTime * 0.01f);
         _eventTimer -= Time.fixedDeltaTime;
         if (_eventTimer <= 0)
         {
@@ -564,6 +565,7 @@ public class GameManager : MonoBehaviour
         Tutorial = new TutorialEvent();
         
         Events.Add(new ItemDeliveryEvent());
+        Events.Add(new SpawnBugEvent());
         
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
         Items.Add(new ItemData() { Id = "FreezeTimeItem", Probability = 1});
@@ -1378,5 +1380,14 @@ public class GameManager : MonoBehaviour
     public List<NetworkPacketData> GetNetworkPacketDatas()
     {
         return NetworkPacketDatas;
+    }
+
+    public ReleaseBase GetCurrentRelease()
+    {
+        if (Releases.Count == 0)
+        {
+            return null;
+        }
+        return Releases[Releases.Count - 1];
     }
 }

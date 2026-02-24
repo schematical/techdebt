@@ -520,7 +520,7 @@ public static class MetaGameManager
                 Id = "better_debugger",
                 Name = "Better Debugger",
                 StatType = StatType.NPC_AttackDamage,
-                // BaseValue = 2f,
+                BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
             /*

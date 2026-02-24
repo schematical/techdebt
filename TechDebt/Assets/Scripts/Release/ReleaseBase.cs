@@ -152,12 +152,17 @@ public class ReleaseBase
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
         // TODO Rework this so it has to do with the devs skill
-        for (int i = 0; i < RewardModifier.GetLevel(); i++)
+    
+        /*for (int i = 0; i < RewardModifier.GetLevel(); i++)
         {
-            NPCBug npcBug = GameManager.Instance.SpawnNPCBug();
-            bugs.Add(npcBug);
-        }
-        
+  
+        }*/
+    }
+
+    public void SpawnBug()
+    {
+        NPCBug npcBug = GameManager.Instance.SpawnNPCBug();
+        bugs.Add(npcBug);
     }
     public void SetState(ReleaseState state)
     {
