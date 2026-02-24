@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NPCs;
 using Stats;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class ProductRoadMap
@@ -113,10 +114,17 @@ public class ProductRoadMapLevel
        if (IsLaunchDay())
        {
            OnLaunchDayPlan();
+       } else if (GameManager.Instance.GameLoopManager.currentDay == 0)
+       {
+           OnStartDayPlan();
        }
       
    }
 
+   public virtual void OnStartDayPlan()
+   {
+       
+   } 
    public virtual void OnLaunchDayPlan()
    {
        

@@ -1,7 +1,7 @@
 
 using Stats;
 
-public class LaunchProductRoadMapLevel:ProductRoadMapLevel
+public class LaunchProductRoadMapLevel: ProductRoadMapLevel
 {
     public LaunchProductRoadMapLevel()
     {
@@ -9,11 +9,14 @@ public class LaunchProductRoadMapLevel:ProductRoadMapLevel
         SpriteId = "IconFlag";
         
     }
-    public void OnStart()
+    public override void OnStartDayPlan()
     {
-      //TODO: Have the NPCs describe the sprint   
+        GameManager.Instance.UIManager.ShowNPCDialog(
+            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+            "Hey! This sprint we need to get up and running. At the end of the sprint we will run a bit launch campaign that will drive a lot more traffic. Make sure our infrastructure can handle it."
+        );
+   
     }
-
     public override void OnLaunchDayPlan()
     {
         GameManager.Instance.UIManager.ShowNPCDialog(
@@ -29,6 +32,5 @@ public class LaunchProductRoadMapLevel:ProductRoadMapLevel
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "TODO: Check if we hit our goals. TODO: Remove stat modifier"
         );
-        // GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier(StatModifier.ModifierType.Multiply, 4));
     }
 }
