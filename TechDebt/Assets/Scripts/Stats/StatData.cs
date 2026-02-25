@@ -68,10 +68,10 @@ namespace Stats
                 Broadcast();
             }
 
-            if (Type == StatType.Infra_LoadPerPacket)
+            /*if (Type == StatType.Infra_LoadPerPacket)
             {
                 Debug.Log($"RefreshValue - {Type} BaseValue: {BaseValue} - NewValue: {Value}");
-            }
+            }*/
 
             return Value;
         }
