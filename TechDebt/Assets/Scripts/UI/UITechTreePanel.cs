@@ -131,6 +131,7 @@ namespace UI
 
             if (_techTreeNodes.Count == 0) return;
 
+            DrawBackground();
             CalculateNodePositions();
             DrawNodesAndLabels();
 
@@ -140,6 +141,31 @@ namespace UI
             }
 
            
+        }
+
+        private void DrawBackground()
+        {
+            if (backgroundTilemap == null)
+            {
+                Debug.LogError("UITechTreePanel: backgroundTilemap is null!");
+                return;
+            }
+
+            if (backgroundTile == null)
+            {
+                Debug.LogError("UITechTreePanel: backgroundTile is null!");
+                return;
+            }
+
+            backgroundTilemap.ClearAllTiles();
+
+            for (int x = -64; x < 64; x++)
+            {
+                for (int y = -64; y < 64; y++)
+                {
+                    backgroundTilemap.SetTile(new Vector3Int(x, y, 0), backgroundTile);
+                }
+            }
         }
 
         public override void Show()
@@ -160,8 +186,9 @@ namespace UI
             }
             _nameLabels.Clear();
             _techTreeNodes.Clear();
-            nodeTilemap.ClearAllTiles();
-            connectorTilemap.ClearAllTiles();
+            if (nodeTilemap != null) nodeTilemap.ClearAllTiles();
+            if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
+            if (backgroundTilemap != null) backgroundTilemap.ClearAllTiles();
             grid.gameObject.SetActive(false);
             
 
