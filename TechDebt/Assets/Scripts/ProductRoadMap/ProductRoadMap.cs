@@ -45,7 +45,11 @@ public class ProductRoadMap
         return Stages[CurrentStage].GetSelectedLevel();
     }
 
-   
+
+    public void IncrStage()
+    {
+        CurrentStage += 1;
+    }
 }
 public class ProductRoadMapStage
 {

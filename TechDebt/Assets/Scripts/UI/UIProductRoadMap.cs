@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,14 +9,22 @@ namespace UI
 {
     public class UIProductRoadMap: UIPanel
     {
+        public enum State
+        {
+            Display,
+            Select
+        };
+        protected State CurrentState;
+
         public List<UIProductRoadMapLevelButton> Buttons = new List<UIProductRoadMapLevelButton>();
         public RectTransform RectTransform;
         public TextMeshProUGUI LevelDescriptionText;
         private List<GameObject> Lines = new List<GameObject>();
         
 
-        public void Show()
+        public void Show(State _state = State.Display)
         {
+            CurrentState = _state;
             base.Show();
             ProductRoadMap Map = GameManager.Instance.ProductRoadMap;
             int stageX = 0;
@@ -66,9 +75,19 @@ namespace UI
                     
                     button.Init(level, levelY, state, (name) => { LevelDescriptionText.text = name; }, (lvl) =>
                     {
-                        stage.SetSelectedLevel(button.LevelIndex);
-                        Close();
-                        GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                        switch (CurrentState)
+                        {
+                            case State.Display:
+                            break;
+                            case State.Select:
+                                stage.SetSelectedLevel(button.LevelIndex);
+                                Close();
+                                GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                            break;
+                            default:
+                                throw new NotImplementedException();
+                        }
+            
                     });
 
                     float x = (width / Map.Stages.Count) * (stageX + 0.5f) - width / 2;

@@ -417,7 +417,7 @@ public class GameManager : MonoBehaviour
         Initialize();
         SetupSprint();
 
-        UIManager.productRoadMap.Show();
+        UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
     }
 
     void OnDestroy()

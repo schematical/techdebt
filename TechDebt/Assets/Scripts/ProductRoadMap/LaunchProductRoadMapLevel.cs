@@ -1,5 +1,7 @@
 
+using System.Collections.Generic;
 using Stats;
+using UI;
 
 public class LaunchProductRoadMapLevel: ProductRoadMapLevel
 {
@@ -7,7 +9,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        
+
     }
     public override void OnStartDayPlan()
     {
@@ -30,7 +32,22 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
     {
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-            "TODO: Check if we hit our goals. TODO: Remove stat modifier"
+            "TODO: Check if we hit our goals. TODO: Remove stat modifier",
+            new List<DialogButtonOption>()
+            {
+                new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
+                    {
+                        GameManager.Instance.ProductRoadMap.IncrStage();
+                        GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                    }
+                }/*,
+                new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
+                    {
+
+                    }
+                },*/
+            }
         );
+        
     }
 }
