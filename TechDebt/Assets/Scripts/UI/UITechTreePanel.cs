@@ -150,16 +150,24 @@ namespace UI
         public override void Show()
         {
             Debug.Log("UITechTreePanel.Show called");
-            GameManager.Instance.UIManager.Close();
-            
-            GameManager.OnTechnologyUnlocked += Refresh;
-            GameManager.OnTechnologyResearchStarted += Refresh;
             base.Show();
+            if (connectorTilemap != null && connectorTilemap.transform.parent != null)
+            {
+                connectorTilemap.transform.parent.gameObject.SetActive(true);
+            }
+
+            GameManager.OnTechnologyUnlocked += Refresh;
+         
             Refresh();
         }
 
         public override void Close(bool forceClose = false)
         {
+            if (connectorTilemap != null && connectorTilemap.transform.parent != null)
+            {
+                connectorTilemap.transform.parent.gameObject.SetActive(false);
+            }
+
             GameManager.OnTechnologyUnlocked -= Refresh;
             GameManager.OnTechnologyResearchStarted -= Refresh;
             base.Close(forceClose);
