@@ -1974,6 +1974,7 @@ MonoBehaviour:
   unlockedTile: {fileID: 11400000, guid: 59d0c03ca4460b54f9a26307964e0630, type: 2}
   lockedTile: {fileID: 11400000, guid: cb9f9658c6cce16409c13b5e78b54dbf, type: 2}
   researchedTitle: {fileID: 11400000, guid: 95b4ec60637f8cf4e8ca6d82b7a12995, type: 2}
+  researchingTile: {fileID: 11400000, guid: 6f30d0c89a15a364b8ce3a36b27db5eb, type: 2}
   connectorTile: {fileID: 11400000, guid: 7d99fb504aca96945bfe565422277365, type: 2}
   backgroundTile: {fileID: 11400000, guid: 1bc49c3e6bcd4ce40a742437e7d312aa, type: 2}
   panSpeed: 1

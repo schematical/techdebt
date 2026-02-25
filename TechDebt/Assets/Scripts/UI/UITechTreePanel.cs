@@ -19,6 +19,7 @@ namespace UI
         public Tile unlockedTile;
         public Tile lockedTile;
         [FormerlySerializedAs("researchTitle")] public Tile researchedTitle;
+        public Tile researchingTile;
         public TileBase connectorTile;
         public Tile backgroundTile;
         public float panSpeed = 1f;
@@ -36,13 +37,15 @@ namespace UI
             public string Id => Technology.TechnologyID;
             public string DisplayName => Technology.DisplayName;
             public List<string> Dependencies => Technology.RequiredTechnologies;
-      
+            public GameObject LabelInstance;
         }
 
         private List<TechNodeView> _techTreeNodes = new List<TechNodeView>();
         private List<GameObject> _nameLabels = new List<GameObject>();
         private TechNodeView _hoveredNode = null;
+        private TechNodeView _selectedNode = null;
         private bool _initialSetupComplete = false;
+        private float _lastProgressUpdateTime = 0f;
 
         // Configuration for procedural layout
         private int columnSpacing = 4;
@@ -56,6 +59,26 @@ namespace UI
             
             HandleInput();
             UpdateLineageView();
+            UpdateResearchProgress();
+        }
+
+        private void UpdateResearchProgress()
+        {
+            if (Time.time - _lastProgressUpdateTime < 0.5f) return;
+            _lastProgressUpdateTime = Time.time;
+
+            foreach (var node in _techTreeNodes)
+            {
+                if (node.Technology.CurrentState == Technology.State.Researching && node.LabelInstance != null)
+                {
+                    var textComponent = node.LabelInstance.GetComponentInChildren<TextMeshPro>();
+                    if (textComponent != null)
+                    {
+                        float percentage = (node.Technology.CurrentResearchProgress / node.Technology.ResearchPointCost) * 100f;
+                        textComponent.text = $"{node.DisplayName}\n<size=80%>({Mathf.FloorToInt(percentage)}%)</size>";
+                    }
+                }
+            }
         }
 
         private void HandleInput()
@@ -71,9 +94,9 @@ namespace UI
 
                 if (clickedNode != null)
                 {
+                    SelectNode(clickedNode);
                     onNodeClicked?.Invoke(clickedNode.Id);
                     Debug.Log($"Clicked on {clickedNode.DisplayName}");
-                    // Logic to start research or show details could go here
                 }
             }
             
@@ -98,6 +121,67 @@ namespace UI
             }
         }
 
+        private void SelectNode(TechNodeView node)
+        {
+            if (_selectedNode == node)
+            {
+                // Double click or click while selected - try to research
+                if (node.Technology.CurrentState == Technology.State.Locked)
+                {
+                    GameManager.Instance.SelectTechnologyForResearch(node.Technology);
+                    Refresh();
+                }
+            }
+
+            _selectedNode = node;
+            UpdateDetailsArea();
+        }
+
+        private void UpdateDetailsArea()
+        {
+            if (metaUnlockTextArea == null || metaUnlockTextArea.textArea == null) return;
+
+            if (_selectedNode == null)
+            {
+                metaUnlockTextArea.textArea.text = "Select a technology to see details.";
+                return;
+            }
+
+            var tech = _selectedNode.Technology;
+            string details = $"<b>{tech.DisplayName}</b>\n\n";
+            details += $"{tech.Description}\n\n";
+            details += $"Cost: {tech.ResearchPointCost} RP\n";
+            
+            string reqs = "Requires: " + (tech.RequiredTechnologies.Count == 0 ? "None" :
+                string.Join(", ", tech.RequiredTechnologies.Select(reqId =>
+                    GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown")));
+            details += reqs + "\n\n";
+
+            if (tech.CurrentState == Technology.State.Locked)
+            {
+                bool prerequisitesMet = tech.RequiredTechnologies.All(reqId => 
+                    GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
+                
+                if (!prerequisitesMet)
+                    details += "<color=red>Prerequisites not met.</color>";
+                else if (GameManager.Instance.CurrentlyResearchingTechnology != null)
+                    details += "<color=yellow>Already researching another tech.</color>";
+                else
+                    details += "<color=green>Click again to start research.</color>";
+            }
+            else if (tech.CurrentState == Technology.State.Researching)
+            {
+                float percentage = (tech.CurrentResearchProgress / tech.ResearchPointCost) * 100f;
+                details += $"<color=cyan>Researching: {Mathf.FloorToInt(percentage)}%</color>";
+            }
+            else if (tech.CurrentState == Technology.State.Unlocked)
+            {
+                details += "<color=green>Fully Researched</color>";
+            }
+
+            metaUnlockTextArea.textArea.text = details;
+        }
+
         public void Refresh(Technology technology = null)
         {
             Debug.Log("UITechTreePanel.Refresh called");
@@ -117,6 +201,7 @@ namespace UI
             Debug.Log($"UITechTreePanel: GameManager.AllTechnologies count: {allTech.Count}");
 
             // Rebuild list
+            _techTreeNodes.Clear();
             foreach (var tech in allTech)
             {
                 /*if (tech.CurrentState == Technology.State.MetaLocked)
@@ -134,6 +219,7 @@ namespace UI
             DrawBackground();
             CalculateNodePositions();
             DrawNodesAndLabels();
+            UpdateDetailsArea();
 
             if (metaUnlockTextArea != null)
             {
@@ -173,6 +259,7 @@ namespace UI
             base.Show();
          
             GameManager.OnTechnologyUnlocked += Refresh;
+            GameManager.OnTechnologyResearchStarted += Refresh;
             grid.gameObject.SetActive(true);
             Refresh();
             CenterTilemapOnCamera();
@@ -274,6 +361,12 @@ namespace UI
                 return;
             }
 
+            foreach (var label in _nameLabels)
+            {
+                Destroy(label);
+            }
+            _nameLabels.Clear();
+
             foreach (var node in _techTreeNodes)
             {
                 Tile tile;
@@ -284,6 +377,9 @@ namespace UI
                         break;
                     case(Technology.State.Locked):
                         tile = unlockedTile;
+                        break;
+                    case(Technology.State.Researching):
+                        tile = researchingTile;
                         break;
                     case(Technology.State.Unlocked):
                         tile = researchedTitle;
@@ -304,6 +400,7 @@ namespace UI
                 {
                     textComponent.text = node.DisplayName;
                 }
+                node.LabelInstance = labelInstance;
                 _nameLabels.Add(labelInstance);
               
             }
