@@ -27,7 +27,7 @@ namespace UI
         public float minZoom = 5f;
         public float maxZoom = 20f;
         public Grid grid;
-        public UITextArea metaUnlockTextArea;
+        public TextMeshProUGUI metaUnlockText;
 
         // Internal state
         private class TechNodeView
@@ -67,15 +67,15 @@ namespace UI
             if (Time.time - _lastProgressUpdateTime < 0.5f) return;
             _lastProgressUpdateTime = Time.time;
 
-            foreach (var node in _techTreeNodes)
+            foreach (TechNodeView node in _techTreeNodes)
             {
                 if (node.Technology.CurrentState == Technology.State.Researching && node.LabelInstance != null)
                 {
-                    var textComponent = node.LabelInstance.GetComponentInChildren<TextMeshPro>();
+                    TextMeshPro textComponent = node.LabelInstance.GetComponentInChildren<TextMeshPro>();
                     if (textComponent != null)
                     {
                         float percentage = (node.Technology.CurrentResearchProgress / node.Technology.ResearchPointCost) * 100f;
-                        textComponent.text = $"{node.DisplayName}\n<size=80%>({Mathf.FloorToInt(percentage)}%)</size>";
+                        textComponent.text = $"{node.DisplayName}({Mathf.FloorToInt(percentage)}%)";
                     }
                 }
             }
@@ -89,8 +89,8 @@ namespace UI
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                var cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
-                var clickedNode = _techTreeNodes.Find(n => n.Position == (Vector2Int)cellPosition);
+                Vector3Int cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
+                TechNodeView clickedNode = _techTreeNodes.Find(n => n.Position == (Vector2Int)cellPosition);
 
                 if (clickedNode != null)
                 {
@@ -106,7 +106,7 @@ namespace UI
                 Vector2 mouseDelta = Mouse.current.delta.ReadValue();
                 if (mouseDelta.magnitude > 0.01f)
                 {
-                    var gridTransform = connectorTilemap.transform.parent;
+                    Transform gridTransform = connectorTilemap.transform.parent;
                     float scaleFactor = (Camera.main.orthographicSize * 2) / Screen.height;
                     gridTransform.position += new Vector3(mouseDelta.x * scaleFactor * panSpeed, mouseDelta.y * scaleFactor * panSpeed, 0);
                 }
@@ -139,15 +139,15 @@ namespace UI
 
         private void UpdateDetailsArea()
         {
-            if (metaUnlockTextArea == null || metaUnlockTextArea.textArea == null) return;
+
 
             if (_selectedNode == null)
             {
-                metaUnlockTextArea.textArea.text = "Select a technology to see details.";
+                metaUnlockText.text = "Select a technology to see details.";
                 return;
             }
 
-            var tech = _selectedNode.Technology;
+            Technology tech = _selectedNode.Technology;
             string details = $"<b>{tech.DisplayName}</b>\n\n";
             details += $"{tech.Description}\n\n";
             details += $"Cost: {tech.ResearchPointCost} RP\n";
@@ -163,28 +163,27 @@ namespace UI
                     GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
                 
                 if (!prerequisitesMet)
-                    details += "<color=red>Prerequisites not met.</color>";
+                    details += "Prerequisites not met.";
                 else if (GameManager.Instance.CurrentlyResearchingTechnology != null)
-                    details += "<color=yellow>Already researching another tech.</color>";
+                    details += "Already researching another tech.";
                 else
-                    details += "<color=green>Click again to start research.</color>";
+                    details += "Click again to start research.";
             }
             else if (tech.CurrentState == Technology.State.Researching)
             {
                 float percentage = (tech.CurrentResearchProgress / tech.ResearchPointCost) * 100f;
-                details += $"<color=cyan>Researching: {Mathf.FloorToInt(percentage)}%</color>";
+                details += $"Researching: {Mathf.FloorToInt(percentage)}%";
             }
             else if (tech.CurrentState == Technology.State.Unlocked)
             {
-                details += "<color=green>Fully Researched</color>";
+                details += "Fully Researched";
             }
 
-            metaUnlockTextArea.textArea.text = details;
+            metaUnlockText.text = details;
         }
 
         public void Refresh(Technology technology = null)
         {
-            Debug.Log("UITechTreePanel.Refresh called");
             
             if (nodeTilemap == null) Debug.LogError("UITechTreePanel: nodeTilemap is null!");
             if (connectorTilemap == null) Debug.LogError("UITechTreePanel: connectorTilemap is null!");
@@ -197,12 +196,11 @@ namespace UI
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
       
 
-            var allTech = GameManager.Instance.AllTechnologies;
-            Debug.Log($"UITechTreePanel: GameManager.AllTechnologies count: {allTech.Count}");
+            List<Technology> allTech = GameManager.Instance.AllTechnologies;
 
             // Rebuild list
             _techTreeNodes.Clear();
-            foreach (var tech in allTech)
+            foreach (Technology tech in allTech)
             {
                 /*if (tech.CurrentState == Technology.State.MetaLocked)
                 {
@@ -212,7 +210,6 @@ namespace UI
                 _techTreeNodes.Add(new TechNodeView { Technology = tech });
             }
             
-            Debug.Log($"UITechTreePanel: _techTreeNodes count after filtering: {_techTreeNodes.Count}");
 
             if (_techTreeNodes.Count == 0) return;
 
@@ -221,9 +218,9 @@ namespace UI
             DrawNodesAndLabels();
             UpdateDetailsArea();
 
-            if (metaUnlockTextArea != null)
+            if (metaUnlockText != null)
             {
-                 metaUnlockTextArea.transform.SetAsLastSibling();
+                 metaUnlockText.transform.SetAsLastSibling();
             }
 
            
@@ -267,7 +264,7 @@ namespace UI
 
         public override void Close(bool forceClose = false)
         {
-            foreach (var label in _nameLabels)
+            foreach (GameObject label in _nameLabels)
             {
                 label.gameObject.SetActive(false);
             }
@@ -278,7 +275,11 @@ namespace UI
             if (backgroundTilemap != null) backgroundTilemap.ClearAllTiles();
             grid.gameObject.SetActive(false);
             
-
+            foreach (GameObject label in _nameLabels)
+            {
+                label.gameObject.SetActive(false);
+            }
+            _nameLabels.Clear();
             GameManager.OnTechnologyUnlocked -= Refresh;
             GameManager.OnTechnologyResearchStarted -= Refresh;
             base.Close(forceClose);
@@ -289,8 +290,8 @@ namespace UI
             if (Camera.main == null || Mouse.current == null) return;
 
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            var cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
-            var currentNode = _techTreeNodes.Find(n => n.Position == (Vector2Int)cellPosition);
+            Vector3Int cellPosition = nodeTilemap.WorldToCell(mouseWorldPosition);
+            TechNodeView currentNode = _techTreeNodes.Find(n => n.Position == (Vector2Int)cellPosition);
 
             if (currentNode != _hoveredNode)
             {
@@ -302,7 +303,7 @@ namespace UI
                     DrawPaths(new List<TechNodeView> { currentNode });
 
                     // Find and draw paths to dependents (children)
-                    var children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(currentNode.Id)).ToList();
+                    List<TechNodeView> children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(currentNode.Id)).ToList();
                     DrawPaths(children);
                 }
                 
@@ -312,11 +313,11 @@ namespace UI
 
         private void DrawPaths(List<TechNodeView> nodesToDraw)
         {
-            foreach (var node in nodesToDraw)
+            foreach (TechNodeView node in nodesToDraw)
             {
                 if (node.Dependencies == null || node.Dependencies.Count == 0) continue;
 
-                var dependencyNodes = node.Dependencies
+                List<TechNodeView> dependencyNodes = node.Dependencies
                     .Select(depId => _techTreeNodes.Find(n => n.Id == depId))
                     .Where(n => n != null).ToList();
 
@@ -332,17 +333,17 @@ namespace UI
                 }
 
                 // Vertical bus itself
-                var minDepY = dependencyNodes.Min(d => d.Position.y);
-                var maxDepY = dependencyNodes.Max(d => d.Position.y);
-                var busMinY = Mathf.Min(minDepY, node.Position.y);
-                var busMaxY = Mathf.Max(maxDepY, node.Position.y);
+                int minDepY = dependencyNodes.Min(d => d.Position.y);
+                int maxDepY = dependencyNodes.Max(d => d.Position.y);
+                int busMinY = Mathf.Min(minDepY, node.Position.y);
+                int busMaxY = Mathf.Max(maxDepY, node.Position.y);
                 for (int y = busMinY; y <= busMaxY; y++)
                 {
                     connectorTilemap.SetTile(new Vector3Int(busX, y, 0), connectorTile);
                 }
 
                 // Paths from each dependency to the bus
-                foreach (var dep in dependencyNodes)
+                foreach (TechNodeView dep in dependencyNodes)
                 {
                     for (int x = dep.Position.x; x <= busX; x++)
                     {
@@ -361,13 +362,9 @@ namespace UI
                 return;
             }
 
-            foreach (var label in _nameLabels)
-            {
-                Destroy(label);
-            }
-            _nameLabels.Clear();
+            
 
-            foreach (var node in _techTreeNodes)
+            foreach (TechNodeView node in _techTreeNodes)
             {
                 Tile tile;
                 switch (node.Technology.CurrentState)
@@ -395,7 +392,7 @@ namespace UI
                 Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.Position);
                 GameObject labelInstance = GameManager.Instance.prefabManager.Create("UITechTreeLabel",
                     worldPos + new Vector3(0, -1.5f, 0), nodeTilemap.transform.parent);
-                var textComponent = labelInstance.GetComponentInChildren<TextMeshPro>();
+                TextMeshPro textComponent = labelInstance.GetComponentInChildren<TextMeshPro>();
                 if (textComponent != null)
                 {
                     textComponent.text = node.DisplayName;
@@ -411,13 +408,13 @@ namespace UI
         {
             if (_techTreeNodes == null || _techTreeNodes.Count == 0 || Camera.main == null) return;
 
-            var minX = _techTreeNodes.Min(n => n.Position.x);
-            var maxX = _techTreeNodes.Max(n => n.Position.x);
-            var minY = _techTreeNodes.Min(n => n.Position.y);
-            var maxY = _techTreeNodes.Max(n => n.Position.y);
+            int minX = _techTreeNodes.Min(n => n.Position.x);
+            int maxX = _techTreeNodes.Max(n => n.Position.x);
+            int minY = _techTreeNodes.Min(n => n.Position.y);
+            int maxY = _techTreeNodes.Max(n => n.Position.y);
 
             Vector3 worldCenter = new Vector3((minX + maxX + 1) / 2.0f, (minY + maxY + 1) / 2.0f, 0);
-            var gridTransform = connectorTilemap.transform.parent;
+            Transform gridTransform = connectorTilemap.transform.parent;
             
             // Move the grid to the camera's current position, then offset it so the tree's center is at the camera's center
             Vector3 cameraPos = Camera.main.transform.position;
@@ -432,22 +429,22 @@ namespace UI
             if (_techTreeNodes == null || _techTreeNodes.Count == 0) return;
 
             // Pass 1: Determine X position (column) for each node.
-            foreach (var node in _techTreeNodes)
+            foreach (TechNodeView node in _techTreeNodes)
             {
                 CalculateNodeXPosition(node);
             }
 
             // Group nodes by column for Y positioning
-            var nodesByColumn = _techTreeNodes.GroupBy(n => n.Position.x)
+            Dictionary<int, List<TechNodeView>> nodesByColumn = _techTreeNodes.GroupBy(n => n.Position.x)
                                          .OrderBy(g => g.Key)
                                          .ToDictionary(g => g.Key, g => g.ToList());
             
             // Pass 2: Position Y values, starting with leaf nodes.
-            var allDependencyIds = new HashSet<string>(_techTreeNodes.SelectMany(n => n.Dependencies ?? new List<string>()));
-            var leafNodes = _techTreeNodes.Where(n => !allDependencyIds.Contains(n.Id)).OrderBy(n => n.Position.x).ToList();
+            HashSet<string> allDependencyIds = new HashSet<string>(_techTreeNodes.SelectMany(n => n.Dependencies ?? new List<string>()));
+            List<TechNodeView> leafNodes = _techTreeNodes.Where(n => !allDependencyIds.Contains(n.Id)).OrderBy(n => n.Position.x).ToList();
 
             int currentY = 0;
-            foreach (var node in leafNodes)
+            foreach (TechNodeView node in leafNodes)
             {
                 node.Position.y = currentY;
                 currentY += rowSpacing * 2;
@@ -458,9 +455,9 @@ namespace UI
             {
                 if (!nodesByColumn.ContainsKey(i)) continue;
                 
-                foreach (var node in nodesByColumn[i])
+                foreach (TechNodeView node in nodesByColumn[i])
                 {
-                    var children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(node.Id)).ToList();
+                    List<TechNodeView> children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(node.Id)).ToList();
                     if (children.Count > 0)
                     {
                         float avgChildY = (float)children.Average(c => c.Position.y);
@@ -470,13 +467,13 @@ namespace UI
             }
 
             // Pass 3: Overlap Resolution
-            foreach (var col in nodesByColumn.Keys)
+            foreach (int col in nodesByColumn.Keys)
             {
-                var columnNodes = nodesByColumn[col].OrderBy(n => n.Position.y).ToList();
+                List<TechNodeView> columnNodes = nodesByColumn[col].OrderBy(n => n.Position.y).ToList();
                 for (int j = 1; j < columnNodes.Count; j++)
                 {
-                    var prevNode = columnNodes[j - 1];
-                    var currNode = columnNodes[j];
+                    TechNodeView prevNode = columnNodes[j - 1];
+                    TechNodeView currNode = columnNodes[j];
                     
                     if (currNode.Position.y < prevNode.Position.y + rowSpacing)
                     {
@@ -485,7 +482,7 @@ namespace UI
                 }
             }
 
-            foreach (var node in _techTreeNodes)
+            foreach (TechNodeView node in _techTreeNodes)
             {
                 Debug.Log($"Node {node.DisplayName} calculated position: {node.Position}");
             }
