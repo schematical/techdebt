@@ -517,11 +517,6 @@ RectTransform:
   m_AnchoredPosition: {x: 578.5, y: 227}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &373276905 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-  m_PrefabInstance: {fileID: 6333734970830240475}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &378897509
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,11 +643,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378897509}
   m_CullTransparentMesh: 1
---- !u!1839735485 &483519818 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 4095761073501475626, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-  m_PrefabInstance: {fileID: 6333734970830240475}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &572087621
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,11 +901,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759107637}
   m_CullTransparentMesh: 1
---- !u!1839735485 &820614202 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 6181834296331853513, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-  m_PrefabInstance: {fileID: 6333734970830240475}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &821497155
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,7 +1399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 114.5995, y: -17.711}
+  m_AnchoredPosition: {x: 114.5995, y: -17.71106}
   m_SizeDelta: {x: 170.1664, y: 19.554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1302193570
@@ -1965,6 +1950,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01da80413be4826a4870c73a8a27809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIMetaChallengesPanel
+  slideDirection: 1
+  rectTransform: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  animationTime: 0.5
+  runUICloseOnShow: 1
   titleText: {fileID: 1302193570}
   scrollContent: {fileID: 1741580035}
   closeButton: {fileID: 2029075328}
@@ -2037,7 +2027,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 373276905}
   - {fileID: 4346669}
   m_Father: {fileID: 1918290540}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2096,7 +2085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63cb679227e84fa7b1c79eb987863e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.MetaUnlockPanel
-  techTreeController: {fileID: 6333734970830240476}
+  techTreeController: {fileID: 0}
   closeButton: {fileID: 4346670}
 --- !u!1 &1741580034
 GameObject:
@@ -3028,98 +3017,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102777424}
   m_CullTransparentMesh: 1
---- !u!1001 &6333734970830240475
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1639904552}
-    m_Modifications:
-    - target: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: lockedTile
-      value: 
-      objectReference: {fileID: 11400000, guid: cb9f9658c6cce16409c13b5e78b54dbf, type: 2}
-    - target: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: nodeTilemap
-      value: 
-      objectReference: {fileID: 483519818}
-    - target: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: unlockedTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 59d0c03ca4460b54f9a26307964e0630, type: 2}
-    - target: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: connectorTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 7d99fb504aca96945bfe565422277365, type: 2}
-    - target: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: nameLabelPrefab
-      value: 
-      objectReference: {fileID: 7744953993076140905, guid: ba55cd16ec8f858409279ccd3000f181, type: 3}
-    - target: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: connectorTilemap
-      value: 
-      objectReference: {fileID: 820614202}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -578.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -325.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1948782621443989024, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4167211996506609591, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-      propertyPath: m_Name
-      value: TechTreeController
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
---- !u!114 &6333734970830240476 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 331411912637847885, guid: f84e80720cdb5d54cb4a5fa3186bb266, type: 3}
-  m_PrefabInstance: {fileID: 6333734970830240475}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3359835f2befb96499454f538205177a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI.TechTreeController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

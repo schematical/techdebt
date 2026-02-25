@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using TMPro;
+using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -13,15 +14,18 @@ namespace UI
         // Public fields for Unity Inspector assignments
         public Tilemap connectorTilemap;
         public Tilemap nodeTilemap;
+        public Tilemap backgroundTilemap;
         public GameObject nameLabelPrefab;
         public Tile unlockedTile;
         public Tile lockedTile;
+        [FormerlySerializedAs("researchTitle")] public Tile researchedTitle;
         public TileBase connectorTile;
+        public Tile backgroundTile;
         public float panSpeed = 1f;
         public float zoomSpeed = 1f;
         public float minZoom = 5f;
         public float maxZoom = 20f;
-
+        public Grid grid;
         public UITextArea metaUnlockTextArea;
 
         // Internal state
@@ -32,7 +36,7 @@ namespace UI
             public string Id => Technology.TechnologyID;
             public string DisplayName => Technology.DisplayName;
             public List<string> Dependencies => Technology.RequiredTechnologies;
-            public bool Unlocked => Technology.CurrentState == Technology.State.Unlocked;
+      
         }
 
         private List<TechNodeView> _techTreeNodes = new List<TechNodeView>();
@@ -107,12 +111,7 @@ namespace UI
             // Clear existing
             if (nodeTilemap != null) nodeTilemap.ClearAllTiles();
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
-            foreach (var label in _nameLabels)
-            {
-                Destroy(label);
-            }
-            _nameLabels.Clear();
-            _techTreeNodes.Clear();
+      
 
             var allTech = GameManager.Instance.AllTechnologies;
             Debug.Log($"UITechTreePanel: GameManager.AllTechnologies count: {allTech.Count}");
@@ -120,10 +119,10 @@ namespace UI
             // Rebuild list
             foreach (var tech in allTech)
             {
-                if (tech.CurrentState == Technology.State.MetaLocked)
+                /*if (tech.CurrentState == Technology.State.MetaLocked)
                 {
                     continue;
-                }
+                }*/
 
                 _techTreeNodes.Add(new TechNodeView { Technology = tech });
             }
@@ -140,33 +139,31 @@ namespace UI
                  metaUnlockTextArea.transform.SetAsLastSibling();
             }
 
-            if (!_initialSetupComplete)
-            {
-                CenterTilemapOnCamera();
-                _initialSetupComplete = true;
-            }
+           
         }
 
         public override void Show()
         {
-            Debug.Log("UITechTreePanel.Show called");
             base.Show();
-            if (connectorTilemap != null && connectorTilemap.transform.parent != null)
-            {
-                connectorTilemap.transform.parent.gameObject.SetActive(true);
-            }
-
-            GameManager.OnTechnologyUnlocked += Refresh;
          
+            GameManager.OnTechnologyUnlocked += Refresh;
+            grid.gameObject.SetActive(true);
             Refresh();
+            CenterTilemapOnCamera();
         }
 
         public override void Close(bool forceClose = false)
         {
-            if (connectorTilemap != null && connectorTilemap.transform.parent != null)
+            foreach (var label in _nameLabels)
             {
-                connectorTilemap.transform.parent.gameObject.SetActive(false);
+                label.gameObject.SetActive(false);
             }
+            _nameLabels.Clear();
+            _techTreeNodes.Clear();
+            nodeTilemap.ClearAllTiles();
+            connectorTilemap.ClearAllTiles();
+            grid.gameObject.SetActive(false);
+            
 
             GameManager.OnTechnologyUnlocked -= Refresh;
             GameManager.OnTechnologyResearchStarted -= Refresh;
@@ -252,27 +249,36 @@ namespace UI
 
             foreach (var node in _techTreeNodes)
             {
-                var tile = node.Unlocked ? unlockedTile : lockedTile;
-                // You might want to add a check for 'Researching' state if you have a tile for it
-                
-                Debug.Log($"Setting tile for {node.DisplayName} at {node.Position} with tile {tile?.name}");
+                Tile tile;
+                switch (node.Technology.CurrentState)
+                {
+                    case(Technology.State.MetaLocked):
+                        tile = lockedTile;
+                        break;
+                    case(Technology.State.Locked):
+                        tile = unlockedTile;
+                        break;
+                    case(Technology.State.Unlocked):
+                        tile = researchedTitle;
+                        break;
+                    default:
+                        throw new System.NotImplementedException();
+                        
+                }
+         
                 nodeTilemap.SetTile((Vector3Int)node.Position, tile);
 
-                if (nameLabelPrefab != null)
+              
+                Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.Position);
+                GameObject labelInstance = GameManager.Instance.prefabManager.Create("UITechTreeLabel",
+                    worldPos + new Vector3(0, -1.5f, 0), nodeTilemap.transform.parent);
+                var textComponent = labelInstance.GetComponentInChildren<TextMeshPro>();
+                if (textComponent != null)
                 {
-                    Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.Position);
-                    GameObject labelInstance = Instantiate(nameLabelPrefab, worldPos + new Vector3(0, -1.5f, 0), Quaternion.identity, nodeTilemap.transform.parent);
-                    var textComponent = labelInstance.GetComponentInChildren<TextMeshPro>();
-                    if (textComponent != null)
-                    {
-                        textComponent.text = node.DisplayName;
-                    }
-                    _nameLabels.Add(labelInstance);
+                    textComponent.text = node.DisplayName;
                 }
-                else
-                {
-                    Debug.LogWarning("UITechTreePanel: nameLabelPrefab is null");
-                }
+                _nameLabels.Add(labelInstance);
+              
             }
             nodeTilemap.RefreshAllTiles();
         }

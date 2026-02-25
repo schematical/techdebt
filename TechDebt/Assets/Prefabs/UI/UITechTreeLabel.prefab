@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6383205176217262993}
   - component: {fileID: 2777676758892089988}
   m_Layer: 0
-  m_Name: TechTreeLabel
+  m_Name: UITechTreeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
