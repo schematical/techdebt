@@ -85,7 +85,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             shadow.Initialize(gameObject, shadowOffset);
             shadow.transform.localScale = new Vector3(shadowScale, shadowScale, 1f);
         }
-        shadow.gameObject.SetActive(true);
+        shadow.gameObject.SetActive(false);
     }
 
 

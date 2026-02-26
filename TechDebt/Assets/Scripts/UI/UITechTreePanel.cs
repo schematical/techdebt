@@ -16,7 +16,7 @@ namespace UI
         public Tilemap connectorTilemap;
         public Tilemap nodeTilemap;
         public Tilemap backgroundTilemap;
-        public GameObject nameLabelPrefab;
+      
         public Tile unlockedTile;
         public Tile lockedTile;
         [FormerlySerializedAs("researchTitle")] public Tile researchedTitle;
@@ -38,11 +38,10 @@ namespace UI
             public string Id => Technology.TechnologyID;
             public string DisplayName => Technology.DisplayName;
             public List<string> Dependencies => Technology.RequiredTechnologies;
-            public GameObject LabelInstance;
+            public TextMeshPro LabelInstance;
         }
 
         private List<TechNodeView> _techTreeNodes = new List<TechNodeView>();
-        private List<GameObject> _nameLabels = new List<GameObject>();
         private TechNodeView _hoveredNode = null;
         private TechNodeView _selectedNode = null;
         private bool _initialSetupComplete = false;
@@ -70,14 +69,13 @@ namespace UI
 
             foreach (TechNodeView node in _techTreeNodes)
             {
-                if (node.Technology.CurrentState == Technology.State.Researching && node.LabelInstance != null)
+                if (node.Technology.CurrentState == Technology.State.Researching)
                 {
                     TextMeshPro textComponent = node.LabelInstance.GetComponentInChildren<TextMeshPro>();
-                    if (textComponent != null)
-                    {
-                        float percentage = (node.Technology.CurrentResearchProgress / node.Technology.ResearchPointCost) * 100f;
-                        textComponent.text = $"{node.DisplayName}({Mathf.FloorToInt(percentage)}%)";
-                    }
+                   
+                    float percentage = (node.Technology.CurrentResearchProgress / node.Technology.ResearchPointCost) * 100f;
+                    textComponent.text = $"{node.DisplayName}({Mathf.FloorToInt(percentage)}%)";
+                    
                 }
             }
         }
@@ -188,7 +186,6 @@ namespace UI
             
             if (nodeTilemap == null) Debug.LogError("UITechTreePanel: nodeTilemap is null!");
             if (connectorTilemap == null) Debug.LogError("UITechTreePanel: connectorTilemap is null!");
-            if (nameLabelPrefab == null) Debug.LogError("UITechTreePanel: nameLabelPrefab is null!");
             if (unlockedTile == null) Debug.LogError("UITechTreePanel: unlockedTile is null!");
             if (lockedTile == null) Debug.LogError("UITechTreePanel: lockedTile is null!");
 
@@ -199,7 +196,10 @@ namespace UI
 
             List<Technology> allTech = GameManager.Instance.AllTechnologies;
 
-            // Rebuild list
+            foreach (TechNodeView techNodeView in _techTreeNodes)
+            {
+                techNodeView.LabelInstance.gameObject.SetActive(false);
+            }
             _techTreeNodes.Clear();
             foreach (Technology tech in allTech)
             {
@@ -259,23 +259,20 @@ namespace UI
         }
 
         public override void Close(bool forceClose = false)
-        {
-            foreach (GameObject label in _nameLabels)
+        {     
+            foreach (TechNodeView techNodeView in _techTreeNodes)
             {
-                label.gameObject.SetActive(false);
+                techNodeView.LabelInstance.gameObject.SetActive(false);
             }
-            _nameLabels.Clear();
+        
+         
             _techTreeNodes.Clear();
             if (nodeTilemap != null) nodeTilemap.ClearAllTiles();
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
             if (backgroundTilemap != null) backgroundTilemap.ClearAllTiles();
             grid.gameObject.SetActive(false);
             
-            foreach (GameObject label in _nameLabels)
-            {
-                label.gameObject.SetActive(false);
-            }
-            _nameLabels.Clear();
+       
             GameManager.OnTechnologyUnlocked -= Refresh;
             GameManager.OnTechnologyResearchStarted -= Refresh;
             base.Close(forceClose);
@@ -389,18 +386,22 @@ namespace UI
                 }
                 nodeTilemap.SetTile((Vector3Int)node.Position, tile);
 
-              
-                Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.Position);
-                GameObject labelInstance = GameManager.Instance.prefabManager.Create("UITechTreeLabel",
-                    worldPos + new Vector3(0, -1.5f, 0), nodeTilemap.transform.parent);
-                TextMeshPro textComponent = labelInstance.GetComponentInChildren<TextMeshPro>();
-                if (textComponent != null)
+                if (node.LabelInstance == null)
                 {
-                    textComponent.text = node.DisplayName;
+                    Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.Position);
+                    GameObject labelInstance = GameManager.Instance.prefabManager.Create("UITechTreeLabel",
+                        worldPos + new Vector3(0, -1.5f, 0), nodeTilemap.transform.parent);
+                    node.LabelInstance = labelInstance.GetComponentInChildren<TextMeshPro>();
+                    Debug.Log($"Creating LabelInstance for {node.DisplayName}");
+                   
                 }
-                node.LabelInstance = labelInstance;
-                _nameLabels.Add(labelInstance);
-              
+                else
+                {
+                    Debug.Log($"Existing LabelInstance for {node.DisplayName}");
+                }
+                node.LabelInstance.text = node.DisplayName;
+
+
             }
             nodeTilemap.RefreshAllTiles();
         }
