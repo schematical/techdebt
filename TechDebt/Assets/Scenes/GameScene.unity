@@ -5622,7 +5622,7 @@ MonoBehaviour:
   panSpeed: 20
   zoomSpeed: 1
   minZoom: 1
-  maxZoom: 8
+  maxZoom: 16
 --- !u!1 &546156654
 GameObject:
   m_ObjectHideFlags: 0
@@ -8317,6 +8317,28 @@ MonoBehaviour:
     GridPosition: {x: 5, y: 34, z: 0}
     CurrentState: 3
     UnlockConditions: []
+  - Id: email-service
+    worldObjectType: 0
+    Prefab: {fileID: 4838084576645818138, guid: 9af0f46df293b6d4dabe98db33f55314, type: 3}
+    GridPosition: {x: 5, y: 34, z: 0}
+    CurrentState: 0
+    UnlockConditions: []
+  - Id: cloud-watch-metrics
+    worldObjectType: 0
+    Prefab: {fileID: 8212055160970937780, guid: 989810f4f9df2ef49995253992e0a28b, type: 3}
+    GridPosition: {x: 5, y: 34, z: 0}
+    CurrentState: 0
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: cloud-watch-metrics
+  - Id: sns
+    worldObjectType: 0
+    Prefab: {fileID: 2706496042187900656, guid: db27e3073396d2f4d9fa518b0cf83512, type: 3}
+    GridPosition: {x: 5, y: 34, z: 0}
+    CurrentState: 0
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: sns
   AllTechnologies:
   - TechnologyID: dedicated-db
     DisplayName: Dedicated Database
@@ -8411,6 +8433,27 @@ MonoBehaviour:
     CurrentResearchProgress: 0
     RequiredTechnologies:
     - load-balencer
+    CurrentState: 0
+  - TechnologyID: email-service
+    DisplayName: Email Service
+    Description: 
+    ResearchPointCost: 200
+    CurrentResearchProgress: 0
+    RequiredTechnologies: []
+    CurrentState: 0
+  - TechnologyID: cloud-watch-metrics
+    DisplayName: Cloud Watch Metrics
+    Description: 
+    ResearchPointCost: 200
+    CurrentResearchProgress: 0
+    RequiredTechnologies: []
+    CurrentState: 0
+  - TechnologyID: sns
+    DisplayName: Mobile Notifications
+    Description: 
+    ResearchPointCost: 200
+    CurrentResearchProgress: 0
+    RequiredTechnologies: []
     CurrentState: 0
   gridManager: {fileID: 747688044}
   NetworkPacketState: 0
@@ -10122,7 +10165,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 6.6901855, y: 7.7984314, z: 5.438965, w: 7.742035}
+  m_margin: {x: 0.5396929, y: 1.2861836, z: -1.0733185, w: 0.14437866}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

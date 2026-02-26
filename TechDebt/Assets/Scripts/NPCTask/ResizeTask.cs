@@ -1,16 +1,18 @@
 // ResizeTask.cs
+
+using Effects.Infrastructure;
 using UnityEngine;
 
-public class ResizeTask : NPCTask
+public class ResizeTask : InfrastructureTaskBase
 {
-    public InfrastructureInstance TargetInfrastructure { get; private set; }
+
     public int SizeChange { get; private set; }
     private float _duration;
-
+    public EnvEffectBase buildEffect { get; set; }
     public ResizeTask(InfrastructureInstance target, int sizeChange)
         : base(target)
     {
-        TargetInfrastructure = target;
+      
         SizeChange = sizeChange;
         _duration = 5f; // 5-second duration for resizing
         Priority = 5; // Mid-level priority
@@ -18,8 +20,10 @@ public class ResizeTask : NPCTask
 
     public override void OnUpdate(NPCBase npc)
     {
+        base.OnUpdate(npc);
         if (IsCloseEnough())
         {
+            
             npc.AddXP(Time.deltaTime);
             if (TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational)
             {
@@ -28,6 +32,8 @@ public class ResizeTask : NPCTask
             _duration -= Time.deltaTime;
         }
     }
+
+
 
     public override bool IsFinished(NPCBase npc)
     {
@@ -54,4 +60,5 @@ public class ResizeTask : NPCTask
         }
         throw new System.Exception($"Invalid Size: {SizeChange}");
     }
+  
 }

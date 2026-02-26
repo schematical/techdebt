@@ -22,8 +22,8 @@ namespace Events
             
             float releaseQuality = 1 - currentRelease.GetQuality();
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
-            
-            return (int)Math.Round(techDebt * releaseQuality * releaseLevel);
+            float attackPossibility = gameManager.GetStat(StatType.AttackPossibility);
+            return (int)Math.Round(techDebt * releaseQuality * releaseLevel  * attackPossibility);
         }
         public override string GetDescription()
         {
@@ -38,8 +38,9 @@ namespace Events
             
             float releaseQuality = 1 - currentRelease.GetQuality();
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
+            float attackPossibility = gameManager.GetStat(StatType.AttackPossibility);
 
-            return $"{GetType().Name.Replace("Event", "")} - Prob: {GetProbability():F2} - techDebt: {techDebt} -  releaseQuality: {releaseQuality} - releaseLevel: {releaseLevel} - Total: {techDebt * releaseQuality * releaseLevel} ";
+            return $"{GetType().Name.Replace("Event", "")} - Prob: {GetProbability():F2} - techDebt: {techDebt} -  releaseQuality: {releaseQuality} - releaseLevel: {releaseLevel} - {attackPossibility} - Total: {techDebt * releaseQuality * releaseLevel * attackPossibility} ";
         }
 
     }

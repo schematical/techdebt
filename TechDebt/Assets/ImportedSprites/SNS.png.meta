@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 27535794fa44bdd41ba1b69880ec20a0
+guid: 8900da35cfeaa4443af137421f240e7a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5585571491622639654
-    second: mail-service_0
+      213: -442742525117002934
+    second: SNS_0
+  - first:
+      213: 4669742505289473440
+    second: SNS_1
+  - first:
+      213: 2132368815347129205
+    second: SNS_2
+  - first:
+      213: 5452241940876409294
+    second: SNS_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mail-service_0
+      name: SNS_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
-        height: 92
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad7a84e62501c72b0800000000000000
-      internalID: -5585571491622639654
+      spriteID: a4b0177e4001bd9f0800000000000000
+      internalID: -442742525117002934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SNS_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ad525431124ec040800000000000000
+      internalID: 4669742505289473440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SNS_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57bd2e8c322b79d10800000000000000
+      internalID: 2132368815347129205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SNS_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec9bc6378214aab40800000000000000
+      internalID: 5452241940876409294
       vertices: []
       indices: 
       edges: []
@@ -138,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 89a2d250292184d46a167fd4c2a5e6b7
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +221,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      mail-service_0: -5585571491622639654
+      SNS_0: -442742525117002934
+      SNS_1: 4669742505289473440
+      SNS_2: 2132368815347129205
+      SNS_3: 5452241940876409294
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

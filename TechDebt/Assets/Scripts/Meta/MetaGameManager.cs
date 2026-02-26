@@ -329,6 +329,30 @@ public static class MetaGameManager
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balancer" }
                 // Push out Y deployments
+            },
+            new Technology()
+            {
+                TechnologyID = "email-service",
+                DisplayName = "Email Service",
+                Description = "",
+                ResearchPointCost = 200,
+                // Finish round 1
+            },
+            new Technology()
+            {
+                TechnologyID = "cloud-watch-metrics",
+                DisplayName = "Cloud Watch Metrics",
+                Description = "",
+                ResearchPointCost = 200,
+                // ???
+            },
+            new Technology()
+            {
+                TechnologyID = "sns",
+                DisplayName = "Mobile Notifications",
+                Description = "",
+                ResearchPointCost = 200,
+                // Finish round 1
             }
         };
         return technologies;
@@ -433,6 +457,39 @@ public static class MetaGameManager
                 RequiredValue = 200,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
             },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "sprint-2",
+                DisplayName = "Sprint 2",
+                Description = "Successfully make it to Sprint 2",
+                metaStat = MetaStat.Sprint,
+                InfrastructureId = "email-service",
+                RewardId = "email-service",
+                RequiredValue = 2,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "sprint-2-sns",
+                DisplayName = "Sprint 2 SNS",
+                Description = "Successfully make it to Sprint 2",
+                metaStat = MetaStat.Sprint,
+                InfrastructureId = "sns",
+                RewardId = "sns",
+                RequiredValue = 2,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "cloud-watch-metrics",
+                DisplayName = "Cloud Watch Metrics",
+                Description = "Successfully make it to Sprint 2",
+                metaStat = MetaStat.Sprint,
+                InfrastructureId = "sns",
+                RewardId = "sns",
+                RequiredValue = 2,
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+            }
         };
         
         return challenges;

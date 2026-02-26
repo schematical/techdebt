@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -202,11 +203,6 @@ namespace UI
             _techTreeNodes.Clear();
             foreach (Technology tech in allTech)
             {
-                /*if (tech.CurrentState == Technology.State.MetaLocked)
-                {
-                    continue;
-                }*/
-
                 _techTreeNodes.Add(new TechNodeView { Technology = tech });
             }
             
@@ -355,7 +351,7 @@ namespace UI
 
         private void DrawNodesAndLabels()
         {
-            Debug.Log("DrawNodesAndLabels called");
+    
             if (_techTreeNodes == null || nodeTilemap == null)
             {
                 Debug.LogError($"UITechTreePanel: Cannot draw. nodes: {_techTreeNodes?.Count}, nodeTilemap: {nodeTilemap}");
@@ -385,7 +381,13 @@ namespace UI
                         throw new System.NotImplementedException();
                         
                 }
-         
+
+                if (tile == null)
+                {
+                    throw new SystemException(
+                        $"Could not find a tile for `{node.DisplayName}` - State: {node.Technology.CurrentState}");
+                }
+         Debug.Log($"Drawing: {node.DisplayName} - {node.Technology.CurrentState} - {tile.name}");
                 nodeTilemap.SetTile((Vector3Int)node.Position, tile);
 
               
@@ -420,12 +422,12 @@ namespace UI
             Vector3 cameraPos = Camera.main.transform.position;
             gridTransform.position = new Vector3(cameraPos.x - worldCenter.x, cameraPos.y - worldCenter.y, gridTransform.position.z);
             
-            Debug.Log($"UITechTreePanel: Centering tree. Camera at {cameraPos}, Tree center at {worldCenter}. New Grid Position: {gridTransform.position}");
+           
         }
 
         private void CalculateNodePositions()
         {
-            Debug.Log($"CalculateNodePositions called with {_techTreeNodes?.Count} nodes.");
+    
             if (_techTreeNodes == null || _techTreeNodes.Count == 0) return;
 
             // Pass 1: Determine X position (column) for each node.
@@ -482,10 +484,7 @@ namespace UI
                 }
             }
 
-            foreach (TechNodeView node in _techTreeNodes)
-            {
-                Debug.Log($"Node {node.DisplayName} calculated position: {node.Position}");
-            }
+         
         }
 
         private int CalculateNodeXPosition(TechNodeView node)

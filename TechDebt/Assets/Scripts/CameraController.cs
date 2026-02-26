@@ -188,6 +188,7 @@ public class CameraController : MonoBehaviour
         {
             float newSize = mainCamera.orthographicSize - zoomDelta * zoomSpeed * Time.unscaledDeltaTime * 10; // Multiply by 10 to make it faster
             mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+            // Debug.Log($"ZOOM: {newSize}, {minZoom}, {maxZoom} = mainCamera.orthographicSize: {mainCamera.orthographicSize}");
         }
     }
 

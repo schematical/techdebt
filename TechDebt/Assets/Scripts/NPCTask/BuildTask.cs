@@ -6,34 +6,25 @@ using NPCs;
 using Stats;
 using UnityEngine;
 
-public class BuildTask : NPCTask
+public class BuildTask : InfrastructureTaskBase
 {
-    public InfrastructureInstance TargetInfrastructure { get; }
+
     private float buildProgress = 0f;
     private int displayBuildProgress = -1;
-    public EnvEffectBase buildEffect;
     public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
 
     public BuildTask(InfrastructureInstance target, int priority = 5) : base(target)
     {
-        TargetInfrastructure = target;
         Priority = priority;
     }
 
     public override void OnUpdate(NPCBase npc)
     {
+        base.OnUpdate(npc);
         // Only start building after the NPC has arrived.
         if (IsCloseEnough())
         {
-            if (buildEffect == null)
-            {
-                GameObject be = GameManager.Instance.prefabManager.Create("BuildInfraEffect", TargetInfrastructure.transform.position);
-                // be.transform.localPosition = Vector3.zero;
-     
-                be.transform.SetParent(TargetInfrastructure.transform);
-                be.transform.localPosition = new Vector3(0, 0, -1f);
-                buildEffect = be.GetComponent<EnvEffectBase>();
-            }
+          
             NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
         
 
@@ -87,7 +78,7 @@ public class BuildTask : NPCTask
         
         TargetInfrastructure.SetState(InfrastructureData.State.Operational);
         
-        buildEffect.gameObject.SetActive(false);
+
         
         GameManager.Instance.NotifyDailyCostChanged();
 
@@ -106,12 +97,5 @@ public class BuildTask : NPCTask
         base.OnQueued();
     }
 
-    public override void OnInterrupt()
-    {
-        base.OnInterrupt();
-        if (buildEffect != null)
-        {
-            buildEffect.gameObject.SetActive(false);
-        }
-    }
+   
 }

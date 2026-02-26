@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MetaChallenges;
 using NPCs;
 using Stats;
 using UnityEditor.SceneManagement;
@@ -49,6 +50,7 @@ public class ProductRoadMap
     public void IncrStage()
     {
         CurrentStage += 1;
+        GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
     }
 }
 public class ProductRoadMapStage

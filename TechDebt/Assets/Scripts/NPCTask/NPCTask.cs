@@ -2,6 +2,7 @@
 
 using System;
 using Infrastructure;
+using MetaChallenges;
 using UnityEngine;
 
 public abstract class NPCTask
@@ -28,27 +29,12 @@ public abstract class NPCTask
     public int Priority { get; set; }
     public NPCBase AssignedNPC { get; private set; }
     public bool IsAssigned => AssignedNPC != null;
+    public MetaStat? MetaStat = null;
 
     protected iTargetable? target;
     protected float maxTaskRange = 1f;
     protected InteractionType interactionType = InteractionType.Basic;
-    public bool IsCloseEnough()
-    {
-
-
-        if (AssignedNPC == null)
-        {
-            Debug.LogError("AssignedNPC is null");
-            return false;
-        }
-
-        if (target == null)
-        {
-            throw new SystemException("`target` is null");
-        }
-
-        return Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position) <= maxTaskRange;
-    }
+   
 
     public TaskRole Role { get; private set; } = TaskRole.DevOps;
 
@@ -66,7 +52,23 @@ public abstract class NPCTask
 
         Unassign();
     }
+    public bool IsCloseEnough()
+    {
 
+
+        if (AssignedNPC == null)
+        {
+            Debug.LogError("AssignedNPC is null");
+            return false;
+        }
+
+        if (target == null)
+        {
+            throw new SystemException("`target` is null");
+        }
+
+        return Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position) <= maxTaskRange;
+    }
     // Method to assign an NPC to this task
     public bool TryAssign(NPCBase npc)
     {
@@ -101,6 +103,10 @@ public abstract class NPCTask
     public virtual void OnEnd(NPCBase npc)
     {
         GameManager.Instance.CompleteTask(this);
+        if (MetaStat != null)
+        {
+            GameManager.Instance.MetaStats.Incr(MetaStat.Value);
+        }
     }
 
     public void HandleArrival()

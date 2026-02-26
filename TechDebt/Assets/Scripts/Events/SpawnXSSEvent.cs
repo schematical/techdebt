@@ -35,8 +35,8 @@ namespace Events
             float inputValidation = 1 - GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
          
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
-            
-            return (int)Math.Round(techDebt * releaseQuality * releaseLevel * inputValidation);
+            float attackPossibility = gameManager.GetStat(StatType.AttackPossibility);
+            return (int)Math.Round(techDebt * releaseQuality * releaseLevel * inputValidation * attackPossibility);
         }
         
 

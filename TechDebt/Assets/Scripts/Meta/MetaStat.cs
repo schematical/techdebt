@@ -5,6 +5,8 @@ namespace MetaChallenges
         Infra_HandleNetworkPacket,
         Infra_MaxSize,
         Day,
-        Deployments
+        Sprint,
+        Deployments,
+        Infra_Fix
     }
 }
