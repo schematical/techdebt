@@ -45,6 +45,22 @@ namespace UI
             initialAnchorMax = rectTransform.anchorMax;
             initialRotation = rectTransform.rotation;
         }
+
+        public virtual UIState Toggle()
+        {
+            switch (panelState)
+            {
+                case(UIState.Closed):
+                    Show();
+                    break;
+                case(UIState.Open):
+                    Close();
+                    break;
+                default:
+                    throw  new System.Exception($"We are in a weird state {panelState}");
+            }
+            return panelState;
+        }
         public virtual void Close(bool forceClose = false)
         {
             if (forceClose)

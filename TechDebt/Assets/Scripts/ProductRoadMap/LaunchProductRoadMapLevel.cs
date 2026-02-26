@@ -5,6 +5,7 @@ using UI;
 
 public class LaunchProductRoadMapLevel: ProductRoadMapLevel
 {
+    StatModifier LaunchDayStatModifier;
     public LaunchProductRoadMapLevel()
     {
         Name = "Launch Sprint";
@@ -23,20 +24,24 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
     {
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-            "Today is launch day! \n Expect extra traffic."
+            "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
         );
-        GameManager.Instance.Stats.AddModifier(StatType.Traffic, new StatModifier("launch_day_traffic", 2));
+        LaunchDayStatModifier = new StatModifier("launch_day_traffic", 2);
+        GameManager.Instance.Stats.AddModifier(StatType.Traffic, LaunchDayStatModifier);
+        NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
+        networkPacketData.probilitly = 10;
     }
 
     public override void OnLaunchDaySummary()
     {
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-            "TODO: Check if we hit our goals. TODO: Remove stat modifier",
+            "We survived! Great work. Lets get working on our next sprint.",
             new List<DialogButtonOption>()
             {
                 new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
                     {
+                        LaunchDayStatModifier.Remove();
                         GameManager.Instance.ProductRoadMap.IncrStage();
                         GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
                     }

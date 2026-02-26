@@ -34,12 +34,13 @@ namespace UI
 
             _clockText = CreateText(transform, "ClockText", "9:00 AM", 24);
 
-            var statsToDisplay = new List<StatType>
+            List<StatType> statsToDisplay = new List<StatType>
             {
                 StatType.Money,
                 StatType.Traffic,
                 StatType.DailyIncome,
                 StatType.Difficulty,
+                StatType.TechDebt,
             };
 
             foreach (StatType type in statsToDisplay)

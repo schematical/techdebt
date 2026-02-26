@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         new NetworkPacketData() {
             Type = NetworkPacketData.PType.Text,
             baseLoad = 20,
-            probilitly = 10,
+            probilitly = 0,
             prefabId = "FileCoin"
         },
         new NetworkPacketData() {
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
        new NetworkPacketData() {
            Type = NetworkPacketData.PType.PII,
            baseLoad = 0,
-           probilitly = 10,
+           probilitly = 0,
            prefabId = "PIINetworkPacket"
        },
         
@@ -351,41 +351,7 @@ public class GameManager : MonoBehaviour
 
        
           
-          
-        List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
-        AllTechnologies = MetaGameManager.GetAllTechnologies();
-        
        
-        foreach (MetaChallengeBase challenge in unlockedChallenges)
-        {
-            switch (challenge.RewardType)
-            {
-                case(MetaChallengeBase.MetaChallengeRewardType.Technology):
-                    Technology technology = AllTechnologies.Find((t => t.TechnologyID == challenge.RewardId));
-                    if (technology == null)
-                    {
-                        throw new SystemException($"Technology '{challenge.RewardId}' is null.");
-                    }
-
-                    if (technology.CurrentState == Technology.State.MetaLocked)
-                    {
-                        technology.CurrentState = Technology.State.Locked;
-                    }
-
-                    break;
-                case(MetaChallengeBase.MetaChallengeRewardType.StartingStatValue):
-                    StatType statType;
-                    Enum.TryParse<StatType>(challenge.RewardId, out statType);
-                    
-                    Stats.AddModifier(statType, new StatModifier(
-                        $"metaChallenge_{challenge.RewardId}",
-                        challenge.RewardValue
-                    ));
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
 
        
       
@@ -569,7 +535,7 @@ public class GameManager : MonoBehaviour
         ActiveInfrastructure.Clear();
         AvailableTasks.Clear();
         Stats.Clear();
-        Stats.Add(new StatData(StatType.Money, 100f));
+        Stats.Add(new StatData(StatType.Money, 150f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 30));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
@@ -583,7 +549,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
         Stats.Add(new StatData(StatType.AttackPossibility, 0f));
 
-        Tutorial = new TutorialEvent();
+        // Tutorial = new TutorialEvent();
         
  
         Events.Clear();
@@ -922,6 +888,42 @@ public class GameManager : MonoBehaviour
 
         ProductRoadMap = new ProductRoadMap();
         ProductRoadMap.Randomize();
+        
+           
+        List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
+        AllTechnologies = MetaGameManager.GetAllTechnologies();
+        
+       
+        foreach (MetaChallengeBase challenge in unlockedChallenges)
+        {
+            switch (challenge.RewardType)
+            {
+                case(MetaChallengeBase.MetaChallengeRewardType.Technology):
+                    Technology technology = AllTechnologies.Find((t => t.TechnologyID == challenge.RewardId));
+                    if (technology == null)
+                    {
+                        throw new SystemException($"Technology '{challenge.RewardId}' is null.");
+                    }
+
+                    if (technology.CurrentState == Technology.State.MetaLocked)
+                    {
+                        technology.CurrentState = Technology.State.Locked;
+                    }
+
+                    break;
+                case(MetaChallengeBase.MetaChallengeRewardType.StartingStatValue):
+                    StatType statType;
+                    Enum.TryParse<StatType>(challenge.RewardId, out statType);
+                    
+                    Stats.AddModifier(statType, new StatModifier(
+                        $"metaChallenge_{challenge.RewardId}",
+                        challenge.RewardValue
+                    ));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
     }
 

@@ -39,6 +39,11 @@ namespace Stats
             }
         }
 
+        public void Remove()
+        {
+            statsCollection.RemoveModifier(statType, Id);
+        }
+
         public void SetValue(float value)
         {
             Value = value;

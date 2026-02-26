@@ -387,7 +387,6 @@ namespace UI
                     throw new SystemException(
                         $"Could not find a tile for `{node.DisplayName}` - State: {node.Technology.CurrentState}");
                 }
-         Debug.Log($"Drawing: {node.DisplayName} - {node.Technology.CurrentState} - {tile.name}");
                 nodeTilemap.SetTile((Vector3Int)node.Position, tile);
 
               

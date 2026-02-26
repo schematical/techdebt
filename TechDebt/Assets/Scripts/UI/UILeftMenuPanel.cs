@@ -12,13 +12,13 @@ namespace UI
             base.Start();
             titleText.text = "";
 
-            AddButton("Tasks", GameManager.Instance.UIManager.taskListPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("Tech", () => GameManager.Instance.UIManager.techTreePanel.Show() ).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("NPCs", GameManager.Instance.UIManager.npcListPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("Releases", GameManager.Instance.UIManager.releaseHistoryPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("Stats", GameManager.Instance.UIManager.globalStatsPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("Map", () => GameManager.Instance.UIManager.productRoadMap.Show()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
-            AddButton("Events", GameManager.Instance.UIManager.eventDebugPanel.Show).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Tasks", () => GameManager.Instance.UIManager.taskListPanel.Toggle()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Tech", () => GameManager.Instance.UIManager.techTreePanel.Toggle() ).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("NPCs", () => GameManager.Instance.UIManager.npcListPanel.Toggle()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Releases", () =>GameManager.Instance.UIManager.releaseHistoryPanel.Toggle()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Stats", () =>GameManager.Instance.UIManager.globalStatsPanel.Toggle()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Map", () => GameManager.Instance.UIManager.productRoadMap.Toggle()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            AddButton("Events", () =>GameManager.Instance.UIManager.eventDebugPanel.Toggle()).gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
         }
     }
 }
