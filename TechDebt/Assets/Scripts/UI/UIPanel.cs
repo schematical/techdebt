@@ -20,7 +20,7 @@ public class UIPanel : UIGameObject
         }
         else
         {
-            Debug.LogError($"{gameObject.name} is missing `closeButton`");
+            // Debug.LogError($"{gameObject.name} is missing `closeButton`");
         }
         base.Awake();
     }

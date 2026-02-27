@@ -33,6 +33,7 @@ namespace UI
             _gameStateText.color = Color.cyan;
 
             _clockText = CreateText(transform, "ClockText", "9:00 AM", 24);
+            
 
             List<StatType> statsToDisplay = new List<StatType>
             {
@@ -94,8 +95,8 @@ namespace UI
             string amPm = currentHour < 12 ? "AM" : "PM";
             int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
             if (displayHour == 0) displayHour = 12;
-
-            _clockText.text = $"Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
+            int sprint = GameManager.Instance.ProductRoadMap.CurrentStage + 1;
+            _clockText.text = $"Sprint {sprint} | Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
         }
 
         public void UpdateStatsDisplay()

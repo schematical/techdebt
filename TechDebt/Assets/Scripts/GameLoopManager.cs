@@ -142,14 +142,14 @@ public class GameLoopManager : MonoBehaviour
 
     private void BeginSummaryPhase()
     {
-        GameManager.Instance.ProductRoadMap.GetCurrentLevel().SummaryPhaseCheck();
+     
        
         CurrentState = GameState.WaitingForNpcsToExpire;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
-        
-
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
+        GameManager.Instance.ProductRoadMap.GetCurrentLevel().SummaryPhaseCheck();
+        
         float dailyPacketIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
     
         float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
@@ -176,6 +176,7 @@ public class GameLoopManager : MonoBehaviour
                 infraCosts += $"{instance.GetWorldObjectType().DisplayName}: ${cost}\n";
             }
         }
+        
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
             new StatModifier($"traffic_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))
@@ -192,7 +193,7 @@ public class GameLoopManager : MonoBehaviour
         float attackPossibility = GameManager.Instance.Stats.GetStatValue(StatType.AttackPossibility);
         if (attackPossibility == 0f)
         {
-            attackPossibility = GameManager.Instance.IncrStat(StatType.AttackPossibility, 0.1f);
+            attackPossibility = GameManager.Instance.IncrStat(StatType.AttackPossibility, 0.05f);
         }
         else
         {

@@ -23,12 +23,11 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
     }
     public override void OnLaunchDayPlan()
     {
-        Debug.Log($"OnLaunchDayPlan");
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
         );
-        LaunchDayStatModifier = new StatModifier("launch_day_traffic", 2);
+        LaunchDayStatModifier = new StatModifier("launch_day_traffic", 1.5f);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, LaunchDayStatModifier);
         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
         if (networkPacketData == null)
@@ -39,7 +38,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
             }
             throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
         }
-        networkPacketData.probilitly = 10;
+        networkPacketData.probilitly = 20;
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
@@ -54,6 +53,17 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
                 new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
                     {
                         LaunchDayStatModifier.Remove();
+                        NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
+                        if (networkPacketData == null)
+                        {
+                            foreach (NetworkPacketData networkPacketData2 in GameManager.Instance.GetNetworkPacketDatas())
+                            {
+                                Debug.LogError($"NetworkPacketData {networkPacketData2.Type}");
+                            }
+                            throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
+                        }
+                        networkPacketData.probilitly = 10;
+                        GameManager.Instance.InfrastructureUpdateNetworkTargets();
                         GameManager.Instance.ProductRoadMap.IncrStage();
                         GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
                     }

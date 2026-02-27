@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError($"GetRandomNetworkPacketData - Not found - probTotal: {probTotal} - currFloor: {currFloor}");
         }
-        Debug.Log($"GetRandomNetworkPacketData - {index} - {foundData.Type}");
+        // Debug.Log($"GetRandomNetworkPacketData - {index} - {foundData.Type}");
         return foundData;
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
@@ -378,12 +378,12 @@ public class GameManager : MonoBehaviour
         AllNpcs.Clear();
         foreach (WorldObjectBase worldObjectBase in ActiveInfrastructure)
         {
-            worldObjectBase.gameObject.SetActive(false);
+            worldObjectBase.Reset();
         }
        
         Initialize();
         SetupSprint();
-
+        UpdateInfrastructureVisibility();
         UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
     }
 

@@ -168,7 +168,13 @@ namespace Infrastructure
         {
             GameManager.Instance.cameraController.ZoomTo(transform);
         }
-        
+
+        public void Reset()
+        {
+            HideAttentionIcon();
+            attentionIconColor = Color.white;
+            gameObject.SetActive(false);
+        }
     }
     
 }

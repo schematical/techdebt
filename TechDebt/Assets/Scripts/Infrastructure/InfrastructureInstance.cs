@@ -544,7 +544,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 content += "  <i>Modifiers:</i>\n";
                 foreach (StatModifier modifier in stat.Modifiers)
                 {
-                    content += $"  - {modifier.Id} -{modifier.Value:F2} ({modifier.Type})\n";
+                    content += $"  - {modifier.Id} - {modifier.Value:F2} ({modifier.Type})\n";
                 }
             }
         }

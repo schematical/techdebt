@@ -73,6 +73,7 @@ public class ProductRoadMapStage
     public ProductRoadMapLevel SetSelectedLevel(int level)
     {
         SelectedLevel = level;
+        Levels[SelectedLevel].OnSprintStart();
         return Levels[SelectedLevel];
     }
 
@@ -98,6 +99,11 @@ public class ProductRoadMapLevel
    public virtual bool HasVictoryConditionBeenMet()
    {
        return false;
+   }
+
+   public virtual void OnSprintStart()
+   {
+       GameManager.Instance.GameLoopManager.currentDay = 0;
    }
 
    public virtual void Randomize(int stage = 0)
