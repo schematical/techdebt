@@ -924,14 +924,23 @@ public class GameManager : MonoBehaviour
         ProductRoadMap.Randomize();
         
            
-        List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
+       
         AllTechnologies = MetaGameManager.GetAllTechnologies();
         foreach (Technology technology in AllTechnologies)
         {
             technology.CurrentResearchProgress = 0;
-            technology.CurrentState = Technology.State.Locked;
+            switch (technology.TechnologyID)
+            {
+                case("dedicated-db"):
+                    technology.CurrentState = Technology.State.Locked;
+                    break;
+                default:
+                    technology.CurrentState = Technology.State.MetaLocked;
+                    break;
+            }
+            
         }
-       
+        List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
         foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
             switch (challenge.RewardType)
@@ -945,6 +954,7 @@ public class GameManager : MonoBehaviour
 
                     if (technology.CurrentState == Technology.State.MetaLocked)
                     {
+                        Debug.Log($"Meta Unlocking: {technology.TechnologyID}");
                         technology.CurrentState = Technology.State.Locked;
                     }
 

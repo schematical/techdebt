@@ -34,7 +34,7 @@ namespace UI
         private class TechNodeView
         {
             public Technology Technology;
-            public Vector2Int Position;
+            public Vector2Int Position = new Vector2Int(-1, -1);
             public string Id => Technology.TechnologyID;
             public string DisplayName => Technology.DisplayName;
             public List<string> Dependencies => Technology.RequiredTechnologies;
@@ -435,9 +435,10 @@ namespace UI
             if (_techTreeNodes == null || _techTreeNodes.Count == 0) return;
 
             // Pass 1: Determine X position (column) for each node.
+            var calculationStack = new HashSet<string>();
             foreach (TechNodeView node in _techTreeNodes)
             {
-                CalculateNodeXPosition(node);
+                CalculateNodeXPosition(node, calculationStack);
             }
 
             // Group nodes by column for Y positioning
@@ -491,35 +492,39 @@ namespace UI
          
         }
 
-        private int CalculateNodeXPosition(TechNodeView node)
+        private int CalculateNodeXPosition(TechNodeView node, HashSet<string> stack)
         {
-            // If position is already calculated (x > 0 or it's a root), return it.
-            // Note: Assuming 0 is a valid start, checking if dependencies are processed might be safer, 
-            // but recursive logic usually handles it. 
-            // Better check: if we initialized positions to -1 or similar. 
-            // But here we rely on the fact that we calculate from dependencies up.
-            // If dependencies are empty, it's 0.
-            
-            if (node.Dependencies == null || node.Dependencies.Count == 0)
+            if (node.Position.x != -1) return node.Position.x;
+
+            if (stack.Contains(node.Id))
             {
-                return node.Position.x = 0;
+                Debug.LogError($"Cycle detected involving node {node.Id}");
+                return 0;
             }
 
-            // If we already visited this node in a previous recursive call (not strictly cycle detection but memoization)
-            // Since we iterate all nodes in the outer loop, we might re-calculate. 
-            // For now, let's just re-calculate to be safe or add a visited check if performance matters.
-            // The original code: if (node.position.x > 0 ... return it).
-            if (node.Position.x > 0) return node.Position.x;
+            stack.Add(node.Id);
+
+            if (node.Dependencies == null || node.Dependencies.Count == 0)
+            {
+                stack.Remove(node.Id);
+                return node.Position.x = 0;
+            }
 
             int maxDepX = 0;
             if (node.Dependencies != null && node.Dependencies.Count > 0)
             {
-                maxDepX = node.Dependencies
+                var deps = node.Dependencies
                     .Select(depId => _techTreeNodes.Find(n => n.Id == depId))
                     .Where(n => n != null)
-                    .Max(n => CalculateNodeXPosition(n)); 
+                    .ToList();
+                
+                if (deps.Count > 0)
+                {
+                    maxDepX = deps.Max(n => CalculateNodeXPosition(n, stack));
+                }
             }
 
+            stack.Remove(node.Id);
             node.Position.x = maxDepX + columnSpacing;
             return node.Position.x;
         }
