@@ -15,7 +15,6 @@ namespace NPCs
         public enum ModifierType
         {
             NPC_Stat,
-            NPC_InfraStat,
             Infra_NetworkPacketStat,
             Run_Stat
         }
@@ -100,24 +99,30 @@ namespace NPCs
                     );
                     npc.Stats.AddModifier(StatType, StatModifier); 
                     break;
-                case(ModifierType.NPC_InfraStat):
-                    
-                    break;
                 case(ModifierType.Infra_NetworkPacketStat):
                     StatModifier = new StatModifier(
                         Id,
                         GetScaledValue()
                     );
-                    
+                    int hitCheck = 0;
                     foreach (InfrastructureDataNetworkPacket networkPacketData in  GameManager.Instance.WorldObjectTypes[this.WorldObjectType].networkPackets)
                     {
                         if (networkPacketData.PacketType == NetworkPacketType)
                         {
                             // Debug.Log($"[DEBUG] {WorldObjectType} Applying modifier to packet type {networkPacketData.PacketType}. Stat count: {networkPacketData.Stats.Stats.Count}");
-                            networkPacketData.Stats.AddModifier(this.StatType, StatModifier);
+                            networkPacketData.Stats.AddModifier(StatType, StatModifier);
+                            hitCheck += 1;
+                            if (hitCheck > 1)
+                            {
+                                Debug.LogError($"Hit more than once. Something is wrong. {this.WorldObjectType} + {NetworkPacketType} - {StatType}");
+                            }
                         }
                     }
-                    
+
+                    if (hitCheck == 0)
+                    {
+                        Debug.LogError($"Could not find a network packet for Something is wrong. {this.WorldObjectType} + {NetworkPacketType} - {StatType}");
+                    }
                     break;
                 case(ModifierType.Run_Stat):
                     StatModifier = new StatModifier(

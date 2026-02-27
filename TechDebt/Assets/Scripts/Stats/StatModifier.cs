@@ -47,6 +47,10 @@ namespace Stats
         public void SetValue(float value)
         {
             Value = value;
+            if (statsCollection == null)
+            {
+                throw new SystemException($"`statsCollection` is null - Id: {Id} - StatType: {statType} - Value: {Value}");
+            }
             statsCollection.RefreshStatValue(statType);
         }
         public string GetDisplayText()

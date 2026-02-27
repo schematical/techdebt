@@ -95,7 +95,6 @@ namespace UI
                 {
                     SelectNode(clickedNode);
                     onNodeClicked?.Invoke(clickedNode.Id);
-                    Debug.Log($"Clicked on {clickedNode.DisplayName}");
                 }
             }
             
@@ -392,12 +391,8 @@ namespace UI
                     GameObject labelInstance = GameManager.Instance.prefabManager.Create("UITechTreeLabel",
                         worldPos + new Vector3(0, -1.5f, 0), nodeTilemap.transform.parent);
                     node.LabelInstance = labelInstance.GetComponentInChildren<TextMeshPro>();
-                    Debug.Log($"Creating LabelInstance for {node.DisplayName}");
+
                    
-                }
-                else
-                {
-                    Debug.Log($"Existing LabelInstance for {node.DisplayName}");
                 }
                 node.LabelInstance.text = node.DisplayName;
 

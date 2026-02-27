@@ -6,7 +6,7 @@ namespace UI
     public class UIGlobalStatsPanel: UIPanel
     {
         public UITextArea textArea;
-        public void Show()
+        public override void Show()
         {
             base.Show();
             var sb = new System.Text.StringBuilder();
@@ -25,7 +25,11 @@ namespace UI
             {
                 sb.AppendLine(modifier.ToFullDetail());
             }
-
+            sb.AppendLine("\n\n\n<b>Network Packets</b> \n");
+            foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
+            {
+                sb.AppendLine($"- {networkPacketData.Type} - {networkPacketData.probilitly} \n");
+            }
             textArea.textArea.text = sb.ToString();
         }
     }

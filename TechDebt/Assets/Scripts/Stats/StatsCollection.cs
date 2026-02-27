@@ -90,5 +90,10 @@ namespace Stats
         {
             Stats[statType].RefreshValue();
         }
+
+        public StatModifier GetModifierByTypeAndId(StatType statType, string id)
+        {
+            return Stats[statType].Modifiers.Find(mod => mod.Id == id);
+        }
     }
 }

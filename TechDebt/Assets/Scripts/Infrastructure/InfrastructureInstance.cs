@@ -370,11 +370,17 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
                 return false;
             }));
-            worldObjectType.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
-                $"networkConnectionBonus_{foundConnection.networkPacketType}_{bonus.Stat}", // $"networkConnectionBonus_{bonus.Id}",
-                bonus.value, 
-                bonus.Type
-            ));
+            string id = $"networkConnectionBonus_{foundConnection.networkPacketType}_{bonus.Stat}";// $"networkConnectionBonus_{bonus.Id}",
+            StatModifier statModifier = worldObjectType.networkPackets[index].Stats.GetModifierByTypeAndId(bonus.Stat, id);
+            if (statModifier == null)
+            {
+                worldObjectType.networkPackets[index].Stats.AddModifier(bonus.Stat, new StatModifier(
+                    id, 
+                    bonus.value, 
+                    bonus.Type
+                ));
+            }
+            
         }
     }
 

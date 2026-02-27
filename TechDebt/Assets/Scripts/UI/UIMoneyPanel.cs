@@ -35,7 +35,7 @@ namespace UI
            
             Vector3 pos = new Vector3(
                 rectTransform.position.x - rectTransform.rect.width /2, 
-                rectTransform.rect.height * 1.25f, 
+                Screen.height + 100, 
                 rectTransform.position.z
                 );
             UICoin coin = GameManager.Instance.prefabManager.Create("UICoin", pos, transform).GetComponent<UICoin>();

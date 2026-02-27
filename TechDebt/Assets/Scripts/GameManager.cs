@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GridManager gridManager;
     protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
         new NetworkPacketData() {
-            Type = NetworkPacketData.PType.Text,
+            Type = NetworkPacketData.PType.Purchase,
             baseLoad = 20,
             probilitly = 0,
             prefabId = "FileCoin"
@@ -194,17 +194,18 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public NetworkPacketData GetNetworkPacketData()
+    public NetworkPacketData GetRandomNetworkPacketData()
     {
        
        
         float probTotal = 0f;
         foreach (NetworkPacketData npData in NetworkPacketDatas)
         {
-            // Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
+            Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
             probTotal += npData.probilitly;
         }
         float index = Random.Range(0, probTotal);
+        Debug.Log($"GetRandomNetworkPacketData - {index}");
         float currFloor = 0;
         NetworkPacketData foundData = null;
         foreach (NetworkPacketData npData in NetworkPacketDatas)
@@ -222,7 +223,7 @@ public class GameManager : MonoBehaviour
 
         if (foundData == null)
         {
-            Debug.LogError($"GetNetworkPacketData - Not found - probTotal: {probTotal} - currFloor: {currFloor}");
+            Debug.LogError($"GetRandomNetworkPacketData - Not found - probTotal: {probTotal} - currFloor: {currFloor}");
         }
         
         return foundData;
@@ -481,7 +482,7 @@ public class GameManager : MonoBehaviour
         if (timeSinceLastPacket >= secondsBetweenPackets)
         {
             
-            NetworkPacketData data = GetNetworkPacketData();
+            NetworkPacketData data = GetRandomNetworkPacketData();
             List<InternetPipe> instances = GetInfrastructureInstanceByClass<InternetPipe>();
             if (instances.Count == 0)
             {
@@ -756,6 +757,7 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
+            LoadRecoveryRate = 10,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -781,6 +783,7 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
+            LoadRecoveryRate = 10,
             UnlockConditions = new List<UnlockCondition>()
             {
                 new UnlockCondition()
@@ -788,6 +791,24 @@ public class GameManager : MonoBehaviour
                     Type = UnlockCondition.ConditionType.Technology,
                     TechnologyID = "dedicated-db"
                 }
+            },
+            networkPackets = new List<InfrastructureDataNetworkPacket>()
+            {
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.Text,
+                    loadPerPacket = 10
+                },
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.Image,
+                    loadPerPacket = 100
+                },
+                new InfrastructureDataNetworkPacket()
+                {
+                    PacketType =  NetworkPacketData.PType.PII,
+                    loadPerPacket = 10
+                },
             }
             
         };

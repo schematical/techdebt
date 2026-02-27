@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Stats;
 using UI;
+using UnityEngine;
 
 public class LaunchProductRoadMapLevel: ProductRoadMapLevel
 {
@@ -22,6 +23,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
     }
     public override void OnLaunchDayPlan()
     {
+        Debug.Log($"OnLaunchDayPlan");
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
@@ -29,11 +31,20 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
         LaunchDayStatModifier = new StatModifier("launch_day_traffic", 2);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, LaunchDayStatModifier);
         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
+        if (networkPacketData == null)
+        {
+            foreach (NetworkPacketData networkPacketData2 in GameManager.Instance.GetNetworkPacketDatas())
+            {
+                Debug.LogError($"NetworkPacketData {networkPacketData2.Type}");
+            }
+            throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
+        }
         networkPacketData.probilitly = 10;
     }
 
     public override void OnLaunchDaySummary()
     {
+        Debug.Log($"OnLaunchDaySummary");
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "We survived! Great work. Lets get working on our next sprint.",
