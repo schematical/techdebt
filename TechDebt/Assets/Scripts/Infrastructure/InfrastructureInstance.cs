@@ -444,9 +444,15 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     {
         if (CurrConnections.ContainsKey(pType))
         {
-            return CurrConnections[pType][Random.Range(0, CurrConnections[pType].Count)];
+            int i = Random.Range(0, CurrConnections[pType].Count);
+            NetworkConnection networkConnection = CurrConnections[pType][i];
+            if (networkConnection == null)
+            {
+               // Debug.LogError($"Can't find network connection {pType} - i: {i}");
+            }
+            return networkConnection;
         }
-
+        // Debug.LogError($"{gameObject.name} !ContainsKey: {pType}");
         return null;
     }
 

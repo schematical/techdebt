@@ -1970,7 +1970,6 @@ MonoBehaviour:
   connectorTilemap: {fileID: 1526968472}
   nodeTilemap: {fileID: 313593200}
   backgroundTilemap: {fileID: 790377098}
-  nameLabelPrefab: {fileID: 7982473762959787064, guid: 4e78842578c8ff64f9e361b7bf644145, type: 3}
   unlockedTile: {fileID: 11400000, guid: 59d0c03ca4460b54f9a26307964e0630, type: 2}
   lockedTile: {fileID: 11400000, guid: cb9f9658c6cce16409c13b5e78b54dbf, type: 2}
   researchedTitle: {fileID: 11400000, guid: 95b4ec60637f8cf4e8ca6d82b7a12995, type: 2}
@@ -8312,7 +8311,7 @@ MonoBehaviour:
     CurrentState: 3
     UnlockConditions: []
   - Id: internetPipe3
-    worldObjectType: 0
+    worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 34, z: 0}
     CurrentState: 3
@@ -8320,9 +8319,11 @@ MonoBehaviour:
   - Id: email-service
     worldObjectType: 0
     Prefab: {fileID: 4838084576645818138, guid: 9af0f46df293b6d4dabe98db33f55314, type: 3}
-    GridPosition: {x: 5, y: 34, z: 0}
+    GridPosition: {x: 31, y: 31, z: 0}
     CurrentState: 0
-    UnlockConditions: []
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: email-service
   - Id: cloud-watch-metrics
     worldObjectType: 0
     Prefab: {fileID: 8212055160970937780, guid: 989810f4f9df2ef49995253992e0a28b, type: 3}
@@ -8334,7 +8335,7 @@ MonoBehaviour:
   - Id: sns
     worldObjectType: 0
     Prefab: {fileID: 2706496042187900656, guid: db27e3073396d2f4d9fa518b0cf83512, type: 3}
-    GridPosition: {x: 5, y: 34, z: 0}
+    GridPosition: {x: 31, y: 29, z: 0}
     CurrentState: 0
     UnlockConditions:
     - Type: 0

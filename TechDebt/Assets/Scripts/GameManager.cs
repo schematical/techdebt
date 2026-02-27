@@ -201,11 +201,11 @@ public class GameManager : MonoBehaviour
         float probTotal = 0f;
         foreach (NetworkPacketData npData in NetworkPacketDatas)
         {
-            Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
+            // Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
             probTotal += npData.probilitly;
         }
         float index = Random.Range(0, probTotal);
-        Debug.Log($"GetRandomNetworkPacketData - {index}");
+    
         float currFloor = 0;
         NetworkPacketData foundData = null;
         foreach (NetworkPacketData npData in NetworkPacketDatas)
@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError($"GetRandomNetworkPacketData - Not found - probTotal: {probTotal} - currFloor: {currFloor}");
         }
-        
+        Debug.Log($"GetRandomNetworkPacketData - {index} - {foundData.Type}");
         return foundData;
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
@@ -596,7 +596,11 @@ public class GameManager : MonoBehaviour
                     networkPacketType = NetworkPacketData.PType.MaliciousText
                 },
                 
-                
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Purchase
+                },
                 new NetworkConnection()
                 {
                     worldObjectType = WorldObjectType.Type.ALB,
@@ -615,7 +619,12 @@ public class GameManager : MonoBehaviour
                     networkPacketType = NetworkPacketData.PType.MaliciousText,
                     priority = 6
                 },
-                
+                new NetworkConnection()
+                {
+                    worldObjectType = WorldObjectType.Type.ApplicationServer,
+                    networkPacketType = NetworkPacketData.PType.Purchase,
+                    priority = 6
+                },
                 new NetworkConnection()
                 {
                     worldObjectType = WorldObjectType.Type.ApplicationServer,
@@ -1405,5 +1414,13 @@ public class GameManager : MonoBehaviour
             return null;
         }
         return Releases[Releases.Count - 1];
+    }
+
+    public void InfrastructureUpdateNetworkTargets()
+    {
+        foreach (InfrastructureInstance infrastructureInstance in ActiveInfrastructure)
+        {
+            infrastructureInstance. UpdateNetworkTargets();
+        }
     }
 }

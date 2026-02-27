@@ -40,6 +40,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
             throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
         }
         networkPacketData.probilitly = 10;
+        GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
     public override void OnLaunchDaySummary()

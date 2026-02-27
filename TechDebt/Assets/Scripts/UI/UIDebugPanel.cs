@@ -40,6 +40,17 @@ public class UIDebugPanel : UIPanel
 
     private void RunMisc()
     {
+        NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
+        if (networkPacketData == null)
+        {
+            foreach (NetworkPacketData networkPacketData2 in GameManager.Instance.GetNetworkPacketDatas())
+            {
+                Debug.LogError($"NetworkPacketData {networkPacketData2.Type}");
+            }
+            throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
+        }
+        networkPacketData.probilitly = 1000;
+        GameManager.Instance.InfrastructureUpdateNetworkTargets();
         GameManager.Instance.UIManager.moneyPanel.AddCoin();
         GameManager.Instance.UIManager.moneyPanel.ExplodeCoins(30);
         // Screen.SetResolution(640, 480, true);

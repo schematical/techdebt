@@ -10,7 +10,7 @@ public class InternetPipe : InfrastructureInstance
         NetworkConnection connection = GetNextNetworkConnection(networkPacketData.Type);
         if (connection == null)
         {
-            // Debug.LogError($"{gameObject.name} Could find  send packet {networkPacketData.Type}");
+           // Debug.LogError($"{gameObject.name} Could find  send packet {networkPacketData.Type}");
             return;
         }
                 
