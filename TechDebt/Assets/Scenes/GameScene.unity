@@ -8311,7 +8311,7 @@ MonoBehaviour:
     CurrentState: 3
     UnlockConditions: []
   - Id: internetPipe3
-    worldObjectType: 1
+    worldObjectType: 0
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 34, z: 0}
     CurrentState: 3
@@ -9478,7 +9478,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 2.065918, y: 244.13292}
+  m_Offset: {x: 2.065918, y: 362.13855}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9488,7 +9488,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.1918945, y: 489.26584}
+  m_Size: {x: 4.1918945, y: 725.2771}
   m_EdgeRadius: 0
 --- !u!1 &838992301
 GameObject:
@@ -10424,7 +10424,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.8187866, y: 243.91597}
+  m_Offset: {x: 1.8187866, y: 369.90515}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -10434,7 +10434,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.6976318, y: 488.83194}
+  m_Size: {x: 3.6976318, y: 740.8103}
   m_EdgeRadius: 0
 --- !u!1 &924856684
 GameObject:

@@ -34,7 +34,7 @@ namespace UI
         {
            
             Vector3 pos = new Vector3(
-                rectTransform.position.x - rectTransform.rect.width /2, 
+                rectTransform.position.x - rectTransform.rect.width, 
                 Screen.height + 100, 
                 rectTransform.position.z
                 );
