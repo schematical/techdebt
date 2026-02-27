@@ -34,35 +34,22 @@ namespace UI
             List<ReleaseBase> releases = GameManager.Instance.Releases.ToList();
             releases.Reverse();
 
-            foreach (ReleaseBase release in releases)
+            ReleaseBase release = releases.Find(release => release.State != ReleaseBase.ReleaseState.DeploymentCompleted);
+            if (release == null)
             {
-                Color color = Color.white;
-                switch (release.State) 
-                {
-                    case ReleaseBase.ReleaseState.Failed:
-                    case ReleaseBase.ReleaseState.DeploymentCompleted:
-                        if (ProgressBarPanels.ContainsKey(release.GetVersionString()))
-                        {
-                            color = new Color(1f, 1f, 1f, 0.5f);
-                            // ProgressBarPanels[release.GetVersionString()].gameObject.SetActive(false);
-                        }
-                    continue;
-                    case ReleaseBase.ReleaseState.DeploymentRewardReady:
-                    case ReleaseBase.ReleaseState.DeploymentReady:
-                    case ReleaseBase.ReleaseState.DeploymentInProgress:
-                        color =  Color.purple;
-                        break;
-                }
-                if (!ProgressBarPanels.ContainsKey(release.GetVersionString()))
-                {
-                    GameObject progressBarGo = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", Vector3.zero, scrollContent.transform);
-                    progressBarGo.SetActive(true);
-                    ProgressBarPanels[release.GetVersionString()] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
-                }
-              
-                ProgressBarPanels[release.GetVersionString()].Text.text = release.GetDescription();
-                ProgressBarPanels[release.GetVersionString()].SetProgress(release.CurrentProgress / release.RequiredProgress, color);
+                ProgressBarPanels["release"].gameObject.SetActive(false);
+                return;
             }
+            if (!ProgressBarPanels.ContainsKey("release"))
+            {
+                GameObject progressBarGo = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", Vector3.zero, scrollContent.transform);
+                progressBarGo.SetActive(true);
+                ProgressBarPanels["release"] = progressBarGo.GetComponent<UIProgressBarPanel>(); 
+            }
+          
+            ProgressBarPanels["release"].Text.text = release.GetDescription();
+            ProgressBarPanels["release"].SetProgress(release.CurrentProgress / release.RequiredProgress, Color.green);
+        
 
             
         }

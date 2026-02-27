@@ -53,6 +53,7 @@ namespace DefaultNamespace.NetworkPackets
             GameManager.Instance.FloatingTextFactory.ShowText($"+${saleValue}",
                     transform.position, Color.green);
             GameManager.Instance.IncrStat(StatType.Money, saleValue);
+            GameManager.Instance.GameLoopManager.dailyPacketIncome += saleValue;
             ending = true;
    
         }

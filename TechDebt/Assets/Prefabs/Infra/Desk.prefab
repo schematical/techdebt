@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4697664128686875624}
   - component: {fileID: 3926903595869454406}
   - component: {fileID: 98562284136688768}
+  - component: {fileID: 2846610660894255458}
   m_Layer: 0
   m_Name: Desk
   m_TagString: Untagged
@@ -104,16 +105,78 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6955f496e5446e7bf27231a9e92b37f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Desk
+  Type: 0
+  GridPosition: {x: 0, y: 0, z: 0}
+  attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
+  interactionPositionOffset: {x: 0, y: 0, z: 0}
+  polygonCollider2D: {fileID: 2846610660894255458}
+  startcolor: {r: 0, g: 0, b: 0, a: 0}
   data:
-    ID: 2ccb3dcf-2929-4d42-9769-cb4ef946c3e6
-    DisplayName: New Infrastructure
-    Type: Generic
+    Id: 2ccb3dcf-2929-4d42-9769-cb4ef946c3e6
+    worldObjectType: 0
     Prefab: {fileID: 0}
-    GridPosition: {x: 0, y: 0}
-    UnlockConditions: []
-    DailyCost: 100
-    BuildTime: 5
-    IsInitiallyUnlocked: 0
+    GridPosition: {x: 0, y: 0, z: 0}
+    InitialState: 0
     CurrentState: 0
-    Instance: {fileID: 0}
-    NetworkConnections: []
+    UnlockConditions: []
+  Version: 0.0.1
+  serverSmokeEffect: {fileID: 0}
+  lastDisplayedProgress: -1
+--- !u!60 &2846610660894255458
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466434679544307316}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.53125, y: 1.59375}
+    newSize: {x: 1.53125, y: 1.59375}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.1694066, y: 1.3426822}
+      - {x: -0.17862147, y: 1.0329765}
+      - {x: -0.765625, y: 0.7520524}
+      - {x: -0.7637321, y: 0.27935708}
+      - {x: -0.21126509, y: -0.028289318}
+      - {x: 0.75501645, y: 0.45871702}
+      - {x: 0.765625, y: 0.4375}
+      - {x: 0.7691611, y: 1.0218756}
+      - {x: 0.48925087, y: 1.1515862}
+      - {x: 0.4801493, y: 1.5409523}
+      - {x: 0.35238588, y: 1.6078947}
+  m_UseDelaunayMesh: 1

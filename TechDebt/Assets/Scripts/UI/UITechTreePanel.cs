@@ -258,6 +258,7 @@ namespace UI
         {
             base.Show();
          
+            GameManager.Instance.UIManager.SetTimeScalePause();
             GameManager.OnTechnologyUnlocked += Refresh;
             GameManager.OnTechnologyResearchStarted += Refresh;
             grid.gameObject.SetActive(true);
@@ -272,7 +273,7 @@ namespace UI
                 techNodeView.LabelInstance.gameObject.SetActive(false);
             }
         
-         
+            GameManager.Instance.UIManager.Resume();
             _techTreeNodes.Clear();
             if (nodeTilemap != null) nodeTilemap.ClearAllTiles();
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();

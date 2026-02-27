@@ -21,6 +21,7 @@ public class GameLoopManager : MonoBehaviour
     public bool playTimerActive = true;
     public int currentDay = 0;
     public float dayTimer = 0f;
+    public float dailyPacketIncome = 0f;
 
     public int GetCurrentDay()
     {
@@ -150,7 +151,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
         GameManager.Instance.ProductRoadMap.GetCurrentLevel().SummaryPhaseCheck();
         
-        float dailyPacketIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
+      
     
         float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
     
@@ -164,7 +165,7 @@ public class GameLoopManager : MonoBehaviour
             percentageSuccess = 0;
         }
 
-        float actualIncome = (float)Math.Round(dailyPacketIncome * percentageSuccess);
+
         float money = GameManager.Instance.GetStat(StatType.Money);
 
         string infraCosts = "\n\n<b>Infrastructure Costs:</b>\n";
@@ -212,8 +213,8 @@ public class GameLoopManager : MonoBehaviour
                              $"Packets Succeeded: {packetsServiced} \n" +
                              $"Percentage Served: %{percentageSuccess:F2} \n" +
                              $"Total Costs: ${Math.Round(totalDailyCost)} \n" +
-                             $"Total Income: ${Math.Round(actualIncome)}\n" +
-                             $"Net Income: ${actualIncome - totalDailyCost}\n" +
+                             $"Total Income: ${Math.Round(dailyPacketIncome)}\n" +
+                             $"Net Income: ${dailyPacketIncome - totalDailyCost}\n" +
                              $"Total: {money} \n" +
                              $"Tomorrow's Expected Income: ${updatedDailyIncome} - ({(1 - percentageSuccess):F2}% Failed Penalty)\n" +
                              $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n";
