@@ -27,7 +27,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
         );
-        LaunchDayStatModifier = new StatModifier("launch_day_traffic", 1.5f);
+        LaunchDayStatModifier = new StatModifier("launch_day_traffic", 2f);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, LaunchDayStatModifier);
         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
         if (networkPacketData == null)

@@ -79,11 +79,20 @@ public class PrefabManager: MonoBehaviour
 
     public void Reset()
     {
-        foreach (List<GameObject> gameObjects in Pool.Values)
+        foreach (string key in Pool.Keys)
         {
+            List<GameObject> gameObjects = Pool[key];
             foreach(GameObject gameObject in gameObjects) 
             {
-                gameObject.SetActive(false);
+                try
+                {
+                    gameObject.SetActive(false);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"${key}'s gameObject has been destroyed");
+                    Debug.LogException(e);
+                }
             }
         }
     }

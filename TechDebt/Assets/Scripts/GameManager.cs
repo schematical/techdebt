@@ -367,6 +367,7 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
+        UIManager.Close();
         prefabManager.Reset();
         Releases.Clear();
         GameLoopManager.currentDay = 0;
@@ -1299,8 +1300,11 @@ public class GameManager : MonoBehaviour
         {
             return t.IsActive() && t.Type == type;
         });
+        if (targets.Count == 0)
+        {
+            throw new Exception($"No world object found for type '{type}'");
+        }
         int i = Random.Range(0, targets.Count);
-        Debug.Log($"i: {i} - targets.Count {targets.Count} - ActiveInfrastructure.Count {ActiveInfrastructure.Count}");
         return targets[i];
     }
     public void AddEffect(EffectBase effectBase)
@@ -1427,7 +1431,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (InfrastructureInstance infrastructureInstance in ActiveInfrastructure)
         {
-            infrastructureInstance. UpdateNetworkTargets();
+            infrastructureInstance.UpdateNetworkTargets();
         }
     }
 }
