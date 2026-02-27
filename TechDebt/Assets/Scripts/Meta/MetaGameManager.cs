@@ -33,12 +33,27 @@ public static class MetaGameManager
     public static void SaveProgress(MetaProgressData metaProgressData)
     {
         string json = JsonUtility.ToJson(metaProgressData, true);
+#if UNITY_WEBGL && !UNITY_EDITOR
+        PlayerPrefs.SetString("MetaProgress", json);
+        PlayerPrefs.Save();
+        Debug.Log("Progress saved to PlayerPrefs");
+#else
         File.WriteAllText(GetSavePath(), json);
         Debug.Log($"Progress saved to {GetSavePath()}");
+#endif
     }
 
     public static MetaProgressData LoadProgress()
     {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        if (!PlayerPrefs.HasKey("MetaProgress"))
+        {
+            return new MetaProgressData();
+        }
+        string json = PlayerPrefs.GetString("MetaProgress");
+Debug.Log($"Progress loaded from PlayerPrefs - {json}");
+        return JsonUtility.FromJson<MetaProgressData>(json);
+#else
         if (!File.Exists(GetSavePath()))
         {
             return new MetaProgressData();
@@ -46,6 +61,7 @@ public static class MetaGameManager
 
         string json = File.ReadAllText(GetSavePath());
         return JsonUtility.FromJson<MetaProgressData>(json);
+#endif
     }
 
 
