@@ -16,6 +16,7 @@ namespace Events
 
             NPCXSS npc = npcGO.GetComponent<NPCXSS>();
             npc.Initialize();
+            GameManager.Instance.SetStat(StatType.AttackPossibility, 0);
             
 
         }

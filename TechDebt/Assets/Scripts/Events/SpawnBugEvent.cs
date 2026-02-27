@@ -8,6 +8,7 @@ namespace Events
         public override void Apply()
         {
            GameManager.Instance.GetCurrentRelease().SpawnBug();
+           GameManager.Instance.SetStat(StatType.AttackPossibility, 0);
         }
         public override int GetProbability()
         {

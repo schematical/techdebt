@@ -14,6 +14,7 @@ public class InfrastructureData
     public WorldObjectType.Type worldObjectType;
     public GameObject Prefab;
     public Vector3Int GridPosition;
+    public State InitialState = State.Locked;
     public State CurrentState = State.Locked;
     public List<UnlockCondition> UnlockConditions;
 }

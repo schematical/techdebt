@@ -103,7 +103,7 @@ public class ProductRoadMapLevel
 
    public virtual void OnSprintStart()
    {
-       GameManager.Instance.GameLoopManager.currentDay = 0;
+       GameManager.Instance.GameLoopManager.currentDay = -1;
    }
 
    public virtual void Randomize(int stage = 0)

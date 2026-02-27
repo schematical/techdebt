@@ -45,5 +45,6 @@ public enum StatType
     NPC_CoolDown,
     Infra_InputValidation,
     AttackPossibility,
-    NPC_AttackDamage
+    NPC_AttackDamage,
+    TechDebt_AccumulationRate
 }

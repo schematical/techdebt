@@ -367,13 +367,14 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
+        prefabManager.Reset();
         Releases.Clear();
         GameLoopManager.currentDay = 0;
         GameLoopManager.CurrentState = GameLoopManager.GameState.Plan;
         ReleaseBase.GlobalVersion = 0;
         foreach (NPCBase npc in AllNpcs)
         {
-            Destroy(npc.gameObject);
+            npc.gameObject.SetActive(false);
         }
         AllNpcs.Clear();
         foreach (WorldObjectBase worldObjectBase in ActiveInfrastructure)
@@ -382,7 +383,7 @@ public class GameManager : MonoBehaviour
         }
        
         Initialize();
-        SetupSprint();
+        SetupRun();
         UpdateInfrastructureVisibility();
         UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
     }
@@ -454,7 +455,8 @@ public class GameManager : MonoBehaviour
     
 
         // Delivery NPC Spawning Logic
-        IncrStat(StatType.TechDebt, Time.fixedDeltaTime * 0.01f);
+        float techDebtAccumulationRate = GetStat(StatType.TechDebt_AccumulationRate);
+        IncrStat(StatType.TechDebt, Time.fixedDeltaTime * techDebtAccumulationRate);
         _eventTimer -= Time.fixedDeltaTime;
         if (_eventTimer <= 0)
         {
@@ -536,7 +538,7 @@ public class GameManager : MonoBehaviour
         ActiveInfrastructure.Clear();
         AvailableTasks.Clear();
         Stats.Clear();
-        Stats.Add(new StatData(StatType.Money, 150f));
+        Stats.Add(new StatData(StatType.Money, 230f));
         Stats.Add(new StatData(StatType.TechDebt, 0f));
         Stats.Add(new StatData(StatType.Traffic, 30));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
@@ -549,6 +551,7 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.EventCheckEverySeconds, 15));
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
         Stats.Add(new StatData(StatType.AttackPossibility, 0f));
+        Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f));
 
         // Tutorial = new TutorialEvent();
         
@@ -643,7 +646,7 @@ public class GameManager : MonoBehaviour
             BuildTime = 30,
             DailyCost = 30,
             CanBeUpsized = true,
-            LoadRecoveryRate = 10,
+            LoadRecoveryRate = 20,
             networkPackets = new List<InfrastructureDataNetworkPacket>()
             {
                 new InfrastructureDataNetworkPacket()
@@ -664,7 +667,7 @@ public class GameManager : MonoBehaviour
                 new InfrastructureDataNetworkPacket()
                 {
                     PacketType =  NetworkPacketData.PType.Purchase,
-                    loadPerPacket = 20
+                    loadPerPacket = 5
                 }
             },
             NetworkConnections = new List<NetworkConnection>()
@@ -922,7 +925,11 @@ public class GameManager : MonoBehaviour
            
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
         AllTechnologies = MetaGameManager.GetAllTechnologies();
-        
+        foreach (Technology technology in AllTechnologies)
+        {
+            technology.CurrentResearchProgress = 0;
+            technology.CurrentState = Technology.State.Locked;
+        }
        
         foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
@@ -1031,12 +1038,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetupSprint()
+    void SetupRun()
     {
         _eventTimer = GetStat(StatType.EventCheckEverySeconds);
-
-       
-
+        
         gridManager.Init();
 
         // Center the camera on the board
@@ -1069,6 +1074,7 @@ public class GameManager : MonoBehaviour
                 throw new SystemException($"Missing `InfrastructureInstance` Component for `{infraData.Id}`.");
             }
             infraInstance.GridPosition = infraData.GridPosition; // TODO: Remove this hackyness.
+            infraData.CurrentState = infraData.InitialState;
             infraInstance.Initialize(infraData);
            
             ActiveInfrastructure.Add(infraInstance);
@@ -1294,6 +1300,7 @@ public class GameManager : MonoBehaviour
             return t.IsActive() && t.Type == type;
         });
         int i = Random.Range(0, targets.Count);
+        Debug.Log($"i: {i} - targets.Count {targets.Count} - ActiveInfrastructure.Count {ActiveInfrastructure.Count}");
         return targets[i];
     }
     public void AddEffect(EffectBase effectBase)

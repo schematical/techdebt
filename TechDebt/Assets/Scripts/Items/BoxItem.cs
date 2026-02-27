@@ -20,7 +20,7 @@ namespace Items
             if (possibleItems.Count == 0)
             {
                 Debug.LogError("No items (excluding BoxItem) are defined in GameManager.Items to spawn.");
-                Destroy(gameObject); // Destroy the box anyway to prevent it from being stuck.
+                gameObject.SetActive(false);
                 return;
             }
 

@@ -157,7 +157,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             if (connection != null)
             {
                 WorldObjectType.Type type = connection.worldObjectType;
-                // GameManager.Instance.IncrStat(StatType.Money, connection.cost * -1); // TODO: Work this back in
+         
 
                 InfrastructureInstance nextReceiver = GameManager.Instance.GetRandomWorldObjectByType(type);
                 if (nextReceiver != null && nextReceiver.IsActive())
@@ -208,6 +208,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public virtual void Initialize(InfrastructureData infraData)
     {
+        
         data = infraData;
         Type = data.worldObjectType;
         WorldObjectType worldObjectType = GetWorldObjectType();

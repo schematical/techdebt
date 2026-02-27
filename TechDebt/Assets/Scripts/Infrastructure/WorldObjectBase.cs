@@ -169,7 +169,7 @@ namespace Infrastructure
             GameManager.Instance.cameraController.ZoomTo(transform);
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             HideAttentionIcon();
             attentionIconColor = Color.white;

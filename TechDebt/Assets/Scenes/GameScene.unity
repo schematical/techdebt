@@ -8136,60 +8136,70 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 3673215818000804020, guid: 7e94fbe1e851e984194e2d7fb4a6d9db, type: 3}
     GridPosition: {x: 10, y: 55, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: internetPipe
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 40, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: boss-desk
     worldObjectType: 0
     Prefab: {fileID: 4034698048289930824, guid: 3455b08c756d94f49b083b56b9d29282, type: 3}
     GridPosition: {x: 50, y: 50, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: desk
     worldObjectType: 0
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
     GridPosition: {x: 10, y: 48, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: server1
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 43, z: 0}
+    InitialState: 1
     CurrentState: 1
     UnlockConditions: []
   - Id: dedicated-db
     worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
     GridPosition: {x: 30, y: 43, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions: []
   - Id: s3-bucket
     worldObjectType: 6
     Prefab: {fileID: 8445387670964335504, guid: ee2279ea7091b7540a92a84e9b03b493, type: 3}
     GridPosition: {x: 25, y: 50, z: 0}
+    InitialState: 0
     CurrentState: 1
     UnlockConditions: []
   - Id: cdn
     worldObjectType: 7
     Prefab: {fileID: 4431272950818217646, guid: ccca30840096d9548a9f2be7a10d3c39, type: 3}
     GridPosition: {x: 20, y: 50, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions: []
   - Id: server-alb
     worldObjectType: 5
     Prefab: {fileID: 1558072542918270021, guid: 5c5766ce35da51f4aa70c2070a2b9290, type: 3}
     GridPosition: {x: 15, y: 40, z: 0}
+    InitialState: 0
     CurrentState: 1
     UnlockConditions: []
   - Id: server2
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 40, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8198,6 +8208,7 @@ MonoBehaviour:
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
     GridPosition: {x: 25, y: 37, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8206,6 +8217,7 @@ MonoBehaviour:
     worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
     GridPosition: {x: 30, y: 49, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8214,6 +8226,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
     GridPosition: {x: 30, y: 37, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8222,6 +8235,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 8969239379450762066, guid: 67e736effb8308d4386ad2969166ae1f, type: 3}
     GridPosition: {x: 15, y: 50, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8230,6 +8244,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 478512507227230751, guid: b5e2f03f41c59384d814c2e15808d1ca, type: 3}
     GridPosition: {x: 10, y: 28, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8238,12 +8253,14 @@ MonoBehaviour:
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
     GridPosition: {x: 30, y: 40, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions: []
   - Id: redis-2
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
     GridPosition: {x: 30, y: 34, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8252,6 +8269,7 @@ MonoBehaviour:
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
     GridPosition: {x: 30, y: 46, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8260,6 +8278,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 4690569163655073366, guid: 19679e1167f287e4992ba2a5b1e4085e, type: 3}
     GridPosition: {x: 10, y: 24, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8268,18 +8287,21 @@ MonoBehaviour:
     worldObjectType: 8
     Prefab: {fileID: 3498545839468818472, guid: 02f907469eb21394192734a4c5606464, type: 3}
     GridPosition: {x: 25, y: 20, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions: []
   - Id: bg-worker-1
     worldObjectType: 9
     Prefab: {fileID: 6425469183147676141, guid: 08bb2c4192fb6024ea5d847859924d22, type: 3}
     GridPosition: {x: 30, y: 20, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions: []
   - Id: cognito
     worldObjectType: 0
     Prefab: {fileID: 6331791535608366089, guid: 269f77018a67477449955eb0d0454e01, type: 3}
     GridPosition: {x: 15, y: 20, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8288,6 +8310,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 5600887683244989748, guid: 0bee7f7464887e943ad2c8baec8da75c, type: 3}
     GridPosition: {x: 45, y: 25, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8296,30 +8319,35 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 4771823180765048759, guid: e164a9fcc8bc8644e9a38e857eb35603, type: 3}
     GridPosition: {x: 15, y: 48, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: kanbanboard
     worldObjectType: 0
     Prefab: {fileID: 1495299141615287234, guid: af081fe384e8b7d4aaa1d2ccc948f7f8, type: 3}
     GridPosition: {x: 15, y: 53, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: internetPipe2
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 37, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: internetPipe3
     worldObjectType: 0
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 34, z: 0}
+    InitialState: 3
     CurrentState: 3
     UnlockConditions: []
   - Id: email-service
     worldObjectType: 0
     Prefab: {fileID: 4838084576645818138, guid: 9af0f46df293b6d4dabe98db33f55314, type: 3}
     GridPosition: {x: 31, y: 31, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8328,6 +8356,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 8212055160970937780, guid: 989810f4f9df2ef49995253992e0a28b, type: 3}
     GridPosition: {x: 5, y: 34, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0
@@ -8336,6 +8365,7 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 2706496042187900656, guid: db27e3073396d2f4d9fa518b0cf83512, type: 3}
     GridPosition: {x: 31, y: 29, z: 0}
+    InitialState: 0
     CurrentState: 0
     UnlockConditions:
     - Type: 0

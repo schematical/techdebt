@@ -96,21 +96,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             _currentWordBubble.Close();
         }
 
-        GameObject bubbleGO = GameManager.Instance.prefabManager.GetPrefab("WordBubble");
-        if (bubbleGO != null)
-        {
-            GameObject instance = Instantiate(bubbleGO, transform.position, Quaternion.identity);
-            _currentWordBubble = instance.GetComponent<WordBubble>();
-            if (_currentWordBubble != null)
-            {
-                _currentWordBubble.Setup(message, transform);
-            }
-            else
-            {
-                Debug.LogError("The 'WordBubble' prefab does not have a WordBubble component attached.", this);
-                Destroy(instance);
-            }
-        }
+        _currentWordBubble = GameManager.Instance.prefabManager.Create("WordBubble", transform.position).GetComponent<WordBubble>();
+        _currentWordBubble.Setup(message, transform);
     }
 
     protected virtual void FixedUpdate()

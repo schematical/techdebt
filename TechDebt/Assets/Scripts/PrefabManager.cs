@@ -76,4 +76,15 @@ public class PrefabManager: MonoBehaviour
         return Create(goId, position, parentTransform);
 
     }
+
+    public void Reset()
+    {
+        foreach (List<GameObject> gameObjects in Pool.Values)
+        {
+            foreach(GameObject gameObject in gameObjects) 
+            {
+                gameObject.SetActive(false);
+            }
+        }
+    }
 }

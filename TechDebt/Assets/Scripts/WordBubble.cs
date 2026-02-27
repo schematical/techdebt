@@ -1,4 +1,6 @@
 // WordBubble.cs
+
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -15,9 +17,7 @@ public class WordBubble : MonoBehaviour
             textMesh = GetComponentInChildren<TextMeshProUGUI>();
             if (textMesh == null)
             {
-                Debug.LogError("WordBubble requires a TextMeshProUGUI component in its children.", this);
-                Destroy(gameObject);
-                return;
+               throw new SystemException("WordBubble requires a TextMeshProUGUI component in its children.");
             }
         }
         
@@ -46,7 +46,7 @@ public class WordBubble : MonoBehaviour
         else
         {
             // If the target is destroyed, the bubble should also disappear.
-            Destroy(gameObject);
+            Close();
         }
     }
 
@@ -55,6 +55,6 @@ public class WordBubble : MonoBehaviour
     /// </summary>
     public void Close()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -132,7 +132,7 @@ public class ReleaseBase
     }
     public void OnDeploymentCompleted()
     {
-        Debug.Log("OnDeploymentCompleted");
+       
         if (RewardModifier != null)
         {
          
@@ -151,12 +151,7 @@ public class ReleaseBase
         }
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
-        // TODO Rework this so it has to do with the devs skill
-    
-        /*for (int i = 0; i < RewardModifier.GetLevel(); i++)
-        {
-  
-        }*/
+       
     }
 
     public void SpawnBug()
