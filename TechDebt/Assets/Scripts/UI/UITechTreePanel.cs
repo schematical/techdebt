@@ -149,17 +149,25 @@ namespace UI
             string details = $"<b>{tech.DisplayName}</b>\n\n";
             details += $"{tech.Description}\n\n";
             details += $"Cost: {tech.ResearchPointCost} RP\n";
-            
-            string reqs = "Requires: " + (tech.RequiredTechnologies.Count == 0 ? "None" :
-                string.Join(", ", tech.RequiredTechnologies.Select(reqId =>
-                    GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown")));
+
+            string reqs = "Requires: None";
+            if (tech.RequiredTechnologies != null && tech.RequiredTechnologies.Count == 0)
+            {
+                reqs =
+                    $"Requires: {string.Join(", ", tech.RequiredTechnologies.Select(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown"))}";
+            }
+                
             details += reqs + "\n\n";
 
             if (tech.CurrentState == Technology.State.Locked)
             {
-                bool prerequisitesMet = tech.RequiredTechnologies.All(reqId => 
-                    GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
-                
+                bool prerequisitesMet = true;
+                if (tech.RequiredTechnologies != null)
+                {
+                    prerequisitesMet = tech.RequiredTechnologies.All(reqId =>
+                        GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
+                }
+
                 if (!prerequisitesMet)
                     details += "Prerequisites not met.";
                 else if (GameManager.Instance.CurrentlyResearchingTechnology != null)

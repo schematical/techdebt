@@ -1229,13 +1229,17 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        foreach (var requiredTechID in tech.RequiredTechnologies)
+        if (tech.RequiredTechnologies != null)
         {
-            Technology requiredTech = GetTechnologyByID(requiredTechID);
-            if (requiredTech == null || requiredTech.CurrentState != Technology.State.Unlocked)
+            foreach (string requiredTechID in tech.RequiredTechnologies)
             {
-                Debug.Log($"Cannot research '{tech.DisplayName}'. Prerequisite '{requiredTech?.DisplayName ?? requiredTechID}' is not unlocked.");
-                return;
+                Technology requiredTech = GetTechnologyByID(requiredTechID);
+                if (requiredTech == null || requiredTech.CurrentState != Technology.State.Unlocked)
+                {
+                    Debug.Log(
+                        $"Cannot research '{tech.DisplayName}'. Prerequisite '{requiredTech?.DisplayName ?? requiredTechID}' is not unlocked.");
+                    return;
+                }
             }
         }
 

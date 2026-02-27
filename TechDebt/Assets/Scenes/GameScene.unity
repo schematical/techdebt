@@ -8471,14 +8471,14 @@ MonoBehaviour:
     ResearchPointCost: 200
     CurrentResearchProgress: 0
     RequiredTechnologies: []
-    CurrentState: 0
+    CurrentState: 1
   - TechnologyID: cloud-watch-metrics
     DisplayName: Cloud Watch Metrics
     Description: 
     ResearchPointCost: 200
     CurrentResearchProgress: 0
     RequiredTechnologies: []
-    CurrentState: 0
+    CurrentState: 1
   - TechnologyID: sns
     DisplayName: Mobile Notifications
     Description: 
