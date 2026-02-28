@@ -79,7 +79,7 @@ public class UIDebugPanel : UIPanel
 
     private void SpawnNPC()
     {
-        var door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        /*var door = GameManager.Instance.GetInfrastructureInstanceByID("door");
         if (door == null)
         {
             throw new SystemException("Cannot spawn NPC because 'server' infrastructure was not found.");
@@ -94,8 +94,9 @@ public class UIDebugPanel : UIPanel
         NPCXSS npc = npcGO.GetComponent<NPCXSS>();
         npc.Initialize();
         GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
-        gameObject.SetActive(false);
-        
+        gameObject.SetActive(false);*/
+        GameManager.Instance.SpawnNPCBug();
+
     }
 
     protected override void Update()

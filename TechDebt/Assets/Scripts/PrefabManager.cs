@@ -19,36 +19,46 @@ public class PrefabManager: MonoBehaviour
             Pool[prefabId] = new List<GameObject>();
         }
 
-        GameObject go = Pool[prefabId].FirstOrDefault(p => !p.gameObject.activeInHierarchy);
+        try
+        {
+            GameObject go = Pool[prefabId].FirstOrDefault(p => !p.gameObject.activeInHierarchy);
 
-        if (go != null)
-        {
-            // Reactivate and re-initialize the pooled packet
-          
-            if (parentTransform != null)
+       
+
+            if (go != null)
             {
-                go.transform.SetParent(parentTransform);
-            }
-            go.transform.position = position;
-            go.SetActive(true);
-        }
-        else
-        {
-     
-            GameObject prefab = GetPrefab(prefabId);
-            if (prefab == null)
-            {
-                Debug.LogError($"Prefab {prefabId} not found");
+                // Reactivate and re-initialize the pooled packet
+              
+                if (parentTransform != null)
+                {
+                    go.transform.SetParent(parentTransform);
+                }
+                go.transform.position = position;
+                go.SetActive(true);
             }
             else
             {
-                go = Instantiate(prefab, position, Quaternion.identity,  parentTransform);
+         
+                GameObject prefab = GetPrefab(prefabId);
+                if (prefab == null)
+                {
+                    Debug.LogError($"Prefab {prefabId} not found");
+                }
+                else
+                {
+                    go = Instantiate(prefab, position, Quaternion.identity,  parentTransform);
 
-                Pool[prefabId].Add(go); 
+                    Pool[prefabId].Add(go); 
+                }
             }
+            return go;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"${prefabId} has been destroyed");
+            throw e;
         }
         
-        return go;
     }
 
     public GameObject GetPrefab(string prefabId)

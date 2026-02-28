@@ -43,7 +43,6 @@ namespace DefaultNamespace.NetworkPackets
             float probTotal = 0f;
             foreach (NetworkPacketData _npData in GameManager.Instance.GetNetworkPacketDatas())
             {
-                // Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
                 probTotal += _npData.probilitly;
             }
 
@@ -54,6 +53,7 @@ namespace DefaultNamespace.NetworkPackets
                     transform.position, Color.green);
             GameManager.Instance.IncrStat(StatType.Money, saleValue);
             GameManager.Instance.GameLoopManager.dailyPacketIncome += saleValue;
+            Debug.Log($"{data.Type} - Prob: {data.probilitly} Total Before: {probTotal} - setValue: {saleValue}");
             ending = true;
    
         }
