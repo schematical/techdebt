@@ -618,11 +618,11 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             {
                 Group = ModifierBase.ModifierGroup.Release,
                 Target = ModifierBase.ModifierTarget.Run,
-                Type = ModifierBase.ModifierType.Run_Stat,
+                Type = ModifierBase.ModifierType.Global_NetworkPacketStat,
                 Id = "sale_page_optimization",
                 Name = "Sales Page Optimization",
-                StatType = StatType.DailyIncome,
-                NetworkPacketType = NetworkPacketData.PType.Text,
+                StatType = StatType.NetworkPacket_Probibility,
+                NetworkPacketType = NetworkPacketData.PType.Purchase,
                 // BaseValue = 1.05f,
                 IconSpriteId = "IconCart"
             },

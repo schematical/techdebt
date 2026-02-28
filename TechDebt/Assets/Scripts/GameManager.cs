@@ -46,45 +46,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<WorldObjectType.Type, WorldObjectType> WorldObjectTypes = new Dictionary<WorldObjectType.Type, WorldObjectType>();
     public ProductRoadMap ProductRoadMap;
     [SerializeField] public GridManager gridManager;
-    protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>(){
-        new NetworkPacketData() {
-            Type = NetworkPacketData.PType.Purchase,
-            baseLoad = 20,
-            probilitly = 20,
-            prefabId = "FileCoin"
-        },
-        new NetworkPacketData() {
-           Type = NetworkPacketData.PType.Text,
-           baseLoad = 10,
-           probilitly = 45,
-           prefabId = "NetworkPacket"
-       },
-       new NetworkPacketData() {
-           Type = NetworkPacketData.PType.Image,
-           baseLoad = 20,
-           probilitly = 45,
-           prefabId = "FileCat"
-       },
-       new NetworkPacketData() {
-           Type = NetworkPacketData.PType.MaliciousText,
-           baseLoad = 1000,
-           probilitly = 0,
-           prefabId = "NetworkPacketAttack"
-       },
-       new NetworkPacketData() {
-           Type = NetworkPacketData.PType.BatchJob,
-           baseLoad = 0,
-           probilitly = 0,
-           prefabId = "BatchJobNetworkPacket"
-       },
-       new NetworkPacketData() {
-           Type = NetworkPacketData.PType.PII,
-           baseLoad = 0,
-           probilitly = 0,
-           prefabId = "PIINetworkPacket"
-       },
-        
-    };
+    protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
     public StatsCollection Stats { get; private set; } = new StatsCollection();
     public MetaStatCollection MetaStats { get; private set; } = new MetaStatCollection();
     
@@ -202,7 +164,7 @@ public class GameManager : MonoBehaviour
         foreach (NetworkPacketData npData in NetworkPacketDatas)
         {
             // Debug.Log($"{npData.Type} - Prob: {npData.probilitly} Total Before: {probTotal}");
-            probTotal += npData.probilitly;
+            probTotal += npData.GetProbability();
         }
         float index = Random.Range(0, probTotal);
     
@@ -212,13 +174,14 @@ public class GameManager : MonoBehaviour
         {
             if (
                 index >= currFloor &&
-                index < currFloor + npData.probilitly
+                index < currFloor + npData.GetProbability()
             )
             {
                 foundData = npData;
                 break;
             }
-            currFloor += npData.probilitly;
+
+            currFloor += npData.GetProbability();
         }
 
         if (foundData == null)
@@ -545,7 +508,6 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
         Stats.Add(new StatData(StatType.PacketsFailed, 0f));
-        Stats.Add(new StatData(StatType.DailyIncome, 40f));
         Stats.Add(new StatData(StatType.Difficulty, 1.25f));
         Stats.Add(new StatData(StatType.PRR, 0.5f));
         Stats.Add(new StatData(StatType.ItemDropChance, 0.1f));
@@ -555,7 +517,48 @@ public class GameManager : MonoBehaviour
         Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f));
 
         // Tutorial = new TutorialEvent();
-        
+        NetworkPacketData coin = new NetworkPacketData(0f)
+        {
+            Type = NetworkPacketData.PType.Purchase,
+            baseLoad = 20,
+            prefabId = "FileCoin"
+        };
+        coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMin, 10));
+        coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMax, 20));
+        NetworkPacketDatas = new List<NetworkPacketData>()
+        {
+            coin,
+            new NetworkPacketData(45)
+            {
+                Type = NetworkPacketData.PType.Text,
+                baseLoad = 10,
+                prefabId = "NetworkPacket"
+            },
+            new NetworkPacketData(45)
+            {
+                Type = NetworkPacketData.PType.Image,
+                baseLoad = 20,
+                prefabId = "FileCat"
+            },
+            new NetworkPacketData(0)
+            {
+                Type = NetworkPacketData.PType.MaliciousText,
+                baseLoad = 1000,
+                prefabId = "NetworkPacketAttack"
+            },
+            new NetworkPacketData(0)
+            {
+                Type = NetworkPacketData.PType.BatchJob,
+                baseLoad = 0,
+                prefabId = "BatchJobNetworkPacket"
+            },
+            new NetworkPacketData(0)
+            {
+                Type = NetworkPacketData.PType.PII,
+                baseLoad = 0,
+                prefabId = "PIINetworkPacket"
+            },
+        };
  
         Events.Clear();
         Events.Add(new ItemDeliveryEvent());

@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 namespace DefaultNamespace.NetworkPackets
 {
@@ -10,6 +12,7 @@ namespace DefaultNamespace.NetworkPackets
             InfrastructureInstance origin = null)
         {
             base.Initialize(npData, fileName, size, origin);
+            
             ending = false;
         }
         protected override void Update()
@@ -40,20 +43,15 @@ namespace DefaultNamespace.NetworkPackets
             {
                 return;
             }
-            float probTotal = 0f;
-            foreach (NetworkPacketData _npData in GameManager.Instance.GetNetworkPacketDatas())
-            {
-                probTotal += _npData.probilitly;
-            }
-
-            float percentageOfTotalTraffic = data.probilitly / probTotal;
-            float estimatedPacketsSentToday = percentageOfTotalTraffic * GameManager.Instance.GetStat(StatType.Traffic);
-            int saleValue = (int)Math.Round(GameManager.Instance.GetStat(StatType.DailyIncome) / estimatedPacketsSentToday);
+            int saleValue = (int) Random.Range(
+                data.Stats.GetStatValue(StatType.NetworkPacket_ValueMin),
+                data.Stats.GetStatValue(StatType.NetworkPacket_ValueMax)
+            );
             GameManager.Instance.FloatingTextFactory.ShowText($"+${saleValue}",
                     transform.position, Color.green);
             GameManager.Instance.IncrStat(StatType.Money, saleValue);
             GameManager.Instance.GameLoopManager.dailyPacketIncome += saleValue;
-            Debug.Log($"{data.Type} - Prob: {data.probilitly} Total Before: {probTotal} - setValue: {saleValue}");
+            Debug.Log($"{data.Type} - setValue: {saleValue}");
             ending = true;
    
         }

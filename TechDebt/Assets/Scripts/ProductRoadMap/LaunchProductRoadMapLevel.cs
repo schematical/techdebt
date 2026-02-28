@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LaunchProductRoadMapLevel: ProductRoadMapLevel
 {
-    StatModifier LaunchDayStatModifier;
+
     public LaunchProductRoadMapLevel()
     {
         Name = "Launch Sprint";
@@ -27,8 +27,10 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
         );
-        LaunchDayStatModifier = new StatModifier("launch_day_traffic", 2f);
-        GameManager.Instance.Stats.AddModifier(StatType.Traffic, LaunchDayStatModifier);
+
+        StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
+        GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
+        Modifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);
         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
         if (networkPacketData == null)
         {
@@ -38,7 +40,10 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
             }
             throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
         }
-        networkPacketData.probilitly = 20;
+        StatModifier launchDayPurchaseModifier = new StatModifier("launch_day_purchase", 2f);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(10);
+        networkPacketData.Stats.AddModifier(StatType.NetworkPacket_Probibility, launchDayPurchaseModifier);
+        Modifiers[ModifierType.LaunchDay].Add(launchDayPurchaseModifier);
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
@@ -52,7 +57,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
             {
                 new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
                     {
-                        LaunchDayStatModifier.Remove();
+                        CleanUpModifiers(ModifierType.LaunchDay);
                         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
                         if (networkPacketData == null)
                         {
@@ -62,7 +67,6 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
                             }
                             throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
                         }
-                        networkPacketData.probilitly = 10;
                         GameManager.Instance.InfrastructureUpdateNetworkTargets();
                         GameManager.Instance.ProductRoadMap.IncrStage();
                         GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);

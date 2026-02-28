@@ -16,7 +16,8 @@ namespace NPCs
         {
             NPC_Stat,
             Infra_NetworkPacketStat,
-            Run_Stat
+            Run_Stat,
+            Global_NetworkPacketStat
         }
         public enum ModifierTarget
         {
@@ -130,6 +131,20 @@ namespace NPCs
                         GetScaledValue()
                     );
                     GameManager.Instance.Stats.AddModifier(StatType, StatModifier);
+                    
+                    break;
+                case(ModifierType.Global_NetworkPacketStat):
+                    StatModifier = new StatModifier(
+                        Id,
+                        GetScaledValue()
+                    );
+                    NetworkPacketData networkPacketData2 = GameManager.Instance.GetNetworkPacketDatas()
+                        .Find((data => data.Type == NetworkPacketType));
+                    if (networkPacketData2 == null)
+                    {
+                        throw new SystemException($"Could not find {NetworkPacketType}");
+                    }
+                    networkPacketData2.Stats.AddModifier(StatType, StatModifier);
                     
                     break;
             }

@@ -22,7 +22,7 @@ public class GameLoopManager : MonoBehaviour
     public int currentDay = 0;
     public float dayTimer = 0f;
     public float dailyPacketIncome = 0f;
-
+    
     public int GetCurrentDay()
     {
         return currentDay;
@@ -177,18 +177,14 @@ public class GameLoopManager : MonoBehaviour
                 infraCosts += $"{instance.GetWorldObjectType().DisplayName}: ${cost}\n";
             }
         }
-        
+
+        int sprintNumber = GameManager.Instance.ProductRoadMap.CurrentStage;
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
-            new StatModifier($"traffic_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))
+            new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))
         );
         
-        float adjustedDailyIncomeMultiplier = GameManager.Instance.GetStat(StatType.Difficulty) * percentageSuccess;
-        GameManager.Instance.Stats.AddModifier(
-            StatType.DailyIncome,
-            new StatModifier($"dailyIncome_day_{currentDay}", adjustedDailyIncomeMultiplier)
-        );
-        float updatedDailyIncome = GameManager.Instance.GetStat(StatType.DailyIncome);
+
    
 
         float attackPossibility = GameManager.Instance.Stats.GetStatValue(StatType.AttackPossibility);
@@ -206,7 +202,7 @@ public class GameLoopManager : MonoBehaviour
                 )
             );
         }
-
+      
         string summaryText = $"End of Day {currentDay - 1}\n" +
                              $"Total Packets: {packetsFailed + packetsServiced} \n" +
                              $"Packets Failed: {packetsFailed} \n" +
@@ -216,7 +212,7 @@ public class GameLoopManager : MonoBehaviour
                              $"Total Income: ${Math.Round(dailyPacketIncome)}\n" +
                              $"Net Income: ${dailyPacketIncome - totalDailyCost}\n" +
                              $"Total: {money} \n" +
-                             $"Tomorrow's Expected Income: ${updatedDailyIncome} - ({(1 - percentageSuccess):F2}% Failed Penalty)\n" +
+                             //$"Tomorrow's Expected Income: ${updatedDailyIncome} - ({(1 - percentageSuccess):F2}% Failed Penalty)\n" +
                              $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n";
                              
 

@@ -28,7 +28,16 @@ namespace UI
             sb.AppendLine("\n\n\n<b>Network Packets</b> \n");
             foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
             {
-                sb.AppendLine($"- {networkPacketData.Type} - {networkPacketData.probilitly} \n");
+                sb.AppendLine($"- {networkPacketData.Type}");
+                foreach (StatType statType in networkPacketData.Stats.Stats.Keys)
+                {
+                    StatData statData = networkPacketData.Stats.Stats[statType];
+                    sb.AppendLine($"   - {statType} - {statData.Value}");
+                    foreach (StatModifier modifier in statData.Modifiers)
+                    {
+                        sb.AppendLine($"      - {modifier.Id} - {modifier.GetDisplayText()}");
+                    }
+                }
             }
             textArea.textArea.text = sb.ToString();
         }

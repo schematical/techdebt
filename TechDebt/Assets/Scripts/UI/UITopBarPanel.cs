@@ -39,7 +39,6 @@ namespace UI
             {
                 StatType.Money,
                 StatType.Traffic,
-                StatType.DailyIncome,
                 StatType.Difficulty,
                 StatType.TechDebt,
             };

@@ -9,7 +9,6 @@ public enum StatType
     PacketsServiced,
     PRR, // PacketsRatioRequirements,
     PacketsFailed,
-    DailyIncome,
     Difficulty,
     
     // Infrastructure Stats
@@ -46,5 +45,9 @@ public enum StatType
     Infra_InputValidation,
     AttackPossibility,
     NPC_AttackDamage,
-    TechDebt_AccumulationRate
+    TechDebt_AccumulationRate,
+    
+    NetworkPacket_Probibility,
+    NetworkPacket_ValueMin,
+    NetworkPacket_ValueMax,
 }

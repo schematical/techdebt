@@ -1,5 +1,6 @@
 ﻿// NetworkPacketData.cs
 using System;
+using Stats;
 using UnityEngine;
 [Serializable]
 public class NetworkPacketData
@@ -14,10 +15,21 @@ public class NetworkPacketData
         Purchase,
         PII
     }
-
+    // public NetworkPacketData(float probability)
+    public StatsCollection Stats = new StatsCollection();
     public PType Type;
     public string prefabId;
     public float baseLoad = 20f;
-    public float probilitly = 1f;
+
+    public NetworkPacketData(float probibility)
+    {
+        Stats.Add(new StatData(StatType.NetworkPacket_Probibility, probibility));
+    }
+
+
+    public float GetProbability()
+    {
+        return Stats.GetStatValue(StatType.NetworkPacket_Probibility);
+    }
     // public int incomePerPacket = 0;
 }

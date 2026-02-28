@@ -267,13 +267,18 @@ namespace UI
         }
 
         public override void Close(bool forceClose = false)
-        {     
+        {
+            if (panelState != UIState.Closed)
+            {
+                GameManager.Instance.UIManager.Resume();
+            }
+
             foreach (TechNodeView techNodeView in _techTreeNodes)
             {
                 techNodeView.LabelInstance.gameObject.SetActive(false);
             }
         
-            GameManager.Instance.UIManager.Resume();
+        
             _techTreeNodes.Clear();
             if (nodeTilemap != null) nodeTilemap.ClearAllTiles();
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MetaChallenges;
 using NPCs;
+using Stats;
 
 
 public class ProductRoadMap
@@ -87,13 +88,24 @@ public class ProductRoadMapStage
 
 public class ProductRoadMapLevel
 {
+    public enum ModifierType
+    {
+        LaunchDay,
+        Level
+    }
    public string Name { get; set; }
    public string SpriteId { get; set; }
    public int SprintDuration { get; set; } = 5;
+
    // TODO Stake holder? Sales, PR, etc?
    //TODO Add in modifiers and rewards
-   List<ModifierBase> Modifiers { get; set; } = new List<ModifierBase>();
+   protected Dictionary<ModifierType, List<StatModifier>> Modifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
 
+   public ProductRoadMapLevel()
+   {
+       Modifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
+       Modifiers.Add(ModifierType.Level,  new List<StatModifier>());
+   }
    public virtual bool HasVictoryConditionBeenMet()
    {
        return false;
@@ -111,6 +123,20 @@ public class ProductRoadMapLevel
        {
            
        }
+   }
+
+   public void CleanUpModifiers(ModifierType modifierType)
+   {
+       if (!Modifiers.ContainsKey(modifierType))
+       {
+           throw new SystemException($"Cannot find {modifierType}");
+       }
+
+       foreach (StatModifier statModifier in Modifiers[modifierType])
+       {
+           statModifier.Remove();
+       }
+       Modifiers[modifierType].Clear();
    }
 
    public virtual bool IsLaunchDay()
@@ -145,6 +171,7 @@ public class ProductRoadMapLevel
            EndGame();
            return;
        }
+       // TODO: Possibly make the amount of packets served up increase or decrease the amount of PURCHASE packets served up
        if (IsLaunchDay())
        {
            OnLaunchDaySummary();

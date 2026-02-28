@@ -49,7 +49,7 @@ public class UIDebugPanel : UIPanel
             }
             throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
         }
-        networkPacketData.probilitly = 1000;
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(1000);
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
         GameManager.Instance.UIManager.moneyPanel.AddCoin();
         GameManager.Instance.UIManager.moneyPanel.ExplodeCoins(30);
