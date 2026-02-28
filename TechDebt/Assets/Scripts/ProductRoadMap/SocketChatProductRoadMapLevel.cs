@@ -1,7 +1,7 @@
 
-public class SocketChatProductRoadMapLevel:ProductRoadMapLevel
+public class SocketChatMapLevel:MapLevel
 {
-    public SocketChatProductRoadMapLevel()
+    public SocketChatMapLevel()
     {
         Name = "Socket Chat Sprint";
         SpriteId = "IconChat";

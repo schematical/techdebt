@@ -20,18 +20,18 @@ namespace UI
         public TextMeshProUGUI text;
         public Button button;
         
-        private ProductRoadMapLevel _level;
+        private MapLevel _level;
         public int LevelIndex { get; private set; }
-        private Action<ProductRoadMapLevel> _onHover;
-        private Action<ProductRoadMapLevel> _onClick;
+        private Action<MapLevel> _onHover;
+        private Action<MapLevel> _onClick;
 
-        public void Init(ProductRoadMapLevel level, int levelIndex, ButtonState state, Action<ProductRoadMapLevel> onHover, Action<ProductRoadMapLevel> onClick)
+        public void Init(MapLevel level, int levelIndex, ButtonState state, Action<MapLevel> onHover, Action<MapLevel> onClick)
         {
             _level = level;
             LevelIndex = levelIndex;
             _onHover = onHover;
             _onClick = onClick;
-            text.text = level.GetDescription();
+            text.text = level.Name;
             image.sprite = GameManager.Instance.SpriteManager.GetSprite(level.GetSpriteId());
             
             button.onClick.RemoveAllListeners();

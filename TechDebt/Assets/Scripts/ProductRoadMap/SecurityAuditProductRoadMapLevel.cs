@@ -1,7 +1,7 @@
 
-public class SecurityAuditProductRoadMapLevel: ProductRoadMapLevel
+public class SecurityAuditMapLevel: MapLevel
 {
-    public SecurityAuditProductRoadMapLevel()
+    public SecurityAuditMapLevel()
     {
         Name = "Security Audit Sprint";
         SpriteId = "IconLock";

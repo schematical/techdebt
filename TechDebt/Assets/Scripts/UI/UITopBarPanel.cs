@@ -94,7 +94,7 @@ namespace UI
             string amPm = currentHour < 12 ? "AM" : "PM";
             int displayHour = currentHour > 12 ? currentHour - 12 : currentHour;
             if (displayHour == 0) displayHour = 12;
-            int sprint = GameManager.Instance.ProductRoadMap.CurrentStage + 1;
+            int sprint = GameManager.Instance.Map.CurrentStage + 1;
             _clockText.text = $"Sprint {sprint} | Day: {day} | {displayHour:D2}:{currentMinute:D2} {amPm}";
         }
 

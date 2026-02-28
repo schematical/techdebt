@@ -1,11 +1,11 @@
 
-public class EmailProductRoadMapLevel:ProductRoadMapLevel
+public class EmailMapLevel:MapLevel
 {
-    public EmailProductRoadMapLevel()
+    public EmailMapLevel()
     {
         Name = "Email Sprint";
         SpriteId = "IconEmail";
-        VictoryConditions.Add(new ProductRoadMapLevelVictoryCondition()
+        VictoryConditions.Add(new MapLevelVictoryCondition()
         {
             TargetId = "email-service"
         });

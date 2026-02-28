@@ -1,7 +1,7 @@
 
-public class GeoLocationProductRoadMapLevel:ProductRoadMapLevel
+public class GeoLocationMapLevel:MapLevel
 {
-    public GeoLocationProductRoadMapLevel()
+    public GeoLocationMapLevel()
     {
         Name = "Geo Location Sprint";
         SpriteId = "IconGeo";

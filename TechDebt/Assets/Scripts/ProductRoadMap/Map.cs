@@ -9,7 +9,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class ProductRoadMap
+public class Map
 {
     public List<ProductRoadMapStage> Stages { get; set; }
     public int CurrentStage { get; protected set; } = 0;
@@ -19,23 +19,23 @@ public class ProductRoadMap
         Stages = new List<ProductRoadMapStage>();
         // Level 1 is just launch
         ProductRoadMapStage Stage = new ProductRoadMapStage(Stages.Count);
-        Stage.Levels.Add(new LaunchProductRoadMapLevel());
+        Stage.Levels.Add(new LaunchMapLevel());
         Stages.Add(Stage);
         
         Stage = new ProductRoadMapStage(Stages.Count);
 
         
-        Stage.Levels.Add(new MobileProductRoadMapLevel());
-        Stage.Levels.Add(new EmailProductRoadMapLevel());
+        Stage.Levels.Add(new MobileMapLevel());
+        Stage.Levels.Add(new EmailMapLevel());
         Stages.Add(Stage);
         
         Stage = new ProductRoadMapStage(Stages.Count);
-        Stage.Levels.Add(new SecurityAuditProductRoadMapLevel());
+        Stage.Levels.Add(new SecurityAuditMapLevel());
         Stages.Add(Stage);
         
         Stage = new ProductRoadMapStage(Stages.Count);
-        Stage.Levels.Add(new SocketChatProductRoadMapLevel());
-        Stage.Levels.Add(new GeoLocationProductRoadMapLevel());
+        Stage.Levels.Add(new SocketChatMapLevel());
+        Stage.Levels.Add(new GeoLocationMapLevel());
         Stages.Add(Stage);
         foreach (ProductRoadMapStage nextStage in Stages)
         {
@@ -45,7 +45,7 @@ public class ProductRoadMap
         
     }
 
-    public ProductRoadMapLevel GetCurrentLevel()
+    public MapLevel GetCurrentLevel()
     {
         return Stages[CurrentStage].GetSelectedLevel();
     }
@@ -60,7 +60,7 @@ public class ProductRoadMap
 public class ProductRoadMapStage
 {
     public int SelectedLevel { get; protected set; } = -1;
-    public List<ProductRoadMapLevel>  Levels { get; set; } = new List<ProductRoadMapLevel>();
+    public List<MapLevel>  Levels { get; set; } = new List<MapLevel>();
     public int Stage { get; protected set; }
     public ProductRoadMapStage(int _stage)
     {
@@ -69,26 +69,26 @@ public class ProductRoadMapStage
 
     public void Randomize()
     {
-        foreach (ProductRoadMapLevel level in Levels)
+        foreach (MapLevel level in Levels)
         {
             level.Randomize(Stage);
         }
         /*for (int i = 0; i < 3; i++)
         {
-            ProductRoadMapLevel level = new ProductRoadMapLevel();
+            MapLevel level = new MapLevel();
             level.Randomize(Stage);
         }*/
 
 
     }
-    public ProductRoadMapLevel SetSelectedLevel(int level)
+    public MapLevel SetSelectedLevel(int level)
     {
         SelectedLevel = level;
         Levels[SelectedLevel].OnSprintStart();
         return Levels[SelectedLevel];
     }
 
-    public ProductRoadMapLevel GetSelectedLevel()
+    public MapLevel GetSelectedLevel()
     {
         if (SelectedLevel == -1)
         {
@@ -98,7 +98,7 @@ public class ProductRoadMapStage
     }
 }
 
-public class ProductRoadMapLevel
+public class MapLevel
 {
     public enum ModifierType
     {
@@ -108,14 +108,14 @@ public class ProductRoadMapLevel
    public string Name { get; set; }
    protected string SpriteId { get; set; } = "IconFlag";
    public int SprintDuration { get; set; } = 5;
-   public List<ProductRoadMapLevelVictoryCondition> VictoryConditions =  new List<ProductRoadMapLevelVictoryCondition>();
+   public List<MapLevelVictoryCondition> VictoryConditions =  new List<MapLevelVictoryCondition>();
 
-   public List<ProductRoadMapLevelModifier> LevelModifiers = new List<ProductRoadMapLevelModifier>();
+   public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
    // TODO Stake holder? Sales, PR, etc?
    //TODO Add in modifiers and rewards
    protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
 
-   public ProductRoadMapLevel()
+   public MapLevel()
    {
        StatModifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
        StatModifiers.Add(ModifierType.Level,  new List<StatModifier>());
@@ -129,7 +129,7 @@ public class ProductRoadMapLevel
    public virtual VictoryConditionState GetVictoryConditionState()
    {
        VictoryConditionState state = VictoryConditionState.Succeeded;
-       foreach (ProductRoadMapLevelVictoryCondition condition in VictoryConditions)
+       foreach (MapLevelVictoryCondition condition in VictoryConditions)
        {
            switch (condition.GetState())
            {
@@ -160,8 +160,8 @@ public class ProductRoadMapLevel
        if (VictoryConditions.Count == 0)
        {
            // throw new NotImplementedException();
-           /*ProductRoadMapLevelVictoryCondition
-               condition = ProductRoadMapLevelVictoryCondition.GetRandomCondition(stage);
+           /*MapLevelVictoryCondition
+               condition = MapLevelVictoryCondition.GetRandomCondition(stage);
            VictoryConditions.Add(condition);*/
        }
       
@@ -170,13 +170,13 @@ public class ProductRoadMapLevel
        for (int i = 0; i < stage; i++)
        {
 
-           ProductRoadMapLevelModifier modifier = null;
+           MapLevelModifier modifier = null;
            int saftyCheck = 0;
            while (modifier == null && saftyCheck < 10)
            {
                saftyCheck += 1;
-               modifier = ProductRoadMapLevelModifier.GetRandom(stage);
-               foreach (ProductRoadMapLevelModifier checkModifier in LevelModifiers)
+               modifier = MapLevelModifier.GetRandom(stage);
+               foreach (MapLevelModifier checkModifier in LevelModifiers)
                {
                    if (checkModifier.Equals(modifier))
                    {
@@ -195,12 +195,12 @@ public class ProductRoadMapLevel
            LevelModifiers.Add(modifier);
            switch (modifier.Direction) 
            {
-               case(ProductRoadMapLevelModifier.ModifierDirection.Negative):
+               case(MapLevelModifier.ModifierDirection.Negative):
                    // Get a negative
                    levelDifficultyAdjustment -= 1;
                    
                    break;
-               case(ProductRoadMapLevelModifier.ModifierDirection.Positive):
+               case(MapLevelModifier.ModifierDirection.Positive):
                    // Get a positive
                    levelDifficultyAdjustment += 1;
                    break;
@@ -279,7 +279,7 @@ public class ProductRoadMapLevel
    public virtual string GetDescription()
    {
        string res = $"{Name}  - LevelModifiers:{LevelModifiers.Count}\n";
-       foreach (ProductRoadMapLevelModifier modifier in LevelModifiers)
+       foreach (MapLevelModifier modifier in LevelModifiers)
        {
            res += modifier.GetDescription() + "\n";
        }
@@ -313,7 +313,7 @@ public class ProductRoadMapLevel
    }
 }
 
-public class ProductRoadMapLevelModifier
+public class MapLevelModifier
 {
     public enum ModifierDirection
     {
@@ -377,9 +377,9 @@ public class ProductRoadMapLevelModifier
         return statTypes[i];
     }
 
-    public static ProductRoadMapLevelModifier GetRandom(int stage)
+    public static MapLevelModifier GetRandom(int stage)
     {
-        ProductRoadMapLevelModifier modifier = new ProductRoadMapLevelModifier()
+        MapLevelModifier modifier = new MapLevelModifier()
         {
             Type = GetRandomType(),
             Direction = GetRandomDirection()
@@ -423,7 +423,7 @@ public class ProductRoadMapLevelModifier
         return modifier;
     }
 
-    public void Apply(ProductRoadMapLevel level)
+    public void Apply(MapLevel level)
     {
         switch (Type)
         {
@@ -453,7 +453,7 @@ public class ProductRoadMapLevelModifier
         }
     }
 
-    public bool Equals(ProductRoadMapLevelModifier other)
+    public bool Equals(MapLevelModifier other)
     {
         return (
             Type == other.Type &&
@@ -470,7 +470,7 @@ public class ProductRoadMapLevelModifier
     
 }
 
-public class ProductRoadMapLevelVictoryCondition
+public class MapLevelVictoryCondition
 {
     public enum ConditionType { InfrastructureActive };
   
@@ -497,9 +497,9 @@ public class ProductRoadMapLevelVictoryCondition
         }
     }
 
-    public static ProductRoadMapLevelVictoryCondition GetRandomCondition(int stage)
+    public static MapLevelVictoryCondition GetRandomCondition(int stage)
     {
-        ProductRoadMapLevelVictoryCondition condition = null;
+        MapLevelVictoryCondition condition = null;
         int saftyCheck = 0;
         while (condition == null && saftyCheck < 10)
         {
@@ -510,7 +510,7 @@ public class ProductRoadMapLevelVictoryCondition
                 "email-service",
                 "sns"
             };
-            condition = new ProductRoadMapLevelVictoryCondition();
+            condition = new MapLevelVictoryCondition();
             int i = Random.Range(0, infraIds.Count);
             condition.TargetId = infraIds[i];
             if (condition.GetState() == VictoryConditionState.NotMet)

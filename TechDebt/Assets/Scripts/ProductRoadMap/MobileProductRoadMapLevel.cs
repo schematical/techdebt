@@ -1,11 +1,11 @@
 
-public class MobileProductRoadMapLevel: ProductRoadMapLevel
+public class MobileMapLevel: MapLevel
 {
-    public MobileProductRoadMapLevel()
+    public MobileMapLevel()
     {
         Name = "Mobile Notifications Sprint";
         SpriteId = "IconMobile";
-        VictoryConditions.Add(new ProductRoadMapLevelVictoryCondition()
+        VictoryConditions.Add(new MapLevelVictoryCondition()
         {
             TargetId = "sns"
         });

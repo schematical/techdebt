@@ -158,7 +158,7 @@ public class UIDebugPanel : UIPanel
     private void EndRun()
     {
         GameManager.Instance.Stats.Get(StatType.Money).SetBaseValue(-1000);
-        GameManager.Instance.ProductRoadMap.GetCurrentLevel().EndGame();
+        GameManager.Instance.Map.GetCurrentLevel().EndGame();
     }  
     private void EndDay()
     {

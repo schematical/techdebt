@@ -26,7 +26,7 @@ namespace UI
         {
             CurrentState = _state;
             base.Show();
-            ProductRoadMap Map = GameManager.Instance.ProductRoadMap;
+            Map Map = GameManager.Instance.Map;
             int stageX = 0;
             float width = RectTransform.rect.width;
             float height = RectTransform.rect.height;
@@ -49,7 +49,7 @@ namespace UI
             {
                 List<UIProductRoadMapLevelButton> currentStageButtons = new List<UIProductRoadMapLevelButton>();
                 int levelY = 0;
-                foreach (ProductRoadMapLevel level in stage.Levels)
+                foreach (MapLevel level in stage.Levels)
                 {
                     UIProductRoadMapLevelButton button =
                         GameManager.Instance.prefabManager

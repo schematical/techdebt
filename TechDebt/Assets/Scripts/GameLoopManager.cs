@@ -30,7 +30,7 @@ public class GameLoopManager : MonoBehaviour
 
     public int GetDaysLeftInSprint()
     {
-        return GameManager.Instance.ProductRoadMap.GetCurrentLevel().SprintDuration - currentDay;
+        return GameManager.Instance.Map.GetCurrentLevel().SprintDuration - currentDay;
     }
     void FixedUpdate()
     {
@@ -96,7 +96,7 @@ public class GameLoopManager : MonoBehaviour
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowPlanUI();
-        GameManager.Instance.ProductRoadMap.GetCurrentLevel().PlanPhaseCheck();
+        GameManager.Instance.Map.GetCurrentLevel().PlanPhaseCheck();
     }
 
  
@@ -150,7 +150,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
-        GameManager.Instance.ProductRoadMap.GetCurrentLevel().SummaryPhaseCheck();
+        GameManager.Instance.Map.GetCurrentLevel().SummaryPhaseCheck();
         
       
     
@@ -179,7 +179,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
 
-        int sprintNumber = GameManager.Instance.ProductRoadMap.CurrentStage;
+        int sprintNumber = GameManager.Instance.Map.CurrentStage;
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
             new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))

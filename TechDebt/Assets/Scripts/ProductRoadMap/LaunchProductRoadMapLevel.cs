@@ -4,10 +4,10 @@ using Stats;
 using UI;
 using UnityEngine;
 
-public class LaunchProductRoadMapLevel: ProductRoadMapLevel
+public class LaunchMapLevel: MapLevel
 {
 
-    public LaunchProductRoadMapLevel()
+    public LaunchMapLevel()
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
@@ -53,7 +53,7 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
                         NetworkPacketData networkPacketData =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
                         GameManager.Instance.InfrastructureUpdateNetworkTargets();
-                        GameManager.Instance.ProductRoadMap.IncrStage();
+                        GameManager.Instance.Map.IncrStage();
                         GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
                     }
                 }/*,
