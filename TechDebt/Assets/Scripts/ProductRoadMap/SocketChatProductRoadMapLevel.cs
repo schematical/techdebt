@@ -1,14 +1,11 @@
 
 public class SocketChatMapLevel:MapLevel
 {
-    public SocketChatMapLevel()
+    public SocketChatMapLevel(MapStage stage) : base(stage)
     {
         Name = "Socket Chat Sprint";
         SpriteId = "IconChat";
         
     }
-    public void OnStart()
-    {
-      //TODO: Have the NPCs describe the sprint   
-    }
+   
 }

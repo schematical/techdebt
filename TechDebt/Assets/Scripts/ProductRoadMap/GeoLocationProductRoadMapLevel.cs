@@ -1,14 +1,11 @@
 
 public class GeoLocationMapLevel:MapLevel
 {
-    public GeoLocationMapLevel()
+    public GeoLocationMapLevel(MapStage stage) : base(stage)
     {
         Name = "Geo Location Sprint";
         SpriteId = "IconGeo";
         
     }
-    public void OnStart()
-    {
-      //TODO: Have the NPCs describe the sprint   
-    }
+  
 }

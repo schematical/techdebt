@@ -11,33 +11,33 @@ using Random = UnityEngine.Random;
 
 public class Map
 {
-    public List<ProductRoadMapStage> Stages { get; set; }
+    public List<MapStage> Stages { get; set; }
     public int CurrentStage { get; protected set; } = 0;
 
     public void Randomize()
     {
-        Stages = new List<ProductRoadMapStage>();
+        Stages = new List<MapStage>();
         // Level 1 is just launch
-        ProductRoadMapStage Stage = new ProductRoadMapStage(Stages.Count);
-        Stage.Levels.Add(new LaunchMapLevel());
+        MapStage Stage = new MapStage(Stages.Count);
+        Stage.Levels.Add(new LaunchMapLevel(Stage));
         Stages.Add(Stage);
         
-        Stage = new ProductRoadMapStage(Stages.Count);
+        Stage = new MapStage(Stages.Count);
 
         
-        Stage.Levels.Add(new MobileMapLevel());
-        Stage.Levels.Add(new EmailMapLevel());
+        Stage.Levels.Add(new MobileMapLevel(Stage));
+        Stage.Levels.Add(new EmailMapLevel(Stage));
         Stages.Add(Stage);
         
-        Stage = new ProductRoadMapStage(Stages.Count);
-        Stage.Levels.Add(new SecurityAuditMapLevel());
+        Stage = new MapStage(Stages.Count);
+        Stage.Levels.Add(new SecurityAuditMapLevel(Stage));
         Stages.Add(Stage);
         
-        Stage = new ProductRoadMapStage(Stages.Count);
-        Stage.Levels.Add(new SocketChatMapLevel());
-        Stage.Levels.Add(new GeoLocationMapLevel());
+        Stage = new MapStage(Stages.Count);
+        Stage.Levels.Add(new SocketChatMapLevel(Stage));
+        Stage.Levels.Add(new GeoLocationMapLevel(Stage));
         Stages.Add(Stage);
-        foreach (ProductRoadMapStage nextStage in Stages)
+        foreach (MapStage nextStage in Stages)
         {
             nextStage.Randomize();
         }
@@ -57,12 +57,12 @@ public class Map
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
     }
 }
-public class ProductRoadMapStage
+public class MapStage
 {
     public int SelectedLevel { get; protected set; } = -1;
     public List<MapLevel>  Levels { get; set; } = new List<MapLevel>();
     public int Stage { get; protected set; }
-    public ProductRoadMapStage(int _stage)
+    public MapStage(int _stage)
     {
         Stage = _stage;
     }
@@ -112,11 +112,12 @@ public class MapLevel
 
    public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
    // TODO Stake holder? Sales, PR, etc?
-   //TODO Add in modifiers and rewards
+   //TODO Add in rewards
    protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
-
-   public MapLevel()
+   protected MapStage Stage { get; set; }
+   public MapLevel(MapStage _stage)
    {
+       Stage =  _stage;
        StatModifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
        StatModifiers.Add(ModifierType.Level,  new List<StatModifier>());
    }
@@ -175,7 +176,7 @@ public class MapLevel
            while (modifier == null && saftyCheck < 10)
            {
                saftyCheck += 1;
-               modifier = MapLevelModifier.GetRandom(stage);
+               modifier = MapLevelModifier.GetRandom();
                foreach (MapLevelModifier checkModifier in LevelModifiers)
                {
                    if (checkModifier.Equals(modifier))
@@ -281,7 +282,7 @@ public class MapLevel
        string res = $"{Name}  - LevelModifiers:{LevelModifiers.Count}\n";
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
-           res += modifier.GetDescription() + "\n";
+           res += modifier.GetDescription(this) + "\n";
        }
        return res;
    }
@@ -311,6 +312,11 @@ public class MapLevel
            }
        );
    }
+
+   public MapStage GetStage()
+   {
+       return Stage;
+   }
 }
 
 public class MapLevelModifier
@@ -325,7 +331,7 @@ public class MapLevelModifier
     public enum ModifierDuration
     {
         None,
-        Spring,
+        Sprint,
         LaunchDay
     }
     public enum ModifierType
@@ -333,94 +339,123 @@ public class MapLevelModifier
         SprintDuration,
         Stat
     }
-    
+    protected static List<MapLevelModifier> LevelModifiers = null;
     public ModifierDirection Direction;
     public ModifierType Type;
     public ModifierDuration Duration;
     public StatType? statType = null;
     public string Name;
-    public float Value;
 
-    public static ModifierDuration GetRandomDuration()
+    public static List<ModifierDuration> GetDurations()
     {
-        List<ModifierDuration> durations = Enum.GetValues(typeof( ModifierDuration))
+        return Enum.GetValues(typeof(ModifierDuration))
             .Cast<ModifierDuration>()
             .ToList();
+    }
+    public static ModifierDuration GetRandomDuration()
+    {
+        List<ModifierDuration> durations = GetDurations();
         int i = Random.Range(0, durations.Count);
         return durations[i];
     }
-    public static ModifierDirection GetRandomDirection()
+
+
+    private static List<ModifierDirection> GetDirections()
     {
-        List<ModifierDirection> direction = Enum.GetValues(typeof( ModifierDirection))
+        return Enum.GetValues(typeof( ModifierDirection))
             .Cast<ModifierDirection>()
             .ToList();
-        int i = Random.Range(0, direction.Count);
-        return direction[i];
     }
-    public static ModifierType GetRandomType()
+
+
+
+    private static List<ModifierType> GetTypes()
     {
-        List<ModifierType> types = Enum.GetValues(typeof( ModifierType))
+        return Enum.GetValues(typeof( ModifierType))
             .Cast<ModifierType>()
             .ToList();
-        int i = Random.Range(0, types.Count);
-        return types[i];
     }
-    public static StatType GetRandomStat()
+
+  
+
+    private static List<StatType>  GetStats()
     {
-        List<StatType> statTypes = new List<StatType>()
+        return new List<StatType>()
         {
             StatType.NetworkPacket_Probibility,
             StatType.Traffic,
             StatType.TechDebt_AccumulationRate
         };
-        int i = Random.Range(0, statTypes.Count);
-        return statTypes[i];
     }
 
-    public static MapLevelModifier GetRandom(int stage)
+    public static List<MapLevelModifier> BuildMapLevelModifiers()
     {
-        MapLevelModifier modifier = new MapLevelModifier()
-        {
-            Type = GetRandomType(),
-            Direction = GetRandomDirection()
-        };
         
-        
-        switch (modifier.Type)
+        List<MapLevelModifier> modifiers = new List<MapLevelModifier>();
+        List<ModifierType> types = GetTypes();
+        foreach (ModifierType type in types)
         {
-            case(ModifierType.Stat):
-                modifier.statType = GetRandomStat();
-                modifier.Value = 0;
-                switch (modifier.Direction)
-                {
-                    case(ModifierDirection.Positive):
-                        modifier.Value = (float)Math.Pow(1.25f, stage);
-                        break;
-                    case(ModifierDirection.Negative):
-                        modifier.Value = (float)Math.Pow(0.75f, stage);
-                        break;
-                    default:
-                        throw new NotFiniteNumberException();
-                }
-                break;
+            switch (type)
+            {
                 case(ModifierType.SprintDuration):
-                    switch (modifier.Direction)
+                    foreach (ModifierDirection direction in GetDirections())
                     {
-                        case(ModifierDirection.Positive):
-                            modifier.Value = 5 + stage;
-                            break;
-                        case(ModifierDirection.Negative):
-                            modifier.Value = 5 - stage;
-                            break;
-                        default:
-                            throw new NotFiniteNumberException();
+                        MapLevelModifier modifier = new MapLevelModifier();
+                        modifier.Direction = direction;
+                        modifier.Type = type;
+                        
+                        modifiers.Add(modifier);
                     }
-                break;
-            default:
-                throw new NotFiniteNumberException();
+
+                    break;
+                case(ModifierType.Stat):
+                    foreach (ModifierDirection direction in GetDirections())
+                    {
+                        foreach (ModifierDuration duration in GetDurations())
+                        {
+                            switch (duration)
+                            {
+                                case(ModifierDuration.Sprint):
+                                case(ModifierDuration.LaunchDay):
+                                    foreach (StatType statType in GetStats())
+                                    {
+                                        MapLevelModifier modifier = new MapLevelModifier();
+                                        modifier.Direction = direction;
+                                        modifier.Duration = duration;
+                                        modifier.Type = type;
+                                        modifier.statType = statType;
+                                        modifiers.Add(modifier);
+                                    }
+                                    break;
+                                case(ModifierDuration.None):
+                                    continue;
+                                default:
+                                    throw new NotImplementedException($"Duration {duration} not implemented");
+                                    break;
+                                
+                            }
+                            
+                        }
+                    }
+
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
-        return modifier;
+        return modifiers;
+    }
+
+    public static MapLevelModifier GetRandom()
+    {
+        if (LevelModifiers == null)
+        {
+            LevelModifiers = BuildMapLevelModifiers();
+        }
+
+        int i = Random.Range(0, LevelModifiers.Count);
+        return LevelModifiers[i];
     }
 
     public void Apply(MapLevel level)
@@ -428,28 +463,28 @@ public class MapLevelModifier
         switch (Type)
         {
             case(ModifierType.SprintDuration):
-                level.SprintDuration = (int)Value;
+                level.SprintDuration = (int)CalcValue(level);
                 break;
             case(ModifierType.Stat):
-                StatType stat = GetRandomStat();
-                switch (stat)
+                
+                switch (statType)
                 {
                     case(StatType.NetworkPacket_Probibility):
                         // Find and apply this to 
                         NetworkPacketData networkPacketData =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-                        networkPacketData.Stats.AddModifier(stat, new StatModifier("level_modifier_temp", Value));
+                        networkPacketData.Stats.AddModifier(statType.Value, new StatModifier("level_modifier_temp", CalcValue(level)));
                         break;
                     case(StatType.Traffic):
                     case(StatType.TechDebt_AccumulationRate):
-                        GameManager.Instance.Stats.AddModifier(stat, new StatModifier("level_modifier_temp", Value));
+                        GameManager.Instance.Stats.AddModifier(statType.Value, new StatModifier("level_modifier_temp", CalcValue(level)));
                         break;
                     default:
-                        throw new NotFiniteNumberException();
+                        throw new NotImplementedException();
                 }
                 break;
             default:
-                throw new NotFiniteNumberException();
+                throw new NotImplementedException();
         }
     }
 
@@ -463,11 +498,74 @@ public class MapLevelModifier
         );
     }
 
-    public string GetDescription()
+    public string GetDescription(MapLevel level)
     {
-        return $"{Type} {Direction} {Duration} {statType}x{Value}";
+        return $"{Type} {Direction} {Duration} {statType} x {CalcValue(level)}";
     }
-    
+
+    private float CalcValue(MapLevel level)
+    {
+        switch (Type)
+        {
+            case(ModifierType.SprintDuration):
+                switch (Direction)
+                {
+                    case(ModifierDirection.Positive):
+                        return 5 + level.GetStage().Stage; // TODO Make this dynamic
+                        break;
+                    case(ModifierDirection.Negative):
+                        return 5 - level.GetStage().Stage; // TODO Make this dynamic
+                        break;
+                    default:
+                        throw new NotFiniteNumberException();
+                }
+            case(ModifierType.Stat):
+                ModifierDirection direction = Direction;
+                switch (statType)
+                {
+                    case(StatType.TechDebt_AccumulationRate):
+                        // Invert the direction for calculation purpuses
+                        switch (direction)
+                        {
+                            case(ModifierDirection.Positive):
+                                direction = ModifierDirection.Negative;
+                                break;
+                            case(ModifierDirection.Negative):
+                                direction = ModifierDirection.Positive;
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                                
+                        }
+                        break;
+                }
+
+                float baseValue = 0;
+                switch (Duration)
+                {
+                    case(ModifierDuration.LaunchDay):
+                        baseValue = .25f;
+                        break;
+                    case(ModifierDuration.Sprint):
+                        baseValue = .1f;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+                switch (direction)
+                {
+                    case(ModifierDirection.Positive):
+                        return (float)Math.Pow(1 + baseValue, level.GetStage().Stage);
+                    
+                    case(ModifierDirection.Negative):
+                        return (float)Math.Pow(1 - baseValue, level.GetStage().Stage);
+                    default:
+                        throw new NotImplementedException();
+                }
+            default:
+                throw new NotImplementedException();
+        }
+    }
 }
 
 public class MapLevelVictoryCondition

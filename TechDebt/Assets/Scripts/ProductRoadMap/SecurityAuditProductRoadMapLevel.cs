@@ -1,14 +1,11 @@
 
 public class SecurityAuditMapLevel: MapLevel
 {
-    public SecurityAuditMapLevel()
+    public SecurityAuditMapLevel(MapStage stage) : base(stage)
     {
         Name = "Security Audit Sprint";
         SpriteId = "IconLock";
         
     }
-    public void OnStart()
-    {
-      //TODO: Have the NPCs describe the sprint   
-    }
+ 
 }

@@ -1,7 +1,7 @@
 
 public class EmailMapLevel:MapLevel
 {
-    public EmailMapLevel()
+    public EmailMapLevel(MapStage stage) : base(stage)
     {
         Name = "Email Sprint";
         SpriteId = "IconEmail";

@@ -45,7 +45,7 @@ namespace UI
 
             List<List<UIProductRoadMapLevelButton>> stageButtons = new List<List<UIProductRoadMapLevelButton>>();
 
-            foreach (ProductRoadMapStage stage in Map.Stages)
+            foreach (MapStage stage in Map.Stages)
             {
                 List<UIProductRoadMapLevelButton> currentStageButtons = new List<UIProductRoadMapLevelButton>();
                 int levelY = 0;

@@ -1,7 +1,7 @@
 
 public class MobileMapLevel: MapLevel
 {
-    public MobileMapLevel()
+    public MobileMapLevel(MapStage stage) : base(stage)
     {
         Name = "Mobile Notifications Sprint";
         SpriteId = "IconMobile";
