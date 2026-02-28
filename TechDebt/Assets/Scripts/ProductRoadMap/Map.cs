@@ -53,6 +53,7 @@ public class Map
 
     public void IncrStage()
     {
+        Stages[CurrentStage].GetSelectedLevel().CleanUp();
         CurrentStage += 1;
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
     }
@@ -71,7 +72,7 @@ public class MapStage
     {
         foreach (MapLevel level in Levels)
         {
-            level.Randomize(Stage);
+            level.Randomize();
         }
         /*for (int i = 0; i < 3; i++)
         {
@@ -100,11 +101,6 @@ public class MapStage
 
 public class MapLevel
 {
-    public enum ModifierType
-    {
-        LaunchDay,
-        Level
-    }
    public string Name { get; set; }
    protected string SpriteId { get; set; } = "IconFlag";
    public int SprintDuration { get; set; } = 5;
@@ -113,13 +109,13 @@ public class MapLevel
    public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
    // TODO Stake holder? Sales, PR, etc?
    //TODO Add in rewards
-   protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
+   // protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
    protected MapStage Stage { get; set; }
    public MapLevel(MapStage _stage)
    {
        Stage =  _stage;
-       StatModifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
-       StatModifiers.Add(ModifierType.Level,  new List<StatModifier>());
+       // StatModifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
+       // StatModifiers.Add(ModifierType.Level,  new List<StatModifier>());
    }
 
    public string GetSpriteId()
@@ -155,9 +151,9 @@ public class MapLevel
        GameManager.Instance.GameLoopManager.Reset();
    }
 
-   public virtual void Randomize(int stage = 0)
+   public virtual void Randomize()
    {
-       // First get a victory condition
+       // First, get a victory condition
        if (VictoryConditions.Count == 0)
        {
            // throw new NotImplementedException();
@@ -168,7 +164,7 @@ public class MapLevel
       
        // Chose random modifiers based on stage
        int levelDifficultyAdjustment = 0; // Use to figure out bigger reward
-       for (int i = 0; i < stage; i++)
+       for (int i = 0; i < Stage.Stage; i++)
        {
 
            MapLevelModifier modifier = null;
@@ -214,7 +210,7 @@ public class MapLevel
        }
    }
 
-   public void CleanUpModifiers(ModifierType modifierType)
+   /*public void CleanUpModifiers(ModifierType modifierType)
    {
        if (!StatModifiers.ContainsKey(modifierType))
        {
@@ -226,7 +222,7 @@ public class MapLevel
            statModifier.Remove();
        }
        StatModifiers[modifierType].Clear();
-   }
+   }*/
 
    public virtual bool IsLaunchDay()
    {
@@ -235,23 +231,52 @@ public class MapLevel
 
    public virtual void PlanPhaseCheck()
    {
+       Debug.Log($"PlanPhaseCheck - Day: {GameManager.Instance.GameLoopManager.GetCurrentDay()} - IsLaunchDay(): {IsLaunchDay()}");
        if (IsLaunchDay())
        {
            OnLaunchDayPlan();
-       } else if (GameManager.Instance.GameLoopManager.GetCurrentDay() == 0)
+       } else if (GameManager.Instance.GameLoopManager.GetCurrentDay() == 1)
        {
            OnStartDayPlan();
+       }
+       else
+       {
+           Debug.Log("PlanPhaseCheck ");
        }
       
    }
 
    public virtual void OnStartDayPlan()
    {
-       
+       Debug.Log("OnStartDayPlan");
+       foreach (MapLevelModifier modifier in LevelModifiers)
+       {
+           switch (modifier.Duration)
+           {
+               case (MapLevelModifier.ModifierDuration.Sprint):
+                   Debug.Log($"Applying LevelModifier: {modifier.GetDescription(this)}");
+                   modifier.Apply(this);
+                   break;
+           }
+
+           GameManager.Instance.InfrastructureUpdateNetworkTargets();
+       }
    } 
    public virtual void OnLaunchDayPlan()
    {
-       
+       Debug.Log("OnLaunchDayPlan");
+       foreach (MapLevelModifier modifier in LevelModifiers)
+       {
+           switch (modifier.Duration)
+           {
+               case (MapLevelModifier.ModifierDuration.LaunchDay):
+                   Debug.Log($"Applying LevelModifier: {modifier.GetDescription(this)}");
+                   modifier.Apply(this);
+                   break;
+           }
+
+           GameManager.Instance.InfrastructureUpdateNetworkTargets();
+       }
    }
    public virtual void SummaryPhaseCheck()
    {
@@ -287,8 +312,20 @@ public class MapLevel
        return res;
    }
 
+   public void CleanUp()
+   {
+       foreach (MapLevelModifier modifier in LevelModifiers)
+       {
+           
+            modifier.CleanUp(this);
+           
+
+           GameManager.Instance.InfrastructureUpdateNetworkTargets();
+       }
+   }
    public virtual void EndGame()
    {
+    
        GameManager.Instance.UIManager.SetTimeScalePause();
        NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
        GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
@@ -300,7 +337,7 @@ public class MapLevel
            {
                new DialogButtonOption() { Text = "Start Over", OnClick = () =>
                    {
-                        
+                       CleanUp();
                        GameManager.Instance.Reset();
                    }
                }/*,
@@ -345,6 +382,9 @@ public class MapLevelModifier
     public ModifierDuration Duration;
     public StatType? statType = null;
     public string Name;
+    protected float OverrideValue;
+    protected bool UseOverrideValue = false;
+    protected StatModifier _statModifier;
 
     public static List<ModifierDuration> GetDurations()
     {
@@ -473,11 +513,13 @@ public class MapLevelModifier
                         // Find and apply this to 
                         NetworkPacketData networkPacketData =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-                        networkPacketData.Stats.AddModifier(statType.Value, new StatModifier("level_modifier_temp", CalcValue(level)));
+                        _statModifier = new StatModifier("level_modifier_temp", CalcValue(level));
+                        networkPacketData.Stats.AddModifier(statType.Value, _statModifier);
                         break;
                     case(StatType.Traffic):
                     case(StatType.TechDebt_AccumulationRate):
-                        GameManager.Instance.Stats.AddModifier(statType.Value, new StatModifier("level_modifier_temp", CalcValue(level)));
+                        _statModifier = new StatModifier("level_modifier_temp", CalcValue(level));
+                        GameManager.Instance.Stats.AddModifier(statType.Value, _statModifier);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -488,6 +530,11 @@ public class MapLevelModifier
         }
     }
 
+    public void SetOverrideValue(float value)
+    {
+        UseOverrideValue = true;
+        OverrideValue = value;
+    }
     public bool Equals(MapLevelModifier other)
     {
         return (
@@ -505,6 +552,10 @@ public class MapLevelModifier
 
     private float CalcValue(MapLevel level)
     {
+        if (UseOverrideValue)
+        {
+            return OverrideValue;
+        }
         switch (Type)
         {
             case(ModifierType.SprintDuration):
@@ -564,6 +615,20 @@ public class MapLevelModifier
                 }
             default:
                 throw new NotImplementedException();
+        }
+    }
+
+    public void CleanUp(MapLevel mapLevel)
+    {
+        switch (Type)
+        {
+            case(ModifierType.Stat):
+                if (_statModifier != null)
+                {
+                    _statModifier.Remove();
+                }
+
+                break;
         }
     }
 }

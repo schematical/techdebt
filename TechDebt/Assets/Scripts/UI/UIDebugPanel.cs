@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using DefaultNamespace;
 using NPCs;
+using UI;
 
 public class UIDebugPanel : UIPanel
 {
@@ -29,6 +30,7 @@ public class UIDebugPanel : UIPanel
         AddButton("SpawnNPC", () => { SpawnNPC(); });
         AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
+        AddButton("Next Sprint", () => { NextSprint(); });
         AddButton("Events", () =>
         {
             GameManager.Instance.UIManager.eventDebugPanel.Show();
@@ -36,6 +38,13 @@ public class UIDebugPanel : UIPanel
         AddButton("Misc", () => { RunMisc(); });
         
 
+    }
+
+    private void NextSprint()
+    {
+        GameManager.Instance.Map.IncrStage();
+        Close();
+        GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
     }
 
     private void RunMisc()

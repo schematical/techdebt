@@ -178,12 +178,10 @@ public class UIManager : MonoBehaviour
         {
             if (debugPanel.GetPanelState() == UIGameObject.UIState.Closed)
             {
-                Debug.Log($"debugPanel.gameObject.activeSelf: {debugPanel.gameObject.activeSelf} - Show");
                 debugPanel.Show();
             }
             else
             {
-                Debug.Log($"debugPanel.gameObject.activeSelf: {debugPanel.gameObject.activeSelf} - Close");
                 debugPanel.Close();
             }
         }
