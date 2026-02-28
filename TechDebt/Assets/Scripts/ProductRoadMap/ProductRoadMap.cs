@@ -113,7 +113,7 @@ public class ProductRoadMapLevel
 
    public virtual void OnSprintStart()
    {
-       GameManager.Instance.GameLoopManager.currentDay = -1;
+       GameManager.Instance.GameLoopManager.Reset();
    }
 
    public virtual void Randomize(int stage = 0)
@@ -141,7 +141,7 @@ public class ProductRoadMapLevel
 
    public virtual bool IsLaunchDay()
    {
-       return SprintDuration == GameManager.Instance.GameLoopManager.currentDay;
+       return SprintDuration == GameManager.Instance.GameLoopManager.GetCurrentDay();
    }
 
    public virtual void PlanPhaseCheck()
@@ -149,7 +149,7 @@ public class ProductRoadMapLevel
        if (IsLaunchDay())
        {
            OnLaunchDayPlan();
-       } else if (GameManager.Instance.GameLoopManager.currentDay == 0)
+       } else if (GameManager.Instance.GameLoopManager.GetCurrentDay() == 0)
        {
            OnStartDayPlan();
        }

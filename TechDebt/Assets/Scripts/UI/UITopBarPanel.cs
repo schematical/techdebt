@@ -83,7 +83,7 @@ namespace UI
         {
             if (_clockText == null) return;
 
-            int day = GameManager.Instance.GameLoopManager.currentDay;
+            int day = GameManager.Instance.GameLoopManager.GetCurrentDay();
 
             float dayPercentage = Mathf.Clamp01(timeElapsed / dayDuration);
             float totalWorkdayHours = 8f;
@@ -137,6 +137,13 @@ namespace UI
             rt.anchoredPosition = Vector2.zero;
             return tmp;
         }
-      
+
+        public void Clear()
+        {
+            if (_clockText != null)
+            {
+                _clockText.text = "";
+            }
+        }
     }
 }

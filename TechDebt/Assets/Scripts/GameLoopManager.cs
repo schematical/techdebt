@@ -19,7 +19,7 @@ public class GameLoopManager : MonoBehaviour
 
     protected float DayDurationSeconds = 120f;
     public bool playTimerActive = true;
-    public int currentDay = 0;
+    protected int currentDay = 0;
     public float dayTimer = 0f;
     public float dailyPacketIncome = 0f;
     
@@ -62,7 +62,9 @@ public class GameLoopManager : MonoBehaviour
 
     public void BeginPlanPhase()
     {
-   
+        currentDay++;
+        GameManager.Instance.UIManager.Resume();
+        CurrentState = GameState.Plan;
         Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
         foreach (NPCBase npc in GameManager.Instance.AllNpcs)
         {
@@ -87,10 +89,9 @@ public class GameLoopManager : MonoBehaviour
             }
         }
 
-        GameManager.Instance.UIManager.Resume();
-        CurrentState = GameState.Plan;
+
         
-        currentDay++;
+     
 
         // Update UI
         GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
@@ -244,4 +245,11 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UpdateMetaProgress();
 
     }
+
+    public void Reset()
+    {
+        currentDay = 0;
+        CurrentState = GameState.Plan;
+    }
+    
 }

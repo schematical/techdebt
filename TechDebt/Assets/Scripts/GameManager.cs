@@ -333,8 +333,8 @@ public class GameManager : MonoBehaviour
         UIManager.Close();
         prefabManager.Reset();
         Releases.Clear();
-        GameLoopManager.currentDay = 0;
-        GameLoopManager.CurrentState = GameLoopManager.GameState.Plan;
+        GameLoopManager.Reset();
+
         ReleaseBase.GlobalVersion = 0;
         foreach (NPCBase npc in AllNpcs)
         {
@@ -349,6 +349,7 @@ public class GameManager : MonoBehaviour
         Initialize();
         SetupRun();
         UpdateInfrastructureVisibility();
+        UIManager.topBarPanel.Clear();
         UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
     }
 
