@@ -1,8 +1,12 @@
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MetaChallenges;
 using NPCs;
 using Stats;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class ProductRoadMap
@@ -14,12 +18,13 @@ public class ProductRoadMap
     {
         Stages = new List<ProductRoadMapStage>();
         // Level 1 is just launch
-        ProductRoadMapStage Stage;
-        Stage = new ProductRoadMapStage(Stages.Count);
+        ProductRoadMapStage Stage = new ProductRoadMapStage(Stages.Count);
         Stage.Levels.Add(new LaunchProductRoadMapLevel());
         Stages.Add(Stage);
         
         Stage = new ProductRoadMapStage(Stages.Count);
+
+        
         Stage.Levels.Add(new MobileProductRoadMapLevel());
         Stage.Levels.Add(new EmailProductRoadMapLevel());
         Stages.Add(Stage);
@@ -67,7 +72,14 @@ public class ProductRoadMapStage
         foreach (ProductRoadMapLevel level in Levels)
         {
             level.Randomize(Stage);
-        }   
+        }
+        /*for (int i = 0; i < 3; i++)
+        {
+            ProductRoadMapLevel level = new ProductRoadMapLevel();
+            level.Randomize(Stage);
+        }*/
+
+
     }
     public ProductRoadMapLevel SetSelectedLevel(int level)
     {
@@ -94,21 +106,47 @@ public class ProductRoadMapLevel
         Level
     }
    public string Name { get; set; }
-   public string SpriteId { get; set; }
+   protected string SpriteId { get; set; } = "IconFlag";
    public int SprintDuration { get; set; } = 5;
+   public List<ProductRoadMapLevelVictoryCondition> VictoryConditions =  new List<ProductRoadMapLevelVictoryCondition>();
 
+   public List<ProductRoadMapLevelModifier> LevelModifiers = new List<ProductRoadMapLevelModifier>();
    // TODO Stake holder? Sales, PR, etc?
    //TODO Add in modifiers and rewards
-   protected Dictionary<ModifierType, List<StatModifier>> Modifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
+   protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
 
    public ProductRoadMapLevel()
    {
-       Modifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
-       Modifiers.Add(ModifierType.Level,  new List<StatModifier>());
+       StatModifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
+       StatModifiers.Add(ModifierType.Level,  new List<StatModifier>());
    }
-   public virtual bool HasVictoryConditionBeenMet()
+
+   public string GetSpriteId()
    {
-       return false;
+
+       return SpriteId;
+   }
+   public virtual VictoryConditionState GetVictoryConditionState()
+   {
+       VictoryConditionState state = VictoryConditionState.Succeeded;
+       foreach (ProductRoadMapLevelVictoryCondition condition in VictoryConditions)
+       {
+           switch (condition.GetState())
+           {
+               case(VictoryConditionState.Failed):
+                   return  VictoryConditionState.Failed;
+                   break;
+               case(VictoryConditionState.NotMet):
+                   state =  VictoryConditionState.NotMet;
+                   break;
+                case(VictoryConditionState.Succeeded):
+                    // Do nothing because it should be succeeded already
+               break;
+                default:
+                    throw new NotImplementedException();
+           }
+       }
+       return state;
    }
 
    public virtual void OnSprintStart()
@@ -118,25 +156,75 @@ public class ProductRoadMapLevel
 
    public virtual void Randomize(int stage = 0)
    {
+       // First get a victory condition
+       if (VictoryConditions.Count == 0)
+       {
+           // throw new NotImplementedException();
+           /*ProductRoadMapLevelVictoryCondition
+               condition = ProductRoadMapLevelVictoryCondition.GetRandomCondition(stage);
+           VictoryConditions.Add(condition);*/
+       }
+      
        // Chose random modifiers based on stage
+       int levelDifficultyAdjustment = 0; // Use to figure out bigger reward
        for (int i = 0; i < stage; i++)
        {
+
+           ProductRoadMapLevelModifier modifier = null;
+           int saftyCheck = 0;
+           while (modifier == null && saftyCheck < 10)
+           {
+               saftyCheck += 1;
+               modifier = ProductRoadMapLevelModifier.GetRandom(stage);
+               foreach (ProductRoadMapLevelModifier checkModifier in LevelModifiers)
+               {
+                   if (checkModifier.Equals(modifier))
+                   {
+                       modifier = null;
+                       break;
+                   }
+               }
+           }
+
+           if (modifier == null)
+           {
+               Debug.LogError($"SaftyCheck hit randomizing level");
+               continue;
+           }
+
+           LevelModifiers.Add(modifier);
+           switch (modifier.Direction) 
+           {
+               case(ProductRoadMapLevelModifier.ModifierDirection.Negative):
+                   // Get a negative
+                   levelDifficultyAdjustment -= 1;
+                   
+                   break;
+               case(ProductRoadMapLevelModifier.ModifierDirection.Positive):
+                   // Get a positive
+                   levelDifficultyAdjustment += 1;
+                   break;
+               default:
+                   throw new NotImplementedException();
+           }
+           //TODO: Use the `levelDifficultyAdjustment` to determine the reward.
+           
            
        }
    }
 
    public void CleanUpModifiers(ModifierType modifierType)
    {
-       if (!Modifiers.ContainsKey(modifierType))
+       if (!StatModifiers.ContainsKey(modifierType))
        {
            throw new SystemException($"Cannot find {modifierType}");
        }
 
-       foreach (StatModifier statModifier in Modifiers[modifierType])
+       foreach (StatModifier statModifier in StatModifiers[modifierType])
        {
            statModifier.Remove();
        }
-       Modifiers[modifierType].Clear();
+       StatModifiers[modifierType].Clear();
    }
 
    public virtual bool IsLaunchDay()
@@ -190,8 +278,11 @@ public class ProductRoadMapLevel
 
    public virtual string GetDescription()
    {
-       string res = $"{Name}";
-       // TODO: Add the modifiers here
+       string res = $"{Name}  - LevelModifiers:{LevelModifiers.Count}\n";
+       foreach (ProductRoadMapLevelModifier modifier in LevelModifiers)
+       {
+           res += modifier.GetDescription() + "\n";
+       }
        return res;
    }
 
@@ -220,4 +311,215 @@ public class ProductRoadMapLevel
            }
        );
    }
+}
+
+public class ProductRoadMapLevelModifier
+{
+    public enum ModifierDirection
+    {
+        Positive,
+        Negative,
+        // Neutral
+    }
+
+    public enum ModifierDuration
+    {
+        None,
+        Spring,
+        LaunchDay
+    }
+    public enum ModifierType
+    {
+        SprintDuration,
+        Stat
+    }
+    
+    public ModifierDirection Direction;
+    public ModifierType Type;
+    public ModifierDuration Duration;
+    public StatType? statType = null;
+    public string Name;
+    public float Value;
+
+    public static ModifierDuration GetRandomDuration()
+    {
+        List<ModifierDuration> durations = Enum.GetValues(typeof( ModifierDuration))
+            .Cast<ModifierDuration>()
+            .ToList();
+        int i = Random.Range(0, durations.Count);
+        return durations[i];
+    }
+    public static ModifierDirection GetRandomDirection()
+    {
+        List<ModifierDirection> direction = Enum.GetValues(typeof( ModifierDirection))
+            .Cast<ModifierDirection>()
+            .ToList();
+        int i = Random.Range(0, direction.Count);
+        return direction[i];
+    }
+    public static ModifierType GetRandomType()
+    {
+        List<ModifierType> types = Enum.GetValues(typeof( ModifierType))
+            .Cast<ModifierType>()
+            .ToList();
+        int i = Random.Range(0, types.Count);
+        return types[i];
+    }
+    public static StatType GetRandomStat()
+    {
+        List<StatType> statTypes = new List<StatType>()
+        {
+            StatType.NetworkPacket_Probibility,
+            StatType.Traffic,
+            StatType.TechDebt_AccumulationRate
+        };
+        int i = Random.Range(0, statTypes.Count);
+        return statTypes[i];
+    }
+
+    public static ProductRoadMapLevelModifier GetRandom(int stage)
+    {
+        ProductRoadMapLevelModifier modifier = new ProductRoadMapLevelModifier()
+        {
+            Type = GetRandomType(),
+            Direction = GetRandomDirection()
+        };
+        
+        
+        switch (modifier.Type)
+        {
+            case(ModifierType.Stat):
+                modifier.statType = GetRandomStat();
+                modifier.Value = 0;
+                switch (modifier.Direction)
+                {
+                    case(ModifierDirection.Positive):
+                        modifier.Value = (float)Math.Pow(1.25f, stage);
+                        break;
+                    case(ModifierDirection.Negative):
+                        modifier.Value = (float)Math.Pow(0.75f, stage);
+                        break;
+                    default:
+                        throw new NotFiniteNumberException();
+                }
+                break;
+                case(ModifierType.SprintDuration):
+                    switch (modifier.Direction)
+                    {
+                        case(ModifierDirection.Positive):
+                            modifier.Value = 5 + stage;
+                            break;
+                        case(ModifierDirection.Negative):
+                            modifier.Value = 5 - stage;
+                            break;
+                        default:
+                            throw new NotFiniteNumberException();
+                    }
+                break;
+            default:
+                throw new NotFiniteNumberException();
+        }
+
+        return modifier;
+    }
+
+    public void Apply(ProductRoadMapLevel level)
+    {
+        switch (Type)
+        {
+            case(ModifierType.SprintDuration):
+                level.SprintDuration = (int)Value;
+                break;
+            case(ModifierType.Stat):
+                StatType stat = GetRandomStat();
+                switch (stat)
+                {
+                    case(StatType.NetworkPacket_Probibility):
+                        // Find and apply this to 
+                        NetworkPacketData networkPacketData =
+                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
+                        networkPacketData.Stats.AddModifier(stat, new StatModifier("level_modifier_temp", Value));
+                        break;
+                    case(StatType.Traffic):
+                    case(StatType.TechDebt_AccumulationRate):
+                        GameManager.Instance.Stats.AddModifier(stat, new StatModifier("level_modifier_temp", Value));
+                        break;
+                    default:
+                        throw new NotFiniteNumberException();
+                }
+                break;
+            default:
+                throw new NotFiniteNumberException();
+        }
+    }
+
+    public bool Equals(ProductRoadMapLevelModifier other)
+    {
+        return (
+            Type == other.Type &&
+            Direction == other.Direction &&
+            Duration == other.Duration && 
+            statType == other.statType
+        );
+    }
+
+    public string GetDescription()
+    {
+        return $"{Type} {Direction} {Duration} {statType}x{Value}";
+    }
+    
+}
+
+public class ProductRoadMapLevelVictoryCondition
+{
+    public enum ConditionType { InfrastructureActive };
+  
+
+    public ConditionType Type = ConditionType.InfrastructureActive;
+    public string TargetId;
+
+    
+    public VictoryConditionState GetState()
+    {
+        switch (Type)
+        {
+            case(ConditionType.InfrastructureActive):
+                InfrastructureInstance infrastructureInstance = GameManager.Instance.GetInfrastructureInstanceByID(TargetId);
+                if (infrastructureInstance.IsActive())
+                {
+                    return VictoryConditionState.Succeeded;
+                }
+
+                return VictoryConditionState.NotMet;
+            break;
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    public static ProductRoadMapLevelVictoryCondition GetRandomCondition(int stage)
+    {
+        ProductRoadMapLevelVictoryCondition condition = null;
+        int saftyCheck = 0;
+        while (condition == null && saftyCheck < 10)
+        {
+            saftyCheck += 1;
+
+            List<string> infraIds = new List<string>()
+            {
+                "email-service",
+                "sns"
+            };
+            condition = new ProductRoadMapLevelVictoryCondition();
+            int i = Random.Range(0, infraIds.Count);
+            condition.TargetId = infraIds[i];
+            if (condition.GetState() == VictoryConditionState.NotMet)
+            {
+                return condition;
+            }
+        }
+
+        throw new SystemException("Could not find a victory condition that was not met");
+
+    }
 }

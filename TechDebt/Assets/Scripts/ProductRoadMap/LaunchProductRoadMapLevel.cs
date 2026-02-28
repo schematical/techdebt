@@ -30,26 +30,18 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
 
         StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
-        Modifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);
-        NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
-        if (networkPacketData == null)
-        {
-            foreach (NetworkPacketData networkPacketData2 in GameManager.Instance.GetNetworkPacketDatas())
-            {
-                Debug.LogError($"NetworkPacketData {networkPacketData2.Type}");
-            }
-            throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
-        }
+        StatModifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);
+        NetworkPacketData networkPacketData =
+            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
         StatModifier launchDayPurchaseModifier = new StatModifier("launch_day_purchase", 2f);
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(10);
         networkPacketData.Stats.AddModifier(StatType.NetworkPacket_Probibility, launchDayPurchaseModifier);
-        Modifiers[ModifierType.LaunchDay].Add(launchDayPurchaseModifier);
+        StatModifiers[ModifierType.LaunchDay].Add(launchDayPurchaseModifier);
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
     public override void OnLaunchDaySummary()
     {
-        Debug.Log($"OnLaunchDaySummary");
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
             "We survived! Great work. Lets get working on our next sprint.",
@@ -58,15 +50,8 @@ public class LaunchProductRoadMapLevel: ProductRoadMapLevel
                 new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
                     {
                         CleanUpModifiers(ModifierType.LaunchDay);
-                        NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
-                        if (networkPacketData == null)
-                        {
-                            foreach (NetworkPacketData networkPacketData2 in GameManager.Instance.GetNetworkPacketDatas())
-                            {
-                                Debug.LogError($"NetworkPacketData {networkPacketData2.Type}");
-                            }
-                            throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
-                        }
+                        NetworkPacketData networkPacketData =
+                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
                         GameManager.Instance.InfrastructureUpdateNetworkTargets();
                         GameManager.Instance.ProductRoadMap.IncrStage();
                         GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);

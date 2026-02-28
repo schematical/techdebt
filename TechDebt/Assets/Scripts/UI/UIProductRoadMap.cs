@@ -73,11 +73,22 @@ namespace UI
                         state = ButtonState.Available;
                     }
                     
-                    button.Init(level, levelY, state, (name) => { LevelDescriptionText.text = name; }, (lvl) =>
+                    button.Init(level, levelY, state, (_level) =>
+                    {
+                        if (_level == null)
+                        {
+                            LevelDescriptionText.text = "";
+                        }
+                        else
+                        {
+                            LevelDescriptionText.text = level.GetDescription();
+                        }
+                    }, (lvl) =>
                     {
                         switch (CurrentState)
                         {
                             case State.Display:
+                                
                             break;
                             case State.Select:
                                 stage.SetSelectedLevel(button.LevelIndex);

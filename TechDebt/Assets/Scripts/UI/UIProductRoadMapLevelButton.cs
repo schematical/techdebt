@@ -22,17 +22,17 @@ namespace UI
         
         private ProductRoadMapLevel _level;
         public int LevelIndex { get; private set; }
-        private Action<string> _onHover;
+        private Action<ProductRoadMapLevel> _onHover;
         private Action<ProductRoadMapLevel> _onClick;
 
-        public void Init(ProductRoadMapLevel level, int levelIndex, ButtonState state, Action<string> onHover, Action<ProductRoadMapLevel> onClick)
+        public void Init(ProductRoadMapLevel level, int levelIndex, ButtonState state, Action<ProductRoadMapLevel> onHover, Action<ProductRoadMapLevel> onClick)
         {
             _level = level;
             LevelIndex = levelIndex;
             _onHover = onHover;
             _onClick = onClick;
-            text.text = level.Name;
-            image.sprite = GameManager.Instance.SpriteManager.GetSprite(level.SpriteId);
+            text.text = level.GetDescription();
+            image.sprite = GameManager.Instance.SpriteManager.GetSprite(level.GetSpriteId());
             
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => _onClick?.Invoke(_level));
@@ -60,12 +60,12 @@ namespace UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _onHover?.Invoke(_level.Name);
+            _onHover?.Invoke(_level);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _onHover?.Invoke("");
+            _onHover?.Invoke(null);
         }
     }
 }

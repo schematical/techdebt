@@ -5,10 +5,17 @@ public class EmailProductRoadMapLevel:ProductRoadMapLevel
     {
         Name = "Email Sprint";
         SpriteId = "IconEmail";
-        
+        VictoryConditions.Add(new ProductRoadMapLevelVictoryCondition()
+        {
+            TargetId = "email-service"
+        });
     }
-    public void OnStart()
+    public override void OnStartDayPlan()
     {
-      //TODO: Have the NPCs describe the sprint   
+        GameManager.Instance.UIManager.ShowNPCDialog(
+            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+            "This sprint we want to get a dedicated email sending service. Research it and get it up and running."
+        );
+   
     }
 }

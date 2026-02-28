@@ -958,7 +958,6 @@ public class GameManager : MonoBehaviour
 
                     if (technology.CurrentState == Technology.State.MetaLocked)
                     {
-                        Debug.Log($"Meta Unlocking: {technology.TechnologyID}");
                         technology.CurrentState = Technology.State.Locked;
                     }
 
@@ -1434,6 +1433,19 @@ public class GameManager : MonoBehaviour
     public List<NetworkPacketData> GetNetworkPacketDatas()
     {
         return NetworkPacketDatas;
+    }
+    public NetworkPacketData GetNetworkPacketDataByType( NetworkPacketData.PType pType)
+    {
+        NetworkPacketData networkPacketData = NetworkPacketDatas.Find((data => data.Type == pType));
+        if (networkPacketData == null)
+        {
+            foreach (NetworkPacketData networkPacketData2 in GameManager.Instance.GetNetworkPacketDatas())
+            {
+                Debug.LogError($"NetworkPacketData {networkPacketData2.Type}");
+            }
+            throw new System.Exception("No network packet found `NetworkPacketData.PType.Purchase`");
+        };
+        return networkPacketData;
     }
 
     public ReleaseBase GetCurrentRelease()
