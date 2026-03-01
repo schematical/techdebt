@@ -408,7 +408,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RewardId = "redis",
                 RequiredValue = 100
             },
-            new MetaChallengeBase()
+            /*new MetaChallengeBase()
             {
                 ChallengeID = "cash1",
                 DisplayName = "Extra Starting Cash 1",
@@ -419,7 +419,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 5,
                 RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
-            },
+            },*/
             new MetaChallengeBase()
             {
                 ChallengeID = "cdn",

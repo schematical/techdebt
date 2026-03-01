@@ -50,13 +50,13 @@ public class LaunchMapLevel: MapLevel
             "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
         );
 
+        NetworkPacketData networkPacketData =
+            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(10);
         /*StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
         StatModifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);
-        NetworkPacketData networkPacketData =
-            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-        StatModifier launchDayPurchaseModifier = new StatModifier("launch_day_purchase", 2f);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(10);
+
         networkPacketData.Stats.AddModifier(StatType.NetworkPacket_Probibility, launchDayPurchaseModifier);
         StatModifiers[ModifierType.LaunchDay].Add(launchDayPurchaseModifier);
         GameManager.Instance.InfrastructureUpdateNetworkTargets();*/
