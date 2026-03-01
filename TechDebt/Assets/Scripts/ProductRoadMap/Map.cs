@@ -104,7 +104,7 @@ public class MapLevel
 {
    public string Name { get; set; }
    protected string SpriteId { get; set; } = "IconFlag";
-   public int SprintDuration { get; set; } = 2;
+   public int SprintDuration { get; set; } = 5;
    public List<MapLevelVictoryConditionBase> VictoryConditions =  new List<MapLevelVictoryConditionBase>();
 
    public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
