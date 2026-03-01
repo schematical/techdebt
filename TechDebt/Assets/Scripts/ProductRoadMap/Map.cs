@@ -318,10 +318,8 @@ public class MapLevel
        {
            
             modifier.CleanUp(this);
-           
-
-           GameManager.Instance.InfrastructureUpdateNetworkTargets();
        }
+       GameManager.Instance.InfrastructureUpdateNetworkTargets();
    }
    public virtual void EndGame()
    {
