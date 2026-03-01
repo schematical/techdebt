@@ -20,7 +20,7 @@ namespace UI
 
         foreach (UITaskListPanelItem taskListPanelItem in _taskListPanelItems)
             {
-                Destroy(taskListPanelItem.gameObject);
+                taskListPanelItem.gameObject.SetActive(false);
             }
             _taskListPanelItems.Clear();
 
