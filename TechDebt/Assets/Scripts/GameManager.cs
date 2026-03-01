@@ -934,15 +934,8 @@ public class GameManager : MonoBehaviour
         foreach (Technology technology in AllTechnologies)
         {
             technology.CurrentResearchProgress = 0;
-            switch (technology.TechnologyID)
-            {
-                case("dedicated-db"):
-                    technology.CurrentState = Technology.State.Locked;
-                    break;
-                default:
-                    technology.CurrentState = Technology.State.MetaLocked;
-                    break;
-            }
+            technology.CurrentState = technology.OriginalState;
+            
             
         }
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();

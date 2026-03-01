@@ -5,7 +5,7 @@ public class EmailMapLevel:MapLevel
     {
         Name = "Email Sprint";
         SpriteId = "IconEmail";
-        VictoryConditions.Add(new MapLevelVictoryCondition()
+        VictoryConditions.Add(new InfraActiveVictoryCondition()
         {
             TargetId = "email-service"
         });

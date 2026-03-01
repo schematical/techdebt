@@ -307,7 +307,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Web Application Firewall(WAF)",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" },
+                CurrentState = Technology.State.Locked
                 // Survive X malicious packets
             },
             new Technology()
@@ -334,7 +335,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Cognito User Pools",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" },
+                CurrentState = Technology.State.Locked
                 // Survive Y user info leaked
             },
             new Technology()
@@ -352,6 +354,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Email Service",
                 Description = "",
                 ResearchPointCost = 200,
+                CurrentState = Technology.State.Locked
                 // Finish round 1
             },
             new Technology()
@@ -368,9 +371,14 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Mobile Notifications",
                 Description = "",
                 ResearchPointCost = 200,
+                CurrentState = Technology.State.Locked
                 // Finish round 1
             }
         };
+        foreach (Technology technology in technologies)
+        {
+            technology.OriginalState = technology.CurrentState;
+        }
         return technologies;
     }
 

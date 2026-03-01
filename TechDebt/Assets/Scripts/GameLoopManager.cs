@@ -198,7 +198,7 @@ public class GameLoopManager : MonoBehaviour
             attackPossibility = GameManager.Instance.Stats.AddModifier(
                 StatType.AttackPossibility,
                 new StatModifier(
-                    $"attackPossibility_Day_{currentDay}",
+                    $"attackPossibility_sprint_{sprintNumber}_day_{currentDay}",
                     1.1f  
                 )
             );
@@ -214,7 +214,13 @@ public class GameLoopManager : MonoBehaviour
                              $"Net Income: ${dailyPacketIncome - totalDailyCost}\n" +
                              $"Total: {money} \n" +
                              //$"Tomorrow's Expected Income: ${updatedDailyIncome} - ({(1 - percentageSuccess):F2}% Failed Penalty)\n" +
-                             $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n";
+                             $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n\n" +
+                             $"Victory Conditions: \n";
+        foreach (MapLevelVictoryConditionBase condition in GameManager.Instance.Map.GetCurrentLevel()
+                     .GetVictoryConditions())
+        {
+            summaryText += $"  - {condition.GetDescription()} \n";
+        }
                              
 
         summaryText += infraCosts;

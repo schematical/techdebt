@@ -5,6 +5,7 @@ using System.Linq;
 using MetaChallenges;
 using NPCs;
 using Stats;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -103,8 +104,8 @@ public class MapLevel
 {
    public string Name { get; set; }
    protected string SpriteId { get; set; } = "IconFlag";
-   public int SprintDuration { get; set; } = 5;
-   public List<MapLevelVictoryCondition> VictoryConditions =  new List<MapLevelVictoryCondition>();
+   public int SprintDuration { get; set; } = 2;
+   public List<MapLevelVictoryConditionBase> VictoryConditions =  new List<MapLevelVictoryConditionBase>();
 
    public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
    // TODO Stake holder? Sales, PR, etc?
@@ -114,19 +115,16 @@ public class MapLevel
    public MapLevel(MapStage _stage)
    {
        Stage =  _stage;
-       // StatModifiers.Add(ModifierType.LaunchDay,  new List<StatModifier>());
-       // StatModifiers.Add(ModifierType.Level,  new List<StatModifier>());
    }
 
    public string GetSpriteId()
    {
-
        return SpriteId;
    }
    public virtual VictoryConditionState GetVictoryConditionState()
    {
        VictoryConditionState state = VictoryConditionState.Succeeded;
-       foreach (MapLevelVictoryCondition condition in VictoryConditions)
+       foreach (MapLevelVictoryConditionBase condition in VictoryConditions)
        {
            switch (condition.GetState())
            {
@@ -157,8 +155,8 @@ public class MapLevel
        if (VictoryConditions.Count == 0)
        {
            // throw new NotImplementedException();
-           /*MapLevelVictoryCondition
-               condition = MapLevelVictoryCondition.GetRandomCondition(stage);
+           /*InfraActiveVictoryCondition
+               condition = InfraActiveVictoryCondition.GetRandomCondition(stage);
            VictoryConditions.Add(condition);*/
        }
       
@@ -231,7 +229,7 @@ public class MapLevel
 
    public virtual void PlanPhaseCheck()
    {
-       Debug.Log($"PlanPhaseCheck - Day: {GameManager.Instance.GameLoopManager.GetCurrentDay()} - IsLaunchDay(): {IsLaunchDay()}");
+       
        if (IsLaunchDay())
        {
            OnLaunchDayPlan();
@@ -239,22 +237,17 @@ public class MapLevel
        {
            OnStartDayPlan();
        }
-       else
-       {
-           Debug.Log("PlanPhaseCheck ");
-       }
       
    }
 
    public virtual void OnStartDayPlan()
    {
-       Debug.Log("OnStartDayPlan");
+
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
            switch (modifier.Duration)
            {
                case (MapLevelModifier.ModifierDuration.Sprint):
-                   Debug.Log($"Applying LevelModifier: {modifier.GetDescription(this)}");
                    modifier.Apply(this);
                    break;
            }
@@ -264,13 +257,11 @@ public class MapLevel
    } 
    public virtual void OnLaunchDayPlan()
    {
-       Debug.Log("OnLaunchDayPlan");
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
            switch (modifier.Duration)
            {
                case (MapLevelModifier.ModifierDuration.LaunchDay):
-                   Debug.Log($"Applying LevelModifier: {modifier.GetDescription(this)}");
                    modifier.Apply(this);
                    break;
            }
@@ -280,11 +271,25 @@ public class MapLevel
    }
    public virtual void SummaryPhaseCheck()
    {
-       if (GameManager.Instance.GetStat(StatType.Money) < 0)
+       VictoryConditionState state = GetVictoryConditionState();
+       switch (state)
        {
-           EndGame();
-           return;
+           case(VictoryConditionState.Failed):
+               EndGame();
+               return;
+           case(VictoryConditionState.NotMet):
+               if (IsLaunchDay())
+               {
+                   EndGame();
+                   return;
+               }
+               break;
+           case(VictoryConditionState.Succeeded):
+               break;
+           default:
+               throw new NotImplementedException();
        }
+       
        // TODO: Possibly make the amount of packets served up increase or decrease the amount of PURCHASE packets served up
        if (IsLaunchDay())
        {
@@ -294,13 +299,27 @@ public class MapLevel
    }
    public virtual void OnLaunchDaySummary()
    {
-       throw new NotImplementedException();
-   }
+       GameManager.Instance.UIManager.ShowNPCDialog(
+           GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+           "Great work. Lets get working on our next sprint.",
+           new List<DialogButtonOption>()
+           {
+               new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
+                   {
+                       
+                       GameManager.Instance.Map.IncrStage();
+                       GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                   }
+               }/*,
+               new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
+                   {
 
-   public virtual void OnLaunchDay()
-   {
-       throw new NotImplementedException();
+                   }
+               },*/
+           }
+       );
    }
+   
 
    public virtual string GetDescription()
    {
@@ -312,7 +331,7 @@ public class MapLevel
        return res;
    }
 
-   public void CleanUp()
+   public virtual void CleanUp()
    {
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
@@ -351,6 +370,11 @@ public class MapLevel
    public MapStage GetStage()
    {
        return Stage;
+   }
+
+   public List<MapLevelVictoryConditionBase> GetVictoryConditions()
+   {
+       return VictoryConditions;
    }
 }
 
@@ -631,56 +655,3 @@ public class MapLevelModifier
     }
 }
 
-public class MapLevelVictoryCondition
-{
-    public enum ConditionType { InfrastructureActive };
-  
-
-    public ConditionType Type = ConditionType.InfrastructureActive;
-    public string TargetId;
-
-    
-    public VictoryConditionState GetState()
-    {
-        switch (Type)
-        {
-            case(ConditionType.InfrastructureActive):
-                InfrastructureInstance infrastructureInstance = GameManager.Instance.GetInfrastructureInstanceByID(TargetId);
-                if (infrastructureInstance.IsActive())
-                {
-                    return VictoryConditionState.Succeeded;
-                }
-
-                return VictoryConditionState.NotMet;
-            break;
-            default:
-                throw new NotImplementedException();
-        }
-    }
-
-    public static MapLevelVictoryCondition GetRandomCondition(int stage)
-    {
-        MapLevelVictoryCondition condition = null;
-        int saftyCheck = 0;
-        while (condition == null && saftyCheck < 10)
-        {
-            saftyCheck += 1;
-
-            List<string> infraIds = new List<string>()
-            {
-                "email-service",
-                "sns"
-            };
-            condition = new MapLevelVictoryCondition();
-            int i = Random.Range(0, infraIds.Count);
-            condition.TargetId = infraIds[i];
-            if (condition.GetState() == VictoryConditionState.NotMet)
-            {
-                return condition;
-            }
-        }
-
-        throw new SystemException("Could not find a victory condition that was not met");
-
-    }
-}

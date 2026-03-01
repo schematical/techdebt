@@ -11,7 +11,7 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-
+        VictoryConditions.Add(new HasMoneyVictoryCondition());
     }
 
     public override void Randomize()
@@ -66,29 +66,7 @@ public class LaunchMapLevel: MapLevel
     public override void OnLaunchDaySummary()
     {
         base.OnLaunchDaySummary();
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-            "We survived! Great work. Lets get working on our next sprint.",
-            new List<DialogButtonOption>()
-            {
-                new DialogButtonOption() { Text = "Plan Next Sprint", OnClick = () =>
-                    {
-                        // CleanUpModifiers(ModifierType.LaunchDay);
-                
-                        NetworkPacketData networkPacketData =
-                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-                        GameManager.Instance.InfrastructureUpdateNetworkTargets();
-                        GameManager.Instance.Map.IncrStage();
-                        GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
-                    }
-                }/*,
-                new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
-                    {
-
-                    }
-                },*/
-            }
-        );
+        
         
     }
 }

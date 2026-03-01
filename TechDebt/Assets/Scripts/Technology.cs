@@ -17,4 +17,5 @@ public class Technology
     public List<string> RequiredTechnologies;
 
     public State CurrentState = State.MetaLocked;
+    public State OriginalState = State.MetaLocked;
 }

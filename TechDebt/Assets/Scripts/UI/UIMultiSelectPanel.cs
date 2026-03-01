@@ -14,12 +14,9 @@ namespace UI
       public GameObject container;
       public void Close(bool forceClose = false)
       {
+          Debug.Log("Closing  UIMultiSelectPanel");
           base.Close(forceClose);
-          foreach (UIMultiSelectOption panel in _optionPool)
-          {
-              panel.gameObject.SetActive(false);
-          }
-
+          CleanUp();
       
           GameManager.Instance.UIManager.Resume();
       }
@@ -29,25 +26,34 @@ namespace UI
           base.Show();
           titleText.text = title;
           bottomText.text = bottom;
+          CleanUp();
+      }
 
+      public void CleanUp()
+      {
+          foreach (UIMultiSelectOption panel in _optionPool)
+          {
+              panel.gameObject.SetActive(false);
+          }
+          _optionPool.Clear();
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
-          this.gameObject.SetActive(true);
+          if (panelState == UIState.Closed)
+          {
+              Show();
+          }
+
           GameManager.Instance.UIManager.SetTimeScalePause();
 
           // Find an inactive option in the pool to reuse.
-          UIMultiSelectOption option = _optionPool.FirstOrDefault(o => !o.gameObject.activeSelf);
+        
+      
+          // If no inactive option is available, create a new one.
+          UIMultiSelectOption option = GameManager.Instance.prefabManager.Create("UIMultiSelectOptionPanel", Vector3.zero, container.transform).GetComponent<UIMultiSelectOption>();
+          _optionPool.Add(option);
 
-          if (option == null)
-          {
-              // If no inactive option is available, create a new one.
-              GameObject prefab = GameManager.Instance.prefabManager.GetPrefab("UIMultiSelectOptionPanel");
-              GameObject gameObject = Instantiate(prefab, container.transform);
-              option = gameObject.GetComponent<UIMultiSelectOption>();
-              _optionPool.Add(option);
-          }
-          
+      
           option.gameObject.SetActive(true);
           option.id = id;
           option.name = "UIMultiSelectOption-" + option.id;
