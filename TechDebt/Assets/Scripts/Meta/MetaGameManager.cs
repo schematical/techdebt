@@ -255,7 +255,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "",
                 ResearchPointCost = 10,
                 RequiredTechnologies = new List<string>() { "white-board" },
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Right,
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
@@ -265,7 +266,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "",
                 ResearchPointCost = 10,
                 RequiredTechnologies = new List<string>() { "application-server" },
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Right,
             },
         
             new Technology()
