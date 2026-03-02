@@ -7,7 +7,7 @@ using System; // Added for SerializableAttribute
 public class Technology
 {
     public enum State { MetaLocked, Locked, Researching, Unlocked }
-
+    public enum TechTreeDirection { Up, Down, Left, Right }
     public string TechnologyID;
     public string DisplayName;
     public string Description;
