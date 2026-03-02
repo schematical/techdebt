@@ -27,7 +27,7 @@ public class BossNPC : NPCBase
         
         // ShowWordBubble("I better get back to work");
         Sprite portrait = GetComponent<SpriteRenderer>().sprite;
-        Debug.Log($"BossDesk InteractionPos: {_bossDesk.GetInteractionPosition()} - {_bossDesk.GetWorldObjectType().interactionPositionOffset}");
+
         MoveTo(_bossDesk.GetInteractionPosition());
         CurrentState = State.Wandering; // Use Wandering state to signify moving without a task
      

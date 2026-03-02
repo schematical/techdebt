@@ -17,6 +17,7 @@ namespace MetaChallenges
         public enum MetaChallengeRewardType
         {
             Technology,
+            StartingWorldObject,
             StartingStatValue,
             Modifier
         }

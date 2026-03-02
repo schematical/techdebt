@@ -239,6 +239,36 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         {
             new Technology()
             {
+                TechnologyID = "kanban-board",
+                DisplayName = "Kanban",
+                Description = "",
+                ResearchPointCost = 30,
+                RequiredTechnologies = new List<string>(),
+                CurrentState = Technology.State.Locked
+                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
+                TechnologyID = "software-basics",
+                DisplayName = "Software Basics",
+                Description = "",
+                ResearchPointCost = 30,
+                RequiredTechnologies = new List<string>(),
+                CurrentState = Technology.State.Locked
+                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
+                TechnologyID = "application-server",
+                DisplayName = "Application Server",
+                Description = "",
+                ResearchPointCost = 30,
+                RequiredTechnologies = new List<string>(),
+                CurrentState = Technology.State.Locked
+                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
                 TechnologyID = "dedicated-db",
                 DisplayName = "Dedicated Database",
                 Description = "",

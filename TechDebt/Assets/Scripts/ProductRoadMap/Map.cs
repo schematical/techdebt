@@ -108,6 +108,7 @@ public class MapLevel
    public List<MapLevelVictoryConditionBase> VictoryConditions =  new List<MapLevelVictoryConditionBase>();
 
    public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
+   public List<MapLevelModifier> LevelRewards = new List<MapLevelModifier>();
    // TODO Stake holder? Sales, PR, etc?
    //TODO Add in rewards
    // protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
@@ -162,7 +163,7 @@ public class MapLevel
        }
       
        // Chose random modifiers based on stage
-       int levelDifficultyAdjustment = 0; // Use to figure out bigger reward
+
        for (int i = 0; i < Stage.Stage; i++)
        {
 
@@ -189,24 +190,56 @@ public class MapLevel
            }
 
            LevelModifiers.Add(modifier);
-           switch (modifier.Direction) 
+       }
+
+       // int levelDifficultyAdjustment = CalculateLevelDifficulty();
+       
+   }
+
+   public int CalculateLevelDifficulty()
+   {
+       int levelDifficultyAdjustment = 0; // Use to figure out bigger reward
+       foreach (MapLevelModifier modifier in LevelModifiers)
+       {
+          
+           switch (modifier.Direction)
            {
-               case(MapLevelModifier.ModifierDirection.Negative):
+               case (MapLevelModifier.ModifierDirection.Negative):
                    // Get a negative
                    levelDifficultyAdjustment -= 1;
-                   
+
                    break;
-               case(MapLevelModifier.ModifierDirection.Positive):
+               case (MapLevelModifier.ModifierDirection.Positive):
                    // Get a positive
                    levelDifficultyAdjustment += 1;
                    break;
                default:
                    throw new NotImplementedException();
            }
-           //TODO: Use the `levelDifficultyAdjustment` to determine the reward.
-           
-           
        }
+       //TODO: Use the `levelDifficultyAdjustment` to determine the reward.
+       return levelDifficultyAdjustment;
+   }
+   public string GetLevelDifficultyDesc()
+   {
+       int levelDifficultyAdjustment = CalculateLevelDifficulty();
+       if (levelDifficultyAdjustment == 0)
+       {
+           return "Medium";
+       }
+
+       string res = "Easy";
+       if (levelDifficultyAdjustment < 0)
+       {
+           res = "Hard";
+       }
+
+       for (int i = 1; i <= levelDifficultyAdjustment; i++)
+       {
+           res = $"Very {res}";
+       }
+
+       return res;
    }
 
    /*public void CleanUpModifiers(ModifierType modifierType)
@@ -324,12 +357,14 @@ public class MapLevel
 
    public virtual string GetDescription()
    {
-       string res = $"{Name}  - LevelModifiers:\n";
+       string res = $"{Name}\n";
+       res += GetLevelDifficultyDesc() + "\n";
+       res += "LevelModifiers:\n";
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
            res += modifier.GetDescription(this) + "\n";
        }
-       res = $"Victory Conditions:\n";
+       res += $"Victory Conditions:\n";
        foreach (MapLevelVictoryConditionBase condition in VictoryConditions)
        {
            res += condition.GetDescription() + "\n";

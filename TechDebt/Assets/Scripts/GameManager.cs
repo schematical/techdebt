@@ -572,12 +572,7 @@ public class GameManager : MonoBehaviour
             DisplayName = "Misc",
             BuildTime = 30,
         };
-        WorldObjectTypes[WorldObjectType.Type.BigDesk] = new WorldObjectType()
-        {
-            DisplayName = "Big Desk",
-            interactionPositionOffset =  new Vector3(0.0f, 1.0f, 0.0f),
-            
-        };
+        WorldObjectTypes[WorldObjectType.Type.BigDesk] = new BigDeskWOType();
         WorldObjectTypes[WorldObjectType.Type.InternetPipe] = new WorldObjectType()
         {
             DisplayName = "Internet Pipe",
