@@ -327,7 +327,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Water Cooler",
                 Description = "",
                 ResearchPointCost = 5,
-                RequiredTechnologies = new List<string>() { "kanban-board" }
+                RequiredTechnologies = new List<string>() { "kanban-board" },
+                Direction = Technology.TechTreeDirection.Right
             },
             new Technology()
             {
@@ -336,7 +337,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balancer" },
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down,
                 // Survive X malicious packets
             },
             new Technology()
@@ -346,6 +348,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "application-server" },
+                Direction = Technology.TechTreeDirection.Down,
                 // Cycle credentials Y times
             },
             new Technology()
@@ -354,7 +357,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Simple Queue Service",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" },
                 // survive Y packets in a single run.
             },
             new Technology()
@@ -364,7 +367,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "load-balancer" },
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down
                 // Survive Y user info leaked
             },
             new Technology()
@@ -373,7 +377,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Code Pipeline",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" }
+                RequiredTechnologies = new List<string>() { "load-balancer" },
+                Direction = Technology.TechTreeDirection.Down,
                 // Push out Y deployments
             },
             new Technology()
@@ -384,6 +389,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 ResearchPointCost = 200,
                 CurrentState = Technology.State.Locked,
                 RequiredTechnologies = new List<string>() { "application-server" },
+                Direction = Technology.TechTreeDirection.Left,
                 // Finish round 1
             },
             new Technology()
@@ -391,6 +397,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 TechnologyID = "cloud-watch-metrics",
                 DisplayName = "Cloud Watch Metrics",
                 Description = "",
+                Direction = Technology.TechTreeDirection.Down,
                 ResearchPointCost = 200,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 // ???
@@ -400,6 +407,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 TechnologyID = "sns",
                 DisplayName = "Mobile Notifications",
                 Description = "",
+                Direction = Technology.TechTreeDirection.Left,
                 ResearchPointCost = 200,
                 CurrentState = Technology.State.Locked,
                 RequiredTechnologies = new List<string>() { "application-server" },

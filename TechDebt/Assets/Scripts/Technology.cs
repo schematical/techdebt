@@ -11,7 +11,7 @@ public class Technology
     public string TechnologyID;
     public string DisplayName;
     public string Description;
-    
+    public TechTreeDirection Direction = TechTreeDirection.Up;
     public int ResearchPointCost;
     public float CurrentResearchProgress = 0;
     public List<string> RequiredTechnologies;
