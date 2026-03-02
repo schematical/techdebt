@@ -239,26 +239,6 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         {
             new Technology()
             {
-                TechnologyID = "kanban-board",
-                DisplayName = "Kanban",
-                Description = "",
-                ResearchPointCost = 30,
-                RequiredTechnologies = new List<string>(),
-                CurrentState = Technology.State.Locked
-                // UnlockConditions - Get and instance to size 2?
-            },
-            new Technology()
-            {
-                TechnologyID = "software-basics",
-                DisplayName = "Software Basics",
-                Description = "",
-                ResearchPointCost = 30,
-                RequiredTechnologies = new List<string>(),
-                CurrentState = Technology.State.Locked
-                // UnlockConditions - Get and instance to size 2?
-            },
-            new Technology()
-            {
                 TechnologyID = "application-server",
                 DisplayName = "Application Server",
                 Description = "",
@@ -269,11 +249,31 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             },
             new Technology()
             {
+                TechnologyID = "kanban-board",
+                DisplayName = "Kanban",
+                Description = "",
+                ResearchPointCost = 10,
+                RequiredTechnologies = new List<string>() { "software-basics" },
+                CurrentState = Technology.State.Locked
+                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
+                TechnologyID = "software-basics",
+                DisplayName = "Software Basics",
+                Description = "",
+                ResearchPointCost = 10,
+                RequiredTechnologies = new List<string>() { "application-server" },
+                CurrentState = Technology.State.Locked
+            },
+        
+            new Technology()
+            {
                 TechnologyID = "dedicated-db",
                 DisplayName = "Dedicated Database",
                 Description = "",
                 ResearchPointCost = 30,
-                RequiredTechnologies = new List<string>(),
+                RequiredTechnologies = new List<string>() { "software-basics" },
                 CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
             },
@@ -283,8 +283,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Binary Storage",
                 Description = "",
                 ResearchPointCost = 40,
-                RequiredTechnologies = new List<string>()
-                // Serve up X binary image packets with server-1
+                RequiredTechnologies = new List<string>() { "software-basics" }
             },
             new Technology()
             {
@@ -293,8 +292,6 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "",
                 ResearchPointCost = 25,
                 RequiredTechnologies = new List<string>() { "dedicated-db" }
-
-                // Serve up X text packets with the Dedicated DB
             },
             new Technology()
             {
@@ -329,7 +326,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Water Cooler",
                 Description = "",
                 ResearchPointCost = 5,
-                RequiredTechnologies = new List<string>() { "dedicated-db" }
+                RequiredTechnologies = new List<string>() { "kanban-board" }
             },
             new Technology()
             {
@@ -347,7 +344,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Secret Manager",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>()
+                RequiredTechnologies = new List<string>() { "application-server" },
                 // Cycle credentials Y times
             },
             new Technology()
@@ -384,7 +381,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Email Service",
                 Description = "",
                 ResearchPointCost = 200,
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                RequiredTechnologies = new List<string>() { "application-server" },
                 // Finish round 1
             },
             new Technology()
@@ -393,6 +391,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Cloud Watch Metrics",
                 Description = "",
                 ResearchPointCost = 200,
+                RequiredTechnologies = new List<string>() { "application-server" },
                 // ???
             },
             new Technology()
@@ -401,7 +400,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Mobile Notifications",
                 Description = "",
                 ResearchPointCost = 200,
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                RequiredTechnologies = new List<string>() { "application-server" },
                 // Finish round 1
             }
         };
@@ -433,8 +433,16 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Successfully handle 100 images",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "server1",
-                RewardId = "binary-storage",
-                RequiredValue = 100
+        
+                RequiredValue = 100,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "binary-storage",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             },
             new MetaChallengeBase()
             {
@@ -443,8 +451,15 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Have your dedicated database handle 100 text packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "dedicated-db",
-                RewardId = "redis",
-                RequiredValue = 100
+                RequiredValue = 100,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "redis",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             },
             /*new MetaChallengeBase()
             {
@@ -465,8 +480,16 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Send 200 images to S3 successfully",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "s3-bucket",
-                RewardId = "cdn",
-                RequiredValue = 50
+      
+                RequiredValue = 50,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "cdn",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             },
             new MetaChallengeBase()
             {
@@ -474,11 +497,17 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Load Balancer",
                 Description = "Make it to day 10",
                 metaStat = MetaStat.Day,
-                RewardId = StatType.Money.ToString(),
-                RewardValue = 2f,
                 RequiredValue = 10,
-                RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = StatType.Money.ToString(),
+                        RewardValue = 2f,
+                        Type = RewardBase.RewardType.StartingStatValue,
+                    }
+                }
             },
             new MetaChallengeBase()
             {
@@ -487,8 +516,14 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Upsize your database to level 2",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "dedicated-db",
-                RewardId = "read-replicas",
-                RequiredValue = 2
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                        {
+                        RewardId = "read-replicas",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             },
             new MetaChallengeBase()
             {
@@ -496,9 +531,16 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Code Pipeline",
                 Description = "Successfully deploy 25 releases in one run",
                 metaStat = MetaStat.Deployments,
-                RewardId = "codepipeline",
                 RequiredValue = 25,
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "codepipeline",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             },
             new MetaChallengeBase()
             {
@@ -507,9 +549,17 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Successfully handle 200 packets with the load balancer",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 InfrastructureId = "load-balancer",
-                RewardId = "sqs",
+            
                 RequiredValue = 200,
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "sqs",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             },
             new MetaChallengeBase()
             {
@@ -518,9 +568,16 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Successfully make it to Sprint 2",
                 metaStat = MetaStat.Sprint,
                 InfrastructureId = "sns",
-                RewardId = "sns",
                 RequiredValue = 2,
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "sns",
+                        Type = RewardBase.RewardType.Technology,
+                    }
+                }
             }
         };
         

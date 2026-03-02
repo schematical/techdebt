@@ -13,6 +13,14 @@ public class ApplicationServerWOType : WorldObjectType
         DailyCost = 30;
         CanBeUpsized = true;
         LoadRecoveryRate = 20;
+        UnlockConditions = new List<UnlockCondition>()
+        {
+            new UnlockCondition()
+            {
+                Type = UnlockCondition.ConditionType.Technology,
+                TechnologyID = "application-server"
+            }
+        };
         networkPackets = new List<InfrastructureDataNetworkPacket>()
         {
             new InfrastructureDataNetworkPacket()

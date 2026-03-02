@@ -60,7 +60,10 @@ public class UIMetaChallengesPanel: UIPanel
                 sb.AppendLine($"<color={challengeColor}>{challenge.DisplayName}</color>");
                 sb.AppendLine($"<b>{challenge.Description}</b>");
                 sb.AppendLine($"<i>Progress: {currentProgress}/{challenge.RequiredValue} ({ (isCompleted ? "Completed" : "In Progress") })</i>");
-                sb.AppendLine($"<i>Reward: {challenge.RewardId}</i>");
+                foreach (RewardBase reward in challenge.Rewards)
+                {
+                    sb.AppendLine($"<i> - Reward: {reward.Type} {reward.RewardId}{reward.RewardValue}</i>");
+                }
                 
                 uiTextArea.textArea.text = sb.ToString();
             }

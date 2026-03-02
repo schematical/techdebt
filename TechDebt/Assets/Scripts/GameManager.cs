@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     public SpriteManager SpriteManager;
     public List<NetworkPacket> activePackets = new List<NetworkPacket>();
     public List<InfrastructureData> AllInfrastructure;
-    public List<Technology> AllTechnologies;
+    protected List<Technology> AllTechnologies;
     public Dictionary<WorldObjectType.Type, WorldObjectType> WorldObjectTypes = new Dictionary<WorldObjectType.Type, WorldObjectType>();
     public Map Map;
     [SerializeField] public GridManager gridManager;
@@ -600,32 +600,35 @@ public class GameManager : MonoBehaviour
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
         foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
-            switch (challenge.RewardType)
+            foreach (RewardBase reward in challenge.Rewards)
             {
-                case(MetaChallengeBase.MetaChallengeRewardType.Technology):
-                    Technology technology = AllTechnologies.Find((t => t.TechnologyID == challenge.RewardId));
-                    if (technology == null)
-                    {
-                        throw new SystemException($"Technology '{challenge.RewardId}' is null.");
-                    }
+                switch (reward.Type)
+                {
+                    case (RewardBase.RewardType.Technology):
+                        Technology technology = AllTechnologies.Find((t => t.TechnologyID == reward.RewardId));
+                        if (technology == null)
+                        {
+                            throw new SystemException($"Technology '{reward.RewardId}' is null.");
+                        }
 
-                    if (technology.CurrentState == Technology.State.MetaLocked)
-                    {
-                        technology.CurrentState = Technology.State.Locked;
-                    }
+                        if (technology.CurrentState == Technology.State.MetaLocked)
+                        {
+                            technology.CurrentState = Technology.State.Locked;
+                        }
 
-                    break;
-                case(MetaChallengeBase.MetaChallengeRewardType.StartingStatValue):
-                    StatType statType;
-                    Enum.TryParse<StatType>(challenge.RewardId, out statType);
-                    
-                    Stats.AddModifier(statType, new StatModifier(
-                        $"metaChallenge_{challenge.RewardId}",
-                        challenge.RewardValue
-                    ));
-                    break;
-                default:
-                    throw new NotImplementedException();
+                        break;
+                    case (RewardBase.RewardType.StartingStatValue):
+                        StatType statType;
+                        Enum.TryParse<StatType>(reward.RewardId, out statType);
+
+                        Stats.AddModifier(statType, new StatModifier(
+                            $"metaChallenge_{reward.RewardId}",
+                            reward.RewardValue
+                        ));
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
         }
 
@@ -635,21 +638,18 @@ public class GameManager : MonoBehaviour
     {
 
         InfrastructureInstance infra = GetInfrastructureInstanceByID("whiteboard");
-            ReleaseBase openRelease = Releases.Find((r) => r.State != ReleaseBase.ReleaseState.DeploymentCompleted && r.State != ReleaseBase.ReleaseState.Failed);
-            if (openRelease != null)
-            {
-                infra.HideAttentionIcon();
-       
-            }
-            else
-            {
-                infra.ShowAttentionIcon();
-            }
-
-            
-       
-               
-       
+        ReleaseBase openRelease = Releases.Find((r) => r.State != ReleaseBase.ReleaseState.DeploymentCompleted && r.State != ReleaseBase.ReleaseState.Failed);
+        if (
+            openRelease != null ||
+            !infra.IsActive()
+        ){
+            infra.HideAttentionIcon();
+   
+        }
+        else
+        {
+            infra.ShowAttentionIcon();
+        }
     }
 
     public float IncrStat(StatType stat, float value = 1)
@@ -1116,5 +1116,10 @@ public class GameManager : MonoBehaviour
         {
             infrastructureInstance.UpdateNetworkTargets();
         }
+    }
+
+    public List<Technology> GetAllTechnologies()
+    {
+        return AllTechnologies;
     }
 }

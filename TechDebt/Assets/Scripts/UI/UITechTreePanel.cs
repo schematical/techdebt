@@ -201,7 +201,7 @@ namespace UI
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
       
 
-            List<Technology> allTech = GameManager.Instance.AllTechnologies;
+            List<Technology> allTech = GameManager.Instance.GetAllTechnologies();
 
             foreach (TechNodeView techNodeView in _techTreeNodes)
             {

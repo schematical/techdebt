@@ -11,12 +11,19 @@ namespace Infrastructure
         {
             base.Initialize();
             attentionIconColor = Color.green;
-            ShowAttentionIcon();
+            if (IsActive())
+            {
+                ShowAttentionIcon();
+            }
         }
 
         public override void OnLeftClick(PointerEventData eventData)
         {
-            
+            if (!IsActive())
+            {
+                base.OnLeftClick(eventData);
+                return;
+            }
             List<ReleaseBase> releases = GameManager.Instance.GetOpenReleases();
             if (releases.Count > 0)
             {

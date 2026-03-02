@@ -8044,16 +8044,20 @@ MonoBehaviour:
     worldObjectType: 0
     Prefab: {fileID: 4771823180765048759, guid: e164a9fcc8bc8644e9a38e857eb35603, type: 3}
     GridPosition: {x: 15, y: 48, z: 0}
-    InitialState: 3
-    CurrentState: 3
-    UnlockConditions: []
+    InitialState: 0
+    CurrentState: 0
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: software-basics
   - Id: kanbanboard
     worldObjectType: 0
     Prefab: {fileID: 1495299141615287234, guid: af081fe384e8b7d4aaa1d2ccc948f7f8, type: 3}
     GridPosition: {x: 15, y: 53, z: 0}
-    InitialState: 3
-    CurrentState: 3
-    UnlockConditions: []
+    InitialState: 0
+    CurrentState: 0
+    UnlockConditions:
+    - Type: 0
+      TechnologyID: kanban-board
   - Id: internetPipe2
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
@@ -8095,137 +8099,6 @@ MonoBehaviour:
     UnlockConditions:
     - Type: 0
       TechnologyID: sns
-  AllTechnologies:
-  - TechnologyID: dedicated-db
-    DisplayName: Dedicated Database
-    Description: 
-    ResearchPointCost: 30
-    CurrentResearchProgress: 0
-    RequiredTechnologies: []
-    CurrentState: 2
-    OriginalState: 0
-  - TechnologyID: binary-storage
-    DisplayName: Binary Storage
-    Description: 
-    ResearchPointCost: 40
-    CurrentResearchProgress: 0
-    RequiredTechnologies: []
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: redis
-    DisplayName: Redis Caching
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - dedicated-db
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: cdn
-    DisplayName: Content Delivery Network(CDN)
-    Description: 
-    ResearchPointCost: 5
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - binary-storage
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: load-balencer
-    DisplayName: Load Balencer
-    Description: 
-    ResearchPointCost: 30
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - dedicated-db
-    - binary-storage
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: read-replicas
-    DisplayName: Read Replicas
-    Description: 
-    ResearchPointCost: 60
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - dedicated-db
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: water-cooler
-    DisplayName: Water Cooler
-    Description: 
-    ResearchPointCost: 5
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - dedicated-db
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: waf
-    DisplayName: Web Application Firewall(WAF)
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - load-balencer
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: secret-manager
-    DisplayName: Secret Manager
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies: []
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: sqs
-    DisplayName: Simple Queue Service
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - load-balencer
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: cognito
-    DisplayName: Cognito User Pools
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - load-balencer
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: codepipeline
-    DisplayName: Code Pipeline
-    Description: 
-    ResearchPointCost: 25
-    CurrentResearchProgress: 0
-    RequiredTechnologies:
-    - load-balencer
-    CurrentState: 0
-    OriginalState: 0
-  - TechnologyID: email-service
-    DisplayName: Email Service
-    Description: 
-    ResearchPointCost: 200
-    CurrentResearchProgress: 0
-    RequiredTechnologies: []
-    CurrentState: 1
-    OriginalState: 0
-  - TechnologyID: cloud-watch-metrics
-    DisplayName: Cloud Watch Metrics
-    Description: 
-    ResearchPointCost: 200
-    CurrentResearchProgress: 0
-    RequiredTechnologies: []
-    CurrentState: 1
-    OriginalState: 0
-  - TechnologyID: sns
-    DisplayName: Mobile Notifications
-    Description: 
-    ResearchPointCost: 200
-    CurrentResearchProgress: 0
-    RequiredTechnologies: []
-    CurrentState: 0
-    OriginalState: 0
   gridManager: {fileID: 747688044}
   NetworkPacketState: 0
   AllNpcs: []
