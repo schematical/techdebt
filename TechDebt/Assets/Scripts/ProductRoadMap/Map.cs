@@ -115,6 +115,7 @@ public class MapLevel
    public MapLevel(MapStage _stage)
    {
        Stage =  _stage;
+       VictoryConditions.Add(new HasMoneyVictoryCondition());
    }
 
    public string GetSpriteId()
@@ -323,10 +324,15 @@ public class MapLevel
 
    public virtual string GetDescription()
    {
-       string res = $"{Name}  - LevelModifiers:{LevelModifiers.Count}\n";
+       string res = $"{Name}  - LevelModifiers:\n";
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
            res += modifier.GetDescription(this) + "\n";
+       }
+       res = $"Victory Conditions:\n";
+       foreach (MapLevelVictoryConditionBase condition in VictoryConditions)
+       {
+           res += condition.GetDescription() + "\n";
        }
        return res;
    }

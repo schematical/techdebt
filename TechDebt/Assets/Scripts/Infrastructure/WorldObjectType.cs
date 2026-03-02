@@ -17,7 +17,8 @@ namespace Infrastructure
             BinaryStorage,
             CDN,
             Queue,
-            WorkerServer
+            WorkerServer,
+            BigDesk
         }
         
         public string DisplayName;
@@ -35,7 +36,7 @@ namespace Infrastructure
   
         public List<NetworkConnection> NetworkConnections; // Array of NetworkConnection objects
         public StatsCollection Stats { get; private set; } = new StatsCollection();
-        public Vector3 interactionPositionOffset;
+        public Vector3 interactionPositionOffset = new Vector3(0.0f, 1.0f, 0.0f);
 
         public void Initialize()
         {

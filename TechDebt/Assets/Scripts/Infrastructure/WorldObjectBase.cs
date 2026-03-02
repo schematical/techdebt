@@ -15,7 +15,6 @@ namespace Infrastructure
         public WorldObjectType.Type Type;
         public Vector3Int GridPosition;
         public Color attentionIconColor = Color.white;
-        public Vector3 interactionPositionOffset = Vector3.zero;
         private UIAttentionIcon uiAttentionIcon;
         protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
         public PolygonCollider2D polygonCollider2D;
@@ -142,7 +141,7 @@ namespace Infrastructure
             switch (interactionType)
             {
                 case(InteractionType.Basic):
-                    return transform.position + interactionPositionOffset;
+                    return transform.position + GetWorldObjectType().interactionPositionOffset;
                 case(InteractionType.Block):
                     Vector3Int cellPos = GridPosition;// GameManager.Instance.gridManager.grid.WorldToCell(transform.position);
                     Vector3Int destPos = cellPos + new Vector3Int(-3, 0);

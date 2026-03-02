@@ -311,14 +311,6 @@ public class GameManager : MonoBehaviour
 
         _instance = this;
         
-        
-
-       
-          
-       
-
-       
-      
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
         OnTechnologyUnlocked += HandleTechnologyUnlocked;
         OnReleaseChanged += HandleReleaseChanged;
@@ -334,7 +326,8 @@ public class GameManager : MonoBehaviour
         prefabManager.Reset();
         Releases.Clear();
         GameLoopManager.Reset();
-
+        CurrentlyResearchingTechnology = null;
+        AvailableTasks.Clear();
         ReleaseBase.GlobalVersion = 0;
         foreach (NPCBase npc in AllNpcs)
         {
@@ -577,6 +570,13 @@ public class GameManager : MonoBehaviour
         WorldObjectTypes[WorldObjectType.Type.Misc] = new WorldObjectType()
         {
             DisplayName = "Misc",
+            BuildTime = 30,
+        };
+        WorldObjectTypes[WorldObjectType.Type.BigDesk] = new WorldObjectType()
+        {
+            DisplayName = "Big Desk",
+            interactionPositionOffset =  new Vector3(0.0f, 1.0f, 0.0f),
+            
         };
         WorldObjectTypes[WorldObjectType.Type.InternetPipe] = new WorldObjectType()
         {
@@ -920,6 +920,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         };
+        
         foreach (WorldObjectType worldObjectType in WorldObjectTypes.Values)
         {
             worldObjectType.Initialize();

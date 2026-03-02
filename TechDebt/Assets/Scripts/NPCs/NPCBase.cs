@@ -570,8 +570,13 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public void ReceiveAttack(NPCBase npcBase)
     {
-        float damage = -1 * npcBase.Stats.GetStatValue(StatType.NPC_AttackDamage);
-        float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(damage);
+        float damage = npcBase.Stats.GetStatValue(StatType.NPC_AttackDamage);
+        ReceiveDamage(damage);
+    }
+
+    public void ReceiveDamage(float damage)
+    {
+        float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(-1 * damage);
         GameManager.Instance.FloatingTextFactory.ShowText($"{damage} HP",
             transform.position); 
         

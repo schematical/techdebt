@@ -44,6 +44,6 @@ public class Desk : InfrastructureInstance
 
     public override Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
-        return transform.position + new Vector3(-0.4f, 1, 0);
+        return transform.position + new Vector3(-0.5f, 1.15f, 0);
     }
 }

@@ -11,7 +11,7 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        VictoryConditions.Add(new HasMoneyVictoryCondition());
+      
     }
 
     public override void Randomize()
@@ -52,7 +52,7 @@ public class LaunchMapLevel: MapLevel
 
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(10);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
         /*StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
         StatModifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);

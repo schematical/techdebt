@@ -212,7 +212,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         data = infraData;
         Type = data.worldObjectType;
         WorldObjectType worldObjectType = GetWorldObjectType();
-        interactionPositionOffset = worldObjectType.interactionPositionOffset;
+        // interactionPositionOffset = worldObjectType.interactionPositionOffset;
         Initialize(); // Ensure default stats are set up
         CurrentLoad = 0; // Initialize current load
         UpdateAppearance();
