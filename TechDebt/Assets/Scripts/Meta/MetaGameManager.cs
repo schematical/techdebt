@@ -71,7 +71,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         SaveProgress(new MetaProgressData());
     }
 
-    public static MetaProgressData GetUpdatedMetaStats(List<InfrastructureInstance> activeInfrastructure)
+    public static MetaProgressData GetUpdatedMetaStats(List<WorldObjectType> worldObjectTypes)
     {
         MetaProgressData progressData = LoadProgress();
         
@@ -104,16 +104,16 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             progressData.metaStats = new MetaStatSaveData();
         }
 
-        foreach (var instance in activeInfrastructure)
+        foreach (WorldObjectType worldObjectType in worldObjectTypes)
         {
-            var infraStats = progressData.metaStats.infra.Find(i => i.infraId == instance.data.Id);
+            InfraMetaStatSaveData infraStats = progressData.metaStats.infra.Find(i => i.infraId == worldObjectType.GetTypeAsId());
             if (infraStats == null)
             {
-                infraStats = new InfraMetaStatSaveData() { infraId = instance.data.Id };
+                infraStats = new InfraMetaStatSaveData() { infraId = worldObjectType.GetTypeAsId() };
                 progressData.metaStats.infra.Add(infraStats);
             }
 
-            foreach (var stat in instance.metaStatCollection.Stats)
+            foreach (KeyValuePair<MetaStat, int> stat in worldObjectType.metaStatCollection.Stats)
             {
                 MetaStatData statData = infraStats.stats.Find(s => s.statName == stat.Key.ToString());
                 if (statData == null)
@@ -254,13 +254,13 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Kanban",
                 Description = "",
                 ResearchPointCost = 10,
-                RequiredTechnologies = new List<string>() { "software-basics" },
+                RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
             {
-                TechnologyID = "software-basics",
+                TechnologyID = "white-board",
                 DisplayName = "Software Basics",
                 Description = "",
                 ResearchPointCost = 10,
@@ -274,7 +274,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Dedicated Database",
                 Description = "",
                 ResearchPointCost = 30,
-                RequiredTechnologies = new List<string>() { "software-basics" },
+                RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
             },
@@ -284,7 +284,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Binary Storage",
                 Description = "",
                 ResearchPointCost = 40,
-                RequiredTechnologies = new List<string>() { "software-basics" }
+                RequiredTechnologies = new List<string>() { "white-board" }
             },
             new Technology()
             {
@@ -430,11 +430,11 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 1,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    /*new RewardBase()
                     {
-                        RewardId = "application-server",
+                        RewardId = "server1",
                         Type = RewardBase.RewardType.WorldObject_StartsOperational,
-                    },
+                    },*/
                     new RewardBase()
                     {
                         RewardId = "application-server",
@@ -444,46 +444,46 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             },
             new MetaChallengeBase()
             {
-                ChallengeID = "whiteboard",
+                ChallengeID = "white-board",
                 DisplayName = "Junior SWE",
                 Description = "Unlock and build the White Board 3 Times",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "whiteboard",
+                InfrastructureId = "white-board",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 3,
                 Rewards =  new List<RewardBase>()
                 {
                     new RewardBase()
                     {
-                        RewardId = "whiteboard",
-                        Type = RewardBase.RewardType.WorldObject_StartsOperational,
+                        RewardId = "white-board",
+                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
                     },
                     new RewardBase()
                     {
-                        RewardId = "whiteboard",
+                        RewardId = "white-board",
                         Type = RewardBase.RewardType.Technology_Unlocked,
                     }
                 }
             },
             new MetaChallengeBase()
             {
-                ChallengeID = "kanbanboard",
+                ChallengeID = "kanban-board",
                 DisplayName = "Beginner Project Management",
                 Description = "Unlock and build the Kanban Board 5 Times",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "kanbanboard",
+                InfrastructureId = "kanban-board",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 5,
                 Rewards =  new List<RewardBase>()
                 {
                     new RewardBase()
                     {
-                        RewardId = "kanbanboard",
-                        Type = RewardBase.RewardType.WorldObject_StartsOperational,
+                        RewardId = "kanban-board",
+                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
                     },
                     new RewardBase()
                     {
-                        RewardId = "kanbanboard",
+                        RewardId = "kanban-board",
                         Type = RewardBase.RewardType.Technology_Unlocked,
                     }
                 }

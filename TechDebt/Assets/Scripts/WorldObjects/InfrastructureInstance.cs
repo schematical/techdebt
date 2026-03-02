@@ -99,7 +99,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         if (!packet.IsReturning())
         {
            
-            metaStatCollection.Incr(MetaStat.Infra_HandleNetworkPacket);
+            GetWorldObjectType().IncrMetaStat(MetaStat.Infra_HandleNetworkPacket);
             InfrastructureDataNetworkPacket packetData = GetWorldObjectType().networkPackets.Find(p => p.PacketType == packet.data.Type);
             int loadPerPacket = 0;
             int costPerPacket = 0;
@@ -468,9 +468,9 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         transform.localScale = Vector3.one * visualScaleFactor;
 
         
-        if (metaStatCollection.Get(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
+        if (GetWorldObjectType().GetMetaStat(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
         {
-            metaStatCollection.Set(MetaStat.Infra_MaxSize, CurrentSizeLevel);
+            GetWorldObjectType().SetMetaStat(MetaStat.Infra_MaxSize, CurrentSizeLevel);
         }
 
         SetState(InfrastructureData.State.Operational);
@@ -624,8 +624,4 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost) * GetSizeMultiplier();
     }
 
-    public void IncrMetaStat(MetaStat metaStat, int value = 1)
-    {
-        metaStatCollection.Set(metaStat, value);
-    }
 }

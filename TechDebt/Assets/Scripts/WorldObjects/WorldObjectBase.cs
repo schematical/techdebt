@@ -19,7 +19,7 @@ namespace Infrastructure
         private UIAttentionIcon uiAttentionIcon;
         protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
         public PolygonCollider2D polygonCollider2D;
-        public MetaStatCollection metaStatCollection = new MetaStatCollection();
+  
         void Start()
         {
             if (polygonCollider2D == null)
@@ -174,6 +174,11 @@ namespace Infrastructure
             HideAttentionIcon();
             attentionIconColor = Color.white;
             gameObject.SetActive(false);
+        }
+        
+        public void IncrMetaStat(MetaStat metaStat, int value = 1)
+        {
+            GetWorldObjectType().IncrMetaStat(metaStat, value); //metaStatCollection.Set(metaStat, value);
         }
     }
     

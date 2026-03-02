@@ -8041,7 +8041,7 @@ MonoBehaviour:
     - Type: 0
       TechnologyID: codepipeline
   - Id: whiteboard
-    worldObjectType: 0
+    worldObjectType: 11
     Prefab: {fileID: 4771823180765048759, guid: e164a9fcc8bc8644e9a38e857eb35603, type: 3}
     GridPosition: {x: 15, y: 48, z: 0}
     InitialState: 0
@@ -8050,7 +8050,7 @@ MonoBehaviour:
     - Type: 0
       TechnologyID: software-basics
   - Id: kanbanboard
-    worldObjectType: 0
+    worldObjectType: 12
     Prefab: {fileID: 1495299141615287234, guid: af081fe384e8b7d4aaa1d2ccc948f7f8, type: 3}
     GridPosition: {x: 15, y: 53, z: 0}
     InitialState: 0

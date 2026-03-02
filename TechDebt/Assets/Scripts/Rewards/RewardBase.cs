@@ -6,6 +6,7 @@
             Technology_Unlocked,
             Technology_Locked,
             WorldObject_StartsOperational,
+            WorldObjectType_StartsOperational,
             StartingStatValue,
             Modifier
         }

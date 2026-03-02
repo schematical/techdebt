@@ -569,6 +569,8 @@ public class GameManager : MonoBehaviour
         WorldObjectTypes.Clear();
         WorldObjectTypes[WorldObjectType.Type.Misc] = new MiscWOType();
         WorldObjectTypes[WorldObjectType.Type.BigDesk] = new BigDeskWOType();
+        WorldObjectTypes[WorldObjectType.Type.WhiteBoard] = new WhiteBoardWOType();
+        WorldObjectTypes[WorldObjectType.Type.KanbanBoard] = new KanbanBoardWOType();
         WorldObjectTypes[WorldObjectType.Type.InternetPipe] = new InternetPipeWOType();
         WorldObjectTypes[WorldObjectType.Type.ApplicationServer] = new ApplicationServerWOType();
         WorldObjectTypes[WorldObjectType.Type.BinaryStorage] = new BinaryStorageWOType();
@@ -604,18 +606,29 @@ public class GameManager : MonoBehaviour
             foreach (RewardBase reward in challenge.Rewards)
             {
                 Technology technology = null;
-                Debug.Log($"- Reward: {challenge.Type}");
+                Debug.Log($"- Reward: {reward.Type}");
                 switch (reward.Type)
                 {
                     case (RewardBase.RewardType.WorldObject_StartsOperational):
-                        /*foreach (WorldObjectType worldObjectType in WorldObjectTypes.Keys)
-                        {
-                            
-                        }*/
+                       
                         foreach (InfrastructureData infrastructureData in AllInfrastructure)
                         {
+                           
                             if (infrastructureData.Id == reward.RewardId)
                             {
+                                infrastructureData.InitialState = InfrastructureData.State.Operational;
+                                infrastructureData.CurrentState = InfrastructureData.State.Operational;
+                                Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
+                            }
+                        }
+                        break;
+                    case (RewardBase.RewardType.WorldObjectType_StartsOperational):
+                        foreach (InfrastructureData infrastructureData in AllInfrastructure)
+                        {
+                            WorldObjectType worldObjectType = WorldObjectTypes[infrastructureData.worldObjectType];
+                            if (worldObjectType.GetTypeAsId() == reward.RewardId)
+                            {
+                                infrastructureData.InitialState = InfrastructureData.State.Operational;
                                 infrastructureData.CurrentState = InfrastructureData.State.Operational;
                                 Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
                             }
@@ -1026,7 +1039,7 @@ public class GameManager : MonoBehaviour
     public void UpdateMetaProgress()
     {
         MetaProgressData prevMetaState = MetaGameManager.LoadProgress();
-        MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(ActiveInfrastructure);
+        MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
         MetaGameManager.SaveProgress(newMetaState);
         if (newlyPassedChallenges.Count > 0)

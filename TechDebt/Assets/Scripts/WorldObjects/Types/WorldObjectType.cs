@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MetaChallenges;
 using Stats;
 using UnityEngine;
 
@@ -18,7 +19,9 @@ namespace Infrastructure
             CDN,
             Queue,
             WorkerServer,
-            BigDesk
+            BigDesk,
+            WhiteBoard,
+            KanbanBoard
         }
         
         public string DisplayName;
@@ -38,6 +41,11 @@ namespace Infrastructure
         public StatsCollection Stats { get; private set; } = new StatsCollection();
         public Vector3 interactionPositionOffset = new Vector3(0.0f, 1.0f, 0.0f);
         public Type type;
+        public MetaStatCollection metaStatCollection = new MetaStatCollection();
+        public string GetTypeAsId()
+        {
+            return System.Text.RegularExpressions.Regex.Replace(type.ToString(), "([a-z])([A-Z])", "$1-$2").ToLower();
+        }
         public void Initialize()
         {
             Stats.Add(new StatData(StatType.Infra_DailyCost, DailyCost));
@@ -53,5 +61,19 @@ namespace Infrastructure
             }
         }
 
+        public void IncrMetaStat(MetaStat metaStat, int value = 1)
+        {
+            metaStatCollection.Incr(metaStat, value);
+        }
+
+        public int GetMetaStat(MetaStat infraMaxSize)
+        {
+            return metaStatCollection.Get(infraMaxSize);
+        }
+
+        public void SetMetaStat(MetaStat infraMaxSize, int currentSizeLevel)
+        {
+            metaStatCollection.Set(infraMaxSize, currentSizeLevel);
+        }
     }
 }
