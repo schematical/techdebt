@@ -308,9 +308,11 @@ namespace UI
                     // Draw paths to dependencies (parents)
                     DrawPaths(new List<TechNodeView> { currentNode });
 
-                    // Find and draw paths to dependents (children)
+                    // Find and draw paths to dependents (children) - Saved for later use
+                    /*
                     List<TechNodeView> children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(currentNode.Id)).ToList();
                     DrawPaths(children);
+                    */
                 }
                 
                 _hoveredNode = currentNode;
