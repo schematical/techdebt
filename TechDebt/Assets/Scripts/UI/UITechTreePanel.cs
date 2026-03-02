@@ -48,8 +48,8 @@ namespace UI
         private float _lastProgressUpdateTime = 0f;
 
         // Configuration for procedural layout
-        private int columnSpacing = 4;
-        private int rowSpacing = 2;
+        private int columnSpacing = 6;
+        private int rowSpacing = 4;
 
         public UnityAction<string> onNodeClicked;
 
@@ -323,40 +323,139 @@ namespace UI
             {
                 if (node.Dependencies == null || node.Dependencies.Count == 0) continue;
 
-                List<TechNodeView> dependencyNodes = node.Dependencies
-                    .Select(depId => _techTreeNodes.Find(n => n.Id == depId))
-                    .Where(n => n != null).ToList();
-
-                if (dependencyNodes.Count == 0) continue;
-
-                int maxDepX = dependencyNodes.Max(d => d.Position.x);
-                int busX = maxDepX + 2; // Create a 1-tile horizontal space before the vertical bus
-
-                // Path from child node to bus
-                for (int x = busX; x <= node.Position.x; x++)
+                foreach (var depId in node.Dependencies)
                 {
-                    connectorTilemap.SetTile(new Vector3Int(x, node.Position.y, 0), connectorTile);
+                    TechNodeView dep = _techTreeNodes.Find(n => n.Id == depId);
+                    if (dep == null) continue;
+
+                    Vector3Int start = (Vector3Int)dep.Position;
+                    Vector3Int end = (Vector3Int)node.Position;
+
+                    DrawConnection(start, end);
                 }
+            }
+        }
 
-                // Vertical bus itself
-                int minDepY = dependencyNodes.Min(d => d.Position.y);
-                int maxDepY = dependencyNodes.Max(d => d.Position.y);
-                int busMinY = Mathf.Min(minDepY, node.Position.y);
-                int busMaxY = Mathf.Max(maxDepY, node.Position.y);
-                for (int y = busMinY; y <= busMaxY; y++)
+        private void DrawConnection(Vector3Int start, Vector3Int end)
+        {
+            List<Vector3Int> path = FindPath(start, end);
+            if (path != null)
+            {
+                foreach (var p in path)
                 {
-                    connectorTilemap.SetTile(new Vector3Int(busX, y, 0), connectorTile);
+                    // Don't draw the connector on top of the start or end nodes
+                    if (p != start && p != end)
+                        connectorTilemap.SetTile(p, connectorTile);
                 }
-
-                // Paths from each dependency to the bus
-                foreach (TechNodeView dep in dependencyNodes)
+            }
+            else
+            {
+                // Fallback to L-shape if no path found (e.g. start/end blocked)
+                if (Mathf.Abs(end.x - start.x) > Mathf.Abs(end.y - start.y))
                 {
-                    for (int x = dep.Position.x; x <= busX; x++)
+                    int xDir = end.x > start.x ? 1 : -1;
+                    for (int x = start.x; x != end.x + xDir; x += xDir)
+                        if (new Vector3Int(x, start.y, 0) != start && new Vector3Int(x, start.y, 0) != end)
+                            connectorTilemap.SetTile(new Vector3Int(x, start.y, 0), connectorTile);
+                    
+                    int yDir = end.y > start.y ? 1 : -1;
+                    for (int y = start.y; y != end.y + yDir; y += yDir)
+                        if (new Vector3Int(end.x, y, 0) != start && new Vector3Int(end.x, y, 0) != end)
+                            connectorTilemap.SetTile(new Vector3Int(end.x, y, 0), connectorTile);
+                }
+                else
+                {
+                    int yDir = end.y > start.y ? 1 : -1;
+                    for (int y = start.y; y != end.y + yDir; y += yDir)
+                        if (new Vector3Int(start.x, y, 0) != start && new Vector3Int(start.x, y, 0) != end)
+                            connectorTilemap.SetTile(new Vector3Int(start.x, y, 0), connectorTile);
+
+                    int xDir = end.x > start.x ? 1 : -1;
+                    for (int x = start.x; x != end.x + xDir; x += xDir)
+                        if (new Vector3Int(x, end.y, 0) != start && new Vector3Int(x, end.y, 0) != end)
+                            connectorTilemap.SetTile(new Vector3Int(x, end.y, 0), connectorTile);
+                }
+            }
+        }
+
+        private List<Vector3Int> FindPath(Vector3Int start, Vector3Int end)
+        {
+            HashSet<Vector2Int> obstacles = new HashSet<Vector2Int>(_techTreeNodes.Select(n => n.Position));
+            
+            // Priority queue simulated with a list
+            List<Vector3Int> openSet = new List<Vector3Int> { start };
+            HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
+            
+            Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
+            Dictionary<Vector3Int, float> gScore = new Dictionary<Vector3Int, float>();
+            gScore[start] = 0;
+            
+            Dictionary<Vector3Int, float> fScore = new Dictionary<Vector3Int, float>();
+            fScore[start] = GetHeuristic(start, end);
+            
+            while (openSet.Count > 0)
+            {
+                // Get node with lowest fScore
+                Vector3Int current = openSet.OrderBy(n => fScore.ContainsKey(n) ? fScore[n] : float.MaxValue).First();
+                
+                if (current == end)
+                {
+                    return ReconstructPath(cameFrom, current);
+                }
+                
+                openSet.Remove(current);
+                closedSet.Add(current);
+                
+                foreach (Vector3Int neighbor in GetNeighbors(current))
+                {
+                    if (closedSet.Contains(neighbor)) continue;
+                    
+                    // Allow moving through end node, but not other obstacles
+                    if (obstacles.Contains((Vector2Int)neighbor) && neighbor != end) continue;
+                    
+                    float tentativeGScore = gScore[current] + 1; // Distance is 1
+                    
+                    if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
                     {
-                        connectorTilemap.SetTile(new Vector3Int(x, dep.Position.y, 0), connectorTile);
+                        cameFrom[neighbor] = current;
+                        gScore[neighbor] = tentativeGScore;
+                        fScore[neighbor] = gScore[neighbor] + GetHeuristic(neighbor, end);
+                        
+                        if (!openSet.Contains(neighbor))
+                            openSet.Add(neighbor);
                     }
                 }
             }
+            return null; // No path found
+        }
+
+        private float GetHeuristic(Vector3Int a, Vector3Int b)
+        {
+            // Manhattan distance
+            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        }
+
+        private List<Vector3Int> GetNeighbors(Vector3Int p)
+        {
+            return new List<Vector3Int>
+            {
+                p + Vector3Int.up,
+                p + Vector3Int.down,
+                p + Vector3Int.left,
+                p + Vector3Int.right
+            };
+        }
+
+        private List<Vector3Int> ReconstructPath(Dictionary<Vector3Int, Vector3Int> cameFrom, Vector3Int current)
+        {
+            List<Vector3Int> totalPath = new List<Vector3Int> { current };
+            while (cameFrom.ContainsKey(current))
+            {
+                current = cameFrom[current];
+                totalPath.Add(current);
+            }
+            totalPath.Reverse();
+            return totalPath;
         }
 
         private void DrawNodesAndLabels()
@@ -404,9 +503,8 @@ namespace UI
                     Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)node.Position);
                     GameObject labelInstance = GameManager.Instance.prefabManager.Create("UITechTreeLabel",
                         worldPos + new Vector3(0, -1.5f, 0), nodeTilemap.transform.parent);
+                    labelInstance.name = $"TechNode_{node.DisplayName}";
                     node.LabelInstance = labelInstance.GetComponentInChildren<TextMeshPro>();
-
-                   
                 }
                 node.LabelInstance.text = node.DisplayName;
 
@@ -434,104 +532,180 @@ namespace UI
            
         }
 
-        private void CalculateNodePositions()
+        private class LayoutNode
         {
-    
-            if (_techTreeNodes == null || _techTreeNodes.Count == 0) return;
-
-            // Pass 1: Determine X position (column) for each node.
-            var calculationStack = new HashSet<string>();
-            foreach (TechNodeView node in _techTreeNodes)
-            {
-                CalculateNodeXPosition(node, calculationStack);
-            }
-
-            // Group nodes by column for Y positioning
-            Dictionary<int, List<TechNodeView>> nodesByColumn = _techTreeNodes.GroupBy(n => n.Position.x)
-                                         .OrderBy(g => g.Key)
-                                         .ToDictionary(g => g.Key, g => g.ToList());
-            
-            // Pass 2: Position Y values, starting with leaf nodes.
-            HashSet<string> allDependencyIds = new HashSet<string>(_techTreeNodes.SelectMany(n => n.Dependencies ?? new List<string>()));
-            List<TechNodeView> leafNodes = _techTreeNodes.Where(n => !allDependencyIds.Contains(n.Id)).OrderBy(n => n.Position.x).ToList();
-
-            int currentY = 0;
-            foreach (TechNodeView node in leafNodes)
-            {
-                node.Position.y = currentY;
-                currentY += rowSpacing * 2;
-            }
-
-            // Position Y values from right to left, centering parents over children
-            for (int i = nodesByColumn.Keys.Max(); i >= 0; i--)
-            {
-                if (!nodesByColumn.ContainsKey(i)) continue;
-                
-                foreach (TechNodeView node in nodesByColumn[i])
-                {
-                    List<TechNodeView> children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(node.Id)).ToList();
-                    if (children.Count > 0)
-                    {
-                        float avgChildY = (float)children.Average(c => c.Position.y);
-                        node.Position.y = Mathf.RoundToInt(avgChildY);
-                    }
-                }
-            }
-
-            // Pass 3: Overlap Resolution
-            foreach (int col in nodesByColumn.Keys)
-            {
-                List<TechNodeView> columnNodes = nodesByColumn[col].OrderBy(n => n.Position.y).ToList();
-                for (int j = 1; j < columnNodes.Count; j++)
-                {
-                    TechNodeView prevNode = columnNodes[j - 1];
-                    TechNodeView currNode = columnNodes[j];
-                    
-                    if (currNode.Position.y < prevNode.Position.y + rowSpacing)
-                    {
-                        currNode.Position.y = prevNode.Position.y + rowSpacing;
-                    }
-                }
-            }
-
-         
+            public TechNodeView View;
+            public List<LayoutNode> Children = new List<LayoutNode>();
+            public Vector2Int Position; // Relative to parent
+            public int SubtreeBreadth; // Size in the perpendicular axis
+            // We need to know the 'depth' (main axis) and 'breadth' (perp axis) relative to the incoming direction.
+            // But since direction changes per child, we track the global bounds relative to this node.
+            public int MinPerpOffset;
+            public int MaxPerpOffset;
         }
 
-        private int CalculateNodeXPosition(TechNodeView node, HashSet<string> stack)
+        private void CalculateNodePositions()
         {
-            if (node.Position.x != -1) return node.Position.x;
+            if (_techTreeNodes == null || _techTreeNodes.Count == 0) return;
 
-            if (stack.Contains(node.Id))
+            // Reset positions
+            foreach (var node in _techTreeNodes)
             {
-                Debug.LogError($"Cycle detected involving node {node.Id}");
-                return 0;
+                node.Position = new Vector2Int(-1000, -1000);
             }
 
-            stack.Add(node.Id);
+            TechNodeView root = _techTreeNodes.Find(n => n.Id == "application-server") ?? _techTreeNodes.Find(n => n.Dependencies == null || n.Dependencies.Count == 0);
+            if (root == null) return;
 
-            if (node.Dependencies == null || node.Dependencies.Count == 0)
-            {
-                stack.Remove(node.Id);
-                return node.Position.x = 0;
-            }
+            // Build Tree (DAG -> Tree conversion for layout)
+            HashSet<string> visited = new HashSet<string>();
+            LayoutNode rootLayout = BuildLayoutTree(root, visited);
 
-            int maxDepX = 0;
-            if (node.Dependencies != null && node.Dependencies.Count > 0)
+            // Calculate Sizes
+            CalculateSubtreeMetrics(rootLayout);
+
+            // Assign Positions
+            root.Position = Vector2Int.zero;
+            AssignPositions(rootLayout, root.Position);
+        }
+
+        private LayoutNode BuildLayoutTree(TechNodeView view, HashSet<string> visited)
+        {
+            visited.Add(view.Id);
+            LayoutNode node = new LayoutNode { View = view };
+
+            // Find children: Nodes that list this view as a dependency
+            // Note: Since a node can have multiple dependencies, checking visited ensures it's only placed once in the hierarchy.
+            var potentialChildren = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(view.Id));
+            
+            // Sort children to ensure consistent order (e.g. by name or ID)
+            var sortedChildren = potentialChildren.OrderBy(n => n.Id).ToList();
+
+            foreach (var childView in sortedChildren)
             {
-                var deps = node.Dependencies
-                    .Select(depId => _techTreeNodes.Find(n => n.Id == depId))
-                    .Where(n => n != null)
-                    .ToList();
-                
-                if (deps.Count > 0)
+                if (!visited.Contains(childView.Id))
                 {
-                    maxDepX = deps.Max(n => CalculateNodeXPosition(n, stack));
+                    node.Children.Add(BuildLayoutTree(childView, visited));
                 }
             }
+            return node;
+        }
 
-            stack.Remove(node.Id);
-            node.Position.x = maxDepX + columnSpacing;
-            return node.Position.x;
+        private void CalculateSubtreeMetrics(LayoutNode node)
+        {
+            if (node.Children.Count == 0)
+            {
+                node.MinPerpOffset = 0;
+                node.MaxPerpOffset = 0;
+                return;
+            }
+
+            // Group by direction
+            var grouped = node.Children.GroupBy(c => c.View.Technology.Direction);
+            
+            // Calculate total breadth required for each direction group
+            foreach (var group in grouped)
+            {
+                Technology.TechTreeDirection dir = group.Key;
+                int perpSpacing = (dir == Technology.TechTreeDirection.Left || dir == Technology.TechTreeDirection.Right) ? rowSpacing * 2 : columnSpacing;
+
+                List<LayoutNode> children = group.ToList();
+                
+                // Calculate total breadth
+                int totalBreadth = 0;
+                List<int> childBreadths = new List<int>();
+                
+                foreach (var child in children)
+                {
+                    CalculateSubtreeMetrics(child); // Recursive call
+                    int b = child.MaxPerpOffset - child.MinPerpOffset;
+                    if (b == 0) b = 2; // Minimum size for a node
+                    childBreadths.Add(b);
+                    totalBreadth += b;
+                }
+                
+                totalBreadth += (children.Count - 1) * perpSpacing;
+                
+                // Now assign relative positions (perp offset)
+                int currentPos = -totalBreadth / 2;
+                
+                for(int i=0; i<children.Count; i++)
+                {
+                    var child = children[i];
+                    int breadth = childBreadths[i];
+                    
+                    // Position is center of the block
+                    int centerOffset = currentPos + breadth / 2;
+                    
+                    if (dir == Technology.TechTreeDirection.Up || dir == Technology.TechTreeDirection.Down)
+                    {
+                        int mainDistVal = (dir == Technology.TechTreeDirection.Up || dir == Technology.TechTreeDirection.Down) ? rowSpacing * 2 : columnSpacing;
+                        
+                        Vector2Int dirVec = GetDirectionVector(dir);
+                        Vector2Int perpVec = GetPerpendicularVector(dir);
+                        
+                        child.Position = dirVec * mainDistVal + perpVec * centerOffset;
+                    }
+                    else
+                    {
+                        // Left/Right
+                        int mainDistVal = columnSpacing;
+                        Vector2Int dirVec = GetDirectionVector(dir);
+                        Vector2Int perpVec = GetPerpendicularVector(dir);
+                        child.Position = dirVec * mainDistVal + perpVec * centerOffset;
+                    }
+                    
+                    currentPos += breadth + perpSpacing;
+                }
+                
+                if (dir == Technology.TechTreeDirection.Up || dir == Technology.TechTreeDirection.Down)
+                {
+                    // These children contribute to our horizontal breadth.
+                    int half = totalBreadth / 2;
+                    node.MinPerpOffset = Mathf.Min(node.MinPerpOffset, -half);
+                    node.MaxPerpOffset = Mathf.Max(node.MaxPerpOffset, half);
+                }
+            }
+            
+            // Ensure non-zero size for the node itself
+            if (node.MinPerpOffset == 0 && node.MaxPerpOffset == 0)
+            {
+                 node.MinPerpOffset = -1;
+                 node.MaxPerpOffset = 1;
+            }
+        }
+
+        private void AssignPositions(LayoutNode node, Vector2Int currentPos)
+        {
+            node.View.Position = currentPos;
+            foreach (var child in node.Children)
+            {
+                AssignPositions(child, currentPos + child.Position);
+            }
+        }
+
+        private Vector2Int GetDirectionVector(Technology.TechTreeDirection dir)
+        {
+            switch (dir)
+            {
+                case Technology.TechTreeDirection.Up: return Vector2Int.up;
+                case Technology.TechTreeDirection.Down: return Vector2Int.down;
+                case Technology.TechTreeDirection.Left: return Vector2Int.left;
+                case Technology.TechTreeDirection.Right: return Vector2Int.right;
+                default: return Vector2Int.right;
+            }
+        }
+
+        private Vector2Int GetPerpendicularVector(Technology.TechTreeDirection dir)
+        {
+            switch (dir)
+            {
+                case Technology.TechTreeDirection.Up: 
+                case Technology.TechTreeDirection.Down: return Vector2Int.right;
+                case Technology.TechTreeDirection.Left:
+                case Technology.TechTreeDirection.Right: return Vector2Int.up;
+                default: return Vector2Int.up;
+            }
         }
     }
 }

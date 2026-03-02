@@ -276,7 +276,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Dedicated Database",
                 Description = "",
                 ResearchPointCost = 30,
-                RequiredTechnologies = new List<string>() { "white-board" },
+                RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
             },
@@ -286,7 +286,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Binary Storage",
                 Description = "",
                 ResearchPointCost = 40,
-                RequiredTechnologies = new List<string>() { "white-board" }
+                RequiredTechnologies = new List<string>() { "application-server" }
             },
             new Technology()
             {
