@@ -296,7 +296,7 @@ namespace Events
                     firstTechnologyResearched = true;
                     GameManager.Instance.UIManager.ShowNPCDialog(
                         botSprite,
-                        "Congrats! You researched your first Technology. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
+                        "Congrats! You researched your first Technology_Locked. Notice new Infrastructure is available to be built. You will want to assign your team to build it.",
                         options
                     );
                     nextStep = -1;

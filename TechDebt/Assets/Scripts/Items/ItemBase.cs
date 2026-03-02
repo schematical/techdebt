@@ -1,3 +1,4 @@
+using MetaChallenges;
 using UnityEngine;
 using UnityEngine.EventSystems; // Required for IPointerClickHandler
 
@@ -46,6 +47,11 @@ namespace Items
         public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
         {
             return transform.position;
+        }
+
+        public void IncrMetaStat(MetaStat metaStat, int value = 1)
+        {
+            // Do nothing for now
         }
     }
 }

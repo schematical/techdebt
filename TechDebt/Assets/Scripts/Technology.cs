@@ -1,4 +1,4 @@
-// Technology.cs
+// Technology_Locked.cs
 using UnityEngine;
 using System.Collections.Generic;
 using System; // Added for SerializableAttribute

@@ -1,4 +1,5 @@
 using Infrastructure;
+using MetaChallenges;
 using UnityEngine;
 
 public interface iTargetable
@@ -8,6 +9,7 @@ public interface iTargetable
     string name { get; }
     GameObject gameObject { get;  }
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic);
+    void IncrMetaStat(MetaStat metaStat, int value = 1);
 }
 public interface iAttackable: iTargetable
 {

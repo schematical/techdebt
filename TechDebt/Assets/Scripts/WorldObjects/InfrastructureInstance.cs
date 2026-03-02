@@ -26,7 +26,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections =
         new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
 
-    public MetaStatCollection metaStatCollection = new MetaStatCollection();
+ 
 
     void Awake()
     {
@@ -622,5 +622,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public float GetDailyCost()
     {
         return GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost) * GetSizeMultiplier();
+    }
+
+    public void IncrMetaStat(MetaStat metaStat, int value = 1)
+    {
+        metaStatCollection.Set(metaStat, value);
     }
 }

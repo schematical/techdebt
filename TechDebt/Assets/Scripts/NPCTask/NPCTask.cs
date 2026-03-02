@@ -106,6 +106,7 @@ public abstract class NPCTask
         if (MetaStat != null)
         {
             GameManager.Instance.MetaStats.Incr(MetaStat.Value);
+            target.IncrMetaStat(MetaStat.Value);
         }
     }
 

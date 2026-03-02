@@ -15,6 +15,7 @@ public class BuildTask : InfrastructureTaskBase
 
     public BuildTask(InfrastructureInstance target, int priority = 5) : base(target)
     {
+        MetaStat = MetaChallenges.MetaStat.Infra_Built;
         Priority = priority;
     }
 

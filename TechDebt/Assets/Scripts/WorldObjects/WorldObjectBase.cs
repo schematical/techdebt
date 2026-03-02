@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.EnvGraphic;
+using MetaChallenges;
 using NPCs;
 using UI;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Infrastructure
         private UIAttentionIcon uiAttentionIcon;
         protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
         public PolygonCollider2D polygonCollider2D;
-
+        public MetaStatCollection metaStatCollection = new MetaStatCollection();
         void Start()
         {
             if (polygonCollider2D == null)

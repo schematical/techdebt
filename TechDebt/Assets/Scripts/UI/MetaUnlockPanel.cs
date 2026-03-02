@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // The TechTreeNode is now primarily a VIEW model for the TechTreeController.
-// The main data model is the Technology class from MetaGameManager.
+// The main data model is the Technology_Locked class from MetaGameManager.
 [System.Serializable]
 public class TechTreeNode
 {
@@ -55,7 +55,7 @@ namespace UI
             {
                 var savedProgress = MetaGameManager.ProgressData;
                 
-                // Convert Technology list to TechTreeNode list for the controller
+                // Convert Technology_Locked list to TechTreeNode list for the controller
                 var techTreeNodes = _technologies.Select(tech => new TechTreeNode
                 {
                     id = tech.TechnologyID,

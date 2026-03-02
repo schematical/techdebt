@@ -7,6 +7,7 @@ namespace MetaChallenges
         Day,
         Sprint,
         Deployments,
-        Infra_Fix
+        Infra_Fix,
+        Infra_Built
     }
 }

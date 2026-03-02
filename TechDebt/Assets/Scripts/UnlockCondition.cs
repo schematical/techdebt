@@ -18,7 +18,7 @@ public class UnlockCondition
         switch (Type)
         {
             case ConditionType.Technology:
-                return $"Requires Technology {TechnologyID}";
+                return $"Requires Technology_Locked {TechnologyID}";
             default:
                 return "Unknown requirement";
         }

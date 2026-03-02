@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using DefaultNamespace;
+using MetaChallenges;
 using Stats;
 using UI;
 using Unity.VisualScripting;
@@ -608,6 +609,17 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
         return transform.position;
+    }
+
+    public void IncrMetaStat(MetaStat metaStat)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void IncrMetaStat(MetaStat metaStat, int value = 1)
+    {
+        // metaStatCollection.Set(MetaStat.Infra_MaxSize, value);
+        // Do nothing for now.
     }
 
     public virtual Vector3 GetHomePoint()

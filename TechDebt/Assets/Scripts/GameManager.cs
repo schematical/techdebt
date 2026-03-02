@@ -600,20 +600,50 @@ public class GameManager : MonoBehaviour
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
         foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
+            Debug.Log($"Unlocked: {challenge.ChallengeID}");
             foreach (RewardBase reward in challenge.Rewards)
             {
+                Technology technology = null;
+                Debug.Log($"- Reward: {challenge.Type}");
                 switch (reward.Type)
                 {
-                    case (RewardBase.RewardType.Technology):
-                        Technology technology = AllTechnologies.Find((t => t.TechnologyID == reward.RewardId));
+                    case (RewardBase.RewardType.WorldObject_StartsOperational):
+                        /*foreach (WorldObjectType worldObjectType in WorldObjectTypes.Keys)
+                        {
+                            
+                        }*/
+                        foreach (InfrastructureData infrastructureData in AllInfrastructure)
+                        {
+                            if (infrastructureData.Id == reward.RewardId)
+                            {
+                                infrastructureData.CurrentState = InfrastructureData.State.Operational;
+                                Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
+                            }
+                        }
+                        break;
+                    case (RewardBase.RewardType.Technology_Locked):
+                        technology = AllTechnologies.Find((t => t.TechnologyID == reward.RewardId));
                         if (technology == null)
                         {
-                            throw new SystemException($"Technology '{reward.RewardId}' is null.");
+                            throw new SystemException($"Technology_Locked '{reward.RewardId}' is null.");
                         }
 
                         if (technology.CurrentState == Technology.State.MetaLocked)
                         {
                             technology.CurrentState = Technology.State.Locked;
+                        }
+
+                        break;
+                    case (RewardBase.RewardType.Technology_Unlocked):
+                        technology = AllTechnologies.Find((t => t.TechnologyID == reward.RewardId));
+                        if (technology == null)
+                        {
+                            throw new SystemException($"Technology_Locked '{reward.RewardId}' is null.");
+                        }
+
+                        if (technology.CurrentState == Technology.State.MetaLocked || technology.CurrentState == Technology.State.Locked)
+                        {
+                            technology.CurrentState = Technology.State.Unlocked;
                         }
 
                         break;
@@ -815,7 +845,7 @@ public class GameManager : MonoBehaviour
                     {
                         return false;
                         // throw new SystemException(
-                        //     $"Cannot find Technology {condition.TechnologyID} - {infraData.ID}");
+                        //     $"Cannot find Technology_Locked {condition.TechnologyID} - {infraData.ID}");
                     } 
                     
                     if(technology.CurrentState != Technology.State.Unlocked) return false;
@@ -885,7 +915,7 @@ public class GameManager : MonoBehaviour
     {
         if (tech == null || tech.CurrentState != Technology.State.Locked)
         {
-            Debug.LogWarning($"Technology '{tech?.DisplayName}' cannot be researched because its state is not 'Locked'.");
+            Debug.LogWarning($"Technology_Locked '{tech?.DisplayName}' cannot be researched because its state is not 'Locked'.");
             return;
         }
 
@@ -950,7 +980,7 @@ public class GameManager : MonoBehaviour
         CurrentlyResearchingTechnology = null;
     }
 
-    // Helper method to get a Technology by its ID
+    // Helper method to get a Technology_Locked by its ID
     public Technology GetTechnologyByID(string id)
     {
         return AllTechnologies.FirstOrDefault(t => t.TechnologyID == id);

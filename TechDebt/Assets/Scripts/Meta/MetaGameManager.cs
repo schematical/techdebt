@@ -173,6 +173,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         {
             value = GetChallengeStatData(statData, challenge);
         }
+        Debug.Log($"{challenge.ChallengeID} - metaStat: {challenge.metaStat} -RequirementType: {challenge.RequirementType} - InfrastructureId: {challenge.InfrastructureId} - {value} >= {challenge.RequiredValue} : {value >= challenge.RequiredValue}");
         // Check if the challenge was incomplete before but is complete now.
         return (value >= challenge.RequiredValue);
     }
@@ -417,15 +418,76 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
     {
         List<MetaChallengeBase> challenges = new List<MetaChallengeBase>()
         {
-            /*new MetaChallengeBase()
+            
+            new MetaChallengeBase()
             {
-                ChallengeID = "dedicated-db",
-                DisplayName = "Dedicated Databases",
-                metaStat = MetaStat.Infra_MaxSize,
-                InfrastructureId = "server1",
-                RewardId = "dedicated-db",
-                RequiredValue = 2
-            },*/
+                ChallengeID = "application-server",
+                DisplayName = "My First Server",
+                Description = "Unlock and build the Application Server Once",
+                metaStat = MetaStat.Infra_Built,
+                InfrastructureId = "application-server",
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                RequiredValue = 1,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "application-server",
+                        Type = RewardBase.RewardType.WorldObject_StartsOperational,
+                    },
+                    new RewardBase()
+                    {
+                        RewardId = "application-server",
+                        Type = RewardBase.RewardType.Technology_Unlocked,
+                    }
+                }
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "whiteboard",
+                DisplayName = "Junior SWE",
+                Description = "Unlock and build the White Board 3 Times",
+                metaStat = MetaStat.Infra_Built,
+                InfrastructureId = "whiteboard",
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                RequiredValue = 3,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "whiteboard",
+                        Type = RewardBase.RewardType.WorldObject_StartsOperational,
+                    },
+                    new RewardBase()
+                    {
+                        RewardId = "whiteboard",
+                        Type = RewardBase.RewardType.Technology_Unlocked,
+                    }
+                }
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "kanbanboard",
+                DisplayName = "Beginner Project Management",
+                Description = "Unlock and build the Kanban Board 5 Times",
+                metaStat = MetaStat.Infra_Built,
+                InfrastructureId = "kanbanboard",
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                RequiredValue = 5,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "kanbanboard",
+                        Type = RewardBase.RewardType.WorldObject_StartsOperational,
+                    },
+                    new RewardBase()
+                    {
+                        RewardId = "kanbanboard",
+                        Type = RewardBase.RewardType.Technology_Unlocked,
+                    }
+                }
+            },
             new MetaChallengeBase()
             {
                 ChallengeID = "binary-storage",
@@ -440,7 +502,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     new RewardBase()
                     {
                         RewardId = "binary-storage",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -457,7 +519,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     new RewardBase()
                     {
                         RewardId = "redis",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -487,7 +549,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     new RewardBase()
                     {
                         RewardId = "cdn",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -516,12 +578,13 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Upsize your database to level 2",
                 metaStat = MetaStat.Infra_MaxSize,
                 InfrastructureId = "dedicated-db",
+                RequiredValue = 2,
                 Rewards =  new List<RewardBase>()
                 {
                     new RewardBase()
                         {
                         RewardId = "read-replicas",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -538,7 +601,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     new RewardBase()
                     {
                         RewardId = "codepipeline",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -557,7 +620,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     new RewardBase()
                     {
                         RewardId = "sqs",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -575,7 +638,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     new RewardBase()
                     {
                         RewardId = "sns",
-                        Type = RewardBase.RewardType.Technology,
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             }

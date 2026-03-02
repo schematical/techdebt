@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Data;
 using DefaultNamespace;
+using MetaChallenges;
 using UnityEngine.EventSystems;
 
 public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
@@ -159,6 +160,11 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
         return transform.position;
+    }
+
+    public void IncrMetaStat(MetaStat metaStat, int value = 1)
+    {
+        // Do nothing for now
     }
 
     public void MarkStolen()
