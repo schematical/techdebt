@@ -1970,7 +1970,7 @@ MonoBehaviour:
   orgChartPanel: {fileID: 58927466}
   itemDetailPanel: {fileID: 2067294679}
   alertPanel: {fileID: 380004525}
-  dialogPanel: {fileID: 0}
+  dialogPanel: {fileID: 1215283368}
 --- !u!114 &203743597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3640,8 +3640,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 437.0077, y: -72.5}
-  m_SizeDelta: {x: 548.0154, y: 150}
+  m_AnchoredPosition: {x: 363.0077, y: -72.5}
+  m_SizeDelta: {x: 696.0154, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &348210601
 MonoBehaviour:
@@ -12399,7 +12399,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -83.89}
-  m_SizeDelta: {x: 548.0154, y: 83.89}
+  m_SizeDelta: {x: 696.0154, y: 83.89}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &974712450
 MonoBehaviour:
@@ -15046,7 +15046,6 @@ GameObject:
   - component: {fileID: 1215283369}
   - component: {fileID: 1215283373}
   - component: {fileID: 1215283372}
-  - component: {fileID: 1215283371}
   - component: {fileID: 1215283370}
   - component: {fileID: 1215283368}
   m_Layer: 5
@@ -15113,26 +15112,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &1215283371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215283367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35dd78db19ed4034b98e3ceadff7263e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIPanel
-  slideDirection: 1
-  rectTransform: {fileID: 1215283369}
-  canvasGroup: {fileID: 1215283370}
-  animationTime: 0.5
-  runUICloseOnShow: 1
-  titleText: {fileID: 87427124}
-  scrollContent: {fileID: 0}
-  closeButton: {fileID: 1787008454}
 --- !u!114 &1215283372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17260,7 +17239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIProductRoadMap
   slideDirection: 1
   rectTransform: {fileID: 1664984701}
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 1354808291}
   animationTime: 0.5
   runUICloseOnShow: 1
   titleText: {fileID: 1589099823}
@@ -23827,7 +23806,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00005340576}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: -13, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1950242601

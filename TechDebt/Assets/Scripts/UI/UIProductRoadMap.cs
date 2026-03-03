@@ -51,7 +51,6 @@ namespace UI
                 int levelY = 0;
                 foreach (MapLevel level in stage.Levels)
                 {
-                    Debug.Log("Creating Button: " + level.GetDescription());
                     UIProductRoadMapLevelButton button =
                         GameManager.Instance.prefabManager
                             .Create("UIProductRoadMapLevelButton", new Vector3(), transform)

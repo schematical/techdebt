@@ -322,7 +322,6 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
-        Debug.Log($"Resetting game state");
         UIManager.Close();
         prefabManager.Reset();
         Releases.Clear();

@@ -27,7 +27,6 @@ public class UIPanel : UIGameObject
     
     public override void Show()
     {
-        Debug.Log($"Showing - {gameObject.name}");
         if (runUICloseOnShow)
         {
             GameManager.Instance.UIManager.Close();
