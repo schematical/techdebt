@@ -63,6 +63,7 @@ namespace UI
         }
         public virtual void Close(bool forceClose = false)
         {
+            Debug.Log($"Close UIGameObject: {name}");
             if (forceClose)
             {
                 gameObject.SetActive(false);

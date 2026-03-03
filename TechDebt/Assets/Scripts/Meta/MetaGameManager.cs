@@ -173,7 +173,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         {
             value = GetChallengeStatData(statData, challenge);
         }
-        Debug.Log($"{challenge.ChallengeID} - metaStat: {challenge.metaStat} -RequirementType: {challenge.RequirementType} - InfrastructureId: {challenge.InfrastructureId} - {value} >= {challenge.RequiredValue} : {value >= challenge.RequiredValue}");
+        // Debug.Log($"{challenge.ChallengeID} - metaStat: {challenge.metaStat} -RequirementType: {challenge.RequirementType} - InfrastructureId: {challenge.InfrastructureId} - {value} >= {challenge.RequiredValue} : {value >= challenge.RequiredValue}");
         // Check if the challenge was incomplete before but is complete now.
         return (value >= challenge.RequiredValue);
     }

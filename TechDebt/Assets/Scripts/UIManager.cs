@@ -76,10 +76,7 @@ public class UIManager : MonoBehaviour
     private float lastTaskListUpdateTime;
     
 
-    void Start()
-    {
-        Initialize();
-    }
+
 
     public void Initialize()
     {
@@ -136,8 +133,7 @@ public class UIManager : MonoBehaviour
                 "Main Camera is missing a PhysicsRaycaster component. Clicking on NPCs or other game objects may not work. Please add one in the Unity Editor.");
         }
 
-        // Initialize the UI
-        Initialize();
+    
 
         // Update any displays that need it after initialization
         topBarPanel.UpdateStatsDisplay();

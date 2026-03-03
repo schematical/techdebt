@@ -14,7 +14,9 @@ public class UIDialogPanel : UIPanel
 
     public void ShowDialog(Sprite portrait, string dialog, List<DialogButtonOption> options)
     {
-
+        Debug.Log($"Showing dialog {dialog} - {portrait.name}");
+        _npcPortraitImage.sprite = portrait;
+        _dialogTextMesh.text = dialog;
         SetupButtons(options);
 
         Show();
