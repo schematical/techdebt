@@ -17,6 +17,7 @@ namespace NPCs
             NPC_Stat,
             Infra_NetworkPacketStat,
             Run_Stat,
+            Run_Stat_Flat,
             Global_NetworkPacketStat
         }
         public enum ModifierTarget
@@ -133,6 +134,11 @@ namespace NPCs
                     GameManager.Instance.Stats.AddModifier(StatType, StatModifier);
                     
                     break;
+                case(ModifierType.Run_Stat_Flat):
+                  
+                    GameManager.Instance.Stats.Get(StatType).IncrStat(GetScaledValue());
+                    
+                    break;
                 case(ModifierType.Global_NetworkPacketStat):
                     StatModifier = new StatModifier(
                         Id,
@@ -202,21 +208,23 @@ namespace NPCs
         
         public int LevelUp(Rarity rarity)
         {
-            /*string debug = "Levels.Count Before: " +  Levels.Count + "\n" +
-                           "Rarity: " + rarity + "\n";*/
-            
-            
-            
-            
-            Levels.Add(rarity);
-            StatModifier.SetValue(GetScaledValue());
-            
-            
-            /*debug += "Levels.Count After: " + Levels.Count + "\n";
-            for(int i = 0; i < Levels.Count; i++){
-                    debug += "Level " + i + ": " + Levels[i] + "\n";
+
+        
+            switch (Type)
+            {
+                case(ModifierType.Run_Stat_Flat):
+                        Apply();
+                    break;
+                default:
+                    Levels.Add(rarity);
+                    if (StatModifier == null)
+                    {
+                        throw new SystemException($"StatModifier for {Type} is null");
+                    }
+                    StatModifier.SetValue(GetScaledValue());
+                    break;
             }
-            Debug.Log("Level up: \n" + debug);*/
+
             return Levels.Count;
         }
 

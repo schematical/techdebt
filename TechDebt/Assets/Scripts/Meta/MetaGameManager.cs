@@ -876,11 +876,11 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             {
                 Group = ModifierBase.ModifierGroup.Release,
                 Target = ModifierBase.ModifierTarget.Run,
-                Type = ModifierBase.ModifierType.Run_Stat,
+                Type = ModifierBase.ModifierType.Run_Stat_Flat,
                 Id = "tech_debt",
                 Name = "Tech Debt",
                 StatType = StatType.TechDebt,
-                BaseValue = 0.9f,
+                BaseValue = -2.0f,
                 ScaleDirection =   ModifierBase.ModifierScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
             }

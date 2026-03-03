@@ -424,14 +424,14 @@ public class GameManager : MonoBehaviour
     
 
         // Delivery NPC Spawning Logic
-        float techDebtAccumulationRate = GetStat(StatType.TechDebt_AccumulationRate);
+        float techDebtAccumulationRate = GetStatValue(StatType.TechDebt_AccumulationRate);
         IncrStat(StatType.TechDebt, Time.fixedDeltaTime * techDebtAccumulationRate);
         _eventTimer -= Time.fixedDeltaTime;
         if (_eventTimer <= 0)
         {
             //Find Random Event
             CheckEvents();
-            _eventTimer = GetStat(StatType.EventCheckEverySeconds);
+            _eventTimer = GetStatValue(StatType.EventCheckEverySeconds);
         }
         
     }
@@ -446,7 +446,7 @@ public class GameManager : MonoBehaviour
            return;
        }
 
-        float secondsBetweenPackets = GameLoopManager.GetDayDurationSeconds() / GetStat(StatType.Traffic);
+        float secondsBetweenPackets = GameLoopManager.GetDayDurationSeconds() / GetStatValue(StatType.Traffic);
         timeSinceLastPacket += Time.deltaTime;
     
 
@@ -507,8 +507,17 @@ public class GameManager : MonoBehaviour
         ActiveInfrastructure.Clear();
         AvailableTasks.Clear();
         Stats.Clear();
-        Stats.Add(new StatData(StatType.Money, 230f));
-        Stats.Add(new StatData(StatType.TechDebt, 0f));
+        Stats.Add(new StatData(StatType.Money, 230f)
+        {
+            IsModifiable = false,
+            DisplayType =  StatData.StatDataDisplayType.Dollar
+        });
+        Stats.Add(new StatData(StatType.TechDebt, 0f)
+        {
+            IsModifiable = false,
+            BelowZeroBehavior = StatData.StatDataBelowZeroBehavior.SetZero,
+            DisplayType =  StatData.StatDataDisplayType.Percentage
+        });
         Stats.Add(new StatData(StatType.Traffic, 30));
         Stats.Add(new StatData(StatType.PacketsSent, 0f));
         Stats.Add(new StatData(StatType.PacketsServiced, 0f));
@@ -723,7 +732,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public float GetStat(StatType stat) => Stats.Stats[stat].Value;
+    public float GetStatValue(StatType stat) => Stats.Stats[stat].Value;
 
  
 
@@ -762,7 +771,7 @@ public class GameManager : MonoBehaviour
 
     void SetupRun()
     {
-        _eventTimer = GetStat(StatType.EventCheckEverySeconds);
+        _eventTimer = GetStatValue(StatType.EventCheckEverySeconds);
         
         gridManager.Init();
 
@@ -1054,6 +1063,7 @@ public class GameManager : MonoBehaviour
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
         MetaGameManager.SaveProgress(newMetaState);
+        //TODO: Move this to be queued to show at the end of the run.
         if (newlyPassedChallenges.Count > 0)
         {
             string alertText = "";

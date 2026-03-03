@@ -7,17 +7,27 @@ namespace Stats
     [Serializable]
     public class StatData
     {
-        public enum DisplayType
+        public enum StatDataDisplayType
         {
-            None,
-            Basic
+            Default,
+            Percentage,
+            Dollar
         }
 
+        public enum StatDataBelowZeroBehavior
+        {
+            AllowNegative,
+            SetZero
+        }
         public bool _broadcastByDefault = false;
+        
         
         public StatType Type { get; private set; }
         public float BaseValue { get; private set; }
         public float Value { get; private set; }
+        public StatDataBelowZeroBehavior BelowZeroBehavior = StatDataBelowZeroBehavior.AllowNegative;
+        public bool IsModifiable = true;
+        public StatDataDisplayType DisplayType = StatDataDisplayType.Default;
         public List<StatModifier> Modifiers { get; private set; }  = new List<StatModifier>();
         
         public List<System.Action<StatData>> Listeners { get; set; } = new List<System.Action<StatData>>();
@@ -28,6 +38,9 @@ namespace Stats
             BaseValue = baseValue;
             RefreshValue();
         }
+        
+
+       
         public float IncrStat(float value = 1)
         {
             BaseValue += value;
@@ -38,40 +51,37 @@ namespace Stats
         public float RefreshValue()
         {
             float value = BaseValue;
+            if (!IsModifiable && Modifiers.Count > 0)
+            {
+                Debug.LogError("Non Modifiable StatData has modifier");
+            }
             // Apply modifier
             foreach (StatModifier modifier in Modifiers)
             {
                 value = modifier.Apply(this, value);
             }
 
-            /*if (
-                GameManager.Instance  != null &&
-                GameManager.Instance.GlobalStats.Stats.ContainsKey(Type)
-                )
-            {
-                List<StatModifier> globalModifiers = GameManager.Instance.GlobalStats.Stats[Type].Modifiers;
-
-                foreach (var globalModifier in globalModifiers)
-                {
-                    value = globalModifier.Apply(this, value);
-                    
-                }
-            }*/
-
-            /*if (Type == StatType.Traffic)
-            {
-               //  Debug.Log($"End Value: {Value}");
-            }*/
+           
             Value = value;
+            if (Value < 0)
+            {
+                switch (BelowZeroBehavior)
+                {
+                    case(StatDataBelowZeroBehavior.SetZero):
+                        Value = 0;
+                        BaseValue = 0;
+                        break;
+                    case(StatDataBelowZeroBehavior.AllowNegative):
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
             if (_broadcastByDefault && Math.Abs(Value - value) > 0.00001f)
             {
                 Broadcast();
             }
 
-            /*if (Type == StatType.Infra_LoadPerPacket)
-            {
-                Debug.Log($"RefreshValue - {Type} BaseValue: {BaseValue} - NewValue: {Value}");
-            }*/
 
             return Value;
         }
@@ -90,6 +100,20 @@ namespace Stats
             BaseValue = value;
             RefreshValue();
         }
-        
+
+        public string GetDescription()
+        {
+            switch (DisplayType)
+            {
+                case(StatDataDisplayType.Percentage):
+                    return $"{Type}: {Math.Round(Value  * 100)}%";
+                case(StatDataDisplayType.Dollar):
+                    return $"{Type}: ${Math.Round(Value  * 100)/100}";
+                case(StatDataDisplayType.Default):
+                    return $"{Type}: {Math.Round(Value)}";
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

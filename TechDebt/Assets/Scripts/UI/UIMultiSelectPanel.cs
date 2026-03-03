@@ -14,7 +14,6 @@ namespace UI
       public GameObject container;
       public void Close(bool forceClose = false)
       {
-          Debug.Log("Closing  UIMultiSelectPanel");
           base.Close(forceClose);
           CleanUp();
       

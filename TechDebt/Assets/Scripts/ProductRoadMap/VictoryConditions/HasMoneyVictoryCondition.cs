@@ -14,7 +14,7 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
     {
 
 
-        if (GameManager.Instance.GetStat(StatType.Money) > Requirement)
+        if (GameManager.Instance.GetStatValue(StatType.Money) > Requirement)
         {
             return VictoryConditionState.Succeeded;
         }

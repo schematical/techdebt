@@ -50,6 +50,10 @@ namespace Stats
                 throw new SystemException($"A StatModifier with ID {modifier.Id} already exists - {statType}");
             }
             modifier.Initialize(this, statType);
+            if (!Stats[statType].IsModifiable)
+            {
+                throw new SystemException($"{statType} is not a modifiable and we are trying to AddModifier with ID {modifier.Id}");
+            }
             Stats[statType].Modifiers.Add(modifier);
             return Stats[statType].RefreshValue();
             

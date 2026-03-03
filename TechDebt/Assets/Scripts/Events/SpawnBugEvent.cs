@@ -19,11 +19,11 @@ namespace Events
                 return 0;
             }
 
-            float techDebt = gameManager.GetStat(StatType.TechDebt);
+            float techDebt = gameManager.GetStatValue(StatType.TechDebt);
             
             float releaseQuality = 1 - currentRelease.GetQuality();
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
-            float attackPossibility = gameManager.GetStat(StatType.AttackPossibility);
+            float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
             return (int)Math.Round(techDebt * releaseQuality * releaseLevel  * attackPossibility);
         }
         public override string GetDescription()
@@ -35,11 +35,11 @@ namespace Events
                 return $"{GetType().Name.Replace("Event", "")} - Prob: 0";
             }
 
-            float techDebt = gameManager.GetStat(StatType.TechDebt);
+            float techDebt = gameManager.GetStatValue(StatType.TechDebt);
             
             float releaseQuality = 1 - currentRelease.GetQuality();
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
-            float attackPossibility = gameManager.GetStat(StatType.AttackPossibility);
+            float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
 
             return $"{GetType().Name.Replace("Event", "")} - Prob: {GetProbability():F2} - techDebt: {techDebt} -  releaseQuality: {releaseQuality} - releaseLevel: {releaseLevel} - {attackPossibility} - Total: {techDebt * releaseQuality * releaseLevel * attackPossibility} ";
         }

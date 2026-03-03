@@ -38,8 +38,6 @@ namespace UI
             List<StatType> statsToDisplay = new List<StatType>
             {
                 StatType.Money,
-                StatType.Traffic,
-                StatType.Difficulty,
                 StatType.TechDebt,
             };
 
@@ -76,7 +74,7 @@ namespace UI
 
         public void UpdateGameStateDisplay(string state)
         {
-            if (_gameStateText != null) _gameStateText.text = $"State: {state}";
+            if (_gameStateText != null) _gameStateText.text = $"{state}";
         }
 
         public void UpdateClockDisplay(float timeElapsed, float dayDuration)
@@ -103,7 +101,8 @@ namespace UI
             if (GameManager.Instance == null) return;
             foreach (var statText in _statTexts)
             {
-                statText.Value.text = $"{statText.Key}: {Math.Round(GameManager.Instance.GetStat(statText.Key))}";
+                StatData statData = GameManager.Instance.Stats.Get(statText.Key);
+                statText.Value.text = statData.GetDescription(); 
             }
         }
         

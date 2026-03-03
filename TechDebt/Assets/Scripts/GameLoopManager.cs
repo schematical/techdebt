@@ -154,10 +154,10 @@ public class GameLoopManager : MonoBehaviour
         
       
     
-        float packetsFailed = GameManager.Instance.GetStat(StatType.PacketsFailed);
+        float packetsFailed = GameManager.Instance.GetStatValue(StatType.PacketsFailed);
     
     
-        float packetsServiced = GameManager.Instance.GetStat(StatType.PacketsServiced);
+        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsServiced);
         
         
         float percentageSuccess = packetsServiced / (packetsServiced + packetsFailed);
@@ -167,7 +167,7 @@ public class GameLoopManager : MonoBehaviour
         }
 
 
-        float money = GameManager.Instance.GetStat(StatType.Money);
+        float money = GameManager.Instance.GetStatValue(StatType.Money);
 
         string infraCosts = "\n\n<b>Infrastructure Costs:</b>\n";
         foreach (InfrastructureInstance instance in GameManager.Instance.ActiveInfrastructure)
@@ -182,7 +182,7 @@ public class GameLoopManager : MonoBehaviour
         int sprintNumber = GameManager.Instance.Map.CurrentStageIndex;
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
-            new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))
+            new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStatValue(StatType.Difficulty))
         );
         
 

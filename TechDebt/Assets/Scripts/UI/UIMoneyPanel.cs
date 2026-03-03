@@ -17,7 +17,7 @@ namespace UI
                 coin.gameObject.SetActive(false);
             }
             coins.Clear();
-            for (int i = 0; i < GameManager.Instance.GetStat(StatType.Money) / 10; i++)
+            for (int i = 0; i < GameManager.Instance.GetStatValue(StatType.Money) / 10; i++)
             {
                 Vector3 pos = new Vector3(
                     rectTransform.position.x - rectTransform.rect.width /2, 
