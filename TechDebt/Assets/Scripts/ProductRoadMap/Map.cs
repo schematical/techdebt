@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 public class Map
 {
     public List<MapStage> Stages { get; set; }
-    public int CurrentStage { get; protected set; } = 0;
+    public int CurrentStageIndex { get; protected set; } = 0;
 
     public void Randomize()
     {
@@ -48,15 +48,20 @@ public class Map
 
     public MapLevel GetCurrentLevel()
     {
-        return Stages[CurrentStage].GetSelectedLevel();
+        return Stages[CurrentStageIndex].GetSelectedLevel();
     }
 
 
     public void IncrStage()
     {
-        Stages[CurrentStage].GetSelectedLevel().CleanUp();
-        CurrentStage += 1;
+        Stages[CurrentStageIndex].GetSelectedLevel().CleanUp();
+        CurrentStageIndex += 1;
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
+    }
+
+    public MapStage GetCurrentStage()
+    {
+        return Stages[CurrentStageIndex];
     }
 }
 public class MapStage

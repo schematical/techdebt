@@ -179,7 +179,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
 
-        int sprintNumber = GameManager.Instance.Map.CurrentStage;
+        int sprintNumber = GameManager.Instance.Map.CurrentStageIndex;
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
             new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStat(StatType.Difficulty))

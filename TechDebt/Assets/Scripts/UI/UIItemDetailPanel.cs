@@ -23,6 +23,7 @@ namespace UI
 
         public void Show(ItemBase _item)
         {
+            base.Show();
             item = _item;
             useButtonText.text = item.UseVerb();
         }

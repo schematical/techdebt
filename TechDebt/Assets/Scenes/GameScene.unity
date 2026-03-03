@@ -4234,9 +4234,10 @@ MonoBehaviour:
   animationTime: 0.5
   runUICloseOnShow: 1
   titleText: {fileID: 1490375257}
-  scrollContent: {fileID: 0}
-  closeButton: {fileID: 0}
-  bodyText: {fileID: 0}
+  scrollContent: {fileID: 2051423780}
+  closeButton: {fileID: 1574629908}
+  bodyText: {fileID: 210446894}
+  acceptButton: {fileID: 1205069344}
 --- !u!225 &380004526
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -13556,7 +13557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1080203614
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25202,16 +25203,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc47867dfc14a8bbe02cb9692519417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIItemDetailPanel
-  slideDirection: 1
+  slideDirection: 2
   rectTransform: {fileID: 2067294678}
   canvasGroup: {fileID: 2067294680}
   animationTime: 0.5
   runUICloseOnShow: 1
-  titleText: {fileID: 0}
-  scrollContent: {fileID: 0}
-  closeButton: {fileID: 0}
-  useButtonText: {fileID: 0}
-  useButton: {fileID: 0}
+  titleText: {fileID: 947687231}
+  scrollContent: {fileID: 984108961}
+  closeButton: {fileID: 1324056090}
+  useButtonText: {fileID: 1017194746}
+  useButton: {fileID: 1513986379}
   item: {fileID: 0}
 --- !u!225 &2067294680
 CanvasGroup:

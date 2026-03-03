@@ -344,8 +344,17 @@ public class GameManager : MonoBehaviour
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
         UIManager.topBarPanel.Clear();
-       
-        UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+
+        InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
+        if (productRoadMapInfra.IsActive())
+        {
+            UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+        }
+        else
+        {
+            Map.GetCurrentStage().SetSelectedLevel(0);
+            GameLoopManager.BeginPlanPhase();
+        }
     }
 
     void OnDestroy()

@@ -57,7 +57,7 @@ namespace UI
                             .GetComponent<UIProductRoadMapLevelButton>();
 
                     ButtonState state = ButtonState.Locked;
-                    if (stageX < Map.CurrentStage)
+                    if (stageX < Map.CurrentStageIndex)
                     {
                         if (stage.SelectedLevel == levelY)
                         {
@@ -68,7 +68,7 @@ namespace UI
                             state = ButtonState.Passed;
                         }
                     }
-                    else if (stageX == Map.CurrentStage)
+                    else if (stageX == Map.CurrentStageIndex)
                     {
                         state = ButtonState.Available;
                     }
