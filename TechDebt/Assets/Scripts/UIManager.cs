@@ -53,22 +53,18 @@ public class UIManager : MonoBehaviour
     public UIGlobalStatsPanel globalStatsPanel;
     public UIEventDebugPanel eventDebugPanel;
     public UIMoneyPanel moneyPanel;
+    public UIOrgChartPanel orgChartPanel;
+    public UIItemDetailPanel itemDetailPanel;
+    public UIAlertPanel alertPanel;
+    public UIDialogPanel dialogPanel;
     // OLD UI Containers
- 
-    private GameObject hireDevOpsPanel;
-    
-    private GameObject itemDetailPanel;
+
    
 
-    private GameObject alertPanel;
+
     private GameObject eventTriggerPanel;
-    private NPCDialogPanel _currentNPCDialogPanel;
     // UI Elements
 
-    
-    public UITextArea _itemDetailDescriptionText;
-    public TextMeshProUGUI _alertText;
-    public TextMeshProUGUI totalDailyCostText;
     
 
     private TimeState _currentTimeState { get; set; } = TimeState.Normal;
@@ -78,14 +74,7 @@ public class UIManager : MonoBehaviour
  
 
     private float lastTaskListUpdateTime;
-
-
-
-    private Items.ItemBase _selectedItem;
-
-
-  
-    private bool _isInitialized = false;
+    
 
     void Start()
     {
@@ -94,17 +83,7 @@ public class UIManager : MonoBehaviour
 
     public void Initialize()
     {
-        if (_isInitialized) return;
-        _isInitialized = true;
-        
-        SetupAlertPanel(transform);
-        SetupItemDetailPanel(transform);
-        SetupEventTriggerPanel(transform);
-        SetupNPCDialogPanel(transform);
-        
-        // currentReleasePanel.gameObject.SetActive(false);
-        /*GameManager.Instance.Stats.Stats[StatType.Money].OnStatChanged +=
-            (value) => topBarPanel.UpdateStatText(StatType.Money, value);*/
+   
 
         Close(true);
     }
@@ -122,6 +101,7 @@ public class UIManager : MonoBehaviour
         globalStatsPanel.Close(forceClose);
         productRoadMap.Close(forceClose);
         eventDebugPanel.Close(forceClose);
+        orgChartPanel.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
 
      
@@ -211,48 +191,7 @@ public class UIManager : MonoBehaviour
 
 
 
-    private void SetupAlertPanel(Transform parent)
-    {
-        alertPanel = CreateUIPanel(parent, "AlertPanel", new Vector2(400, 200), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), Vector2.zero);
-        UIPanel uiPanel = alertPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("AlertPanel is missing UIPanel component.");
-            return;
-        }
-
-        uiPanel.titleText.text = "Alert";
-        if (uiPanel.closeButton != null)
-        {
-            uiPanel.closeButton.gameObject.SetActive(false); // Use OK button for modal dialogs
-        }
-
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textAreaGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
-            UITextArea uiTextArea = textAreaGO.GetComponent<UITextArea>();
-            _alertText = uiTextArea.textArea;
-            _alertText.enableWordWrapping = true;
-            _alertText.alignment = TextAlignmentOptions.TopLeft;
-            _alertText.fontSize = 18;
-        }
-        else
-        {
-            Debug.LogError("UITextArea prefab not found for AlertPanel. Falling back to CreateText.");
-            _alertText = CreateText(uiPanel.scrollContent, "AlertText", "Alert Text Goes Here", 18);
-            _alertText.enableWordWrapping = true;
-            _alertText.alignment = TextAlignmentOptions.TopLeft;
-        }
-
-        var okButton = uiPanel.AddButton("OK", () => alertPanel.SetActive(false));
-        var layoutElement = okButton.gameObject.AddComponent<LayoutElement>();
-        layoutElement.minHeight = 40;
-
-        alertPanel.SetActive(false);
-    }
-
+  
     
 
 
@@ -281,44 +220,6 @@ public class UIManager : MonoBehaviour
 
 
 
-    private void SetupEventTriggerPanel(Transform parent)
-    {
-        eventTriggerPanel = CreateUIPanel(parent, "EventTriggerPanel", new Vector2(250, 400), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), new Vector2(200, 0));
-        UIPanel uiPanel = eventTriggerPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("EventTriggerPanel is missing UIPanel component.");
-            return;
-        }
-
-        uiPanel.titleText.text = "Trigger Event";
-
-        // Populate the scroll view with buttons for each event
-        if (GameManager.Instance != null && GameManager.Instance.Events != null)
-        {
-            foreach (var gameEvent in GameManager.Instance.Events)
-            {
-                EventBase localEvent = gameEvent; // Local copy for the closure
-                uiPanel.AddButton(gameEvent.GetDescription(), () =>
-                {
-                    GameManager.Instance.TriggerEvent(localEvent);
-                    eventTriggerPanel.SetActive(false); // Close panel after triggering
-                });
-            }
-        }
-
-        // Add a "Back" button at the end
-        var backButton = uiPanel.AddButton("< Back", () => eventTriggerPanel.SetActive(false));
-        backButton.transform.SetAsLastSibling(); // Ensure it's at the bottom
-
-        eventTriggerPanel.SetActive(false);
-    }
-
-    public void ToggleEventTriggerPanel()
-    {
-        eventTriggerPanel.SetActive(!eventTriggerPanel.activeSelf);
-    }
 
     
 
@@ -390,11 +291,6 @@ public class UIManager : MonoBehaviour
         timeControlPanel.UpdateTimeScaleButtons();
     }
 
-
-
-
-    
-
     public void ShowPlanUI()
     {
         Close();
@@ -414,30 +310,15 @@ public class UIManager : MonoBehaviour
         summaryPhasePanel.textArea.textArea.text = text;
     }
 
-    public void ShowNPCDialog(Sprite portrait, string dialog, List<DialogButtonOption> options = null)
-    {
-        if (_currentNPCDialogPanel != null)
-        {
-            // The panel itself is a child of the container with the layout group.
-            // We need to activate the container.
-            _currentNPCDialogPanel.gameObject.SetActive(true);
-            _currentNPCDialogPanel.ShowDialog(portrait, dialog, options);
-        }
-        else
-        {
-            Debug.LogError("_currentNPCDialogPanel has not been created. Was SetupNPCDialogPanel called?", this);
-        }
-    }
+    
 
     public void ShowAlert(string alertText)
     {
-        alertPanel.SetActive(true);
+        alertPanel.Show();
         
-        _alertText.text = alertText;
+        alertPanel.bodyText.text = alertText;
         
     }
-
-    
 
     public void UpdateGameStateDisplay(string state)
     {
@@ -448,366 +329,6 @@ public class UIManager : MonoBehaviour
     {
         topBarPanel.UpdateClockDisplay(timeElapsed, dayDuration);
     }
-
-  
-
-    private void UpdateDailyCostDisplay()
-    {
-        if (GameManager.Instance == null) return;
-        float totalCost = GameManager.Instance.CalculateTotalDailyCost();
-        if (totalDailyCostText != null)
-        {
-            totalDailyCostText.text = $"Total Daily Cost: ${totalCost}";
-        }
-    }
-
-    private void SetupNPCDialogPanel(Transform parent)
-    {
-        // A container enforces the horizontal padding and prevents stretching.
-
-
-        // 1. Create the panel using the standard helper method.
-        var panelGO = CreateUIPanel(
-            transform, 
-            "NPCDialogPanel", 
-            new Vector2(900, 200), 
-            new Vector2(0.5f, 0.3f), 
-            new Vector2(0.5f, 0.3f), 
-            Vector2.zero
-        );
-        UIPanel uiPanel = panelGO.GetComponent<UIPanel>();
-        if (uiPanel.titleText) uiPanel.titleText.gameObject.SetActive(false);
-        if (uiPanel.closeButton) uiPanel.closeButton.gameObject.SetActive(false);
-
-        // --- FIX: For this panel, we want the content to fill the space, not shrink to fit. ---
-        // By destroying the ContentSizeFitter, the scrollContent will fill its parent viewport.
-        var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
-        if (csf != null)
-        {
-            Destroy(csf);
-        }
-
-        // 2. Add our custom dialog panel component.
-        _currentNPCDialogPanel = panelGO.AddComponent<NPCDialogPanel>();
-
-        // 3. Create the required hierarchy and assign the few external dependencies.
-        var mainLayout = new GameObject("MainLayout", typeof(RectTransform));
-        mainLayout.transform.SetParent(uiPanel.scrollContent, false);
-        
-        var mainLayoutRect = mainLayout.GetComponent<RectTransform>();
-        // Anchor to the top of the parent, let the width stretch.
-        mainLayoutRect.anchorMin = new Vector2(0, 1);
-        mainLayoutRect.anchorMax = new Vector2(1, 1);
-        mainLayoutRect.pivot = new Vector2(0.5f, 1);
-        // Set a fixed height of 145.
-        mainLayoutRect.sizeDelta = new Vector2(0, 145);
-        mainLayoutRect.anchoredPosition = Vector2.zero;
-        
-        var hlg = mainLayout.AddComponent<HorizontalLayoutGroup>();
-        hlg.padding = new RectOffset(15, 15, 15, 15);
-        hlg.spacing = 20;
-        hlg.childAlignment = TextAnchor.MiddleLeft;
-        hlg.childControlHeight = false;
-        hlg.childForceExpandWidth = false;
-
-        var portraitGO = new GameObject("PortraitImage", typeof(RectTransform));
-        portraitGO.transform.SetParent(mainLayout.transform, false);
-        var portraitLayout = portraitGO.AddComponent<LayoutElement>();
-        portraitLayout.minWidth = 128;
-        portraitLayout.minHeight = 128;
-        _currentNPCDialogPanel._npcPortraitImage = portraitGO.AddComponent<Image>();
-        var arf = portraitGO.AddComponent<AspectRatioFitter>();
-        arf.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
-
-
-     
-        
-        
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        GameObject dialogTextGO = Instantiate(textAreaPrefab, mainLayout.transform);
-
-      
-        LayoutElement layoutElement = dialogTextGO.AddComponent<LayoutElement>();
-        layoutElement.minWidth = 500;
-        layoutElement.minHeight = 150;
-
-        // Configure the layout element to be flexible.
-        // layoutElement.flexibleHeight = 1;
-
-        UITextArea uiTextArea = dialogTextGO.GetComponent<UITextArea>();
-        uiTextArea.textArea.alignment = TextAlignmentOptions.TopLeft;
-        uiTextArea.textArea.fontSize = 20;
-
-
-        _currentNPCDialogPanel._dialogTextMesh = uiTextArea.textArea;
-        
-        
-        
-        var buttonContainer = new GameObject("ButtonContainer", typeof(RectTransform));
-        buttonContainer.transform.SetParent(mainLayout.transform, false);
-        var vlg = buttonContainer.AddComponent<VerticalLayoutGroup>();
-        vlg.spacing = 10;
-        vlg.childControlHeight = false; // Take control of child heights
-        vlg.childForceExpandHeight = true; // Force them to fill the available space
-        LayoutElement buttonLayoutElement = buttonContainer.AddComponent<LayoutElement>();
-        buttonLayoutElement.flexibleWidth = 1;
-        buttonLayoutElement.minWidth = 100;
-        
-        // Create a dedicated container for buttons and give it a fixed minimum height
-       
-        _currentNPCDialogPanel._buttonContainer = buttonContainer.transform;
-
-        _currentNPCDialogPanel.gameObject.SetActive(false);
-    }
-
-    private void RefreshHireDevOpsPanel()
-    {
-        // Clear old candidates, but skip the first child which is the "Back" button
-        UIPanel hirePanel = hireDevOpsPanel.GetComponent<UIPanel>();
-        if (hirePanel != null)
-        {
-            // Start from 1 to skip a potential 'Back' button or header
-            for (int i = hirePanel.scrollContent.childCount - 1; i >= 0; i--)
-            {
-                // A bit brittle, but for now we assume non-candidates can be cleared.
-                // A better approach would be to have a dedicated container for candidates.
-                Destroy(hirePanel.scrollContent.GetChild(i).gameObject);
-            }
-        }
-        else
-        {
-            // Fallback if no UIPanel
-            for (int i = hireDevOpsPanel.transform.childCount - 1; i > 0; i--)
-            {
-                Destroy(hireDevOpsPanel.transform.GetChild(i).gameObject);
-            }
-        }
-
-        List<NPCDevOpsData> candidates = GameManager.Instance.GenerateNPCCandidates(3);
-
-        if (hirePanel != null)
-        {
-            foreach (NPCDevOpsData candidate in candidates)
-            {
-                NPCDevOpsData localCandidate = candidate; // Local copy for closure
-                hirePanel.AddButton($"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () =>
-                {
-                    GameManager.Instance.HireNPCDevOps(localCandidate);
-                    hireDevOpsPanel.SetActive(false);
-                });
-            }
-        }
-        else
-        {
-            Debug.LogError("HireDevOpsPanel is missing UIPanel component.");
-            foreach (var candidate in candidates)
-            {
-                NPCDevOpsData localCandidate = candidate; // Local copy for closure
-                CreateButton(hireDevOpsPanel.transform,
-                    $"Hire (${localCandidate.Stats.GetStatValue(StatType.NPC_DailyCost)}/day)", () =>
-                    {
-                        GameManager.Instance.HireNPCDevOps(localCandidate);
-                        hireDevOpsPanel.SetActive(false);
-                    });
-            }
-        }
-    }
-    
-
-    private GameObject CreateUIPanel(Transform p, string n, Vector2 s, Vector2 min, Vector2 max, Vector2 pos)
-    {
-        GameObject uiPanelPrefab = GameManager.Instance.prefabManager.GetPrefab("UIPanel");
-
-        if (uiPanelPrefab == null)
-        {
-            Debug.LogError($"UIPanel prefab with name 'UIPanel' not found in PrefabManager. Cannot create UI Panel.");
-            return new GameObject(n); // Return an empty GameObject to prevent null reference errors
-        }
-
-        var go = Instantiate(uiPanelPrefab, p);
-        go.name = n;
-        var rt = go.GetComponent<RectTransform>();
-        if (rt == null)
-        {
-            Debug.LogError(
-                $"Instantiated UIPanel prefab '{{uiPanelPrefab.name}}' is missing a RectTransform component. Cannot create UI Panel.");
-            return go; // Return the instantiated object, but it might not behave as expected
-        }
-
-        rt.sizeDelta = s;
-        rt.anchorMin = min;
-        rt.anchorMax = max;
-        rt.anchoredPosition = pos;
-        // The Image component (or any other background graphic) is expected to be part of the prefab
-
-        // Ensure scrollContent has VerticalLayoutGroup and set spacing
-        UIPanel uiPanel = go.GetComponent<UIPanel>();
-        if (uiPanel != null && uiPanel.scrollContent != null)
-        {
-            var vlg = uiPanel.scrollContent.GetComponent<VerticalLayoutGroup>();
-            if (vlg == null)
-            {
-                vlg = uiPanel.scrollContent.gameObject.AddComponent<VerticalLayoutGroup>();
-            }
-
-            vlg.spacing = 5; // Add 5 units of spacing between child elements
-            vlg.childControlWidth = true; // Ensure children control their own width
-            vlg.childForceExpandHeight = false; // Allow children to control their own height
-
-            // Also ensure ContentSizeFitter is present on scrollContent for dynamic height adjustment
-            var csf = uiPanel.scrollContent.GetComponent<ContentSizeFitter>();
-            if (csf == null)
-            {
-                csf = uiPanel.scrollContent.gameObject.AddComponent<ContentSizeFitter>();
-            }
-
-            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        }
-
-        return go;
-    }
-
-    private Button CreateButton(Transform p, string t, UnityAction a)
-    {
-        GameObject go = new GameObject($"Button_{{t}}");
-        go.transform.SetParent(p, false);
-        RectTransform rt = go.AddComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(180, 40);
-        go.AddComponent<Image>().color = Color.gray;
-        Button btn = go.AddComponent<Button>();
-        btn.onClick.AddListener(a);
-        CreateText(btn.transform, "Text", t, 14);
-        return btn;
-    }
-
-    private Button CreateButton(Transform p, string t, UnityAction a, Vector2 size)
-    {
-        Button btn = CreateButton(p, t, a);
-        btn.GetComponent<RectTransform>().sizeDelta = size;
-        return btn;
-    }
-
-    private TextMeshProUGUI CreateText(Transform p, string n, string c, int s)
-    {
-        GameObject go = new GameObject(n);
-        go.transform.SetParent(p, false);
-        TextMeshProUGUI tmp = go.AddComponent<TextMeshProUGUI>();
-        tmp.raycastTarget = false;
-        tmp.text = c;
-        tmp.fontSize = s;
-        tmp.alignment = TextAlignmentOptions.Center;
-        tmp.color = Color.white;
-        tmp.enableWordWrapping = false;
-        tmp.enableAutoSizing = true;
-        tmp.fontSizeMin = 8;
-        tmp.fontSizeMax = s;
-
-        RectTransform rt = go.GetComponent<RectTransform>();
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.sizeDelta = Vector2.zero;
-        rt.anchoredPosition = Vector2.zero;
-        return tmp;
-    }
-
-
-    private void SetupItemDetailPanel(Transform parent)
-    {
-        itemDetailPanel = CreateUIPanel(parent, "ItemDetailPanel", new Vector2(250, 200), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), Vector2.zero);
-        UIPanel uiPanel = itemDetailPanel.GetComponent<UIPanel>();
-        if (uiPanel == null)
-        {
-            Debug.LogError("ItemDetailPanel is missing UIPanel component.");
-            return;
-        }
-
-        // A text area for the item's description
-        GameObject textAreaPrefab = GameManager.Instance.prefabManager.GetPrefab("UITextArea");
-        if (textAreaPrefab != null)
-        {
-            GameObject textGO = Instantiate(textAreaPrefab, uiPanel.scrollContent);
-            _itemDetailDescriptionText = textGO.GetComponent<UITextArea>();
-        }
-        else
-        {
-            Debug.LogError("UITextArea prefab not found for ItemDetailPanel.");
-        }
-
-        // A container for buttons to be laid out horizontally
-        GameObject buttonContainer = new GameObject("ButtonContainer", typeof(RectTransform));
-        buttonContainer.transform.SetParent(uiPanel.scrollContent, false);
-        var hlg = buttonContainer.AddComponent<HorizontalLayoutGroup>();
-        hlg.spacing = 10;
-        hlg.childControlWidth = true;
-        hlg.childForceExpandWidth = true;
-
-        // Add buttons to the horizontal container
-        var useButton = uiPanel.AddButton("Use", () =>
-        {
-            /* Action set in ShowItemDetail */
-        });
-        useButton.name = "UseItemButton"; // Assign a name to find it later
-        useButton.transform.SetParent(buttonContainer.transform);
-
-        var cancelButton = uiPanel.AddButton("Cancel", HideItemDetail);
-        cancelButton.transform.SetParent(buttonContainer.transform);
-
-        itemDetailPanel.SetActive(false);
-    }
-
-    public void ShowItemDetail(Items.ItemBase item)
-    {
-        _selectedItem = item;
-        SetTimeState(TimeState.Paused); // Pause the game
-        itemDetailPanel.SetActive(true);
-
-        UIPanel uiPanel = itemDetailPanel.GetComponent<UIPanel>();
-        if (uiPanel != null)
-        {
-            string itemName = _selectedItem.GetType().Name.Replace("Item", "");
-            itemName = System.Text.RegularExpressions.Regex.Replace(itemName, "([A-Z])", " $1").Trim();
-            uiPanel.titleText.text = itemName;
-        }
-
-        if (_itemDetailDescriptionText != null)
-        {
-            _itemDetailDescriptionText.textArea.text = "No description available.";
-        }
-
-        // Find the 'Use' button by name and update its properties
-        UIButton useButton = null;
-        var allButtons = itemDetailPanel.GetComponentsInChildren<UIButton>();
-        foreach (var btn in allButtons)
-        {
-            if (btn.name == "UseItemButton")
-            {
-                useButton = btn;
-                break;
-            }
-        }
-
-        if (useButton != null)
-        {
-            useButton.buttonText.text = item.UseVerb();
-            useButton.button.onClick.RemoveAllListeners();
-            useButton.button.onClick.AddListener(() =>
-            {
-                GameManager.Instance.CreateUseItemTask(_selectedItem);
-                HideItemDetail();
-            });
-        }
-    }
-
-    public void HideItemDetail()
-    {
-        _selectedItem = null;
-        itemDetailPanel.SetActive(false);
-        // Resume to whatever the state was before pausing
-        SetTimeState(_timeStateBeforePause);
-    }
-
-    
 
     public TimeState GetCurrentTimeState()
     {
@@ -846,5 +367,10 @@ public class UIManager : MonoBehaviour
                 UIScreenParticle.Effects.Fire
             }
         );
+    }
+
+    public void ShowNPCDialog(Sprite botSprite, string dialog, List<DialogButtonOption> options = null)
+    {
+        dialogPanel.ShowDialog(botSprite, dialog, options);
     }
 }

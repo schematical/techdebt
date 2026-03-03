@@ -35,7 +35,7 @@ public class UIPanel : UIGameObject
         
     }
 
-    public UIButton AddButton(string buttonText, UnityAction onClickAction)
+    public virtual UIButton AddButton(string buttonText, UnityAction onClickAction)
     {
         if (GameManager.Instance == null || GameManager.Instance.prefabManager == null)
         {

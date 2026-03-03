@@ -272,6 +272,26 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         
             new Technology()
             {
+                TechnologyID = "org-chart",
+                DisplayName = "Org Chart",
+                Description = "",
+                ResearchPointCost = 10,
+                RequiredTechnologies = new List<string>() { "kanban-board" },
+                CurrentState = Technology.State.MetaLocked,
+                Direction = Technology.TechTreeDirection.Right,
+            },
+            new Technology()
+            {
+                TechnologyID = "product-road-map",
+                DisplayName = "Product Road Map",
+                Description = "",
+                ResearchPointCost = 10,
+                RequiredTechnologies = new List<string>() { "white-board" },
+                CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Right,
+            },
+            new Technology()
+            {
                 TechnologyID = "dedicated-db",
                 DisplayName = "Dedicated Database",
                 Description = "",
@@ -498,6 +518,53 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                     }
                 }
             },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "product-road-map",
+                DisplayName = "Product Road Map",
+                Description = "Unlock and build the Product Road Map 1 Times",
+                metaStat = MetaStat.Infra_Built,
+                InfrastructureId = "product-road-map",
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                RequiredValue = 1,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "product-road-map",
+                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
+                    },
+                    new RewardBase()
+                    {
+                        RewardId = "product-road-map",
+                        Type = RewardBase.RewardType.Technology_Unlocked,
+                    }
+                }
+            },
+            new MetaChallengeBase()
+            {
+                ChallengeID = "org-chart",
+                DisplayName = "Org Chart",
+                Description = "Unlock and build the Org Chart 10 Times",
+                metaStat = MetaStat.Infra_Built,
+                InfrastructureId = "org-chart",
+                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                RequiredValue = 10,
+                Rewards =  new List<RewardBase>()
+                {
+                    new RewardBase()
+                    {
+                        RewardId = "org-chart",
+                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
+                    },
+                    new RewardBase()
+                    {
+                        RewardId = "org-chart",
+                        Type = RewardBase.RewardType.Technology_Unlocked,
+                    }
+                }
+            },
+            
             new MetaChallengeBase()
             {
                 ChallengeID = "binary-storage",

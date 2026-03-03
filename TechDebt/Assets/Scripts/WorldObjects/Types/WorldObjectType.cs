@@ -21,7 +21,9 @@ namespace Infrastructure
             WorkerServer,
             BigDesk,
             WhiteBoard,
-            KanbanBoard
+            KanbanBoard,
+            ProductRoadMap,
+            OrgChart
         }
         
         public string DisplayName;

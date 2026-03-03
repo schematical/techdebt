@@ -34,9 +34,8 @@ namespace Items
         public void OnPointerClick(PointerEventData eventData)
         {
             if (_isTaskCreated) return; // Prevent creating multiple tasks for the same item.
-
-            // Notify the UIManager to show the detail panel for this item.
-            GameManager.Instance.UIManager.ShowItemDetail(this);
+            MarkTaskCreated();
+            GameManager.Instance.UIManager.itemDetailPanel.Show(this);
         }
 
         public void MarkTaskCreated()

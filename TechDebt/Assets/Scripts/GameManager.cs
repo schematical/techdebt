@@ -571,6 +571,8 @@ public class GameManager : MonoBehaviour
         WorldObjectTypes[WorldObjectType.Type.BigDesk] = new BigDeskWOType();
         WorldObjectTypes[WorldObjectType.Type.WhiteBoard] = new WhiteBoardWOType();
         WorldObjectTypes[WorldObjectType.Type.KanbanBoard] = new KanbanBoardWOType();
+        WorldObjectTypes[WorldObjectType.Type.ProductRoadMap] = new ProductRoadMapWOType();
+        WorldObjectTypes[WorldObjectType.Type.OrgChart] = new OrgChartMapWOType();
         WorldObjectTypes[WorldObjectType.Type.InternetPipe] = new InternetPipeWOType();
         WorldObjectTypes[WorldObjectType.Type.ApplicationServer] = new ApplicationServerWOType();
         WorldObjectTypes[WorldObjectType.Type.BinaryStorage] = new BinaryStorageWOType();
@@ -602,11 +604,11 @@ public class GameManager : MonoBehaviour
         List<MetaChallengeBase> unlockedChallenges = MetaGameManager.GetUnlockedChallenges();
         foreach (MetaChallengeBase challenge in unlockedChallenges)
         {
-            Debug.Log($"Unlocked: {challenge.ChallengeID}");
+            // Debug.Log($"Unlocked: {challenge.ChallengeID}");
             foreach (RewardBase reward in challenge.Rewards)
             {
                 Technology technology = null;
-                Debug.Log($"- Reward: {reward.Type}");
+                // Debug.Log($"- Reward: {reward.Type}");
                 switch (reward.Type)
                 {
                     case (RewardBase.RewardType.WorldObject_StartsOperational):
@@ -618,7 +620,7 @@ public class GameManager : MonoBehaviour
                             {
                                 infrastructureData.InitialState = InfrastructureData.State.Operational;
                                 infrastructureData.CurrentState = InfrastructureData.State.Operational;
-                                Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
+                                // Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
                             }
                         }
                         break;
@@ -630,7 +632,7 @@ public class GameManager : MonoBehaviour
                             {
                                 infrastructureData.InitialState = InfrastructureData.State.Operational;
                                 infrastructureData.CurrentState = InfrastructureData.State.Operational;
-                                Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
+                                // Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
                             }
                         }
                         break;
