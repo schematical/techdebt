@@ -12,7 +12,7 @@ namespace UI
         {
             base.Initialize(options);
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(options.onClick.Invoke);
+            button.onClick.AddListener(() => options.onClick.Invoke(this));
             if (options.sprite != null)
             {
                 text.gameObject.SetActive(false);

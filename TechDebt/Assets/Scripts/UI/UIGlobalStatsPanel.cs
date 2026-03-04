@@ -54,6 +54,8 @@ namespace UI
                 // BaseValue = 1.05f,
                 IconSpriteId = "IconCode"
             });
+            GameManager.Instance.Modifiers.Modifiers[0].Apply();
+            GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);
             GameManager.Instance.Modifiers.Render(this);
             /*textArea.transform.SetAsLastSibling();
             var sb = new System.Text.StringBuilder();

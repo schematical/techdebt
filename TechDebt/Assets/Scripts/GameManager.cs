@@ -520,7 +520,7 @@ public class GameManager : MonoBehaviour
         });
         Stats.Add(new StatData(StatType.Traffic, 30)
         {
-            Modifiers = { new StatModifier("deleteme", 2) }
+            Modifiers = { new StatModifier("deleteme", 1) }
         });
         Stats.Add(new StatData(StatType.PacketsSent, 0f)
         {

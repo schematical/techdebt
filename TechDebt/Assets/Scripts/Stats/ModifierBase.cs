@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrastructure;
 using JetBrains.Annotations;
 using Stats;
+using TMPro;
 using UI;
 using UnityEngine;
 
@@ -254,29 +255,39 @@ namespace NPCs
         {
             
             UIPanelLine line = uiPanel.AddLine();
-            line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+            UIPanelLineSectionText titleText = line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
                 text = GetTitle()
             });
+            titleText.text.fontSize = 24;
+            titleText.text.fontWeight = FontWeight.Bold;
             line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
                 text = "Level " + Levels.Count
             });
             line.Add<UIPanelLineSectionButton>(new UIPanelLineSectionOptions(){
                 text = $"+",
-                onClick = () =>
+                onClick = (UIPanelLineSectionButton button) =>
                 {
+                    bool isExpanded = line.GetLines().Count != 0;
+                    if(isExpanded)
+                    {
+                        button.text.text = "+";
+                        line.ClearChildLines();
+                        return;
+                    }
+                    button.text.text = "-";
                     float percent = BaseValue;
                     for(int i = 0; i < Levels.Count; i++)
                     {
                        
                         float scaledValue = GetScaledAdjustmentValue(Levels[i]);
                         percent *= scaledValue;
-                        string text = $" - Level {i} - {Levels[i]} -  {ScaleDirection} - Scale: {scaledValue} - Result: {percent}";
+                        string text = $" - Lvl {i} {Levels[i]} - {percent}";
                         
-                        uiPanel.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+                        line.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
                             text = text
                         });
                     }
-                    uiPanel.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+                    line.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
                         text = $"Scaled Value: {GetScaledValue()}"
                     });
                 }

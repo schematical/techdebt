@@ -7,15 +7,18 @@ namespace UI
 {
     public class UIPanelLine: MonoBehaviour
     {
-        public HorizontalLayoutGroup layoutGroup;
-        public List<UIPanelLineSection> sections = new List<UIPanelLineSection>();
-        public UIPanelLineSection Add<T>(UIPanelLineSectionOptions options)
+        
+        public HorizontalLayoutGroup hozLayoutGroup;
+        public VerticalLayoutGroup vertLayoutGroup;
+        protected List<UIPanelLineSection> sections = new List<UIPanelLineSection>();
+        protected List<UIPanelLine> lines = new List<UIPanelLine>();
+        public T Add<T>(UIPanelLineSectionOptions options) where T:  UIPanelLineSection
         {
             string prefabId = typeof(T).Name;
       
-            UIPanelLineSection section =
-                GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, layoutGroup.transform)
-                    .GetComponent<T>() as UIPanelLineSection;
+            T section =
+                GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, hozLayoutGroup.transform)
+                    .GetComponent<T>();
             if (section == null)
             {
                 throw new SystemException($"Cannot find `{prefabId}`'s component of same type");
@@ -31,10 +34,37 @@ namespace UI
             {
                 section.gameObject.SetActive(false);
             }
+            foreach (UIPanelLine line in lines)
+            {
+                line.CleanUp();
+            }
             gameObject.SetActive(false);
         }
-    }
+        public UIPanelLine AddLine()
+        {
+            UIPanelLine panelLine =
+                GameManager.Instance.prefabManager.Create("UIPanelLine", Vector3.zero, vertLayoutGroup.transform)
+                    .GetComponent<UIPanelLine>();
+            lines.Add(panelLine);
+            return panelLine;
+        }
 
+        public void ClearChildLines()
+        {
+            foreach (UIPanelLine line in lines)
+            {
+                line.ClearChildLines();
+                line.CleanUp();
+            }
+            lines.Clear();
+        }
+
+        public List<UIPanelLine> GetLines()
+        {
+            return lines;
+        }
+    }
+ 
     public class UIPanelLineSectionOptions
     {
         public string text = "";
@@ -43,7 +73,7 @@ namespace UI
         public Color textColor = Color.white;
         public Sprite sprite;
 
-        public Action onClick;
+        public Action<UIPanelLineSectionButton> onClick;
     }
 
    
