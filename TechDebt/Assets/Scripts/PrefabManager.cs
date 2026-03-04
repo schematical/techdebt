@@ -42,7 +42,7 @@ public class PrefabManager: MonoBehaviour
                 GameObject prefab = GetPrefab(prefabId);
                 if (prefab == null)
                 {
-                    Debug.LogError($"Prefab {prefabId} not found");
+                    throw new SystemException($"Prefab {prefabId} not found");
                 }
                 else
                 {

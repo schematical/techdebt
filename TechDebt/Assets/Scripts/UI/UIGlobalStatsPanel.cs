@@ -1,45 +1,71 @@
+using System.Collections.Generic;
 using NPCs;
 using Stats;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace UI
 {
     public class UIGlobalStatsPanel: UIPanel
     {
         public UITextArea textArea;
+        public UIStatCollectionListPanel detailPanel;
+        public List<UIStatCollectionListPanel> networkPacketPanels =  new List<UIStatCollectionListPanel>(); 
+
+        void Start()
+        {
+           
+        }
         public override void Show()
         {
-            base.Show();
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine("<b>Stats</b>");
-            foreach (var stat in GameManager.Instance.Stats.Stats)
+            foreach (UIStatCollectionListPanel statPanel in networkPacketPanels)
             {
-                sb.AppendLine($" - {stat.Key}: B: {stat.Value.BaseValue}/V: {stat.Value.Value}");
-                foreach (StatModifier modifier in stat.Value.Modifiers)
-                {
-                    sb.AppendLine($"   -  {modifier.Id} - {modifier.Type}: {modifier.GetDisplayText()}");
-                }
+                statPanel.gameObject.SetActive(false);
             }
-            
-            sb.AppendLine("\n\n\n<b>Modifiers</b>");
+            base.Show();
+            if (detailPanel == null)
+            {
+                detailPanel =
+                    GameManager.Instance.prefabManager.Create("UIStatCollectionListPanel", Vector3.zero, scrollContent)
+                        .GetComponent<UIStatCollectionListPanel>();
+            }
+            detailPanel.Initialize(GameManager.Instance.Stats);
+           
+            foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
+            {
+                UIStatCollectionListPanel networkPacketPanel =
+                    GameManager.Instance.prefabManager.Create("UIStatCollectionListPanel", Vector3.zero, scrollContent)
+                        .GetComponent<UIStatCollectionListPanel>();
+                networkPacketPanel.Initialize(
+                    networkPacketData.Stats,
+                    networkPacketData.Type.ToString()
+                );
+                
+                networkPacketPanels.Add(networkPacketPanel);
+            }
+            GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.Run,
+                Type = ModifierBase.ModifierType.Run_Stat,
+                Id = "input_validation",
+                Name = "Input Validation",
+                StatType = StatType.Infra_InputValidation,
+                // BaseValue = 1.05f,
+                IconSpriteId = "IconCode"
+            });
+            GameManager.Instance.Modifiers.Render(this);
+            /*textArea.transform.SetAsLastSibling();
+            var sb = new System.Text.StringBuilder();
+    
+            sb.AppendLine("<b>Modifiers</b>");
             foreach (ModifierBase modifier in GameManager.Instance.Modifiers.Modifiers)
             {
                 sb.AppendLine(modifier.ToFullDetail());
             }
-            sb.AppendLine("\n\n\n<b>Network Packets</b> \n");
-            foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
-            {
-                sb.AppendLine($"- {networkPacketData.Type}");
-                foreach (StatType statType in networkPacketData.Stats.Stats.Keys)
-                {
-                    StatData statData = networkPacketData.Stats.Stats[statType];
-                    sb.AppendLine($"   - {statType} - {statData.Value}");
-                    foreach (StatModifier modifier in statData.Modifiers)
-                    {
-                        sb.AppendLine($"      - {modifier.Id} - {modifier.GetDisplayText()}");
-                    }
-                }
-            }
-            textArea.textArea.text = sb.ToString();
+            textArea.textArea.text = sb.ToString();*/
+ 
+           
         }
     }
 }

@@ -103,14 +103,28 @@ namespace Stats
 
         public string GetDescription()
         {
+            return $"{Type}: {GetDisplayValue()}";
+        }
+
+        public string GetDisplayValue()
+        {
+            return FormatDisplayValue(Value);
+        }
+        public string GetDisplayBaseValue()
+        {
+            return FormatDisplayValue(BaseValue);
+        }
+
+        public string FormatDisplayValue(float value)
+        {
             switch (DisplayType)
             {
                 case(StatDataDisplayType.Percentage):
-                    return $"{Type}: {Math.Round(Value  * 100)}%";
+                    return $"{Math.Round(value  * 100)}%";
                 case(StatDataDisplayType.Dollar):
-                    return $"{Type}: ${Math.Round(Value  * 100)/100}";
+                    return $"${Math.Round(value  * 100)/100}";
                 case(StatDataDisplayType.Default):
-                    return $"{Type}: {Math.Round(Value)}";
+                    return $"{Math.Round(value)}";
                 default:
                     throw new NotImplementedException();
             }

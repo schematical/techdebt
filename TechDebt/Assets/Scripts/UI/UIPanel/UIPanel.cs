@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UI;
@@ -10,7 +11,7 @@ public class UIPanel : UIGameObject
     public TextMeshProUGUI titleText; // Assign the TextMeshProUGUI component for the panel title
     public Transform scrollContent;   // Assign the Transform for the scrollable content area
     public Button closeButton; // Assign the Button component for the panel's close button
-
+    protected List<UIPanelLine> lines = new List<UIPanelLine>();
     protected override void Awake()
     {
         if (closeButton != null)
@@ -81,5 +82,28 @@ public class UIPanel : UIGameObject
         }
 
         return uiButton;
+    }
+
+    public override void Close(bool forceClose = false)
+    {
+        CleanUp();
+        base.Close(forceClose);
+    }
+
+    public void CleanUp()
+    {
+        foreach (UIPanelLine line in lines)
+        {
+            line.CleanUp();
+        }
+    }
+
+    public UIPanelLine AddLine()
+    {
+        UIPanelLine panelLine =
+            GameManager.Instance.prefabManager.Create("UIPanelLine", Vector3.zero, scrollContent.transform)
+                .GetComponent<UIPanelLine>();
+        lines.Add(panelLine);
+        return panelLine;
     }
 }

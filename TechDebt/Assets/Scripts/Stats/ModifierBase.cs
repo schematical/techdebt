@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Infrastructure;
 using JetBrains.Annotations;
 using Stats;
+using UI;
 using UnityEngine;
 
 namespace NPCs
@@ -247,6 +248,41 @@ namespace NPCs
             }
             text += $"Scaled Value: {GetScaledValue()}\n";
             return text;
+        }
+
+        public void Render(UIPanel uiPanel)
+        {
+            
+            UIPanelLine line = uiPanel.AddLine();
+            line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+                text = GetTitle()
+            });
+            line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+                text = "Level " + Levels.Count
+            });
+            line.Add<UIPanelLineSectionButton>(new UIPanelLineSectionOptions(){
+                text = $"+",
+                onClick = () =>
+                {
+                    float percent = BaseValue;
+                    for(int i = 0; i < Levels.Count; i++)
+                    {
+                       
+                        float scaledValue = GetScaledAdjustmentValue(Levels[i]);
+                        percent *= scaledValue;
+                        string text = $" - Level {i} - {Levels[i]} -  {ScaleDirection} - Scale: {scaledValue} - Result: {percent}";
+                        
+                        uiPanel.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+                            text = text
+                        });
+                    }
+                    uiPanel.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
+                        text = $"Scaled Value: {GetScaledValue()}"
+                    });
+                }
+            });
+      
+            
         }
     }
 }

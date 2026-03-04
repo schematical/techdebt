@@ -519,16 +519,34 @@ public class GameManager : MonoBehaviour
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
         Stats.Add(new StatData(StatType.Traffic, 30));
-        Stats.Add(new StatData(StatType.PacketsSent, 0f));
-        Stats.Add(new StatData(StatType.PacketsServiced, 0f));
-        Stats.Add(new StatData(StatType.PacketsFailed, 0f));
-        Stats.Add(new StatData(StatType.Difficulty, 1.25f));
-        Stats.Add(new StatData(StatType.PRR, 0.5f));
-        Stats.Add(new StatData(StatType.ItemDropChance, 0.1f));
+        Stats.Add(new StatData(StatType.PacketsSent, 0f)
+        {
+            IsModifiable = false,
+        });
+        Stats.Add(new StatData(StatType.PacketsServiced, 0f)
+        {
+            IsModifiable = false,
+        });
+        Stats.Add(new StatData(StatType.PacketsFailed, 0f)
+        {
+            IsModifiable = false,
+        });
+        Stats.Add(new StatData(StatType.Difficulty, 1.25f)
+        {
+            DisplayType =  StatData.StatDataDisplayType.Percentage
+        });
+        Stats.Add(new StatData(StatType.ItemDropChance, 0.1f)
+        {
+            DisplayType =  StatData.StatDataDisplayType.Percentage
+        });
         Stats.Add(new StatData(StatType.EventCheckEverySeconds, 15));
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
-        Stats.Add(new StatData(StatType.AttackPossibility, 0f));
-        Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f));
+        Stats.Add(new StatData(StatType.AttackPossibility, 0f){
+            DisplayType =  StatData.StatDataDisplayType.Percentage
+        });
+        Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f){
+            DisplayType =  StatData.StatDataDisplayType.Percentage
+        });
 
         // Tutorial = new TutorialEvent();
         NetworkPacketData coin = new NetworkPacketData(0f)
