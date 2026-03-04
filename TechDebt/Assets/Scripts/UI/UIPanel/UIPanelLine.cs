@@ -12,7 +12,8 @@ namespace UI
         public VerticalLayoutGroup vertLayoutGroup;
         protected List<UIPanelLineSection> sections = new List<UIPanelLineSection>();
         protected List<UIPanelLine> lines = new List<UIPanelLine>();
-        public T Add<T>(UIPanelLineSectionOptions options) where T:  UIPanelLineSection
+        public Action<UIPanelLine> onExpand;
+        public T Add<T>() where T:  UIPanelLineSection
         {
             string prefabId = typeof(T).Name;
       
@@ -23,7 +24,7 @@ namespace UI
             {
                 throw new SystemException($"Cannot find `{prefabId}`'s component of same type");
             }
-            section.Initialize(options);
+            section.Initialize();
             sections.Add(section);
             return section;
         }
@@ -40,11 +41,12 @@ namespace UI
             }
             gameObject.SetActive(false);
         }
-        public UIPanelLine AddLine()
+        public T AddLine<T>()  where T:  UIPanelLine
         {
-            UIPanelLine panelLine =
-                GameManager.Instance.prefabManager.Create("UIPanelLine", Vector3.zero, vertLayoutGroup.transform)
-                    .GetComponent<UIPanelLine>();
+            string prefabId = typeof(T).Name;
+            T panelLine =
+                GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, vertLayoutGroup.transform)
+                    .GetComponent<T>();
             lines.Add(panelLine);
             return panelLine;
         }
@@ -63,6 +65,31 @@ namespace UI
         {
             return lines;
         }
+
+        public void SetExpandable(Action<UIPanelLine> _onExpand)
+        {
+            onExpand = _onExpand;
+            if (onExpand == null)
+            {
+                Debug.LogError("TODO: Write this");
+                return;
+            }
+
+            UIPanelLineSectionButton button = Add<UIPanelLineSectionButton>();
+            button.button.onClick.AddListener( () =>
+            {
+                bool isExpanded = GetLines().Count != 0;
+                if (isExpanded)
+                {
+                    button.text.text = "+";
+                    ClearChildLines();
+                    return;
+                } 
+                button.text.text = "-";
+                onExpand.Invoke(this);
+            });
+
+        }
     }
  
     public class UIPanelLineSectionOptions
@@ -74,6 +101,7 @@ namespace UI
         public Sprite sprite;
 
         public Action<UIPanelLineSectionButton> onClick;
+    
     }
 
    

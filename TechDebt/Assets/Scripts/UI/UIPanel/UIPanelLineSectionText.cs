@@ -6,13 +6,12 @@ namespace UI
     public class UIPanelLineSectionText: UIPanelLineSection
     {
         public TextMeshProUGUI text;
-   
-        public override void Initialize(UIPanelLineSectionOptions options)
+        public override void Initialize()
         {
-            base.Initialize(options);
-            text.fontSize = options.fontSize;
-            text.text = options.text;
-            text.color = options.textColor;
+            base.Initialize();
+            text.fontSize = 20;
+            text.fontWeight = FontWeight.Regular;
+            text.color = Color.white;
         }
     }
 }

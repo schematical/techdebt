@@ -254,46 +254,36 @@ namespace NPCs
         public void Render(UIPanel uiPanel)
         {
             
-            UIPanelLine line = uiPanel.AddLine();
-            UIPanelLineSectionText titleText = line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
-                text = GetTitle()
-            });
+            UIPanelLine line = uiPanel.AddLine<UIPanelLine>();
+           
+            UIPanelLineSectionText titleText = line.Add<UIPanelLineSectionText>();
+            titleText.text.text = GetTitle();
             titleText.text.fontSize = 24;
             titleText.text.fontWeight = FontWeight.Bold;
-            line.Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
-                text = "Level " + Levels.Count
-            });
-            line.Add<UIPanelLineSectionButton>(new UIPanelLineSectionOptions(){
-                text = $"+",
-                onClick = (UIPanelLineSectionButton button) =>
+            UIPanelLineSectionText sectionText = null;
+            sectionText = line.Add<UIPanelLineSectionText>();
+            sectionText.text.text = "Level " + Levels.Count;
+            line.SetExpandable((UIPanelLine line) =>
+            {
+                float percent = BaseValue;
+                
+                for (int i = 0; i < Levels.Count; i++)
                 {
-                    bool isExpanded = line.GetLines().Count != 0;
-                    if(isExpanded)
-                    {
-                        button.text.text = "+";
-                        line.ClearChildLines();
-                        return;
-                    }
-                    button.text.text = "-";
-                    float percent = BaseValue;
-                    for(int i = 0; i < Levels.Count; i++)
-                    {
-                       
-                        float scaledValue = GetScaledAdjustmentValue(Levels[i]);
-                        percent *= scaledValue;
-                        string text = $" - Lvl {i} {Levels[i]} - {percent}";
-                        
-                        line.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
-                            text = text
-                        });
-                    }
-                    line.AddLine().Add<UIPanelLineSectionText>(new UIPanelLineSectionOptions(){
-                        text = $"Scaled Value: {GetScaledValue()}"
-                    });
+
+                    float scaledValue = GetScaledAdjustmentValue(Levels[i]);
+                    percent *= scaledValue;
+                    string text = $" - Lvl {i} {Levels[i]} - {percent}";
+
+                     sectionText = line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+                     sectionText.text.text = text;
                 }
+
+                sectionText = line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+                sectionText.text.text = $"Scaled Value: {GetScaledValue()}";
             });
-      
-            
+
+
+
         }
     }
 }

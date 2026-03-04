@@ -6,7 +6,7 @@ namespace UI
     {
         public RectTransform rectTransform;
 
-        public virtual void Initialize(UIPanelLineSectionOptions options)
+        public virtual void Initialize()
         {
             /*if (options.width != null)
             {

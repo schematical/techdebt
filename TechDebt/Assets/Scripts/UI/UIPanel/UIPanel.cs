@@ -98,11 +98,12 @@ public class UIPanel : UIGameObject
         }
     }
 
-    public UIPanelLine AddLine()
+    public T AddLine<T>() where T:  UIPanelLine
     {
-        UIPanelLine panelLine =
-            GameManager.Instance.prefabManager.Create("UIPanelLine", Vector3.zero, scrollContent.transform)
-                .GetComponent<UIPanelLine>();
+        string prefabId = typeof(T).Name;
+        T panelLine =
+            GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, scrollContent.transform)
+                .GetComponent<T>();
         lines.Add(panelLine);
         return panelLine;
     }
