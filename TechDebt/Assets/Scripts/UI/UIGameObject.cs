@@ -57,7 +57,8 @@ namespace UI
                     Close();
                     break;
                 default:
-                    throw  new System.Exception($"We are in a weird state {panelState}");
+                    Debug.LogError($"We are in a weird state {panelState}");
+                    break;
             }
             return panelState;
         }

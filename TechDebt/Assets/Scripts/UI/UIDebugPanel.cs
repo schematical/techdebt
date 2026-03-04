@@ -102,7 +102,7 @@ public class UIDebugPanel : UIPanel
         }
 
         NPCXSS npc = npcGO.GetComponent<NPCXSS>();
-        npc.Initialize();
+        npc.SetStatCollection();
         GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
         gameObject.SetActive(false);*/
         GameManager.Instance.SpawnNPCBug();

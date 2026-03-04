@@ -3,14 +3,15 @@ using NPCs;
 using Stats;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
     public class UIGlobalStatsPanel: UIPanel
     {
         public UITextArea textArea;
-        public UIStatCollectionListPanel detailPanel;
-        public List<UIStatCollectionListPanel> networkPacketPanels =  new List<UIStatCollectionListPanel>(); 
+        
+        public List<UIStatCollectionPanelLine> networkPacketPanels =  new List<UIStatCollectionPanelLine>(); 
 
         void Start()
         {
@@ -18,31 +19,31 @@ namespace UI
         }
         public override void Show()
         {
-            foreach (UIStatCollectionListPanel statPanel in networkPacketPanels)
+            foreach (UIStatCollectionPanelLine statPanel in networkPacketPanels)
             {
                 statPanel.gameObject.SetActive(false);
             }
             base.Show();
-            if (detailPanel == null)
-            {
-                detailPanel =
-                    GameManager.Instance.prefabManager.Create("UIStatCollectionListPanel", Vector3.zero, scrollContent)
-                        .GetComponent<UIStatCollectionListPanel>();
-            }
-            detailPanel.Initialize(GameManager.Instance.Stats);
+            AddLine<UIStatCollectionPanelLine>().SetStatCollection(GameManager.Instance.Stats);
            
-            foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
+            /*foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
             {
-                UIStatCollectionListPanel networkPacketPanel =
-                    GameManager.Instance.prefabManager.Create("UIStatCollectionListPanel", Vector3.zero, scrollContent)
-                        .GetComponent<UIStatCollectionListPanel>();
-                networkPacketPanel.Initialize(
+                UIStatCollectionPanelLine networkPacketPanelLine =
+                    GameManager.Instance.prefabManager.Create("UIStatCollectionPanelLine", Vector3.zero, scrollContent)
+                        .GetComponent<UIStatCollectionPanelLine>();
+                networkPacketPanelLine.SetStatCollection(
                     networkPacketData.Stats,
                     networkPacketData.Type.ToString()
                 );
                 
-                networkPacketPanels.Add(networkPacketPanel);
-            }
+                networkPacketPanels.Add(networkPacketPanelLine);
+            }*/
+            
+            
+            
+            
+            
+            /*
             GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
             {
                 Group = ModifierBase.ModifierGroup.Release,
@@ -57,15 +58,8 @@ namespace UI
             GameManager.Instance.Modifiers.Modifiers[0].Apply();
             GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);
             GameManager.Instance.Modifiers.Render(this);
-            /*textArea.transform.SetAsLastSibling();
-            var sb = new System.Text.StringBuilder();
-    
-            sb.AppendLine("<b>Modifiers</b>");
-            foreach (ModifierBase modifier in GameManager.Instance.Modifiers.Modifiers)
-            {
-                sb.AppendLine(modifier.ToFullDetail());
-            }
-            textArea.textArea.text = sb.ToString();*/
+            */
+       
  
            
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,6 +77,9 @@ namespace UI
             }
 
             UIPanelLineSectionButton button = Add<UIPanelLineSectionButton>();
+            button.GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            button.AddComponent<LayoutElement>().preferredWidth = 25;
+            button.text.text = "+";
             button.button.onClick.AddListener( () =>
             {
                 bool isExpanded = GetLines().Count != 0;

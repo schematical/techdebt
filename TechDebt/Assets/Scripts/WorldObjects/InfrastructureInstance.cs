@@ -214,13 +214,13 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         WorldObjectType worldObjectType = GetWorldObjectType();
         // interactionPositionOffset = worldObjectType.interactionPositionOffset;
         Initialize(); // Ensure default stats are set up
-        CurrentLoad = 0; // Initialize current load
+        CurrentLoad = 0; // SetStatCollection current load
         UpdateAppearance();
       
     }
 
     /*
-    public override void Initialize()
+    public override void SetStatCollection()
     {
         WorldObjectType worldObjectType = GetWorldObjectType();
         GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_DailyCost, data.DailyCost));
@@ -230,7 +230,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, data.LoadRecoveryRate));
         GetWorldObjectType().Stats.Add(new StatData(StatType.TechDebt, 0f));
         GetWorldObjectType().Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
-        base.Initialize();
+        base.SetStatCollection();
     }
     */
 
