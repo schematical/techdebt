@@ -14,6 +14,18 @@ namespace UI
         protected List<UIPanelLineSection> sections = new List<UIPanelLineSection>();
         protected List<UIPanelLine> lines = new List<UIPanelLine>();
         public Action<UIPanelLine> onExpand;
+        protected int depth = 0;
+
+        public void Initialize(int _depth)
+        {
+            depth = _depth;
+            if (depth > 0)
+            {
+                UIPanelLineSectionText sectionText = Add<UIPanelLineSectionText>();
+                sectionText.text.text = "";
+                sectionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, depth * 20);
+            }
+        }
         public T Add<T>() where T:  UIPanelLineSection
         {
             string prefabId = typeof(T).Name;
@@ -48,6 +60,7 @@ namespace UI
             T panelLine =
                 GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, vertLayoutGroup.transform)
                     .GetComponent<T>();
+            panelLine.Initialize(depth + 1);
             lines.Add(panelLine);
             return panelLine;
         }
@@ -96,17 +109,7 @@ namespace UI
         }
     }
  
-    public class UIPanelLineSectionOptions
-    {
-        public string text = "";
-        public int fontSize = 22;
-        public int width;
-        public Color textColor = Color.white;
-        public Sprite sprite;
-
-        public Action<UIPanelLineSectionButton> onClick;
-    
-    }
+   
 
    
 }
