@@ -518,7 +518,10 @@ public class GameManager : MonoBehaviour
             BelowZeroBehavior = StatData.StatDataBelowZeroBehavior.SetZero,
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
-        Stats.Add(new StatData(StatType.Traffic, 30));
+        Stats.Add(new StatData(StatType.Traffic, 30)
+        {
+            Modifiers = { new StatModifier("deleteme", 2) }
+        });
         Stats.Add(new StatData(StatType.PacketsSent, 0f)
         {
             IsModifiable = false,

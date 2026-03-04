@@ -25,6 +25,7 @@ namespace UI
         private void OnExpandClick()
         {
             isExpanded =  !isExpanded;
+            Debug.Log($"OnExpandClick - isExpanded: {isExpanded}");
             switch (isExpanded)
             {
                 case(true):
