@@ -7,32 +7,54 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIMultiSelectOption: MonoBehaviour, IPointerEnterHandler
+    public class UIMultiSelectOption: MonoBehaviour//, IPointerEnterHandler
     {
         public string id;
         public Image image;
         public TextMeshProUGUI primaryText;
         public TextMeshProUGUI secondaryText;
         public Button button;
-        protected Action<string> onHover;
-
-        public void OnClick(UnityAction<string> action)
+        protected UnityAction<string> onPreview;
+        protected UnityAction<string> onSelect;
+        protected UIMultiSelectPanel parentPanel;
+        
+        public void OnSelect(UnityAction<string> action)
         {
-            button.onClick.AddListener((() =>
-            {
-                action.Invoke(id);
-            }));
+            onSelect = action;
         }
         
-        public void OnPointerEnter(PointerEventData eventData)
+ 
+
+        public void OnPreview(UnityAction<string> action)
         {
-            Debug.Log($"OnMouseOver {gameObject.name}");
-            onHover.Invoke(id);
+            onPreview = action;
         }
 
-        public void OnHover(Action<string> action)
+        public void Initialize(UIMultiSelectPanel _parentPanel, string _id, Sprite sprite, string _primaryText, string _secondaryText)
         {
-            onHover = action;
+            parentPanel = _parentPanel;
+            id = _id;
+            image.sprite = sprite;
+            primaryText.text = _primaryText;
+            secondaryText.text = _secondaryText;
+          
+            // Clear any previous listeners and reset the button state.
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener((() =>
+            {
+                if (onPreview != null)
+                {
+                    onPreview.Invoke(id);
+                }
+
+                _parentPanel.SetPreview(this);
+                //action.Invoke(id);
+            }));
+        }
+
+        public void MarkSelected()
+        {
+            onSelect.Invoke(id);
         }
     }
 }

@@ -133,7 +133,7 @@ public class NPCDevOps : NPCAnimatedBiped
                             modifierBase.GetTitle(),
                             $"New - {rarity} - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
-                        .OnClick((string id) =>
+                        .OnSelect((string id) =>
                         {
                             try
                             {
@@ -162,7 +162,7 @@ public class NPCDevOps : NPCAnimatedBiped
                         existingModifierBase.GetTitle(),
                         $"{rarity} - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
-                    .OnClick((string id) =>
+                    .OnSelect((string id) =>
                     {
                         try {
                             existingModifierBase.LevelUp(rarity);

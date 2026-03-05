@@ -96,6 +96,7 @@ public class UIPanel : UIGameObject
         {
             line.CleanUp();
         }
+        lines.Clear();
     }
 
     public T AddLine<T>() where T:  UIPanelLine

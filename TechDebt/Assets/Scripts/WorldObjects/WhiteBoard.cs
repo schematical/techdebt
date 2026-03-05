@@ -92,7 +92,7 @@ namespace Infrastructure
                         modifierBase.GetTitle(),
                         modifierBase.GetNextLevelUpDisplayText(Rarity.Common)
                     );
-                    option.OnClick((string id) =>
+                    option.OnSelect((string id) =>
                     {
                         ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
                         GameManager.Instance.Releases.Add(releaseBase);
@@ -101,7 +101,7 @@ namespace Infrastructure
                         GameManager.Instance.UIManager.MultiSelectPanel.Close();
                         HideAttentionIcon();
                     });
-                    option.OnHover((string id) =>
+                    option.OnPreview((string id) =>
                     {
                         modifierBase.ShowPreviewUI();
                     });
@@ -115,7 +115,7 @@ namespace Infrastructure
                             existingModifierBase.GetTitle(),
                             existingModifierBase.GetNextLevelUpDisplayText(Rarity.Common)
                         )
-                        .OnClick((string id) =>
+                        .OnSelect((string id) =>
                         {
                             ReleaseBase releaseBase =
                                 new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingModifierBase);

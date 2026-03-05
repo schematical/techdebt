@@ -35,7 +35,12 @@ namespace UI
         {
             if (!IsExpanded())
             {
+                Debug.Log("Expanding");
                 Expand();
+            }
+            else
+            {
+                Debug.Log("Already is expanded");
             }
 
             foreach (UIPanelLine line in lines)

@@ -74,6 +74,10 @@ namespace UI
         }
         public virtual void Show()
         {
+            if (panelState == UIState.Open)
+            {
+                return;
+            }
             gameObject.SetActive(true);
             SlideIn();
         
@@ -89,6 +93,18 @@ namespace UI
         public UIState GetPanelState()
         {
             return panelState;
+        }
+
+        public bool IsOpen()
+        {
+            switch (panelState)
+            {
+                case(UIState.Open):
+                    case(UIState.Opening):
+                        return true;
+                default:
+                    return false;
+            }
         }
         protected virtual void Update()
         {

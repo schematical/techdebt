@@ -350,7 +350,7 @@ public class MapLevel
                        GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
                    }
                }/*,
-               new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
+               new DialogButtonOption() { Text = "Main Menu", OnSelect = () =>
                    {
 
                    }
@@ -404,7 +404,7 @@ public class MapLevel
                        GameManager.Instance.Reset();
                    }
                }/*,
-               new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
+               new DialogButtonOption() { Text = "Main Menu", OnSelect = () =>
                    {
                         
                    }

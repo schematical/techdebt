@@ -17,9 +17,13 @@ namespace UI
         // ReSharper disable Unity.PerformanceAnalysis
         public override void Show()
         {
-          
-            base.Show();
 
+            if (!IsOpen())
+            {
+                base.Show();
+            }
+           
+            CleanUp();
 
             statCollectionPanelLine = AddLine<UIStatCollectionPanelLine>();
             statCollectionPanelLine.SetStatCollection(GameManager.Instance.Stats);
@@ -65,10 +69,8 @@ namespace UI
 
         public void Preview(ModifierBase modifierBase)
         {
-            if (!gameObject.activeInHierarchy)
-            {
-                Show();
-            }
+            
+           Show();
 
             statCollectionPanelLine.Preview(modifierBase);
         }

@@ -77,6 +77,7 @@ namespace UI
             {
                 line.CleanUp();
             }
+            lines.Clear();
             defaultSections.Clear();
             gameObject.SetActive(false);
         }

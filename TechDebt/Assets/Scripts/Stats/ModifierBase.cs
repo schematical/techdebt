@@ -170,7 +170,7 @@ namespace NPCs
         }
         public string GetNextLevelUpDisplayText(Rarity nextLevelRarity)
         {
-            string text = $"Level: {Levels.Count + 1}\n";
+            string text = $"Level: {Levels.Count + 1} - ";
             float percent = GetScaledValue();
             float increasePercent = GetScaledAdjustmentValue(nextLevelRarity);
             if (Levels.Count == 0)

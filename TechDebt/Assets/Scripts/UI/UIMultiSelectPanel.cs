@@ -12,6 +12,19 @@ namespace UI
       private List<UIMultiSelectOption> _optionPool = new List<UIMultiSelectOption>();
       public TextMeshProUGUI bottomText;
       public GameObject container;
+      public UIButton confirmButton;
+      public UIMultiSelectOption previewingOption;
+
+      void Start()
+      {
+          confirmButton.button.onClick.AddListener(OnConfirmClick);
+      }
+
+      private void OnConfirmClick()
+      {
+          previewingOption.MarkSelected();
+      }
+
       public void Close(bool forceClose = false)
       {
           base.Close(forceClose);
@@ -35,6 +48,7 @@ namespace UI
               panel.gameObject.SetActive(false);
           }
           _optionPool.Clear();
+          confirmButton.gameObject.SetActive(false);
       }
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
@@ -45,25 +59,23 @@ namespace UI
 
           GameManager.Instance.UIManager.SetTimeScalePause();
 
-          // Find an inactive option in the pool to reuse.
-        
-      
-          // If no inactive option is available, create a new one.
           UIMultiSelectOption option = GameManager.Instance.prefabManager.Create("UIMultiSelectOptionPanel", Vector3.zero, container.transform).GetComponent<UIMultiSelectOption>();
           _optionPool.Add(option);
 
       
           option.gameObject.SetActive(true);
-          option.id = id;
+          option.Initialize(this, id, sprite, primaryText, secondaryText);
+        
           option.name = "UIMultiSelectOption-" + option.id;
-          option.image.sprite = sprite;
-          option.primaryText.text = primaryText;
-          option.secondaryText.text = secondaryText;
-          
-          // Clear any previous listeners and reset the button state.
-          option.button.onClick.RemoveAllListeners();
+
 
           return option;
+      }
+
+      public void SetPreview(UIMultiSelectOption uiMultiSelectOption)
+      {
+          previewingOption = uiMultiSelectOption;
+          confirmButton.gameObject.SetActive(true);
       }
     }
 }
