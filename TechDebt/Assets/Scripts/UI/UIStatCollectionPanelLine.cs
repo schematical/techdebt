@@ -15,7 +15,7 @@ namespace UI
           
             UIPanelLineSectionText textSection = Add<UIPanelLineSectionText>();
             textSection.text.text = title;
-            textSection.text.fontSize = 24;
+            // textSection.text.fontSize = 24;
             
 
             SetExpandable(OnCollectionExpand);

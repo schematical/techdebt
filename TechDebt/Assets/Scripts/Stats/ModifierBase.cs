@@ -258,8 +258,6 @@ namespace NPCs
            
             UIPanelLineSectionText titleText = line.Add<UIPanelLineSectionText>();
             titleText.text.text = GetTitle();
-            titleText.text.fontSize = 24;
-            titleText.text.fontWeight = FontWeight.Bold;
             UIPanelLineSectionText sectionText = null;
             sectionText = line.Add<UIPanelLineSectionText>();
             sectionText.text.text = "Level " + Levels.Count;

@@ -19,12 +19,12 @@ namespace UI
         public void Initialize(int _depth)
         {
             depth = _depth;
-            if (depth > 0)
-            {
-                UIPanelLineSectionText sectionText = Add<UIPanelLineSectionText>();
-                sectionText.text.text = "";
-                sectionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, depth * 20);
-            }
+            
+            UIPanelLineSectionText sectionText = Add<UIPanelLineSectionText>();
+            sectionText.text.text = "";// depth.ToString();
+            // sectionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, depth * 20);
+            sectionText.GetComponent<LayoutElement>().preferredWidth = depth * 20;
+        
         }
         public T Add<T>() where T:  UIPanelLineSection
         {

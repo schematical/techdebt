@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -9,9 +10,11 @@ namespace UI
         public override void Initialize()
         {
             base.Initialize();
+            text.text = "";
             text.fontSize = 20;
             text.fontWeight = FontWeight.Regular;
             text.color = Color.white;
+            GetComponent<LayoutElement>().preferredWidth = -1;
         }
     }
 }

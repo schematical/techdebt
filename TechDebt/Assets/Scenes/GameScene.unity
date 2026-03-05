@@ -12790,8 +12790,6 @@ MonoBehaviour:
   titleText: {fileID: 1679908759}
   scrollContent: {fileID: 2006343112}
   closeButton: {fileID: 2127184218}
-  textArea: {fileID: 0}
-  networkPacketPanels: []
 --- !u!114 &1006060326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24141,7 +24139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!114 &2006343114
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,41 +9,34 @@ namespace UI
 {
     public class UIGlobalStatsPanel: UIPanel
     {
-        public UITextArea textArea;
-        
-        public List<UIStatCollectionPanelLine> networkPacketPanels =  new List<UIStatCollectionPanelLine>(); 
-
+       
         void Start()
         {
            
         }
         public override void Show()
         {
-            foreach (UIStatCollectionPanelLine statPanel in networkPacketPanels)
-            {
-                statPanel.gameObject.SetActive(false);
-            }
+          
             base.Show();
             AddLine<UIStatCollectionPanelLine>().SetStatCollection(GameManager.Instance.Stats);
-           
-            /*foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
+            UIStatCollectionPanelLine networkLine = AddLine<UIStatCollectionPanelLine>();
+            networkLine.Add<UIPanelLineSectionText>().text.text = "Network Packet Data:";
+            networkLine.SetExpandable((line =>
             {
-                UIStatCollectionPanelLine networkPacketPanelLine =
-                    GameManager.Instance.prefabManager.Create("UIStatCollectionPanelLine", Vector3.zero, scrollContent)
-                        .GetComponent<UIStatCollectionPanelLine>();
-                networkPacketPanelLine.SetStatCollection(
-                    networkPacketData.Stats,
-                    networkPacketData.Type.ToString()
-                );
-                
-                networkPacketPanels.Add(networkPacketPanelLine);
-            }*/
+                foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
+                {
+                    line.AddLine<UIStatCollectionPanelLine>().SetStatCollection( 
+                        networkPacketData.Stats,
+                        networkPacketData.Type.ToString()
+                    );
+                }
+            }));
+        
             
             
             
             
             
-            /*
             GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
             {
                 Group = ModifierBase.ModifierGroup.Release,
@@ -58,7 +51,6 @@ namespace UI
             GameManager.Instance.Modifiers.Modifiers[0].Apply();
             GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);
             GameManager.Instance.Modifiers.Render(this);
-            */
        
  
            

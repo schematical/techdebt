@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5690406028692161695}
   - component: {fileID: 5786338174597836371}
   - component: {fileID: 1894651940614180044}
+  - component: {fileID: 4025521063664822326}
   m_Layer: 5
   m_Name: UIPanelLineSectionButton
   m_TagString: Untagged
@@ -152,6 +153,26 @@ MonoBehaviour:
   rectTransform: {fileID: 8138617550915386537}
   text: {fileID: 6484023025765548648}
   button: {fileID: 5690406028692161695}
+--- !u!114 &4025521063664822326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510897407452695150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &7799038236672448790
 GameObject:
   m_ObjectHideFlags: 0
