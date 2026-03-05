@@ -15,10 +15,14 @@ namespace UI
         protected List<UIPanelLine> lines = new List<UIPanelLine>();
         public Action<UIPanelLine> onExpand;
         protected int depth = 0;
+        protected UIPanel rootPanel;
+        protected UIPanelLine parentLine;
 
-        public void Initialize(int _depth)
+        public void Initialize(int _depth, UIPanel _rootPanel, UIPanelLine _parentLine)
         {
             depth = _depth;
+            rootPanel = _rootPanel;
+            parentLine = _parentLine;
             
             UIPanelLineSectionText sectionText = Add<UIPanelLineSectionText>();
             sectionText.text.text = "";// depth.ToString();
@@ -60,9 +64,14 @@ namespace UI
             T panelLine =
                 GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, vertLayoutGroup.transform)
                     .GetComponent<T>();
-            panelLine.Initialize(depth + 1);
+            panelLine.Initialize(depth + 1, rootPanel,  this);
             lines.Add(panelLine);
             return panelLine;
+        }
+
+        public void SetRootPanel(UIPanel _rootPanel)
+        {
+            rootPanel = _rootPanel;
         }
 
         public void ClearChildLines()
@@ -73,6 +82,7 @@ namespace UI
                 line.CleanUp();
             }
             lines.Clear();
+            rootPanel.Refresh();
         }
 
         public List<UIPanelLine> GetLines()
@@ -104,8 +114,18 @@ namespace UI
                 } 
                 button.text.text = "-";
                 onExpand.Invoke(this);
+                rootPanel.Refresh();
             });
 
+        }
+
+        public void Refresh()
+        {
+            foreach (UIPanelLine line in lines)
+            {
+                line.Refresh();
+            }
+            LayoutRebuilder.ForceRebuildLayoutImmediate(vertLayoutGroup.GetComponent<RectTransform>());
         }
     }
  

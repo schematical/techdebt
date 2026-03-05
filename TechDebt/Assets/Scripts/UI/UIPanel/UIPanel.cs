@@ -105,6 +105,16 @@ public class UIPanel : UIGameObject
             GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, scrollContent.transform)
                 .GetComponent<T>();
         lines.Add(panelLine);
+        panelLine.Initialize(0, this, null);
         return panelLine;
+    }
+
+    public void Refresh()
+    {
+        foreach (UIPanelLine line in lines)
+        {
+            line.Refresh();
+        }
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
     }
 }
