@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Stats
@@ -50,18 +51,8 @@ namespace Stats
 
         public float RefreshValue()
         {
-            float value = BaseValue;
-            if (!IsModifiable && Modifiers.Count > 0)
-            {
-                Debug.LogError("Non Modifiable StatData has modifier");
-            }
-            // Apply modifier
-            foreach (StatModifier modifier in Modifiers)
-            {
-                value = modifier.Apply(this, value);
-            }
 
-           
+            float value = CalculateValue();
             Value = value;
             if (Value < 0)
             {
@@ -86,6 +77,40 @@ namespace Stats
             return Value;
         }
 
+        protected float CalculateValue(List<StatModifier> modifiers = null)
+        {
+            if (modifiers == null)
+            {
+                modifiers = Modifiers;
+            }
+            float value = BaseValue;
+            if (!IsModifiable && Modifiers.Count > 0)
+            {
+                Debug.LogError("Non Modifiable StatData has modifier");
+            }
+            // Apply modifier
+            foreach (StatModifier modifier in modifiers)
+            {
+                value = modifier.Apply(this, value);
+            }
+
+            return value;
+
+        }
+
+        public float PreviewValue(StatModifier modifier)
+        {
+            List<StatModifier> modifiers = new List<StatModifier>(Modifiers);
+            modifiers.Add(modifier);
+            return CalculateValue(modifiers);
+        }
+
+        public string GetPreviewText(StatModifier modifier)
+        {
+            float value = PreviewValue(modifier);
+            return $"{Type}: {FormatDisplayValue(Value)} {modifier.GetDisplayText()} => {FormatDisplayValue(value)}";
+        }
+
         public void Broadcast()
         {
             OnStatChanged?.Invoke(Value);
@@ -103,7 +128,12 @@ namespace Stats
 
         public string GetDescription()
         {
-            return $"{Type}: {GetDisplayValue()}";
+           return FormatDescription(Value);
+        }
+
+        public string FormatDescription(float value)
+        {
+            return $"{Type}: {FormatDisplayValue(value)}";
         }
 
         public string GetDisplayValue()

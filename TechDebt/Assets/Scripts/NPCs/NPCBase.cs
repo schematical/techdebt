@@ -15,7 +15,7 @@ using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable
+public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable, iModifiable
 {
     public enum State
     {
@@ -54,7 +54,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
        
     }
     
-    public StatsCollection Stats = new StatsCollection();
+    public StatsCollection Stats { get; } = new StatsCollection();
     
     // --- Task Management ---
     public NPCTask CurrentTask { get; protected set; }
@@ -635,4 +635,5 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         animator.SetBool("isAttacking", false);
     }
+
 }

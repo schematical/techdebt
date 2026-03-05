@@ -9,7 +9,7 @@ namespace UI
 {
     public class UIGlobalStatsPanel: UIPanel
     {
-       
+        protected UIStatCollectionPanelLine statCollectionPanelLine;
         void Start()
         {
            
@@ -19,9 +19,10 @@ namespace UI
         {
           
             base.Show();
-                
-                
-            AddLine<UIStatCollectionPanelLine>().SetStatCollection(GameManager.Instance.Stats);
+
+
+            statCollectionPanelLine = AddLine<UIStatCollectionPanelLine>();
+            statCollectionPanelLine.SetStatCollection(GameManager.Instance.Stats);
             UIStatCollectionPanelLine networkLine = AddLine<UIStatCollectionPanelLine>();
             networkLine.Add<UIPanelLineSectionText>().text.text = "Network Packet Data:";
             networkLine.SetExpandable((line =>
@@ -60,6 +61,16 @@ namespace UI
 
 
 
+        }
+
+        public void Preview(ModifierBase modifierBase)
+        {
+            if (!gameObject.activeInHierarchy)
+            {
+                Show();
+            }
+
+            statCollectionPanelLine.Preview(modifierBase);
         }
     }
 }

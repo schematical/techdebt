@@ -8,7 +8,12 @@ namespace UI
 {
     public class UIPanelLine: MonoBehaviour
     {
-        
+        public enum DefaultComponentTypes
+        {
+            Expand
+        }
+
+        protected string Id;
         public HorizontalLayoutGroup hozLayoutGroup;
         public VerticalLayoutGroup vertLayoutGroup;
         protected List<UIPanelLineSection> sections = new List<UIPanelLineSection>();
@@ -17,6 +22,7 @@ namespace UI
         protected int depth = 0;
         protected UIPanel rootPanel;
         protected UIPanelLine parentLine;
+        public Dictionary<DefaultComponentTypes, UIPanelLineSection> defaultSections = new Dictionary<DefaultComponentTypes, UIPanelLineSection>();
 
         public void Initialize(int _depth, UIPanel _rootPanel, UIPanelLine _parentLine)
         {
@@ -29,6 +35,21 @@ namespace UI
             // sectionText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, depth * 20);
             sectionText.GetComponent<LayoutElement>().preferredWidth = depth * 20;
         
+        }
+
+        public void SetId(string _id)
+        {
+            Id = _id;
+        }
+
+        public virtual string GetId()
+        {
+            return Id;
+        }
+
+        public bool IsExpanded()
+        {
+            return lines.Count != 0;
         }
         public T Add<T>() where T:  UIPanelLineSection
         {
@@ -56,6 +77,7 @@ namespace UI
             {
                 line.CleanUp();
             }
+            defaultSections.Clear();
             gameObject.SetActive(false);
         }
         public T AddLine<T>()  where T:  UIPanelLine
@@ -105,18 +127,41 @@ namespace UI
             button.text.text = "+";
             button.button.onClick.AddListener( () =>
             {
-                bool isExpanded = GetLines().Count != 0;
-                if (isExpanded)
+                if (IsExpanded())
                 {
-                    button.text.text = "+";
-                    ClearChildLines();
+                    Compress();
                     return;
                 } 
-                button.text.text = "-";
-                onExpand.Invoke(this);
-                rootPanel.Refresh();
+               Expand();
             });
+            defaultSections.Add(DefaultComponentTypes.Expand, button);
 
+        }
+
+        public void Expand()
+        {
+            UIPanelLineSectionButton button =
+                (defaultSections[DefaultComponentTypes.Expand] as UIPanelLineSectionButton);
+            if (button == null)
+            {
+                throw new SystemException($"Cannot find `{DefaultComponentTypes.Expand}` component");
+            }
+                button.text.text = "-";
+            onExpand.Invoke(this);
+            rootPanel.Refresh();
+        }
+        public void Compress()
+        {
+            
+            UIPanelLineSectionButton button =
+                (defaultSections[DefaultComponentTypes.Expand] as UIPanelLineSectionButton);
+            if (button == null)
+            {
+                throw new SystemException($"Cannot find `{DefaultComponentTypes.Expand}` component");
+            }
+            button.text.text = "+";
+            ClearChildLines();
+            rootPanel.Refresh();
         }
 
         public void Refresh()
@@ -128,8 +173,5 @@ namespace UI
             LayoutRebuilder.ForceRebuildLayoutImmediate(vertLayoutGroup.GetComponent<RectTransform>());
         }
     }
- 
-   
 
-   
 }

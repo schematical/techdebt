@@ -88,7 +88,7 @@ namespace NPCs
             return scaleValue;
         }
 
-        public void Apply(NPCDevOps npc = null)
+        public void Apply(iModifiable modifiable = null)
         {
             if (StatModifier != null)
             {
@@ -101,13 +101,10 @@ namespace NPCs
                         Id,
                         GetScaledValue()
                     );
-                    npc.Stats.AddModifier(StatType, StatModifier); 
+                    modifiable.Stats.AddModifier(StatType, StatModifier); 
                     break;
                 case(ModifierType.Infra_NetworkPacketStat):
-                    StatModifier = new StatModifier(
-                        Id,
-                        GetScaledValue()
-                    );
+                    StatModifier = BuildStatModifier();
                     int hitCheck = 0;
                     foreach (InfrastructureDataNetworkPacket networkPacketData in  GameManager.Instance.WorldObjectTypes[this.WorldObjectType].networkPackets)
                     {
@@ -129,10 +126,7 @@ namespace NPCs
                     }
                     break;
                 case(ModifierType.Run_Stat):
-                    StatModifier = new StatModifier(
-                        Id,
-                        GetScaledValue()
-                    );
+                    StatModifier = BuildStatModifier();
                     GameManager.Instance.Stats.AddModifier(StatType, StatModifier);
                     
                     break;
@@ -142,10 +136,7 @@ namespace NPCs
                     
                     break;
                 case(ModifierType.Global_NetworkPacketStat):
-                    StatModifier = new StatModifier(
-                        Id,
-                        GetScaledValue()
-                    );
+                    StatModifier = BuildStatModifier();
                     NetworkPacketData networkPacketData2 = GameManager.Instance.GetNetworkPacketDatas()
                         .Find((data => data.Type == NetworkPacketType));
                     if (networkPacketData2 == null)
@@ -158,6 +149,13 @@ namespace NPCs
             }
         }
 
+        public StatModifier BuildStatModifier()
+        {
+            return new StatModifier(
+                Id,
+                GetScaledValue()
+            );
+        }
 
 
         /*public void OnInfrastructureBuild(InfrastructureInstance infrastructure)
@@ -279,9 +277,6 @@ namespace NPCs
                 sectionText = line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
                 sectionText.text.text = $"Scaled Value: {GetScaledValue()}";
             });
-
-
-
         }
 
         public void ShowPreviewUI(NPCDevOps npc = null)
@@ -291,7 +286,7 @@ namespace NPCs
                 case(ModifierType.Run_Stat):
                 case(ModifierType.Run_Stat_Flat):
                 case(ModifierType.Global_NetworkPacketStat):
-                    GameManager.Instance.UIManager.globalStatsPanel.Show();
+                    GameManager.Instance.UIManager.globalStatsPanel.Preview(this);
                     break;
                 case(ModifierType.NPC_Stat):
                 case(ModifierType.Infra_NetworkPacketStat):

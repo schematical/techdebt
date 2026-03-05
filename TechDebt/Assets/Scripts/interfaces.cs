@@ -1,5 +1,6 @@
 using Infrastructure;
 using MetaChallenges;
+using Stats;
 using UnityEngine;
 
 public interface iTargetable
@@ -17,4 +18,9 @@ public interface iAttackable: iTargetable
     Transform transform { get; }
     string name { get; }
     public bool IsDead();
+}
+
+public interface iModifiable
+{
+    public StatsCollection Stats { get; }
 }
