@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NPCs;
+using UI;
 
 namespace Stats
 {
@@ -7,11 +8,11 @@ namespace Stats
     {
         public List<ModifierBase> Modifiers { get; private set; } = new List<ModifierBase>();
 
-        public void Render(UIPanel uiPanel)
+        public void Render(UIPanelLine line)
         {
             foreach (ModifierBase modifier in GameManager.Instance.Modifiers.Modifiers)
             {
-                modifier.Render(uiPanel);
+                modifier.Render(line);
             }
         }
     }

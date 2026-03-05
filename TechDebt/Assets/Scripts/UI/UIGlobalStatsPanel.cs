@@ -14,10 +14,13 @@ namespace UI
         {
            
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void Show()
         {
           
             base.Show();
+                
+                
             AddLine<UIStatCollectionPanelLine>().SetStatCollection(GameManager.Instance.Stats);
             UIStatCollectionPanelLine networkLine = AddLine<UIStatCollectionPanelLine>();
             networkLine.Add<UIPanelLineSectionText>().text.text = "Network Packet Data:";
@@ -35,25 +38,28 @@ namespace UI
             
             
             
-            
-            
-            GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
+            UIStatCollectionPanelLine globalModifiersLine = AddLine<UIStatCollectionPanelLine>();
+            globalModifiersLine.Add<UIPanelLineSectionText>().text.text = "Upgrades:";
+            globalModifiersLine.SetExpandable((_globalModifiersLine =>
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.Run,
-                Type = ModifierBase.ModifierType.Run_Stat,
-                Id = "input_validation",
-                Name = "Input Validation",
-                StatType = StatType.Infra_InputValidation,
-                // BaseValue = 1.05f,
-                IconSpriteId = "IconCode"
-            });
-            GameManager.Instance.Modifiers.Modifiers[0].Apply();
-            GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);
-            GameManager.Instance.Modifiers.Render(this);
-       
- 
-           
+                GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
+                {
+                    Group = ModifierBase.ModifierGroup.Release,
+                    Target = ModifierBase.ModifierTarget.Run,
+                    Type = ModifierBase.ModifierType.Run_Stat,
+                    Id = "input_validation",
+                    Name = "Input Validation",
+                    StatType = StatType.Infra_InputValidation,
+                    // BaseValue = 1.05f,
+                    IconSpriteId = "IconCode"
+                });
+                GameManager.Instance.Modifiers.Modifiers[0].Apply();
+                GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);
+                GameManager.Instance.Modifiers.Render(_globalModifiersLine);
+            }));
+
+
+
         }
     }
 }

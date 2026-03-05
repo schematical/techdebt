@@ -251,10 +251,10 @@ namespace NPCs
             return text;
         }
 
-        public void Render(UIPanel uiPanel)
+        public void Render(UIPanelLine parentLine)
         {
             
-            UIPanelLine line = uiPanel.AddLine<UIPanelLine>();
+            UIPanelLine line = parentLine.AddLine<UIPanelLine>();
            
             UIPanelLineSectionText titleText = line.Add<UIPanelLineSectionText>();
             titleText.text.text = GetTitle();
@@ -282,6 +282,23 @@ namespace NPCs
 
 
 
+        }
+
+        public void ShowPreviewUI(NPCDevOps npc = null)
+        {
+            switch (Type)
+            {
+                case(ModifierType.Run_Stat):
+                case(ModifierType.Run_Stat_Flat):
+                case(ModifierType.Global_NetworkPacketStat):
+                    GameManager.Instance.UIManager.globalStatsPanel.Show();
+                    break;
+                case(ModifierType.NPC_Stat):
+                case(ModifierType.Infra_NetworkPacketStat):
+                default:
+                    throw new NotImplementedException();
+              
+            }
         }
     }
 }
