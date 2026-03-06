@@ -13,6 +13,7 @@ public class CDNWOType : WorldObjectType
         DailyCost = 30;
         CanBeUpsized = true;
         LoadRecoveryRate = 10;
+        ShowInGlobalDisplay = true;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()

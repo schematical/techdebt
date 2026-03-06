@@ -13,6 +13,7 @@ public class ApplicationServerWOType : WorldObjectType
         DailyCost = 30;
         CanBeUpsized = true;
         LoadRecoveryRate = 20;
+        ShowInGlobalDisplay = true;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()

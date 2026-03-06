@@ -38,6 +38,7 @@ namespace Infrastructure
         public float MaxLoad = 100;
         public float LoadRecoveryRate = 0f;
         public bool CanBeUpsized = false;
+        public bool ShowInGlobalDisplay = false;
   
         public List<NetworkConnection> NetworkConnections; // Array of NetworkConnection objects
         public StatsCollection Stats { get; private set; } = new StatsCollection();
@@ -81,6 +82,16 @@ namespace Infrastructure
         public bool IsUnlocked()
         {
             return GameManager.Instance.AreUnlockConditionsMet(UnlockConditions);
+        }
+
+        public bool DisplayInGlobalUI()
+        {
+            if (!IsUnlocked())
+            {
+                return false;
+            }
+
+            return ShowInGlobalDisplay;
         }
     }
 }

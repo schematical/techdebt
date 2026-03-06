@@ -53,12 +53,12 @@ namespace UI
                 }
             }));   
             worldObjectTypesLine = AddLine<UIPanelLine>();
-            worldObjectTypesLine.Add<UIPanelLineSectionText>().text.text = "World Object Types:";
+            worldObjectTypesLine.Add<UIPanelLineSectionText>().text.text = "Infrastructure Types:";
             worldObjectTypesLine.SetExpandable((worldObjectTypesLine =>
             {
                 foreach (WorldObjectType worldObjectType in GameManager.Instance.WorldObjectTypes.Values)
                 {
-                    if (!worldObjectType.IsUnlocked())
+                    if (!worldObjectType.DisplayInGlobalUI())
                     {
                         continue;
                     }

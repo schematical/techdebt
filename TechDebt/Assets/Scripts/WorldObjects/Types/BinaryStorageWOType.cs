@@ -12,7 +12,7 @@ public class BinaryStorageWOType : WorldObjectType
         BuildTime = 30;
         DailyCost = 30;
         CanBeUpsized = true;
-        
+        ShowInGlobalDisplay = true;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
