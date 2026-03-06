@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -36,52 +37,12 @@ public class UIPanel : UIGameObject
         
     }
 
-    public virtual UIButton AddButton(string buttonText, UnityAction onClickAction)
+    public virtual UIPanelButton AddButton(string buttonText, UnityAction onClickAction)
     {
-        if (GameManager.Instance == null || GameManager.Instance.prefabManager == null)
-        {
-            Debug.LogError("GameManager or PrefabManager is null. Cannot add button to UIPanel.");
-            return null;
-        }
-
-        GameObject uiButtonPrefab = GameManager.Instance.prefabManager.GetPrefab("UIButton");
-
-        if (uiButtonPrefab == null)
-        {
-            Debug.LogError($"UIButton prefab with name 'UIButton' not found in PrefabManager. Cannot add button to UIPanel.");
-            return null;
-        }
-
-        var buttonGO = Instantiate(uiButtonPrefab, scrollContent.transform);
-        var uiButton = buttonGO.GetComponent<UIButton>();
-
-        if (uiButton == null)
-        {
-            Debug.LogError($"Instantiated UIButton prefab '{uiButtonPrefab.name}' is missing a UIButton component.");
-            Destroy(buttonGO); // Clean up
-            return null;
-        }
-
-        if (uiButton.buttonText == null)
-        {
-            Debug.LogWarning($"UIButton prefab '{uiButtonPrefab.name}' has a UIButton component but is missing its buttonText reference.");
-        }
-        else
-        {
-            uiButton.buttonText.text = buttonText;
-        }
-
-        if (uiButton.button == null)
-        {
-            Debug.LogWarning($"UIButton prefab '{uiButtonPrefab.name}' has a UIButton component but is missing its Button reference.");
-        }
-        else
-        {
-            uiButton.button.onClick.RemoveAllListeners(); // Clear existing listeners
-            uiButton.button.onClick.AddListener(onClickAction);
-        }
-
-        return uiButton;
+        UIPanelButton button = AddLine<UIPanelButton>();
+        button.text.text = buttonText;
+        button.button.onClick.AddListener(onClickAction);
+        return button;
     }
 
     public override void Close(bool forceClose = false)
@@ -105,6 +66,10 @@ public class UIPanel : UIGameObject
         T panelLine =
             GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, scrollContent.transform)
                 .GetComponent<T>();
+        if (panelLine == null)
+        {
+            throw new SystemException($"Some how {prefabId} is null");
+        }
         lines.Add(panelLine);
         panelLine.Initialize(0, this, null);
         return panelLine;

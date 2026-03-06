@@ -4715,7 +4715,6 @@ MonoBehaviour:
   titleText: {fileID: 821073211}
   scrollContent: {fileID: 32343414}
   closeButton: {fileID: 1752309906}
-  textArea: {fileID: 1196831309}
 --- !u!224 &418729441
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7854,6 +7853,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630184912}
   m_CullTransparentMesh: 1
+--- !u!1 &657842777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1932772173538388464, guid: 873beff05425f304bad065155202f978, type: 3}
+  m_PrefabInstance: {fileID: 763411563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &669009316
 GameObject:
   m_ObjectHideFlags: 0
@@ -9272,7 +9276,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1932772173538388464, guid: 873beff05425f304bad065155202f978, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1196831314}
   m_SourcePrefab: {fileID: 100100000, guid: 873beff05425f304bad065155202f978, type: 3}
 --- !u!1 &776996744
 GameObject:
@@ -9708,6 +9715,7 @@ MonoBehaviour:
   - {fileID: 1770342164209395342, guid: 50c7baf5467c27c4db19d29ac0bb3c77, type: 3}
   - {fileID: 5996395836308024692, guid: 18c111d626da876468a7af5a4a77d187, type: 3}
   - {fileID: 7543944041692768589, guid: c185260fb8a4e484081daa326eac84b7, type: 3}
+  - {fileID: 7376024834995471052, guid: 3d3a4679fe73c874b9b377179bd2ae4f, type: 3}
 --- !u!114 &776996751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14806,17 +14814,20 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4701601762815363794, guid: 873beff05425f304bad065155202f978, type: 3}
   m_PrefabInstance: {fileID: 763411563}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1196831309 stripped
+--- !u!114 &1196831314
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7555404778621213798, guid: 873beff05425f304bad065155202f978, type: 3}
-  m_PrefabInstance: {fileID: 763411563}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 657842777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f55c832721f7b3429bf518c1d94c5d9, type: 3}
+  m_Script: {fileID: 11500000, guid: d97dd4ba8fb248c1b2ffbb62084b8b8a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UITextArea
+  m_EditorClassIdentifier: Assembly-CSharp::UI.UIPanelButton
+  hozLayoutGroup: {fileID: 0}
+  vertLayoutGroup: {fileID: 0}
 --- !u!1 &1205069338
 GameObject:
   m_ObjectHideFlags: 0
@@ -16349,7 +16360,6 @@ MonoBehaviour:
   scrollContent: {fileID: 27617574}
   closeButton: {fileID: 1735811425}
   followButton: {fileID: 1730122662}
-  textArea: {fileID: 1520081974}
 --- !u!225 &1295040730
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -19105,17 +19115,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513986374}
   m_CullTransparentMesh: 1
---- !u!114 &1520081974 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7555404778621213798, guid: 873beff05425f304bad065155202f978, type: 3}
-  m_PrefabInstance: {fileID: 896754337}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f55c832721f7b3429bf518c1d94c5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UITextArea
 --- !u!1 &1526968471
 GameObject:
   m_ObjectHideFlags: 0

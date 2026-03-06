@@ -8,7 +8,7 @@ namespace UI
 {
     public class UILeftMenuPanel:  UIPanel
     {
-        private Dictionary<string, UIButton> _buttons = new Dictionary<string, UIButton>();
+        private Dictionary<string, UIPanelButton> _buttons = new Dictionary<string, UIPanelButton>();
 
         protected override void Start()
         {
@@ -26,10 +26,10 @@ namespace UI
             
             Refresh(null, null);
         }
-        public UIButton AddButton(string buttonText, UnityAction onClickAction, [CanBeNull] string infraRequirement = null)
+        public UIPanelButton AddButton(string buttonText, UnityAction onClickAction, [CanBeNull] string infraRequirement = null)
         {
-            UIButton _button = base.AddButton(buttonText, onClickAction);
-            _button.gameObject.AddComponent<LayoutElement>().preferredHeight = 40;
+            UIPanelButton _button = base.AddButton(buttonText, onClickAction);
+            // _button.gameObject.GetComponent<LayoutElement>().preferredHeight = 25;
             if (infraRequirement != null)
             {
                 _buttons.Add(infraRequirement, _button);

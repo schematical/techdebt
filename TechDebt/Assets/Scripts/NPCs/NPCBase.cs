@@ -505,6 +505,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
     }
 
+    public Dictionary<CoolDownType, float> GetCoolDowns()
+    {
+        return coolDowns;
+    }
+
     public virtual string GetDetailText()
     {
         string content = $"<b>{name}</b>\n";
