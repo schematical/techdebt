@@ -173,7 +173,8 @@ namespace UI
                    UIPanelLine worldObjectTypeLine = worldObjectTypesLine.GetLineById(modifierBase.WorldObjectType.ToString());
                    if (worldObjectTypeLine == null)
                    {
-                        throw new SystemException($"Could not find {modifierBase.WorldObjectType.ToString()} in {worldObjectTypesLine.GetLines().Count}");   
+                        Debug.LogWarning($"Could not find {modifierBase.WorldObjectType.ToString()} in {worldObjectTypesLine.GetLines().Count}");
+                        return;
                    }
                    if (!worldObjectTypeLine.IsExpanded())
                    {

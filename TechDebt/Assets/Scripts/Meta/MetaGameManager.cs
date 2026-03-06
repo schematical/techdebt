@@ -830,7 +830,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Name = "Image Optimization",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
-                // BaseValue = 0.9f,
+                BaseValue = 0.95f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconImageOptimization",
                 ScaleDirection =  ModifierBase.ModifierScaleDirection.Down

@@ -151,10 +151,11 @@ namespace NPCs
 
         public StatModifier BuildStatModifier()
         {
-            return new StatModifier(
+            StatModifier statModifier = new StatModifier(
                 Id,
                 GetScaledValue()
             );
+            return statModifier;
         }
 
 
@@ -281,6 +282,12 @@ namespace NPCs
 
         public void ShowPreviewUI(NPCDevOps npc = null)
         {
+            switch (Target)
+            {
+                case(ModifierTarget.NPC):
+                    GameManager.Instance.UIManager.npcDetailPanel.Preview(this, npc);
+                    break;
+            }
             switch (Type)
             {
                 case(ModifierType.Run_Stat):

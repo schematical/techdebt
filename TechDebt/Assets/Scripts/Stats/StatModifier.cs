@@ -60,7 +60,7 @@ namespace Stats
                 /*case ModifierType.Flat:
                     return $"+{Value}";*/
                 case ModifierType.Multiply:
-                    return $"x {Value}";
+                    return $"x {Value:F2}";
                 default:
                     throw new NotImplementedException();
             }

@@ -37,6 +37,7 @@ namespace Stats
         {
             Type = statType;
             BaseValue = baseValue;
+           
             RefreshValue();
         }
         
@@ -147,6 +148,19 @@ namespace Stats
 
         public string FormatDisplayValue(float value)
         {
+            if (value < 0)
+            {
+                switch (BelowZeroBehavior)
+                {
+                    case(StatDataBelowZeroBehavior.SetZero):
+                        value = 0;
+                        break;
+                    case(StatDataBelowZeroBehavior.AllowNegative):
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
             switch (DisplayType)
             {
                 case(StatDataDisplayType.Percentage):
@@ -158,6 +172,7 @@ namespace Stats
                 default:
                     throw new NotImplementedException();
             }
+            
         }
     }
 }

@@ -47,11 +47,24 @@ namespace UI
 
         public void Preview(ModifierBase modifierBase)
         {
-
-            StatModifier statModifier = modifierBase.BuildStatModifier();
-            float updatedValue = statData.PreviewValue(statModifier);
-            mainText.text.text = statData.GetPreviewText(statModifier);
-            if (updatedValue > statData.Value)
+            float updatedValue = 0;
+            switch (modifierBase.Type)
+            {
+                case (ModifierBase.ModifierType.Run_Stat_Flat):
+                    updatedValue = statData.Value + modifierBase.GetScaledValue();
+                    mainText.text.text = $"{modifierBase.StatType}: {statData.GetDisplayValue()} + {(modifierBase.GetScaledValue() * 100):F2} => {statData.FormatDisplayValue(updatedValue)}";
+                    break;
+                default:
+                    StatModifier statModifier = modifierBase.BuildStatModifier();
+                    updatedValue = statData.PreviewValue(statModifier);
+                    mainText.text.text = statData.GetPreviewText(statModifier);
+                    break;
+            }
+            
+            if (Math.Abs(updatedValue - statData.Value) < 0.00001f)
+            {
+                mainText.text.color = Color.yellow;
+            } else if (updatedValue > statData.Value)
             {
                 switch (modifierBase.ScaleDirection)
                 {

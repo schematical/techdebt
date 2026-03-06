@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NPCs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,6 +66,12 @@ namespace UI
         {
             // _selectedNPC = null;
             base.Close(forceClose);
+        }
+
+        public void Preview(ModifierBase modifierBase, NPCDevOps npc)
+        {
+            Show(npc);
+            Debug.Log("TODO: Preview");
         }
     }
 }
