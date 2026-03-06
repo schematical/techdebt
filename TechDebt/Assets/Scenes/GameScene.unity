@@ -12756,7 +12756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1006060324
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13829,9 +13829,9 @@ RectTransform:
   m_Father: {fileID: 1291429291}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1087664066
 MonoBehaviour:
@@ -14828,6 +14828,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIPanelButton
   hozLayoutGroup: {fileID: 0}
   vertLayoutGroup: {fileID: 0}
+  button: {fileID: 0}
+  text: {fileID: 0}
 --- !u!1 &1205069338
 GameObject:
   m_ObjectHideFlags: 0
@@ -17647,7 +17649,7 @@ RectTransform:
   m_Father: {fileID: 1132067604}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.000030517578, y: 67.7}
   m_SizeDelta: {x: 20, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -24259,8 +24261,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000022556633}
-  m_SizeDelta: {x: -453.1984, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2006343113
 MonoBehaviour:
@@ -24274,7 +24276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
+  m_HorizontalFit: 0
   m_VerticalFit: 2
 --- !u!114 &2006343114
 MonoBehaviour:
