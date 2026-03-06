@@ -52,7 +52,7 @@ namespace UI
             {
                 case (ModifierBase.ModifierType.Run_Stat_Flat):
                     updatedValue = statData.Value + modifierBase.GetScaledValue();
-                    mainText.text.text = $"{modifierBase.StatType}: {statData.GetDisplayValue()} + {(modifierBase.GetScaledValue() * 100):F2} => {statData.FormatDisplayValue(updatedValue)}";
+                    mainText.text.text = $"{modifierBase.StatType}: {statData.GetDisplayValue()} + {Math.Round(modifierBase.GetScaledValue() * 100)}% = {statData.FormatDisplayValue(updatedValue)}";
                     break;
                 default:
                     StatModifier statModifier = modifierBase.BuildStatModifier();

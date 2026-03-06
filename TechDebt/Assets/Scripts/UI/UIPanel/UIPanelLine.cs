@@ -33,7 +33,7 @@ namespace UI
             {
                 UIPanelLineSectionText sectionText = Add<UIPanelLineSectionText>();
                 sectionText.text.text = "";
-                sectionText.GetComponent<LayoutElement>().preferredWidth = depth * 20;
+                sectionText.GetComponent<LayoutElement>().preferredWidth = depth * 10;
             }
 
         }

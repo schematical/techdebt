@@ -41,6 +41,7 @@ public class UIPanel : UIGameObject
     {
         UIPanelButton button = AddLine<UIPanelButton>();
         button.text.text = buttonText;
+        button.button.onClick.RemoveAllListeners();
         button.button.onClick.AddListener(onClickAction);
         return button;
     }
