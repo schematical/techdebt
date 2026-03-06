@@ -875,7 +875,7 @@ public class GameManager : MonoBehaviour
     public bool AreUnlockConditionsMet(InfrastructureInstance infrastructureInstance)
     {
         WorldObjectType worldObjectType = infrastructureInstance.GetWorldObjectType();
-    
+
         List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
         if (worldObjectType.UnlockConditions != null && worldObjectType.UnlockConditions.Count > 0)
         {
@@ -886,10 +886,11 @@ public class GameManager : MonoBehaviour
         {
             unlockConditions.AddRange(infrastructureInstance.data.UnlockConditions);
         }
-
-        if (unlockConditions.Count == 0)
+        return AreUnlockConditionsMet(unlockConditions);
+    }
+    public bool AreUnlockConditionsMet( List<UnlockCondition> unlockConditions) {
+        if (unlockConditions == null || unlockConditions.Count == 0)
         {
-   
             return true;
         }
         
@@ -904,8 +905,6 @@ public class GameManager : MonoBehaviour
                     if (technology == null)
                     {
                         return false;
-                        // throw new SystemException(
-                        //     $"Cannot find Technology_Locked {condition.TechnologyID} - {infraData.ID}");
                     } 
                     
                     if(technology.CurrentState != Technology.State.Unlocked) return false;

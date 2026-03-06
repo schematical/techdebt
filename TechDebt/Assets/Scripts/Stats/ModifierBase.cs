@@ -286,10 +286,11 @@ namespace NPCs
                 case(ModifierType.Run_Stat):
                 case(ModifierType.Run_Stat_Flat):
                 case(ModifierType.Global_NetworkPacketStat):
+                case(ModifierType.Infra_NetworkPacketStat):
                     GameManager.Instance.UIManager.globalStatsPanel.Preview(this);
                     break;
                 case(ModifierType.NPC_Stat):
-                case(ModifierType.Infra_NetworkPacketStat):
+        
                 default:
                     throw new NotImplementedException();
               

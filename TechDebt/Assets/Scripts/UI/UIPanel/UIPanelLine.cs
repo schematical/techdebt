@@ -112,6 +112,10 @@ namespace UI
         {
             return lines;
         }
+        public UIPanelLine GetLineById(string _id)
+        {
+            return lines.Find(line => line.GetId() == _id);
+        }
 
         public void SetExpandable(Action<UIPanelLine> _onExpand)
         {

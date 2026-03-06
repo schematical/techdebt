@@ -77,5 +77,10 @@ namespace Infrastructure
         {
             metaStatCollection.Set(infraMaxSize, currentSizeLevel);
         }
+
+        public bool IsUnlocked()
+        {
+            return GameManager.Instance.AreUnlockConditionsMet(UnlockConditions);
+        }
     }
 }

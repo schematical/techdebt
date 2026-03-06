@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Infrastructure;
 using NPCs;
 using Stats;
 using Unity.VisualScripting;
@@ -10,8 +11,15 @@ namespace UI
 {
     public class UIGlobalStatsPanel: UIPanel
     {
+        public enum LineType
+        {
+            Stats,
+            NetworkPacketData
+        }
         protected UIStatCollectionPanelLine statCollectionPanelLine;
         protected UIStatCollectionPanelLine networkLine;
+        protected UIPanelLine worldObjectTypesLine;
+        
         void Start()
         {
            
@@ -33,6 +41,7 @@ namespace UI
             networkLine.Add<UIPanelLineSectionText>().text.text = "Network Packet Data:";
             networkLine.SetExpandable((line =>
             {
+                
                 foreach (NetworkPacketData networkPacketData in GameManager.Instance.GetNetworkPacketDatas())
                 {
                     UIStatCollectionPanelLine networkDetailLine = line.AddLine<UIStatCollectionPanelLine>();
@@ -41,6 +50,60 @@ namespace UI
                         networkPacketData.Type.ToString()
                     );
                     networkDetailLine.SetId(networkPacketData.Type.ToString());
+                }
+            }));   
+            worldObjectTypesLine = AddLine<UIPanelLine>();
+            worldObjectTypesLine.Add<UIPanelLineSectionText>().text.text = "World Object Types:";
+            worldObjectTypesLine.SetExpandable((worldObjectTypesLine =>
+            {
+                foreach (WorldObjectType worldObjectType in GameManager.Instance.WorldObjectTypes.Values)
+                {
+                    if (!worldObjectType.IsUnlocked())
+                    {
+                        continue;
+                    }
+                    UIPanelLine worldObjectTypeLine = worldObjectTypesLine.AddLine<UIStatCollectionPanelLine>();
+                    worldObjectTypeLine.Add<UIPanelLineSectionText>().text.text = worldObjectType.DisplayName;
+                    worldObjectTypeLine.SetId(worldObjectType.type.ToString());
+                    worldObjectTypeLine.SetExpandable((worldObjectTypeLine =>
+                    {
+
+
+                        UIStatCollectionPanelLine worldObjectTypeStatLine =
+                            worldObjectTypeLine.AddLine<UIStatCollectionPanelLine>();
+                        worldObjectTypeStatLine.SetStatCollection(
+                            worldObjectType.Stats,
+                            "Stats"
+                        );
+                        worldObjectTypeStatLine.SetId(LineType.Stats.ToString());
+
+                        
+                        
+                        
+                        UIPanelLine worldObjectTypeNetworkPacketsLine = worldObjectTypeLine.AddLine<UIPanelLine>();
+                        worldObjectTypeNetworkPacketsLine.Add<UIPanelLineSectionText>().text.text = "Network Packet Data:";
+                        worldObjectTypeNetworkPacketsLine.SetId(LineType.NetworkPacketData.ToString());
+                        worldObjectTypeNetworkPacketsLine.SetExpandable((worldObjectTypeNetworkPacketLine =>
+                        {
+                            Debug.Log($"Expanding Network Packets - {worldObjectType.networkPackets.Count}");
+                            foreach (InfrastructureDataNetworkPacket networkPacketData in worldObjectType.networkPackets)
+                            {
+                                UIStatCollectionPanelLine worldObjectTypeStatLine =
+                                    worldObjectTypeNetworkPacketLine.AddLine<UIStatCollectionPanelLine>();
+                                worldObjectTypeStatLine.SetStatCollection(
+                                    networkPacketData.Stats,
+                                    networkPacketData.PacketType.ToString()
+                                );
+                                worldObjectTypeStatLine.SetId(networkPacketData.PacketType.ToString());
+                            }
+                        }));
+                        
+                        
+                        
+                    }));
+
+                   
+
                 }
             }));
         
@@ -87,7 +150,6 @@ namespace UI
                    {
                        networkLine.Expand();
                    }
-                   Debug.Log($"networkLine.GetLines() {networkLine.GetLines().Count}");
                    foreach (UIPanelLine line in networkLine.GetLines())
                    {
                        Debug.Log($"{line.GetId()} == {modifierBase.NetworkPacketType.ToString()} => {line.GetId() == modifierBase.NetworkPacketType.ToString()}");
@@ -101,6 +163,41 @@ namespace UI
                        }*/
                    }
 
+                   break;
+               case(ModifierBase.ModifierType.Infra_NetworkPacketStat):
+                   
+                   if (!worldObjectTypesLine.IsExpanded())
+                   {
+                       worldObjectTypesLine.Expand();
+                   }
+                   UIPanelLine worldObjectTypeLine = worldObjectTypesLine.GetLineById(modifierBase.WorldObjectType.ToString());
+                   if (worldObjectTypeLine == null)
+                   {
+                        throw new SystemException($"Could not find {modifierBase.WorldObjectType.ToString()} in {worldObjectTypesLine.GetLines().Count}");   
+                   }
+                   if (!worldObjectTypeLine.IsExpanded())
+                   {
+                       worldObjectTypeLine.Expand();
+                   }
+                   UIPanelLine worldObjectTypeNetworkPacketDataLine = worldObjectTypeLine.GetLineById(LineType.NetworkPacketData.ToString());
+                   if (worldObjectTypeNetworkPacketDataLine == null)
+                   {
+                       throw new SystemException($"Could not find {LineType.NetworkPacketData.ToString()} in {worldObjectTypeLine.GetLines().Count}");   
+                   }
+                   if (!worldObjectTypeNetworkPacketDataLine.IsExpanded())
+                   {
+                       worldObjectTypeNetworkPacketDataLine.Expand();
+                   }
+                   UIPanelLine worldObjectTypeNetworkPacketDataStatsLine = worldObjectTypeNetworkPacketDataLine.GetLineById(modifierBase.NetworkPacketType.ToString());
+                   if (worldObjectTypeNetworkPacketDataStatsLine == null)
+                   {
+                       throw new SystemException($"Could not find {modifierBase.NetworkPacketType.ToString()} in {worldObjectTypeNetworkPacketDataLine.GetLines().Count}");   
+                   }
+                   if (!worldObjectTypeNetworkPacketDataStatsLine.IsExpanded())
+                   {
+                       worldObjectTypeNetworkPacketDataStatsLine.Expand();
+                   }
+                   (worldObjectTypeNetworkPacketDataStatsLine as UIStatCollectionPanelLine).Preview(modifierBase);
                    break;
                default:
                    throw new NotImplementedException();
