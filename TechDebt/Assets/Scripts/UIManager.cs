@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -71,7 +72,9 @@ public class UIManager : MonoBehaviour
     private TimeState _timeStateBeforePause = TimeState.Normal;
     private TimeState _userSpecifiedTimeState = TimeState.Normal;
 
- 
+    private float shakeDuration = 0f;
+    private float shakeMagnitude = 0.1f;
+    private Vector3 originalCameraPosition;
 
     private float lastTaskListUpdateTime;
     
@@ -150,6 +153,18 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        if (shakeDuration > 0)
+        {
+            Camera.main.transform.position = originalCameraPosition + (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            shakeDuration -= Time.unscaledDeltaTime;
+        
+            if (shakeDuration <= 0)
+            {
+                shakeDuration = 0f;
+                Camera.main.transform.position = originalCameraPosition;
+            }
+        }
+        
         if (Keyboard.current.backquoteKey.wasPressedThisFrame)
         {
             if (debugPanel.GetPanelState() == UIGameObject.UIState.Closed)
@@ -368,5 +383,12 @@ public class UIManager : MonoBehaviour
     public void ShowNPCDialog(Sprite botSprite, string dialog, List<DialogButtonOption> options = null)
     {
         dialogPanel.ShowDialog(botSprite, dialog, options);
+    }
+
+    public void TriggerScreenShake(float duration = 0.2f, float magnitude = 0.1f)
+    {
+        shakeDuration = duration;
+        shakeMagnitude = magnitude;
+        originalCameraPosition = Camera.main.transform.position;
     }
 }
