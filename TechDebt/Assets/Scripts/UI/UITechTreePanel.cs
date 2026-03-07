@@ -205,7 +205,10 @@ namespace UI
 
             foreach (TechNodeView techNodeView in _techTreeNodes)
             {
-                techNodeView.LabelInstance.gameObject.SetActive(false);
+                if (techNodeView.LabelInstance != null)
+                {
+                    techNodeView.LabelInstance.gameObject.SetActive(false);
+                }
             }
             _techTreeNodes.Clear();
             foreach (Technology tech in allTech)
@@ -219,6 +222,7 @@ namespace UI
             DrawBackground();
             CalculateNodePositions();
             DrawNodesAndLabels();
+            DrawPaths(_techTreeNodes.Where(IsNodeVisible).ToList());
             UpdateDetailsArea();
 
             if (metaUnlockText != null)
@@ -275,7 +279,10 @@ namespace UI
 
             foreach (TechNodeView techNodeView in _techTreeNodes)
             {
-                techNodeView.LabelInstance.gameObject.SetActive(false);
+                if (techNodeView.LabelInstance != null)
+                {
+                    techNodeView.LabelInstance.gameObject.SetActive(false);
+                }
             }
         
         
@@ -302,18 +309,7 @@ namespace UI
             if (currentNode != _hoveredNode)
             {
                 connectorTilemap.ClearAllTiles();
-                
-                if (currentNode != null)
-                {
-                    // Draw paths to dependencies (parents)
-                    DrawPaths(new List<TechNodeView> { currentNode });
-
-                    // Find and draw paths to dependents (children) - Saved for later use
-                    /*
-                    List<TechNodeView> children = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(currentNode.Id)).ToList();
-                    DrawPaths(children);
-                    */
-                }
+                DrawPaths(_techTreeNodes.Where(IsNodeVisible).ToList());
                 
                 _hoveredNode = currentNode;
             }
@@ -330,12 +326,31 @@ namespace UI
                     TechNodeView dep = _techTreeNodes.Find(n => n.Id == depId);
                     if (dep == null) continue;
 
+                    // Only draw connectors that are connected to unlocked tech
+                    if (dep.Technology.CurrentState != Technology.State.Unlocked && node.Technology.CurrentState != Technology.State.Unlocked) continue;
+
                     Vector3Int start = (Vector3Int)dep.Position;
                     Vector3Int end = (Vector3Int)node.Position;
 
                     DrawConnection(start, end);
                 }
             }
+        }
+
+        private bool IsNodeVisible(TechNodeView node)
+        {
+            if (node.Technology.CurrentState == Technology.State.Unlocked) return true;
+            if (node.Technology.CurrentState == Technology.State.Researching) return true;
+
+            // Roots are always visible
+            if (node.Dependencies == null || node.Dependencies.Count == 0) return true;
+
+            // Visible if ANY parent is Unlocked
+            return node.Dependencies.Any(depId =>
+            {
+                var dep = _techTreeNodes.Find(n => n.Id == depId);
+                return dep != null && dep.Technology.CurrentState == Technology.State.Unlocked;
+            });
         }
 
         private void DrawConnection(Vector3Int start, Vector3Int end)
@@ -473,6 +488,12 @@ namespace UI
 
             foreach (TechNodeView node in _techTreeNodes)
             {
+                if (!IsNodeVisible(node))
+                {
+                    if (node.LabelInstance != null) node.LabelInstance.gameObject.SetActive(false);
+                    continue;
+                }
+
                 Tile tile;
                 switch (node.Technology.CurrentState)
                 {
@@ -509,7 +530,7 @@ namespace UI
                     node.LabelInstance = labelInstance.GetComponentInChildren<TextMeshPro>();
                 }
                 node.LabelInstance.text = node.DisplayName;
-
+                node.LabelInstance.gameObject.SetActive(true);
 
             }
             nodeTilemap.RefreshAllTiles();
@@ -517,12 +538,13 @@ namespace UI
 
         private void CenterTilemapOnCamera()
         {
-            if (_techTreeNodes == null || _techTreeNodes.Count == 0 || Camera.main == null) return;
+            var visibleNodes = _techTreeNodes.Where(IsNodeVisible).ToList();
+            if (visibleNodes.Count == 0 || Camera.main == null) return;
 
-            int minX = _techTreeNodes.Min(n => n.Position.x);
-            int maxX = _techTreeNodes.Max(n => n.Position.x);
-            int minY = _techTreeNodes.Min(n => n.Position.y);
-            int maxY = _techTreeNodes.Max(n => n.Position.y);
+            int minX = visibleNodes.Min(n => n.Position.x);
+            int maxX = visibleNodes.Max(n => n.Position.x);
+            int minY = visibleNodes.Min(n => n.Position.y);
+            int maxY = visibleNodes.Max(n => n.Position.y);
 
             Vector3 worldCenter = new Vector3((minX + maxX + 1) / 2.0f, (minY + maxY + 1) / 2.0f, 0);
             Transform gridTransform = connectorTilemap.transform.parent;

@@ -22,13 +22,13 @@ namespace UI
 
         protected void MarkLanded()
         {
-            Debug.Log("MarkLanded");
-            if (state == State.Landed)
+            animator.SetBool("hasLanded", true);
+           /*   if (state == State.Landed)
             {
                 return;
-            }
+            }*/
             state = State.Landed;
-            animator.SetBool("hasLanded", true);
+
             
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             if (coinAbove != null)
@@ -108,7 +108,7 @@ namespace UI
         }
         public void Initialize(bool isFalling = true)
         {
-       
+         
             Rigidbody2D rigidbody2D =  GetComponent<Rigidbody2D>();
             rigidbody2D.angularVelocity = 0;
             rigidbody2D.rotation = 0;
