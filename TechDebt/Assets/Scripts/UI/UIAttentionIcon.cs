@@ -12,12 +12,24 @@ namespace UI
         protected Transform targetTransform;
         protected UnityAction onClick;
 
+        private Camera _cam;
+
 
         public void Show(Transform _transform, Color color, UnityAction _onClick)
         {
             targetTransform = _transform;
             spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
             onClick = _onClick;
+            
+            if (GameManager.Instance.UIManager.attentionIconBoarderPanel != null)
+            {
+                Canvas canvas = GameManager.Instance.UIManager.attentionIconBoarderPanel.GetComponentInParent<Canvas>();
+                if (canvas != null)
+                {
+                    _cam = canvas.worldCamera;
+                }
+            }
+            if (_cam == null) _cam = Camera.main;
 
         }
 
@@ -28,18 +40,20 @@ namespace UI
                 Destroy(gameObject);
                 return;
             }
+            
+            if (_cam == null) _cam = Camera.main;
 
             float padding = 50f;
             Vector3 targetPosition = targetTransform.position + new Vector3(0f, 2f, -1f);
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
+            Vector3 screenPos = _cam.WorldToScreenPoint(targetPosition);
 
             float minX, maxX, minY, maxY;
 
 
             Vector3[] corners = new Vector3[4];
             GameManager.Instance.UIManager.attentionIconBoarderPanel.GetWorldCorners(corners);
-            Vector3 bottomLeftScreen = RectTransformUtility.WorldToScreenPoint(null, corners[0]);
-            Vector3 topRightScreen = RectTransformUtility.WorldToScreenPoint(null, corners[2]);
+            Vector3 bottomLeftScreen = RectTransformUtility.WorldToScreenPoint(_cam, corners[0]);
+            Vector3 topRightScreen = RectTransformUtility.WorldToScreenPoint(_cam, corners[2]);
 
             minX = bottomLeftScreen.x;
             maxX = topRightScreen.x;
@@ -68,9 +82,9 @@ namespace UI
 
                 Vector3 clampedScreenPos = new Vector3(clampedX, clampedY, screenPos.z);
                 // Ensure Z is positive for ScreenToWorldPoint
-                clampedScreenPos.z = Camera.main.nearClipPlane + 0.1f;
+                clampedScreenPos.z = _cam.nearClipPlane + 0.1f;
 
-                Vector3 newWorldPos = Camera.main.ScreenToWorldPoint(clampedScreenPos);
+                Vector3 newWorldPos = _cam.ScreenToWorldPoint(clampedScreenPos);
                 transform.position = newWorldPos;
 
                 Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
