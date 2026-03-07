@@ -48,8 +48,8 @@ public class UIDialogPanel : UIPanel
         {
             GameObject buttonGO = GameManager.Instance.prefabManager.Create("UIButton", Vector3.zero, _buttonContainer);
             UIButton uiButton = buttonGO.GetComponent<UIButton>();
-
             uiButton.buttonText.text = option.Text;
+            uiButton.button.transform.position = Vector3.zero;
             uiButton.button.onClick.AddListener(() => {
                 gameObject.SetActive(false); // Hide the parent container
                 option.OnClick?.Invoke();

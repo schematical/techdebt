@@ -50,6 +50,7 @@ public class UIDebugPanel : UIPanel
 
     private void RunMisc()
     {
+        GameManager.Instance.UIManager.TriggerScreenShake(.25f, 1);
         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
         if (networkPacketData == null)
         {
