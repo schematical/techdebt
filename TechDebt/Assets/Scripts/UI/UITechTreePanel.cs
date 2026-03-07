@@ -332,7 +332,7 @@ namespace UI
                     Vector3Int start = (Vector3Int)dep.Position;
                     Vector3Int end = (Vector3Int)node.Position;
 
-                    DrawConnection(start, end);
+                    DrawConnection(start, end, node.Technology.Direction);
                 }
             }
         }
@@ -353,46 +353,89 @@ namespace UI
             });
         }
 
-        private void DrawConnection(Vector3Int start, Vector3Int end)
+        private void DrawConnection(Vector3Int start, Vector3Int end, Technology.TechTreeDirection direction)
         {
-            List<Vector3Int> path = FindPath(start, end);
-            if (path != null)
+            // Try preferred L-shape first
+            List<Vector3Int> path = GetLShapePath(start, end, direction);
+            
+            // If preferred path is blocked by an obstacle (other than start/end), try A*
+            if (IsPathBlocked(path, start, end))
             {
-                foreach (var p in path)
+                path = FindPath(start, end);
+            }
+            
+            // If A* failed or wasn't needed, use the (potentially blocked) L-shape as fallback/default
+            if (path == null) path = GetLShapePath(start, end, direction);
+
+            foreach (var p in path)
+            {
+                // Don't draw the connector on top of the start or end nodes
+                if (p != start && p != end)
+                    connectorTilemap.SetTile(p, connectorTile);
+            }
+        }
+
+        private bool IsPathBlocked(List<Vector3Int> path, Vector3Int start, Vector3Int end)
+        {
+            if (path == null) return true;
+            
+            foreach (var point in path)
+            {
+                if (point == start || point == end) continue;
+                
+                // Check if any node is at this position
+                if (_techTreeNodes.Any(n => n.Position == (Vector2Int)point))
                 {
-                    // Don't draw the connector on top of the start or end nodes
-                    if (p != start && p != end)
-                        connectorTilemap.SetTile(p, connectorTile);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private List<Vector3Int> GetLShapePath(Vector3Int start, Vector3Int end, Technology.TechTreeDirection direction)
+        {
+            List<Vector3Int> path = new List<Vector3Int>();
+            path.Add(start);
+
+            bool horizontalFirst = (direction == Technology.TechTreeDirection.Left || direction == Technology.TechTreeDirection.Right);
+
+            if (horizontalFirst)
+            {
+                // Horizontal move then Vertical
+                int xDir = (end.x > start.x) ? 1 : -1;
+                if (start.x != end.x)
+                {
+                    for (int x = start.x; x != end.x; x += xDir)
+                        path.Add(new Vector3Int(x + xDir, start.y, 0));
+                }
+                
+                // Now at (end.x, start.y)
+                int yDir = (end.y > start.y) ? 1 : -1;
+                if (start.y != end.y)
+                {
+                    for (int y = start.y; y != end.y; y += yDir)
+                        path.Add(new Vector3Int(end.x, y + yDir, 0));
                 }
             }
             else
             {
-                // Fallback to L-shape if no path found (e.g. start/end blocked)
-                if (Mathf.Abs(end.x - start.x) > Mathf.Abs(end.y - start.y))
+                // Vertical move then Horizontal
+                int yDir = (end.y > start.y) ? 1 : -1;
+                if (start.y != end.y)
                 {
-                    int xDir = end.x > start.x ? 1 : -1;
-                    for (int x = start.x; x != end.x + xDir; x += xDir)
-                        if (new Vector3Int(x, start.y, 0) != start && new Vector3Int(x, start.y, 0) != end)
-                            connectorTilemap.SetTile(new Vector3Int(x, start.y, 0), connectorTile);
-                    
-                    int yDir = end.y > start.y ? 1 : -1;
-                    for (int y = start.y; y != end.y + yDir; y += yDir)
-                        if (new Vector3Int(end.x, y, 0) != start && new Vector3Int(end.x, y, 0) != end)
-                            connectorTilemap.SetTile(new Vector3Int(end.x, y, 0), connectorTile);
+                    for (int y = start.y; y != end.y; y += yDir)
+                        path.Add(new Vector3Int(start.x, y + yDir, 0));
                 }
-                else
+                
+                // Now at (start.x, end.y)
+                int xDir = (end.x > start.x) ? 1 : -1;
+                if (start.x != end.x)
                 {
-                    int yDir = end.y > start.y ? 1 : -1;
-                    for (int y = start.y; y != end.y + yDir; y += yDir)
-                        if (new Vector3Int(start.x, y, 0) != start && new Vector3Int(start.x, y, 0) != end)
-                            connectorTilemap.SetTile(new Vector3Int(start.x, y, 0), connectorTile);
-
-                    int xDir = end.x > start.x ? 1 : -1;
-                    for (int x = start.x; x != end.x + xDir; x += xDir)
-                        if (new Vector3Int(x, end.y, 0) != start && new Vector3Int(x, end.y, 0) != end)
-                            connectorTilemap.SetTile(new Vector3Int(x, end.y, 0), connectorTile);
+                    for (int x = start.x; x != end.x; x += xDir)
+                        path.Add(new Vector3Int(x + xDir, end.y, 0));
                 }
             }
+            return path;
         }
 
         private List<Vector3Int> FindPath(Vector3Int start, Vector3Int end)
