@@ -16,9 +16,10 @@ public class UIDialogPanel : UIPanel
     {
         _npcPortraitImage.sprite = portrait;
         _dialogTextMesh.text = dialog;
+        Show();
         SetupButtons(options);
 
-        Show();
+    
     }
     
     private void SetupButtons(List<DialogButtonOption> options)
