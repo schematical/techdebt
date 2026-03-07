@@ -109,8 +109,9 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         dayTimer = 0f;
         GameManager.Instance.SetStat(StatType.PacketsSent, 0);
-        GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
+        GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+        GameManager.Instance.SetStat(StatType.TotalNetworkPacketLatency, 0);
 
         // Notify NPCs
         foreach (var npc in GameManager.Instance.AllNpcs)
@@ -157,7 +158,7 @@ public class GameLoopManager : MonoBehaviour
         float packetsFailed = GameManager.Instance.GetStatValue(StatType.PacketsFailed);
     
     
-        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsServiced);
+        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsSucceeded);
         
         
         float percentageSuccess = packetsServiced / (packetsServiced + packetsFailed);

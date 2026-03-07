@@ -6,7 +6,7 @@ public enum StatType
     TechDebt,
     Traffic,
     PacketsSent,
-    PacketsServiced,
+    PacketsSucceeded,
     PacketsFailed,
     Difficulty,
     
@@ -49,4 +49,8 @@ public enum StatType
     NetworkPacket_Probibility,
     NetworkPacket_ValueMin,
     NetworkPacket_ValueMax,
+    TotalNetworkPacketLatency,
+    VictoryCondition_NetworkPacketLatency,
+    NetworkPacket_LoadLatencyMultiplier,
+    Infra_LatencyStartsAtLoad
 }

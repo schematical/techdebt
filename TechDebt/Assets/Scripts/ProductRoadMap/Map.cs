@@ -14,7 +14,7 @@ public class Map
 {
     public List<MapStage> Stages { get; set; }
     public int CurrentStageIndex { get; protected set; } = 0;
-
+    public List<MapLevelVictoryConditionBase> GlobalVictoryConditions { get; set; }  = new List<MapLevelVictoryConditionBase>();
     public void Randomize()
     {
         Stages = new List<MapStage>();
@@ -63,15 +63,21 @@ public class Map
     {
         return Stages[CurrentStageIndex];
     }
+
+    public void AddGlobalVictoryCondition(MapLevelVictoryConditionBase condition)
+    {
+        condition.SetGlobal();
+        GlobalVictoryConditions.Add(condition);
+    }
 }
 public class MapStage
 {
     public int SelectedLevel { get; protected set; } = -1;
     public List<MapLevel>  Levels { get; set; } = new List<MapLevel>();
-    public int Stage { get; protected set; }
-    public MapStage(int _stage)
+    public int StageNumber { get; protected set; }
+    public MapStage(int stageNumber)
     {
-        Stage = _stage;
+        StageNumber = stageNumber;
     }
 
     public void Randomize()
@@ -83,7 +89,7 @@ public class MapStage
         /*for (int i = 0; i < 3; i++)
         {
             MapLevel level = new MapLevel();
-            level.Randomize(Stage);
+            level.Randomize(StageNumber);
         }*/
 
 
@@ -128,10 +134,18 @@ public class MapLevel
    {
        return SpriteId;
    }
+
+   public List<MapLevelVictoryConditionBase> GetCombinedVictoryConditions()
+   {
+       List<MapLevelVictoryConditionBase> victoryConditions = new List<MapLevelVictoryConditionBase>(VictoryConditions);
+       victoryConditions.AddRange(GameManager.Instance.Map.GlobalVictoryConditions);
+       return victoryConditions;
+   }
    public virtual VictoryConditionState GetVictoryConditionState()
    {
        VictoryConditionState state = VictoryConditionState.Succeeded;
-       foreach (MapLevelVictoryConditionBase condition in VictoryConditions)
+       List<MapLevelVictoryConditionBase> victoryConditions = GetCombinedVictoryConditions();
+       foreach (MapLevelVictoryConditionBase condition in victoryConditions)
        {
            switch (condition.GetState())
            {
@@ -154,6 +168,29 @@ public class MapLevel
    public virtual void OnSprintStart()
    {
        GameManager.Instance.GameLoopManager.Reset();
+       // TODO: Probably move this to the map.
+       if (Stage.StageNumber > 0)
+       {
+           MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
+               condition =>
+               {
+                   return condition is NetworkPacketLatencyVictoryCondition;
+               }));
+           if (condition == null)
+           {
+               GameManager.Instance.Map.AddGlobalVictoryCondition(new NetworkPacketLatencyVictoryCondition());
+           }
+           else
+           {
+               (condition as NetworkPacketLatencyVictoryCondition).Stats.AddModifier(
+                   StatType.VictoryCondition_NetworkPacketLatency,
+                   new StatModifier(
+                       $"stage_{Stage.StageNumber}",
+                       0.75f
+                   )
+               );
+           }
+       }
    }
 
    public virtual void Randomize()
@@ -169,7 +206,7 @@ public class MapLevel
       
        // Chose random modifiers based on stage
 
-       for (int i = 0; i < Stage.Stage; i++)
+       for (int i = 0; i < Stage.StageNumber; i++)
        {
 
            MapLevelModifier modifier = null;
@@ -370,8 +407,13 @@ public class MapLevel
            res += modifier.GetDescription(this) + "\n";
        }
        res += $"Victory Conditions:\n";
-       foreach (MapLevelVictoryConditionBase condition in VictoryConditions)
+       foreach (MapLevelVictoryConditionBase condition in GetCombinedVictoryConditions())
        {
+           if (condition.IsGlobal())
+           {
+               res += "(Global): ";
+           }
+
            res += condition.GetDescription() + "\n";
        }
        return res;
@@ -630,10 +672,10 @@ public class MapLevelModifier
                 switch (Direction)
                 {
                     case(ModifierDirection.Positive):
-                        return 5 + level.GetStage().Stage; // TODO Make this dynamic
+                        return 5 + level.GetStage().StageNumber; // TODO Make this dynamic
                         break;
                     case(ModifierDirection.Negative):
-                        return 5 - level.GetStage().Stage; // TODO Make this dynamic
+                        return 5 - level.GetStage().StageNumber; // TODO Make this dynamic
                         break;
                     default:
                         throw new NotFiniteNumberException();
@@ -674,10 +716,10 @@ public class MapLevelModifier
                 switch (direction)
                 {
                     case(ModifierDirection.Positive):
-                        return (float)Math.Pow(1 + baseValue, level.GetStage().Stage);
+                        return (float)Math.Pow(1 + baseValue, level.GetStage().StageNumber);
                     
                     case(ModifierDirection.Negative):
-                        return (float)Math.Pow(1 - baseValue, level.GetStage().Stage);
+                        return (float)Math.Pow(1 - baseValue, level.GetStage().StageNumber);
                     default:
                         throw new NotImplementedException();
                 }

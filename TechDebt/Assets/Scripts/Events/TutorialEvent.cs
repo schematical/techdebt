@@ -480,7 +480,7 @@ namespace Events
             GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(true);
             schematicalBot.gameObject.SetActive(false);
             GameManager.Instance.SetStat(StatType.PacketsSent, 0);
-            GameManager.Instance.SetStat(StatType.PacketsServiced, 0);
+            GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
             GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
             GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;

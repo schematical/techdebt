@@ -22,6 +22,8 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     
     public List<InfrastructureInstance> pastNodes = new List<InfrastructureInstance>();
     public ShadowObject  shadow;
+    protected float CurrentLatency = 0;
+    protected float Delay = -1;
 
 	void Awake()
     {
@@ -44,8 +46,9 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
             shadow.transform.localScale = new Vector3(0.5f,0.5f, 1f);
         }
         shadow.gameObject.SetActive(true);
+        CurrentLatency = 0;
 
-      
+
     }
 	public bool IsReturning()
 	{
@@ -72,12 +75,19 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         nextHop = target;
   
     }
-     protected virtual void Update()
+     protected virtual void FixedUpdate()
     {
         if (GameManager.Instance.NetworkPacketState == GameManager.GlobalNetworkPacketState.Frozen)
         {
             return;
         }
+        CurrentLatency += Time.deltaTime;
+        
+        if (Delay > 0)
+        {
+            return;//Just chill and hurt your CurrentLatency.
+        }
+        Delay -= Time.deltaTime;
         if (nextHop == null)
         {
             // If there's no destination, destroy the packet to prevent clutter
@@ -170,5 +180,15 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public void MarkStolen()
     {
         CurrentState = State.Stolen;
+    }
+
+    public float GetLatency()
+    {
+        return CurrentLatency;
+    }
+
+    public void MarkDelayed(float packetDelay)
+    {
+        Delay = packetDelay;
     }
 }

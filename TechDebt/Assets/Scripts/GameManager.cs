@@ -204,7 +204,8 @@ public class GameManager : MonoBehaviour
     {
         activePackets.Remove(packet);
         packet.gameObject.SetActive(false); // Deactivate instead of destroying
-
+        float latency = packet.GetLatency();
+        IncrStat(StatType.TotalNetworkPacketLatency, latency);
         float packetsServiced = -1;
 		switch (packet.CurrentState) {
             case(NetworkPacket.State.Failed):
@@ -219,7 +220,7 @@ public class GameManager : MonoBehaviour
                 UIManager.moneyPanel.ExplodeCoins(10);
             break;
             case(NetworkPacket.State.Running):
-            	 packetsServiced = IncrStat(StatType.PacketsServiced);
+            	 packetsServiced = IncrStat(StatType.PacketsSucceeded);
                 break;
             default:
                 throw new NotImplementedException();
@@ -512,6 +513,7 @@ public class GameManager : MonoBehaviour
             IsModifiable = false,
             DisplayType =  StatData.StatDataDisplayType.Dollar
         });
+       
         Stats.Add(new StatData(StatType.TechDebt, 0f)
         {
             IsModifiable = false,
@@ -531,11 +533,16 @@ public class GameManager : MonoBehaviour
         {
             IsModifiable = false,
         });
-        Stats.Add(new StatData(StatType.PacketsServiced, 0f)
+        Stats.Add(new StatData(StatType.PacketsSucceeded, 0f)
         {
             IsModifiable = false,
         });
+        
         Stats.Add(new StatData(StatType.PacketsFailed, 0f)
+        {
+            IsModifiable = false,
+        });
+        Stats.Add(new StatData(StatType.TotalNetworkPacketLatency, 0f)
         {
             IsModifiable = false,
         });
@@ -1212,4 +1219,6 @@ public class GameManager : MonoBehaviour
     {
         return AllTechnologies;
     }
+
+    
 }

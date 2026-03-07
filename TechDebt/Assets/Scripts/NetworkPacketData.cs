@@ -20,10 +20,12 @@ public class NetworkPacketData
     public PType Type;
     public string prefabId;
     public float baseLoad = 20f;
+    
 
     public NetworkPacketData(float probibility)
     {
         Stats.Add(new StatData(StatType.NetworkPacket_Probibility, probibility));
+        Stats.Add(new StatData(StatType.NetworkPacket_LoadLatencyMultiplier, 1));
     }
 
 

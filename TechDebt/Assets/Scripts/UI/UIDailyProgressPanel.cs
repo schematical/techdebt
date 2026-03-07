@@ -26,7 +26,7 @@ namespace UI
                 throw new SystemException("Missing `ProgressPanelHolder` or `ProgressPanel`");
             };
             float packetsFailed = GameManager.Instance.Stats.GetStatValue(StatType.PacketsFailed);
-            float packetsSucceeded = GameManager.Instance.Stats.GetStatValue(StatType.PacketsServiced);
+            float packetsSucceeded = GameManager.Instance.Stats.GetStatValue(StatType.PacketsSucceeded);
             float packetsTotal = GameManager.Instance.Stats.GetStatValue(StatType.Traffic);
 
             float fullWidth = ProgressPanelHolder.rect.width;

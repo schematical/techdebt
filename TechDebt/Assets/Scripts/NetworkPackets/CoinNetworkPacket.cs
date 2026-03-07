@@ -15,7 +15,7 @@ namespace DefaultNamespace.NetworkPackets
             
             ending = false;
         }
-        protected override void Update()
+        protected override void FixedUpdate()
         {
             
             if (ending)
@@ -34,7 +34,7 @@ namespace DefaultNamespace.NetworkPackets
                 }
           
             }
-            base.Update();
+            base.FixedUpdate();
         }
 
         public override void StartReturn()

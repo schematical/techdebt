@@ -98,9 +98,20 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
         if (!packet.IsReturning())
         {
-           
-            GetWorldObjectType().IncrMetaStat(MetaStat.Infra_HandleNetworkPacket);
-            InfrastructureDataNetworkPacket packetData = GetWorldObjectType().networkPackets.Find(p => p.PacketType == packet.data.Type);
+            WorldObjectType worldObjectType = GetWorldObjectType();
+            float maxLoad = GetMaxLoad();
+            if (CurrentLoad / maxLoad > worldObjectType.Stats.GetStatValue(StatType.Infra_LatencyStartsAtLoad))
+            {
+                
+               float baseLine = worldObjectType.Stats.GetStatValue(StatType.Infra_LatencyStartsAtLoad) * maxLoad;
+               float overLoad = CurrentLoad - baseLine;
+               float penaltyPct = overLoad / (maxLoad - baseLine);
+               float packetDelay = (packet.data.Stats.GetStatValue(StatType.NetworkPacket_LoadLatencyMultiplier) *
+                                    penaltyPct);
+               packet.MarkDelayed(packetDelay);
+            }
+            worldObjectType.IncrMetaStat(MetaStat.Infra_HandleNetworkPacket);
+            InfrastructureDataNetworkPacket packetData = worldObjectType.networkPackets.Find(p => p.PacketType == packet.data.Type);
             int loadPerPacket = 0;
             int costPerPacket = 0;
             if (packetData != null)
