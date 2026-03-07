@@ -82,7 +82,7 @@ namespace UI
 
             // Original: rectTransform.position.x - rectTransform.rect.width
             // Replicating "Pos.x - Width" in world space:
-            float spawnX = rectTransform.position.x - (rectTransform.rect.width / 2);//  * rectTransform.lossyScale.x);
+            float spawnX = rectTransform.position.x - (rectTransform.rect.width * rectTransform.lossyScale.x) / 2;
 
             // Calculate Top of Screen in World Space
             // We use the panel's Z depth
