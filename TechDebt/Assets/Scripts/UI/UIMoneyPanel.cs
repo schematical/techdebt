@@ -82,7 +82,7 @@ namespace UI
 
             // Original: rectTransform.position.x - rectTransform.rect.width
             // Replicating "Pos.x - Width" in world space:
-            float spawnX = rectTransform.position.x - (rectTransform.rect.width * rectTransform.lossyScale.x);
+            float spawnX = rectTransform.position.x - (rectTransform.rect.width / 2);//  * rectTransform.lossyScale.x);
 
             // Calculate Top of Screen in World Space
             // We use the panel's Z depth
@@ -129,10 +129,18 @@ namespace UI
                 coinCount = coins.Count;
             }
             List<UICoin> coinsToRemove = new List<UICoin>();
-            for (int i = 0; i < coinCount; i++)
+            for (int i = 0; i < coins.Count; i++)
             {
-                coins[i].Explode();
-                coinsToRemove.Add(coins[i]);
+                if (i < coinCount)
+                {
+                    coins[i].Explode();
+                    coinsToRemove.Add(coins[i]); 
+                }
+                else
+                {
+                    coins[i].Nudge();
+                }
+                
              
             }
 
