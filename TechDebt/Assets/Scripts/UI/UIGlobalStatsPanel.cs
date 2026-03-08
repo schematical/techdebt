@@ -85,7 +85,7 @@ namespace UI
                         worldObjectTypeNetworkPacketsLine.SetId(LineType.NetworkPacketData.ToString());
                         worldObjectTypeNetworkPacketsLine.SetExpandable((worldObjectTypeNetworkPacketLine =>
                         {
-                            Debug.Log($"Expanding Network Packets - {worldObjectType.networkPackets.Count}");
+                            
                             foreach (InfrastructureDataNetworkPacket networkPacketData in worldObjectType.networkPackets)
                             {
                                 UIStatCollectionPanelLine worldObjectTypeStatLine =

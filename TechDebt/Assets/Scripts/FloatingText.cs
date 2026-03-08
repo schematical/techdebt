@@ -61,8 +61,12 @@ public class FloatingText : MonoBehaviour
 
     public void Show(string text, Vector3 position, Color? textColor = null)
     {
-        _originalPosition = position;
-        transform.position = position;
+        _originalPosition = new Vector3(
+            position.x,
+            position.y,
+            -1
+        );
+        transform.position = _originalPosition;
         textMesh.text = text;
         defaultColor = textColor ?? Color.white;
         textMesh.color = defaultColor;

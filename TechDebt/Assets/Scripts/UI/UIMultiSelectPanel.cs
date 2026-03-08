@@ -22,6 +22,7 @@ namespace UI
 
       private void OnConfirmClick()
       {
+          GameManager.Instance.UIManager.Close();
           previewingOption.MarkSelected();
       }
 
@@ -29,7 +30,6 @@ namespace UI
       {
           base.Close(forceClose);
           CleanUp();
-      
           GameManager.Instance.UIManager.Resume();
       }
 

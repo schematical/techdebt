@@ -86,6 +86,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     protected virtual bool HandleIncomingPacket(NetworkPacket packet)
     {
        
+
         if (data.CurrentState == InfrastructureData.State.Frozen)
         {
             packet.MarkFailedAndDestroy();
@@ -96,66 +97,64 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             return false; // Stop processing
         }
 
-        if (!packet.IsReturning())
+        if (packet.IsReturning())
         {
-            WorldObjectType worldObjectType = GetWorldObjectType();
-            float maxLoad = GetMaxLoad();
-            if (CurrentLoad / maxLoad > worldObjectType.Stats.GetStatValue(StatType.Infra_LatencyStartsAtLoad))
-            {
-                
-               float baseLine = worldObjectType.Stats.GetStatValue(StatType.Infra_LatencyStartsAtLoad) * maxLoad;
-               float overLoad = CurrentLoad - baseLine;
-               float penaltyPct = overLoad / (maxLoad - baseLine);
-               float packetDelay = (packet.data.Stats.GetStatValue(StatType.NetworkPacket_LoadLatencyMultiplier) *
-                                    penaltyPct);
-               packet.MarkDelayed(packetDelay);
-            }
-            worldObjectType.IncrMetaStat(MetaStat.Infra_HandleNetworkPacket);
-            InfrastructureDataNetworkPacket packetData = worldObjectType.networkPackets.Find(p => p.PacketType == packet.data.Type);
-            int loadPerPacket = 0;
-            int costPerPacket = 0;
-            if (packetData != null)
-            {
-                 loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
-                 costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
-            }
-
-            if (packet.data.Type == NetworkPacketData.PType.Purchase)
-            {
-                Debug.Log($"Load per packet: {loadPerPacket}");
-            }
-
-            if (costPerPacket != 0)
-            {
-                GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
-                GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
-                    Color.khaki);
-            }
-
-            if (loadPerPacket != 0)
-            {
-                CurrentLoad += loadPerPacket;
-                GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
-                    spriteRenderer.color);
-
-                if (CurrentLoad > GetMaxLoad())
-                {
-                    packet.MarkFailedAndDestroy();
-                    CurrentLoad = GetMaxLoad();
-                    SetState(InfrastructureData.State.Frozen);
-                    packet.MoveToNextNode();
-                    return false; // Stop processing
-                }
-            }
-
-            /*float loadPct = CurrentLoad / GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
-            if (loadPct > .5f)
-            {
-                packet.SetSpeed(packet.BaseSpeed * loadPct);
-            }*/
+            return true; // Continue processing
         }
 
+        WorldObjectType worldObjectType = GetWorldObjectType();
+        float maxLoad = GetMaxLoad();
+        if (CurrentLoad / maxLoad > worldObjectType.Stats.GetStatValue(StatType.Infra_LatencyStartsAtLoad))
+        {
+            
+           float baseLine = worldObjectType.Stats.GetStatValue(StatType.Infra_LatencyStartsAtLoad) * maxLoad;
+           float overLoad = CurrentLoad - baseLine;
+           float penaltyPct = overLoad / (maxLoad - baseLine);
+           float packetDelay = (packet.data.Stats.GetStatValue(StatType.NetworkPacket_LoadLatencyMultiplier) *
+                                penaltyPct);
+           Debug.Log($"CurrentLoad: {CurrentLoad} - baseLine: {baseLine} - overLoad: {overLoad} -  penaltyPct: {penaltyPct} - packetDelay: {packetDelay} - multiplier: {packet.data.Stats.GetStatValue(StatType.NetworkPacket_LoadLatencyMultiplier)}");
+           packet.MarkDelayed(packetDelay);
+        }
+        worldObjectType.IncrMetaStat(MetaStat.Infra_HandleNetworkPacket);
+        InfrastructureDataNetworkPacket packetData = worldObjectType.networkPackets.Find(p => p.PacketType == packet.data.Type);
+        int loadPerPacket = 0;
+        int costPerPacket = 0;
+        if (packetData != null)
+        {
+             loadPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_LoadPerPacket);
+             costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
+        }
+
+        if (packet.data.Type == NetworkPacketData.PType.Purchase)
+        {
+            Debug.Log($"Load per packet: {loadPerPacket}");
+        }
+
+        if (costPerPacket != 0)
+        {
+            GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
+            GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
+                Color.khaki);
+        }
+
+        if (loadPerPacket != 0)
+        {
+            CurrentLoad += loadPerPacket;
+            GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
+                spriteRenderer.color);
+
+            if (CurrentLoad > GetMaxLoad())
+            {
+                packet.MarkFailedAndDestroy();
+                CurrentLoad = GetMaxLoad();
+                SetState(InfrastructureData.State.Frozen);
+                packet.MoveToNextNode();
+                return false; // Stop processing
+            }
+        }
+        
         return true; // Continue processing
+
     }
 
     protected virtual void RoutePacket(NetworkPacket packet)

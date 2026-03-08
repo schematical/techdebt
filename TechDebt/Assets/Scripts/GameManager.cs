@@ -202,10 +202,10 @@ public class GameManager : MonoBehaviour
 
     public void DestroyPacket(NetworkPacket packet)
     {
+ 
         activePackets.Remove(packet);
         packet.gameObject.SetActive(false); // Deactivate instead of destroying
-        float latency = packet.GetLatency();
-        IncrStat(StatType.TotalNetworkPacketLatency, latency);
+   
         float packetsServiced = -1;
 		switch (packet.CurrentState) {
             case(NetworkPacket.State.Failed):
@@ -220,6 +220,10 @@ public class GameManager : MonoBehaviour
                 UIManager.moneyPanel.ExplodeCoins(10);
             break;
             case(NetworkPacket.State.Running):
+                float latency = packet.GetLatency();
+
+                FloatingTextFactory.ShowText($"{Math.Round(packet.GetLatency()*100)}ms", packet.transform.position - new Vector3(0,1), Color.coral);
+                IncrStat(StatType.TotalNetworkPacketLatency, latency);
             	 packetsServiced = IncrStat(StatType.PacketsSucceeded);
                 break;
             default:

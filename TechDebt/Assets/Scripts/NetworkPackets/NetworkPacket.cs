@@ -14,7 +14,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public NetworkPacketData data;
     public int Size { get; private set; } // In MB for simplicity
     public float Speed { get; private set; }
-    public float BaseSpeed { get; private set; } = 2f;
+    public float BaseSpeed { get; private set; } = 5f;
     private SpriteRenderer spriteRenderer;
     public int returnIndex = -1;
     public Vector3 currentPosition; // Current position in world space
@@ -23,7 +23,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public List<InfrastructureInstance> pastNodes = new List<InfrastructureInstance>();
     public ShadowObject  shadow;
     protected float CurrentLatency = 0;
-    protected float Delay = -1;
+    protected float Delay = -100;
 
 	void Awake()
     {
@@ -39,13 +39,13 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         gameObject.name = $"Packet_{FileName}";
         pastNodes.Clear();
         pastNodes.Add(origin);
-        if (shadow == null)
+        /*if (shadow == null)
         {
             shadow = GameManager.Instance.prefabManager.Create("Shadow", transform.position).GetComponent<ShadowObject>();
             shadow.Initialize(gameObject, new Vector2(0, -1f));
             shadow.transform.localScale = new Vector3(0.5f,0.5f, 1f);
         }
-        shadow.gameObject.SetActive(true);
+        shadow.gameObject.SetActive(true);*/
         CurrentLatency = 0;
 
 
@@ -83,11 +83,16 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         }
         CurrentLatency += Time.deltaTime;
         
+        
         if (Delay > 0)
         {
-            return;//Just chill and hurt your CurrentLatency.
+            Delay -= Time.deltaTime;
+        } else if (Delay > -100)
+        {
+            Speed = BaseSpeed;
+            Delay = -100;
         }
-        Delay -= Time.deltaTime;
+
         if (nextHop == null)
         {
             // If there's no destination, destroy the packet to prevent clutter
@@ -123,6 +128,9 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 
     private void CompleteTrip()
     {
+
+       
+     
         GameManager.Instance.DestroyPacket(this);
     }
 
@@ -189,6 +197,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 
     public void MarkDelayed(float packetDelay)
     {
+        Speed *= 0.1f;
         Delay = packetDelay;
     }
 }

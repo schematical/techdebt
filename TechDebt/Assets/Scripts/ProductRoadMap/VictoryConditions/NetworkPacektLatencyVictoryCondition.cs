@@ -10,20 +10,25 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
 {
     public StatsCollection Stats = new StatsCollection();
 
+    public static float GetAvgLatency()
+    {
+        // float packetsFailed = GameManager.Instance.GetStatValue(StatType.PacketsFailed);
+        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsSucceeded); 
+        
+        float totalLatency = GameManager.Instance.GetStatValue(StatType.TotalNetworkPacketLatency);
+        float avgLatency = totalLatency / (packetsServiced); // + packetsFailed);
+        return avgLatency;
+    }
     public NetworkPacketLatencyVictoryCondition()
     {
-        Stats.Add(new StatData(StatType.VictoryCondition_NetworkPacketLatency, 100));
+        Stats.Add(new StatData(StatType.VictoryCondition_NetworkPacketLatency, 10));
     }
 
     public override VictoryConditionState GetState()
     {
-    
-        float packetsFailed = GameManager.Instance.GetStatValue(StatType.PacketsFailed);
-        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsSucceeded); 
-        
-        float totalLatency = GameManager.Instance.GetStatValue(StatType.TotalNetworkPacketLatency);
-        float avgLatency = totalLatency / (packetsFailed + packetsServiced);
-        
+
+
+        float avgLatency = GetAvgLatency();
         Debug.Log($"(avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency): {avgLatency} > {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency)} = {(avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency))}");
 
         if (avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency))
@@ -34,10 +39,11 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
    
 
     }
+    
 
     public override string GetDescription()
     {
-        return $"Avg Latency < {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency)} : {GetState()}";
+        return $"Avg Latency < {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency)} ({Math.Round(GetAvgLatency())}): {GetState()}";
     }
 
    

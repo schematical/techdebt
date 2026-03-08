@@ -7,6 +7,7 @@ namespace UI
         public enum State { Falling, Landed, Leaving}
         protected State state = State.Falling;
         public BoxCollider2D boxCollider2D;
+        public Rigidbody2D Rigidbody2D;
         public Animator animator;
         protected float contactImuneCount = -100;
         protected UICoin coinAbove;
@@ -30,8 +31,8 @@ namespace UI
             state = State.Landed;
 
             
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            if (coinAbove != null)
+            Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            if (coinAbove != null && coinAbove.gameObject.activeInHierarchy)
             {
                 coinAbove.MarkLanded();
             }
@@ -41,7 +42,7 @@ namespace UI
         {
             state = State.Falling;
             animator.SetBool("hasLanded", false);
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             /*if (coinAbove != null)
             {
                 coinAbove.Nudge();
@@ -52,7 +53,7 @@ namespace UI
         {
             state = State.Leaving;
             animator.SetBool("hasLanded", false);
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+            Rigidbody2D.constraints = RigidbodyConstraints2D.None;
             /*if (coinAbove != null)
             {
                 coinAbove.Nudge();
@@ -67,7 +68,7 @@ namespace UI
                 return;
             }
             // state = State.Falling;
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+            Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             
         }
         public bool HasLanded()
@@ -103,17 +104,16 @@ namespace UI
 
         public void SetCoinAbove(UICoin coin)
         {
-            Debug.Log("SetCoinAbove");
             coinAbove = coin;
         }
         public void Initialize(bool isFalling = true)
         {
          
-            Rigidbody2D rigidbody2D =  GetComponent<Rigidbody2D>();
-            rigidbody2D.angularVelocity = 0;
-            rigidbody2D.rotation = 0;
-            rigidbody2D.linearVelocity = Vector2.zero;
-            rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            Rigidbody2D =  GetComponent<Rigidbody2D>();
+            Rigidbody2D.angularVelocity = 0;
+            Rigidbody2D.rotation = 0;
+            Rigidbody2D.linearVelocity = Vector2.zero;
+            Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             boxCollider2D.enabled = true;
             coinAbove = null;
             if (isFalling)
@@ -136,9 +136,9 @@ namespace UI
         {
             boxCollider2D.enabled = false;
             int v = 5;
-            Rigidbody2D rigidbody2D =  GetComponent<Rigidbody2D>();
-            rigidbody2D.linearVelocity = new Vector2(Random.Range(-1 * v, 0), v);
-            rigidbody2D.angularVelocity = Random.Range(-1 * 180, 180);
+            
+            Rigidbody2D.linearVelocity = new Vector2(Random.Range(-1 * v, 0), v);
+            Rigidbody2D.angularVelocity = Random.Range(-1 * 180, 180);
             MarkLeaving();
 
         }

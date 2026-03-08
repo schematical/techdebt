@@ -218,7 +218,7 @@ public class GameLoopManager : MonoBehaviour
                              $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n\n" +
                              $"Victory Conditions: \n";
         foreach (MapLevelVictoryConditionBase condition in GameManager.Instance.Map.GetCurrentLevel()
-                     .GetVictoryConditions())
+                     .GetCombinedVictoryConditions())
         {
             summaryText += $"  - {condition.GetDescription()} \n";
         }

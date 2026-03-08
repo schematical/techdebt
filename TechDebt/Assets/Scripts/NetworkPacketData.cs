@@ -25,7 +25,7 @@ public class NetworkPacketData
     public NetworkPacketData(float probibility)
     {
         Stats.Add(new StatData(StatType.NetworkPacket_Probibility, probibility));
-        Stats.Add(new StatData(StatType.NetworkPacket_LoadLatencyMultiplier, 1));
+        Stats.Add(new StatData(StatType.NetworkPacket_LoadLatencyMultiplier, 10));
     }
 
 

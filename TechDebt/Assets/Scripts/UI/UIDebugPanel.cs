@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using DefaultNamespace;
 using NPCs;
+using Stats;
 using UI;
 using Random = UnityEngine.Random;
 
@@ -19,12 +20,21 @@ public class UIDebugPanel : UIPanel
    
     public TextMeshProUGUI mouseCoordsText;
     public Button spawnNPC;
-    
-
+    protected StatModifier trafficStatModifier;
+    protected UIPanelLineSectionText trafficText;
 
     void Start()
     {
 
+      
+        
+
+    }
+
+    public override void Show()
+    {
+        base.Show();
+        AddTrafficLine();
         AddButton("Insta-Build", () => { InstaBuild(); });
         AddButton("Insta-Research", () => { InstaResearch(); });
         AddButton("Unlock All Tech", () => { UnlockAllTechnologies(); });
@@ -37,7 +47,41 @@ public class UIDebugPanel : UIPanel
             GameManager.Instance.UIManager.eventDebugPanel.Show();
         });
         AddButton("Misc", () => { RunMisc(); });
-        
+    }
+
+    private UIPanelLine AddTrafficLine()
+    {
+        UIPanelLine trafficLine = AddLine<UIPanelLine>();
+        trafficText = trafficLine.Add<UIPanelLineSectionText>();
+        trafficText.text.text =
+            $"Traffic: {GameManager.Instance.Stats.GetStatValue(StatType.Traffic)}";
+        UIPanelLineSectionButton upButton = trafficLine.Add<UIPanelLineSectionButton>();
+        upButton.text.text = "+";
+        upButton.button.onClick.AddListener(() => { AdjustTraffic(1); });
+        UIPanelLineSectionButton downButton = trafficLine.Add<UIPanelLineSectionButton>();
+        downButton.text.text = "-";
+        downButton.button.onClick.AddListener(() => { AdjustTraffic(-1); });
+        return trafficLine;
+    }
+
+    private void AdjustTraffic(int i)
+    {
+        if (trafficStatModifier == null)
+        {
+            trafficStatModifier = new StatModifier("debug", 2f);
+            GameManager.Instance.Stats.AddModifier(StatType.Traffic, trafficStatModifier);
+        }
+
+        if (i > 0)
+        {
+            trafficStatModifier.SetValue(trafficStatModifier.Value * 1.25f);
+        }
+        else
+        {
+            trafficStatModifier.SetValue(trafficStatModifier.Value * 1/1.25f);
+        }
+        trafficText.text.text =
+            $"Traffic: {GameManager.Instance.Stats.GetStatValue(StatType.Traffic)}";
 
     }
 
