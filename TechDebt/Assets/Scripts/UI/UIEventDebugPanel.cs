@@ -8,31 +8,44 @@ namespace UI
     public class UIEventDebugPanel: UIPanel
     {
         //public Dictionary<string, UITextArea> textAreas = new Dictionary<string, UITextArea>();
-        public UITextArea textArea;
-
-
+        public enum FieldType { Name, Probability }
+        public override void Show()
+        {
+            base.Show();
+            foreach (EventBase eventBase in GameManager.Instance.Events)
+            {
+                UIPanelLine line = AddLine<UIPanelLine>();
+                line.SetId(eventBase.GetName());
+                UIPanelLineSectionText textSection = line.Add<UIPanelLineSectionText>();
+                textSection.SetId(FieldType.Name.ToString());
+                textSection.text.text = eventBase.GetName();
+                
+                UIPanelLineSectionText probSection = line.Add<UIPanelLineSectionText>();
+                probSection.SetId(FieldType.Probability.ToString());
+                probSection.text.text = eventBase.GetProbability().ToString();
+                line.SetExpandable((UIPanelLine line) =>
+                {
+                    eventBase.Render(line);
+                });
+            }
+        }
         void Update()
         {
             // Clear existing entries
            base.Update();
+            if(lines.Count == 0) return;
 
-
-            string text = "";
+         
             foreach (EventBase eventBase in GameManager.Instance.Events)
             {
-              
-                text += eventBase.GetDescription() + "\n";
-            }
-            textArea.textArea.text = text;
-
-            /*foreach (EventBase eventBase in GameManager.Instance.Events)
-            {
-                if (!textAreas.ContainsKey(eventBase.GetType().Name))
+                UIPanelLine line = GetLineById(eventBase.GetName());
+                if (line == null)
                 {
-                    textAreas[eventBase.GetType().Name] = GameManager.Instance.prefabManager.Create("UITextArea", Vector3.zero, scrollContent.transform).GetComponent<UITextArea>();
+                    Debug.LogError($"{eventBase.GetName()} - not found in lines. Count: {lines.Count}");
+                    continue;
                 }
-                textAreas[eventBase.GetType().Name].textArea.text = eventBase.GetDescription();
-            }*/
+                line.GetSectionById<UIPanelLineSectionText>(FieldType.Probability.ToString()).text.text = eventBase.GetProbability().ToString();
+            }
         }
     }
 }

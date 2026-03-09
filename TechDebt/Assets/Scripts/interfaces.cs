@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface iProgressable
 {
-    float getProgress();
+    float GetProgress();
 }
 
 public interface iTargetable

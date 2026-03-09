@@ -50,7 +50,7 @@ public class DeploymentTask : InfrastructureTaskBase
         _release.CheckIsOver();
     }
 
-    public override float getProgress()
+    public override float GetProgress()
     {
         return deploymentProgress / DeploymentTime;
     }

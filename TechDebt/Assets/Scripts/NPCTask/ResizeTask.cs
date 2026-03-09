@@ -48,7 +48,7 @@ public class ResizeTask : InfrastructureTaskBase
         TargetInfrastructure.ApplyResize(SizeChange);
     }
 
-    public override float getProgress()
+    public override float GetProgress()
     {
         return _duration / RESIZE_DURATION;
     }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Linq;
 
-public class CodeTask : NPCTask
+public class CodeTask : NPCTask, iProgressable
 {
     public ReleaseBase ReleaseBase { get; private set; }
     private readonly Desk desk;
@@ -24,7 +24,11 @@ public class CodeTask : NPCTask
             desk = null;
         }
     }
-
+    public override void OnStart(NPCBase npc)
+    {
+        npc.AddStatusBar(this);
+        base.OnStart(npc);
+    }
     public override void OnUpdate(NPCBase npc)
     {
         if (desk == null) return;
@@ -32,7 +36,7 @@ public class CodeTask : NPCTask
         // Apply research points only if the NPC is at the desk
         if (IsCloseEnough())
         {
-            var devOpsNpc = npc as NPCDevOps;
+            NPCDevOps devOpsNpc = npc as NPCDevOps;
             if (devOpsNpc != null)
             {
                 float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.deltaTime;
@@ -45,6 +49,7 @@ public class CodeTask : NPCTask
     public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
+        npc.HideProgressBar();
         // No specific end action is needed beyond base functionality.
     }
 
@@ -56,5 +61,10 @@ public class CodeTask : NPCTask
     public override string GetAssignButtonText()
     {
         return "Research????";
+    }
+
+    public float GetProgress()
+    {
+       return ReleaseBase.GetProgress();
     }
 }

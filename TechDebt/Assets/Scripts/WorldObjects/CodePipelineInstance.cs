@@ -49,7 +49,7 @@ public class CodePipelineInstance : InfrastructureInstance
             _deploymentProgress += Time.deltaTime * _deploymentSpeed;
             if (_targetServer != null)
             {
-                int progress = (int)Math.Floor((_deploymentProgress / _currentRelease.GetDuration() )  * 100);
+                int progress = (int)Math.Floor((_deploymentProgress / _currentRelease.GetRequiredProgress() )  * 100);
                 if (progress % 10 == 0 && lastDisplayedProgress != progress)
                 {
                     FloatingTextFactory.Instance.ShowText(
@@ -61,7 +61,7 @@ public class CodePipelineInstance : InfrastructureInstance
                 
             }
             
-            if (_deploymentProgress >= _currentRelease.GetDuration())
+            if (_deploymentProgress >= _currentRelease.GetRequiredProgress())
             {
                 _targetServer.Version =  _currentRelease.GetVersionString();
                 

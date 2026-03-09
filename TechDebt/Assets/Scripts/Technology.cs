@@ -23,4 +23,9 @@ public class Technology
     {
         CurrentState = State.Locked;
     }
+
+    public float GetProgress()
+    {
+        return CurrentResearchProgress / ResearchPointCost;
+    }
 }

@@ -24,7 +24,7 @@ namespace UI
 
         public void FixedUpdate()
         {
-            SetProgress(progressable.getProgress());
+            SetProgress(progressable.GetProgress());
             transform.position = target.transform.position + new Vector3(0f, 2f, -1.1f);
         }
 
@@ -41,7 +41,6 @@ namespace UI
 
             float fullWidth = ProgressPanelHolder.rect.width;
             float newWidth = fullWidth * Mathf.Clamp01(progress);
-            Debug.Log($"SetProgress - progress: {progress} - fullWidth: {fullWidth} - newWidth: {newWidth}");
             ProgressBar.anchorMax = new Vector2(newWidth / fullWidth, ProgressBar.anchorMax.y);
             // Text.text = $"{Math.Round(progress*100)}%";
             if (ProgressImage == null)

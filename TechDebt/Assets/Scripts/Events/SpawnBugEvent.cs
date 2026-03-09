@@ -1,4 +1,5 @@
 using System;
+using UI;
 using UnityEngine;
 
 namespace Events
@@ -26,13 +27,13 @@ namespace Events
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
             return (int)Math.Round(techDebt * releaseQuality * releaseLevel  * attackPossibility);
         }
-        public override string GetDescription()
+        public override void Render(UIPanelLine line)
         {
             GameManager gameManager = GameManager.Instance;
             ReleaseBase currentRelease = gameManager.GetCurrentRelease();
             if (currentRelease == null)
             {
-                return $"{GetType().Name.Replace("Event", "")} - Prob: 0";
+                line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{GetType().Name.Replace("Event", "")} - Prob: 0";
             }
 
             float techDebt = gameManager.GetStatValue(StatType.TechDebt);
@@ -41,7 +42,7 @@ namespace Events
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
 
-            return $"{GetType().Name.Replace("Event", "")} - Prob: {GetProbability():F2} - techDebt: {techDebt} -  releaseQuality: {releaseQuality} - releaseLevel: {releaseLevel} - {attackPossibility} - Total: {techDebt * releaseQuality * releaseLevel * attackPossibility} ";
+            line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"techDebt: {techDebt} -  releaseQuality: {releaseQuality} - releaseLevel: {releaseLevel} - {attackPossibility} - Total: {techDebt * releaseQuality * releaseLevel * attackPossibility} ";
         }
 
     }

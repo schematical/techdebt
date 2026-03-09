@@ -84,7 +84,7 @@ public class BuildTask : InfrastructureTaskBase
     }
 
 
-    public override float getProgress()
+    public override float GetProgress()
     {
         return buildProgress / TargetInfrastructure.GetWorldObjectType().BuildTime;
     }

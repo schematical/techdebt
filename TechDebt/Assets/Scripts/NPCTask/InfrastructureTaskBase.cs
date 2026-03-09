@@ -54,5 +54,5 @@
             }
         }
 
-        public abstract float getProgress();
+        public abstract float GetProgress();
     }

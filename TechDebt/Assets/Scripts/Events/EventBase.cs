@@ -1,4 +1,6 @@
-﻿namespace Events
+﻿using UI;
+
+namespace Events
 {
     public abstract class EventBase
     {
@@ -35,10 +37,19 @@
         {
             return $"{GetType().Name.Replace("Event", "")} - Prob: {GetProbability():F2}";
         }
+        public virtual string GetName()
+        {
+            return $"{GetType().Name.Replace("Event", "")}";
+        }
 
         public virtual int GetProbability()
         {
             return Probability;
+        }
+
+        public virtual void Render(UIPanelLine line)
+        {
+            
         }
 
     

@@ -200,6 +200,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             CurrentTask.OnInterrupt();
         }
+        HideProgressBar();
 
         CurrentTask = newTask;
         if (newTask.TryAssign(this))
@@ -643,6 +644,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public void HideProgressBar()
     {
+        if (progressBar == null)
+        {
+            return;
+        }
         progressBar.CleanUp();
         progressBar = null;
     }

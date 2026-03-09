@@ -86,4 +86,8 @@ public class UIPanel : UIGameObject
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
     }
+    public UIPanelLine GetLineById(string _id)
+    {
+        return lines.Find(line => line.GetId() == _id);
+    }
 }

@@ -177,9 +177,9 @@ public class ReleaseBase
         GameManager.Instance.InvokeReleaseChanged(this, prevState);
     }
 
-    public float GetDuration()
+    public float GetRequiredProgress()
     {
-        return 30;
+        return RequiredProgress;
     }
 
     public string GetDescription()
@@ -197,6 +197,11 @@ public class ReleaseBase
         {
             NextState();
         }
+    }
+
+    public float GetProgress()
+    {
+        return CurrentProgress / RequiredProgress;
     }
 
     public void NextState()

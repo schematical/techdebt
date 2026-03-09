@@ -18,7 +18,7 @@ namespace UI
         public VerticalLayoutGroup vertLayoutGroup;
         protected List<UIPanelLineSection> sections = new List<UIPanelLineSection>();
         protected List<UIPanelLine> lines = new List<UIPanelLine>();
-        public Action<UIPanelLine> onExpand;
+        protected Action<UIPanelLine> onExpand;
         protected int depth = 0;
         protected UIPanel rootPanel;
         protected UIPanelLine parentLine;
@@ -193,6 +193,20 @@ namespace UI
                 return;
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(vertLayoutGroup.GetComponent<RectTransform>());
+        }
+
+        public List<UIPanelLineSection> GetSections()
+        {
+            return sections;
+        }
+        public T GetSectionById<T>(string _id) where T : UIPanelLineSection
+        {
+            UIPanelLineSection section = sections.Find((section) => section.GetId() == _id);
+            if (section == null)
+            {
+                throw new SystemException($"Cannot find `{_id}` section");
+            }
+            return section as T;
         }
     }
 

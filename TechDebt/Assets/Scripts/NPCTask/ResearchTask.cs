@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Linq;
 
-public class ResearchTask : NPCTask
+public class ResearchTask : NPCTask, iProgressable
 {
     public Technology TargetTechnology { get; private set; }
     private readonly Desk desk;
@@ -24,7 +24,11 @@ public class ResearchTask : NPCTask
             desk = null;
         }
     }
-
+    public override void OnStart(NPCBase npc)
+    {
+        npc.AddStatusBar(this);
+        base.OnStart(npc);
+    }
     public override void OnUpdate(NPCBase npc)
     {
         if (desk == null) return;
@@ -50,8 +54,12 @@ public class ResearchTask : NPCTask
     {
         base.OnEnd(npc);
         // No specific end action is needed beyond base functionality.
+        npc.HideProgressBar();
     }
-
+    public float GetProgress()
+    {
+        return TargetTechnology.GetProgress();
+    }
     public override bool IsFinished(NPCBase npc)
     {
         // The task is finished if the technology is no longer being researched.
