@@ -51,8 +51,9 @@ public class UIDialogPanel : UIPanel
             UIButton uiButton = buttonGO.GetComponent<UIButton>();
             uiButton.buttonText.text = option.Text;
             uiButton.button.transform.position = Vector3.zero;
+            uiButton.button.onClick.RemoveAllListeners();
             uiButton.button.onClick.AddListener(() => {
-                gameObject.SetActive(false); // Hide the parent container
+                Close();
                 option.OnClick?.Invoke();
               
             });

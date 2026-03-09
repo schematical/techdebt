@@ -26,17 +26,13 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
 
     public override VictoryConditionState GetState()
     {
-
-
         float avgLatency = GetAvgLatency();
 
         if (avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency))
         {
             return VictoryConditionState.Failed;
         }
-        return VictoryConditionState.NotMet;
-   
-
+        return VictoryConditionState.Succeeded;
     }
     
 

@@ -29,6 +29,7 @@ namespace UI
         {
             _level = level;
             LevelIndex = levelIndex;
+            Debug.Log(LevelIndex);
             _onHover = onHover;
             _onClick = onClick;
             text.text = level.Name;

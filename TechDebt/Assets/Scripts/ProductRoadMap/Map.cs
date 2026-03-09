@@ -54,6 +54,7 @@ public class Map
 
     public void IncrStage()
     {
+        Debug.Log($"IncrStage: {CurrentStageIndex}");
         Stages[CurrentStageIndex].GetSelectedLevel().CleanUp();
         CurrentStageIndex += 1;
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
@@ -96,6 +97,7 @@ public class MapStage
     }
     public MapLevel SetSelectedLevel(int level)
     {
+        Debug.Log($"SetSelectedLevel: {level}");
         SelectedLevel = level;
         Levels[SelectedLevel].OnSprintStart();
         return Levels[SelectedLevel];
@@ -105,7 +107,7 @@ public class MapStage
     {
         if (SelectedLevel == -1)
         {
-            throw new SystemException("Selected level is invalid.");
+            throw new SystemException($"Selected level ({SelectedLevel}) is invalid.");
         }
         return Levels[SelectedLevel];
     }
@@ -375,6 +377,7 @@ public class MapLevel
    }
    public virtual void OnLaunchDaySummary()
    {
+       Debug.Log("OnLaunchDaySummary");
        GameManager.Instance.UIManager.ShowNPCDialog(
            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
            "Great work. Lets get working on our next sprint.",

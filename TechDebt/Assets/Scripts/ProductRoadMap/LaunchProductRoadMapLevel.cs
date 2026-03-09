@@ -11,7 +11,8 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-      
+        SprintDuration = 2;
+
     }
 
     public override void Randomize()
