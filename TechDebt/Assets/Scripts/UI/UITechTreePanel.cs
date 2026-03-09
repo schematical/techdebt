@@ -170,8 +170,6 @@ namespace UI
 
                 if (!prerequisitesMet)
                     details += "Prerequisites not met.";
-                else if (GameManager.Instance.CurrentlyResearchingTechnology != null)
-                    details += "Already researching another tech.";
                 else
                     details += "Click again to start research.";
             }

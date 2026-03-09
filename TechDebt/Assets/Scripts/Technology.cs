@@ -18,4 +18,9 @@ public class Technology
 
     public State CurrentState = State.MetaLocked;
     public State OriginalState = State.MetaLocked;
+
+    public void OnInterrupt()
+    {
+        CurrentState = State.Locked;
+    }
 }

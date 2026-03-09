@@ -46,6 +46,7 @@ public class UIDebugPanel : UIPanel
         {
             GameManager.Instance.UIManager.eventDebugPanel.Show();
         });
+        AddButton("Make It Rain", () => { MakeItRain(); });
         AddButton("Misc", () => { RunMisc(); });
     }
 
@@ -94,6 +95,10 @@ public class UIDebugPanel : UIPanel
 
     private void RunMisc()
     {
+
+    }
+    private void MakeItRain(){
+
         GameManager.Instance.UIManager.TriggerScreenShake(.25f, 1);
         NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas().Find((data => data.Type == NetworkPacketData.PType.Purchase));
         if (networkPacketData == null)
@@ -107,28 +112,8 @@ public class UIDebugPanel : UIPanel
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(1000);
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
         GameManager.Instance.UIManager.moneyPanel.AddCoin();
-        GameManager.Instance.UIManager.moneyPanel.ExplodeCoins(30);
-        // Screen.SetResolution(640, 480, true);
-        //GameManager.Instance.UIManager.moneyPanel.AddCoin();
-        /*InstaBuild();
-        foreach (var infra in GameManager.Instance.ActiveInfrastructure)
-        {
-            ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
-            if (
-                applicationServer == null ||
-                !infra.IsActive()
-            )
-            {
-                continue;
-            }
-
-            applicationServer.ShowLevelUpGraphic(Rarity.Epic, () => { GameManager.Instance.UIManager.Resume(); });
-            GameManager.Instance.cameraController.ZoomTo(applicationServer.transform);
-            
-        }
-
-
-        gameObject.SetActive(false);*/
+        GameManager.Instance.UIManager.moneyPanel.ExplodeCoins(10);
+        
         
     }
 
@@ -189,8 +174,6 @@ public class UIDebugPanel : UIPanel
 
     private void InstaResearch()
     {
-  
-
         if (GameManager.Instance.CurrentlyResearchingTechnology != null)
         {
             string techName = GameManager.Instance.CurrentlyResearchingTechnology.DisplayName;
@@ -208,13 +191,10 @@ public class UIDebugPanel : UIPanel
 
     private void UnlockAllTechnologies()
     {
-
-
         GameManager.Instance.UnlockAllTechnologies();
         Debug.Log("All technologies unlocked.");
         
         GameManager.Instance.UIManager.techTreePanel.Refresh();
-        
     }
 
     private void EndRun()

@@ -991,8 +991,8 @@ public class GameManager : MonoBehaviour
 
         if (CurrentlyResearchingTechnology != null)
         {
-            Debug.Log($"Cannot start research on '{tech.DisplayName}'. Another technology ('{CurrentlyResearchingTechnology.DisplayName}') is already being researched.");
-            return;
+            CurrentlyResearchingTechnology.OnInterrupt();
+            CurrentlyResearchingTechnology = null;
         }
 
         if (tech.RequiredTechnologies != null)
