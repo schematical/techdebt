@@ -152,7 +152,7 @@ namespace UI
                    }
                    foreach (UIPanelLine line in networkLine.GetLines())
                    {
-                       Debug.Log($"{line.GetId()} == {modifierBase.NetworkPacketType.ToString()} => {line.GetId() == modifierBase.NetworkPacketType.ToString()}");
+                      
                        if (line.GetId() == modifierBase.NetworkPacketType.ToString())
                        {
                            (line as UIStatCollectionPanelLine).Preview(modifierBase);

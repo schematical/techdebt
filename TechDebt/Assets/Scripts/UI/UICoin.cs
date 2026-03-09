@@ -23,6 +23,7 @@ namespace UI
 
         protected void MarkLanded()
         {
+            Debug.Log("MarkLanded: " + gameObject.name);
             animator.SetBool("hasLanded", true);
            /*   if (state == State.Landed)
             {
@@ -104,8 +105,42 @@ namespace UI
 
         public void SetCoinAbove(UICoin coin)
         {
+            if (coin != null)
+            {
+                coin.CheckCoinAbove(this);
+            }
+
             coinAbove = coin;
         }
+
+        private void CheckCoinAbove(UICoin uiCoin)
+        {
+            string debugLog = $"CheckCoinAbove - this: {this.gameObject.name} - uICoin: {uiCoin.gameObject.name} ";
+            if (coinAbove != null)
+            {
+                debugLog += $"coinAbove: {coinAbove.gameObject.name}";
+            }
+            Debug.Log(debugLog);
+            if (coinAbove == null)
+            {
+                return;
+            }
+            if (this.gameObject.name == uiCoin.gameObject.name)
+            {
+                coinAbove = null;
+                return;
+            }
+            if (coinAbove.gameObject.name == uiCoin.gameObject.name)
+            {
+                coinAbove = null;
+                return;
+            }
+            
+            coinAbove.CheckCoinAbove(uiCoin);
+            
+            
+        }
+
         public void Initialize(bool isFalling = true)
         {
          

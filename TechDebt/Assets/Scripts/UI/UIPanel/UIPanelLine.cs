@@ -64,6 +64,7 @@ namespace UI
                 throw new SystemException($"Cannot find `{prefabId}`'s component of same type");
             }
             section.Initialize();
+            section.transform.SetAsLastSibling();
             sections.Add(section);
             return section;
         }
@@ -74,6 +75,8 @@ namespace UI
             {
                 section.gameObject.SetActive(false);
             }
+
+            sections.Clear();
             foreach (UIPanelLine line in lines)
             {
                 line.CleanUp();
@@ -90,6 +93,7 @@ namespace UI
                     .GetComponent<T>();
             panelLine.Initialize(depth + 1, rootPanel,  this);
             lines.Add(panelLine);
+            panelLine.transform.SetAsLastSibling();
             return panelLine;
         }
 
@@ -170,11 +174,23 @@ namespace UI
             rootPanel.Refresh();
         }
 
-        public void Refresh()
+        public virtual void Refresh()
         {
             foreach (UIPanelLine line in lines)
             {
                 line.Refresh();
+            }
+
+            if (vertLayoutGroup == null)
+            {
+                Debug.LogError($"{gameObject.name}.vertLayoutGroup is null");
+                return;
+            }
+            RectTransform rectTransform = vertLayoutGroup.GetComponent<RectTransform>();
+            if (rectTransform == null)
+            {
+                Debug.LogError($"{gameObject.name}.vertLayoutGroup.GetComponent<RectTransform>() is null");
+                return;
             }
             LayoutRebuilder.ForceRebuildLayoutImmediate(vertLayoutGroup.GetComponent<RectTransform>());
         }

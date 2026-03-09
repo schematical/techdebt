@@ -47,7 +47,7 @@ public class PrefabManager: MonoBehaviour
                 else
                 {
                     go = Instantiate(prefab, position, Quaternion.identity,  parentTransform);
-
+                    go.name = $"{prefabId}-{Pool[prefabId].Count}";
                     Pool[prefabId].Add(go); 
                 }
             }

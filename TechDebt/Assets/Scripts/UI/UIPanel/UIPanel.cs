@@ -43,6 +43,7 @@ public class UIPanel : UIGameObject
         button.text.text = buttonText;
         button.button.onClick.RemoveAllListeners();
         button.button.onClick.AddListener(onClickAction);
+        button.transform.SetAsLastSibling();
         return button;
     }
 
@@ -73,6 +74,7 @@ public class UIPanel : UIGameObject
         }
         lines.Add(panelLine);
         panelLine.Initialize(0, this, null);
+        panelLine.transform.SetAsLastSibling();
         return panelLine;
     }
 

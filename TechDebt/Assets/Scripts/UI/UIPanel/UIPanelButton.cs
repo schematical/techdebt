@@ -7,5 +7,10 @@ namespace UI
     {
         public Button button;
         public TextMeshProUGUI text;
+
+        public override void Refresh()
+        {
+                //Do nothing
+        }
     }
 }
