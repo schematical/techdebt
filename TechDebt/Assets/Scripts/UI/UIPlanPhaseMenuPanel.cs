@@ -18,7 +18,7 @@ namespace UI
             int daysLeftInSprint = GameManager.Instance.GameLoopManager.GetDaysLeftInSprint();
             if (daysLeftInSprint > 0)
             {
-                titleText.text = $"{daysLeftInSprint} Days Left In This Sprint";
+                titleText.text = $"{daysLeftInSprint + 1} Days Left In This Sprint";
             }
             else
             {

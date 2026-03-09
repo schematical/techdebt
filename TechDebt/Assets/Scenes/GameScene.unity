@@ -9174,7 +9174,7 @@ MonoBehaviour:
     CurrentState: 3
     UnlockConditions: []
   - Id: desk
-    worldObjectType: 0
+    worldObjectType: 10
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
     GridPosition: {x: 10, y: 48, z: 0}
     InitialState: 3
@@ -9243,7 +9243,7 @@ MonoBehaviour:
     - Type: 0
       TechnologyID: read-replicas
   - Id: read-replica-2
-    worldObjectType: 0
+    worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
     GridPosition: {x: 30, y: 37, z: 0}
     InitialState: 0
@@ -9395,7 +9395,7 @@ MonoBehaviour:
     - Type: 0
       TechnologyID: sns
   - Id: product-road-map
-    worldObjectType: 0
+    worldObjectType: 13
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
     GridPosition: {x: 13, y: 55, z: 0}
     InitialState: 0
@@ -10318,7 +10318,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: World Object Detail
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12586,7 +12586,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -100.079956, y: 26}
+  m_AnchoredPosition: {x: -100.08008, y: 26}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1012913382

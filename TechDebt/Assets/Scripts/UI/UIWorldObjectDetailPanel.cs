@@ -24,8 +24,10 @@ namespace UI
             base.Show();
             
             CleanUp(); // Clear existing lines
-
-    
+            
+            WorldObjectType type = _selectedWorldObject.GetWorldObjectType();
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{type.DisplayName}");
+            
 
             List<NPCTask> tasks = _selectedWorldObject.GetAvailableTasks();
             foreach (NPCTask task in tasks)
@@ -39,11 +41,9 @@ namespace UI
                 });
             }
 
-            WorldObjectType type = _selectedWorldObject.GetWorldObjectType();
+        
+            
             InfrastructureInstance infraInstance = _selectedWorldObject as InfrastructureInstance;
-
-            // Name
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"<b>{type.DisplayName}</b>";
 
             if (infraInstance != null)
             {

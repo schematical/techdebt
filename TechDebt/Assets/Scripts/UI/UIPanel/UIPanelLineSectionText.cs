@@ -16,5 +16,12 @@ namespace UI
             text.color = Color.white;
             GetComponent<LayoutElement>().preferredWidth = -1;
         }
+
+        public void h1(string s)
+        {
+            text.text = s;
+            text.fontSize = 24;
+            text.fontWeight = FontWeight.Bold;
+        }
     }
 }
