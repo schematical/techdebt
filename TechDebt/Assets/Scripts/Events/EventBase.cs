@@ -33,16 +33,13 @@ namespace Events
             return true;
         }
         
-        public virtual string GetDescription()
-        {
-            return $"{GetType().Name.Replace("Event", "")} - Prob: {GetProbability():F2}";
-        }
+
         public virtual string GetName()
         {
             return $"{GetType().Name.Replace("Event", "")}";
         }
 
-        public virtual int GetProbability()
+        public virtual float GetProbability()
         {
             return Probability;
         }

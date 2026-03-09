@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckEvents()
     {
-        int totalProb = 0;
+        float totalProb = 0;
         List<EventBase> possibleEvents = new List<EventBase>();
         foreach (EventBase e in Events)
         {
@@ -245,13 +245,14 @@ public class GameManager : MonoBehaviour
                 possibleEvents.Add(e);
             }
         }
-        int selectedIndex =  Random.Range(0, totalProb + 1  + 10 /* This is the nothing prob */);
+
+        float selectedIndex = Random.value * (totalProb + 10);
         if (selectedIndex > totalProb)
         {
             // Debug.Log($"Nothing Event Hit {selectedIndex} / {totalProb}");
             return;
         }
-        int currIndex = 0;
+        float currIndex = 0;
        
         foreach (EventBase e in possibleEvents)
         {

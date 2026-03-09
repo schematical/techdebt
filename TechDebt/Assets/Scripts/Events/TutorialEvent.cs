@@ -537,10 +537,7 @@ namespace Events
             }
         }
 
-        public override string GetDescription()
-        {
-            return $"{base.GetDescription()} - Step: {currentStep} - Next: {nextStep}";
-        }
+     
 
         public void Check(TutorialCheck check)
         {

@@ -11,7 +11,7 @@ namespace Events
            GameManager.Instance.GetCurrentRelease().SpawnBug();
            GameManager.Instance.SetStat(StatType.AttackPossibility, 0);
         }
-        public override int GetProbability()
+        public override float GetProbability()
         {
             GameManager gameManager = GameManager.Instance;
             ReleaseBase currentRelease = gameManager.GetCurrentRelease();
@@ -25,7 +25,7 @@ namespace Events
             float releaseQuality = 1 - currentRelease.GetQuality();
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
-            return (int)Math.Round(techDebt * releaseQuality * releaseLevel  * attackPossibility);
+            return techDebt * releaseQuality * releaseLevel  * attackPossibility;
         }
         public override void Render(UIPanelLine line)
         {

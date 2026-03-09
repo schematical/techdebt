@@ -20,7 +20,7 @@ namespace Events
             
 
         }
-        public override int GetProbability()
+        public override float GetProbability()
         {
             
             GameManager gameManager = GameManager.Instance;
@@ -37,7 +37,7 @@ namespace Events
          
             float releaseLevel = currentRelease.RewardModifier.GetLevel();
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
-            return (int)Math.Round(techDebt * releaseQuality * releaseLevel * inputValidation * attackPossibility);
+            return (techDebt * releaseQuality * releaseLevel * inputValidation * attackPossibility);
         }
         
 
