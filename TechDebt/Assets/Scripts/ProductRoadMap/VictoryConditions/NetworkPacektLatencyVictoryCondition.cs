@@ -29,7 +29,6 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
 
 
         float avgLatency = GetAvgLatency();
-        Debug.Log($"(avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency): {avgLatency} > {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency)} = {(avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency))}");
 
         if (avgLatency > Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency))
         {

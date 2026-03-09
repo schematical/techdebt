@@ -2,7 +2,7 @@
     using Effects.Infrastructure;
     using UnityEngine;
 
-    public abstract class InfrastructureTaskBase: NPCTask
+    public abstract class InfrastructureTaskBase: NPCTask, iProgressable
     {
         
         public EnvEffectBase buildEffect { get; set; }
@@ -12,6 +12,11 @@
             TargetInfrastructure = target;
         }
 
+        public override void OnStart(NPCBase npc)
+        {
+            npc.AddStatusBar(this);
+            base.OnStart(npc);
+        }
         public override void OnUpdate(NPCBase npc)
         {
             if (IsCloseEnough())
@@ -48,4 +53,6 @@
                 buildEffect.gameObject.SetActive(false);
             }
         }
+
+        public abstract float getProgress();
     }

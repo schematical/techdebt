@@ -49,6 +49,12 @@ public class DeploymentTask : InfrastructureTaskBase
         CurrentState = State.Completed;
         _release.CheckIsOver();
     }
+
+    public override float getProgress()
+    {
+        return deploymentProgress / DeploymentTime;
+    }
+
     public override string GetAssignButtonText()
     {
         return $"Deploy {_release.GetVersionString()}";

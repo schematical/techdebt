@@ -3,6 +3,11 @@ using MetaChallenges;
 using Stats;
 using UnityEngine;
 
+public interface iProgressable
+{
+    float getProgress();
+}
+
 public interface iTargetable
 {
 

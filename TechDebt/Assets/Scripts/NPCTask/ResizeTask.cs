@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class ResizeTask : InfrastructureTaskBase
 {
-
+    public const float RESIZE_DURATION = 5f;
     public int SizeChange { get; private set; }
     private float _duration;
     public EnvEffectBase buildEffect { get; set; }
+
     public ResizeTask(InfrastructureInstance target, int sizeChange)
         : base(target)
     {
       
         SizeChange = sizeChange;
-        _duration = 5f; // 5-second duration for resizing
+        _duration = RESIZE_DURATION; // 5-second duration for resizing
         Priority = 5; // Mid-level priority
     }
 
@@ -46,7 +47,12 @@ public class ResizeTask : InfrastructureTaskBase
         // Apply the resize logic when the task is officially finished
         TargetInfrastructure.ApplyResize(SizeChange);
     }
-    
+
+    public override float getProgress()
+    {
+        return _duration / RESIZE_DURATION;
+    }
+
     public override string GetAssignButtonText()
     {
         if (SizeChange == -1)

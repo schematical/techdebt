@@ -58,7 +58,6 @@ namespace Events
                 botSprite = schematicalBot.GetComponent<SpriteRenderer>().sprite;
             }
 
-            GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(false);
             GameManager.Instance.GameLoopManager.playTimerActive = false;
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
             GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
@@ -477,7 +476,6 @@ namespace Events
         public virtual void End()
         {
            
-            GameManager.Instance.UIManager.dailyProgressPanel.gameObject.SetActive(true);
             schematicalBot.gameObject.SetActive(false);
             GameManager.Instance.SetStat(StatType.PacketsSent, 0);
             GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);

@@ -41,7 +41,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     private Vector3 _lastPosition;
     public enum CoolDownType { Attack, Consume }
     protected Dictionary<CoolDownType, float> coolDowns = new Dictionary<CoolDownType, float>();
-    
+    protected UIProgressBarPanel progressBar;
     
     void Awake()
     {
@@ -641,4 +641,15 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         animator.SetBool("isAttacking", false);
     }
 
+    public void HideProgressBar()
+    {
+        progressBar.CleanUp();
+        progressBar = null;
+    }
+
+    public void AddStatusBar(iProgressable progressable)
+    {
+        progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
+        progressBar.Initialize(this, progressable);
+    }
 }

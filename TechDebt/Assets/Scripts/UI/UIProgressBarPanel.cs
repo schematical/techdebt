@@ -10,10 +10,28 @@ namespace UI
         public TextMeshProUGUI Text;
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
-        protected Image ProgressImage;
-        
-        public void SetProgress(float progress, Color color = new Color())
+        protected SpriteRenderer ProgressImage;
+        protected iTargetable target;
+        protected iProgressable progressable;
+
+        public void Initialize(iTargetable _target, iProgressable _progressable)
         {
+            target = _target;
+            progressable = _progressable;
+        }
+
+        public void FixedUpdate()
+        {
+            SetProgress(progressable.getProgress());
+            transform.position = target.transform.position + new Vector3(0f, 2f, -1.1f);
+        }
+
+        public void SetProgress(float progress, Color ?color = null)
+        {
+            if (color == null)
+            {
+                color = Color.white;
+            }
             if (ProgressPanelHolder == null || ProgressBar == null)
             {
                 throw new SystemException("Missing `ProgressPanelHolder` or `ProgressPanel`");
@@ -21,12 +39,20 @@ namespace UI
 
             float fullWidth = ProgressPanelHolder.rect.width;
             float newWidth = fullWidth * Mathf.Clamp01(progress);
+            Debug.Log($"SetProgress - progress: {progress} - fullWidth: {fullWidth} - newWidth: {newWidth}");
             ProgressBar.anchorMax = new Vector2(newWidth / fullWidth, ProgressBar.anchorMax.y);
+            // Text.text = $"{Math.Round(progress*100)}%";
             if (ProgressImage == null)
             {
-                ProgressImage = ProgressBar.GetComponent<Image>();
+                ProgressImage = ProgressBar.GetComponent<SpriteRenderer>();
             }
-            ProgressImage.color = color;
+            ProgressImage.color = color.Value;
+        }
+
+        public void CleanUp()
+        {
+            target = null;
+            gameObject.SetActive(false);
         }
     }
 }

@@ -19,6 +19,7 @@ public class BuildTask : InfrastructureTaskBase
         Priority = priority;
     }
 
+
     public override void OnUpdate(NPCBase npc)
     {
         base.OnUpdate(npc);
@@ -54,24 +55,8 @@ public class BuildTask : InfrastructureTaskBase
     
     public override void OnEnd(NPCBase npc)
     {
-        NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
-        /*foreach (ModifierBase modifier in npcDevOps.Modifiers.Modifiers)
-        {
-            if (modifier.Type == ModifierBase.ModifierType.NPC_InfraStat)
-            {
-                StatModifier existingStatModifier = TargetInfrastructure.GetWorldObjectType().Stats.Stats[modifier.StatType].Modifiers
-                    .Find((statModifier => statModifier.Id == modifier.Id));
-                if(existingStatModifier == null)  {
-                    TargetInfrastructure.GetWorldObjectType().Stats.AddModifier(modifier.StatType, new StatModifier(modifier.Id, modifier.GetScaledValue()));
-                    GameManager.Instance.FloatingTextFactory.ShowText($"Bonus Applied: ${modifier.StatType} x {Math.Round(modifier.GetScaledValue() * 100)}%",
-                        TargetInfrastructure.transform.position);
-                }
-                else
-                {
-                    // existingStatModifier.Value = npcTrait.GetScaledValue()
-                }
-            }
-        }*/
+        npc.HideProgressBar();
+   
 
         base.OnEnd(npc);
         
@@ -98,5 +83,9 @@ public class BuildTask : InfrastructureTaskBase
         base.OnQueued();
     }
 
-   
+
+    public override float getProgress()
+    {
+        return buildProgress / TargetInfrastructure.GetWorldObjectType().BuildTime;
+    }
 }

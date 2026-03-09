@@ -37,7 +37,7 @@ namespace UI
         {
             if (targetTransform == null)
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
                 return;
             }
             
