@@ -21,10 +21,8 @@ namespace UI
         public void ShowWorldObjectDetail(WorldObjectBase worldObject)
         {
             _selectedWorldObject = worldObject;
-            base.Show();
-            
             CleanUp(); // Clear existing lines
-            
+            base.Show();
             WorldObjectType type = _selectedWorldObject.GetWorldObjectType();
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{type.DisplayName}");
             

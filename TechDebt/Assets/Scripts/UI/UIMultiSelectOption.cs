@@ -37,6 +37,7 @@ namespace UI
             image.sprite = sprite;
             primaryText.text = _primaryText;
             secondaryText.text = _secondaryText;
+            onPreview = null;
           
             // Clear any previous listeners and reset the button state.
             button.onClick.RemoveAllListeners();

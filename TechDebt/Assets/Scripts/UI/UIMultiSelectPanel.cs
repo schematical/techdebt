@@ -29,6 +29,7 @@ namespace UI
       public void Close(bool forceClose = false)
       {
           base.Close(forceClose);
+          previewingOption = null;
           CleanUp();
           GameManager.Instance.UIManager.Resume();
       }
@@ -36,6 +37,8 @@ namespace UI
       public void Display(string title, string bottom = "")
       {
           base.Show();
+ 
+          previewingOption = null;
           titleText.text = title;
           bottomText.text = bottom;
           CleanUp();
