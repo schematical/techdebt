@@ -7,6 +7,7 @@ namespace UI
 {
     public class UIProgressBarPanel: MonoBehaviour
     {
+        public RectTransform ProgressBarBkgd;
         public TextMeshProUGUI Text;
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
@@ -18,6 +19,7 @@ namespace UI
         {
             target = _target;
             progressable = _progressable;
+            ProgressBarBkgd.GetComponent<SpriteRenderer>().size = ProgressBarBkgd.rect.size;
         }
 
         public void FixedUpdate()
@@ -46,7 +48,12 @@ namespace UI
             {
                 ProgressImage = ProgressBar.GetComponent<SpriteRenderer>();
             }
+
+    
+            ProgressImage.drawMode = SpriteDrawMode.Sliced;
+            ProgressImage.size = ProgressBar.rect.size;
             ProgressImage.color = color.Value;
+            
         }
 
         public void CleanUp()
