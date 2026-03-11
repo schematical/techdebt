@@ -45,6 +45,12 @@ public class InternetPipeWOType : WorldObjectType
             },
             new NetworkConnection()
             {
+                worldObjectType = WorldObjectType.Type.CDN,
+                networkPacketType = NetworkPacketData.PType.Image,
+                priority = 6
+            },
+            new NetworkConnection()
+            {
                 worldObjectType = WorldObjectType.Type.ApplicationServer,
                 networkPacketType = NetworkPacketData.PType.PII,
                 priority = 6
@@ -63,7 +69,7 @@ public class InternetPipeWOType : WorldObjectType
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.ApplicationServer,
+                worldObjectType = WorldObjectType.Type.CDN,
                 networkPacketType = NetworkPacketData.PType.Image,
                 priority = 7
             }

@@ -322,13 +322,22 @@ public class GameManager : MonoBehaviour
         OnReleaseChanged += HandleReleaseChanged;
         
         UIManager.Initialize();
+        ShowMainMenu();
+    }
+
+    public void ShowMainMenu()
+    {
         // Reset();
+
+        Reset();
+        StartDemo();
         UIManager.ShowMainMenu();
     }
 
     public void Reset()
     {
-        UIManager.Close();
+
+        
         prefabManager.Reset();
         Releases.Clear();
         GameLoopManager.Reset();
@@ -339,27 +348,61 @@ public class GameManager : MonoBehaviour
         {
             npc.gameObject.SetActive(false);
         }
+
         AllNpcs.Clear();
         foreach (WorldObjectBase worldObjectBase in ActiveInfrastructure)
         {
             worldObjectBase.Reset();
         }
-       
+    }
+    public void StartNewGame()
+    {
+       ;
+        UIManager.ShowGameUI();
         Initialize();
         SetupRun();
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
         UIManager.topBarPanel.Clear();
 
-        InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
+        /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
         {
             UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
         }
         else
-        {
+        {*/
             Map.GetCurrentStage().SetSelectedLevel(0);
             GameLoopManager.BeginPlanPhase();
+        // }
+    }
+    public void StartDemo()
+    {
+        Initialize();
+        SetupRun();
+        UnlockAllTechnologies();
+        BuildAllWorldObjects();
+        SetStat(StatType.Traffic, 100);
+        UpdateInfrastructureVisibility();
+        InfrastructureUpdateNetworkTargets();
+
+        /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
+        if (productRoadMapInfra.IsActive())
+        {
+            UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+        }
+        else
+        {*/
+        Map.GetCurrentStage().SetSelectedLevel(0);
+        GameLoopManager.BeginDemo();
+        // }
+    }
+
+    private void BuildAllWorldObjects()
+    {
+        foreach (InfrastructureInstance worldObjectBase in ActiveInfrastructure)
+        {
+            worldObjectBase.SetState(InfrastructureData.State.Operational);
         }
     }
 
@@ -1225,5 +1268,6 @@ public class GameManager : MonoBehaviour
         return AllTechnologies;
     }
 
-    
+
+  
 }

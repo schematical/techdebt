@@ -42,7 +42,7 @@ using UnityEngine;
                 }
                 else
                 {
-                    Debug.LogError("No connections found");
+                    Debug.LogError($"{gameObject.name} - No connections found");
                 }
             }
 

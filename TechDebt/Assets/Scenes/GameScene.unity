@@ -9115,7 +9115,7 @@ MonoBehaviour:
   - Id: cdn
     worldObjectType: 7
     Prefab: {fileID: 4431272950818217646, guid: ccca30840096d9548a9f2be7a10d3c39, type: 3}
-    GridPosition: {x: 20, y: 50, z: 0}
+    GridPosition: {x: 19, y: 46, z: 0}
     InitialState: 0
     CurrentState: 0
     UnlockConditions: []
@@ -9292,7 +9292,7 @@ MonoBehaviour:
   - Id: cloud-watch-metrics
     worldObjectType: 0
     Prefab: {fileID: 8212055160970937780, guid: 989810f4f9df2ef49995253992e0a28b, type: 3}
-    GridPosition: {x: 5, y: 34, z: 0}
+    GridPosition: {x: 10, y: 20, z: 0}
     InitialState: 0
     CurrentState: 0
     UnlockConditions:

@@ -14,7 +14,7 @@ public class GameLoopManager : MonoBehaviour
 {
 
 
-    public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary }
+    public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary, Demo }
     public GameState CurrentState { get; set; }
 
     protected float DayDurationSeconds = 120f;
@@ -258,5 +258,10 @@ public class GameLoopManager : MonoBehaviour
         currentDay = 0;
         CurrentState = GameState.Plan;
     }
-    
+
+    public void BeginDemo()
+    {
+        Reset();
+        BeginPlayPhase();
+    }
 }

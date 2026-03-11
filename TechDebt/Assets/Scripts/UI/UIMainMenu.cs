@@ -13,6 +13,7 @@ public class UIMainMenu : UIPanel
     public override void Show()
     {
         base.Show();
+        Debug.Log("UIMainMenu::Show");
         AddButton("New Game",  NewGame);
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Discord", OpenDiscord);
@@ -28,7 +29,7 @@ public class UIMainMenu : UIPanel
     public void NewGame()
     {
         Close();
-       GameManager.Instance.Reset();
+       GameManager.Instance.StartNewGame();
     }
     
 

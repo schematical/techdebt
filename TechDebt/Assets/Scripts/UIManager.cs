@@ -405,8 +405,10 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameUI()
     {
+        Close();
         topBarPanel.Close(true);
         moneyPanel.Close(true);
         timeControlPanel.Close(true);
+        mainMenu.Close();
     }
 }
