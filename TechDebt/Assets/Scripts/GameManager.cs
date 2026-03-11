@@ -357,14 +357,15 @@ public class GameManager : MonoBehaviour
     }
     public void StartNewGame()
     {
-       ;
-        UIManager.ShowGameUI();
+       
+        Reset();
+        
         Initialize();
         SetupRun();
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
         UIManager.topBarPanel.Clear();
-
+        UIManager.ShowGameUI();
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
         {

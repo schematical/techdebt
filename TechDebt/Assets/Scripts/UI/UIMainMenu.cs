@@ -7,17 +7,14 @@ using UnityEngine.Serialization;
 
 public class UIMainMenu : UIPanel
 {
-
-
-
     public override void Show()
     {
         base.Show();
+        GameManager.Instance.UIManager.Block();
         Debug.Log("UIMainMenu::Show");
-        AddButton("New Game",  NewGame);
+        AddButton("New Game", NewGame);
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Discord", OpenDiscord);
-        
     }
 
     private void OpenDiscord()
@@ -29,17 +26,13 @@ public class UIMainMenu : UIPanel
     public void NewGame()
     {
         Close();
-       GameManager.Instance.StartNewGame();
+        GameManager.Instance.StartNewGame();
     }
-    
+
 
     public void ShowChallengesPanel()
     {
         Close();
         GameManager.Instance.UIManager.metaChallengesPanel.Show();
-    }  
-
-
-
-   
+    }
 }

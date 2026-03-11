@@ -59,6 +59,8 @@ public class UIManager : MonoBehaviour
 
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
+
+    public GameObject clickBlockingPanel;
     // OLD UI Containers
 
    
@@ -91,6 +93,7 @@ public class UIManager : MonoBehaviour
 
     public void Close(bool forceClose = false)
     {
+        clickBlockingPanel.gameObject.SetActive(false);
         // multiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.Close(forceClose);
         deskMenuPanel.Close(forceClose);
@@ -108,6 +111,11 @@ public class UIManager : MonoBehaviour
      
         
         
+    }
+
+    public void Block()
+    {
+        clickBlockingPanel.gameObject.SetActive(true);
     }
     public void SetupUIInfrastructure()
     {
@@ -396,6 +404,7 @@ public class UIManager : MonoBehaviour
     public void ShowMainMenu()
     {
         Close(true);
+        Block();
         topBarPanel.Close(true);
         moneyPanel.Close(true);
         timeControlPanel.Close(true);

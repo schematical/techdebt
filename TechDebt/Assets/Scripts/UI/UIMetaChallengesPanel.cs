@@ -11,7 +11,7 @@ public class UIMetaChallengesPanel: UIPanel
     public override void Show()
     {
         base.Show();
-
+        GameManager.Instance.UIManager.Block();
         // Ensure MetaProgressData is loaded before trying to access metaStats
         MetaProgressData progressData = MetaGameManager.ProgressData;
         int rowI = 0;

@@ -18,6 +18,7 @@ public class UIDialogPanel : UIPanel
         _dialogTextMesh.text = dialog;
         Show();
         SetupButtons(options);
+        GameManager.Instance.UIManager.Block();
 
     
     }
