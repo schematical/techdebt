@@ -11,7 +11,7 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 2;
+        SprintDuration = 5;
 
     }
 

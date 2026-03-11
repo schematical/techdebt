@@ -171,8 +171,8 @@ public class MapLevel
    {
        GameManager.Instance.GameLoopManager.Reset();
        // TODO: Probably move this to the map.
-       /*if (Stage.StageNumber > 0) 
-       {*/
+       if (Stage.StageNumber > 0) 
+       {
            MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
                condition =>
                {
@@ -192,7 +192,7 @@ public class MapLevel
                    )
                );
            }
-       //}
+       }
    }
 
    public virtual void Randomize()

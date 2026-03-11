@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
     public UITopBarPanel topBarPanel;
   
     public UIDeskMenuPanel deskMenuPanel;
-    public UIMultiSelectPanel MultiSelectPanel; 
+    [FormerlySerializedAs("MultiSelectPanel")] public UIMultiSelectPanel multiSelectPanel; 
     public UIReleaseHistoryPanel  releaseHistoryPanel;
     
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
@@ -56,6 +56,9 @@ public class UIManager : MonoBehaviour
     public UIItemDetailPanel itemDetailPanel;
     public UIAlertPanel alertPanel;
     public UIDialogPanel dialogPanel;
+
+    public UIMainMenu mainMenu;
+    public UIMetaChallengesPanel metaChallengesPanel;
     // OLD UI Containers
 
    
@@ -88,7 +91,7 @@ public class UIManager : MonoBehaviour
 
     public void Close(bool forceClose = false)
     {
-        // MultiSelectPanel.gameObject.SetActive(false);
+        // multiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.Close(forceClose);
         deskMenuPanel.Close(forceClose);
         worldObjectDetailPanel.Close(forceClose);
@@ -388,5 +391,22 @@ public class UIManager : MonoBehaviour
         shakeDuration = duration;
         shakeMagnitude = magnitude;
         originalCameraPosition = Camera.main.transform.position;
+    }
+
+    public void ShowMainMenu()
+    {
+        Close(true);
+        topBarPanel.Close(true);
+        moneyPanel.Close(true);
+        timeControlPanel.Close(true);
+        mainMenu.Show();
+
+    }
+
+    public void ShowGameUI()
+    {
+        topBarPanel.Close(true);
+        moneyPanel.Close(true);
+        timeControlPanel.Close(true);
     }
 }

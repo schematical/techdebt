@@ -84,7 +84,7 @@ public class NPCDevOps : NPCAnimatedBiped
     {
         level++;
 
-        GameManager.Instance.UIManager.MultiSelectPanel.Display(
+        GameManager.Instance.UIManager.multiSelectPanel.Display(
             "One of your team has leveled up!",
             "Choose a bonus to be applied to your DevOps Engineer"
         );
@@ -127,7 +127,7 @@ public class NPCDevOps : NPCAnimatedBiped
                 {
                     traits.Add(modifierBase);
                     
-                    GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                    GameManager.Instance.UIManager.multiSelectPanel.Add(
                             modifierBase.Id,
                             spriteOut,
                             modifierBase.GetTitle(),
@@ -140,7 +140,7 @@ public class NPCDevOps : NPCAnimatedBiped
                                 AddModifier(modifierBase);
                                 modifierBase.LevelUp(rarity);
                  
-                                GameManager.Instance.UIManager.MultiSelectPanel.Close();
+                                GameManager.Instance.UIManager.multiSelectPanel.Close();
                             }
                             catch (Exception e)
                             {
@@ -156,7 +156,7 @@ public class NPCDevOps : NPCAnimatedBiped
             {
                 traits.Add(modifierBase);
             
-                GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                GameManager.Instance.UIManager.multiSelectPanel.Add(
                         existingModifierBase.Id,
                         sprite,
                         existingModifierBase.GetTitle(),
@@ -166,7 +166,7 @@ public class NPCDevOps : NPCAnimatedBiped
                     {
                         try {
                             existingModifierBase.LevelUp(rarity);
-                            GameManager.Instance.UIManager.MultiSelectPanel.Close();
+                            GameManager.Instance.UIManager.multiSelectPanel.Close();
                         }catch (Exception e) {
                             Debug.LogError("NPC Level Up Exception2 Start");
                             Debug.LogException(e);

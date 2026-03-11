@@ -50,10 +50,10 @@ namespace Infrastructure
                 GameManager.Instance.UIManager.ShowAlert("You must debug the bugs introduced in the last release first.");
                 return;
             }*/
-            GameManager.Instance.UIManager.MultiSelectPanel.Close();
+            GameManager.Instance.UIManager.multiSelectPanel.Close();
 
 
-            GameManager.Instance.UIManager.MultiSelectPanel.Display(
+            GameManager.Instance.UIManager.multiSelectPanel.Display(
                 "Select a release focus.",
                 "Your team will start working towards a feature that will reward you once deployed."
             );
@@ -86,7 +86,7 @@ namespace Infrastructure
                     /*if (GameManager.Instance.Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                     {*/
                     modifiers.Add(modifierBase);
-                    UIMultiSelectOption option = GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                    UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                         modifierBase.Id,
                         sprite,
                         modifierBase.GetTitle(),
@@ -98,7 +98,7 @@ namespace Infrastructure
                         GameManager.Instance.Releases.Add(releaseBase);
                         CodeTask codeTask = new CodeTask(releaseBase);
                         GameManager.Instance.AddTask(codeTask);
-                        GameManager.Instance.UIManager.MultiSelectPanel.Close();
+                        GameManager.Instance.UIManager.multiSelectPanel.Close();
                         HideAttentionIcon();
                     });
                     option.OnPreview((string id) =>
@@ -109,7 +109,7 @@ namespace Infrastructure
                 else
                 {
                     modifiers.Add(existingModifierBase);
-                    GameManager.Instance.UIManager.MultiSelectPanel.Add(
+                    GameManager.Instance.UIManager.multiSelectPanel.Add(
                             existingModifierBase.Id,
                             sprite,
                             existingModifierBase.GetTitle(),
@@ -122,7 +122,7 @@ namespace Infrastructure
                             GameManager.Instance.Releases.Add(releaseBase);
                             CodeTask codeTask = new CodeTask(releaseBase);
                             GameManager.Instance.AddTask(codeTask);
-                            GameManager.Instance.UIManager.MultiSelectPanel.Close();
+                            GameManager.Instance.UIManager.multiSelectPanel.Close();
                             HideAttentionIcon();
                         });
                 }

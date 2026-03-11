@@ -4,17 +4,12 @@ using UnityEngine;
 
 namespace UI
 {
-    public class UIMoneyPanel:  MonoBehaviour
+    public class UIMoneyPanel:  UIGameObject
     {
-        public RectTransform rectTransform;
+        // public RectTransform rectTransform;
         List<UICoin> coins = new List<UICoin>();
 
-        private Canvas _canvas;
-        private Canvas GetCanvas()
-        {
-            if (_canvas == null) _canvas = GetComponentInParent<Canvas>();
-            return _canvas;
-        }
+       
 
         public void Show()
         {
@@ -25,7 +20,7 @@ namespace UI
             }
             coins.Clear();
 
-            Canvas canvas = GetCanvas();
+            Canvas canvas = GameManager.Instance.UIManager.GetComponent<Canvas>();
             Camera cam = canvas.worldCamera;
             if (cam == null) cam = Camera.main;
             
@@ -76,7 +71,7 @@ namespace UI
         
         public void AddCoin()
         {
-            Canvas canvas = GetCanvas();
+            Canvas canvas = GameManager.Instance.UIManager.GetComponent<Canvas>();
             Camera cam = canvas.worldCamera;
             if (cam == null) cam = Camera.main;
 

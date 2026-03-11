@@ -322,8 +322,8 @@ public class GameManager : MonoBehaviour
         OnReleaseChanged += HandleReleaseChanged;
         
         UIManager.Initialize();
-        Reset();
-    
+        // Reset();
+        UIManager.ShowMainMenu();
     }
 
     public void Reset()
