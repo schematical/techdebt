@@ -22,6 +22,12 @@ public class UIDialogPanel : UIPanel
 
     
     }
+
+    public override void Close(bool forceClose = false)
+    {
+        base.Close(forceClose);
+        GameManager.Instance.UIManager.RemoveBlock();
+    }
     
     private void SetupButtons(List<DialogButtonOption> options)
     {

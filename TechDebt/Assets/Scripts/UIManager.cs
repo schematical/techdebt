@@ -21,6 +21,7 @@ using Random = UnityEngine.Random;
 public class UIManager : MonoBehaviour
 
 {
+
     public enum TimeState
     {
         Paused,
@@ -185,6 +186,8 @@ public class UIManager : MonoBehaviour
                 debugPanel.Close();
             }
         }
+
+        
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             if (_currentTimeState == TimeState.Paused)
@@ -419,5 +422,11 @@ public class UIManager : MonoBehaviour
         moneyPanel.Close(true);
         timeControlPanel.Close(true);
         mainMenu.Close();
+    }
+
+
+    public void RemoveBlock()
+    {
+        clickBlockingPanel.gameObject.SetActive(false);
     }
 }

@@ -4,10 +4,16 @@ using UnityEngine.InputSystem; // Using the new Input System
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float panSpeed = 20f;
-    [SerializeField] private float zoomSpeed = 0.5f; // Adjusted for new input system's delta values
-    [SerializeField] private float minZoom = 2f;
-    [SerializeField] private float maxZoom = 12f;
+    public enum CameraInputState
+    {
+        Enabled,
+        Disabled
+    }
+    public CameraInputState cameraInputState = CameraInputState.Enabled;
+    private float panSpeed = 20f;
+    private float zoomSpeed = 0.5f; // Adjusted for new input system's delta values
+    private float minZoom = 2f;
+    private float maxZoom = 12f;
 
     // --- Update-based Animation State ---
     private bool _isZooming = false;
@@ -21,18 +27,12 @@ public class CameraController : MonoBehaviour
     // ------------------------------------
 
     private Vector3 lastPanPosition;
-    private Camera mainCamera;
     private Transform targetToFollow;
     private UnityAction onZoomDone;
 
     void Start()
     {
-        mainCamera = Camera.main;
-        if (mainCamera == null)
-        {
-            Debug.LogError("CameraController: Main Camera not found!");
-            this.enabled = false;
-        }
+     
     }
     
     public void ZoomTo(Transform target, UnityAction _onZoomDone = null)
@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
         _followAfterZoom = false; // Ensure this is reset
         
         _startPosition = transform.position;
-        _startZoom = mainCamera.orthographicSize;
+        _startZoom = Camera.main.orthographicSize;
         _targetZoom = 4f; // Sensible default close-up zoom
         onZoomDone = _onZoomDone;
     }
@@ -59,8 +59,13 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        
+      
         // Pressing Escape also stops following
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (
+            cameraInputState == CameraInputState.Enabled && 
+            Keyboard.current.escapeKey.wasPressedThisFrame
+            )
         {
             StopFollowing();
             _isZooming = false; // Also cancel zoom animation
@@ -72,10 +77,13 @@ public class CameraController : MonoBehaviour
         }
         else // Only handle manual controls if not animating
         {
-            HandlePan();
-            HandleZoom();
-            HandleKeyboardInput();
-            HandleKeyboardZoom();
+            if (cameraInputState == CameraInputState.Enabled)
+            {
+                HandlePan();
+                HandleZoom();
+                HandleKeyboardInput();
+                HandleKeyboardZoom();
+            }
         }
     }
 
@@ -92,7 +100,7 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(_startPosition, targetPos, t);
 
         // Interpolate zoom
-        mainCamera.orthographicSize = Mathf.Lerp(_startZoom, _targetZoom, t);
+        GetMainCamera().orthographicSize = Mathf.Lerp(_startZoom, _targetZoom, t);
 
         // Check if animation is complete
         if (_zoomElapsedTime >= _zoomDuration)
@@ -100,7 +108,7 @@ public class CameraController : MonoBehaviour
             _isZooming = false;
             // Ensure final position and zoom are set precisely
             transform.position = new Vector3(_zoomTarget.position.x, _zoomTarget.position.y, _startPosition.z);
-            mainCamera.orthographicSize = _targetZoom;
+            GetMainCamera().orthographicSize = _targetZoom;
 
             
             if (_followAfterZoom)
@@ -116,7 +124,12 @@ public class CameraController : MonoBehaviour
             }
         }
     }
-    
+
+    private Camera GetMainCamera()
+    {
+        return Camera.main;
+    }
+
     // Using LateUpdate for following to ensure the target has finished its movement for the frame.
     // This prevents camera jitter.
     void LateUpdate()
@@ -186,9 +199,9 @@ public class CameraController : MonoBehaviour
 
         if (zoomDelta != 0)
         {
-            float newSize = mainCamera.orthographicSize - zoomDelta * zoomSpeed * Time.unscaledDeltaTime * 10; // Multiply by 10 to make it faster
-            mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
-            // Debug.Log($"ZOOM: {newSize}, {minZoom}, {maxZoom} = mainCamera.orthographicSize: {mainCamera.orthographicSize}");
+            float newSize = GetMainCamera().orthographicSize - zoomDelta * zoomSpeed * Time.unscaledDeltaTime * 10; // Multiply by 10 to make it faster
+            GetMainCamera().orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+            // Debug.Log($"ZOOM: {newSize}, {minZoom}, {maxZoom} = GetMainCamera().orthographicSize: {GetMainCamera().orthographicSize}");
         }
     }
 
@@ -198,8 +211,8 @@ public class CameraController : MonoBehaviour
 
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         
-        if (mousePosition.x < 1 || mousePosition.x > mainCamera.pixelWidth - 1 || 
-            mousePosition.y < 1 || mousePosition.y > mainCamera.pixelHeight - 1)
+        if (mousePosition.x < 1 || mousePosition.x > GetMainCamera().pixelWidth - 1 || 
+            mousePosition.y < 1 || mousePosition.y > GetMainCamera().pixelHeight - 1)
         {
             return;
         }
@@ -207,12 +220,12 @@ public class CameraController : MonoBehaviour
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             GameManager.Instance.cameraController.StopFollowing();
-            lastPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+            lastPanPosition = GetMainCamera().ScreenToWorldPoint(mousePosition);
         }
 
         if (Mouse.current.rightButton.isPressed)
         {
-            Vector3 newPanPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+            Vector3 newPanPosition = GetMainCamera().ScreenToWorldPoint(mousePosition);
             Vector3 panDelta = lastPanPosition - newPanPosition;
             
             transform.position += panDelta;
@@ -228,8 +241,16 @@ public class CameraController : MonoBehaviour
         if (scrollValue != 0)
         {
             float scrollDelta = Mathf.Sign(scrollValue);
-            float newSize = mainCamera.orthographicSize - scrollDelta * zoomSpeed;
-            mainCamera.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+            float newSize = GetMainCamera().orthographicSize - scrollDelta * zoomSpeed;
+            GetMainCamera().orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
         }
+    }
+    public void DisableCameraInput()
+    {
+        cameraInputState = CameraInputState.Disabled;
+    }
+    public void EnableCameraInput()
+    {
+        cameraInputState = CameraInputState.Enabled;
     }
 }

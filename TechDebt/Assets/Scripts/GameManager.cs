@@ -21,6 +21,7 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    
     private static GameManager _instance;
     
     public enum GlobalNetworkPacketState { Running, Frozen}
@@ -365,7 +366,9 @@ public class GameManager : MonoBehaviour
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
         UIManager.topBarPanel.Clear();
+        cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
+        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
         {
@@ -386,7 +389,9 @@ public class GameManager : MonoBehaviour
         SetStat(StatType.Traffic, 100);
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
-
+        cameraController.DisableCameraInput();
+        NPCDevOps npc = HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+        cameraController.ZoomToAndFollow(npc.transform);
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
         {
@@ -922,7 +927,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Could not find 'boss-desk to spawn BossNPC.");
         }
            
-        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+        
       
   
    
@@ -1002,26 +1007,27 @@ public class GameManager : MonoBehaviour
         return candidates;
     }
 
-    public void HireNPCDevOps(NPCDevOpsData candidateData)
+    public NPCDevOps HireNPCDevOps(NPCDevOpsData candidateData)
     {
         var door = GetInfrastructureInstanceByID("door");
         if (door == null)
         {
             Debug.LogError("Cannot hire NPC because 'door' infrastructure was not found.");
-            return;
+            return null;
         }
 
         GameObject npcObject = prefabManager.Create("NPCDevOps", door.transform.position);
         if (npcObject == null)
         {
             Debug.LogError("Failed to create 'NPCDevOps' from PrefabManager. Is the prefab configured?");
-            return;
+            return null;;
         }
 
         NPCDevOps npc = npcObject.GetComponent<NPCDevOps>();
         npc.Initialize(candidateData);
         
         NotifyDailyCostChanged();
+        return npc;
     }
 
   
