@@ -391,6 +391,18 @@ public class GameManager : MonoBehaviour
         InfrastructureUpdateNetworkTargets();
         cameraController.DisableCameraInput();
         NPCDevOps npc = HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+        for (int i = 0; i < 3; i++)
+        {
+            SpawnNPCBug();
+        }
+        InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
+
+        GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCXSS", internetPipe.transform.position);
+
+        NPCXSS npcXSS = npcGO.GetComponent<NPCXSS>();
+        npcXSS.Initialize();
+        
+        
         cameraController.ZoomToAndFollow(npc.transform);
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())

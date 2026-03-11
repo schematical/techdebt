@@ -256,12 +256,15 @@ public class GameLoopManager : MonoBehaviour
     public void Reset()
     {
         currentDay = 0;
+        playTimerActive = true;
         CurrentState = GameState.Plan;
     }
 
     public void BeginDemo()
     {
+        
         Reset();
+        playTimerActive = false;
         BeginPlayPhase();
     }
 }

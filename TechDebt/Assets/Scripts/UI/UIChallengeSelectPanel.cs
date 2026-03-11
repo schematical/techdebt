@@ -17,6 +17,10 @@ namespace UI
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = challenge.DisplayName;
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = challenge.Description;
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{currentProgress}/{challenge.RequiredValue}";
+            if (!isCompleted)
+            {
+                return;
+            }
             UIPanelLine rewardHolderLine = AddLine<UIPanelLine>();
             rewardHolderLine.Add<UIPanelLineSectionText>().text.text = $"Reward";
 
