@@ -449,5 +449,6 @@ public class UIManager : MonoBehaviour
     public void Reset()
     {
         SetTimeState(TimeState.Normal, true);
+        clickBlockingPanel.gameObject.SetActive(false);
     }
 }

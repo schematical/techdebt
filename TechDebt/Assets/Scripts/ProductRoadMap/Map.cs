@@ -477,15 +477,14 @@ public class MapLevel
            {
                new DialogButtonOption() { Text = "Start Over", OnClick = () =>
                    {
-                       CleanUp();
-                       GameManager.Instance.Reset();
+                       GameManager.Instance.StartNewGame();
                    }
-               }/*,
-               new DialogButtonOption() { Text = "Main Menu", OnSelect = () =>
+               },
+               new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
                    {
-                        
+                         GameManager.Instance.ShowMainMenu();
                    }
-               },*/
+               },
            }
        );
    }
@@ -536,6 +535,10 @@ public class MapLevel
        if (IsLaunchDay())
        {
            OnLaunchDaySummary();
+       }
+       else
+       {
+           GameManager.Instance.GameLoopManager.BeginPlanPhase();
        }
    }
 }
