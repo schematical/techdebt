@@ -109,7 +109,7 @@ namespace Stats
         public string GetPreviewText(StatModifier modifier)
         {
             float value = PreviewValue(modifier);
-            return $"{Type}: {FormatDisplayValue(Value)} {modifier.GetDisplayText()} => {FormatDisplayValue(value)}";
+            return $"{Util.GetDisplayable(Type.ToString())}: {FormatDisplayValue(Value)} {modifier.GetDisplayText()} => {FormatDisplayValue(value)}";
         }
 
         public void Broadcast()
@@ -134,7 +134,7 @@ namespace Stats
 
         public string FormatDescription(float value)
         {
-            return $"{Type}: {FormatDisplayValue(value)}";
+            return $"{Util.GetDisplayable(Type.ToString())}: {FormatDisplayValue(value)}";
         }
 
         public string GetDisplayValue()

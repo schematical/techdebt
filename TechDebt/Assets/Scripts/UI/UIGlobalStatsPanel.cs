@@ -47,7 +47,9 @@ namespace UI
                     UIStatCollectionPanelLine networkDetailLine = line.AddLine<UIStatCollectionPanelLine>();
                     networkDetailLine.SetStatCollection( 
                         networkPacketData.Stats,
-                        networkPacketData.Type.ToString()
+                        Util.GetDisplayable(
+                            networkPacketData.Type.ToString()
+                        )
                     );
                     networkDetailLine.SetId(networkPacketData.Type.ToString());
                 }
@@ -114,7 +116,7 @@ namespace UI
             globalModifiersLine.Add<UIPanelLineSectionText>().text.text = "Upgrades:";
             globalModifiersLine.SetExpandable((_globalModifiersLine =>
             {
-                GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
+                /*GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
                 {
                     Group = ModifierBase.ModifierGroup.Release,
                     Target = ModifierBase.ModifierTarget.Run,
@@ -126,7 +128,7 @@ namespace UI
                     IconSpriteId = "IconCode"
                 });
                 GameManager.Instance.Modifiers.Modifiers[0].Apply();
-                GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);
+                GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);*/
                 GameManager.Instance.Modifiers.Render(_globalModifiersLine);
             }));
 
