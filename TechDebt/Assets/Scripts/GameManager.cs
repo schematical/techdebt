@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour
     {
 
         UIManager.Reset();
+        cameraController.Reset();
         prefabManager.Reset();
         Releases.Clear();
         GameLoopManager.Reset();

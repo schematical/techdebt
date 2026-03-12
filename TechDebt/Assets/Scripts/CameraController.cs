@@ -253,4 +253,9 @@ public class CameraController : MonoBehaviour
     {
         cameraInputState = CameraInputState.Enabled;
     }
+
+    public void Reset()
+    {
+        StopFollowing();
+    }
 }
