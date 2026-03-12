@@ -9,10 +9,16 @@ namespace UI
         // public RectTransform rectTransform;
         List<UICoin> coins = new List<UICoin>();
 
-       
-
-        public void Show()
+        public override void Close(bool forceClose = false)
         {
+            base.Close(forceClose);
+            Debug.Log("UIMoneyPanel::Close");
+        }
+
+        public override void Show()
+        {
+        
+            base.Show();
             
             foreach (UICoin coin in coins)
             {

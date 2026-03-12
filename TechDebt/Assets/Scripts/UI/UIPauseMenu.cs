@@ -5,29 +5,20 @@ using TMPro;
 using UI;
 using UnityEngine.Serialization;
 
-public class UIMainMenu : UIPanel
+public class UIPauseMenu : UIPanel
 {
     public override void Show()
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
-        Debug.Log("UIMainMenu::Show");
-        AddButton("New Game", NewGame);
         AddButton("Challenges", ShowChallengesPanel);
-        AddButton("Discord", OpenDiscord);
+        AddButton("Quit", Quit);
     }
 
-    private void OpenDiscord()
+    private void Quit()
     {
-        Application.OpenURL("https://discord.gg/yFDKNDBquZ");
-    }
-
-
-    public void NewGame()
-    {
-        Close();
-        Debug.Log("NewGame");
-        GameManager.Instance.StartNewGame();
+        GameManager.Instance.Reset();
+        GameManager.Instance.ShowMainMenu();
     }
 
 
@@ -36,4 +27,8 @@ public class UIMainMenu : UIPanel
         Close();
         GameManager.Instance.UIManager.metaChallengesPanel.Show();
     }
+    /*public override void Close(bool forceClose = false)
+    {
+        base.Close(forceClose);
+    }*/
 }

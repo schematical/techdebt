@@ -66,6 +66,7 @@ namespace UI
         {
             if (forceClose)
             {
+                panelState = UIState.Closed;
                 gameObject.SetActive(false);
                 return;
             }

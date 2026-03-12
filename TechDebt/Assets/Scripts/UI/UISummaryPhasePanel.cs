@@ -24,7 +24,7 @@ namespace UI
 
         private void OnContinue()
         {
-            GameManager.Instance.GameLoopManager.BeginPlanPhase();
+            GameManager.Instance.GameLoopManager.PostSummaryCheck();
             Close();
         }
     }

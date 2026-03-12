@@ -14,7 +14,7 @@ public class GameLoopManager : MonoBehaviour
 {
 
 
-    public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary, Demo }
+    public enum GameState { Plan, Play, WaitingForNpcsToExpire, Summary }
     public GameState CurrentState { get; set; }
 
     protected float DayDurationSeconds = 120f;
@@ -151,7 +151,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
         GameManager.Instance.IncrStat(StatType.Money, totalDailyCost * -1);
-        GameManager.Instance.Map.GetCurrentLevel().SummaryPhaseCheck();
+        // GameManager.Instance.Map.GetCurrentLevel().SummaryPhaseCheck();
         
       
     
@@ -251,6 +251,11 @@ public class GameLoopManager : MonoBehaviour
 
         GameManager.Instance.UpdateMetaProgress();
 
+    }
+
+    public void PostSummaryCheck()
+    {
+        GameManager.Instance.Map.GetCurrentLevel().PostSummaryCheck();
     }
 
     public void Reset()

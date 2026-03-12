@@ -22,6 +22,8 @@ public class UIDebugPanel : UIPanel
     public Button spawnNPC;
     protected StatModifier trafficStatModifier;
     protected UIPanelLineSectionText trafficText;
+    
+    protected UIPanelLineSectionText moneyText;
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class UIDebugPanel : UIPanel
     {
         base.Show();
         AddTrafficLine();
+        AddMoneyLine();
         AddButton("Insta-Build", () => { InstaBuild(); });
         AddButton("Insta-Research", () => { InstaResearch(); });
         AddButton("Unlock All Tech", () => { UnlockAllTechnologies(); });
@@ -65,6 +68,20 @@ public class UIDebugPanel : UIPanel
         downButton.button.onClick.AddListener(() => { AdjustTraffic(-1); });
         return trafficLine;
     }
+    private UIPanelLine AddMoneyLine()
+    {
+        UIPanelLine moneyLine = AddLine<UIPanelLine>();
+        moneyText = moneyLine.Add<UIPanelLineSectionText>();
+        moneyText.text.text =
+            $"Money: {GameManager.Instance.Stats.GetStatValue(StatType.Money)}";
+        UIPanelLineSectionButton upButton = moneyLine.Add<UIPanelLineSectionButton>();
+        upButton.text.text = "+";
+        upButton.button.onClick.AddListener(() => { AdjustMoney(10); });
+        UIPanelLineSectionButton downButton = moneyLine.Add<UIPanelLineSectionButton>();
+        downButton.text.text = "-";
+        downButton.button.onClick.AddListener(() => { AdjustMoney(-10); });
+        return moneyLine;
+    }
 
     private void AdjustTraffic(int i)
     {
@@ -86,6 +103,14 @@ public class UIDebugPanel : UIPanel
             $"Traffic: {GameManager.Instance.Stats.GetStatValue(StatType.Traffic)}";
 
     }
+    
+    private void AdjustMoney(int value)
+    {
+        GameManager.Instance.IncrStat(StatType.Money, value);
+        moneyText.text.text =
+            $"Money: {GameManager.Instance.Stats.GetStatValue(StatType.Money)}";
+    }
+
 
     private void NextSprint()
     {

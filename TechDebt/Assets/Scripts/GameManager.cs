@@ -21,7 +21,7 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public enum GameManagerState { MainMenu, Playing }
     private static GameManager _instance;
     
     public enum GlobalNetworkPacketState { Running, Frozen}
@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
         {
             return _instance;
         }
-    }
-
+    } 
+    public GameManagerState State =  GameManagerState.MainMenu;
 
     public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
     public List<ItemData> Items = new List<ItemData>();
@@ -329,7 +329,7 @@ public class GameManager : MonoBehaviour
 
     public void ShowMainMenu()
     {
-        // Reset();
+        State = GameManagerState.MainMenu;
 
         Reset();
         StartDemo();
@@ -339,7 +339,7 @@ public class GameManager : MonoBehaviour
     public void Reset()
     {
 
-        
+        UIManager.Reset();
         prefabManager.Reset();
         Releases.Clear();
         GameLoopManager.Reset();
@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartNewGame()
     {
-       
+        State = GameManagerState.Playing;
         Reset();
         
         Initialize();

@@ -60,6 +60,7 @@ public class UIManager : MonoBehaviour
 
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
+    public UIPauseMenu pauseMenu;
 
     public GameObject clickBlockingPanel;
     // OLD UI Containers
@@ -107,6 +108,7 @@ public class UIManager : MonoBehaviour
         productRoadMap.Close(forceClose);
         eventDebugPanel.Close(forceClose);
         orgChartPanel.Close(forceClose);
+        pauseMenu.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
 
      
@@ -184,6 +186,19 @@ public class UIManager : MonoBehaviour
             else
             {
                 debugPanel.Close();
+            }
+        } 
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            if (
+                pauseMenu.GetPanelState() == UIGameObject.UIState.Closed
+                )
+            {
+                pauseMenu.Show();
+            }
+            else
+            {
+                pauseMenu.Close();
             }
         }
 
@@ -417,7 +432,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameUI()
     {
-        Close();
+        Close(true);
         topBarPanel.Clear();
         topBarPanel.Show();
         moneyPanel.Show();
@@ -429,5 +444,10 @@ public class UIManager : MonoBehaviour
     public void RemoveBlock()
     {
         clickBlockingPanel.gameObject.SetActive(false);
+    }
+
+    public void Reset()
+    {
+        SetTimeState(TimeState.Normal, true);
     }
 }

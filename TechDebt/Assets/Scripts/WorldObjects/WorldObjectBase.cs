@@ -83,7 +83,7 @@ namespace Infrastructure
         {
             if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
             {
-                Debug.LogWarning($"{gameObject.name} - uiAttentionIcon is already active");
+                // Debug.LogWarning($"{gameObject.name} - uiAttentionIcon is already active");
                 return;
             }
             uiAttentionIcon = GameManager.Instance.UIManager.AddAttentionIcon(

@@ -59,6 +59,17 @@ public class UIMetaChallengesPanel: UIPanel
     public override void Close(bool forceClose = false)
     {
         base.Close(forceClose);
-        GameManager.Instance.UIManager.mainMenu.Show();
+        switch (GameManager.Instance.State)
+        {
+            case(GameManager.GameManagerState.MainMenu):
+                GameManager.Instance.UIManager.mainMenu.Show();
+                break;
+            case(GameManager.GameManagerState.Playing):
+                GameManager.Instance.UIManager.pauseMenu.Show();
+                break;
+            default:
+                throw new System.NotImplementedException();
+        }
+
     }
 }

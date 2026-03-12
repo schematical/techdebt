@@ -135,14 +135,12 @@ public class MapStage
     }
     public MapLevel SetSelectedLevel(int level)
     {
-        Debug.Log($"SetSelectedLevel: {level}");
         SelectedLevel = level;
         Levels[SelectedLevel].OnSprintStart();
         return Levels[SelectedLevel];
     }
     public MapLevel SetLevel(MapLevel mapLevel)
     {
-        Debug.Log($"SetSelectedLevel: {mapLevel.Name}");
         mapLevel.Init(this);
         SelectedLevel = 0;
         Levels = new List<MapLevel>()
@@ -408,34 +406,7 @@ public class MapLevel
            GameManager.Instance.InfrastructureUpdateNetworkTargets();
        }
    }
-   public virtual void SummaryPhaseCheck()
-   {
-       VictoryConditionState state = GetVictoryConditionState();
-       switch (state)
-       {
-           case(VictoryConditionState.Failed):
-               EndGame();
-               return;
-           case(VictoryConditionState.NotMet):
-               if (IsLaunchDay())
-               {
-                   EndGame();
-                   return;
-               }
-               break;
-           case(VictoryConditionState.Succeeded):
-               break;
-           default:
-               throw new NotImplementedException();
-       }
-       
-       // TODO: Possibly make the amount of packets served up increase or decrease the amount of PURCHASE packets served up
-       if (IsLaunchDay())
-       {
-           OnLaunchDaySummary();
-       }
-      
-   }
+ 
    public virtual void OnLaunchDaySummary()
    {
    
@@ -538,6 +509,34 @@ public class MapLevel
 
        CleanUp();
        State = MapLevelState.Completed;
+   }
+
+   public void PostSummaryCheck()
+   {
+       VictoryConditionState state = GetVictoryConditionState();
+       switch (state)
+       {
+           case(VictoryConditionState.Failed):
+               EndGame();
+               return;
+           case(VictoryConditionState.NotMet):
+               if (IsLaunchDay())
+               {
+                   EndGame();
+                   return;
+               }
+               break;
+           case(VictoryConditionState.Succeeded):
+               break;
+           default:
+               throw new NotImplementedException();
+       }
+       
+       // TODO: Possibly make the amount of packets served up increase or decrease the amount of PURCHASE packets served up
+       if (IsLaunchDay())
+       {
+           OnLaunchDaySummary();
+       }
    }
 }
 
