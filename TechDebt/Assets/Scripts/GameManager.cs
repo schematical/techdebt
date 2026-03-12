@@ -365,7 +365,7 @@ public class GameManager : MonoBehaviour
         SetupRun();
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
-        UIManager.topBarPanel.Clear();
+  
         cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });

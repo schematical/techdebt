@@ -24,7 +24,7 @@ namespace UI
             CleanUp(); // Clear existing lines
             base.Show();
             WorldObjectType type = _selectedWorldObject.GetWorldObjectType();
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{type.DisplayName}");
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{_selectedWorldObject.GetDisplayName()}");
             
 
             List<NPCTask> tasks = _selectedWorldObject.GetAvailableTasks();

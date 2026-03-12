@@ -633,5 +633,16 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     {
         return GetWorldObjectType().Stats.GetStatValue(StatType.Infra_DailyCost) * GetSizeMultiplier();
     }
+    public override string GetDisplayName()
+    {
+        WorldObjectType type = GetWorldObjectType();
+        if (type.DisplayName != "Misc")
+        {
+            return type.DisplayName;
+        }
+
+        return data.Id;
+
+    }
 
 }

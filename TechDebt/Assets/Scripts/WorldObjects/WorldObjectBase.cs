@@ -180,6 +180,17 @@ namespace Infrastructure
         {
             GetWorldObjectType().IncrMetaStat(metaStat, value); //metaStatCollection.Set(metaStat, value);
         }
+
+        public virtual string GetDisplayName()
+        {
+            WorldObjectType type = GetWorldObjectType();
+            if (type.DisplayName != "Misc")
+            {
+                return type.DisplayName;
+            }
+            return gameObject.name;
+            
+        }
     }
     
 }
