@@ -67,6 +67,10 @@ public class Map
     
         Stages[CurrentStageIndex].GetSelectedLevel().MarkCompleted();
         CurrentStageIndex += 1;
+        if (CurrentStageIndex >= Stages.Count)
+        {
+            Stages.Add(new MapStage(Stages.Count));
+        }
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
         
         GameManager.Instance.UIManager.multiSelectPanel.Display(
@@ -83,18 +87,22 @@ public class Map
         for (int i = 0; i < endAt; i++)
         {
             MapLevel level = levels[i]; 
-            GameManager.Instance.UIManager.multiSelectPanel.Add(
+            UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                     level.Name,
                     GameManager.Instance.SpriteManager.GetSprite(level.GetSpriteId()),
                     level.Name,
-                    level.GetDescription()
-                )
-                .OnSelect((string id) =>
+                    ""
+                );
+            option.OnSelect((string id) =>
                 {
                     Stages[CurrentStageIndex].SetLevel(level);
                     GameManager.Instance.UIManager.Close();
                     GameManager.Instance.GameLoopManager.BeginPlanPhase();
                 });
+            option.OnPreview((string id) =>
+            {
+                option.SetParentBottomText(level.GetDescription());
+            });
         }
     }
 
@@ -419,12 +427,12 @@ public class MapLevel
                    {
                        
                        GameManager.Instance.Map.IncrStage();
-                       GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                       // GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
                    }
                }/*,
                new DialogButtonOption() { Text = "Main Menu", OnSelect = () =>
                    {
-
+// TODO: Prestige? 
                    }
                },*/
            }

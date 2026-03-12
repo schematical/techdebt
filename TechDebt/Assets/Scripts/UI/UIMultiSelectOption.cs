@@ -53,6 +53,10 @@ namespace UI
             }));
         }
 
+        public void SetParentBottomText(string text)
+        {
+            parentPanel.bottomText.text = text;
+        }
         public void MarkSelected()
         {
             onSelect.Invoke(id);

@@ -109,6 +109,7 @@ public class UIManager : MonoBehaviour
         eventDebugPanel.Close(forceClose);
         orgChartPanel.Close(forceClose);
         pauseMenu.Close(forceClose);
+        multiSelectPanel.Close(forceClose);
         // hireDevOpsPanel.SetActive(false);
 
      

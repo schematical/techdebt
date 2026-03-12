@@ -18,8 +18,15 @@ namespace UI
             base.Update();
             // Removed textArea update logic
         }
+
+        public override void Show()
+        {
+            Debug.Log("UIWorldObjectDetailPanel Show");
+            base.Show();
+        }
         public void ShowWorldObjectDetail(WorldObjectBase worldObject)
         {
+            Debug.Log("UIWorldObjectDetailPanel ShowWorldObjectDetail");
             _selectedWorldObject = worldObject;
             CleanUp(); // Clear existing lines
             base.Show();

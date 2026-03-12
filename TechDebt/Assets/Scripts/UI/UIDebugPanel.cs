@@ -116,7 +116,7 @@ public class UIDebugPanel : UIPanel
     {
         GameManager.Instance.Map.IncrStage();
         Close();
-        GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+        // GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
     }
 
     private void RunMisc()

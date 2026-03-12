@@ -22,8 +22,14 @@ namespace UI
 
       private void OnConfirmClick()
       {
-          GameManager.Instance.UIManager.Close();
+         
+          if (previewingOption == null)
+          {
+              Debug.LogError("previewingOption is null");
+              return;
+          }
           previewingOption.MarkSelected();
+          GameManager.Instance.UIManager.Close();
       }
 
       public void Close(bool forceClose = false)
@@ -77,6 +83,7 @@ namespace UI
 
       public void SetPreview(UIMultiSelectOption uiMultiSelectOption)
       {
+          Debug.Log("SetPreview: " + uiMultiSelectOption.id);
           previewingOption = uiMultiSelectOption;
           confirmButton.gameObject.SetActive(true);
       }
