@@ -12,12 +12,6 @@ public class LaunchMapLevel: MapLevel
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
         SprintDuration = 5;
-
-    }
-
-    public override void Randomize(int modifierCount)
-    {
-        // base.Randomize();
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.Traffic;
@@ -29,10 +23,17 @@ public class LaunchMapLevel: MapLevel
         modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.NetworkPacket_Probibility;
+        modifier.networkPacketType = NetworkPacketData.PType.Purchase;
         modifier.Direction = MapLevelModifier.ModifierDirection.Positive;
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
         modifier.SetOverrideValue(2);
         LevelModifiers.Add(modifier);
+    }
+
+    public override void Randomize(int modifierCount)
+    {
+        // base.Randomize(); // Dont randomize as it will remove modifiers.
+       
     }
 
     public override void OnStartDayPlan()

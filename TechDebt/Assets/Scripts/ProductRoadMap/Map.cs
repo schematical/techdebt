@@ -29,6 +29,7 @@ public class Map
        // Level 1 is just launch
         MapStage Stage = new MapStage(Stages.Count);
         MapLevel launchLevel = new LaunchMapLevel();
+        
         launchLevel.SetStage(Stage);
         Stage.Levels.Add(launchLevel);
         Stages.Add(Stage);
@@ -283,6 +284,7 @@ public class MapLevel
 
    public virtual void Randomize(int modifierCount)
    {
+       Debug.Log($"{Name} Randomize, Clearing Level Modifiers - Before {LevelModifiers.Count}");
        LevelModifiers.Clear();
        // First, get a victory condition
        if (VictoryConditions.Count == 0)
@@ -421,12 +423,13 @@ public class MapLevel
        }
    } 
    public virtual void OnLaunchDayPlan()
-   {
+   {Debug.Log($"OnLaunchDayPlan {LevelModifiers.Count}");
        foreach (MapLevelModifier modifier in LevelModifiers)
        {
            switch (modifier.Duration)
            {
                case (MapLevelModifier.ModifierDuration.LaunchDay):
+                   Debug.Log($"OnLaunchDayPlan MapLevelModifier.Apply");
                    modifier.Apply(this);
                    break;
            }
@@ -600,6 +603,7 @@ public class MapLevelModifier
     protected float OverrideValue;
     protected bool UseOverrideValue = false;
     protected StatModifier _statModifier;
+    public NetworkPacketData.PType networkPacketType;
 
     public static List<ModifierDuration> GetDurations()
     {
@@ -727,8 +731,10 @@ public class MapLevelModifier
                     case(StatType.NetworkPacket_Probibility):
                         // Find and apply this to 
                         NetworkPacketData networkPacketData =
-                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-                        _statModifier = new StatModifier($"level_modifier_temp_{level.GetStage().StageNumber}", CalcValue(level));
+                            GameManager.Instance.GetNetworkPacketDataByType(networkPacketType);
+                        float val = CalcValue(level);
+                        Debug.Log($"MapLevelModifier.Apply  {networkPacketType} = {val}");
+                        _statModifier = new StatModifier($"level_modifier_temp_{level.GetStage().StageNumber}", val);
                         networkPacketData.Stats.AddModifier(statType.Value, _statModifier);
                         break;
                     case(StatType.Traffic):
@@ -777,10 +783,10 @@ public class MapLevelModifier
                 switch (Direction)
                 {
                     case(ModifierDirection.Positive):
-                        return 5; // + level.GetStage().StageNumber; // TODO Make this dynamic
+                        return 5 + level.GetStage().StageNumber; // TODO Make this dynamic
                         break;
                     case(ModifierDirection.Negative):
-                        return 5;// - level.GetStage().StageNumber; // TODO Make this dynamic
+                        return 5 - level.GetStage().StageNumber; // TODO Make this dynamic
                         break;
                     default:
                         throw new NotFiniteNumberException();
