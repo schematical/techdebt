@@ -19,7 +19,7 @@ public class Map
         new EmailMapLevel(),
         new SocketChatMapLevel(),
         new GeoLocationMapLevel(),
-        new SecurityAuditMapLevel()
+        // new SecurityAuditMapLevel()
     };
     public int CurrentStageIndex { get; protected set; } = 0;
     public List<MapLevelVictoryConditionBase> GlobalVictoryConditions { get; set; }  = new List<MapLevelVictoryConditionBase>();
@@ -29,7 +29,7 @@ public class Map
        // Level 1 is just launch
         MapStage Stage = new MapStage(Stages.Count);
         MapLevel launchLevel = new LaunchMapLevel();
-        launchLevel.Init(Stage);
+        launchLevel.SetStage(Stage);
         Stage.Levels.Add(launchLevel);
         Stages.Add(Stage);
         /*
@@ -64,8 +64,17 @@ public class Map
 
     public void IncrStage()
     {
-    
         Stages[CurrentStageIndex].GetSelectedLevel().MarkCompleted();
+        List<MapLevel> levels = LevelPool.FindAll((level => level.State == MapLevel.MapLevelState.Incomplete));
+
+        if (levels.Count == 0)
+        {
+            Stages[CurrentStageIndex].GetSelectedLevel().EndGame(
+                "Well done! You have made it to the end of the run. Try again with new infrastructure and abilities that you unlocked during the run. Be sure tho check the Meta Challenges menu."
+                );
+            return;
+        }
+  
         CurrentStageIndex += 1;
         if (CurrentStageIndex >= Stages.Count)
         {
@@ -78,15 +87,17 @@ public class Map
             "Choose a feature to focus on."
         );
 
-        List<MapLevel> levels = LevelPool.FindAll((level => level.State == MapLevel.MapLevelState.Incomplete));
-        int endAt = levels.Count - 1;
+        
+        int endAt = levels.Count;
         if (endAt > 3)
         {
             endAt = 3;
         }
         for (int i = 0; i < endAt; i++)
         {
-            MapLevel level = levels[i]; 
+            MapLevel level = levels[i];
+            level.SetStage(Stages[CurrentStageIndex]);
+            level.Randomize(CurrentStageIndex);
             UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                     level.Name,
                     GameManager.Instance.SpriteManager.GetSprite(level.GetSpriteId()),
@@ -95,9 +106,17 @@ public class Map
                 );
             option.OnSelect((string id) =>
                 {
+                    
+                    GameManager.Instance.UIManager.multiSelectPanel.Close();
                     Stages[CurrentStageIndex].SetLevel(level);
-                    GameManager.Instance.UIManager.Close();
                     GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                    /*for (int ii = 0; ii < levels.Count; ii++)
+                    {
+                        if (i != ii)
+                        {
+                            levels[ii].SetStage(null);
+                        }
+                    }*/
                 });
             option.OnPreview((string id) =>
             {
@@ -131,7 +150,7 @@ public class MapStage
     {
         foreach (MapLevel level in Levels)
         {
-            level.Randomize();
+            level.Randomize(StageNumber);
         }
         /*for (int i = 0; i < 3; i++)
         {
@@ -149,7 +168,7 @@ public class MapStage
     }
     public MapLevel SetLevel(MapLevel mapLevel)
     {
-        mapLevel.Init(this);
+        mapLevel.SetStage(this);
         SelectedLevel = 0;
         Levels = new List<MapLevel>()
         {
@@ -194,7 +213,7 @@ public class MapLevel
        VictoryConditions.Add(new HasMoneyVictoryCondition());
    }
 
-   public void Init(MapStage stage)
+   public void SetStage(MapStage stage)
    {
        Stage =  stage;
    }
@@ -262,8 +281,9 @@ public class MapLevel
        }
    }
 
-   public virtual void Randomize()
+   public virtual void Randomize(int modifierCount)
    {
+       LevelModifiers.Clear();
        // First, get a victory condition
        if (VictoryConditions.Count == 0)
        {
@@ -275,7 +295,7 @@ public class MapLevel
       
        // Chose random modifiers based on stage
 
-       for (int i = 0; i < Stage.StageNumber; i++)
+       for (int i = 0; i < modifierCount; i++)
        {
 
            MapLevelModifier modifier = null;
@@ -471,7 +491,7 @@ public class MapLevel
        }
        GameManager.Instance.InfrastructureUpdateNetworkTargets();
    }
-   public virtual void EndGame()
+   public virtual void EndGame(string dialog = "You have failed to keep our infrastructure up and running with in our budget. You are fired!")
    {
     
        GameManager.Instance.UIManager.SetTimeScalePause();
@@ -480,7 +500,7 @@ public class MapLevel
        GameManager.Instance.UpdateMetaProgress();
        GameManager.Instance.UIManager.ShowNPCDialog(
            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-           "You have failed to keep our infrastructure up and running with in our budget. You are fired!",
+           dialog,
            new List<DialogButtonOption>()
            {
                new DialogButtonOption() { Text = "Start Over", OnClick = () =>
@@ -708,12 +728,12 @@ public class MapLevelModifier
                         // Find and apply this to 
                         NetworkPacketData networkPacketData =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-                        _statModifier = new StatModifier("level_modifier_temp", CalcValue(level));
+                        _statModifier = new StatModifier($"level_modifier_temp_{level.GetStage().StageNumber}", CalcValue(level));
                         networkPacketData.Stats.AddModifier(statType.Value, _statModifier);
                         break;
                     case(StatType.Traffic):
                     case(StatType.TechDebt_AccumulationRate):
-                        _statModifier = new StatModifier("level_modifier_temp", CalcValue(level));
+                        _statModifier = new StatModifier($"level_modifier_temp_{level.GetStage().StageNumber}", CalcValue(level));
                         GameManager.Instance.Stats.AddModifier(statType.Value, _statModifier);
                         break;
                     default:
@@ -757,10 +777,10 @@ public class MapLevelModifier
                 switch (Direction)
                 {
                     case(ModifierDirection.Positive):
-                        return 5 + level.GetStage().StageNumber; // TODO Make this dynamic
+                        return 5; // + level.GetStage().StageNumber; // TODO Make this dynamic
                         break;
                     case(ModifierDirection.Negative):
-                        return 5 - level.GetStage().StageNumber; // TODO Make this dynamic
+                        return 5;// - level.GetStage().StageNumber; // TODO Make this dynamic
                         break;
                     default:
                         throw new NotFiniteNumberException();
@@ -824,6 +844,10 @@ public class MapLevelModifier
                 }
 
                 break;
+            case(ModifierType.SprintDuration):
+                break;
+            default:
+                throw new NotImplementedException();
         }
     }
 }

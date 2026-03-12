@@ -15,7 +15,7 @@ public class LaunchMapLevel: MapLevel
 
     }
 
-    public override void Randomize()
+    public override void Randomize(int modifierCount)
     {
         // base.Randomize();
         MapLevelModifier modifier = new MapLevelModifier();
