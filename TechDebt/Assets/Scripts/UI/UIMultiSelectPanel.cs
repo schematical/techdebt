@@ -29,7 +29,6 @@ namespace UI
               return;
           }
           previewingOption.MarkSelected();
-          GameManager.Instance.UIManager.Close();
       }
 
       public void Close(bool forceClose = false)

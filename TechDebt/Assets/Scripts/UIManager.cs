@@ -95,6 +95,7 @@ public class UIManager : MonoBehaviour
 
     public void Close(bool forceClose = false)
     {
+        Debug.Log("UIManager Close");
         clickBlockingPanel.gameObject.SetActive(false);
         // multiSelectPanel.gameObject.SetActive(false);
         releaseHistoryPanel.Close(forceClose);
@@ -119,6 +120,7 @@ public class UIManager : MonoBehaviour
 
     public void Block()
     {
+        Debug.Log("UIManager Block");
         clickBlockingPanel.gameObject.SetActive(true);
     }
     public void SetupUIInfrastructure()
@@ -444,6 +446,7 @@ public class UIManager : MonoBehaviour
 
     public void RemoveBlock()
     {
+        Debug.Log("UIManager RemoveBlock");
         clickBlockingPanel.gameObject.SetActive(false);
     }
 
