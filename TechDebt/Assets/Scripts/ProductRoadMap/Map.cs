@@ -13,35 +13,45 @@ using Random = UnityEngine.Random;
 public class Map
 {
     public List<MapStage> Stages { get; set; }
+    public List<MapLevel> LevelPool { get; set; } = new List<MapLevel>()
+    {
+        new MobileMapLevel(),
+        new EmailMapLevel(),
+        new SocketChatMapLevel(),
+        new GeoLocationMapLevel(),
+        new SecurityAuditMapLevel()
+    };
     public int CurrentStageIndex { get; protected set; } = 0;
     public List<MapLevelVictoryConditionBase> GlobalVictoryConditions { get; set; }  = new List<MapLevelVictoryConditionBase>();
     public void Randomize()
     {
         Stages = new List<MapStage>();
-        // Level 1 is just launch
+       // Level 1 is just launch
         MapStage Stage = new MapStage(Stages.Count);
-        Stage.Levels.Add(new LaunchMapLevel(Stage));
+        MapLevel launchLevel = new LaunchMapLevel();
+        launchLevel.Init(Stage);
+        Stage.Levels.Add(launchLevel);
         Stages.Add(Stage);
-        
-        Stage = new MapStage(Stages.Count);
+        /*
+       Stage = new MapStage(Stages.Count);
 
-        
-        Stage.Levels.Add(new MobileMapLevel(Stage));
-        Stage.Levels.Add(new EmailMapLevel(Stage));
-        Stages.Add(Stage);
-        
-        Stage = new MapStage(Stages.Count);
-        Stage.Levels.Add(new SecurityAuditMapLevel(Stage));
-        Stages.Add(Stage);
-        
-        Stage = new MapStage(Stages.Count);
-        Stage.Levels.Add(new SocketChatMapLevel(Stage));
-        Stage.Levels.Add(new GeoLocationMapLevel(Stage));
-        Stages.Add(Stage);
-        foreach (MapStage nextStage in Stages)
-        {
-            nextStage.Randomize();
-        }
+
+       Stage.Levels.Add(new MobileMapLevel(Stage));
+       Stage.Levels.Add(new EmailMapLevel(Stage));
+       Stages.Add(Stage);
+
+       Stage = new MapStage(Stages.Count);
+       Stage.Levels.Add(new SecurityAuditMapLevel(Stage));
+       Stages.Add(Stage);
+
+       Stage = new MapStage(Stages.Count);
+       Stage.Levels.Add(new SocketChatMapLevel(Stage));
+       Stage.Levels.Add(new GeoLocationMapLevel(Stage));
+       Stages.Add(Stage);
+       foreach (MapStage nextStage in Stages)
+       {
+           nextStage.Randomize();
+       }*/
         
         
     }
@@ -54,10 +64,38 @@ public class Map
 
     public void IncrStage()
     {
-        Debug.Log($"IncrStage: {CurrentStageIndex}");
-        Stages[CurrentStageIndex].GetSelectedLevel().CleanUp();
+    
+        Stages[CurrentStageIndex].GetSelectedLevel().MarkCompleted();
         CurrentStageIndex += 1;
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
+        
+        GameManager.Instance.UIManager.multiSelectPanel.Display(
+            "What should we work on next?",
+            "Choose a feature to focus on."
+        );
+
+        List<MapLevel> levels = LevelPool.FindAll((level => level.State == MapLevel.MapLevelState.Incomplete));
+        int endAt = levels.Count - 1;
+        if (endAt > 3)
+        {
+            endAt = 3;
+        }
+        for (int i = 0; i < endAt; i++)
+        {
+            MapLevel level = levels[i]; 
+            GameManager.Instance.UIManager.multiSelectPanel.Add(
+                    level.Name,
+                    GameManager.Instance.SpriteManager.GetSprite(level.GetSpriteId()),
+                    level.Name,
+                    level.GetDescription()
+                )
+                .OnSelect((string id) =>
+                {
+                    Stages[CurrentStageIndex].SetLevel(level);
+                    GameManager.Instance.UIManager.Close();
+                    GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                });
+        }
     }
 
     public MapStage GetCurrentStage()
@@ -102,6 +140,18 @@ public class MapStage
         Levels[SelectedLevel].OnSprintStart();
         return Levels[SelectedLevel];
     }
+    public MapLevel SetLevel(MapLevel mapLevel)
+    {
+        Debug.Log($"SetSelectedLevel: {mapLevel.Name}");
+        mapLevel.Init(this);
+        SelectedLevel = 0;
+        Levels = new List<MapLevel>()
+        {
+            mapLevel
+        };
+        Levels[SelectedLevel].OnSprintStart();
+        return Levels[SelectedLevel];
+    }
 
     public MapLevel GetSelectedLevel()
     {
@@ -115,6 +165,12 @@ public class MapStage
 
 public class MapLevel
 {
+    public enum MapLevelState
+    {
+        Incomplete,
+        Completed,
+    } 
+   public MapLevelState State { get; protected set; } = MapLevelState.Incomplete;
    public string Name { get; set; }
    protected string SpriteId { get; set; } = "IconFlag";
    public int SprintDuration { get; set; } = 5;
@@ -125,11 +181,16 @@ public class MapLevel
    // TODO Stake holder? Sales, PR, etc?
    //TODO Add in rewards
    // protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
-   protected MapStage Stage { get; set; }
-   public MapLevel(MapStage _stage)
+   protected MapStage Stage;
+   public MapLevel()
    {
-       Stage =  _stage;
+       
        VictoryConditions.Add(new HasMoneyVictoryCondition());
+   }
+
+   public void Init(MapStage stage)
+   {
+       Stage =  stage;
    }
 
    public string GetSpriteId()
@@ -377,7 +438,7 @@ public class MapLevel
    }
    public virtual void OnLaunchDaySummary()
    {
-       Debug.Log("OnLaunchDaySummary");
+   
        GameManager.Instance.UIManager.ShowNPCDialog(
            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
            "Great work. Lets get working on our next sprint.",
@@ -466,6 +527,17 @@ public class MapLevel
    public List<MapLevelVictoryConditionBase> GetVictoryConditions()
    {
        return VictoryConditions;
+   }
+
+   public void MarkCompleted()
+   {
+       if (State != MapLevelState.Incomplete)
+       {
+           throw new SystemException("MapLevel.State is not incomplete");
+       }
+
+       CleanUp();
+       State = MapLevelState.Completed;
    }
 }
 

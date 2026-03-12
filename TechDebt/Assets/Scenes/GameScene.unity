@@ -1763,6 +1763,7 @@ MonoBehaviour:
   deskMenuPanel: {fileID: 355200704}
   multiSelectPanel: {fileID: 1757876466}
   releaseHistoryPanel: {fileID: 1381266152}
+  leftMenuPanel: {fileID: 320297917}
   planPhaseMenuPanel: {fileID: 289147070}
   worldObjectDetailPanel: {fileID: 418729440}
   summaryPhasePanel: {fileID: 398695512}
@@ -3179,7 +3180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e17daab6d4849809eafd858cefe5806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UILeftMenuPanel
-  slideDirection: 0
+  slideDirection: 1
   rectTransform: {fileID: 0}
   canvasGroup: {fileID: 0}
   animationTime: 0.5

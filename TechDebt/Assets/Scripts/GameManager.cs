@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
     public List<ItemData> Items = new List<ItemData>();
     public UIManager UIManager;
@@ -1135,7 +1136,8 @@ public class GameManager : MonoBehaviour
         });
         if (targets.Count == 0)
         {
-            throw new Exception($"No world object found for type '{type}'");
+            // throw new Exception($"No world object found for type '{type}'");
+            return null;// This is a legit possibility.
         }
         int i = Random.Range(0, targets.Count);
         return targets[i];

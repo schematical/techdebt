@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
     public UIDeskMenuPanel deskMenuPanel;
     [FormerlySerializedAs("MultiSelectPanel")] public UIMultiSelectPanel multiSelectPanel; 
     public UIReleaseHistoryPanel  releaseHistoryPanel;
-    
+    public UILeftMenuPanel leftMenuPanel;
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
     public UIWorldObjectDetailPanel worldObjectDetailPanel;
     public UISummaryPhasePanel summaryPhasePanel;

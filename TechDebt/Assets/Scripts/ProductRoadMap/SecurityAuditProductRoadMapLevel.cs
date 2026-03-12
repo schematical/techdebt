@@ -1,7 +1,7 @@
 
 public class SecurityAuditMapLevel: MapLevel
 {
-    public SecurityAuditMapLevel(MapStage stage) : base(stage)
+    public SecurityAuditMapLevel() : base()
     {
         Name = "Security Audit Sprint";
         SpriteId = "IconLock";

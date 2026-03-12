@@ -1,7 +1,7 @@
 
 public class SocketChatMapLevel:MapLevel
 {
-    public SocketChatMapLevel(MapStage stage) : base(stage)
+    public SocketChatMapLevel() : base()
     {
         Name = "Socket Chat Sprint";
         SpriteId = "IconChat";

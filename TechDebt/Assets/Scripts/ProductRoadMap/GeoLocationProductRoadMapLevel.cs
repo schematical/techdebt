@@ -1,7 +1,7 @@
 
 public class GeoLocationMapLevel:MapLevel
 {
-    public GeoLocationMapLevel(MapStage stage) : base(stage)
+    public GeoLocationMapLevel() : base()
     {
         Name = "Geo Location Sprint";
         SpriteId = "IconGeo";

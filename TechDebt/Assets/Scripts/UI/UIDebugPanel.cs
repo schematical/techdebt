@@ -42,6 +42,7 @@ public class UIDebugPanel : UIPanel
         AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
         AddButton("Next Sprint", () => { NextSprint(); });
+        AddButton("Left Bar", () => { GameManager.Instance.UIManager.leftMenuPanel.Show(); });
         AddButton("Events", () =>
         {
             GameManager.Instance.UIManager.eventDebugPanel.Show();
@@ -119,6 +120,7 @@ public class UIDebugPanel : UIPanel
 
     private void SpawnNPC()
     {
+        Close();
         /*var door = GameManager.Instance.GetInfrastructureInstanceByID("door");
         if (door == null)
         {
@@ -159,7 +161,7 @@ public class UIDebugPanel : UIPanel
     private void InstaBuild()
     {
 
-
+        Close();
         var plannedInfrastructure = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.data.CurrentState == InfrastructureData.State.Planned);
         if (plannedInfrastructure != null)
         {
@@ -174,6 +176,7 @@ public class UIDebugPanel : UIPanel
 
     private void InstaResearch()
     {
+        Close();
         if (GameManager.Instance.CurrentlyResearchingTechnology != null)
         {
             string techName = GameManager.Instance.CurrentlyResearchingTechnology.DisplayName;
@@ -191,6 +194,7 @@ public class UIDebugPanel : UIPanel
 
     private void UnlockAllTechnologies()
     {
+        Close();
         GameManager.Instance.UnlockAllTechnologies();
         Debug.Log("All technologies unlocked.");
         
@@ -199,47 +203,14 @@ public class UIDebugPanel : UIPanel
 
     private void EndRun()
     {
+        Close();
         GameManager.Instance.Stats.Get(StatType.Money).SetBaseValue(-1000);
         GameManager.Instance.Map.GetCurrentLevel().EndGame();
     }  
     private void EndDay()
     {
+        Close();
         GameManager.Instance.GameLoopManager.dayTimer = 1000;
     }
     
-    private void ExportState()
-    {
-
-        // Create a serializable container for the data
-        GameStateExport exportData = new GameStateExport
-        {
-            ActiveInfrastructure = GameManager.Instance.ActiveInfrastructure.Select(i => i.data).ToList(),
-            NetworkPacketDatas = GameManager.Instance.GetNetworkPacketDatas()
-        };
-
-        // Serialize to JSON using Unity's built-in utility
-        string json = JsonUtility.ToJson(exportData, true);
-
-        // Define file path using a platform-agnostic directory
-        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string fileName = $"GameState__{timestamp}.json";
-        string filePath = Path.Combine(Application.persistentDataPath, fileName);
-
-        try
-        {
-            File.WriteAllText(filePath, json);
-            Debug.Log($"Game state exported to: {filePath}");
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Failed to export game state: {e.Message}");
-        }
-    }
-}
-
-[System.Serializable]
-public class GameStateExport
-{
-    public List<InfrastructureData> ActiveInfrastructure;
-    public List<NetworkPacketData> NetworkPacketDatas;
 }

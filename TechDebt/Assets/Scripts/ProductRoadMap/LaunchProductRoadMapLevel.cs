@@ -7,7 +7,7 @@ using UnityEngine;
 public class LaunchMapLevel: MapLevel
 {
 
-    public LaunchMapLevel(MapStage stage) : base(stage)
+    public LaunchMapLevel() : base()
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
