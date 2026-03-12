@@ -60,7 +60,7 @@ public class UIDialogPanel : UIPanel
             uiButton.button.transform.position = Vector3.zero;
             uiButton.button.onClick.RemoveAllListeners();
             uiButton.button.onClick.AddListener(() => {
-                Close();
+                Close(true);
                 option.OnClick?.Invoke();
               
             });
