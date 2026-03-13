@@ -399,7 +399,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Code Pipeline",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" },
+                RequiredTechnologies = new List<string>() { "application-server" },
+                CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 // Push out Y deployments
             },

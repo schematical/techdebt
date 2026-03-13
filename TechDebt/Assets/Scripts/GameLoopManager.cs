@@ -170,13 +170,13 @@ public class GameLoopManager : MonoBehaviour
 
         float money = GameManager.Instance.GetStatValue(StatType.Money);
 
-        string infraCosts = "\n\n<b>Infrastructure Costs:</b>\n";
+        List<KeyValuePair<string, float>> infraCostsList = new List<KeyValuePair<string, float>>();
         foreach (InfrastructureInstance instance in GameManager.Instance.ActiveInfrastructure)
         {
             float cost = instance.GetDailyCost();
             if (instance.IsActive() && cost > 0)
             {
-                infraCosts += $"{instance.GetWorldObjectType().DisplayName}: ${cost}\n";
+                infraCostsList.Add(new KeyValuePair<string, float>(instance.GetWorldObjectType().DisplayName, cost));
             }
         }
 
@@ -205,31 +205,32 @@ public class GameLoopManager : MonoBehaviour
             );
         }
       
-        string summaryText = $"End of Day {currentDay - 1}\n" +
-                             $"Total Packets: {packetsFailed + packetsServiced} \n" +
-                             $"Packets Failed: {packetsFailed} \n" +
-                             $"Packets Succeeded: {packetsServiced} \n" +
-                             $"Percentage Served: %{percentageSuccess:F2} \n" +
-                             $"Total Costs: ${Math.Round(totalDailyCost)} \n" +
-                             $"Total Income: ${Math.Round(dailyPacketIncome)}\n" +
-                             $"Net Income: ${dailyPacketIncome - totalDailyCost}\n" +
-                             $"Total: {money} \n" +
-                             //$"Tomorrow's Expected Income: ${updatedDailyIncome} - ({(1 - percentageSuccess):F2}% Failed Penalty)\n" +
-                             $"Tomorrow's Attack Possibility: {attackPossibility:F2}%\n\n" +
-                             $"Victory Conditions: \n";
+        List<string> victoryConditions = new List<string>();
         foreach (MapLevelVictoryConditionBase condition in GameManager.Instance.Map.GetCurrentLevel()
                      .GetCombinedVictoryConditions())
         {
-            summaryText += $"  - {condition.GetDescription()} \n";
+            victoryConditions.Add(condition.GetDescription());
         }
-                             
 
-        summaryText += infraCosts;
+        SummaryData summaryData = new SummaryData
+        {
+            Day = currentDay - 1,
+            PacketsTotal = packetsFailed + packetsServiced,
+            PacketsFailed = packetsFailed,
+            PacketsSucceeded = packetsServiced,
+            PercentageServed = percentageSuccess * 100f,
+            TotalCosts = (float)Math.Round(totalDailyCost),
+            TotalIncome = (float)Math.Round(dailyPacketIncome),
+            NetIncome = dailyPacketIncome - totalDailyCost,
+            TotalMoney = money,
+            AttackPossibility = attackPossibility,
+            VictoryConditions = victoryConditions,
+            InfraCosts = infraCostsList
+        };
 
         GameManager.Instance.UIManager.moneyPanel.SpendCoins(totalDailyCost);
         
-        
-        GameManager.Instance.UIManager.ShowSummaryUI(summaryText);
+        GameManager.Instance.UIManager.ShowSummaryUI(summaryData);
         GameManager.Instance.MetaStats.Incr(MetaStat.Day);
 
         // Assign "go to door" task to all NPCs

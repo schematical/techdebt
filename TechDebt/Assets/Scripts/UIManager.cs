@@ -339,10 +339,9 @@ public class UIManager : MonoBehaviour
         timeControlPanel.Show();
     }
 
-    public void ShowSummaryUI(string text)
+    public void ShowSummaryUI(UI.SummaryData data)
     {
-        summaryPhasePanel.Show();
-        summaryPhasePanel.textArea.textArea.text = text;
+        summaryPhasePanel.ShowSummary(data);
     }
 
     
