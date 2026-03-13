@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     public UITopBarPanel topBarPanel;
   
     public UIDeskMenuPanel deskMenuPanel;
-    [FormerlySerializedAs("MultiSelectPanel")] public UIMultiSelectPanel multiSelectPanel; 
+    public UIMultiSelectPanel multiSelectPanel; 
     public UIReleaseHistoryPanel  releaseHistoryPanel;
     public UILeftMenuPanel leftMenuPanel;
     public UIPlanPhaseMenuPanel planPhaseMenuPanel;
@@ -96,7 +96,17 @@ public class UIManager : MonoBehaviour
     public void Close(bool forceClose = false)
     {
         clickBlockingPanel.gameObject.SetActive(false);
-        // multiSelectPanel.gameObject.SetActive(false);
+   
+        productRoadMap.Close(forceClose);
+ 
+        orgChartPanel.Close(forceClose);
+        pauseMenu.Close(forceClose);
+        multiSelectPanel.Close(forceClose);
+        CloseSideBars(forceClose);
+    }
+
+    public void CloseSideBars(bool forceClose = false)
+    {
         releaseHistoryPanel.Close(forceClose);
         deskMenuPanel.Close(forceClose);
         worldObjectDetailPanel.Close(forceClose);
@@ -105,12 +115,7 @@ public class UIManager : MonoBehaviour
         techTreePanel.Close(forceClose);
         taskListPanel.Close(forceClose);
         globalStatsPanel.Close(forceClose);
-        productRoadMap.Close(forceClose);
         eventDebugPanel.Close(forceClose);
-        orgChartPanel.Close(forceClose);
-        pauseMenu.Close(forceClose);
-        //  multiSelectPanel.Close(forceClose);
-      
     }
 
     public void Block()
@@ -209,7 +214,7 @@ public class UIManager : MonoBehaviour
             else
             {
                 _timeStateBeforePause = _currentTimeState;
-                SetTimeState(TimeState.Paused);
+                SetTimeState(TimeState.Paused, true);
             }
         }
 

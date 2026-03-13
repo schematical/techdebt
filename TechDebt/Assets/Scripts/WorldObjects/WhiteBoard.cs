@@ -99,6 +99,7 @@ namespace Infrastructure
                         CodeTask codeTask = new CodeTask(releaseBase);
                         GameManager.Instance.AddTask(codeTask);
                         GameManager.Instance.UIManager.multiSelectPanel.Close();
+                        GameManager.Instance.UIManager.CloseSideBars();
                         HideAttentionIcon();
                     });
                     option.OnPreview((string id) =>

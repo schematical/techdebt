@@ -31,7 +31,7 @@ public class UIPanel : UIGameObject
     {
         if (runUICloseOnShow)
         {
-            GameManager.Instance.UIManager.Close();
+            GameManager.Instance.UIManager.CloseSideBars();
         }
         base.Show();
         

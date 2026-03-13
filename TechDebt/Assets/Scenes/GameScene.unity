@@ -8661,7 +8661,7 @@ MonoBehaviour:
   - Id: codepipeline
     worldObjectType: 0
     Prefab: {fileID: 5600887683244989748, guid: 0bee7f7464887e943ad2c8baec8da75c, type: 3}
-    GridPosition: {x: 45, y: 25, z: 0}
+    GridPosition: {x: 20, y: 30, z: 0}
     InitialState: 0
     CurrentState: 0
     UnlockConditions:
