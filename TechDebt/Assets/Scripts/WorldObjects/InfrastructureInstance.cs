@@ -39,7 +39,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
 
 
-    public void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         if (data.CurrentState == InfrastructureData.State.Operational)
         {
@@ -645,4 +645,5 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     }
 
+    
 }

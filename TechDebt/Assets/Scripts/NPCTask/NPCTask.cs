@@ -131,7 +131,7 @@ public abstract class NPCTask
 
     public virtual string GetDescription()
     {
-        string description = $"State: {CurrentState} " +
+        string description = $"{GetType()} - State: {CurrentState} " +
                              $"{target.name} - Priority: {Priority} - `";
         if (AssignedNPC != null) {
             description += $"isCloseEnough`: {IsCloseEnough()} - " +

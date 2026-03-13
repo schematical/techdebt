@@ -173,6 +173,13 @@ public class ReleaseBase
                 }
 
                 break;
+            case(ReleaseState.DeploymentInProgress):
+                foreach (ApplicationServer applicationServer in GetUndeployedReleaseTargets())
+                {
+                    applicationServer.HideAttentionIcon();
+                }
+
+                break;
         }
         GameManager.Instance.InvokeReleaseChanged(this, prevState);
     }

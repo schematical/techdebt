@@ -45,7 +45,7 @@ public class BuildTask : InfrastructureTaskBase
 
     public override bool IsFinished(NPCBase npc)
     {
-        return buildProgress >= TargetInfrastructure.GetWorldObjectType().BuildTime;
+        return buildProgress >= TargetInfrastructure.GetWorldObjectType().BuildTime || TargetInfrastructure.IsActive();
     }
 
     public override string GetDescription()

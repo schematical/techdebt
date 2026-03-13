@@ -55,8 +55,16 @@ public class CodeTask : NPCTask, iProgressable
 
     public override bool IsFinished(NPCBase npc)
     {
-  
-        return ReleaseBase.State == ReleaseBase.ReleaseState.DeploymentReady;
+        switch (ReleaseBase.State)
+        {
+            case(ReleaseBase.ReleaseState.DeploymentReady):
+            case(ReleaseBase.ReleaseState.DeploymentInProgress):
+            case(ReleaseBase.ReleaseState.DeploymentRewardReady):
+            case(ReleaseBase.ReleaseState.DeploymentCompleted):
+                return true;
+        }
+
+        return false;
     }
     public override string GetAssignButtonText()
     {

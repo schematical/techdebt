@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace Infrastructure
 {
-    public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable
+    public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable, iTargetable
     {
 
         public WorldObjectType.Type Type;
@@ -19,7 +19,7 @@ namespace Infrastructure
         private UIAttentionIcon uiAttentionIcon;
         protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
         public PolygonCollider2D polygonCollider2D;
-  
+        protected UIProgressBarPanel progressBar;
         void Start()
         {
             if (polygonCollider2D == null)
@@ -191,6 +191,21 @@ namespace Infrastructure
             return gameObject.name;
             
         }
+        public void HideProgressBar()
+        {
+            if (progressBar == null)
+            {
+                return;
+            }
+            progressBar.CleanUp();
+            progressBar = null;
+        }
+
+        public void AddStatusBar(iProgressable progressable)
+        {
+            progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
+            progressBar.Initialize(this, progressable);
+        }
     }
-    
+   
 }

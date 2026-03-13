@@ -27,8 +27,9 @@ public class UIPauseMenu : UIPanel
         Close();
         GameManager.Instance.UIManager.metaChallengesPanel.Show();
     }
-    /*public override void Close(bool forceClose = false)
+    public override void Close(bool forceClose = false)
     {
         base.Close(forceClose);
-    }*/
+        GameManager.Instance.UIManager.RemoveBlock();
+    }
 }

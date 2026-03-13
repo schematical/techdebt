@@ -10,13 +10,13 @@ namespace UI
     {
         private Dictionary<string, UIPanelButton> _buttons = new Dictionary<string, UIPanelButton>();
 
-        protected override void Start()
+        public override void Show()
         {
 
-            base.Start();
+          
             titleText.text = "";
             GameManager.OnInfrastructureStateChange += Refresh;
-            AddButton("Tasks", () => GameManager.Instance.UIManager.taskListPanel.Toggle(), "kanbanboard");
+            AddButton("Tasks", () => GameManager.Instance.UIManager.taskListPanel.Toggle());//, "kanbanboard");
             AddButton("Tech", () => GameManager.Instance.UIManager.techTreePanel.Toggle());
             AddButton("NPCs", () => GameManager.Instance.UIManager.npcListPanel.Toggle());
             AddButton("Releases", () =>GameManager.Instance.UIManager.releaseHistoryPanel.Toggle(), "whiteboard");
