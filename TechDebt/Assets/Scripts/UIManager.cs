@@ -82,8 +82,7 @@ public class UIManager : MonoBehaviour
     private Vector3 originalCameraPosition;
 
     private float lastTaskListUpdateTime;
-    
-
+    private bool forcePause = false;
 
 
     public void Initialize()
@@ -196,16 +195,22 @@ public class UIManager : MonoBehaviour
                 pauseMenu.GetPanelState() == UIGameObject.UIState.Closed
                 )
             {
+                ForcePause();
                 pauseMenu.Show();
             }
             else
             {
+                StopForcePause();
                 pauseMenu.Close();
             }
         }
 
         
-        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (
+            !forcePause &&
+            Keyboard.current != null && 
+            Keyboard.current.spaceKey.wasPressedThisFrame
+        )
         {
             if (_currentTimeState == TimeState.Paused)
             {
@@ -225,49 +230,19 @@ public class UIManager : MonoBehaviour
       
     }
 
-   
+    public void ForcePause()
+    {
+        forcePause = true;
+        timeControlPanel.Close();
+        SetTimeScalePause();
+    }
 
-    
-
-
-
-  
-    
-
-
-
-
-   
-
-    
-
-
-
-
-
-
-
-
-   
-
-
-
-
- 
-
-
-
-
-
-
-
-    
-
-    
-
-  
-    
-
+    public void StopForcePause()
+    {
+        forcePause = false;
+        timeControlPanel.Show();
+        Resume();
+    }
 
     public void SetTimeScalePause(bool setDesired = false) {
         SetTimeState(TimeState.Paused, setDesired);
@@ -275,6 +250,10 @@ public class UIManager : MonoBehaviour
 
     public void Resume()
     {
+        if (forcePause)
+        {
+            return;
+        }
         // Debug.Log($"Resume...{_userSpecifiedTimeState}");
         SetTimeState(_userSpecifiedTimeState);
         
@@ -282,6 +261,7 @@ public class UIManager : MonoBehaviour
 
     public void SetTimeScalePlay(bool setDesired = false)
     {
+        
         SetTimeState(UIManager.TimeState.Normal);
     }
 

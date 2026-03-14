@@ -11,6 +11,7 @@ public class UIPauseMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
+        AddButton("Resume", () => Close());
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Quit", Quit);
     }

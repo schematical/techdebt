@@ -19,7 +19,7 @@ namespace UI
       
         public Tile unlockedTile;
         public Tile lockedTile;
-        [FormerlySerializedAs("researchTitle")] public Tile researchedTitle;
+        public Tile researchedTitle;
         public Tile researchingTile;
         public TileBase connectorTile;
         public Tile backgroundTile;
@@ -260,7 +260,7 @@ namespace UI
         {
             base.Show();
          
-            GameManager.Instance.UIManager.SetTimeScalePause();
+            GameManager.Instance.UIManager.ForcePause();
             GameManager.OnTechnologyUnlocked += Refresh;
             GameManager.OnTechnologyResearchStarted += Refresh;
             grid.gameObject.SetActive(true);
@@ -272,7 +272,7 @@ namespace UI
         {
             if (panelState != UIState.Closed)
             {
-                GameManager.Instance.UIManager.Resume();
+                GameManager.Instance.UIManager.StopForcePause();
             }
 
             foreach (TechNodeView techNodeView in _techTreeNodes)
