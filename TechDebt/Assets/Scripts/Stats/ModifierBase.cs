@@ -298,10 +298,23 @@ namespace NPCs
                 case(ModifierType.Infra_NetworkPacketStat):
                     GameManager.Instance.UIManager.globalStatsPanel.Preview(this);
                     break;
-                case(ModifierType.NPC_Stat):
-        
+                case(ModifierType.Infra_Stat):
+                    if (WorldObjectType == null)
+                    {
+                        throw new SystemException($"No world object type set for {Name}");
+                    }
+
+                    InfrastructureInstance instance = GameManager.Instance.ActiveInfrastructure.Find(instance =>
+                        instance.data.worldObjectType == WorldObjectType);
+                    if(instance == null) 
+                    {
+                        throw new SystemException($"No instances found for world object type set for {WorldObjectType}");
+                    }
+                    
+                    GameManager.Instance.UIManager.worldObjectDetailPanel.Preview(this, instance);
+                    break;
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException($"Modifier Type {Type} not implemented");
               
             }
         }

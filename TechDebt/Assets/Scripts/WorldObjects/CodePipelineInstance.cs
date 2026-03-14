@@ -19,18 +19,22 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
     {
         base.Initialize();
 
-        GameManager.OnReleaseChanged += (releaseBase, previousState) =>
-        {
-            ReleaseChanged(releaseBase, previousState);
-        };
+        GameManager.OnReleaseChanged -= ReleaseChanged;
+        GameManager.OnReleaseChanged += ReleaseChanged;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        GameManager.OnReleaseChanged -= ReleaseChanged;
     }
 
 
 
     public void ReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState previousState)
     {
+      
        
-        if (!IsActive())
+        if (!IsActive() || !gameObject.activeInHierarchy)
         {
             return;
         }
@@ -39,34 +43,40 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
         {
             return;
         }
-        Debug.Log($"CodePipelineInstance::ReleaseChanged - HITTTTT {gameObject.name}");
-        _currentRelease =  releaseBase;
-        _currentRelease.SetState(ReleaseBase.ReleaseState.DeploymentInProgress);
-        _deploymentProgress = 0;
-        _targetServer = FindTargetServer();
-        if (_targetServer == null)
-        {
-            Debug.LogError($"CodePipelineInstance::FindTargetServer - Could not find target server");
-            return;
-        }
-        _targetServer.AddStatusBar(this);
+       
     }
 
     public override void FixedUpdate()
     {
-Debug.Log($"CodePipelineInstance::FixedUpdate - {_currentRelease}");
+
+        _currentRelease = GameManager.Instance.GetCurrentRelease();
         if (_currentRelease == null)
         {
-            if (_targetServer != null)
-            {
-                Debug.LogError($"This shouldn't be possible.");
-            }
-
             return;
         }
-        _deploymentProgress += Time.deltaTime * _deploymentSpeed;
-        Debug.Log($"CodePipelineInstance::FixedUpdate - Deploying {_currentRelease.GetVersionString()} - _deploymentProgress");
+
+        switch (_currentRelease.State)
+        {
+            case(ReleaseBase.ReleaseState.DeploymentReady):
+                Debug.Log($"CodePipelineInstance::FixedUpdate - HITTTTT {gameObject.name}");
+                _currentRelease.SetState(ReleaseBase.ReleaseState.DeploymentInProgress);
+                _deploymentProgress = 0;
+                _targetServer = FindTargetServer();
+                if (_targetServer == null)
+                {
+                    Debug.LogError($"CodePipelineInstance::FindTargetServer - Could not find target server");
+                    return;
+                }
+                _targetServer.AddStatusBar(this);
+                break;
+            case(ReleaseBase.ReleaseState.DeploymentInProgress):
+                break;
+            default:
+                return;
+        }
      
+        _deploymentProgress += Time.deltaTime * _deploymentSpeed;
+       
         if (_targetServer != null)
         {
             int progress = (int)Math.Floor((_deploymentProgress / _currentRelease.GetRequiredProgress() )  * 100);
@@ -88,12 +98,16 @@ Debug.Log($"CodePipelineInstance::FixedUpdate - {_currentRelease}");
             _deploymentProgress = 0;
             _targetServer.HideProgressBar();
             _targetServer = FindTargetServer();
-            _targetServer.AddStatusBar(this);
-            if (_targetServer == null)
+
+            if (_targetServer != null)
             {
+                _targetServer.AddStatusBar(this);
+            }else{
+
                 FloatingTextFactory.Instance.ShowText(
                     $"Done Deploying {_currentRelease.GetVersionString()}",
-                    transform.position
+                    transform.position,
+                    Color.green
                 );
                 _currentRelease.CheckIsOver();
                 _currentRelease = null;

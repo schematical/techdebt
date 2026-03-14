@@ -895,7 +895,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue =  1.25f,
                 WorldObjectType = WorldObjectType.Type.DedicadedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Up
             },
             new ModifierBase()
             {
@@ -908,7 +908,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue =  1.25f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconCode",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Up
             }
             
             /**

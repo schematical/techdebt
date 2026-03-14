@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using NPCs;
 using Stats;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ namespace UI
     public class UIWorldObjectDetailPanel: UIPanel
     {
         private WorldObjectBase _selectedWorldObject;
+
+        protected UIStatCollectionPanelLine statsLine;
         // public UITextArea textArea; // Removed to use AddLine instead
   
 
@@ -69,7 +72,7 @@ namespace UI
             }
 
             // Stats
-            UIStatCollectionPanelLine statsLine = AddLine<UIStatCollectionPanelLine>();
+            statsLine = AddLine<UIStatCollectionPanelLine>();
             statsLine.SetStatCollection(type.Stats, "Stats");
             statsLine.SetId("Stats");
 
@@ -130,6 +133,12 @@ namespace UI
                     }
                 });
             }
+        }
+
+        public void Preview(ModifierBase modifierBase, InfrastructureInstance instance)
+        {
+            ShowWorldObjectDetail(instance);
+            statsLine.Preview(modifierBase);
         }
     }
 }
