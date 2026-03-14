@@ -20,7 +20,8 @@ namespace NPCs
             Infra_NetworkPacketStat,
             Run_Stat,
             Run_Stat_Flat,
-            Global_NetworkPacketStat
+            Global_NetworkPacketStat,
+            Infra_Stat
         }
         public enum ModifierTarget
         {
@@ -96,6 +97,7 @@ namespace NPCs
             }
             switch (Type)
             {
+                case(ModifierType.Infra_Stat):
                 case(ModifierType.NPC_Stat):
                     StatModifier = new StatModifier(
                         Id,

@@ -26,7 +26,7 @@ public class LaunchMapLevel: MapLevel
         modifier.networkPacketType = NetworkPacketData.PType.Purchase;
         modifier.Direction = MapLevelModifier.ModifierDirection.Positive;
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
-        modifier.SetOverrideValue(2);
+        modifier.SetOverrideValue(2f);
         LevelModifiers.Add(modifier);
     }
 

@@ -643,9 +643,8 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 {
                     new RewardBase()
                     {
-                        RewardId = StatType.Money.ToString(),
-                        RewardValue = 2f,
-                        Type = RewardBase.RewardType.StartingStatValue,
+                        RewardId = "load-balancer",
+                        Type = RewardBase.RewardType.Technology_Locked,
                     }
                 }
             },
@@ -859,7 +858,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Name = "Sales Page Optimization",
                 StatType = StatType.NetworkPacket_Probibility,
                 NetworkPacketType = NetworkPacketData.PType.Purchase,
-                // BaseValue = 1.05f,
+                BaseValue = 1.1f,
                 IconSpriteId = "IconCart"
             },
             new ModifierBase()
@@ -884,8 +883,33 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue = -2.0f,
                 ScaleDirection =   ModifierBase.ModifierScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
+            },
+            new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.InfraClass,
+                Type = ModifierBase.ModifierType.Infra_Stat,
+                Id = "db_indexes",
+                Name = "Database Indexes",
+                StatType = StatType.Infra_LatencyStartsAtLoad,
+                BaseValue =  1.25f,
+                WorldObjectType = WorldObjectType.Type.DedicadedDB,
+                IconSpriteId = "IconRelationalDBDesign",
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
+            },
+            new ModifierBase()
+            {
+                Group = ModifierBase.ModifierGroup.Release,
+                Target = ModifierBase.ModifierTarget.InfraClass,
+                Type = ModifierBase.ModifierType.Infra_Stat,
+                Id = "multi_threaded",
+                Name = "Multi Threaded",
+                StatType = StatType.Infra_LatencyStartsAtLoad,
+                BaseValue =  1.25f,
+                WorldObjectType = WorldObjectType.Type.ApplicationServer,
+                IconSpriteId = "IconCode",
+                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
             }
-            
             
             /**
              * Sprint Modifiers
