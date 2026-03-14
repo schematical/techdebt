@@ -747,43 +747,49 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Id = "fast_worker",
                 Name = "Fast Worker",
                 StatType = StatType.NPC_DevOpsSpeed,
-                IconSpriteId = "IconHand"
+                IconSpriteId = "IconHand",
+                BaseValue = 1.1f
             },
             new NPCStatModifierReward()
             {
+                
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
                 StatType = StatType.NPC_ResearchSpeed,
-                IconSpriteId = "IconResearch"
+                IconSpriteId = "IconResearch",
+                BaseValue = 1.1f
             },
             new NPCStatModifierReward()
             {
                 Id = "fast_xp",
                 Name = "Fast Learner",
                 StatType = StatType.NPC_XPSpeed,
-                IconSpriteId = "IconTest"
+                IconSpriteId = "IconTest",
+                BaseValue = 1.1f
             },
             new NPCStatModifierReward()
             {
                 Id = "move_speed",
                 Name = "Fast Move Speed",
                 StatType = StatType.NPC_MovmentSpeed,
-                IconSpriteId = "IconMovementSpeed"
+                IconSpriteId = "IconMovementSpeed",
+                BaseValue = 1.1f
             },
             new NPCStatModifierReward()
             {
                 Id = "fast_coder",
                 Name = "Fast Coder",
                 StatType = StatType.NPC_CodeSpeed,
-                IconSpriteId = "IconCode"
+                IconSpriteId = "IconCode",
+                BaseValue = 1.1f
             },
             new NPCStatModifierReward()
             {
                 Id = "better_coder",
                 Name = "Better Coder",
                 StatType = StatType.NPC_CodeQuality,
-                BaseValue = 2f,
-                IconSpriteId = "IconCode"
+                BaseValue = 1.1f,
+                IconSpriteId = "IconCode",
             },
             new NPCStatModifierReward()
             {
@@ -824,7 +830,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Name = "Relational Database Design",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
-                // BaseValue = 0.9f,
+                BaseValue = 0.9f,
                 WorldObjectType = WorldObjectType.Type.DedicadedDB,
                 IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection =  ScaleDirection.Down
@@ -845,7 +851,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Id = "input_validation",
                 Name = "Input Validation",
                 StatType = StatType.Infra_InputValidation,
-                // BaseValue = 1.05f,
+                BaseValue = 0.95f,
                 IconSpriteId = "IconCode"
             },
             /*new TechDebtModifier()

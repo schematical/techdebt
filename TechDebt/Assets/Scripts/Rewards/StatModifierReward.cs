@@ -9,7 +9,7 @@ namespace DefaultNamespace.Rewards
         protected StatModifier StatModifier { get; private set; }
         protected iModifiable AttachedModifier { get; private set; }
         public abstract iModifiable GetTarget();
-        public void OnLevelUp(Rarity rarity)
+        public override void OnLevelUp(Rarity rarity)
         {
             if (StatModifier == null)
             {
@@ -32,8 +32,13 @@ namespace DefaultNamespace.Rewards
 
         public override void Apply()
         {
-            StatModifier = BuildStatModifier();
-            AttachedModifier.Stats.AddModifier(StatType, StatModifier);
+            if (AttachedModifier == null)
+            {
+                AttachedModifier = GetTarget();
+                StatModifier = BuildStatModifier();
+                AttachedModifier.Stats.AddModifier(StatType, StatModifier);
+            }
+  
         }
     }
 }

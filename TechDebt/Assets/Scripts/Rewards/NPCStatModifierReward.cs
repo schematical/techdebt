@@ -8,6 +8,11 @@ namespace DefaultNamespace.Rewards
 
         public NPCBase npc;
 
+        public NPCStatModifierReward()
+        {
+            Group = RewardBase.RewardGroup.NPC;
+        }
+
         public void SetTarget(NPCBase npc)
         {
             this.npc = npc;

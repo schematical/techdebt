@@ -182,10 +182,12 @@ public class UIManager : MonoBehaviour
         {
             if (debugPanel.GetPanelState() == UIGameObject.UIState.Closed)
             {
+                leftMenuPanel.Show();
                 debugPanel.Show();
             }
             else
             {
+                leftMenuPanel.Close();
                 debugPanel.Close();
             }
         } 

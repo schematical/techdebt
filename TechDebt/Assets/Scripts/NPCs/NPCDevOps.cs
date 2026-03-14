@@ -138,6 +138,10 @@ public class NPCDevOps : NPCAnimatedBiped
                         {
                             try
                             {
+                                if (modifierBase is NPCStatModifierReward)
+                                {
+                                    (modifierBase as NPCStatModifierReward).SetTarget(this);
+                                }
                                 AddModifier(modifierBase);
                                 modifierBase.Apply();
                               
