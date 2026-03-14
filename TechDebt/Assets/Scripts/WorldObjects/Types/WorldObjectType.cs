@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Infrastructure
 {
-    public class WorldObjectType
+    public class WorldObjectType: iModifiable
     {
         public enum Type
         {

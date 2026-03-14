@@ -23,9 +23,8 @@ namespace Events
             float techDebt = gameManager.GetStatValue(StatType.TechDebt);
             
             float releaseQuality = 1 - currentRelease.GetQuality();
-            float releaseLevel = currentRelease.RewardModifier.GetLevel();
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
-            return techDebt * releaseQuality * releaseLevel  * attackPossibility;
+            return techDebt * releaseQuality  * attackPossibility;
         }
         public override void Render(UIPanelLine line)
         {
@@ -39,10 +38,9 @@ namespace Events
             float techDebt = gameManager.GetStatValue(StatType.TechDebt);
             
             float releaseQuality = 1 - currentRelease.GetQuality();
-            float releaseLevel = currentRelease.RewardModifier.GetLevel();
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
 
-            line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"techDebt: {techDebt} -  releaseQuality: {releaseQuality} - releaseLevel: {releaseLevel} - {attackPossibility} - Total: {techDebt * releaseQuality * releaseLevel * attackPossibility} ";
+            line.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"techDebt: {techDebt} -  releaseQuality: {releaseQuality} - {attackPossibility} - Total: {techDebt * releaseQuality * attackPossibility} ";
         }
 
     }

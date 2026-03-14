@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DefaultNamespace.Rewards;
 using Infrastructure;
 using NPCs;
 using Stats;
@@ -129,82 +130,98 @@ namespace UI
                 });
                 GameManager.Instance.Modifiers.Modifiers[0].Apply();
                 GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);*/
-                GameManager.Instance.Modifiers.Render(_globalModifiersLine);
+                // TODO: Create a reward render class
+                // GameManager.Instance.Rewards.Render(_globalModifiersLine);
             }));
 
 
 
         }
 
-        public void Preview(ModifierBase modifierBase)
+        public void Preview(RewardBase modifierBase)
         {
+
+            Show();
+            if (modifierBase is GlobalStatModifierReward)
+            {
+
+
+                statCollectionPanelLine.Preview((GlobalStatModifierReward)modifierBase);
+            }
+            else if (modifierBase is GlobalNetworkPacketStatModifierReward)
+            {
+                GlobalNetworkPacketStatModifierReward reward = (GlobalNetworkPacketStatModifierReward)modifierBase;
+
+                if (!networkLine.IsExpanded())
+                {
+                    networkLine.Expand();
+                }
+
+                foreach (UIPanelLine line in networkLine.GetLines())
+                {
+
+                    if (line.GetId() == reward.NetworkPacketType.ToString())
+                    {
+                        (line as UIStatCollectionPanelLine).Preview(modifierBase);
+                    }
+                }
+
+            }
+            else if (modifierBase is WorldObjectTypeNetworkPacketStatModifierReward)
+            {
+                WorldObjectTypeNetworkPacketStatModifierReward reward =
+                    (WorldObjectTypeNetworkPacketStatModifierReward)modifierBase;
+
+                if (!worldObjectTypesLine.IsExpanded())
+                {
+                    worldObjectTypesLine.Expand();
+                }
+
+                UIPanelLine worldObjectTypeLine = worldObjectTypesLine.GetLineById(reward.WorldObjectType.ToString());
+                if (worldObjectTypeLine == null)
+                {
+                    Debug.LogWarning(
+                        $"Could not find {reward.WorldObjectType.ToString()} in {worldObjectTypesLine.GetLines().Count}");
+                    return;
+                }
+
+                if (!worldObjectTypeLine.IsExpanded())
+                {
+                    worldObjectTypeLine.Expand();
+                }
+
+                UIPanelLine worldObjectTypeNetworkPacketDataLine =
+                    worldObjectTypeLine.GetLineById(LineType.NetworkPacketData.ToString());
+                if (worldObjectTypeNetworkPacketDataLine == null)
+                {
+                    throw new SystemException(
+                        $"Could not find {LineType.NetworkPacketData.ToString()} in {worldObjectTypeLine.GetLines().Count}");
+                }
+
+                if (!worldObjectTypeNetworkPacketDataLine.IsExpanded())
+                {
+                    worldObjectTypeNetworkPacketDataLine.Expand();
+                }
+
+                UIPanelLine worldObjectTypeNetworkPacketDataStatsLine =
+                    worldObjectTypeNetworkPacketDataLine.GetLineById(reward.NetworkPacketType.ToString());
+                if (worldObjectTypeNetworkPacketDataStatsLine == null)
+                {
+                    throw new SystemException(
+                        $"Could not find {reward.NetworkPacketType.ToString()} in {worldObjectTypeNetworkPacketDataLine.GetLines().Count}");
+                }
+
+                if (!worldObjectTypeNetworkPacketDataStatsLine.IsExpanded())
+                {
+                    worldObjectTypeNetworkPacketDataStatsLine.Expand();
+                }
+
+                (worldObjectTypeNetworkPacketDataStatsLine as UIStatCollectionPanelLine).Preview(modifierBase);
+
+            }else {
+                throw new NotImplementedException();
+            }
             
-           Show();
-           switch (modifierBase.Type)
-           {
-               case (ModifierBase.ModifierType.Run_Stat):
-               //case (ModifierBase.ModifierType.Run_Stat_Flat):
-
-                   statCollectionPanelLine.Preview(modifierBase);
-                   break;
-               case (ModifierBase.ModifierType.Global_NetworkPacketStat):
-                   if (!networkLine.IsExpanded())
-                   {
-                       networkLine.Expand();
-                   }
-                   foreach (UIPanelLine line in networkLine.GetLines())
-                   {
-                      
-                       if (line.GetId() == modifierBase.NetworkPacketType.ToString())
-                       {
-                           (line as UIStatCollectionPanelLine).Preview(modifierBase);
-                       } /*
-                       else
-                       {
-                           (line as UIStatCollectionPanelLine).ResetText();
-                       }*/
-                   }
-
-                   break;
-               case(ModifierBase.ModifierType.Infra_NetworkPacketStat):
-                   
-                   if (!worldObjectTypesLine.IsExpanded())
-                   {
-                       worldObjectTypesLine.Expand();
-                   }
-                   UIPanelLine worldObjectTypeLine = worldObjectTypesLine.GetLineById(modifierBase.WorldObjectType.ToString());
-                   if (worldObjectTypeLine == null)
-                   {
-                        Debug.LogWarning($"Could not find {modifierBase.WorldObjectType.ToString()} in {worldObjectTypesLine.GetLines().Count}");
-                        return;
-                   }
-                   if (!worldObjectTypeLine.IsExpanded())
-                   {
-                       worldObjectTypeLine.Expand();
-                   }
-                   UIPanelLine worldObjectTypeNetworkPacketDataLine = worldObjectTypeLine.GetLineById(LineType.NetworkPacketData.ToString());
-                   if (worldObjectTypeNetworkPacketDataLine == null)
-                   {
-                       throw new SystemException($"Could not find {LineType.NetworkPacketData.ToString()} in {worldObjectTypeLine.GetLines().Count}");   
-                   }
-                   if (!worldObjectTypeNetworkPacketDataLine.IsExpanded())
-                   {
-                       worldObjectTypeNetworkPacketDataLine.Expand();
-                   }
-                   UIPanelLine worldObjectTypeNetworkPacketDataStatsLine = worldObjectTypeNetworkPacketDataLine.GetLineById(modifierBase.NetworkPacketType.ToString());
-                   if (worldObjectTypeNetworkPacketDataStatsLine == null)
-                   {
-                       throw new SystemException($"Could not find {modifierBase.NetworkPacketType.ToString()} in {worldObjectTypeNetworkPacketDataLine.GetLines().Count}");   
-                   }
-                   if (!worldObjectTypeNetworkPacketDataStatsLine.IsExpanded())
-                   {
-                       worldObjectTypeNetworkPacketDataStatsLine.Expand();
-                   }
-                   (worldObjectTypeNetworkPacketDataStatsLine as UIStatCollectionPanelLine).Preview(modifierBase);
-                   break;
-               default:
-                   throw new NotImplementedException();
-           }
         }
     }
 }

@@ -57,9 +57,9 @@ namespace UI
             panelImage.color = Color.white;
             uiGameObject.Show();
             primaryText.gameObject.SetActive(true);
-            primaryText.text = release.RewardModifier.GetTitle();
+            primaryText.text = release.RewardModifier.Name;
             secondaryText.gameObject.SetActive(true);
-            secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
+            secondaryText.text = "";//release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
             UIButton uiButton = openButton.GetComponent<UIButton>();
             uiButton.Close();
             release.NextState();
@@ -78,7 +78,7 @@ namespace UI
                         return;
                     }
                     rewardImage.sprite = RarityHelper.PaintIcon(currentlyDisplayedRarity, icon);
-                    secondaryText.text = release.RewardModifier.GetNextLevelUpDisplayText(currentlyDisplayedRarity);
+                    secondaryText.text = "";//release.RewardModifier.GetNextLevelUpDisplayText(currentlyDisplayedRarity);
                 });
             }
         }

@@ -19,7 +19,7 @@ using Stats;
 using UI;
 using UnityEngine.Serialization;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, iModifiable
 {
     public enum GameManagerState { MainMenu, Playing }
     private static GameManager _instance;
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     public TutorialEvent Tutorial;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
-    public ModifierCollection Modifiers { get; set; } = new  ModifierCollection();
+    public ModifierCollection Rewards { get; set; } = new  ModifierCollection();
 
 
     // --- Item Spawning ---
@@ -1133,11 +1133,9 @@ public class GameManager : MonoBehaviour
         return releases;
     }
 
-    public void AddModifier(ModifierBase modifierBase)
+    public void AddModifier(RewardBase modifierBase)
     {
-
-        Modifiers.Modifiers.Add(modifierBase);
-        modifierBase.Apply();
+        Rewards.Rewards.Add(modifierBase);
     }
     public T GetRandomInfrastructureInstanceByClass<T>() where T : class
     {

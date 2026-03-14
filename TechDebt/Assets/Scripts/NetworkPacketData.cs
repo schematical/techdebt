@@ -3,7 +3,7 @@ using System;
 using Stats;
 using UnityEngine;
 [Serializable]
-public class NetworkPacketData
+public class NetworkPacketData: iModifiable
 {
     [Serializable]
     public enum PType
@@ -16,7 +16,7 @@ public class NetworkPacketData
         PII
     }
     // public NetworkPacketData(float probability)
-    public StatsCollection Stats = new StatsCollection();
+    public StatsCollection Stats { get; } = new StatsCollection();
     public PType Type;
     public string prefabId;
     public float baseLoad = 20f;

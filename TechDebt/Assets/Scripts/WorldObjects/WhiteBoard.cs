@@ -58,7 +58,7 @@ namespace Infrastructure
                 "Your team will start working towards a feature that will reward you once deployed."
             );
             int saftyCheck = 0;
-            List<ModifierBase> modifiers = new List<ModifierBase>();
+            List<RewardBase> modifiers = new List<RewardBase>();
             int optionCount = 3;
             /*if (GameManager.Instance.Modifiers.Modifiers.Count >= GameManager.Stats.GetStatValue(StatType.NPC_ModifierSlots))
             {
@@ -70,17 +70,17 @@ namespace Infrastructure
             )
             {
                 saftyCheck++;
-                ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.Release);
+                RewardBase modifierBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.Release);
                 if (modifiers.Find((t) => t.Id == modifierBase.Id) != null)
                 {
                     continue;
                 }
 
-                ModifierBase existingModifierBase =
-                    GameManager.Instance.Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
+                RewardBase existingRewardBase =
+                    GameManager.Instance.Rewards.Rewards.Find((t) => t.Id == modifierBase.Id);
                 Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(modifierBase.IconSpriteId);
                 if (
-                    existingModifierBase == null
+                    existingRewardBase == null
                 )
                 {
                     /*if (GameManager.Instance.Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
@@ -89,8 +89,8 @@ namespace Infrastructure
                     UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                         modifierBase.Id,
                         sprite,
-                        modifierBase.GetTitle(),
-                        modifierBase.GetNextLevelUpDisplayText(Rarity.Common)
+                        modifierBase.Name,
+                        ""///modifierBase.GetNextLevelUpDisplayText(Rarity.Common)
                     );
                     option.OnSelect((string id) =>
                     {
@@ -104,22 +104,22 @@ namespace Infrastructure
                     });
                     option.OnPreview((string id) =>
                     {
-                        modifierBase.ShowPreviewUI();
+                        // modifierBase.ShowPreviewUI();
                     });
                 }
                 else
                 {
-                    modifiers.Add(existingModifierBase);
+                    modifiers.Add(existingRewardBase);
                     GameManager.Instance.UIManager.multiSelectPanel.Add(
-                            existingModifierBase.Id,
+                            existingRewardBase.Id,
                             sprite,
-                            existingModifierBase.GetTitle(),
-                            existingModifierBase.GetNextLevelUpDisplayText(Rarity.Common)
+                            existingRewardBase.Name,
+                            ""// existingRewardBase.GetNextLevelUpDisplayText(Rarity.Common)
                         )
                         .OnSelect((string id) =>
                         {
                             ReleaseBase releaseBase =
-                                new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingModifierBase);
+                                new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingRewardBase);
                             GameManager.Instance.Releases.Add(releaseBase);
                             CodeTask codeTask = new CodeTask(releaseBase);
                             GameManager.Instance.AddTask(codeTask);

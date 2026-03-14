@@ -20,13 +20,13 @@ public class InfrastructureData
 }
 
 [Serializable]
-public class InfrastructureDataNetworkPacket
+public class InfrastructureDataNetworkPacket: iModifiable
 {
     public enum NCRouteType { Return, End }
     public NetworkPacketData.PType PacketType;
     public int loadPerPacket = 20;
     public int cost = 0;
-    public StatsCollection Stats = new StatsCollection();
+    public StatsCollection Stats { get;  }= new StatsCollection();
     public NCRouteType RouteType = NCRouteType.Return;
     public void Init()
     {

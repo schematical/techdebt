@@ -135,7 +135,7 @@ namespace UI
             }
         }
 
-        public void Preview(ModifierBase modifierBase, InfrastructureInstance instance)
+        public void Preview(RewardBase modifierBase, InfrastructureInstance instance)
         {
             ShowWorldObjectDetail(instance);
             statsLine.Preview(modifierBase);

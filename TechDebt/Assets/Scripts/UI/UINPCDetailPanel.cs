@@ -91,7 +91,7 @@ namespace UI
             base.Close(forceClose);
         }
 
-        public void Preview(ModifierBase modifierBase, NPCDevOps npc)
+        public void Preview(RewardBase modifierBase, NPCDevOps npc)
         {
             Show(npc);
             Debug.Log("TODO: Preview");

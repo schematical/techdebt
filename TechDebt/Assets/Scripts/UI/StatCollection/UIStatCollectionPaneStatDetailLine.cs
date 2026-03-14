@@ -1,4 +1,6 @@
 using System;
+using DefaultNamespace;
+using DefaultNamespace.Rewards;
 using NPCs;
 using Stats;
 using UnityEngine;
@@ -45,17 +47,15 @@ namespace UI
             return statData.Type.ToString();
         }
 
-        public void Preview(ModifierBase modifierBase)
+        public void Preview(StatModifierReward modifierBase)
         {
             float updatedValue = 0;
-            switch (modifierBase.Type)
-            {
-                default:
-                    StatModifier statModifier = modifierBase.BuildStatModifier();
-                    updatedValue = statData.PreviewValue(statModifier);
-                    mainText.text.text = statData.GetPreviewText(statModifier);
-                    break;
-            }
+         
+            StatModifier statModifier = modifierBase.BuildStatModifier();
+            updatedValue = statData.PreviewValue(statModifier);
+            mainText.text.text = statData.GetPreviewText(statModifier);
+        
+            
             
             if (Math.Abs(updatedValue - statData.Value) < 0.00001f)
             {
@@ -64,10 +64,10 @@ namespace UI
             {
                 switch (modifierBase.ScaleDirection)
                 {
-                    case(ModifierBase.ModifierScaleDirection.Up):
+                    case(ScaleDirection.Up):
                         mainText.text.color = Color.green;
                         break;
-                    case(ModifierBase.ModifierScaleDirection.Down):
+                    case(ScaleDirection.Down):
                         mainText.text.color = Color.red;
                         break;
                     default:
@@ -78,10 +78,10 @@ namespace UI
             {
                 switch (modifierBase.ScaleDirection)
                 {
-                    case(ModifierBase.ModifierScaleDirection.Up):
+                    case(ScaleDirection.Up):
                         mainText.text.color = Color.red;
                         break;
-                    case(ModifierBase.ModifierScaleDirection.Down):
+                    case(ScaleDirection.Down):
                         mainText.text.color = Color.green;
                         break;
                     default:

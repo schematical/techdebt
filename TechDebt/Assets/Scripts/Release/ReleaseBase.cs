@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
 using Stats;
@@ -33,7 +34,7 @@ public class ReleaseBase
     // TODO: Optimized score, gives a latency bonus or a load bonus
     public ReleaseState State { get; private set; } = ReleaseState.InDevelopment;
 
-    public ModifierBase RewardModifier;
+    public RewardBase RewardModifier;
     public float CurrentProgress = 0f;
     public float RequiredProgress =  30f;
     public Rarity rewardRarity = Rarity.Common;
@@ -44,11 +45,16 @@ public class ReleaseBase
         // Stats.Add(new StatData(StatType.Release_Security));
     }
 
-    public ReleaseBase(int version, ModifierBase modifierBase)
+    public ReleaseBase(int version, RewardBase modifierBase)
     {
         Version = version;
         RewardModifier = modifierBase;
-        RequiredProgress = (float) (30f * Math.Pow(1.25f, modifierBase.GetLevel()));
+        float durationMultiplier = 1;
+        if (modifierBase is LeveledRewardBase)
+        {
+            durationMultiplier = (modifierBase as LeveledRewardBase).GetLevel();
+        }
+        RequiredProgress = (float) (30f * Math.Pow(1.25f, durationMultiplier));
     }
 
 
@@ -136,7 +142,7 @@ public class ReleaseBase
         if (RewardModifier != null)
         {
          
-            ModifierBase existingModifierBase = GameManager.Instance.Modifiers.Modifiers.Find((r) => r.Id == RewardModifier.Id);
+            RewardBase existingModifierBase = GameManager.Instance.Rewards.Rewards.Find((r) => r.Id == RewardModifier.Id);
             if(existingModifierBase == null){
                 
                 // Debug.Log($"Modifier Base Did NOT Exist: {RewardModifier.Id} - Count: {GameManager.Instance.Modifiers.Modifiers.Count}");
@@ -146,7 +152,7 @@ public class ReleaseBase
             {
                 // Debug.Log($"Modifier Base Exists: {existingModifierBase.Id} - Count: {GameManager.Instance.Modifiers.Modifiers.Count}");
             }
-            RewardModifier.LevelUp(rewardRarity);
+            RewardModifier.Apply();
         
         }
 

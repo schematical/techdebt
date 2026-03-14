@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using DefaultNamespace;
 using DefaultNamespace.Rewards;
 using Infrastructure;
 using MetaChallenges;
@@ -714,18 +715,18 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         return challenges;
     }
 
-    public static ModifierBase GetRandomModifier(ModifierBase.ModifierGroup group)
+    public static RewardBase GetRandomModifier(RewardBase.RewardGroup group)
     {
-        List<ModifierBase> modifiers = GetModifierByGroup(group);
+        List<RewardBase> modifiers = GetModifierByGroup(group);
  
         int i = Random.Range(0, modifiers.Count);
         return modifiers[i];
     }  
-    public static List<ModifierBase> GetModifierByGroup(ModifierBase.ModifierGroup group)
+    public static List<RewardBase> GetModifierByGroup(RewardBase.RewardGroup group)
     {
-        List<ModifierBase> modifiers = GetAllModifiers();
-        List<ModifierBase> foundModifiers = new List<ModifierBase>();
-        foreach (ModifierBase modifier in modifiers)
+        List<RewardBase> modifiers = GetAllModifiers();
+        List<RewardBase> foundModifiers = new List<RewardBase>();
+        foreach (RewardBase modifier in modifiers)
         {
             if (modifier.Group == group)
             {
@@ -736,63 +737,56 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
 
         return foundModifiers;
     }  
-    public static List<ModifierBase> GetAllModifiers()
+    public static List<RewardBase> GetAllModifiers()
     {
-        return new List<ModifierBase>()
+        return new List<RewardBase>()
         {
            
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "fast_worker",
                 Name = "Fast Worker",
                 StatType = StatType.NPC_DevOpsSpeed,
                 IconSpriteId = "IconHand"
             },
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
                 StatType = StatType.NPC_ResearchSpeed,
                 IconSpriteId = "IconResearch"
             },
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "fast_xp",
                 Name = "Fast Learner",
                 StatType = StatType.NPC_XPSpeed,
                 IconSpriteId = "IconTest"
             },
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "move_speed",
                 Name = "Fast Move Speed",
                 StatType = StatType.NPC_MovmentSpeed,
                 IconSpriteId = "IconMovementSpeed"
             },
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "fast_coder",
                 Name = "Fast Coder",
                 StatType = StatType.NPC_CodeSpeed,
                 IconSpriteId = "IconCode"
             },
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "better_coder",
                 Name = "Better Coder",
                 StatType = StatType.NPC_CodeQuality,
                 BaseValue = 2f,
                 IconSpriteId = "IconCode"
             },
-            new ModifierBase()
+            new NPCStatModifierReward()
             {
-                Target = ModifierBase.ModifierTarget.NPC,
                 Id = "better_debugger",
                 Name = "Better Debugger",
                 StatType = StatType.NPC_AttackDamage,
@@ -811,11 +805,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
              * - Documentation - Makes it easier for new NPCS to learn infra.
              * - Cross Training - Requires 2 NPCS or more - Enhances NPCs knowledge, prevents knowledge silo events.
              */
-             new ModifierBase()
+             new WorldObjectTypeNetworkPacketStatModifierReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.InfraClass,
-                Type = ModifierBase.ModifierType.Infra_NetworkPacketStat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "image_optimization",
                 Name = "Image Optimization",
                 StatType = StatType.Infra_LoadPerPacket,
@@ -823,13 +815,11 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue = 0.95f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconImageOptimization",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
+                ScaleDirection =  ScaleDirection.Down
             },
-            new ModifierBase()
+            new WorldObjectTypeNetworkPacketStatModifierReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.InfraClass,
-                Type = ModifierBase.ModifierType.Infra_NetworkPacketStat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "db_optimization",
                 Name = "Relational Database Design",
                 StatType = StatType.Infra_LoadPerPacket,
@@ -837,13 +827,11 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 // BaseValue = 0.9f,
                 WorldObjectType = WorldObjectType.Type.DedicadedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Down
+                ScaleDirection =  ScaleDirection.Down
             },
-            new ModifierBase()
+            new GlobalNetworkPacketStatModifierReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.Run,
-                Type = ModifierBase.ModifierType.Global_NetworkPacketStat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "sale_page_optimization",
                 Name = "Sales Page Optimization",
                 StatType = StatType.NetworkPacket_Probibility,
@@ -851,11 +839,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue = 1.1f,
                 IconSpriteId = "IconCart"
             },
-            new ModifierBase()
+            new GlobalStatModifierReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.Run,
-                Type = ModifierBase.ModifierType.Run_Stat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "input_validation",
                 Name = "Input Validation",
                 StatType = StatType.Infra_InputValidation,
@@ -874,31 +860,27 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 ScaleDirection =   ModifierBase.ModifierScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
             },*/
-            new ModifierBase()
+            new WorldObjectTypeStatModifierReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.InfraClass,
-                Type = ModifierBase.ModifierType.Infra_Stat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "db_indexes",
                 Name = "Database Indexes",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 BaseValue =  1.25f,
                 WorldObjectType = WorldObjectType.Type.DedicadedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Up
+                ScaleDirection =  ScaleDirection.Up
             },
-            new ModifierBase()
+            new WorldObjectTypeStatModifierReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.InfraClass,
-                Type = ModifierBase.ModifierType.Infra_Stat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "multi_threaded",
                 Name = "Multi Threaded",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 BaseValue =  1.25f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconCode",
-                ScaleDirection =  ModifierBase.ModifierScaleDirection.Up
+                ScaleDirection =  ScaleDirection.Up
             }
             
             /**

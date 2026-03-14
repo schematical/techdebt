@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace.Rewards;
 using NPCs;
 using Stats;
 using TMPro;
@@ -31,7 +32,7 @@ namespace UI
             }
         }
 
-        public void Preview(ModifierBase modifierBase)
+        public void Preview(RewardBase modifierBase)
         {
             if (!IsExpanded())
             {
@@ -41,13 +42,17 @@ namespace UI
             foreach (UIPanelLine line in lines)
             {
                 // Find the right line
-                if(line.GetId() == modifierBase.StatType.ToString()) 
+                if (modifierBase is StatModifierReward)
                 {
-                    (line as UIStatCollectionPaneStatDetailLine).Preview(modifierBase);
-                }
-                else
-                {
-                    (line as UIStatCollectionPaneStatDetailLine).ResetText();
+                    StatModifierReward statModifierReward = (StatModifierReward)modifierBase;
+                    if (line.GetId() == statModifierReward.StatType.ToString())
+                    {
+                        (line as UIStatCollectionPaneStatDetailLine).Preview(statModifierReward);
+                    }
+                    else
+                    {
+                        (line as UIStatCollectionPaneStatDetailLine).ResetText();
+                    }
                 }
             }
         }

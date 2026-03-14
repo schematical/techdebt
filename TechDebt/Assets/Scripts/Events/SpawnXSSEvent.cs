@@ -34,10 +34,9 @@ namespace Events
             
             float releaseQuality = 1 - currentRelease.GetQuality();
             float inputValidation = 1 - GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
-         
-            float releaseLevel = currentRelease.RewardModifier.GetLevel();
+            
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
-            return (techDebt * releaseQuality * releaseLevel * inputValidation * attackPossibility);
+            return (techDebt * releaseQuality * inputValidation * attackPossibility);
         }
         
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
+using DefaultNamespace.Rewards;
 using Events;
 using NPCs;
 using Stats;
@@ -89,9 +90,9 @@ public class NPCDevOps : NPCAnimatedBiped
             "Choose a bonus to be applied to your DevOps Engineer"
         );
         int saftyCheck = 0;
-        List<ModifierBase> traits = new List<ModifierBase>();
+        List<RewardBase> traits = new List<RewardBase>();
         int optionCount = 3;
-        if (Modifiers.Modifiers.Count >= Stats.GetStatValue(StatType.NPC_ModifierSlots))
+        if (Modifiers.Rewards.Count >= Stats.GetStatValue(StatType.NPC_ModifierSlots))
         {
             optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
         }
@@ -102,13 +103,13 @@ public class NPCDevOps : NPCAnimatedBiped
         )
         {
             saftyCheck++;
-            ModifierBase modifierBase = MetaGameManager.GetRandomModifier(ModifierBase.ModifierGroup.NPC);
+            RewardBase modifierBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.NPC);
             if (traits.Find((t) => t.Id == modifierBase.Id) != null)
             {
                 continue;
             }
 
-            Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(modifierBase.IconSpriteId);
+            Sprite sprite = modifierBase.GetSprite();
             
 
          
@@ -116,30 +117,31 @@ public class NPCDevOps : NPCAnimatedBiped
             Rarity rarity = RarityHelper.GetRandomRarity();
             Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite); // spriteRenderer.sprite;
             
-            ModifierBase existingModifierBase = Modifiers.Modifiers.Find((t) => t.Id == modifierBase.Id);
+            RewardBase existingModifierBase = Modifiers.Rewards.Find((t) => t.Id == modifierBase.Id);
             // Debug.Log($"TraitTest: {existingModifierBase != null} && {Modifiers.Modifiers.Count} < {Stats.GetStatValue(StatType.NPC_ModifierSlots)}");
  
             if (
                 existingModifierBase == null
             )
             {
-                if (Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
+                if (Modifiers.Rewards.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
                 {
                     traits.Add(modifierBase);
-                    
+
                     GameManager.Instance.UIManager.multiSelectPanel.Add(
-                            modifierBase.Id,
-                            spriteOut,
-                            modifierBase.GetTitle(),
-                            $"New - {rarity} - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
+                        modifierBase.Id,
+                        spriteOut,
+                        modifierBase.Name,
+                        $"New - {rarity}" //  - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
                         .OnSelect((string id) =>
                         {
                             try
                             {
                                 AddModifier(modifierBase);
-                                modifierBase.LevelUp(rarity);
-                 
+                                modifierBase.Apply();
+                              
+
                                 GameManager.Instance.UIManager.multiSelectPanel.Close();
                             }
                             catch (Exception e)
@@ -159,13 +161,16 @@ public class NPCDevOps : NPCAnimatedBiped
                 GameManager.Instance.UIManager.multiSelectPanel.Add(
                         existingModifierBase.Id,
                         sprite,
-                        existingModifierBase.GetTitle(),
-                        $"{rarity} - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
+                        existingModifierBase.Name,
+                        $"{rarity}" // - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
                     .OnSelect((string id) =>
                     {
                         try {
-                            existingModifierBase.LevelUp(rarity);
+                            if (modifierBase is LeveledRewardBase)
+                            {
+                                (modifierBase as LeveledRewardBase).LevelUp(rarity);
+                            }
                             GameManager.Instance.UIManager.multiSelectPanel.Close();
                         }catch (Exception e) {
                             Debug.LogError("NPC Level Up Exception2 Start");
@@ -177,14 +182,14 @@ public class NPCDevOps : NPCAnimatedBiped
         }
     }
 
-    public void AddModifier(ModifierBase modifierBase)
+    public void AddModifier(RewardBase modifierBase)
     {
-        Modifiers.Modifiers.Add(modifierBase);
-        if (GameManager.Instance.Tutorial != null)
+        Modifiers.Rewards.Add(modifierBase);
+        /*if (GameManager.Instance.Tutorial != null)
         {
             GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
-        }
-        modifierBase.Apply(this);
+        }*/
+      
     }
 
     public override bool CanAssignTask(NPCTask task)
@@ -226,55 +231,7 @@ public class NPCDevOps : NPCAnimatedBiped
     }
 
     
-    public override string GetDetailText()
-    {
-        string content = $"<b>{name}</b>\n";
-        content += $"\nState: {CurrentState}\n";
-        content += $"Level: {level}\n";
-        content += $"XP: {currentXP:F0}\n";
-        
-        // Add the current task
-        if (CurrentTask != null)
-        {
-            content += $"Task: {CurrentTask.GetType().Name}\n\n";
-        }
-        else
-        {
-            content += "Task: Idle\n\n";
-        }
-        
-        content += "<b>Modifiers:</b>\n";
-        if (Modifiers.Modifiers.Any())
-        {
-            foreach (ModifierBase modifierBase in Modifiers.Modifiers)
-            {
-                content += $"- {modifierBase.Name} - Lvl: {modifierBase.GetLevel()} - {modifierBase.GetScaledValue()}\n";
-            }
-        }
-        else
-        {
-            content += "No traits yet.\n";
-        }
-        
-        content += "\n<b>Stats:</b>\n";
-
-        foreach (StatData stat in Stats.Stats.Values)
-        {
-            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
-            if (stat.Modifiers.Any())
-            {
-                content += "  <i>Modifiers:</i>\n";
-                foreach (var mod in stat.Modifiers)
-                {
-       
-                    content += $"  - {mod.Id} - {mod.Value:F2} ({mod.Type})\n";
-                }
-            }
-        }
-
-        return content;
-
-    }
+   
     public override Vector3 GetHomePoint()
     {
         return GameManager.Instance.GetInfrastructureInstanceByID("desk").transform.position;
