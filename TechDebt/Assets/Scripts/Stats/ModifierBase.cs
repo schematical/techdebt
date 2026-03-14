@@ -98,6 +98,16 @@ namespace NPCs
             switch (Type)
             {
                 case(ModifierType.Infra_Stat):
+                    if (WorldObjectType == null)
+                    {
+                        throw new SystemException($"Missing `WorldObjectType` for `Infra_Stat` in ModifierBase: {Name}");
+                    }
+                    StatModifier = new StatModifier(
+                        Id,
+                        GetScaledValue()
+                    );
+                    GameManager.Instance.WorldObjectTypes[this.WorldObjectType].Stats.AddModifier(StatType, StatModifier);
+                    break;
                 case(ModifierType.NPC_Stat):
                     StatModifier = new StatModifier(
                         Id,

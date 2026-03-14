@@ -11,10 +11,10 @@ public class UIMainMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
-        Debug.Log("UIMainMenu::Show");
         AddButton("New Game", NewGame);
         AddButton("Challenges", ShowChallengesPanel);
-        AddButton("Discord", OpenDiscord);
+        AddButton("Discord", OpenDiscord);     
+        AddButton("Quit", () => { Application.Quit(); });
     }
 
     private void OpenDiscord()

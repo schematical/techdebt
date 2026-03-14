@@ -151,13 +151,13 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         }
       
         MetaStatData statData = null;
-        if (challenge.InfrastructureId != null)
+        if (challenge.WorldObjectTypeId != null)
         {
             if (state.metaStats.infra == null)
             {
                 throw new SystemException("`state.metaStats.infra` is null");
             }
-            InfraMetaStatSaveData prevStats = state.metaStats.infra.Find(i => i.infraId == challenge.InfrastructureId);
+            InfraMetaStatSaveData prevStats = state.metaStats.infra.Find(i => i.infraId == challenge.WorldObjectTypeId);
             if (prevStats != null)
             {
                 statData = prevStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
@@ -173,7 +173,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
         {
             value = GetChallengeStatData(statData, challenge);
         }
-        // Debug.Log($"{challenge.ChallengeID} - metaStat: {challenge.metaStat} -RequirementType: {challenge.RequirementType} - InfrastructureId: {challenge.InfrastructureId} - {value} >= {challenge.RequiredValue} : {value >= challenge.RequiredValue}");
+        // Debug.Log($"{challenge.ChallengeID} - metaStat: {challenge.metaStat} -RequirementType: {challenge.RequirementType} - WorldObjectTypeId: {challenge.WorldObjectTypeId} - {value} >= {challenge.RequiredValue} : {value >= challenge.RequiredValue}");
         // Check if the challenge was incomplete before but is complete now.
         return (value >= challenge.RequiredValue);
     }
@@ -456,7 +456,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "My First Server",
                 Description = "Unlock and build the Application Server Once",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "application-server",
+                WorldObjectTypeId = "application-server",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 1,
                 Rewards =  new List<RewardBase>()
@@ -479,7 +479,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Junior SWE",
                 Description = "Unlock and build the White Board 3 Times",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "white-board",
+                WorldObjectTypeId = "white-board",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 3,
                 Rewards =  new List<RewardBase>()
@@ -502,7 +502,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Beginner Project Management",
                 Description = "Unlock and build the Kanban Board 5 Times",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "kanban-board",
+                WorldObjectTypeId = "kanban-board",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 5,
                 Rewards =  new List<RewardBase>()
@@ -525,7 +525,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Product Road Map",
                 Description = "Unlock and build the Product Road Map 1 Times",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "product-road-map",
+                WorldObjectTypeId = "product-road-map",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 1,
                 Rewards =  new List<RewardBase>()
@@ -548,7 +548,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Org Chart",
                 Description = "Unlock and build the Org Chart 10 Times",
                 metaStat = MetaStat.Infra_Built,
-                InfrastructureId = "org-chart",
+                WorldObjectTypeId = "org-chart",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 10,
                 Rewards =  new List<RewardBase>()
@@ -572,7 +572,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Binary Storage",
                 Description = "Successfully handle 100 images",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
-                InfrastructureId = "server1",
+                WorldObjectTypeId = "application-server",
         
                 RequiredValue = 100,
                 Rewards =  new List<RewardBase>()
@@ -590,7 +590,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Redis Cache",
                 Description = "Have your dedicated database handle 100 text packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
-                InfrastructureId = "dedicated-db",
+                WorldObjectTypeId = "dedicated-db",
                 RequiredValue = 100,
                 Rewards =  new List<RewardBase>()
                 {
@@ -619,7 +619,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Content Delivery Network(CDN)",
                 Description = "Send 200 images to S3 successfully",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
-                InfrastructureId = "s3-bucket",
+                WorldObjectTypeId = "binary-storage",
       
                 RequiredValue = 50,
                 Rewards =  new List<RewardBase>()
@@ -654,7 +654,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Read Replicas",
                 Description = "Upsize your database to level 2",
                 metaStat = MetaStat.Infra_MaxSize,
-                InfrastructureId = "dedicated-db",
+                WorldObjectTypeId = "dedicated-db",
                 RequiredValue = 2,
                 Rewards =  new List<RewardBase>()
                 {
@@ -669,9 +669,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             {
                 ChallengeID = "codepipeline",
                 DisplayName = "Code Pipeline",
-                Description = "Successfully deploy 25 releases in one run",
+                Description = "Successfully deploy 10 releases in one run",
                 metaStat = MetaStat.Deployments,
-                RequiredValue = 25,
+                RequiredValue = 10,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
                 Rewards =  new List<RewardBase>()
                 {
@@ -688,7 +688,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Simple Queue Service",
                 Description = "Successfully handle 200 packets with the load balancer",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
-                InfrastructureId = "load-balancer",
+                WorldObjectTypeId = "load-balancer",
             
                 RequiredValue = 200,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
@@ -707,7 +707,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Cloud Watch Metrics",
                 Description = "Successfully make it to Sprint 2",
                 metaStat = MetaStat.Sprint,
-                InfrastructureId = "sns",
+                WorldObjectTypeId = "sns",
                 RequiredValue = 2,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
                 Rewards =  new List<RewardBase>()

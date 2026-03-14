@@ -21,7 +21,7 @@ namespace MetaChallenges
         public string DisplayName; // For UI
         public string Description; // For UI
         public MetaChallengeRequirementType RequirementType = MetaChallengeRequirementType.Cumulative;
-        public string InfrastructureId { get; set; }
+        public string WorldObjectTypeId { get; set; }
         public List<RewardBase> Rewards;
 
         public MetaStat metaStat;

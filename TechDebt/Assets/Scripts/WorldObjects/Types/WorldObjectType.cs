@@ -58,7 +58,7 @@ namespace Infrastructure
             Stats.Add(new StatData(StatType.Infra_LoadRecoveryRate, LoadRecoveryRate));
             Stats.Add(new StatData(StatType.TechDebt, 0f));
             Stats.Add(new StatData(StatType.Infra_MaxSize, 2)); // Todo get this number from a meta unlock.
-            Stats.Add(new StatData(StatType.Infra_LatencyStartsAtLoad, 0.1f)); 
+            Stats.Add(new StatData(StatType.Infra_LatencyStartsAtLoad, 0.1f) { DisplayType = StatData.StatDataDisplayType.Percentage}); 
             foreach (InfrastructureDataNetworkPacket networkPacket in networkPackets)
             {
                 networkPacket.Init();

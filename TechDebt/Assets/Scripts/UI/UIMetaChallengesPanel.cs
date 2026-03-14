@@ -6,7 +6,8 @@ using MetaChallenges;
 
 public class UIMetaChallengesPanel: UIPanel
 {
-
+    protected List<Transform> rows = new List<Transform>();
+    protected List<UIChallengeSelectPanel> challengePanels = new List<UIChallengeSelectPanel>();
 
     public override void Show()
     {
@@ -25,12 +26,13 @@ public class UIMetaChallengesPanel: UIPanel
             {
                 //Add a new row
                 row = GameManager.Instance.prefabManager.Create("UIGridRow", new Vector3(), scrollContent).GetComponent<Transform>();
+                rows.Add(row);
             }
 
             rowI++;
             
             int currentProgress = 0;
-            var infraStats = progressData.metaStats?.infra.Find(i => i.infraId == challenge.InfrastructureId);
+            var infraStats = progressData.metaStats?.infra.Find(i => i.infraId == challenge.WorldObjectTypeId);
             if (infraStats != null)
             {
                 var statPair = infraStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
@@ -47,17 +49,20 @@ public class UIMetaChallengesPanel: UIPanel
                 ).GetComponent<UIChallengeSelectPanel>();
            
             challengePanel.Initialize(challenge, currentProgress);
-
-                
-         
-                
-             
-           
+            challengePanels.Add(challengePanel);
         }
     }
 
     public override void Close(bool forceClose = false)
     {
+        foreach (UIChallengeSelectPanel challengePanel in challengePanels)
+        {
+            challengePanel.gameObject.SetActive(false);
+        }
+        foreach (Transform row in rows)
+        {
+            row.gameObject.SetActive(false);
+        }
         base.Close(forceClose);
         switch (GameManager.Instance.State)
         {
