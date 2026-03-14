@@ -9,7 +9,7 @@ using UnityEngine;
 public class BuildTask : InfrastructureTaskBase
 {
 
-    private float buildProgress = 0f;
+    protected float buildProgress = 0f;
     private int displayBuildProgress = -1;
     public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
 

@@ -11,5 +11,10 @@ public class FixFrozenTask : BuildTask
     {
         return "Fix";
     }
+    
+    public override bool IsFinished(NPCBase npc)
+    {
+        return buildProgress >= TargetInfrastructure.GetWorldObjectType().BuildTime || TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational;
+    }
 
 }
