@@ -51,7 +51,6 @@ namespace DefaultNamespace.NetworkPackets
                     transform.position, Color.green);
             GameManager.Instance.IncrStat(StatType.Money, saleValue);
             GameManager.Instance.GameLoopManager.dailyPacketIncome += saleValue;
-            Debug.Log($"{data.Type} - setValue: {saleValue}");
             ending = true;
    
         }

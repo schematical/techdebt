@@ -112,7 +112,6 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
            float penaltyPct = overLoad / (maxLoad - baseLine);
            float packetDelay = (packet.data.Stats.GetStatValue(StatType.NetworkPacket_LoadLatencyMultiplier) *
                                 penaltyPct);
-           Debug.Log($"CurrentLoad: {CurrentLoad} - baseLine: {baseLine} - overLoad: {overLoad} -  penaltyPct: {penaltyPct} - packetDelay: {packetDelay} - multiplier: {packet.data.Stats.GetStatValue(StatType.NetworkPacket_LoadLatencyMultiplier)}");
            packet.MarkDelayed(packetDelay);
         }
         worldObjectType.IncrMetaStat(MetaStat.Infra_HandleNetworkPacket);
@@ -125,10 +124,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
              costPerPacket = (int)packetData.Stats.GetStatValue(StatType.Infra_PacketCost);
         }
 
-        if (packet.data.Type == NetworkPacketData.PType.Purchase)
-        {
-            Debug.Log($"Load per packet: {loadPerPacket}");
-        }
+       
 
         if (costPerPacket != 0)
         {
