@@ -50,7 +50,7 @@ public class ResizeTask : InfrastructureTaskBase
 
     public override float GetProgress()
     {
-        return _duration / RESIZE_DURATION;
+        return 1 - (_duration / RESIZE_DURATION);
     }
 
     public override string GetAssignButtonText()

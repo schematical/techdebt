@@ -102,6 +102,7 @@ public abstract class NPCTask
 
     public virtual void OnEnd(NPCBase npc)
     {
+        npc.HideProgressBar();
         GameManager.Instance.CompleteTask(this);
         if (MetaStat != null)
         {

@@ -31,6 +31,10 @@
                     be.transform.localPosition = new Vector3(0, 0, -1f);
                     buildEffect = be.GetComponent<EnvEffectBase>();
                 }
+                else
+                {
+                    buildEffect.gameObject.SetActive(true);
+                }
             }
 
         }
