@@ -19,7 +19,7 @@ namespace NPCs
             NPC_Stat,
             Infra_NetworkPacketStat,
             Run_Stat,
-            Run_Stat_Flat,
+            // Run_Stat_Flat,
             Global_NetworkPacketStat,
             Infra_Stat
         }
@@ -142,11 +142,13 @@ namespace NPCs
                     GameManager.Instance.Stats.AddModifier(StatType, StatModifier);
                     
                     break;
-                case(ModifierType.Run_Stat_Flat):
-                  
-                    GameManager.Instance.Stats.Get(StatType).IncrStat(GetScaledValue());
+                /*case(ModifierType.Run_Stat_Flat):
+
+                    float scaledValue = GetScaledValue();
+                    Debug.Log($"Applying Modifier {ModifierType.Run_Stat_Flat} - IncrStat {StatType} - Scaled Value: {scaledValue} - Before: {GameManager.Instance.Stats.Get(StatType).Value}");
+                    GameManager.Instance.Stats.Get(StatType).IncrStat(scaledValue);
                     
-                    break;
+                    break;*/
                 case(ModifierType.Global_NetworkPacketStat):
                     StatModifier = BuildStatModifier();
                     NetworkPacketData networkPacketData2 = GameManager.Instance.GetNetworkPacketDatas()
@@ -158,6 +160,8 @@ namespace NPCs
                     networkPacketData2.Stats.AddModifier(StatType, StatModifier);
                     
                     break;
+                default:
+                    throw new NotImplementedException("Unknown stat type: " + Type);
             }
         }
 
@@ -225,9 +229,9 @@ namespace NPCs
         
             switch (Type)
             {
-                case(ModifierType.Run_Stat_Flat):
-                        Apply();
-                    break;
+                /*case(ModifierType.Run_Stat_Flat):
+                        // Apply();
+                    break;*/
                 default:
                     Levels.Add(rarity);
                     if (StatModifier == null)
@@ -303,7 +307,7 @@ namespace NPCs
             switch (Type)
             {
                 case(ModifierType.Run_Stat):
-                case(ModifierType.Run_Stat_Flat):
+                //case(ModifierType.Run_Stat_Flat):
                 case(ModifierType.Global_NetworkPacketStat):
                 case(ModifierType.Infra_NetworkPacketStat):
                     GameManager.Instance.UIManager.globalStatsPanel.Preview(this);

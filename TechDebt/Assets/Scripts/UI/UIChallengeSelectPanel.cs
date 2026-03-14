@@ -27,8 +27,9 @@ namespace UI
             foreach (RewardBase reward in challenge.Rewards)
             {
                 UIPanelLine rewardLine = rewardHolderLine.AddLine<UIPanelLine>();
-                rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.Type.ToString();
-                rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardId;
+                // TODO: Make a panel that renders this
+                rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.GetType().ToString();
+                // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardId;
                 rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardValue.ToString();
             }
         }

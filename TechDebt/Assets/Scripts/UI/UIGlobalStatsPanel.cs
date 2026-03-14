@@ -143,7 +143,7 @@ namespace UI
            switch (modifierBase.Type)
            {
                case (ModifierBase.ModifierType.Run_Stat):
-               case (ModifierBase.ModifierType.Run_Stat_Flat):
+               //case (ModifierBase.ModifierType.Run_Stat_Flat):
 
                    statCollectionPanelLine.Preview(modifierBase);
                    break;

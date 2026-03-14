@@ -729,71 +729,7 @@ public class GameManager : MonoBehaviour
             {
                 Technology technology = null;
                 // Debug.Log($"- Reward: {reward.Type}");
-                switch (reward.Type)
-                {
-                    case (RewardBase.RewardType.WorldObject_StartsOperational):
-                       
-                        foreach (InfrastructureData infrastructureData in AllInfrastructure)
-                        {
-                           
-                            if (infrastructureData.Id == reward.RewardId)
-                            {
-                                infrastructureData.InitialState = InfrastructureData.State.Operational;
-                                infrastructureData.CurrentState = InfrastructureData.State.Operational;
-                                // Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
-                            }
-                        }
-                        break;
-                    case (RewardBase.RewardType.WorldObjectType_StartsOperational):
-                        foreach (InfrastructureData infrastructureData in AllInfrastructure)
-                        {
-                            WorldObjectType worldObjectType = WorldObjectTypes[infrastructureData.worldObjectType];
-                            if (worldObjectType.GetTypeAsId() == reward.RewardId)
-                            {
-                                infrastructureData.InitialState = InfrastructureData.State.Operational;
-                                infrastructureData.CurrentState = InfrastructureData.State.Operational;
-                                // Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
-                            }
-                        }
-                        break;
-                    case (RewardBase.RewardType.Technology_Locked):
-                        technology = AllTechnologies.Find((t => t.TechnologyID == reward.RewardId));
-                        if (technology == null)
-                        {
-                            throw new SystemException($"Technology_Locked '{reward.RewardId}' is null.");
-                        }
-
-                        if (technology.CurrentState == Technology.State.MetaLocked)
-                        {
-                            technology.CurrentState = Technology.State.Locked;
-                        }
-
-                        break;
-                    case (RewardBase.RewardType.Technology_Unlocked):
-                        technology = AllTechnologies.Find((t => t.TechnologyID == reward.RewardId));
-                        if (technology == null)
-                        {
-                            throw new SystemException($"Technology_Locked '{reward.RewardId}' is null.");
-                        }
-
-                        if (technology.CurrentState == Technology.State.MetaLocked || technology.CurrentState == Technology.State.Locked)
-                        {
-                            technology.CurrentState = Technology.State.Unlocked;
-                        }
-
-                        break;
-                    case (RewardBase.RewardType.StartingStatValue):
-                        StatType statType;
-                        Enum.TryParse<StatType>(reward.RewardId, out statType);
-
-                        Stats.AddModifier(statType, new StatModifier(
-                            $"metaChallenge_{reward.RewardId}",
-                            reward.RewardValue
-                        ));
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+                reward.Apply();
             }
         }
 

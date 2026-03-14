@@ -2,9 +2,11 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using DefaultNamespace.Rewards;
 using Infrastructure;
 using MetaChallenges;
 using NPCs;
+using Stats;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -466,10 +468,10 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                         RewardId = "server1",
                         Type = RewardBase.RewardType.WorldObject_StartsOperational,
                     },*/
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "application-server",
-                        Type = RewardBase.RewardType.Technology_Unlocked,
+                        TechnologyId = "application-server",
+                        StartState = Technology.State.Unlocked
                     }
                 }
             },
@@ -484,15 +486,14 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 3,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new WorldObjectTypeStartsOperationalReward()
                     {
-                        RewardId = "white-board",
-                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
+                        WorldObjectTypeId = "white-board",
                     },
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "white-board",
-                        Type = RewardBase.RewardType.Technology_Unlocked,
+                        TechnologyId = "white-board",
+                        StartState = Technology.State.Unlocked
                     }
                 }
             },
@@ -507,15 +508,14 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 5,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new WorldObjectTypeStartsOperationalReward()
                     {
-                        RewardId = "kanban-board",
-                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
+                        WorldObjectTypeId = "kanban-board",
                     },
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "kanban-board",
-                        Type = RewardBase.RewardType.Technology_Unlocked,
+                        TechnologyId = "kanban-board",
+                        StartState = Technology.State.Unlocked
                     }
                 }
             },
@@ -530,15 +530,14 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 1,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new WorldObjectTypeStartsOperationalReward()
                     {
-                        RewardId = "product-road-map",
-                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
+                        WorldObjectTypeId = "product-road-map",
                     },
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "product-road-map",
-                        Type = RewardBase.RewardType.Technology_Unlocked,
+                        TechnologyId = "product-road-map",
+                        StartState = Technology.State.Unlocked
                     }
                 }
             },
@@ -553,15 +552,14 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 10,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new WorldObjectTypeStartsOperationalReward()
                     {
-                        RewardId = "org-chart",
-                        Type = RewardBase.RewardType.WorldObjectType_StartsOperational,
+                        WorldObjectTypeId = "org-chart",
                     },
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "org-chart",
-                        Type = RewardBase.RewardType.Technology_Unlocked,
+                        TechnologyId = "org-chart",
+                        StartState = Technology.State.Unlocked
                     }
                 }
             },
@@ -577,10 +575,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 100,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "binary-storage",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "binary-storage",
                     }
                 }
             },
@@ -594,10 +591,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 100,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "redis",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "redis",
                     }
                 }
             },
@@ -624,10 +620,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 50,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "cdn",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "cdn",
                     }
                 }
             },
@@ -641,10 +636,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "load-balancer",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "load-balancer",
                     }
                 }
             },
@@ -658,10 +652,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequiredValue = 2,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                         {
-                        RewardId = "read-replicas",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "read-replicas",
                     }
                 }
             },
@@ -675,10 +668,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "codepipeline",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "codepipeline",
                     }
                 }
             },
@@ -694,10 +686,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "sqs",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "sqs",
                     }
                 }
             },
@@ -712,10 +703,9 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
                 Rewards =  new List<RewardBase>()
                 {
-                    new RewardBase()
+                    new TechnologyStartStateReward()
                     {
-                        RewardId = "sns",
-                        Type = RewardBase.RewardType.Technology_Locked,
+                        TechnologyId = "sns",
                     }
                 }
             }
@@ -872,7 +862,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 // BaseValue = 1.05f,
                 IconSpriteId = "IconCode"
             },
-            new ModifierBase()
+            /*new TechDebtModifier()
             {
                 Group = ModifierBase.ModifierGroup.Release,
                 Target = ModifierBase.ModifierTarget.Run,
@@ -883,7 +873,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue = -2.0f,
                 ScaleDirection =   ModifierBase.ModifierScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
-            },
+            },*/
             new ModifierBase()
             {
                 Group = ModifierBase.ModifierGroup.Release,
