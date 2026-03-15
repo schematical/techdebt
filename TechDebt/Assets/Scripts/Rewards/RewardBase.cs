@@ -12,11 +12,20 @@
         public string Id;
         public string IconSpriteId;
         public string Name;
+        public string Description = "";
       
 
         public RewardGroup Group;
 
-    
+        public string GetTitle()
+        {
+            return Name;
+        }
+
+        public string GetDescription()
+        {
+            return Description;
+        }
 
         public abstract void Apply();
 

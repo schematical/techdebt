@@ -61,17 +61,24 @@ namespace Infrastructure
             int saftyCheck = 0;
             List<RewardBase> modifiers = new List<RewardBase>();
             int optionCount = 3;
-            /*if (GameManager.Instance.Modifiers.Modifiers.Count >= GameManager.Stats.GetStatValue(StatType.NPC_ModifierSlots))
-            {
-                optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
-            }*/
+            List<RewardBase> specialOptions = GameManager.Instance.Map.GetCurrentLevel().GetSpecialReleaseRewards();
             while (
                 saftyCheck < 20 &&
                 modifiers.Count < optionCount
             )
             {
                 saftyCheck++;
-                RewardBase modifierBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.Release);
+                RewardBase modifierBase = null;
+                if (specialOptions.Count > 0)
+                {
+                    modifierBase = specialOptions[0];
+                    specialOptions.RemoveAt(0);
+                }
+                else
+                {
+                    modifierBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.Release);
+                }
+
                 if (modifiers.Find((t) => t.Id == modifierBase.Id) != null)
                 {
                     continue;
@@ -88,8 +95,8 @@ namespace Infrastructure
                     UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                         modifierBase.Id,
                         sprite,
-                        modifierBase.Name,
-                        ""///modifierBase.GetNextLevelUpDisplayText(Rarity.Common)
+                        modifierBase.GetTitle(),
+                        modifierBase.GetDescription()
                     );
                     option.OnSelect((string id) =>
                     {
@@ -112,8 +119,8 @@ namespace Infrastructure
                     GameManager.Instance.UIManager.multiSelectPanel.Add(
                             existingRewardBase.Id,
                             sprite,
-                            existingRewardBase.Name,
-                            ""// existingRewardBase.GetNextLevelUpDisplayText(Rarity.Common)
+                            existingRewardBase.GetTitle(),
+                            existingRewardBase.GetDescription()
                         )
                         .OnSelect((string id) =>
                         {

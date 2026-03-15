@@ -746,6 +746,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             {
                 Id = "fast_worker",
                 Name = "Fast Worker",
+
                 StatType = StatType.NPC_DevOpsSpeed,
                 IconSpriteId = "IconHand",
                 BaseValue = 1.1f
@@ -755,6 +756,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
+    
                 StatType = StatType.NPC_ResearchSpeed,
                 IconSpriteId = "IconResearch",
                 BaseValue = 1.1f
@@ -816,6 +818,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "image_optimization",
                 Name = "Image Optimization",
+                Description = "Decreases CPU Load Of Images",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
                 BaseValue = 0.95f,
@@ -828,6 +831,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "db_optimization",
                 Name = "Relational Database Design",
+                Description = "Decreases CPU Load Of Packets On The Dedicated DB",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 BaseValue = 0.9f,
@@ -840,6 +844,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "sale_page_optimization",
                 Name = "Sales Page Optimization",
+                Description = "Increases Purchase Probability",
                 StatType = StatType.NetworkPacket_Probibility,
                 NetworkPacketType = NetworkPacketData.PType.Purchase,
                 BaseValue = 1.1f,
@@ -850,6 +855,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "input_validation",
                 Name = "Input Validation",
+                Description = "Decreases Chance Of XSS Attacks",
                 StatType = StatType.Infra_InputValidation,
                 BaseValue = 0.95f,
                 IconSpriteId = "IconCode"
@@ -859,6 +865,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "tech_debt",
                 Name = "Tech Debt",
+                Description = "Decreases Current Tech Debt",
                 StatType = StatType.TechDebt,
                 BaseValue = -2.0f,
                 // ScaleDirection = ScaleDirection.Down,
@@ -869,6 +876,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "contract_work",
                 Name = "Contract Work",
+                Description = "Good for some quick cash",
                 StatType = StatType.Money,
                 BaseValue = 50f,
                 // ScaleDirection = ScaleDirection.Down,
@@ -879,6 +887,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "db_indexes",
                 Name = "Database Indexes",
+                Description = "Increases the CPU Load Where Latency Starts Accumulating On The DB",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 BaseValue =  1.25f,
                 WorldObjectType = WorldObjectType.Type.DedicadedDB,
@@ -890,6 +899,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Group = RewardBase.RewardGroup.Release,
                 Id = "multi_threaded",
                 Name = "Multi Threaded",
+                Description = "Increases the CPU Load Where Latency Starts Accumulating On The Application Layer",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 BaseValue =  1.25f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,

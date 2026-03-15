@@ -15,6 +15,7 @@ public class Map
     public List<MapStage> Stages { get; set; }
     public List<MapLevel> LevelPool { get; set; } = new List<MapLevel>()
     {
+        new UserSignupProductRoadMapLevel(),
         new MobileMapLevel(),
         new EmailMapLevel(),
         new SocketChatMapLevel(),
@@ -212,6 +213,11 @@ public class MapLevel
    {
        
        VictoryConditions.Add(new HasMoneyVictoryCondition());
+   }
+
+   public virtual List<RewardBase> GetSpecialReleaseRewards()
+   {
+       return new List<RewardBase>();
    }
 
    public void SetStage(MapStage stage)
