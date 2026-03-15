@@ -392,7 +392,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Cognito User Pools",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() {  },
+                RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down
                 // Survive Y user info leaked
