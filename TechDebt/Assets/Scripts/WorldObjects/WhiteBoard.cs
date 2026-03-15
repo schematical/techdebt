@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace.Rewards;
 using NPCs;
 using UI;
 using UnityEngine;
@@ -75,16 +76,14 @@ namespace Infrastructure
                 {
                     continue;
                 }
+                Sprite sprite = modifierBase.GetSprite();
+                RewardBase existingRewardBase = GameManager.Instance.Rewards.Rewards.Find((t) => t.Id == modifierBase.Id);
+                
 
-                RewardBase existingRewardBase =
-                    GameManager.Instance.Rewards.Rewards.Find((t) => t.Id == modifierBase.Id);
-                Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(modifierBase.IconSpriteId);
                 if (
                     existingRewardBase == null
                 )
                 {
-                    /*if (GameManager.Instance.Modifiers.Modifiers.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
-                    {*/
                     modifiers.Add(modifierBase);
                     UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                         modifierBase.Id,

@@ -160,7 +160,7 @@ public class NPCDevOps : NPCAnimatedBiped
             }
             else
             {
-                traits.Add(modifierBase);
+                traits.Add(existingModifierBase);
             
                 GameManager.Instance.UIManager.multiSelectPanel.Add(
                         existingModifierBase.Id,
@@ -171,9 +171,9 @@ public class NPCDevOps : NPCAnimatedBiped
                     .OnSelect((string id) =>
                     {
                         try {
-                            if (modifierBase is LeveledRewardBase)
+                            if (existingModifierBase is LeveledRewardBase)
                             {
-                                (modifierBase as LeveledRewardBase).LevelUp(rarity);
+                                (existingModifierBase as LeveledRewardBase).LevelUp(rarity);
                             }
                             GameManager.Instance.UIManager.multiSelectPanel.Close();
                         }catch (Exception e) {

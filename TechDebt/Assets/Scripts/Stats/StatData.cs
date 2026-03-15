@@ -168,7 +168,7 @@ namespace Stats
                 case(StatDataDisplayType.Dollar):
                     return $"${Math.Round(value  * 100)/100}";
                 case(StatDataDisplayType.Default):
-                    return $"{Math.Round(value)}";
+                    return $"{Math.Round(value * 100)/100}";
                 default:
                     throw new NotImplementedException();
             }

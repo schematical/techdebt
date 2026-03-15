@@ -854,18 +854,26 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 BaseValue = 0.95f,
                 IconSpriteId = "IconCode"
             },
-            /*new TechDebtModifier()
+            new GlobalStatBaseValueReward()
             {
-                Group = ModifierBase.ModifierGroup.Release,
-                Target = ModifierBase.ModifierTarget.Run,
-                Type = ModifierBase.ModifierType.Run_Stat_Flat,
+                Group = RewardBase.RewardGroup.Release,
                 Id = "tech_debt",
                 Name = "Tech Debt",
                 StatType = StatType.TechDebt,
                 BaseValue = -2.0f,
-                ScaleDirection =   ModifierBase.ModifierScaleDirection.Down,
+                // ScaleDirection = ScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
-            },*/
+            },
+            new GlobalStatBaseValueReward()
+            {
+                Group = RewardBase.RewardGroup.Release,
+                Id = "contract_work",
+                Name = "Contract Work",
+                StatType = StatType.Money,
+                BaseValue = 50f,
+                // ScaleDirection = ScaleDirection.Down,
+                IconSpriteId = "IconDollar"
+            },
             new WorldObjectTypeStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
