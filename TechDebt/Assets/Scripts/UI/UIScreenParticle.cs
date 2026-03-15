@@ -32,7 +32,7 @@ namespace UI
               
                 case(State.Falling):
               
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 400f);
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 10);
                     if (bottomRight.y < -100)
                     {
                        
@@ -45,7 +45,7 @@ namespace UI
                     break;
              case(State.Fading):
                  
-                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 400f);
+                    rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 10);
                     image.color = new Color(
                         image.color.r,
                         image.color.g,
@@ -105,7 +105,7 @@ namespace UI
             rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 100);
             if (activeEffects.Contains(Effects.Fire))
             {
-                fireParticle = GameManager.Instance.prefabManager.Create("UIFireParticle", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIFireParticle>();
+                fireParticle = GameManager.Instance.prefabManager.Create("UIFireParticle", transform.position - new Vector3(0,1), GameManager.Instance.UIManager.transform).GetComponent<UIFireParticle>();
                 fireParticle.Initialize(this.transform);
             }
    

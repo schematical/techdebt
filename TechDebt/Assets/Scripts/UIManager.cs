@@ -367,22 +367,28 @@ public class UIManager : MonoBehaviour
 
     public void ShowPacketFail(Sprite sprite)
     {
+        RectTransform rt = GetComponent<RectTransform>();
+        if (rt == null) return;
+
         int n = Random.Range(-1, 1);
-        int middle = Screen.width / 2;
-        int min = middle + (n * Screen.width / 4);
-        int max = Screen.width;
+        float width = rt.rect.width;
+        float middle = width / 2f;
+        float min = middle + (n * width / 4f);
+        float max = width;
         if (n < 0)
         {
             max = min;
-            min = 0;
+            min = 0f;
         }
 
-        int x = Random.Range(min, max);
-        Vector3 pos = new Vector3(x, Screen.height, 0);
-        UIScreenParticle screenParticle = GameManager.Instance.prefabManager.Create("UIScreenParticle", pos, transform).GetComponent<UIScreenParticle>();
+        float x = Random.Range(min, max);
+        Vector3 localPos = new Vector3(rt.rect.xMin + x, rt.rect.yMax, 0);
+        Vector3 worldPos = rt.TransformPoint(localPos);
+
+        UIScreenParticle screenParticle = GameManager.Instance.prefabManager.Create("UIScreenParticle", worldPos, transform).GetComponent<UIScreenParticle>();
         screenParticle.Init(
-            sprite, 
-            Random.value * 360, 
+            sprite,
+            Random.value * 360,
             new List<UIScreenParticle.Effects>()
             {
                 UIScreenParticle.Effects.Fire
@@ -390,7 +396,6 @@ public class UIManager : MonoBehaviour
         );
         TriggerScreenShake();
     }
-
     public void ShowNPCDialog(Sprite botSprite, string dialog, List<DialogButtonOption> options = null)
     {
         dialogPanel.ShowDialog(botSprite, dialog, options);
