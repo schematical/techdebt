@@ -36,6 +36,13 @@ public class UserSignupProductRoadMapLevel: MapLevel
     private void OnSpecialReleaseComplete()
     {
         hasReleaseBeedDeployed = true;
+        NetworkPacketData networkPacketData =
+            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+        GameManager.Instance.UIManager.ShowNPCDialog(
+            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+            "Great work. " + (!IsLaunchDay() ? " Some signups will trickle in for now but on Launch Day you will see a lot more." : " Just in the nick of time.")
+        );
     }
 
     public override List<RewardBase> GetSpecialReleaseRewards()
@@ -91,19 +98,10 @@ public class UserSignupProductRoadMapLevel: MapLevel
     {
         GameManager.Instance.UIManager.ShowNPCDialog(
             GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-            "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
+            "Today is launch day!  \n Expect extra traffic."
         );
 
-        NetworkPacketData networkPacketData =
-            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
-        /*StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
-        GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
-        StatModifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);
-
-        networkPacketData.Stats.AddModifier(StatType.NetworkPacket_Probibility, launchDayPurchaseModifier);
-        StatModifiers[ModifierType.LaunchDay].Add(launchDayPurchaseModifier);
-        GameManager.Instance.InfrastructureUpdateNetworkTargets();*/
+ 
         base.OnLaunchDayPlan();
     }
 

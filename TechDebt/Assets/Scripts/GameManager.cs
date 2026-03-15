@@ -213,6 +213,7 @@ public class GameManager : MonoBehaviour, iModifiable
             case(NetworkPacket.State.Failed):
                 IncrStat(StatType.PacketsFailed);
                 Sprite sprite = packet.GetComponent<SpriteRenderer>().sprite;
+                
                 UIManager.ShowPacketFail(sprite);
             break;
             case(NetworkPacket.State.Stolen):

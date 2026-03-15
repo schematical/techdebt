@@ -45,6 +45,7 @@ public class RedirectTrafficTask: NPCTask
                     {
                         networkPacket.MarkFailed();
                     }
+                    GameManager.Instance.UIManager.TriggerScreenShake(1, .5f);
                     InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
                     if (internetPipe == null)
                     {

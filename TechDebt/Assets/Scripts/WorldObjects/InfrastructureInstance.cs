@@ -287,7 +287,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 }
                 attentionIconColor = Color.red;
                 ShowAttentionIcon();
-
+                GameManager.Instance.UIManager.TriggerScreenShake(1, .5f);
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;
         }

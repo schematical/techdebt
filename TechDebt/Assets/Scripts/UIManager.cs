@@ -388,6 +388,7 @@ public class UIManager : MonoBehaviour
                 UIScreenParticle.Effects.Fire
             }
         );
+        TriggerScreenShake();
     }
 
     public void ShowNPCDialog(Sprite botSprite, string dialog, List<DialogButtonOption> options = null)
