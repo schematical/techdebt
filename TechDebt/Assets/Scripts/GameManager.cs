@@ -699,7 +699,7 @@ public class GameManager : MonoBehaviour, iModifiable
         WorldObjectTypes[WorldObjectType.Type.ApplicationServer] = new ApplicationServerWOType();
         WorldObjectTypes[WorldObjectType.Type.BinaryStorage] = new BinaryStorageWOType();
         WorldObjectTypes[WorldObjectType.Type.CDN] = new CDNWOType();
-        WorldObjectTypes[WorldObjectType.Type.DedicadedDB] = new DedicatedDBWOType();
+        WorldObjectTypes[WorldObjectType.Type.DedicatedDB] = new DedicatedDBWOType();
         WorldObjectTypes[WorldObjectType.Type.Redis] = new RedisWOType();
         WorldObjectTypes[WorldObjectType.Type.ALB] = new ALBWOType();
         WorldObjectTypes[WorldObjectType.Type.Queue] = new QueueWOType();

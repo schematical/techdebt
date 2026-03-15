@@ -12,7 +12,7 @@ namespace Infrastructure
             Misc,
             InternetPipe,
             ApplicationServer,
-            DedicadedDB,
+            DedicatedDB,
             Redis,
             ALB,
             BinaryStorage,

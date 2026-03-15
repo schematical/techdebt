@@ -6,7 +6,7 @@ public class DedicatedDBWOType : WorldObjectType
 {
     public DedicatedDBWOType()
     {
-        type = WorldObjectType.Type.DedicadedDB;
+        type = WorldObjectType.Type.DedicatedDB;
         DisplayName = "Database";
         PrefabId = "DedicatedDB";
         BuildTime = 30;

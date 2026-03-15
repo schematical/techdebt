@@ -10,7 +10,7 @@ namespace UI
         public void Initialize(MetaChallengeBase challenge, int currentProgress)
         {
             CleanUp();
-            Debug.Log($"Initialize {challenge.DisplayName}");
+            
             bool isCompleted = MetaGameManager.IsChallengeCompleted(MetaGameManager.ProgressData, challenge);
             GetComponent<Image>().color = isCompleted ? Color.green : Color.white;
             

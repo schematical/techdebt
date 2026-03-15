@@ -61,7 +61,7 @@ public class ApplicationServerWOType : WorldObjectType
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.DedicadedDB,
+                worldObjectType = WorldObjectType.Type.DedicatedDB,
                 networkPacketType = NetworkPacketData.PType.Text,
                 networkConnectionBonus = new List<NetworkConnectionBonus>()
                 {
@@ -73,7 +73,7 @@ public class ApplicationServerWOType : WorldObjectType
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.DedicadedDB,
+                worldObjectType = WorldObjectType.Type.DedicatedDB,
                 networkPacketType = NetworkPacketData.PType.PII,
                 networkConnectionBonus = new List<NetworkConnectionBonus>()
                 {
@@ -86,7 +86,7 @@ public class ApplicationServerWOType : WorldObjectType
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.DedicadedDB,
+                worldObjectType = WorldObjectType.Type.DedicatedDB,
                 networkPacketType = NetworkPacketData.PType.MaliciousText
             },
             new NetworkConnection()

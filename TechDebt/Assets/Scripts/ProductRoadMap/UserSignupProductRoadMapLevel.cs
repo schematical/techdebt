@@ -51,7 +51,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
             {
                 Name = "User Signup/Login",
                 Description = "Allows User To Signup",
-                IconSpriteId = "IconPPI"
+                IconSpriteId = "IconPII"
             }
         };
     }

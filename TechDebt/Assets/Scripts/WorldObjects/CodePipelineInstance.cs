@@ -19,36 +19,20 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
     {
         base.Initialize();
 
-        GameManager.OnReleaseChanged -= ReleaseChanged;
-        GameManager.OnReleaseChanged += ReleaseChanged;
-    }
-
-    protected virtual void OnDestroy()
-    {
-        GameManager.OnReleaseChanged -= ReleaseChanged;
     }
 
 
 
-    public void ReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState previousState)
-    {
-      
-       
-        if (!IsActive() || !gameObject.activeInHierarchy)
-        {
-            return;
-        }
-        
-        if (releaseBase.State != ReleaseBase.ReleaseState.DeploymentReady)
-        {
-            return;
-        }
-       
-    }
+
+
+   
 
     public override void FixedUpdate()
     {
-
+        if (!IsActive())
+        {
+            return;
+        }
         _currentRelease = GameManager.Instance.GetCurrentRelease();
         if (_currentRelease == null)
         {
@@ -58,7 +42,6 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
         switch (_currentRelease.State)
         {
             case(ReleaseBase.ReleaseState.DeploymentReady):
-                Debug.Log($"CodePipelineInstance::FixedUpdate - HITTTTT {gameObject.name}");
                 _currentRelease.SetState(ReleaseBase.ReleaseState.DeploymentInProgress);
                 _deploymentProgress = 0;
                 _targetServer = FindTargetServer();

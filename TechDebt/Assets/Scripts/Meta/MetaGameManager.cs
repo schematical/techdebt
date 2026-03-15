@@ -112,6 +112,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
             InfraMetaStatSaveData infraStats = progressData.metaStats.infra.Find(i => i.infraId == worldObjectType.GetTypeAsId());
             if (infraStats == null)
             {
+               
                 infraStats = new InfraMetaStatSaveData() { infraId = worldObjectType.GetTypeAsId() };
                 progressData.metaStats.infra.Add(infraStats);
             }
@@ -835,7 +836,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 BaseValue = 0.9f,
-                WorldObjectType = WorldObjectType.Type.DedicadedDB,
+                WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection =  ScaleDirection.Down
             },
@@ -890,7 +891,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 Description = "Increases the CPU Load Where Latency Starts Accumulating On The DB",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 BaseValue =  1.25f,
-                WorldObjectType = WorldObjectType.Type.DedicadedDB,
+                WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection =  ScaleDirection.Up
             },
