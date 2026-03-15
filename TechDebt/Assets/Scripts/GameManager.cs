@@ -627,6 +627,8 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.AttackPossibility, 0f){
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
+        Stats.Add(new StatData(StatType.AttackPossibilityAccumulationRate, 0.25f){
+        });
         Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f){
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });

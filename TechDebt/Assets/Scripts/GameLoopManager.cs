@@ -196,12 +196,9 @@ public class GameLoopManager : MonoBehaviour
         }
         else
         {
-            attackPossibility = GameManager.Instance.Stats.AddModifier(
+            attackPossibility = GameManager.Instance.IncrStat(
                 StatType.AttackPossibility,
-                new StatModifier(
-                    $"attackPossibility_sprint_{sprintNumber}_day_{currentDay}",
-                    1.1f  
-                )
+                GameManager.Instance.GetStatValue(StatType.AttackPossibilityAccumulationRate)
             );
         }
       

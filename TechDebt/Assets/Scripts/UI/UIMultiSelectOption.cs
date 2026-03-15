@@ -38,6 +38,7 @@ namespace UI
             primaryText.text = _primaryText;
             secondaryText.text = _secondaryText;
             onPreview = null;
+            image.color = Color.white;
           
             // Clear any previous listeners and reset the button state.
             button.onClick.RemoveAllListeners();

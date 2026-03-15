@@ -33,7 +33,7 @@
         {
             if (IconSpriteId == null)
             {
-                IconSpriteId = "skelliton_0";
+                IconSpriteId = "skelliton";
             }
             return GameManager.Instance.SpriteManager.GetSprite(IconSpriteId);
         }

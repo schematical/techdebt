@@ -82,8 +82,12 @@ namespace UI
 
       public void SetPreview(UIMultiSelectOption uiMultiSelectOption)
       {
-          Debug.Log("SetPreview: " + uiMultiSelectOption.id);
+          foreach (UIMultiSelectOption panel in _optionPool)
+          {
+              panel.image.color = Color.white;
+          }
           previewingOption = uiMultiSelectOption;
+          previewingOption.image.color = Color.green;
           confirmButton.gameObject.SetActive(true);
       }
     }

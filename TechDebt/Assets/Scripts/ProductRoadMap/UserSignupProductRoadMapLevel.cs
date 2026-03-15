@@ -8,7 +8,6 @@ using UnityEngine;
 public class UserSignupProductRoadMapLevel: MapLevel
 {
     protected bool hasReleaseBeedDeployed = false;
-    protected List<RewardBase> ReleaseRewards = new List<RewardBase>();
     public UserSignupProductRoadMapLevel() : base()
     {
         Name = "User Signup Sprint";
@@ -30,11 +29,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
         modifier.SetOverrideValue(2f);
         LevelModifiers.Add(modifier);
-        ReleaseRewards.Add(new SpecialCallbackReward(OnSpecialReleaseComplete)
-        {
-            Name = "User Signup/Login",
-            Description = "Allows User To Signup"
-        });
+
         
     }
 
@@ -45,7 +40,20 @@ public class UserSignupProductRoadMapLevel: MapLevel
 
     public override List<RewardBase> GetSpecialReleaseRewards()
     {
-        return ReleaseRewards;
+        if (hasReleaseBeedDeployed)
+        {
+            return new List<RewardBase>();
+        }
+
+        return new List<RewardBase>()
+        {
+            new SpecialCallbackReward(OnSpecialReleaseComplete)
+            {
+                Name = "User Signup/Login",
+                Description = "Allows User To Signup",
+                IconSpriteId = "IconPPI"
+            }
+        };
     }
 
     public override VictoryConditionState GetVictoryConditionState()
