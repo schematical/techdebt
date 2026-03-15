@@ -394,44 +394,52 @@ namespace UI
         {
             List<Vector3Int> path = new List<Vector3Int>();
             path.Add(start);
+            
+            int stepSize = 2; // Move 2 units in the designated direction at the end
 
-            bool horizontalFirst = (direction == Technology.TechTreeDirection.Left || direction == Technology.TechTreeDirection.Right);
-
-            if (horizontalFirst)
+            if (direction == Technology.TechTreeDirection.Left || direction == Technology.TechTreeDirection.Right)
             {
-                // Horizontal move then Vertical
-                int xDir = (end.x > start.x) ? 1 : -1;
-                if (start.x != end.x)
-                {
-                    for (int x = start.x; x != end.x; x += xDir)
-                        path.Add(new Vector3Int(x + xDir, start.y, 0));
-                }
+                // Horizontal Step Path
+                int xDir = (direction == Technology.TechTreeDirection.Right) ? 1 : -1;
+                int turnX = end.x - (xDir * stepSize);
                 
-                // Now at (end.x, start.y)
+                // 1. Horizontal move to turnX
+                for (int x = start.x; x != turnX; x += xDir)
+                    path.Add(new Vector3Int(x + xDir, start.y, 0));
+                
+                // 2. Vertical move to end.y
                 int yDir = (end.y > start.y) ? 1 : -1;
                 if (start.y != end.y)
                 {
                     for (int y = start.y; y != end.y; y += yDir)
-                        path.Add(new Vector3Int(end.x, y + yDir, 0));
+                        path.Add(new Vector3Int(turnX, y + yDir, 0));
                 }
+                
+                // 3. Final horizontal move to end.x
+                for (int x = turnX; x != end.x; x += xDir)
+                    path.Add(new Vector3Int(x + xDir, end.y, 0));
             }
             else
             {
-                // Vertical move then Horizontal
-                int yDir = (end.y > start.y) ? 1 : -1;
-                if (start.y != end.y)
-                {
-                    for (int y = start.y; y != end.y; y += yDir)
-                        path.Add(new Vector3Int(start.x, y + yDir, 0));
-                }
+                // Vertical Step Path (Up or Down)
+                int yDir = (direction == Technology.TechTreeDirection.Up) ? 1 : -1;
+                int turnY = end.y - (yDir * stepSize);
                 
-                // Now at (start.x, end.y)
+                // 1. Vertical move to turnY
+                for (int y = start.y; y != turnY; y += yDir)
+                    path.Add(new Vector3Int(start.x, y + yDir, 0));
+                
+                // 2. Horizontal move to end.x
                 int xDir = (end.x > start.x) ? 1 : -1;
                 if (start.x != end.x)
                 {
                     for (int x = start.x; x != end.x; x += xDir)
-                        path.Add(new Vector3Int(x + xDir, end.y, 0));
+                        path.Add(new Vector3Int(x + xDir, turnY, 0));
                 }
+                
+                // 3. Final vertical move to end.y
+                for (int y = turnY; y != end.y; y += yDir)
+                    path.Add(new Vector3Int(end.x, y + yDir, 0));
             }
             return path;
         }
@@ -693,6 +701,7 @@ namespace UI
                 
                 // Now assign relative positions (perp offset)
                 int currentPos = -totalBreadth / 2;
+                int mainDistModifier = (children.Count > 1) ? 2 : 0;
                 
                 for(int i=0; i<children.Count; i++)
                 {
@@ -701,24 +710,13 @@ namespace UI
                     
                     // Position is center of the block
                     int centerOffset = currentPos + breadth / 2;
+
+                    int mainDistVal = (dir == Technology.TechTreeDirection.Up || dir == Technology.TechTreeDirection.Down) ? rowSpacing * 2 : columnSpacing;
+                    mainDistVal += mainDistModifier;
                     
-                    if (dir == Technology.TechTreeDirection.Up || dir == Technology.TechTreeDirection.Down)
-                    {
-                        int mainDistVal = (dir == Technology.TechTreeDirection.Up || dir == Technology.TechTreeDirection.Down) ? rowSpacing * 2 : columnSpacing;
-                        
-                        Vector2Int dirVec = GetDirectionVector(dir);
-                        Vector2Int perpVec = GetPerpendicularVector(dir);
-                        
-                        child.Position = dirVec * mainDistVal + perpVec * centerOffset;
-                    }
-                    else
-                    {
-                        // Left/Right
-                        int mainDistVal = columnSpacing;
-                        Vector2Int dirVec = GetDirectionVector(dir);
-                        Vector2Int perpVec = GetPerpendicularVector(dir);
-                        child.Position = dirVec * mainDistVal + perpVec * centerOffset;
-                    }
+                    Vector2Int dirVec = GetDirectionVector(dir);
+                    Vector2Int perpVec = GetPerpendicularVector(dir);
+                    child.Position = dirVec * mainDistVal + perpVec * centerOffset;
                     
                     currentPos += breadth + perpSpacing;
                 }
