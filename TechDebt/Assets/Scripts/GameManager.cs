@@ -221,6 +221,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 int cost = 10;
                 IncrStat(StatType.Money, cost * -1);
                 UIManager.moneyPanel.ExplodeCoins(10);
+                //TODO: Add cost to GameLoopManager.
             break;
             case(NetworkPacket.State.Running):
                 float latency = packet.GetLatency();
@@ -626,9 +627,10 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.EventCheckEverySeconds, 15));
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
         Stats.Add(new StatData(StatType.AttackPossibility, 0f){
-            DisplayType =  StatData.StatDataDisplayType.Percentage
+            DisplayType =  StatData.StatDataDisplayType.Percentage,
+            IsModifiable = false,
         });
-        Stats.Add(new StatData(StatType.AttackPossibilityAccumulationRate, 0.25f){
+        Stats.Add(new StatData(StatType.AttackPossibilityAccumulationRate, 0.5f){
         });
         Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f){
             DisplayType =  StatData.StatDataDisplayType.Percentage

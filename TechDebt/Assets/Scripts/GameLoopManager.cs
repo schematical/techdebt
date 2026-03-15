@@ -63,6 +63,7 @@ public class GameLoopManager : MonoBehaviour
     public void BeginPlanPhase()
     {
         currentDay++;
+        dailyPacketIncome = 0;
         GameManager.Instance.UIManager.Resume();
         CurrentState = GameState.Plan;
         Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
@@ -190,17 +191,12 @@ public class GameLoopManager : MonoBehaviour
    
 
         float attackPossibility = GameManager.Instance.Stats.GetStatValue(StatType.AttackPossibility);
-        if (attackPossibility == 0f)
-        {
-            attackPossibility = GameManager.Instance.IncrStat(StatType.AttackPossibility, 0.05f);
-        }
-        else
-        {
-            attackPossibility = GameManager.Instance.IncrStat(
-                StatType.AttackPossibility,
-                GameManager.Instance.GetStatValue(StatType.AttackPossibilityAccumulationRate)
-            );
-        }
+        
+        attackPossibility = GameManager.Instance.IncrStat(
+            StatType.AttackPossibility,
+            GameManager.Instance.GetStatValue(StatType.AttackPossibilityAccumulationRate)
+        );
+        
       
         List<string> victoryConditions = new List<string>();
         foreach (MapLevelVictoryConditionBase condition in GameManager.Instance.Map.GetCurrentLevel()

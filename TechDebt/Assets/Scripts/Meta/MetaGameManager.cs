@@ -362,7 +362,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Web Application Firewall(WAF)",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" },
+                RequiredTechnologies = new List<string>() { "cloud-watch-metrics" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 // Survive X malicious packets
@@ -392,7 +392,7 @@ Debug.Log($"Progress loaded from PlayerPrefs - {json}");
                 DisplayName = "Cognito User Pools",
                 Description = "",
                 ResearchPointCost = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" },
+                RequiredTechnologies = new List<string>() {  },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down
                 // Survive Y user info leaked
