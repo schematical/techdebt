@@ -3,7 +3,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UI;
+using UnityEditor;
 using UnityEngine.Serialization;
+using UnityEngine.UnityConsent;
 
 public class UIMainMenu : UIPanel
 {
@@ -11,7 +13,7 @@ public class UIMainMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
-        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{GameManager.V}";
+        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{PlayerSettings.bundleVersion}";
         AddButton("New Game", NewGame);
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Discord", OpenDiscord);     
@@ -27,7 +29,10 @@ public class UIMainMenu : UIPanel
     public void NewGame()
     {
         Close();
-        Debug.Log("NewGame");
+        EndUserConsent.SetConsentState(new ConsentState {
+            AnalyticsIntent = ConsentStatus.Granted,
+            // AdsIntent = ConsentStatus.Denied
+        });
         GameManager.Instance.StartNewGame();
     }
 

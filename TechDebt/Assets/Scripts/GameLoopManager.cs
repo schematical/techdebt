@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace.Util.Analytics;
 using Events;
 using MetaChallenges;
 using NPCs;
 using Stats;
 using UI;
+using Unity.Services.Analytics;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -224,7 +227,15 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.moneyPanel.SpendCoins(totalDailyCost);
         
         GameManager.Instance.UIManager.ShowSummaryUI(summaryData);
-        GameManager.Instance.MetaStats.Incr(MetaStat.Day);
+        float day = GameManager.Instance.MetaStats.Incr(MetaStat.Day);
+        DaySummaryEvent myEvent = new DaySummaryEvent
+        {
+            SprintLevel = GameManager.Instance.Map.GetCurrentLevel().Name,
+            Day = (int) day,
+            SprintNumber = sprintNumber,
+        };
+
+        AnalyticsService.Instance.RecordEvent(myEvent);
 
         // Assign "go to door" task to all NPCs
         foreach (NPCBase npc in GameManager.Instance.AllNpcs.ToList())

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.Analytics;
 
 namespace MetaChallenges
 {
@@ -8,6 +9,13 @@ namespace MetaChallenges
 
         public int Incr(MetaStat stat, int value = 1)
         {
+            /*switch (stat)
+            {
+                case(MetaStat.Infra_HandleNetworkPacket):
+                    break;
+                default:
+                    
+            }*/
             if (!Stats.ContainsKey(stat))
             {
                 Stats[stat] = 0;

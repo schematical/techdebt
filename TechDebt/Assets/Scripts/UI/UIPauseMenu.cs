@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UI;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 public class UIPauseMenu : UIPanel
@@ -11,7 +12,7 @@ public class UIPauseMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
-        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{GameManager.V}";
+        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{PlayerSettings.bundleVersion}";
         AddButton("Resume", () => Close());
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Quit", Quit);

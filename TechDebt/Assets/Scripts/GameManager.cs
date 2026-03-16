@@ -17,6 +17,9 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
 using UI;
+using Unity.Services.Core;
+using Unity.Services.Core.Environments;
+using UnityEngine.Analytics;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour, iModifiable
@@ -32,8 +35,7 @@ public class GameManager : MonoBehaviour, iModifiable
             return _instance;
         }
     }
-
-    public const string V = "0.0.28";
+    
     public GameManagerState State =  GameManagerState.MainMenu;
 
     public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
@@ -319,8 +321,12 @@ public class GameManager : MonoBehaviour, iModifiable
 
 
     void Awake()
-    {
-
+    {  
+#if UNITY_WEBGL && !UNITY_EDITOR
+        InitializationOptions options = new InitializationOptions();
+        options.SetEnvironmentName("itch");
+        UnityServices.InitializeAsync();
+#endif
         _instance = this;
         
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
@@ -364,6 +370,7 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     public void StartNewGame()
     {
+        Analytics.CustomEvent("StartNewGame");
         State = GameManagerState.Playing;
         Reset();
         
