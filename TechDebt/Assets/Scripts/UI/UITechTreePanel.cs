@@ -28,7 +28,7 @@ namespace UI
         public float minZoom = 5f;
         public float maxZoom = 20f;
         public Grid grid;
-        public TextMeshProUGUI metaUnlockText;
+   
 
         // Internal state
         private class TechNodeView
@@ -129,26 +129,33 @@ namespace UI
                     GameManager.Instance.SelectTechnologyForResearch(node.Technology);
                     Refresh();
                 }
+                Close();
             }
 
             _selectedNode = node;
             UpdateDetailsArea();
+       
         }
 
         private void UpdateDetailsArea()
         {
 
-
+            CleanUp();
             if (_selectedNode == null)
             {
-                metaUnlockText.text = "Select a technology to see details.";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a technology to see details.";
+
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                    "Unlock more tech by completing Challenges. \n\n Read more in the Challenges section of the Main Menu inbetween runs.";
                 return;
             }
 
             Technology tech = _selectedNode.Technology;
-            string details = $"<b>{tech.DisplayName}</b>\n\n";
-            details += $"{tech.Description}\n\n";
-            details += $"Cost: {tech.ResearchPointCost} RP\n";
+            UIPanelLineSectionText header = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+            header.h1(tech.DisplayName);
+        
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"{tech.Description}\n\n";
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Cost: {tech.ResearchPointCost} RP\n";
 
             string reqs = "Requires: None";
             if (tech.RequiredTechnologies != null && tech.RequiredTechnologies.Count == 0)
@@ -157,7 +164,7 @@ namespace UI
                     $"Requires: {string.Join(", ", tech.RequiredTechnologies.Select(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown"))}";
             }
                 
-            details += reqs + "\n\n";
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  reqs;
 
             if (tech.CurrentState == Technology.State.Locked)
             {
@@ -169,21 +176,26 @@ namespace UI
                 }
 
                 if (!prerequisitesMet)
-                    details += "Prerequisites not met.";
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  "Prerequisites not met.";
                 else
-                    details += "Click again to start research.";
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Click again to start research.";
             }
             else if (tech.CurrentState == Technology.State.Researching)
             {
                 float percentage = (tech.CurrentResearchProgress / tech.ResearchPointCost) * 100f;
-                details += $"Researching: {Mathf.FloorToInt(percentage)}%";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Researching: {Mathf.FloorToInt(percentage)}%";
             }
             else if (tech.CurrentState == Technology.State.Unlocked)
             {
-                details += "Fully Researched";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  "Fully Researched";
             }
 
-            metaUnlockText.text = details;
+            AddButton("Start Research", () =>
+            {
+                SelectNode(_selectedNode);
+             
+            });
+
         }
 
         public void Refresh(Technology technology = null)
@@ -222,11 +234,7 @@ namespace UI
             DrawNodesAndLabels();
             DrawPaths(_techTreeNodes.Where(IsNodeVisible).ToList());
             UpdateDetailsArea();
-
-            if (metaUnlockText != null)
-            {
-                 metaUnlockText.transform.SetAsLastSibling();
-            }
+            
 
            
         }
