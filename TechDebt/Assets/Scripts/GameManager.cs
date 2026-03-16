@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             return _instance;
         }
-    } 
+    }
+
+    public const string V = "0.0.28";
     public GameManagerState State =  GameManagerState.MainMenu;
 
     public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
