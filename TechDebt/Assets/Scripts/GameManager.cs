@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using DefaultNamespace;
+using DefaultNamespace.Util.Analytics;
 using Effects;
 using Events;
 using Infrastructure;
@@ -17,6 +18,7 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
 using UI;
+using Unity.Services.Analytics;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using UnityEngine.Analytics;
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour, iModifiable
 {
     public enum GameManagerState { MainMenu, Playing }
     private static GameManager _instance;
+    public bool recordAnalytics = false;
     
     public enum GlobalNetworkPacketState { Running, Frozen}
     public static GameManager Instance
@@ -323,6 +326,7 @@ public class GameManager : MonoBehaviour, iModifiable
     void Awake()
     {  
 #if UNITY_WEBGL && !UNITY_EDITOR
+        recordAnalytics = true;
         InitializationOptions options = new InitializationOptions();
         options.SetEnvironmentName("itch");
         UnityServices.InitializeAsync();
@@ -1239,5 +1243,12 @@ public class GameManager : MonoBehaviour, iModifiable
     }
 
 
-  
+    public void RecordEvent(Unity.Services.Analytics.Event myEvent)
+    {
+        if (!recordAnalytics)
+        {
+            return;
+        }
+        AnalyticsService.Instance.RecordEvent(myEvent);
+    }
 }

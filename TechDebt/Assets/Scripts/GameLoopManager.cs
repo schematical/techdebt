@@ -235,7 +235,7 @@ public class GameLoopManager : MonoBehaviour
             SprintNumber = sprintNumber,
         };
 
-        AnalyticsService.Instance.RecordEvent(myEvent);
+        GameManager.Instance.RecordEvent(myEvent);
 
         // Assign "go to door" task to all NPCs
         foreach (NPCBase npc in GameManager.Instance.AllNpcs.ToList())

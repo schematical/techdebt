@@ -19,6 +19,7 @@ public class UIDialogPanel : UIPanel
         Show();
         SetupButtons(options);
         GameManager.Instance.UIManager.Block();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
 
     
     }

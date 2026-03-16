@@ -8472,6 +8472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e760c8de5970547bc76a6b8a2bed2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  recordAnalytics: 0
   State: 0
   ActiveInfrastructure: []
   UIManager: {fileID: 203743596}
@@ -14040,7 +14041,7 @@ MonoBehaviour:
   animationTime: 0.5
   runUICloseOnShow: 1
   titleText: {fileID: 0}
-  scrollContent: {fileID: 0}
+  scrollContent: {fileID: 348210600}
   closeButton: {fileID: 0}
   _npcPortraitImage: {fileID: 1092678159}
   _dialogTextMesh: {fileID: 974712452}

@@ -13,7 +13,7 @@ public class UIMainMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
-        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{PlayerSettings.bundleVersion}";
+        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{Application.version}";
         AddButton("New Game", NewGame);
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Discord", OpenDiscord);     

@@ -28,43 +28,39 @@ public static class MetaGameManager
         LoadProgress();
     }
 
-    static string GetSavePath()
+    static string GetSavePath(string foldername = "techdebt", string filename = "meta_progress.json")
     {
-        return Path.Combine(Application.persistentDataPath, "meta_progress.json");
+
+        #if UNITY_WEBGL
+                var	path = System.IO.Path.Combine("idbfs", foldername);  //	Path: "/idbfs/<foldername>"
+        #else         
+		        var	path = System.IO.Path.Combine(Application.persistentDataPath, foldername); 
+        #endif
+					
+        if (!System.IO.Directory.Exists(path)) {
+            //Console.WriteLine("Creating save directory: " + path);
+            System.IO.Directory.CreateDirectory(path);
+        }
+        var result = System.IO.Path.Combine(path, filename);	//	File Path: "/idbfs/<foldername>/<filename>"
+        return result;
     }
 
     public static void SaveProgress(MetaProgressData metaProgressData)
     {
         string json = JsonUtility.ToJson(metaProgressData, true);
-#if UNITY_WEBGL && !UNITY_EDITOR
-        PlayerPrefs.SetString("MetaProgress", json);
-        PlayerPrefs.Save();
-        Debug.Log("Progress saved to PlayerPrefs");
-#else
         File.WriteAllText(GetSavePath(), json);
+        
         Debug.Log($"Progress saved to {GetSavePath()}");
-#endif
     }
 
     public static MetaProgressData LoadProgress()
     {
-#if UNITY_WEBGL && !UNITY_EDITOR
-        if (!PlayerPrefs.HasKey("MetaProgress"))
-        {
-            return new MetaProgressData();
-        }
-        string json = PlayerPrefs.GetString("MetaProgress");
-Debug.Log($"Progress loaded from PlayerPrefs - {json}");
-        return JsonUtility.FromJson<MetaProgressData>(json);
-#else
         if (!File.Exists(GetSavePath()))
         {
             return new MetaProgressData();
         }
-
         string json = File.ReadAllText(GetSavePath());
         return JsonUtility.FromJson<MetaProgressData>(json);
-#endif
     }
 
 

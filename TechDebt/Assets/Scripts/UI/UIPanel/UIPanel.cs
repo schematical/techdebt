@@ -75,6 +75,7 @@ public class UIPanel : UIGameObject
         lines.Add(panelLine);
         panelLine.Initialize(0, this, null);
         panelLine.transform.SetAsLastSibling();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
         return panelLine;
     }
 

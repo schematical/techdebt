@@ -12,7 +12,7 @@ public class UIPauseMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
-        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{PlayerSettings.bundleVersion}";
+        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{Application.version}";
         AddButton("Resume", () => Close());
         AddButton("Challenges", ShowChallengesPanel);
         AddButton("Quit", Quit);
