@@ -32,6 +32,7 @@ namespace UI
                 // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardId;
                 // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardValue.ToString();
             }
+            Refresh();
         }
     }
 }

@@ -329,7 +329,8 @@ public class GameManager : MonoBehaviour, iModifiable
         recordAnalytics = true;
         InitializationOptions options = new InitializationOptions();
         options.SetEnvironmentName("itch");
-        UnityServices.InitializeAsync();
+        UnityServices.InitializeAsync(options);
+        Debug.Log("Starting Analytics: ");
 #endif
         _instance = this;
         
@@ -831,8 +832,9 @@ public class GameManager : MonoBehaviour, iModifiable
         gridManager.Init();
 
         // Center the camera on the board
-        Vector3 centerWorld = gridManager.grid.CellToWorld(new Vector3Int(gridManager.gridWidth / 2, gridManager.gridHeight / 2, 0));
+        /*Vector3 centerWorld = gridManager.grid.CellToWorld(new Vector3Int(gridManager.gridWidth / 2, gridManager.gridHeight / 2, 0));
         Camera.main.transform.position = new Vector3(centerWorld.x, centerWorld.y, Camera.main.transform.position.z);
+        */
 
         // Zoom out to show the entire board, using the maxZoom from CameraController
         if (Camera.main.orthographic)
@@ -882,10 +884,10 @@ public class GameManager : MonoBehaviour, iModifiable
             }
             
         }
-        InfrastructureInstance desk = GetInfrastructureInstanceByID("boss-desk");
-        if (desk != null)
+        InfrastructureInstance bossDesk = GetInfrastructureInstanceByID("boss-desk");
+        if (bossDesk != null)
         {
-            GameObject npcGO = prefabManager.Create("BossNPC", desk.GetInteractionPosition());
+            GameObject npcGO = prefabManager.Create("BossNPC", bossDesk.GetInteractionPosition());
             BossNPC bossNPC = npcGO.GetComponent<BossNPC>();
             bossNPC.Initialize();
             
@@ -894,7 +896,8 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             Debug.LogError("Could not find 'boss-desk to spawn BossNPC.");
         }
-           
+        InfrastructureInstance desk = GetInfrastructureInstanceByID("desk");
+        cameraController.ZoomTo(desk.transform);
         
       
   
@@ -1247,8 +1250,10 @@ public class GameManager : MonoBehaviour, iModifiable
     {
         if (!recordAnalytics)
         {
+            Debug.Log("Skipping Analytics");
             return;
         }
         AnalyticsService.Instance.RecordEvent(myEvent);
+        Debug.Log("AnalyticsService.Instance.RecordEvent: " + myEvent);
     }
 }
