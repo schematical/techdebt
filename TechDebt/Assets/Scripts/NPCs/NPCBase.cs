@@ -376,8 +376,19 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
-            Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
-            transform.position = new Vector3(nextPos.x, nextPos.y, targetWaypoint.z);
+            Rigidbody2D rigidbody2D = GetComponent<Rigidbody2D>();
+            float speed = Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.fixedDeltaTime ;
+            if (rigidbody2D != null)
+            {
+
+                rigidbody2D.linearVelocity = speed * 10 * (targetWaypoint - transform.position);
+            }
+            else
+            {
+                Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint,
+                    speed);
+                transform.position = new Vector3(nextPos.x, nextPos.y, targetWaypoint.z);
+            }
         }
         else
         {

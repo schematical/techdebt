@@ -93,7 +93,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &738323418660350016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +110,10 @@ MonoBehaviour:
   <flipMoventSprite>k__BackingField: 1
   uiAttentionIcon: {fileID: 0}
   animator: {fileID: 3095119168781780072}
+  shadow: {fileID: 0}
+  shadowOffset: {x: -0.1, y: -0.25}
+  shadowScale: 0.75
+  severity: 0
 --- !u!95 &3095119168781780072
 Animator:
   serializedVersion: 7
