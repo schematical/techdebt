@@ -15,8 +15,13 @@ namespace UI
             GetComponent<Image>().color = isCompleted ? Color.green : Color.white;
             
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = challenge.DisplayName;
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = challenge.Description;
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{currentProgress}/{challenge.RequiredValue}";
+            UIPanelLine descriptionLine = AddLine<UIPanelLine>();
+            descriptionLine.Add<UIPanelLineSectionText>().text.text = challenge.Description;
+            descriptionLine.GetComponent<LayoutElement>().minHeight = 60;
+            AddLine<UIPanelLine>();
+            UIPanelLine progressLine = AddLine<UIPanelLine>();
+            progressLine.GetComponent<LayoutElement>().minHeight = 50;
+            progressLine.Add<UIPanelLineSectionText>().text.text = $"{currentProgress}/{challenge.RequiredValue}";
             if (!isCompleted)
             {
                 return;
@@ -28,7 +33,7 @@ namespace UI
             {
                 UIPanelLine rewardLine = rewardHolderLine.AddLine<UIPanelLine>();
                 // TODO: Make a panel that renders this
-                rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.GetType().ToString();
+                rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.GetDescription();
                 // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardId;
                 // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardValue.ToString();
             }

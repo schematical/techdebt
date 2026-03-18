@@ -51,6 +51,7 @@ public class UIMetaChallengesPanel: UIPanel
             challengePanel.Initialize(challenge, currentProgress);
             challengePanels.Add(challengePanel);
         }
+        Refresh();
     }
 
     public override void Close(bool forceClose = false)
