@@ -68,8 +68,7 @@ public class GameManager : MonoBehaviour, iModifiable
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
     public static event System.Action<InfrastructureInstance, InfrastructureData.State?> OnInfrastructureStateChange;
-    public static event System.Action<Technology> OnTechnologyUnlocked;
-    public static event System.Action<Technology> OnTechnologyResearchStarted;
+    public static event System.Action<Technology, Technology.State> OnTechnologyStateChange;
     public static event System.Action OnCurrentEventsChanged;
     
     public static event System.Action<ReleaseBase, ReleaseBase.ReleaseState> OnReleaseChanged;
@@ -335,7 +334,7 @@ public class GameManager : MonoBehaviour, iModifiable
         _instance = this;
         
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
-        OnTechnologyUnlocked += HandleTechnologyUnlocked;
+        OnTechnologyStateChange += HandleTechnologyStateChange;
         OnReleaseChanged += HandleReleaseChanged;
         
         UIManager.Initialize();
@@ -447,14 +446,14 @@ public class GameManager : MonoBehaviour, iModifiable
     void OnDestroy()
     {
         OnInfrastructureStateChange -= HandleInfrastructureStateChange;
-        OnTechnologyUnlocked -= HandleTechnologyUnlocked;
+        OnTechnologyStateChange -= HandleTechnologyStateChange;
         if (_instance == this)
         {
             _instance = null;
         }
     }
 
-    private void HandleTechnologyUnlocked(Technology tech)
+    private void HandleTechnologyStateChange(Technology tech, Technology.State previousState)
     {
         UpdateInfrastructureVisibility();
         bool hasMoreToResearch = false;
@@ -1034,8 +1033,9 @@ public class GameManager : MonoBehaviour, iModifiable
         }
 
         CurrentlyResearchingTechnology = tech;
+        Technology.State previousState = tech.CurrentState;
         tech.CurrentState = Technology.State.Researching;
-        OnTechnologyResearchStarted?.Invoke(tech);
+        OnTechnologyStateChange?.Invoke(tech, previousState);
 
         // Remove any existing research tasks
         AvailableTasks.RemoveAll(task => task is ResearchTask);
@@ -1053,8 +1053,9 @@ public class GameManager : MonoBehaviour, iModifiable
 
         if (CurrentlyResearchingTechnology.CurrentResearchProgress >= CurrentlyResearchingTechnology.ResearchTime)
         {
+            Technology.State previousState = CurrentlyResearchingTechnology.CurrentState;
             CurrentlyResearchingTechnology.CurrentState = Technology.State.Unlocked;
-            OnTechnologyUnlocked?.Invoke(CurrentlyResearchingTechnology);
+            OnTechnologyStateChange?.Invoke(CurrentlyResearchingTechnology, previousState);
             
             CurrentlyResearchingTechnology = null;
         }
@@ -1067,8 +1068,9 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             if (tech.CurrentState != Technology.State.Unlocked)
             {
+                Technology.State previousState = tech.CurrentState;
                 tech.CurrentState = Technology.State.Unlocked;
-                OnTechnologyUnlocked?.Invoke(tech);
+                OnTechnologyStateChange?.Invoke(tech, previousState);
             }
         }
         CurrentlyResearchingTechnology = null;

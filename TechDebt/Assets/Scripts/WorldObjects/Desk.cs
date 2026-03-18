@@ -39,6 +39,7 @@ public class Desk : InfrastructureInstance
     {
         GameManager.Instance.UIManager.Close();
         GameManager.Instance.UIManager.techTreePanel.Show();
+        GameManager.Instance.GetInfrastructureInstanceByID("desk").HideAttentionIcon();
         //GameManager.Instance.UIManager.deskMenuPanel.gameObject.SetActive(true);
     }
 

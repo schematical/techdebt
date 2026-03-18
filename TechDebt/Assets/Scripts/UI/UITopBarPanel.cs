@@ -11,7 +11,6 @@ namespace UI
     public class UITopBarPanel: UIPanel
     {
         private Dictionary<StatType, TextMeshProUGUI> _statTexts = new Dictionary<StatType, TextMeshProUGUI>();
-        private TextMeshProUGUI _gameStateText;
         private TextMeshProUGUI _clockText;
         
         
@@ -29,8 +28,6 @@ namespace UI
             layout.padding = new RectOffset(10, 10, 5, 5);
             layout.spacing = 15;
 
-            _gameStateText = CreateText(transform, "GameStateText", "State: Initializing", 24);
-            _gameStateText.color = Color.cyan;
 
             _clockText = CreateText(transform, "ClockText", "9:00 AM", 24);
             
@@ -71,11 +68,7 @@ namespace UI
         {
             UpdateStatText(StatType.Money, value);
         }
-
-        public void UpdateGameStateDisplay(string state)
-        {
-            if (_gameStateText != null) _gameStateText.text = $"{state}";
-        }
+        
 
         public void UpdateClockDisplay(float timeElapsed, float dayDuration)
         {

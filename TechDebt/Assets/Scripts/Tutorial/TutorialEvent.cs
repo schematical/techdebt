@@ -60,7 +60,7 @@ namespace Tutorial
 
             GameManager.Instance.GameLoopManager.playTimerActive = false;
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
-            GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
+            GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
             GameManager.OnPhaseChange += HandlePhaseChange;
             GameManager.OnReleaseChanged += HandleReleaseChange;
             nextStep = 0;
@@ -456,9 +456,8 @@ namespace Tutorial
             }
         }
 
-        private void HandleTechnologyUnlocked(Technology tech)
+        private void HandleTechnologyStateChange(Technology tech, Technology.State previousState)
         {
-            Debug.Log("HandleTechnologyUnlocked Called: " + tech.TechnologyID + " - " + firstTechnologyResearched);
             if (firstTechnologyResearched)
             {
                 return;
@@ -481,7 +480,7 @@ namespace Tutorial
             GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
             GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
-            GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
+            GameManager.OnTechnologyStateChange -= HandleTechnologyStateChange;
 
             GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
 

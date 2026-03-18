@@ -144,8 +144,11 @@ public class NPCDevOps : NPCAnimatedBiped
                                 }
                                 AddModifier(modifierBase);
                                 modifierBase.Apply();
-                              
 
+                                if (GameManager.Instance.TutorialManager != null)
+                                {
+                                    GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
+                                }
                                 GameManager.Instance.UIManager.multiSelectPanel.Close();
                             }
                             catch (Exception e)
@@ -174,6 +177,10 @@ public class NPCDevOps : NPCAnimatedBiped
                             if (existingModifierBase is LeveledRewardBase)
                             {
                                 (existingModifierBase as LeveledRewardBase).LevelUp(rarity);
+                            }
+                            if (GameManager.Instance.TutorialManager != null)
+                            {
+                                GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
                             }
                             GameManager.Instance.UIManager.multiSelectPanel.Close();
                         }catch (Exception e) {

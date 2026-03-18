@@ -8,6 +8,15 @@ namespace Tutorial.Steps
     {
         public FirstTutorialStep(TutorialStepId id, string name, string description) : base(id, name, description)
         {
+            onTrigger = () =>
+            {
+                GameManager.Instance.HideAllAttentionIcons();
+                InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot",
+                    server.transform.position + new Vector3(4, 0));
+                NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
+                schematicalBot.Initialize();
+            };
         }
 
         public override List<DialogButtonOption> GetDialogOptions()
@@ -16,12 +25,7 @@ namespace Tutorial.Steps
             {
                 new DialogButtonOption() { Text = "Start Tutorial", OnClick = () =>
                     {
-                        GameManager.Instance.HideAllAttentionIcons();
-                        InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot",
-                            server.transform.position + new Vector3(4, 0));
-                        NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
-                        schematicalBot.Initialize();
+             
                         Next();
                     } 
                 },

@@ -200,7 +200,12 @@ namespace UI
 
         }
 
-        public void Refresh(Technology technology = null)
+        public void OnTechnologyStateChange(Technology technology, Technology.State previousState)
+        {
+            Refresh();
+        }
+
+        public void Refresh()
         {
             
             if (nodeTilemap == null) Debug.LogError("UITechTreePanel: nodeTilemap is null!");
@@ -271,8 +276,7 @@ namespace UI
             base.Show();
          
             GameManager.Instance.UIManager.ForcePause();
-            GameManager.OnTechnologyUnlocked += Refresh;
-            GameManager.OnTechnologyResearchStarted += Refresh;
+            GameManager.OnTechnologyStateChange += OnTechnologyStateChange;
             grid.gameObject.SetActive(true);
             Refresh();
             CenterTilemapOnCamera();
@@ -299,10 +303,9 @@ namespace UI
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
             if (backgroundTilemap != null) backgroundTilemap.ClearAllTiles();
             grid.gameObject.SetActive(false);
-            
+          
        
-            GameManager.OnTechnologyUnlocked -= Refresh;
-            GameManager.OnTechnologyResearchStarted -= Refresh;
+            GameManager.OnTechnologyStateChange -= OnTechnologyStateChange;
             base.Close(forceClose);
         }
 

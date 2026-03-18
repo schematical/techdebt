@@ -343,10 +343,7 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void UpdateGameStateDisplay(string state)
-    {
-        topBarPanel.UpdateGameStateDisplay(state);
-    }
+   
 
     public void UpdateClockDisplay(float timeElapsed, float dayDuration)
     {

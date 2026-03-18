@@ -98,7 +98,6 @@ public class GameLoopManager : MonoBehaviour
      
 
         // Update UI
-        GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.ShowPlanUI();
         GameManager.Instance.Map.GetCurrentLevel().PlanPhaseCheck();
     }
@@ -138,7 +137,6 @@ public class GameLoopManager : MonoBehaviour
 
 
         // Update UI
-        GameManager.Instance.UIManager.UpdateGameStateDisplay(CurrentState.ToString());
         GameManager.Instance.UIManager.HidePlanUI();
         GameManager.Instance.UIManager.moneyPanel.Show();
         

@@ -36,7 +36,7 @@ public static class MetaGameManager
         #else         
 		        var	path = System.IO.Path.Combine(Application.persistentDataPath, foldername); 
         #endif
-				Debug.Log($"GetSavePath {path}");	
+        
         if (!System.IO.Directory.Exists(path)) {
             //Console.WriteLine("Creating save directory: " + path);
             System.IO.Directory.CreateDirectory(path);

@@ -4,6 +4,7 @@ using DefaultNamespace;
 using Tutorial;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Tutorial
 {
@@ -30,6 +31,7 @@ namespace Tutorial
         
         public string spriteId = null;
         public Func<Transform> getTargetTranform = null;
+        public UnityAction onTrigger = null;
         public TutorialStepId NextStepId = TutorialStepId.None;
  
 
@@ -114,6 +116,10 @@ namespace Tutorial
         }
         public void Trigger()
         {
+            if (onTrigger != null)
+            {
+                onTrigger.Invoke();
+            }
             Render();
         }
     }
