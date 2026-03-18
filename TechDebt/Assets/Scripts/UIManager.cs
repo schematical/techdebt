@@ -57,7 +57,8 @@ public class UIManager : MonoBehaviour
     public UIItemDetailPanel itemDetailPanel;
     public UIAlertPanel alertPanel;
     public UIDialogPanel dialogPanel;
-
+    public UITutorialPanel tutorialPanel;
+    
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
     public UIPauseMenu pauseMenu;
@@ -101,6 +102,7 @@ public class UIManager : MonoBehaviour
         orgChartPanel.Close(forceClose);
         pauseMenu.Close(forceClose);
         multiSelectPanel.Close(forceClose);
+        tutorialPanel.Close(forceClose);
         CloseSideBars(forceClose);
     }
 

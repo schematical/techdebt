@@ -90,7 +90,7 @@ namespace Events
                         "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit. ",
                         new List<DialogButtonOption>()
                         {
-                            new DialogButtonOption() { Text = "Start Tutorial", OnClick = () => Next() },
+                            new DialogButtonOption() { Text = "Start TutorialManager", OnClick = () => Next() },
                             new DialogButtonOption() { Text = "Just Get Started", OnClick = () => End() },
                         }
                     );

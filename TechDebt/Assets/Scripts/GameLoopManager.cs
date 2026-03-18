@@ -76,7 +76,7 @@ public class GameLoopManager : MonoBehaviour
             {
                 if (
                     npc.GetComponent<BossNPC>() != null &&
-                    GameManager.Instance.Tutorial != null
+                    GameManager.Instance.TutorialManager != null
                     )
                 {
                     continue;

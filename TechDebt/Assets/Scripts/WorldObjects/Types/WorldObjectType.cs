@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MetaChallenges;
 using Stats;
+using Tutorial;
 using UnityEngine;
 
 namespace Infrastructure
@@ -28,6 +29,7 @@ namespace Infrastructure
         
         public string DisplayName;
         public string PrefabId;
+        public TutorialStepId  TutorialStepId;
         public List<UnlockCondition> UnlockConditions;
         public List<InfrastructureDataNetworkPacket> networkPackets = new List<InfrastructureDataNetworkPacket>();
 

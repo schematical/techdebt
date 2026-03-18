@@ -42,13 +42,13 @@ public class NPCDevOps : NPCAnimatedBiped
 
     public override void AddXP(float amount = 1)
     {
-        if (
-            GameManager.Instance.Tutorial != null &&
-            !GameManager.Instance.Tutorial.NPCsCanGetXP
+        /*if (
+            GameManager.Instance.TutorialManager != null &&
+            !GameManager.Instance.TutorialManager.NPCsCanGetXP
         )
         {
             return;
-        }
+        }*/
 
         float adjustedAmount = Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
         currentXP += adjustedAmount;
@@ -189,9 +189,9 @@ public class NPCDevOps : NPCAnimatedBiped
     public void AddModifier(RewardBase modifierBase)
     {
         Modifiers.Rewards.Add(modifierBase);
-        /*if (GameManager.Instance.Tutorial != null)
+        /*if (GameManager.Instance.TutorialManager != null)
         {
-            GameManager.Instance.Tutorial.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
+            GameManager.Instance.TutorialManager.Check(TutorialEvent.TutorialCheck.NPC_AddTrait);
         }*/
       
     }

@@ -28,7 +28,7 @@ public static class MetaGameManager
         LoadProgress();
     }
 
-    static string GetSavePath(string foldername = "techdebt", string filename = "meta_progress.json")
+    public static string GetSavePath(string foldername = "techdebt", string filename = "meta_progress.json")
     {
 
         #if UNITY_WEBGL

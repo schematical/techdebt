@@ -94,9 +94,9 @@ namespace UI
             panelState = State.Done;
             release.OnDeploymentCompleted();
             GameManager.Instance.UIManager.Resume();
-            if (GameManager.Instance.Tutorial != null)
+            if (GameManager.Instance.TutorialManager != null)
             {
-                GameManager.Instance.Tutorial.OnRewardsPanelDone();
+                // GameManager.Instance.TutorialManager.OnRewardsPanelDone();
             }
             uiGameObject.Close();
           

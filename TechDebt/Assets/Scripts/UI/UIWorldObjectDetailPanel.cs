@@ -3,6 +3,7 @@ using System.Linq;
 using Infrastructure;
 using NPCs;
 using Stats;
+using Tutorial;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -132,6 +133,11 @@ namespace UI
                         }
                     }
                 });
+            }
+            TutorialStepId tutorialStepId = worldObject.GetWorldObjectType().TutorialStepId;
+            if (tutorialStepId != null)
+            {
+                AddButton("Learn More", () => GameManager.Instance.TutorialManager.ForceRender(tutorialStepId));
             }
         }
 

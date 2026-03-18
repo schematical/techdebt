@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour, iModifiable
     
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
-    public TutorialEvent Tutorial;
+    public TutorialManager TutorialManager;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
     public ModifierCollection Rewards { get; set; } = new  ModifierCollection();
@@ -299,7 +299,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public void EndEvent(EventBase e)
     {
-        Tutorial = null;
+        TutorialManager = null;
         CurrentEvents.Remove(e);
         if (!string.IsNullOrEmpty(e.EventEndText))
         {
@@ -386,6 +386,7 @@ public class GameManager : MonoBehaviour, iModifiable
   
         cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
+        TutorialManager = new TutorialManager();
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
@@ -493,9 +494,9 @@ public class GameManager : MonoBehaviour, iModifiable
     private void FixedUpdate()
     {
         if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
-        /*if (Tutorial != null && CurrentEvents.Count == 0)
+        /*if (TutorialManager != null && CurrentEvents.Count == 0)
         {
-            TriggerEvent(Tutorial);
+            TriggerEvent(TutorialManager);
             
         }*/
         // Iterate over a copy of the list to prevent modification during enumeration errors.
@@ -650,7 +651,7 @@ public class GameManager : MonoBehaviour, iModifiable
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
 
-        // Tutorial = new TutorialEvent();
+        // TutorialManager = new TutorialEvent();
         NetworkPacketData coin = new NetworkPacketData(0f)
         {
             Type = NetworkPacketData.PType.Purchase,

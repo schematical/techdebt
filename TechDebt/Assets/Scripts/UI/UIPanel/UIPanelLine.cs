@@ -85,7 +85,7 @@ namespace UI
             defaultSections.Clear();
             gameObject.SetActive(false);
         }
-        public T AddLine<T>()  where T:  UIPanelLine
+        public virtual T AddLine<T>()  where T:  UIPanelLine
         {
             string prefabId = typeof(T).Name;
             T panelLine =
