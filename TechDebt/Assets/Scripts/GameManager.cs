@@ -547,6 +547,10 @@ public class GameManager : MonoBehaviour, iModifiable
                 throw new SystemException("Cannot find any `InternetPipe` instances");
             }
             InternetPipe pipe = instances[Random.Range(0, instances.Count)];
+            if (pipe.CurrConnections.Count == 0)
+            {
+                return;
+            }
             timeSinceLastPacket = 0f;
             pipe.SendPacket(data);
          

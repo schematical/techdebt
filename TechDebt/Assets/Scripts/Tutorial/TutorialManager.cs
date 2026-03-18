@@ -172,15 +172,18 @@ namespace Tutorial
                     "HTML Packets",
                     "Notice there are different network packet types. One type is just simple text like HTML."
                 )
-                {
+                {   
+                    onTrigger = () =>
+                    {
+                        GameManager.Instance.UIManager.SetTimeScalePlay();
+                    },
                     getTargetTranform = () =>
                     {
-                        NetworkPacket networkPacket =
-                            GameManager.Instance.activePackets.Find((networkPacket) =>
-                            {
-                                return networkPacket.data.Type == NetworkPacketData.PType.Text;
-                            });
-
+                        NetworkPacketData data = GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
+                        List<InternetPipe> instances = GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                        InternetPipe pipe = instances[Random.Range(0, instances.Count)];
+               
+                        NetworkPacket networkPacket = pipe.SendPacket(data);
                         return networkPacket.transform;
                     },
                     spriteId = "SchematicalBot",
@@ -192,14 +195,17 @@ namespace Tutorial
                     "Another type is binary data like images. Different NetworkPacket types will have different server load and effects on the various infrastructure and will take different routes as your cloud architecture evolves."
                 )
                 {
+                    onTrigger = () =>
+                    {
+                        GameManager.Instance.UIManager.SetTimeScalePlay();
+                    },
                     getTargetTranform = () =>
                     {
-                        NetworkPacket networkPacket =
-                            GameManager.Instance.activePackets.Find((networkPacket) =>
-                            {
-                                return networkPacket.data.Type == NetworkPacketData.PType.Image;
-                            });
-
+                        NetworkPacketData data = GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
+                        List<InternetPipe> instances = GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                        InternetPipe pipe = instances[Random.Range(0, instances.Count)];
+               
+                        NetworkPacket networkPacket = pipe.SendPacket(data);
                         return networkPacket.transform;
                     },
                     spriteId = "SchematicalBot",
@@ -302,7 +308,7 @@ namespace Tutorial
                     spriteId = "SchematicalBot",
                 },
                 new TutorialStep(
-                    TutorialStepId.NPC_LevelUp_Pending,
+                    TutorialStepId.NPC_LevelUp_Completed,
                     "Team Members Leveled Up",
                     "Well done. Keep your team members happy and healthy so they level up more often."
                 )
@@ -507,6 +513,7 @@ namespace Tutorial
 
         public TutorialStep Trigger(TutorialStepId stepId)
         {
+            Debug.Log($"Triggering step {stepId}");
             TutorialStep step = GetStep(stepId);
             step.Trigger();
             return step;
@@ -581,10 +588,24 @@ namespace Tutorial
                     
                     break;
                 case("dedicated-db"):
-                    Trigger(TutorialStepId.Technology_DedicatedDB_Unlocked);
+                    if (
+                        technology.CurrentState == Technology.State.Unlocked &&
+                        previousState == Technology.State.Researching
+                    )
+                    {
+                        Trigger(TutorialStepId.Technology_DedicatedDB_Unlocked);
+                    }
+
                     break;
                 case("white-board"):
-                    Trigger(TutorialStepId.Technology_Whiteboard_Unlocked);
+                    if (
+                        technology.CurrentState == Technology.State.Unlocked &&
+                        previousState == Technology.State.Researching
+                    )
+                    {
+                        Trigger(TutorialStepId.Technology_Whiteboard_Unlocked);
+                    }
+
                     break;
                 default:
                     Debug.LogError($"Not Implemented: {technology.TechnologyID}");

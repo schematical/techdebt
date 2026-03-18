@@ -4,14 +4,14 @@ public class InternetPipe : InfrastructureInstance
 {
    
 
-    public void SendPacket(NetworkPacketData networkPacketData)
+    public NetworkPacket SendPacket(NetworkPacketData networkPacketData)
     {
         // int connectionCount = data.NetworkConnections?.Count ?? 0;
         NetworkConnection connection = GetNextNetworkConnection(networkPacketData.Type);
         if (connection == null)
         {
-           // Debug.LogError($"{gameObject.name} Could find  send packet {networkPacketData.Type}");
-            return;
+           Debug.LogError($"{gameObject.name} Could find  send packet {networkPacketData.Type} - CurrConnections: {CurrConnections.Count}");
+            return null;
         }
                 
    
@@ -19,7 +19,7 @@ public class InternetPipe : InfrastructureInstance
         if (targetReceiver == null)
         {
             Debug.LogError($"{gameObject.name} Could find world object {connection.worldObjectType}");
-            return;
+            return null;
         }
         
         // Create the packet
@@ -28,8 +28,9 @@ public class InternetPipe : InfrastructureInstance
         NetworkPacket packet = GameManager.Instance.CreatePacket(networkPacketData, fileName, size, this);
                 
         packet.SetNextTarget(targetReceiver);
-       
-        
+        return packet;
+
+
     }
 
     // The InternetPipe itself doesn't "receive" packets in the traditional sense, it only generates them.
