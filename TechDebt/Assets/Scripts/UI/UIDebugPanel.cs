@@ -209,7 +209,7 @@ public class UIDebugPanel : UIPanel
         if (GameManager.Instance.CurrentlyResearchingTechnology != null)
         {
             string techName = GameManager.Instance.CurrentlyResearchingTechnology.DisplayName;
-            GameManager.Instance.ApplyResearchProgress(GameManager.Instance.CurrentlyResearchingTechnology.ResearchPointCost);
+            GameManager.Instance.ApplyResearchProgress(GameManager.Instance.CurrentlyResearchingTechnology.ResearchTime);
             Debug.Log($"Insta-researched {techName}");
      
             GameManager.Instance.UIManager.techTreePanel.Refresh();

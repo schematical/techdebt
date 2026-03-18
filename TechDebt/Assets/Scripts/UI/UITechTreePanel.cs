@@ -73,7 +73,7 @@ namespace UI
                 {
                     TextMeshPro textComponent = node.LabelInstance.GetComponentInChildren<TextMeshPro>();
                    
-                    float percentage = (node.Technology.CurrentResearchProgress / node.Technology.ResearchPointCost) * 100f;
+                    float percentage = (node.Technology.CurrentResearchProgress / node.Technology.ResearchTime) * 100f;
                     textComponent.text = $"{node.DisplayName}({Mathf.FloorToInt(percentage)}%)";
                     
                 }
@@ -155,7 +155,9 @@ namespace UI
             header.h1(tech.DisplayName);
         
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"{tech.Description}\n\n";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Cost: {tech.ResearchPointCost} RP\n";
+            float researchDuration =
+                (tech.ResearchTime / GameManager.Instance.GameLoopManager.GetDayDurationSeconds()) * 8;
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Research Time: {Math.Round(researchDuration * 100)/100} Hours\n";
 
             string reqs = "Requires: None";
             if (tech.RequiredTechnologies != null && tech.RequiredTechnologies.Count == 0)
@@ -182,7 +184,7 @@ namespace UI
             }
             else if (tech.CurrentState == Technology.State.Researching)
             {
-                float percentage = (tech.CurrentResearchProgress / tech.ResearchPointCost) * 100f;
+                float percentage = (tech.CurrentResearchProgress / tech.ResearchTime) * 100f;
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Researching: {Mathf.FloorToInt(percentage)}%";
             }
             else if (tech.CurrentState == Technology.State.Unlocked)

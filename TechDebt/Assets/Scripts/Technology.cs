@@ -1,7 +1,8 @@
 // Technology_Locked.cs
 using UnityEngine;
 using System.Collections.Generic;
-using System; // Added for SerializableAttribute
+using System;
+using UnityEngine.Serialization; // Added for SerializableAttribute
 
 [Serializable]
 public class Technology
@@ -12,7 +13,7 @@ public class Technology
     public string DisplayName;
     public string Description;
     public TechTreeDirection Direction = TechTreeDirection.Up;
-    public int ResearchPointCost;
+    [FormerlySerializedAs("ResearchPointCost")] public int ResearchTime;
     public float CurrentResearchProgress = 0;
     public List<string> RequiredTechnologies;
 
@@ -26,6 +27,6 @@ public class Technology
 
     public float GetProgress()
     {
-        return CurrentResearchProgress / ResearchPointCost;
+        return CurrentResearchProgress / ResearchTime;
     }
 }

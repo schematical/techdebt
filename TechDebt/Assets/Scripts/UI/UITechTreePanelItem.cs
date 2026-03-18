@@ -71,7 +71,7 @@ public class UITechTreePanelItem : MonoBehaviour
     {
         if (_techData != null && _techData.CurrentState == Technology.State.Researching)
         {
-            float percentage = (_techData.CurrentResearchProgress / _techData.ResearchPointCost) * 100f;
+            float percentage = (_techData.CurrentResearchProgress / _techData.ResearchTime) * 100f;
             researchButton.buttonText.text = $"Researching... ({Mathf.FloorToInt(percentage)}%)";
         }
     }
