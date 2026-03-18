@@ -1049,7 +1049,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
         CurrentlyResearchingTechnology.CurrentResearchProgress += researchGained;
 
-        if (CurrentlyResearchingTechnology.CurrentResearchProgress >= CurrentlyResearchingTechnology.ResearchPointCost)
+        if (CurrentlyResearchingTechnology.CurrentResearchProgress >= CurrentlyResearchingTechnology.ResearchTime)
         {
             CurrentlyResearchingTechnology.CurrentState = Technology.State.Unlocked;
             OnTechnologyUnlocked?.Invoke(CurrentlyResearchingTechnology);

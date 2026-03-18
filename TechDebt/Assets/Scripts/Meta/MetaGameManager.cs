@@ -243,7 +243,7 @@ public static class MetaGameManager
                 TechnologyID = "application-server",
                 DisplayName = "Application Server",
                 Description = "",
-                ResearchPointCost = 30,
+                ResearchTime = 30,
                 RequiredTechnologies = new List<string>(),
                 CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
@@ -253,7 +253,7 @@ public static class MetaGameManager
                 TechnologyID = "kanban-board",
                 DisplayName = "Kanban",
                 Description = "",
-                ResearchPointCost = 60,
+                ResearchTime = 60,
                 RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
@@ -264,7 +264,7 @@ public static class MetaGameManager
                 TechnologyID = "white-board",
                 DisplayName = "Software Basics",
                 Description = "",
-                ResearchPointCost = 30,
+                ResearchTime = 30,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
@@ -275,7 +275,7 @@ public static class MetaGameManager
                 TechnologyID = "org-chart",
                 DisplayName = "Org Chart",
                 Description = "",
-                ResearchPointCost = 120,
+                ResearchTime = 120,
                 RequiredTechnologies = new List<string>() { "kanban-board" },
                 CurrentState = Technology.State.MetaLocked,
                 Direction = Technology.TechTreeDirection.Right,
@@ -285,7 +285,7 @@ public static class MetaGameManager
                 TechnologyID = "product-road-map",
                 DisplayName = "Product Road Map",
                 Description = "",
-                ResearchPointCost = 30,
+                ResearchTime = 30,
                 RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
@@ -295,7 +295,7 @@ public static class MetaGameManager
                 TechnologyID = "dedicated-db",
                 DisplayName = "Dedicated Database",
                 Description = "",
-                ResearchPointCost = 30,
+                ResearchTime = 30,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked
                 // UnlockConditions - Get and instance to size 2?
@@ -305,7 +305,7 @@ public static class MetaGameManager
                 TechnologyID = "binary-storage",
                 DisplayName = "Binary Storage",
                 Description = "",
-                ResearchPointCost = 40,
+                ResearchTime = 40,
                 RequiredTechnologies = new List<string>() { "application-server" }
             },
             new Technology()
@@ -313,7 +313,7 @@ public static class MetaGameManager
                 TechnologyID = "redis",
                 DisplayName = "Redis Caching",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "dedicated-db" }
             },
             new Technology()
@@ -321,7 +321,7 @@ public static class MetaGameManager
                 TechnologyID = "cdn",
                 DisplayName = "Content Delivery Network(CDN)",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "binary-storage" }
                 // serve up X binary packets with the s3 bucket
             },
@@ -330,7 +330,7 @@ public static class MetaGameManager
                 TechnologyID = "load-balancer",
                 DisplayName = "Load Balancer",
                 Description = "",
-                ResearchPointCost = 30,
+                ResearchTime = 30,
                 RequiredTechnologies = new List<string>() { "dedicated-db", "binary-storage" }
                 // ??? Make it to day y?
             },
@@ -339,7 +339,7 @@ public static class MetaGameManager
                 TechnologyID = "read-replicas",
                 DisplayName = "Read Replicas",
                 Description = "",
-                ResearchPointCost = 60,
+                ResearchTime = 60,
                 RequiredTechnologies = new List<string>() { "dedicated-db" }
                 // Scale up your dedicated-db to level 2
             },
@@ -348,7 +348,7 @@ public static class MetaGameManager
                 TechnologyID = "water-cooler",
                 DisplayName = "Water Cooler",
                 Description = "",
-                ResearchPointCost = 5,
+                ResearchTime = 5,
                 RequiredTechnologies = new List<string>() { "kanban-board" },
                 Direction = Technology.TechTreeDirection.Right
             },
@@ -357,7 +357,7 @@ public static class MetaGameManager
                 TechnologyID = "waf",
                 DisplayName = "Web Application Firewall(WAF)",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "cloud-watch-metrics" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
@@ -368,7 +368,7 @@ public static class MetaGameManager
                 TechnologyID = "secret-manager",
                 DisplayName = "Secret Manager",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 Direction = Technology.TechTreeDirection.Down,
                 // Cycle credentials Y times
@@ -378,7 +378,7 @@ public static class MetaGameManager
                 TechnologyID = "sqs",
                 DisplayName = "Simple Queue Service",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "load-balancer" },
                 // survive Y packets in a single run.
             },
@@ -387,7 +387,7 @@ public static class MetaGameManager
                 TechnologyID = "cognito",
                 DisplayName = "Cognito User Pools",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down
@@ -398,7 +398,7 @@ public static class MetaGameManager
                 TechnologyID = "codepipeline",
                 DisplayName = "Code Pipeline",
                 Description = "",
-                ResearchPointCost = 25,
+                ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
@@ -409,7 +409,7 @@ public static class MetaGameManager
                 TechnologyID = "email-service",
                 DisplayName = "Email Service",
                 Description = "",
-                ResearchPointCost = 200,
+                ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 Direction = Technology.TechTreeDirection.Left,
@@ -421,7 +421,7 @@ public static class MetaGameManager
                 DisplayName = "Cloud Watch Metrics",
                 Description = "",
                 Direction = Technology.TechTreeDirection.Down,
-                ResearchPointCost = 200,
+                ResearchTime = 200,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 // ???
             },
@@ -431,7 +431,7 @@ public static class MetaGameManager
                 DisplayName = "Mobile Notifications",
                 Description = "",
                 Direction = Technology.TechTreeDirection.Left,
-                ResearchPointCost = 200,
+                ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 // Finish round 1

@@ -72,7 +72,7 @@ namespace UI
                 }
               
                 ProgressBarPanels["tech"].Text.text = "Researching: " + tech.DisplayName;
-                ProgressBarPanels["tech"].SetProgress(tech.CurrentResearchProgress /tech.ResearchPointCost, Color.blue);
+                ProgressBarPanels["tech"].SetProgress(tech.CurrentResearchProgress /tech.ResearchTime, Color.blue);
             }
             else
             {

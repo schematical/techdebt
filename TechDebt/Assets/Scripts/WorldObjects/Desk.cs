@@ -21,7 +21,7 @@ public class Desk : InfrastructureInstance
             return;
         }
         int progress = (int)Math.Floor(GameManager.Instance.CurrentlyResearchingTechnology.CurrentResearchProgress /
-            GameManager.Instance.CurrentlyResearchingTechnology.ResearchPointCost * 100);
+            GameManager.Instance.CurrentlyResearchingTechnology.ResearchTime * 100);
         // Emit a "+1" text particle at the given position.
         if (progress % 10 == 0 && lastDisplayedProgress != progress)
         {
