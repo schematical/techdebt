@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
+using DefaultNamespace;
+using Infrastructure;
+using NPCs;
 using Tutorial;
 using Tutorial.Steps;
 using UnityEngine;
@@ -20,7 +23,13 @@ namespace Tutorial
                     "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit. "
                 )
                 {
-                    spriteId = "Suit1NPC"
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "Suit1NPC",
+                    NextStepId = TutorialStepId.Infra_Door
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_Door,
@@ -28,24 +37,102 @@ namespace Tutorial
                     "The team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day"
                 )
                 {
-                    spriteId = "portal-door"
+                    getTargetTranform = () =>
+                    {
+                        WorldObjectBase door =
+                            GameManager.Instance.GetInfrastructureInstanceByID("door");
+                        return door.transform;
+                    },
+                    spriteId = "Suit1NPC",
+                }, 
+                new TutorialStep(
+                    TutorialStepId.Day_Start,
+                    "Your Team",
+                    "You are in charge of a small team of software developers and DevOps engineers. Here is one now."
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "Suit1NPC",
+                    NextStepId = TutorialStepId.NPC_PreConsultant
+                },
+                new TutorialStep(
+                    TutorialStepId.NPC_PreConsultant,
+                    "Help",
+                    "If you need help we hired a consultant to guide you. Allow me to introduce you to..."
+                )
+                {
+                    spriteId = "Suit1NPC",
+                    NextStepId = TutorialStepId.NPC_Consultant
+                },
+                new TutorialStep(
+                    TutorialStepId.NPC_Consultant,
+                    "Schematical Bot",
+                    "Hi! I am the consultant from Schematical and I am here to help guide you as you setup your cloud infrastructure."
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.Infra_Desk
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_Desk,
                     "Desk",
-                    "This is where your team members will do research tasks. Click on it to begin researching."
+                    "Click on the Desk to assign your team members to do research tasks."
                 )
                 {
-                    spriteId = "Desk"
+                    getTargetTranform = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                        infrastructureInstance.ShowAttentionIcon();
+                        return infrastructureInstance.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    
+                },
+                new TutorialStep(
+                    TutorialStepId.Technology_ApplicationServer,
+                    "Technology Unlocked",
+                    "This is the Application Server. " + 
+                    "Let's start by building a server so you can start handling some internet traffic. " + 
+                    "Do this by clicking on the server then selecting 'Build'. " + 
+                    "One of your Engineers will start building it shortly."
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        infrastructureInstance.ShowAttentionIcon();
+                        return infrastructureInstance.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer,
-                    "Application Server",
+                    "Server Built",
                     "This is the Application Server. " + 
-                        "It will receive Network Packets coming from the internet, process them, and send back a response to whoever sent the request on the internet."
+                    "It will receive Network Packets coming from the internet, process them, and send back a response to whoever sent the request on the internet."
                 )
                 {
-                    spriteId = "server1"
+                    getTargetTranform = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        infrastructureInstance.ShowAttentionIcon();
+                        return infrastructureInstance.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    
                 },
             };
 
@@ -105,16 +192,65 @@ namespace Tutorial
         public void Start()
         {
             TutorialStep step = GetStep(TutorialStepId.NPC_Boss);
+            GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
+            GameManager.OnTechnologyUnlocked += HandleTechnologyUnlocked;
+            GameManager.OnPhaseChange += HandlePhaseChange;
+            GameManager.OnReleaseChanged += HandleReleaseChange;
             step.Trigger();
         }
+
+
         public void End()
         {
-            // ???
+            GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
+            GameManager.OnTechnologyUnlocked -= HandleTechnologyUnlocked;
+            GameManager.OnPhaseChange -= HandlePhaseChange;
+            GameManager.OnReleaseChanged -= HandleReleaseChange;
         }
+
+        private void HandleTechnologyUnlocked(Technology technology)
+        {
+            switch (technology.TechnologyID)
+            {
+                case("application-server"):
+                    Trigger(TutorialStepId.Technology_ApplicationServer);
+                    break;
+                default:
+                    Debug.LogError("Not Implemented");
+                    break;
+            }
+        }
+        private void HandleInfrastructureStateChange(InfrastructureInstance infrastructureInstance, InfrastructureData.State? previousState)
+        {
+            switch (infrastructureInstance.data.worldObjectType)
+            {
+                case(WorldObjectType.Type.ApplicationServer):
+                    if(
+                        previousState == InfrastructureData.State.Planned && 
+                        infrastructureInstance.data.CurrentState  == InfrastructureData.State.Operational
+                    )
+                    {
+                        Trigger(TutorialStepId.Infra_ApplicationServer);
+                    }
+                break;
+            }
+        }
+
+        private void HandleReleaseChange(ReleaseBase arg1, ReleaseBase.ReleaseState arg2)
+        {
+            // throw new System.NotImplementedException();
+        }
+
+        private void HandlePhaseChange(GameLoopManager.GameState obj)
+        {
+            
+        }
+
+       
 
         public void Next(TutorialStepId nextStepId)
         {
-            if (nextStepId == null)
+            if (nextStepId == TutorialStepId.None)
             {
                 return;
             }

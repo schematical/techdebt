@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using DefaultNamespace;
 using Tutorial;
 using UI;
+using UnityEngine;
 
 namespace Tutorial
 {
@@ -27,8 +29,8 @@ namespace Tutorial
         public TutorialStateType Type { get; private set; } = TutorialStateType.Dialog;
         
         public string spriteId = null;
-        public TutorialStepId NextStepId;
-        public TargetSelector TargetSelector;
+        public Func<Transform> getTargetTranform = null;
+        public TutorialStepId NextStepId = TutorialStepId.None;
  
 
         public TutorialStep(TutorialStepId id, string name, string description)
@@ -37,7 +39,7 @@ namespace Tutorial
             Name = name;
             Description = description;
         }
-
+        
         public virtual void Render()
         {
             switch (Type)
@@ -55,8 +57,13 @@ namespace Tutorial
 
         protected virtual void RenderAsDialog()
         {
-            NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
-            GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
+
+            if (getTargetTranform != null)// TargetSelector != null)
+            {
+                GameManager.Instance.cameraController
+                    .ZoomToAndFollow(getTargetTranform()); // TargetSelector.GetTransform());
+            }
+
             GameManager.Instance.UIManager.ShowNPCDialog(
                 GameManager.Instance.SpriteManager.GetSprite(spriteId),
                 Description,

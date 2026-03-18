@@ -12,7 +12,6 @@ namespace UI
         public override void Close(bool forceClose = false)
         {
             base.Close(forceClose);
-            Debug.Log("UIMoneyPanel::Close");
         }
 
         public override void Show()

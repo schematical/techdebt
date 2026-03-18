@@ -31,12 +31,12 @@ public static class MetaGameManager
     public static string GetSavePath(string foldername = "techdebt", string filename = "meta_progress.json")
     {
 
-        #if UNITY_WEBGL
+        #if !UNITY_EDITOR && UNITY_WEBGL
                 var	path = System.IO.Path.Combine("idbfs", foldername);  //	Path: "/idbfs/<foldername>"
         #else         
 		        var	path = System.IO.Path.Combine(Application.persistentDataPath, foldername); 
         #endif
-					
+				Debug.Log($"GetSavePath {path}");	
         if (!System.IO.Directory.Exists(path)) {
             //Console.WriteLine("Creating save directory: " + path);
             System.IO.Directory.CreateDirectory(path);

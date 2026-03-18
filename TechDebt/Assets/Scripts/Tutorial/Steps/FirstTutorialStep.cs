@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using NPCs;
+using UnityEngine;
 
 namespace Tutorial.Steps
 {
@@ -15,6 +17,11 @@ namespace Tutorial.Steps
                 new DialogButtonOption() { Text = "Start Tutorial", OnClick = () =>
                     {
                         GameManager.Instance.HideAllAttentionIcons();
+                        InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot",
+                            server.transform.position + new Vector3(4, 0));
+                        NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
+                        schematicalBot.Initialize();
                         Next();
                     } 
                 },

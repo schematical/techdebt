@@ -110,6 +110,11 @@ public class GameLoopManager : MonoBehaviour
     public void BeginPlayPhase()
     {
         CurrentState = GameState.Play;
+        if (GameManager.Instance.TutorialManager != null)
+        {
+            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.Day_Start);
+        }
+
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         dayTimer = 0f;
         GameManager.Instance.SetStat(StatType.PacketsSent, 0);
