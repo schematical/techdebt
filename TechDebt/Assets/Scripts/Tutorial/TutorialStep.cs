@@ -1,14 +1,35 @@
+using System.Collections.Generic;
+using DefaultNamespace;
 using Tutorial;
 using UI;
 
-namespace Events
+namespace Tutorial
 {
     public class TutorialStep
     {
+        public enum TutorialStepState
+        {
+            Incomplete,
+            InProgress,
+            Completed
+        }
+
+        public enum TutorialStateType
+        {
+            Dialog,
+            Tip
+        }
         public TutorialStepId Id { get; private set; }
         protected string Name { get; private set; }
         protected string Description { get; private set; }
+        
+        public TutorialStepState State { get; private set; } =  TutorialStepState.Incomplete;
+        public TutorialStateType Type { get; private set; } = TutorialStateType.Dialog;
+        
         public string spriteId = null;
+        public TutorialStepId NextStepId;
+        public TargetSelector TargetSelector;
+ 
 
         public TutorialStep(TutorialStepId id, string name, string description)
         {
@@ -17,8 +38,47 @@ namespace Events
             Description = description;
         }
 
-        public void Render()
+        public virtual void Render()
         {
+            switch (Type)
+            {
+                case(TutorialStateType.Dialog):
+                    RenderAsDialog();
+                    break;
+                case(TutorialStateType.Tip) :
+                    RenderAsTip();
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+
+        protected virtual void RenderAsDialog()
+        {
+            NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+            GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
+            GameManager.Instance.UIManager.ShowNPCDialog(
+                GameManager.Instance.SpriteManager.GetSprite(spriteId),
+                Description,
+                GetDialogOptions()
+            );
+        }
+
+        public virtual List<DialogButtonOption> GetDialogOptions()
+        {
+            return new List<DialogButtonOption>()
+            {
+                new DialogButtonOption()
+                {
+                    Text = "Continue",
+                    OnClick = () => Next()
+                }
+            };
+        }
+
+        protected virtual void RenderAsTip() {
+
+            GameManager.Instance.UIManager.tutorialPanel.CleanUp();
             GameManager.Instance.UIManager.tutorialPanel.titleText.text = Name;
             if (spriteId != null)
             {
@@ -28,13 +88,26 @@ namespace Events
 
             GameManager.Instance.UIManager.tutorialPanel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
                 Description;
-
+            if (NextStepId == null)
+            {
+                
+            }
             GameManager.Instance.UIManager.tutorialPanel.Show();
         }
 
+        public virtual void Next()
+        {
+            OnFinish();
+            GameManager.Instance.TutorialManager.Next(NextStepId);
+        }
+
+        public virtual void OnFinish()
+        {
+            
+        }
         public void Trigger()
         {
-            throw new System.NotImplementedException();
+            Render();
         }
     }
 }

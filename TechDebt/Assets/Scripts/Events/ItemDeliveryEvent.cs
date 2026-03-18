@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Events
+namespace Tutorial
 {
     public class ItemDeliveryEvent: EventBase
     {

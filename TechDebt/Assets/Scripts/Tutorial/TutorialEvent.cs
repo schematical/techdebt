@@ -4,7 +4,7 @@ using System.Linq;
 using NPCs;
 using UnityEngine;
 
-namespace Events
+namespace Tutorial
 {
     public class TutorialEvent : EventBase
     {

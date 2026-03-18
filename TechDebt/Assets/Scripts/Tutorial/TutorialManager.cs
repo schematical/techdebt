@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Tutorial;
+using Tutorial.Steps;
 using UnityEngine;
 
-namespace Events
+namespace Tutorial
 {
     public class TutorialManager
     {
@@ -13,10 +14,18 @@ namespace Events
         {
             List<TutorialStep> steps = new List<TutorialStep>()
             {
+                new FirstTutorialStep(
+                    TutorialStepId.NPC_Boss,
+                    "CEO",
+                    "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit. "
+                )
+                {
+                    spriteId = "Suit1NPC"
+                },
                 new TutorialStep(
                     TutorialStepId.Infra_Door,
                     "Door",
-                    "This is where members of your come and go from each day to enter the cloud realm."
+                    "The team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day"
                 )
                 {
                     spriteId = "portal-door"
@@ -91,6 +100,26 @@ namespace Events
             TutorialStep step = GetStep(tutorialStepId);
             step.Render();
             return step;
+        }
+
+        public void Start()
+        {
+            TutorialStep step = GetStep(TutorialStepId.NPC_Boss);
+            step.Trigger();
+        }
+        public void End()
+        {
+            // ???
+        }
+
+        public void Next(TutorialStepId nextStepId)
+        {
+            if (nextStepId == null)
+            {
+                return;
+            }
+            TutorialStep tutorialStep = GetStep(nextStepId);
+            tutorialStep.Trigger();
         }
     }
 }

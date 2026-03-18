@@ -11,7 +11,7 @@ namespace Tutorial
     [System.Serializable]
     public class TutorialStepData
     {
-        public string Id;
-        public bool completed;
+        public TutorialStepId Id;
+        public TutorialStep.TutorialStepState State;
     }
 }

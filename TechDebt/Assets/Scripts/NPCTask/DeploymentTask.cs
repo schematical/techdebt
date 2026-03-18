@@ -1,7 +1,7 @@
 // DeploymentTask.cs
 
 using Effects.Infrastructure;
-using Events;
+using Tutorial;
 using UnityEngine;
 
 public class DeploymentTask : InfrastructureTaskBase

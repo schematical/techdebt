@@ -2,7 +2,7 @@ using System;
 using NPCs;
 using UnityEngine;
 
-namespace Events
+namespace Tutorial
 {
     public class SpawnXSSEvent: EventBase
     {

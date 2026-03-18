@@ -7,7 +7,7 @@ using System.Linq;
 using DefaultNamespace;
 using DefaultNamespace.Util.Analytics;
 using Effects;
-using Events;
+using Tutorial;
 using Infrastructure;
 using Items;
 using JetBrains.Annotations;
@@ -387,6 +387,7 @@ public class GameManager : MonoBehaviour, iModifiable
         cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
         TutorialManager = new TutorialManager();
+        TutorialManager.Start();
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())

@@ -1,6 +1,6 @@
 ﻿using UI;
 
-namespace Events
+namespace Tutorial
 {
     public abstract class EventBase
     {

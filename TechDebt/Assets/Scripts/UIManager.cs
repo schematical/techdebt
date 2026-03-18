@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using Stats;
 using static NPCTask;
-using Events;
+using Tutorial;
 using Infrastructure;
 using UI;
 using UnityEngine.Serialization;

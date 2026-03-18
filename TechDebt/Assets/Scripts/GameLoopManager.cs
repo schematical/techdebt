@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.Util.Analytics;
-using Events;
+using Tutorial;
 using MetaChallenges;
 using NPCs;
 using Stats;

@@ -2,7 +2,7 @@ using System;
 using UI;
 using UnityEngine;
 
-namespace Events
+namespace Tutorial
 {
     public class SpawnBugEvent: EventBase
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using DefaultNamespace.Rewards;
-using Events;
+using Tutorial;
 using NPCs;
 using Stats;
 using UnityEngine;
