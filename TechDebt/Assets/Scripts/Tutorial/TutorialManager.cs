@@ -48,7 +48,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Day_Start,
                     "Your Team",
-                    "You are in charge of a small team of software developers and DevOps engineers. Here is one now."
+                    "You are in charge of a small team of software engineers. Here is one now."
                 )
                 {
                     getTargetTranform = () =>
@@ -99,6 +99,14 @@ namespace Tutorial
                     
                 },
                 new TutorialStep(
+                    TutorialStepId.Technology_ApplicationServer_Researching,
+                    "Speed Up Time",
+                    "To speed things up use the controls in the lower right hand side of the screen to manipulate in game time."
+                )
+                {
+                    spriteId = "SchematicalBot",
+                }, 
+                new TutorialStep(
                     TutorialStepId.Technology_ApplicationServer_Unlocked,
                     "Technology Unlocked",
                     "This is the Application Server. " + 
@@ -119,8 +127,8 @@ namespace Tutorial
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Planned,
-                    "Speed Up Time",
-                    "To speed things up use the controls in the lower right hand side of the screen to manipulate in game time."
+                    "Building",
+                    "Now one of your team members will get to work spinning up your application server so it can handle incoming traffic."
                 )
                 {
                     spriteId = "SchematicalBot",
@@ -145,7 +153,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_InternetPipe,
                     "The Internetz",
-                    "Great work! Notice Network Packets will start flowing in from the Internet to your server."
+                    "Notice Network Packets flowing in from the Internet to your server."
                 )
                 {
                     getTargetTranform = () =>
@@ -156,6 +164,7 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.NetworkPacket_Text
                     
                 },
                 new TutorialStep(
@@ -175,7 +184,7 @@ namespace Tutorial
                         return networkPacket.transform;
                     },
                     spriteId = "SchematicalBot",
-                    
+                    NextStepId = TutorialStepId.NetworkPacket_BinaryImage
                 },
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_BinaryImage,
@@ -194,6 +203,7 @@ namespace Tutorial
                         return networkPacket.transform;
                     },
                     spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.Infra_ApplicationServer_Frozen
                     
                 },
                 new TutorialStep(
@@ -224,7 +234,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Frozen2,
                     "Frozen Infrastructure",
-                    "Until you research technology that monitors the servers you will need to manually tell your DevOps Engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online."
+                    "Until you research technology that monitors the servers you will need to manually tell your engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online."
                 )
                 {
                     
@@ -268,7 +278,7 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.ResearchChoice
+                    NextStepId = TutorialStepId.NPC_LevelUp_Pending
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_LevelUp_Pending,
@@ -573,11 +583,11 @@ namespace Tutorial
                 case("dedicated-db"):
                     Trigger(TutorialStepId.Technology_DedicatedDB_Unlocked);
                     break;
-                case("whiteboard"):
+                case("white-board"):
                     Trigger(TutorialStepId.Technology_Whiteboard_Unlocked);
                     break;
                 default:
-                    Debug.LogError("Not Implemented");
+                    Debug.LogError($"Not Implemented: {technology.TechnologyID}");
                     break;
             }
         }
