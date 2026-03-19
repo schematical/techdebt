@@ -42,6 +42,7 @@ namespace Tutorial
         Basics_Sprint,
         Basics_LaunchDay,
         Basics_Day,
-        NetworkPacket_Failed
+        NetworkPacket_Failed,
+        Item_View
     }
 }

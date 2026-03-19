@@ -17,7 +17,8 @@ namespace UI
 
         private void OnUseClick()
         {
-            GameManager.Instance.CreateUseItemTask(item);
+            var useTask = new UseItemTask(item);
+            GameManager.Instance.AddTask(useTask);
             Close();
         }
 

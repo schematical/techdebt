@@ -8,6 +8,7 @@ public class UseItemTask : NPCTask
     public UseItemTask(ItemBase targetItem) : base(targetItem)
     {
         TargetItem = targetItem;
+        TargetItem.MarkTaskCreated();
         Priority = 10; // High priority
     }
 

@@ -157,11 +157,7 @@ public class GameManager : MonoBehaviour, iModifiable
         }
     }
 
-    public void CreateUseItemTask(ItemBase item)
-    {
-        var useTask = new UseItemTask(item);
-        AddTask(useTask);
-    }
+  
 
 
     public NetworkPacketData GetRandomNetworkPacketData()

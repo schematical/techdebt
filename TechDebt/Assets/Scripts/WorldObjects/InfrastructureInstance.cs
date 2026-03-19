@@ -241,7 +241,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     */
 
 
-    public void SetState(InfrastructureData.State newState)
+    public virtual void SetState(InfrastructureData.State newState)
     {
         if (data.CurrentState == newState) return; // No change
         InfrastructureData.State previousState = data.CurrentState;

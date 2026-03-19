@@ -1,4 +1,5 @@
 using MetaChallenges;
+using Tutorial;
 using UnityEngine;
 using UnityEngine.EventSystems; // Required for IPointerClickHandler
 
@@ -34,7 +35,10 @@ namespace Items
         public void OnPointerClick(PointerEventData eventData)
         {
             if (_isTaskCreated) return; // Prevent creating multiple tasks for the same item.
-            MarkTaskCreated();
+            if (GameManager.Instance.TutorialManager != null)
+            {
+                GameManager.Instance.TutorialManager.Trigger(TutorialStepId.Item_View);
+            }
             GameManager.Instance.UIManager.itemDetailPanel.Show(this);
         }
 

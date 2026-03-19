@@ -19,6 +19,18 @@ namespace Infrastructure
             }
         }
 
+        public override void SetState(InfrastructureData.State newState)
+        {
+            if (data.CurrentState == newState) return;
+            base.SetState(newState);
+            switch (newState)
+            {
+                case(InfrastructureData.State.Operational):
+                    ShowAttentionIcon();
+                    break;
+            }
+            
+        }
         public override void OnLeftClick(PointerEventData eventData)
         {
             if (!IsActive())
@@ -42,7 +54,8 @@ namespace Infrastructure
                 }
 
                 GameManager.Instance.UIManager.ShowAlert(
-                    "You already have open releases that need to be finished first.");
+                    "You already have open releases that need to be finished first."
+                );
                 return;
             }
 
@@ -134,6 +147,10 @@ namespace Infrastructure
                         });
                 }
             }
+        }
+        public override Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
+        {
+            return transform.position + new Vector3(1, 0, 0);
         }
     }
 }

@@ -581,6 +581,15 @@ namespace Tutorial
                         return npc.transform;
                     },
                     spriteId = "Suit1NPC",
+                },
+                new TutorialStep(
+                    TutorialStepId.Item_View,
+                    "Items:",
+                    "Every once in a while you will receive consumable items that can be used to help you. \n" +
+                    "While most of this game uses real Cloud Architecture these items are not... but they are fun and I am planning on adding a lot more variety soon."
+                )
+                {
+                    spriteId = "SchematicalBot",
                 }
             };
 
