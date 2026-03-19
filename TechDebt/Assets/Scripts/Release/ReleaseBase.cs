@@ -190,6 +190,9 @@ public class ReleaseBase
                 }
 
                 break;
+            case(ReleaseState.DeploymentCompleted):
+                OnDeploymentCompleted();
+                break;
         }
         GameManager.Instance.InvokeReleaseChanged(this, prevState);
     }

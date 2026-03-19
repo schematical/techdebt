@@ -11,6 +11,13 @@ namespace Tutorial
 {
     public class TutorialManager
     {
+        public enum TutorialManagerState
+        {
+            Active,
+            Inactive,
+        }
+
+        public TutorialManagerState State { get; protected set; } = TutorialManagerState.Active;
         protected Dictionary<TutorialStepId, TutorialStep> Steps = new Dictionary<TutorialStepId, TutorialStep>();
 
         public TutorialManager()
@@ -342,6 +349,19 @@ namespace Tutorial
                     "Congrats! You researched more Server Infrastructure that available to be built. You will want to assign your team to build it when you are ready"
                 )
                 {
+                    onFinish = () =>
+                    {
+                        if (GetStep(TutorialStepId.Technology_Whiteboard_Unlocked).State !=
+                            TutorialStep.TutorialStepState.Completed)
+                        {
+                            Trigger(TutorialStepId.ResearchChoice);
+                        }
+                        else
+                        {
+                            Trigger(TutorialStepId.EconomyBasics);
+                        }
+                
+                    },
                     getTargetTranform = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -447,18 +467,26 @@ namespace Tutorial
                     "Be careful though, bugs left in production have consequences."
                 )
                 {
-                    /*onTrigger = () =>
+                    onFinish = () =>
                     {
-                      
+                        if (GetStep(TutorialStepId.Technology_DedicatedDB_Unlocked).State !=
+                            TutorialStep.TutorialStepState.Completed)
+                        {
+                            Trigger(TutorialStepId.ResearchChoice);
+                        }
+                        else
+                        {
+                            Trigger(TutorialStepId.EconomyBasics);
+                        }
                 
-                    },*/
+                    },
                     getTargetTranform = () =>
                     {
                         NPCBug bugGO = GameManager.Instance.SpawnNPCBug();
                         return bugGO.transform;
                     },
                     spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.EconomyBasics,
+                    // NextStepId = TutorialStepId.EconomyBasics,
                 },
                 new TutorialStep(
                     TutorialStepId.EconomyBasics,
@@ -476,16 +504,11 @@ namespace Tutorial
                        GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
                        GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
-                       GameManager.OnTechnologyStateChange -= HandleTechnologyStateChange;
-
-                       GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
-
-                       GameManager.OnPhaseChange -= HandlePhaseChange;
-                       GameManager.OnReleaseChanged -= HandleReleaseChange;
-
+                      
                        GameManager.Instance.cameraController.StopFollowing();
                      
                        GameManager.Instance.GameLoopManager.playTimerActive = true;
+                       End();
                     },
                     getTargetTranform = () =>
                     {
@@ -564,10 +587,12 @@ namespace Tutorial
 
         public void End()
         {
+            State = TutorialManagerState.Inactive;
             GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
             GameManager.OnTechnologyStateChange -= HandleTechnologyStateChange;
             GameManager.OnPhaseChange -= HandlePhaseChange;
             GameManager.OnReleaseChanged -= HandleReleaseChange;
+            
         }
 
         private void HandleTechnologyStateChange(Technology technology, Technology.State previousState)
@@ -699,6 +724,11 @@ namespace Tutorial
             }
             TutorialStep tutorialStep = GetStep(nextStepId);
             tutorialStep.Trigger();
+        }
+
+        public bool IsActive()
+        {
+            return State == TutorialManagerState.Inactive;
         }
     }
 }

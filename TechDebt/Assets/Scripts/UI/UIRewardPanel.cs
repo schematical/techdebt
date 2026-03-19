@@ -62,7 +62,7 @@ namespace UI
             secondaryText.text = "";//release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
             UIButton uiButton = openButton.GetComponent<UIButton>();
             uiButton.Close();
-            release.NextState();
+            
             GameManager.Instance.UIManager.SetTimeScalePause();
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconSpriteId);
             rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
@@ -92,7 +92,8 @@ namespace UI
             }
 
             panelState = State.Done;
-            release.OnDeploymentCompleted();
+            release.NextState();
+       
             GameManager.Instance.UIManager.Resume();
             if (GameManager.Instance.TutorialManager != null)
             {

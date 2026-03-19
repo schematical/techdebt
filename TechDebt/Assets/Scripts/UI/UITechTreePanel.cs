@@ -192,11 +192,10 @@ namespace UI
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  "Fully Researched";
             }
 
-            AddButton("Start Research", () =>
+            if (_selectedNode.Technology.CurrentState == Technology.State.Locked)
             {
-                SelectNode(_selectedNode);
-             
-            });
+                AddButton("Start Research", () => { SelectNode(_selectedNode); });
+            }
 
         }
 

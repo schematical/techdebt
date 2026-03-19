@@ -32,6 +32,7 @@ namespace Tutorial
         public string spriteId = null;
         public Func<Transform> getTargetTranform = null;
         public UnityAction onTrigger = null;
+        public UnityAction onFinish = null;
         public TutorialStepId NextStepId = TutorialStepId.None;
  
 
@@ -106,16 +107,22 @@ namespace Tutorial
 
         public virtual void Next()
         {
-            OnFinish();
+            if (onFinish != null)
+            {
+                onFinish.Invoke();
+            }
+            State = TutorialStepState.Completed;
             GameManager.Instance.TutorialManager.Next(NextStepId);
         }
 
-        public virtual void OnFinish()
-        {
-            
-        }
+       
         public void Trigger()
         {
+            if (State != TutorialStepState.Incomplete)
+            {
+                Debug.LogWarning($"TutorialStep {Id} - Trying to Trigger but state is {State}");
+            }
+            State = TutorialStepState.InProgress;
             if (onTrigger != null)
             {
                 onTrigger.Invoke();
