@@ -36,6 +36,12 @@ namespace Tutorial
         Release_DeploymentReady,
         Release_DeploymentRewardReady,
         Release_DeploymentCompleted,
-        EconomyBasics,
+        Basics_Economy,
+        NPC_Bug_Spawn,
+        NPC_Bug_Dead,
+        Basics_Sprint,
+        Basics_LaunchDay,
+        Basics_Day,
+        NetworkPacket_Failed
     }
 }

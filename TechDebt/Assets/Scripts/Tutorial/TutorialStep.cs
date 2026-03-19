@@ -120,8 +120,9 @@ namespace Tutorial
         {
             if (State != TutorialStepState.Incomplete)
             {
-                Debug.LogWarning($"TutorialStep {Id} - Trying to Trigger but state is {State}");
+                return;// Debug.LogWarning($"TutorialStep {Id} - Trying to Trigger but state is {State}");
             }
+            Debug.Log($"Triggering step {Id}");
             State = TutorialStepState.InProgress;
             if (onTrigger != null)
             {

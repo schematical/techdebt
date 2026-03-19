@@ -221,6 +221,10 @@ public class GameManager : MonoBehaviour, iModifiable
                 Sprite sprite = packet.GetComponent<SpriteRenderer>().sprite;
                 
                 UIManager.ShowPacketFail(sprite);
+                if (TutorialManager != null)
+                {
+                    TutorialManager.Trigger(TutorialStepId.NetworkPacket_Failed);
+                }
             break;
             case(NetworkPacket.State.Stolen):
                 IncrStat(StatType.PacketsFailed);
@@ -298,7 +302,6 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public void EndEvent(EventBase e)
     {
-        TutorialManager = null;
         CurrentEvents.Remove(e);
         if (!string.IsNullOrEmpty(e.EventEndText))
         {
@@ -495,11 +498,7 @@ public class GameManager : MonoBehaviour, iModifiable
     private void FixedUpdate()
     {
         if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
-        /*if (TutorialManager != null && CurrentEvents.Count == 0)
-        {
-            TriggerEvent(TutorialManager);
-            
-        }*/
+      
         // Iterate over a copy of the list to prevent modification during enumeration errors.
         foreach (EffectBase effect in Effects.ToList())
         {
@@ -655,8 +654,7 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f){
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
-
-        // TutorialManager = new TutorialEvent();
+        
         NetworkPacketData coin = new NetworkPacketData(0f)
         {
             Type = NetworkPacketData.PType.Purchase,

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DefaultNamespace;
 using Items;
+using Tutorial;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -51,6 +52,13 @@ namespace NPCs
             base.FixedUpdate();
         }
 
+        public override void OnDeath()
+        {
+            if (GameManager.Instance.GameLoopManager != null)
+            {
+                GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_Bug_Dead);
+            }
+        }
         void SetEvolving(bool isEvolving = true)
         {
             this.isEvolving = isEvolving;

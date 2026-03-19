@@ -16,6 +16,10 @@ namespace Tutorial.Steps
                     server.transform.position + new Vector3(4, 0));
                 NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
                 schematicalBot.Initialize();
+                NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+                bossNPC.transform.position = GameManager.Instance.GetInfrastructureInstanceByID("boss-desk")
+                    .GetInteractionPosition();
+                bossNPC.gameObject.SetActive(true);
             };
         }
 

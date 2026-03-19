@@ -51,7 +51,7 @@ namespace Tutorial
                         return door.transform;
                     },
                     spriteId = "Suit1NPC",
-                }, 
+                },
                 new TutorialStep(
                     TutorialStepId.Day_Start,
                     "Your Team",
@@ -83,7 +83,8 @@ namespace Tutorial
                 {
                     getTargetTranform = () =>
                     {
-                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+                        NPCBase npc =
+                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
                         return npc.transform;
                     },
                     spriteId = "SchematicalBot",
@@ -103,7 +104,7 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
-                    
+
                 },
                 new TutorialStep(
                     TutorialStepId.Technology_ApplicationServer_Researching,
@@ -112,13 +113,13 @@ namespace Tutorial
                 )
                 {
                     spriteId = "SchematicalBot",
-                }, 
+                },
                 new TutorialStep(
                     TutorialStepId.Technology_ApplicationServer_Unlocked,
                     "Technology Unlocked",
-                    "This is the Application Server. " + 
-                    "Let's start by building a server so you can start handling some internet traffic. " + 
-                    "Do this by clicking on the server then selecting 'Build'. " + 
+                    "This is the Application Server. " +
+                    "Let's start by building a server so you can start handling some internet traffic. " +
+                    "Do this by clicking on the server then selecting 'Build'. " +
                     "One of your Engineers will start building it shortly."
                 )
                 {
@@ -130,7 +131,7 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
-                    
+
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Planned,
@@ -139,11 +140,11 @@ namespace Tutorial
                 )
                 {
                     spriteId = "SchematicalBot",
-                }, 
+                },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Operational,
                     "Server Built",
-                    "This is the Application Server. " + 
+                    "This is the Application Server. " +
                     "It will receive Network Packets coming from the internet, process them, and send back a response to whoever sent the request on the internet."
                 )
                 {
@@ -155,41 +156,45 @@ namespace Tutorial
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Infra_InternetPipe
-                    
+
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_InternetPipe,
                     "The Internetz",
-                    "Notice Network Packets flowing in from the Internet to your server."
+                    "Notice Network Packets flowing in from the Internet to your server.\n" +
+                    "When a packet finishes it's journey you can see how many milliseconds it took for the trip to take. \n" +
+                    "That will be important later."
                 )
                 {
                     getTargetTranform = () =>
                     {
-                        
+
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("internetPipe");
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.NetworkPacket_Text
-                    
+
                 },
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_Text,
                     "HTML Packets",
                     "Notice there are different network packet types. One type is just simple text like HTML."
                 )
-                {   
+                {
                     onTrigger = () =>
                     {
                         GameManager.Instance.UIManager.SetTimeScalePlay();
                     },
                     getTargetTranform = () =>
                     {
-                        NetworkPacketData data = GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
-                        List<InternetPipe> instances = GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                        NetworkPacketData data =
+                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
+                        List<InternetPipe> instances =
+                            GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
-               
+
                         NetworkPacket networkPacket = pipe.SendPacket(data);
                         return networkPacket.transform;
                     },
@@ -208,16 +213,18 @@ namespace Tutorial
                     },
                     getTargetTranform = () =>
                     {
-                        NetworkPacketData data = GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
-                        List<InternetPipe> instances = GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                        NetworkPacketData data =
+                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
+                        List<InternetPipe> instances =
+                            GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
-               
+
                         NetworkPacket networkPacket = pipe.SendPacket(data);
                         return networkPacket.transform;
                     },
                     spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.Infra_ApplicationServer_Frozen
-                    
+                    NextStepId = TutorialStepId.Basics_Economy,
+
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Frozen,
@@ -225,15 +232,15 @@ namespace Tutorial
                     "If the load gets higher then the server can handle it will freeze. If that happens network requests will start to fail. This is bad."
                 )
                 {
-                    
-                   onTrigger = () =>
-                   {
-                       InfrastructureInstance infrastructureInstance =
-                           GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                       infrastructureInstance.SetState(InfrastructureData.State.Frozen);
-                       infrastructureInstance.CurrentLoad =
-                           infrastructureInstance.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
-                   },
+
+                    onTrigger = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        infrastructureInstance.SetState(InfrastructureData.State.Frozen);
+                        infrastructureInstance.CurrentLoad =
+                            infrastructureInstance.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
+                    },
                     getTargetTranform = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -241,8 +248,8 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.Infra_ApplicationServer_Frozen2
-                    
+                    // NextStepId = TutorialStepId.Infra_ApplicationServer_Frozen2
+
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Frozen2,
@@ -250,9 +257,9 @@ namespace Tutorial
                     "Until you research technology that monitors the servers you will need to manually tell your engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online."
                 )
                 {
-                    
+
                     spriteId = "SchematicalBot",
-                    
+
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed,
@@ -260,7 +267,7 @@ namespace Tutorial
                     "The server is back online. Great work!"
                 )
                 {
-                    
+
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Infra_ApplicationServer_Fixed2
                 },
@@ -291,7 +298,7 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.NPC_LevelUp_Pending
+                    // NextStepId = TutorialStepId.NPC_LevelUp_Pending
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_LevelUp_Pending,
@@ -301,10 +308,9 @@ namespace Tutorial
                 {
                     onTrigger = () =>
                     {
-                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
+                        /*NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
                         NPCDevOps devOps = npc.GetComponent<NPCDevOps>();
-                        devOps.AddXP(91);
-                        GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
+                        devOps.AddXP(91);*/
                         GameManager.Instance.UIManager.SetTimeScalePause();
                     },
                     getTargetTranform = () =>
@@ -342,11 +348,27 @@ namespace Tutorial
                     },
                     spriteId = "SchematicalBot",
                 },
-                
+
                 new TutorialStep(
                     TutorialStepId.Technology_DedicatedDB_Unlocked,
                     "Dedicated DB",
                     "Congrats! You researched more Server Infrastructure that available to be built. You will want to assign your team to build it when you are ready"
+                )
+                {
+
+                    getTargetTranform = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
+                        return infrastructureInstance.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                },
+
+                new TutorialStep(
+                    TutorialStepId.Infra_DedicatedDB_Operational,
+                    "Dedicated DB",
+                    "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand."
                 )
                 {
                    
@@ -358,38 +380,10 @@ namespace Tutorial
                     },
                     spriteId = "SchematicalBot",
                 },
-                
-                new TutorialStep(
-                    TutorialStepId.Infra_DedicatedDB_Operational,
-                    "Dedicated DB",
-                    "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand."
-                )
-                {
-                    onFinish = () =>
-                    {
-                        if (GetStep(TutorialStepId.Technology_Whiteboard_Unlocked).State !=
-                            TutorialStep.TutorialStepState.Completed)
-                        {
-                            Trigger(TutorialStepId.ResearchChoice);
-                        }
-                        else
-                        {
-                            Trigger(TutorialStepId.EconomyBasics);
-                        }
-                
-                    },
-                    getTargetTranform = () =>
-                    {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
-                        return infrastructureInstance.transform;
-                    },
-                    spriteId = "SchematicalBot",
-                },
                 new TutorialStep(
                     TutorialStepId.Technology_Whiteboard_Unlocked,
                     "Software Releases",
-                    "Great work. Another way you can level up your gameplay is to code and deploy releases." + 
+                    "Great work. Another way you can level up your gameplay is to code and deploy releases." +
                     "Once you build it you can select a feature to focus on by clicking on the whiteboard."
                 )
                 {
@@ -461,59 +455,129 @@ namespace Tutorial
                     spriteId = "SchematicalBot",
                 },
                 new TutorialStep(
-                    TutorialStepId.Release_DeploymentCompleted,
-                    "Deployment Completed",
+                    TutorialStepId.NPC_Bug_Spawn,
+                    "A Bug!",
                     "A bug was introduced in the last release \n" +
-                    "You can choose to debug it now or leave it for now. \n" +
+                    "You can choose to `Debug` it now by clicking on it or leave it for now. \n" +
                     "Be careful though, bugs left in production have consequences."
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc =
+                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    // NextStepId = TutorialStepId.Basics_Economy,
+                },
+                new TutorialStep(
+                    TutorialStepId.NPC_Bug_Dead,
+                    "Where bugs come from.",
+                    "You debugged it! " +
+                    "The quality of your latest Software Release and the amount of Tech Debt you have will influence the likely hood of bugs spawning and their severity \n"
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc =
+                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                },
+                new TutorialStep(
+                    TutorialStepId.NetworkPacket_Failed,
+                    "Network Packet Failed",
+                    "NetworkPackets are failing! " +
+                    "There are many reasons NetworkPackets can fail. Bugs can get them, your servers can become overloaded and freeze.\n" +
+                    "Try to figure out the cause and fix it."
                 )
                 {
                     onFinish = () =>
                     {
-                        if (GetStep(TutorialStepId.Technology_DedicatedDB_Unlocked).State !=
-                            TutorialStep.TutorialStepState.Completed)
-                        {
-                            Trigger(TutorialStepId.ResearchChoice);
-                        }
-                        else
-                        {
-                            Trigger(TutorialStepId.EconomyBasics);
-                        }
-                
+                        GameManager.Instance.UIManager.Resume();
                     },
-                    getTargetTranform = () =>
+                    onTrigger = () =>
                     {
-                        NPCBug bugGO = GameManager.Instance.SpawnNPCBug();
-                        return bugGO.transform;
+                       GameManager.Instance.UIManager.SetTimeScalePause();
                     },
                     spriteId = "SchematicalBot",
-                    // NextStepId = TutorialStepId.EconomyBasics,
                 },
+
+
                 new TutorialStep(
-                    TutorialStepId.EconomyBasics,
+                    TutorialStepId.Basics_Economy,
                     "Economy Basics:",
-                    "It looks like you are settling right in. \n" +
-                    "Now that you have the basics we are going to start the in game clock. " + 
-                    "At the end of each day you will get a summary. \n" + 
-                    "Our infrastructure budget is directly related to how many packets make it through. " + 
-                    "If we run out of money its Game Over..."
+                    "Booting up these servers isn't free. At the end of each day you will get charged for the infrastructure you use. \n" + 
+                    "We have a limited budget so if you exceed the budget that is game over. \n" + 
+                    "Keep an eye on it in the UI."
                 )
                 {
-                   onTrigger = () =>
-                   {
-                       GameManager.Instance.SetStat(StatType.PacketsSent, 0);
-                       GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
-                       GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc =
+                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.Basics_LaunchDay
+                },
+                new TutorialStep(
+                    TutorialStepId.Basics_LaunchDay,
+                    "Launch Day",
+                    "We have enough cash to make it until the end of the week.\n" +
+                    "That will be `Launch Day` when we can finally start making money. \n" + 
+                    "Expect a lot more traffic and a new type of `NetworkPacket` to indicate incoming purchases."
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc =
+                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+                        return npc.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.Basics_Day
+                },
+                new TutorialStep(
+                    TutorialStepId.Basics_Day,
+                    "Day Cycle:",
+                    "At the end of each day your team members will exit through the door and you will receive a summary.\n" +
+                    "The clock is now ticking. Good luck!"
+                )
+                {
+                    onTrigger = () =>
+                    {
+                        GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+                        GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
+                        GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
 
-                      
-                       GameManager.Instance.cameraController.StopFollowing();
-                     
-                       GameManager.Instance.GameLoopManager.playTimerActive = true;
-                       End();
+
+                        GameManager.Instance.cameraController.StopFollowing();
+
+                        GameManager.Instance.GameLoopManager.playTimerActive = true;
                     },
                     getTargetTranform = () =>
                     {
-                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("door");
+                        return infrastructureInstance.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                },
+
+                new TutorialStep(
+                    TutorialStepId.Basics_Sprint,
+                    "Sprints Basics:",
+                    "TODO \n" +
+                    ""
+                )
+                {
+                    getTargetTranform = () =>
+                    {
+                        NPCBase npc =
+                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
                         return npc.transform;
                     },
                     spriteId = "Suit1NPC",
@@ -537,7 +601,7 @@ namespace Tutorial
 
         public TutorialStep Trigger(TutorialStepId stepId)
         {
-            Debug.Log($"Triggering step {stepId}");
+ 
             TutorialStep step = GetStep(stepId);
             step.Trigger();
             return step;
@@ -643,7 +707,10 @@ namespace Tutorial
             switch (infrastructureInstance.data.worldObjectType)
             {
                 case(WorldObjectType.Type.ApplicationServer):
-                    if (infrastructureInstance.CurrentSizeLevel > 0)
+                    if (infrastructureInstance.data.CurrentState == InfrastructureData.State.Frozen)
+                    {
+                        Trigger(TutorialStepId.Infra_ApplicationServer_Frozen);
+                    } else if (infrastructureInstance.CurrentSizeLevel > 0)
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Upsized);
                     } else if(

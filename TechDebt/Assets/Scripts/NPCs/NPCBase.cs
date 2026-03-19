@@ -598,13 +598,18 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         switch (state)
         {
             case(State.Dead):
-                    StopMovement();
-                    animator.SetBool("isDead", true);
+                OnDeath();
+                StopMovement();
+                animator.SetBool("isDead", true);
                 break;
         }
         CurrentState = state;
     }
 
+    public virtual void OnDeath()
+    {
+        
+    }
     public bool IsDead()
     {
         return CurrentState == State.Dead;

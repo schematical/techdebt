@@ -10,6 +10,10 @@ namespace Tutorial
         {
            GameManager.Instance.GetCurrentRelease().SpawnBug();
            GameManager.Instance.SetStat(StatType.AttackPossibility, 0);
+           if(GameManager.Instance.TutorialManager != null)
+           {
+               GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_Bug_Spawn);
+           }
         }
         public override float GetProbability()
         {

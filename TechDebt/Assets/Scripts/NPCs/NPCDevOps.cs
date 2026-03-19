@@ -42,13 +42,6 @@ public class NPCDevOps : NPCAnimatedBiped
 
     public override void AddXP(float amount = 1)
     {
-        /*if (
-            GameManager.Instance.TutorialManager != null &&
-            !GameManager.Instance.TutorialManager.NPCsCanGetXP
-        )
-        {
-            return;
-        }*/
 
         float adjustedAmount = Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
         currentXP += adjustedAmount;
@@ -73,12 +66,14 @@ public class NPCDevOps : NPCAnimatedBiped
     protected void MarkReadyForLevelUp()
     {
         leveledUpTo++;
+        if (GameManager.Instance.TutorialManager != null)
+        {
+            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Pending);
+        }
         ShowAttentionIcon(() =>
         {
             HideAttentionIcon();
             LevelUp();
-               
-               
         });
     }
     protected void LevelUp()
@@ -87,7 +82,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
         GameManager.Instance.UIManager.multiSelectPanel.Display(
             "One of your team has leveled up!",
-            "Choose a bonus to be applied to your DevOps Engineer"
+            "Choose a bonus to be applied to your engineer"
         );
         int saftyCheck = 0;
         List<RewardBase> traits = new List<RewardBase>();

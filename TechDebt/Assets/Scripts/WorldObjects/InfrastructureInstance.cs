@@ -445,7 +445,6 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 }
             }
         }
-        Debug.Log($"{gameObject.name} - {data.Id}.UpdateNetworkTargets - CurrConnections: {CurrConnections.Count}");
     }
 
     protected virtual NetworkConnection GetNextNetworkConnection(NetworkPacketData.PType pType)
