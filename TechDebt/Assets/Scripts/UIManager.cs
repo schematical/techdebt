@@ -57,7 +57,8 @@ public class UIManager : MonoBehaviour
     public UIItemDetailPanel itemDetailPanel;
     public UIAlertPanel alertPanel;
     public UIDialogPanel dialogPanel;
-    public UITutorialPanel tutorialPanel;
+    [FormerlySerializedAs("tutorialPanel")] public UIGameTipPanel gameTipPanel;
+    public UITutorialStepListPanel tutorialStepListPanel;
     
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
@@ -102,7 +103,7 @@ public class UIManager : MonoBehaviour
         orgChartPanel.Close(forceClose);
         pauseMenu.Close(forceClose);
         multiSelectPanel.Close(forceClose);
-        tutorialPanel.Close(forceClose);
+        gameTipPanel.Close(forceClose);
         CloseSideBars(forceClose);
     }
 
@@ -117,6 +118,7 @@ public class UIManager : MonoBehaviour
         taskListPanel.Close(forceClose);
         globalStatsPanel.Close(forceClose);
         eventDebugPanel.Close(forceClose);
+        tutorialStepListPanel.Close(forceClose);
     }
 
     public void Block()

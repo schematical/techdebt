@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
 namespace NPCs
@@ -15,6 +16,12 @@ namespace NPCs
             {
                 Debug.LogError("BossNPC: Could not find 'boss-desk'. Boss will wander.");
             }
+        }
+
+        public override void OnLeftClick(PointerEventData eventData)
+        {
+            base.OnLeftClick(eventData);
+            GameManager.Instance.UIManager.tutorialStepListPanel.Show();
         }
 
         public override void TriggerDefaultBehavior()

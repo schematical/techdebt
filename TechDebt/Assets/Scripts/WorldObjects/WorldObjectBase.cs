@@ -91,6 +91,11 @@ namespace Infrastructure
                 attentionIconColor,
                 () =>
                 {
+                    if (!uiAttentionIcon.IsOffScreen())
+                    {
+                        OnPointerClick(new PointerEventData(EventSystem.current));
+                        return;
+                    }
                     GameManager.Instance.cameraController.ZoomTo(transform, () =>
                     {
                         OnPointerClick(new PointerEventData(EventSystem.current));

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DefaultNamespace;
 using Infrastructure;
 using NPCs;
@@ -805,7 +806,7 @@ namespace Tutorial
                     Trigger(TutorialStepId.Release_DeploymentRewardReady);
                     break; 
                 case(ReleaseBase.ReleaseState.DeploymentCompleted):
-                    Trigger(TutorialStepId.Release_DeploymentCompleted);
+                    // Trigger(TutorialStepId.Release_DeploymentCompleted);
                     break;
             }
         }
@@ -830,6 +831,11 @@ namespace Tutorial
         public bool IsActive()
         {
             return State == TutorialManagerState.Inactive;
+        }
+
+        public List<TutorialStep> GetSteps()
+        {
+            return Steps.Values.ToList();
         }
     }
 }

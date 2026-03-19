@@ -479,6 +479,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             Color.purple,
             () =>
             {
+                if (!uiAttentionIcon.IsOffScreen())
+                {
+                    onClick.Invoke();
+                    return;
+                }
                 GameManager.Instance.cameraController.ZoomTo(transform, () =>
                 {
                     onClick.Invoke();

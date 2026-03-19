@@ -88,21 +88,21 @@ namespace Tutorial
 
         protected virtual void RenderAsTip() {
 
-            GameManager.Instance.UIManager.tutorialPanel.CleanUp();
-            GameManager.Instance.UIManager.tutorialPanel.titleText.text = Name;
+            GameManager.Instance.UIManager.gameTipPanel.CleanUp();
+            GameManager.Instance.UIManager.gameTipPanel.titleText.text = Name;
             if (spriteId != null)
             {
-                UIPanelImage panelImage = GameManager.Instance.UIManager.tutorialPanel.AddLine<UIPanelImage>();
+                UIPanelImage panelImage = GameManager.Instance.UIManager.gameTipPanel.AddLine<UIPanelImage>();
                 panelImage.image.sprite = GameManager.Instance.SpriteManager.GetSprite(spriteId);
             }
 
-            GameManager.Instance.UIManager.tutorialPanel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+            GameManager.Instance.UIManager.gameTipPanel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
                 Description;
             if (NextStepId == null)
             {
                 
             }
-            GameManager.Instance.UIManager.tutorialPanel.Show();
+            GameManager.Instance.UIManager.gameTipPanel.Show();
         }
 
         public virtual void Next()

@@ -11,7 +11,7 @@ namespace UI
         public SpriteRenderer spriteRenderer;
         protected Transform targetTransform;
         protected UnityAction onClick;
-
+        protected bool isOffScreen;
         private Camera _cam;
 
 
@@ -60,9 +60,9 @@ namespace UI
             minY = bottomLeftScreen.y;
             maxY = topRightScreen.y;
 
-
-            bool isOffScreen = screenPos.x <= minX + padding || screenPos.x >= maxX - padding ||
+            isOffScreen = screenPos.x <= minX + padding || screenPos.x >= maxX - padding ||
                                screenPos.y <= minY + padding || screenPos.y >= maxY - padding || screenPos.z < 0;
+         
 
             if (!isOffScreen)
             {
@@ -93,10 +93,16 @@ namespace UI
             }
         }
 
+        public bool IsOffScreen()
+        {
+            return isOffScreen;
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
+                Debug.Log("UIAttentionIcon::OnPointerClick Left");
                 onClick.Invoke();
             }
            
