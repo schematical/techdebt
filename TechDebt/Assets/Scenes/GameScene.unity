@@ -8571,7 +8571,7 @@ MonoBehaviour:
     CurrentState: 3
     UnlockConditions: []
   - Id: internetPipe3
-    worldObjectType: 0
+    worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 34, z: 0}
     InitialState: 3

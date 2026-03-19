@@ -260,7 +260,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed2,
                     "Scaling Server Size",
-                    "You can increase the servers stats by increasing the instance size. Click on the server to do this."
+                    "You can increase the servers stats by increasing the instance size. Click on the server then select \"Upsize\" to do this."
                 )
                 {
                     getTargetTranform = () =>
@@ -289,7 +289,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.NPC_LevelUp_Pending,
                     "NPC Level Up",
-                    "Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand."
+                    "One of your team members has leveled up. Choose a new trait to give them. Each trait comes with unique bonuses."
                 )
                 {
                     onTrigger = () =>
