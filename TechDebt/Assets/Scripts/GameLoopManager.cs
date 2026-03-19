@@ -257,7 +257,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
 
-        GameManager.Instance.UpdateMetaProgress();
+        //GameManager.Instance.UpdateMetaProgress();
 
     }
 

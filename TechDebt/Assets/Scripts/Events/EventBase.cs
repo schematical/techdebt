@@ -17,10 +17,6 @@ namespace Tutorial
         
         public virtual void End()
         {
-            if (!string.IsNullOrEmpty(EventEndText))
-            {
-                GameManager.Instance.UIManager.ShowAlert(EventEndText);
-            }
             GameManager.Instance.EndEvent(this);
         }
 

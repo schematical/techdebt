@@ -299,10 +299,6 @@ public class GameManager : MonoBehaviour, iModifiable
     public void EndEvent(EventBase e)
     {
         CurrentEvents.Remove(e);
-        if (!string.IsNullOrEmpty(e.EventEndText))
-        {
-            UIManager.ShowAlert(e.EventEndText);
-        }
         OnCurrentEventsChanged?.Invoke();
     }
 
