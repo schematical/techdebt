@@ -349,19 +349,7 @@ namespace Tutorial
                     "Congrats! You researched more Server Infrastructure that available to be built. You will want to assign your team to build it when you are ready"
                 )
                 {
-                    onFinish = () =>
-                    {
-                        if (GetStep(TutorialStepId.Technology_Whiteboard_Unlocked).State !=
-                            TutorialStep.TutorialStepState.Completed)
-                        {
-                            Trigger(TutorialStepId.ResearchChoice);
-                        }
-                        else
-                        {
-                            Trigger(TutorialStepId.EconomyBasics);
-                        }
-                
-                    },
+                   
                     getTargetTranform = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -377,6 +365,19 @@ namespace Tutorial
                     "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand."
                 )
                 {
+                    onFinish = () =>
+                    {
+                        if (GetStep(TutorialStepId.Technology_Whiteboard_Unlocked).State !=
+                            TutorialStep.TutorialStepState.Completed)
+                        {
+                            Trigger(TutorialStepId.ResearchChoice);
+                        }
+                        else
+                        {
+                            Trigger(TutorialStepId.EconomyBasics);
+                        }
+                
+                    },
                     getTargetTranform = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
