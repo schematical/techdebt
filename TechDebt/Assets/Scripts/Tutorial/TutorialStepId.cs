@@ -43,6 +43,7 @@ namespace Tutorial
         Basics_LaunchDay,
         Basics_Day,
         NetworkPacket_Failed,
-        Item_View
+        Item_View,
+        NetworkPacket_Purchase
     }
 }

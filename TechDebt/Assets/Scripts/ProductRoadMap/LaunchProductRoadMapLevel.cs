@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using Stats;
+using Tutorial;
 using UI;
 using UnityEngine;
 
@@ -54,14 +55,28 @@ public class LaunchMapLevel: MapLevel
     }
     public override void OnLaunchDayPlan()
     {
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
-            "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
-        );
 
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+        if (
+            GameManager.Instance.TutorialManager == null ||
+            !GameManager.Instance.TutorialManager.IsActive()
+        )
+        {
+            GameManager.Instance.UIManager.ShowNPCDialog(
+                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+                "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
+            );
+        }
+        else
+        {
+            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NetworkPacket_Purchase);
+        }
+
+        
+       
+        
         /*StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
         GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
         StatModifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);

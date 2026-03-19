@@ -332,9 +332,8 @@ namespace Tutorial
                         return npc.transform;
                     },
                     spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.ResearchChoice
                 },
-                new TutorialStep(
+                /*new TutorialStep(
                     TutorialStepId.ResearchChoice,
                     "Research Choice",
                     "Choose something else to research to progress forward."
@@ -347,7 +346,7 @@ namespace Tutorial
                         return infrastructureInstance.transform;
                     },
                     spriteId = "SchematicalBot",
-                },
+                },*/
 
                 new TutorialStep(
                     TutorialStepId.Technology_DedicatedDB_Unlocked,
@@ -508,7 +507,7 @@ namespace Tutorial
 
                 new TutorialStep(
                     TutorialStepId.Basics_Economy,
-                    "Economy Basics:",
+                    "Economy Basics",
                     "Booting up these servers isn't free. At the end of each day you will get charged for the infrastructure you use. \n" + 
                     "We have a limited budget so if you exceed the budget that is game over. \n" + 
                     "Keep an eye on it in the UI."
@@ -542,7 +541,7 @@ namespace Tutorial
                 },
                 new TutorialStep(
                     TutorialStepId.Basics_Day,
-                    "Day Cycle:",
+                    "Day Cycle",
                     "At the end of each day your team members will exit through the door and you will receive a summary.\n" +
                     "The clock is now ticking. Good luck!"
                 )
@@ -569,7 +568,7 @@ namespace Tutorial
 
                 new TutorialStep(
                     TutorialStepId.Basics_Sprint,
-                    "Sprints Basics:",
+                    "Sprints Basics",
                     "TODO \n" +
                     ""
                 )
@@ -584,13 +583,38 @@ namespace Tutorial
                 },
                 new TutorialStep(
                     TutorialStepId.Item_View,
-                    "Items:",
+                    "Items",
                     "Every once in a while you will receive consumable items that can be used to help you. \n" +
                     "While most of this game uses real Cloud Architecture these items are not... but they are fun and I am planning on adding a lot more variety soon."
                 )
                 {
                     spriteId = "SchematicalBot",
-                }
+                },
+                new TutorialStep(
+                    TutorialStepId.NetworkPacket_Purchase,
+                    "Items",
+                    "Since it is launch day we can now expect a new `NetworkPacket` type called `Purchase`. \n" +
+                    "This packet type increases the amount of money allocated for our server infrastructure. \n" +
+                    "You can unlock upgrades to increase the chances of this type of packet arriving and the amount you make on each packet."
+                ){
+                    onTrigger = () =>
+                    {
+                        GameManager.Instance.UIManager.SetTimeScalePlay();
+                    },
+                    getTargetTranform = () =>
+                    {
+                        NetworkPacketData data =
+                            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
+                        List<InternetPipe> instances =
+                            GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                        InternetPipe pipe = instances[Random.Range(0, instances.Count)];
+
+                        NetworkPacket networkPacket = pipe.SendPacket(data);
+                        return networkPacket.transform;
+                    },
+                    spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.NetworkPacket_BinaryImage
+                },
             };
 
             foreach (TutorialStep step in steps)
