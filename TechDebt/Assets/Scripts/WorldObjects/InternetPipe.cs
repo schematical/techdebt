@@ -42,4 +42,27 @@ public class InternetPipe : InfrastructureInstance
         // Return false to prevent RoutePacket() and MoveToNextNode() from being called.
         return false;
     }
+    
+    public override void UpdateAppearance()
+    {
+        
+       
+        switch (data.CurrentState)
+        {
+            case InfrastructureData.State.Locked:
+            case InfrastructureData.State.Unlocked:
+                gameObject.SetActive(false);
+                break;
+            case InfrastructureData.State.Planned:
+                gameObject.SetActive(true);
+                spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.5f);
+                break;
+            case InfrastructureData.State.Operational:
+                gameObject.SetActive(true);
+                spriteRenderer.color = Color.white;
+                break;
+        }
+
+      
+    }
 }

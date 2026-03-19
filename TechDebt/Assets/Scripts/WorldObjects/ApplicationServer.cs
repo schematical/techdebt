@@ -29,4 +29,21 @@ public class ApplicationServer : InfrastructureInstance
         availableTasks.Reverse();
         return availableTasks;
     }
+
+    public override void SetState(InfrastructureData.State newState)
+    {
+        if (
+            data.CurrentState == InfrastructureData.State.Planned && 
+            newState == InfrastructureData.State.Operational
+        )
+        {
+            List<InternetPipe> instances =
+                GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+            foreach (InternetPipe pipe in instances)
+            {
+                pipe.SetState(newState);
+            }
+        }
+        base.SetState(newState);
+    }
 }

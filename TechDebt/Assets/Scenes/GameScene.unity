@@ -8371,8 +8371,8 @@ MonoBehaviour:
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 40, z: 0}
-    InitialState: 3
-    CurrentState: 3
+    InitialState: 0
+    CurrentState: 0
     UnlockConditions: []
   - Id: boss-desk
     worldObjectType: 10
@@ -8567,15 +8567,15 @@ MonoBehaviour:
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 37, z: 0}
-    InitialState: 3
-    CurrentState: 3
+    InitialState: 0
+    CurrentState: 0
     UnlockConditions: []
   - Id: internetPipe3
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
     GridPosition: {x: 5, y: 34, z: 0}
-    InitialState: 3
-    CurrentState: 3
+    InitialState: 0
+    CurrentState: 0
     UnlockConditions: []
   - Id: email-service
     worldObjectType: 0

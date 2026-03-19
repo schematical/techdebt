@@ -14,7 +14,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public Color startcolor;
     public InfrastructureData data;
 
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
 
     public float CurrentLoad { get; set; }
 
@@ -296,7 +296,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         GameManager.Instance.NotifyInfrastructureStateChange(this, previousState);
     }
 
-    public void UpdateAppearance()
+    public virtual void UpdateAppearance()
     {
         if (spriteRenderer == null)
         {
