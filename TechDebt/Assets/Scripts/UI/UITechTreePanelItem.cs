@@ -18,11 +18,7 @@ public class UITechTreePanelItem : MonoBehaviour
 
         titleText.text = $"<b>{_techData.DisplayName}</b>";
         descriptionText.text = _techData.Description;
-
-        string reqText = "Requires: " + (_techData.RequiredTechnologies.Count == 0 ? "None" :
-            string.Join(", ", _techData.RequiredTechnologies.Select(reqId =>
-                GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown")));
-        requirementsText.text = reqText;
+        
         
         researchButton.button.onClick.AddListener(() => GameManager.Instance.SelectTechnologyForResearch(_techData));
         
@@ -35,7 +31,7 @@ public class UITechTreePanelItem : MonoBehaviour
         if (_techData == null || researchButton == null || researchButton.buttonText == null || !researchButton.button) return;
 
         var buttonImage = researchButton.GetComponent<Image>();
-        bool prerequisitesMet = _techData.RequiredTechnologies.All(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
+        bool prerequisitesMet = _techData.UnlockConditions.All(condition => condition.IsUnlocked());
 
         switch (_techData.CurrentState)
         {

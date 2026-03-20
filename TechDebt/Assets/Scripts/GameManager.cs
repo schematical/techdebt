@@ -937,19 +937,9 @@ public class GameManager : MonoBehaviour, iModifiable
         
         foreach (UnlockCondition condition in unlockConditions)
         {
-            switch (condition.Type)
+            if (!condition.IsUnlocked())
             {
-                default:
-                case(UnlockCondition.ConditionType.Technology):
-                    
-                    Technology technology = GetTechnologyByID(condition.TechnologyID);
-                    if (technology == null)
-                    {
-                        return false;
-                    } 
-                    
-                    if(technology.CurrentState != Technology.State.Unlocked) return false;
-                    break;
+                return false;
             }
         }
         return true;
@@ -1026,15 +1016,13 @@ public class GameManager : MonoBehaviour, iModifiable
             CurrentlyResearchingTechnology = null;
         }
 
-        if (tech.RequiredTechnologies != null)
+        if (tech.UnlockConditions != null)
         {
-            foreach (string requiredTechID in tech.RequiredTechnologies)
+            foreach (UnlockCondition condition in tech.UnlockConditions)
             {
-                Technology requiredTech = GetTechnologyByID(requiredTechID);
-                if (requiredTech == null || requiredTech.CurrentState != Technology.State.Unlocked)
+            
+                if (!condition.IsUnlocked())
                 {
-                    Debug.Log(
-                        $"Cannot research '{tech.DisplayName}'. Prerequisite '{requiredTech?.DisplayName ?? requiredTechID}' is not unlocked.");
                     return;
                 }
             }

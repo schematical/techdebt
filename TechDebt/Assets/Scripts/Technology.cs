@@ -16,7 +16,7 @@ public class Technology
     public TechTreeDirection Direction = TechTreeDirection.Up;
     [FormerlySerializedAs("ResearchPointCost")] public int ResearchTime;
     public float CurrentResearchProgress = 0;
-    public List<string> RequiredTechnologies;
+    [FormerlySerializedAs("RequiredTechnologies")] public List<UnlockCondition> UnlockConditions;
 
     public State CurrentState = State.MetaLocked;
     public State OriginalState = State.MetaLocked;
