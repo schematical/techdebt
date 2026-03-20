@@ -75,7 +75,8 @@ namespace Tutorial
                 // GameManager.Instance.UIManager.ForcePause();
             }
             NPCBase npc = GetSpeaker();
-            npc.ShowWordBubble(Description);
+            UIDialogBubble dialogBubble = npc.ShowDialogBubble();
+            dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = Description;
             GameManager.Instance.cameraController
                 .ZoomToAndFollow(npc.transform);
             if (getTargetTranform != null)// TargetSelector != null)

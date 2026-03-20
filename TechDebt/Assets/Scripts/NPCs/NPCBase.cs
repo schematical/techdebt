@@ -63,6 +63,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public const float TaskCheckInterval = 1f;
 
     private WordBubble _currentWordBubble;
+    private UIDialogBubble dialogBubble;
     public ShadowObject  shadow;
     public Vector2 shadowOffset = new Vector2(-0.1f, -0.25f);
     public float shadowScale = 0.75f;
@@ -667,4 +668,17 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
         progressBar.Initialize(this, progressable);
     }
+    
+    public UIDialogBubble  ShowDialogBubble()
+    {
+        if (dialogBubble != null)
+        {
+            dialogBubble.Close();
+        }
+
+        dialogBubble = GameManager.Instance.prefabManager.Create("UIDialogBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIDialogBubble>();
+        dialogBubble.SetTarget(this);
+        return dialogBubble;
+    }
+
 }
