@@ -377,12 +377,12 @@ namespace UI
         {
             if (node.Technology.CurrentState == Technology.State.Unlocked) return true;
             if (node.Technology.CurrentState == Technology.State.Researching) return true;
-
+            if (node.Technology.CurrentState == Technology.State.MetaLocked) return false;
             // Roots are always visible
             if (node.UnlockConditions == null || node.UnlockConditions.Count == 0) return true;
 
             // Visible if ANY parent is Unlocked
-            return node.UnlockConditions.Any(condition =>
+            return node.UnlockConditions.All(condition =>
             {
                 if (condition.Type != UnlockCondition.ConditionType.Technology)
                 {

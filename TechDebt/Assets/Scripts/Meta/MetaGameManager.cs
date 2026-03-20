@@ -255,10 +255,17 @@ public static class MetaGameManager
                 DisplayName = "Kanban",
                 Description = "",
                 ResearchTime = 60,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "white-board" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "white-board"
+                    }
+                },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
-                TutorialStepId = TutorialStepId.Infra_KanbanBoard_Tip
+                TutorialStepId = TutorialStepId.Infra_KanbanBoard_Tip,
             },
             new Technology()
             {
@@ -426,7 +433,19 @@ public static class MetaGameManager
                 Description = "",
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual, 
+                        SprintNumber = 1
+                    }
+                },
                 Direction = Technology.TechTreeDirection.Left,
                 TutorialStepId = TutorialStepId.Infra_EmailService_Tip
                 // Finish round 1
@@ -450,7 +469,19 @@ public static class MetaGameManager
                 Direction = Technology.TechTreeDirection.Left,
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual, 
+                        SprintNumber = 1
+                    }
+                },
                 TutorialStepId = TutorialStepId.Infra_SNS_Tip
                 // Finish round 1
             }
