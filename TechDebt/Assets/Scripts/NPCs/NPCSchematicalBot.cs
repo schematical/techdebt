@@ -20,7 +20,7 @@ namespace NPCs
 
         public override void OnLeftClick(PointerEventData eventData)
         {
-            base.OnLeftClick(eventData);
+            // base.OnLeftClick(eventData);
             GameManager.Instance.UIManager.tutorialStepListPanel.Show();
         }
 

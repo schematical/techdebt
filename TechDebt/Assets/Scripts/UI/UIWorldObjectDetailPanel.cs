@@ -135,7 +135,7 @@ namespace UI
                 });
             }
             TutorialStepId tutorialStepId = worldObject.GetWorldObjectType().TutorialStepId;
-            if (tutorialStepId != null)
+            if (tutorialStepId != null && tutorialStepId != TutorialStepId.None)
             {
                 AddButton("Learn More", () => GameManager.Instance.TutorialManager.ForceRender(tutorialStepId));
             }

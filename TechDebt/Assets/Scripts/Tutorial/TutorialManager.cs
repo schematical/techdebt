@@ -617,12 +617,58 @@ namespace Tutorial
                     NextStepId = TutorialStepId.NetworkPacket_BinaryImage
                 },
             };
-
+            InitWorldObjectTips(steps);
             foreach (TutorialStep step in steps)
             {
                 Steps[step.Id] = step;
             }
         }
+
+        private void InitWorldObjectTips(List<TutorialStep> steps)
+        {
+            steps.AddRange(
+                new List<TutorialStep>()
+                {
+                    new TutorialStep(
+                        TutorialStepId.Infra_ApplicationServer_Tip,
+                        "Application Server",
+                        "The Application Server is where the main logic for your application should live.\n" +
+                        "You can host everything including images and your database on it but that won't scale. \n" +
+                        "So research specialized tech that is optimized for the various network traffic."
+                        
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server1"
+                    },
+              
+                    new TutorialStep(
+                        TutorialStepId.Infra_DedicatedDB_Tip,
+                        "Dedicated DB",
+                        "Having a Dedicated DB will significantly reduce the load on the Application Server.\n" +
+                        "It will handle text traffic. Saving images to a relational DB is strongly not recommended at scale. \n"
+                        
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "rds-simple-1"
+                    },
+              
+                    new TutorialStep(
+                        TutorialStepId.Infra_BinaryStorage_Tip,
+                        "Dedicated DB",
+                        "Having a Dedicated DB will significantly reduce the load on the Application Server.\n" +
+                        "It will handle text traffic. Saving images to a relational DB is strongly not recommended at scale. \n"
+                        
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "rds-simple-1"
+                    }
+                }    
+            );
+        }
+
         public TutorialStep GetStep(TutorialStepId stepId)
         {
             if (!Steps.ContainsKey(stepId))
@@ -635,6 +681,10 @@ namespace Tutorial
 
         public TutorialStep Trigger(TutorialStepId stepId)
         {
+            if (State == TutorialManagerState.Inactive)
+            {
+                return null;
+            }
  
             TutorialStep step = GetStep(stepId);
             step.Trigger();

@@ -33,7 +33,12 @@ namespace Tutorial.Steps
                         Next();
                     } 
                 },
-                new DialogButtonOption() { Text = "Just Get Started", OnClick = () => GameManager.Instance.TutorialManager.End() },
+                new DialogButtonOption() { Text = "Just Get Started", OnClick = () =>
+                    {
+                        GameManager.Instance.TutorialManager.End();
+                        GameManager.Instance.GetInfrastructureInstanceByID("desk").ZoomTo();
+                    }
+                },
             };
         }
     }

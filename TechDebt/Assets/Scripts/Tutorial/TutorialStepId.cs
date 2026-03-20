@@ -44,6 +44,9 @@ namespace Tutorial
         Basics_Day,
         NetworkPacket_Failed,
         Item_View,
-        NetworkPacket_Purchase
+        NetworkPacket_Purchase,
+        Infra_ApplicationServer_Tip,
+        Infra_DedicatedDB_Tip,
+        Infra_BinaryStorage_Tip
     }
 }

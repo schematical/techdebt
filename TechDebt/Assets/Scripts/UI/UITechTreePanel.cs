@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using TMPro;
+using Tutorial;
 using UnityEngine.Serialization;
 
 namespace UI
@@ -153,20 +154,36 @@ namespace UI
             Technology tech = _selectedNode.Technology;
             UIPanelLineSectionText header = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
             header.h1(tech.DisplayName);
-        
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"{tech.Description}\n\n";
+
+            string description = tech.Description; 
+
+            if (
+                tech.TutorialStepId != null &&
+                tech.TutorialStepId != TutorialStepId.None
+            )
+            {
+                TutorialStep step = GameManager.Instance.TutorialManager.GetStep(tech.TutorialStepId);
+                if (step.spriteId != null)
+                {
+                    AddLine<UIPanelImage>().image.sprite = GameManager.Instance.SpriteManager.GetSprite(step.spriteId);
+                }
+                description = step.Description;
+            }
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{description}";            
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\n";
             float researchDuration =
                 (tech.ResearchTime / GameManager.Instance.GameLoopManager.GetDayDurationSeconds()) * 8;
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Research Time: {Math.Round(researchDuration * 100)/100} Hours\n";
 
-            string reqs = "Requires: None";
+         
             if (tech.RequiredTechnologies != null && tech.RequiredTechnologies.Count == 0)
             {
-                reqs =
+                string reqs =
                     $"Requires: {string.Join(", ", tech.RequiredTechnologies.Select(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown"))}";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  reqs;
             }
                 
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  reqs;
+           
 
             if (tech.CurrentState == Technology.State.Locked)
             {

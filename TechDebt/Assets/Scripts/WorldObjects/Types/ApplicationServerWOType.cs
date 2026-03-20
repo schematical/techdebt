@@ -1,5 +1,6 @@
 using Infrastructure;
 using System.Collections.Generic;
+using Tutorial;
 using UnityEngine;
 
 public class ApplicationServerWOType : WorldObjectType
@@ -14,6 +15,7 @@ public class ApplicationServerWOType : WorldObjectType
         CanBeUpsized = true;
         LoadRecoveryRate = 20;
         ShowInGlobalDisplay = true;
+        TutorialStepId = TutorialStepId.Infra_ApplicationServer_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()

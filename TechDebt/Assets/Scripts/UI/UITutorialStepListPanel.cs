@@ -15,7 +15,8 @@ namespace UI
                     case(TutorialStep.TutorialStepState.Incomplete) :
                         break;
                     default:
-                        line.Add<UIPanelLineSectionText>().text.text = $"{step.Id} - {step.State}";
+                        line.Add<UIPanelLineSectionText>().text.text = step.Name;
+                        line.Add<UIPanelLineSectionText>().text.text = step.State.ToString();
                         break;
                 }
              

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Tutorial;
 using UnityEngine.Serialization; // Added for SerializableAttribute
 
 [Serializable]
@@ -19,6 +20,7 @@ public class Technology
 
     public State CurrentState = State.MetaLocked;
     public State OriginalState = State.MetaLocked;
+    public TutorialStepId TutorialStepId { get; set; } = TutorialStepId.None;
 
     public void OnInterrupt()
     {

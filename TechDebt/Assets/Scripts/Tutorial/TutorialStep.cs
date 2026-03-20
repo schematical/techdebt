@@ -23,11 +23,11 @@ namespace Tutorial
             Tip
         }
         public TutorialStepId Id { get; private set; }
-        protected string Name { get; private set; }
-        protected string Description { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
         
         public TutorialStepState State { get; private set; } =  TutorialStepState.Incomplete;
-        public TutorialStateType Type { get; private set; } = TutorialStateType.Dialog;
+        public TutorialStateType Type { get; set; } = TutorialStateType.Dialog;
         
         public string spriteId = null;
         public Func<Transform> getTargetTranform = null;

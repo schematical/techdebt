@@ -29,7 +29,7 @@ namespace Infrastructure
         
         public string DisplayName;
         public string PrefabId;
-        public TutorialStepId  TutorialStepId;
+        public TutorialStepId  TutorialStepId = TutorialStepId.None;
         public List<UnlockCondition> UnlockConditions;
         public List<InfrastructureDataNetworkPacket> networkPackets = new List<InfrastructureDataNetworkPacket>();
 

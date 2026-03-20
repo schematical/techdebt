@@ -8,6 +8,7 @@ using Infrastructure;
 using MetaChallenges;
 using NPCs;
 using Stats;
+using Tutorial;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -245,8 +246,8 @@ public static class MetaGameManager
                 Description = "",
                 ResearchTime = 30,
                 RequiredTechnologies = new List<string>(),
-                CurrentState = Technology.State.Locked
-                // UnlockConditions - Get and instance to size 2?
+                CurrentState = Technology.State.Locked,
+                TutorialStepId = TutorialStepId.Infra_ApplicationServer_Tip
             },
             new Technology()
             {
@@ -257,7 +258,6 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
-                // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
             {
@@ -297,7 +297,8 @@ public static class MetaGameManager
                 Description = "",
                 ResearchTime = 30,
                 RequiredTechnologies = new List<string>() { "application-server" },
-                CurrentState = Technology.State.Locked
+                CurrentState = Technology.State.Locked,
+                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
@@ -306,7 +307,8 @@ public static class MetaGameManager
                 DisplayName = "Binary Storage",
                 Description = "",
                 ResearchTime = 40,
-                RequiredTechnologies = new List<string>() { "application-server" }
+                RequiredTechnologies = new List<string>() { "application-server" },
+                TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip
             },
             new Technology()
             {

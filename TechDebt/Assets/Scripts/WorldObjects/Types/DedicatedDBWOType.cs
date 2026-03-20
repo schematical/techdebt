@@ -1,5 +1,6 @@
 using Infrastructure;
 using System.Collections.Generic;
+using Tutorial;
 using UnityEngine;
 
 public class DedicatedDBWOType : WorldObjectType
@@ -14,6 +15,7 @@ public class DedicatedDBWOType : WorldObjectType
         CanBeUpsized = true;
         LoadRecoveryRate = 10;
         ShowInGlobalDisplay = true;
+        TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
