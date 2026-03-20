@@ -5,13 +5,19 @@ using System;
 public class UnlockCondition
 {
 
-    public enum ConditionType { Technology }
+    public enum ConditionType { Technology, Sprint, Tutorial }
 
     public ConditionType Type;
-
+    public int SprintNumber;
     public string TechnologyID;
-    
-    
+
+    /*public bool IsUnlocked()
+    {
+        switch (Type)
+        {
+            case
+        }
+    }*/
     
     public string GetDescription()
     {

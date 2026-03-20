@@ -194,10 +194,9 @@ namespace UI
                         GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
                 }
 
-                if (!prerequisitesMet)
+                if (!prerequisitesMet){
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  "Prerequisites not met.";
-                else
-                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Click again to start research.";
+                }
             }
             else if (tech.CurrentState == Technology.State.Researching)
             {

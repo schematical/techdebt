@@ -34,6 +34,7 @@ namespace Tutorial
         public UnityAction onTrigger = null;
         public UnityAction onFinish = null;
         public TutorialStepId NextStepId = TutorialStepId.None;
+        public bool forcePause = true;
  
 
         public TutorialStep(TutorialStepId id, string name, string description)
@@ -60,7 +61,10 @@ namespace Tutorial
 
         protected virtual void RenderAsDialog()
         {
-
+            if (forcePause)
+            {
+                GameManager.Instance.UIManager.ForcePause();
+            }
             if (getTargetTranform != null)// TargetSelector != null)
             {
                 GameManager.Instance.cameraController
@@ -81,7 +85,14 @@ namespace Tutorial
                 new DialogButtonOption()
                 {
                     Text = "Continue",
-                    OnClick = () => Next()
+                    OnClick = () =>
+                    {
+                        if (forcePause)
+                        {
+                            GameManager.Instance.UIManager.Resume();
+                        }
+                        Next();
+                    }
                 }
             };
         }
@@ -122,7 +133,6 @@ namespace Tutorial
             {
                 return;// Debug.LogWarning($"TutorialStep {Id} - Trying to Trigger but state is {State}");
             }
-            Debug.Log($"Triggering step {Id}");
             State = TutorialStepState.InProgress;
             if (onTrigger != null)
             {

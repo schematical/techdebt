@@ -22,6 +22,7 @@ public class Technology
     public State OriginalState = State.MetaLocked;
     public TutorialStepId TutorialStepId { get; set; } = TutorialStepId.None;
 
+
     public void OnInterrupt()
     {
         CurrentState = State.Locked;

@@ -164,7 +164,7 @@ namespace Tutorial
                     "The Internetz",
                     "Notice Network Packets flowing in from the Internet to your server.\n" +
                     "When a packet finishes it's journey you can see how many milliseconds it took for the trip to take. \n" +
-                    "That will be important later."
+                    "This is known as \"Latency\" and it will be important later."
                 )
                 {
                     getTargetTranform = () =>
@@ -275,7 +275,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed2,
                     "Scaling Server Size",
-                    "You can increase the servers stats by increasing the instance size. Click on the server then select \"Upsize\" to do this."
+                    "You can increase the load the server can take by increasing the server size. \n" + 
+                    "Click on the server then select \"Upsize\" to do this."
                 )
                 {
                     getTargetTranform = () =>
@@ -646,7 +647,7 @@ namespace Tutorial
                         TutorialStepId.Infra_DedicatedDB_Tip,
                         "Dedicated DB",
                         "Having a Dedicated DB will significantly reduce the load on the Application Server.\n" +
-                        "It will handle text traffic. Saving images to a relational DB is strongly not recommended at scale. \n"
+                        "It will handle text traffic but not images because saving images to a relational DB is strongly NOT recommended at scale. \n"
                         
                     )
                     {
