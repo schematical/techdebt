@@ -717,6 +717,8 @@ public class GameManager : MonoBehaviour, iModifiable
         WorldObjectTypes[WorldObjectType.Type.ALB] = new ALBWOType();
         WorldObjectTypes[WorldObjectType.Type.Queue] = new QueueWOType();
         WorldObjectTypes[WorldObjectType.Type.WorkerServer] = new WorkerServerWOType();
+        WorldObjectTypes[WorldObjectType.Type.CodePipeline] = new CodePipelineWOType();
+        WorldObjectTypes[WorldObjectType.Type.WaterCooler] = new WaterCoolerWOType();
         
         foreach (WorldObjectType worldObjectType in WorldObjectTypes.Values)
         {
