@@ -781,7 +781,7 @@ namespace Tutorial
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "server1"
+                        spriteId = "secrets-manager"
                     },
                     new TutorialStep(
                         TutorialStepId.Infra_Cognito_Tip,
@@ -791,7 +791,7 @@ namespace Tutorial
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "server1"
+                        spriteId = "aws-cognito-service"
                     },
                     new TutorialStep(
                         TutorialStepId.Infra_EmailService_Tip,
@@ -801,7 +801,7 @@ namespace Tutorial
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "server1"
+                        spriteId = "mail-service"
                     },
                     new TutorialStep(
                         TutorialStepId.Infra_CloudWatchMetrics_Tip,
@@ -810,7 +810,7 @@ namespace Tutorial
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "server1"
+                        spriteId = "CloudWatch"
                     },
                     new TutorialStep(
                         TutorialStepId.Infra_SNS_Tip,
@@ -820,7 +820,7 @@ namespace Tutorial
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "server1"
+                        spriteId = "SNS"
                     }
                 }
             );
