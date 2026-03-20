@@ -656,14 +656,14 @@ namespace Tutorial
               
                     new TutorialStep(
                         TutorialStepId.Infra_BinaryStorage_Tip,
-                        "Dedicated DB",
-                        "Having a Dedicated DB will significantly reduce the load on the Application Server.\n" +
-                        "It will handle text traffic. Saving images to a relational DB is strongly not recommended at scale. \n"
+                        "Binary Storage",
+                        "Moving binary storage to its own hardware will significantly reduce the load on the Application Server.\n" +
+                        "It will handle Image traffic. This also will make it so you can boot up more application servers once you have unlocked the Load Balancer. \n"
                         
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "rds-simple-1"
+                        spriteId = "s3-bucket-basic"
                     }
                 }    
             );
