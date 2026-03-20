@@ -681,4 +681,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         return dialogBubble;
     }
 
+    public void HideDialogBubble()
+    {
+        dialogBubble.Close();
+    }
 }

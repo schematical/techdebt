@@ -85,6 +85,18 @@ namespace Tutorial
                     // .ZoomToAndFollow(getTargetTranform()); // TargetSelector.GetTransform());
                     npc.MoveTo(getTargetTranform().position);
             }
+
+            foreach (DialogButtonOption option in GetDialogOptions())
+            {
+                dialogBubble.AddButton(
+                    option.Text,
+                    () =>
+                    {
+                        npc.HideDialogBubble();
+                        option.OnClick.Invoke();
+                    }
+                );
+            }
             /*GameManager.Instance.UIManager.ShowNPCDialog(
                 GameManager.Instance.SpriteManager.GetSprite(spriteId),
                 Description,
