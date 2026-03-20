@@ -30,6 +30,35 @@ public class CameraController : MonoBehaviour
     private Transform targetToFollow;
     private UnityAction onZoomDone;
 
+    private Vector3 _preSnapPosition;
+    private float _preSnapZoom;
+    private bool _hasSnapSavedState = false;
+
+    public void SnapTo(Vector3 position, float zoom)
+    {
+        if (!_hasSnapSavedState)
+        {
+            _preSnapPosition = transform.position;
+            _preSnapZoom = GetMainCamera().orthographicSize;
+            _hasSnapSavedState = true;
+        }
+
+        StopFollowing();
+        _isZooming = false;
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
+        GetMainCamera().orthographicSize = zoom;
+    }
+
+    public void RestoreSnap()
+    {
+        if (_hasSnapSavedState)
+        {
+            transform.position = new Vector3(_preSnapPosition.x, _preSnapPosition.y, transform.position.z);
+            GetMainCamera().orthographicSize = _preSnapZoom;
+            _hasSnapSavedState = false;
+        }
+    }
+
     void Start()
     {
      

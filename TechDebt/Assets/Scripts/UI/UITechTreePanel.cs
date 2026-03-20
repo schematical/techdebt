@@ -278,6 +278,7 @@ namespace UI
             GameManager.OnTechnologyStateChange += OnTechnologyStateChange;
             grid.gameObject.SetActive(true);
             Refresh();
+            GameManager.Instance.cameraController.DisableCameraInput();
             CenterTilemapOnCamera();
         }
 
@@ -305,6 +306,8 @@ namespace UI
           
        
             GameManager.OnTechnologyStateChange -= OnTechnologyStateChange;
+            GameManager.Instance.cameraController.EnableCameraInput();
+            GameManager.Instance.cameraController.RestoreSnap();
             base.Close(forceClose);
         }
 
@@ -610,11 +613,10 @@ namespace UI
             Vector3 worldCenter = new Vector3((minX + maxX + 1) / 2.0f, (minY + maxY + 1) / 2.0f, 0);
             Transform gridTransform = connectorTilemap.transform.parent;
             
-            // Move the grid to the camera's current position, then offset it so the tree's center is at the camera's center
-            Vector3 cameraPos = Camera.main.transform.position;
-            gridTransform.position = new Vector3(cameraPos.x - worldCenter.x, cameraPos.y - worldCenter.y, gridTransform.position.z);
+            Vector3 targetCenter = new Vector3(-1000f, 0f, 0f);
+            GameManager.Instance.cameraController.SnapTo(targetCenter, 10f);
             
-           
+            gridTransform.position = new Vector3(targetCenter.x - worldCenter.x, targetCenter.y - worldCenter.y, gridTransform.position.z);
         }
 
         private class LayoutNode

@@ -13,8 +13,7 @@ public class BugConsumeTask : NPCTask
 /*
     public override void OnStart(NPCBase npc)
     {
-
-            base.OnStart(npc);
+         base.OnStart(npc);
 
     }
 */
