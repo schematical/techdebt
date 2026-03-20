@@ -7,7 +7,7 @@ namespace UI
     {
         public RectTransform pointer;
         protected NPCBase target;
-        public Vector3 worldOffset = new Vector3(0, -2f, 0);
+        protected Vector3 worldOffset = new Vector3(0, 1.5f, 0);
 
         protected override void Awake()
         {
@@ -15,7 +15,14 @@ namespace UI
             base.Awake();
         }
 
-   
+        public override void Show()
+        {
+            if (panelState == UIState.Open) return;
+            gameObject.SetActive(true);
+            panelState = UIState.Open;
+            canvasGroup.alpha = 1;
+        }
+
         public void SetTarget(NPCBase target)
         {
             this.target = target;
@@ -23,7 +30,7 @@ namespace UI
 
         protected virtual void LateUpdate()
         {
-            if (target.transform == null || !target.transform.gameObject.activeInHierarchy)
+            if (target == null || target.transform == null || !target.transform.gameObject.activeInHierarchy)
             {
                 if (panelState != UIState.Closed && panelState != UIState.Closing)
                 {
@@ -32,19 +39,15 @@ namespace UI
                 return;
             }
 
-            Canvas canvas = GetComponentInParent<Canvas>();
-            if (canvas == null) return;
-
-            Camera cam = canvas.worldCamera;
-            if (cam == null) cam = Camera.main;
+            Camera cam = Camera.main;
+            if (cam == null) return;
 
             Vector3 worldPos = target.transform.position + worldOffset;
-            Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
+            Vector3 viewportPos = cam.WorldToViewportPoint(worldPos);
 
-            // Check if the target is behind the camera or off-screen
-            bool isOffScreen = screenPos.z < 0 || 
-                               screenPos.x < 0 || screenPos.x > Screen.width || 
-                               screenPos.y < 0 || screenPos.y > Screen.height;
+            bool isOffScreen = viewportPos.z < 0 || 
+                               viewportPos.x < 0 || viewportPos.x > 1 || 
+                               viewportPos.y < 0 || viewportPos.y > 1;
 
             if (isOffScreen)
             {
@@ -54,13 +57,10 @@ namespace UI
             
             if (canvasGroup != null) canvasGroup.alpha = 1;
 
-            RectTransform parentRect = rectTransform.parent as RectTransform;
-            if (parentRect == null) return;
-
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, screenPos, cam, out Vector2 localPoint))
-            {
-                rectTransform.anchoredPosition = localPoint;
-            }
+            // Pin the UI element to the target's viewport position
+            rectTransform.anchorMin = new Vector2(viewportPos.x, viewportPos.y);
+            rectTransform.anchorMax = new Vector2(viewportPos.x, viewportPos.y);
+            rectTransform.anchoredPosition = Vector2.zero;
         }
     }
 }
