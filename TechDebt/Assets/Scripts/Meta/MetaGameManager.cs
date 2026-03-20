@@ -245,7 +245,7 @@ public static class MetaGameManager
                 DisplayName = "Application Server",
                 Description = "",
                 ResearchTime = 30,
-                RequiredTechnologies = new List<string>(),
+                UnlockConditions = new List<UnlockCondition>(),
                 CurrentState = Technology.State.Locked,
                 TutorialStepId = TutorialStepId.Infra_ApplicationServer_Tip
             },
@@ -255,7 +255,7 @@ public static class MetaGameManager
                 DisplayName = "Kanban",
                 Description = "",
                 ResearchTime = 60,
-                RequiredTechnologies = new List<string>() { "white-board" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "white-board" } },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_KanbanBoard_Tip
@@ -266,7 +266,7 @@ public static class MetaGameManager
                 DisplayName = "Software Basics",
                 Description = "",
                 ResearchTime = 30,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_WhiteBoard_Tip
@@ -278,7 +278,7 @@ public static class MetaGameManager
                 DisplayName = "Org Chart",
                 Description = "",
                 ResearchTime = 120,
-                RequiredTechnologies = new List<string>() { "kanban-board" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "kanban-board" } },
                 CurrentState = Technology.State.MetaLocked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_OrgChart_Tip
@@ -289,7 +289,7 @@ public static class MetaGameManager
                 DisplayName = "Product Road Map",
                 Description = "",
                 ResearchTime = 30,
-                RequiredTechnologies = new List<string>() { "white-board" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "white-board" } },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_ProductRoadMap_Tip
@@ -300,7 +300,7 @@ public static class MetaGameManager
                 DisplayName = "Dedicated Database",
                 Description = "",
                 ResearchTime = 30,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 CurrentState = Technology.State.Locked,
                 TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
                 // UnlockConditions - Get and instance to size 2?
@@ -311,7 +311,7 @@ public static class MetaGameManager
                 DisplayName = "Binary Storage",
                 Description = "",
                 ResearchTime = 40,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip
             },
             new Technology()
@@ -320,7 +320,7 @@ public static class MetaGameManager
                 DisplayName = "Redis Caching",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "dedicated-db" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" } },
                 TutorialStepId = TutorialStepId.Infra_Redis_Tip
             },
             new Technology()
@@ -329,7 +329,7 @@ public static class MetaGameManager
                 DisplayName = "Content Delivery Network(CDN)",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "binary-storage" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" } },
                 TutorialStepId = TutorialStepId.Infra_CDN_Tip
                 // serve up X binary packets with the s3 bucket
             },
@@ -339,7 +339,7 @@ public static class MetaGameManager
                 DisplayName = "Load Balancer",
                 Description = "",
                 ResearchTime = 30,
-                RequiredTechnologies = new List<string>() { "dedicated-db", "binary-storage" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" }, new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" } },
                 TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip
                 // ??? Make it to day y?
             },
@@ -349,7 +349,7 @@ public static class MetaGameManager
                 DisplayName = "Read Replicas",
                 Description = "",
                 ResearchTime = 60,
-                RequiredTechnologies = new List<string>() { "dedicated-db" }
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" } }
                 // Scale up your dedicated-db to level 2
             },
             new Technology()
@@ -358,7 +358,7 @@ public static class MetaGameManager
                 DisplayName = "Water Cooler",
                 Description = "",
                 ResearchTime = 5,
-                RequiredTechnologies = new List<string>() { "kanban-board" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "kanban-board" } },
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_WaterCooler_Tip
             },
@@ -368,7 +368,7 @@ public static class MetaGameManager
                 DisplayName = "Web Application Firewall(WAF)",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "cloud-watch-metrics" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "cloud-watch-metrics" } },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_WAF_Tip
@@ -380,7 +380,7 @@ public static class MetaGameManager
                 DisplayName = "Secret Manager",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_SecretManager_Tip
                 // Cycle credentials Y times
@@ -391,7 +391,7 @@ public static class MetaGameManager
                 DisplayName = "Simple Queue Service",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "load-balancer" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "load-balancer" } },
                 TutorialStepId = TutorialStepId.Infra_SQS_Tip
                 // survive Y packets in a single run.
             },
@@ -401,7 +401,7 @@ public static class MetaGameManager
                 DisplayName = "Cognito User Pools",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_Cognito_Tip
@@ -413,7 +413,7 @@ public static class MetaGameManager
                 DisplayName = "Code Pipeline",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_CodePipeline_Tip
@@ -426,7 +426,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 Direction = Technology.TechTreeDirection.Left,
                 TutorialStepId = TutorialStepId.Infra_EmailService_Tip
                 // Finish round 1
@@ -438,7 +438,7 @@ public static class MetaGameManager
                 Description = "",
                 Direction = Technology.TechTreeDirection.Down,
                 ResearchTime = 200,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 TutorialStepId = TutorialStepId.Infra_CloudWatchMetrics_Tip
                 // ???
             },
@@ -450,7 +450,7 @@ public static class MetaGameManager
                 Direction = Technology.TechTreeDirection.Left,
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
-                RequiredTechnologies = new List<string>() { "application-server" },
+                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
                 TutorialStepId = TutorialStepId.Infra_SNS_Tip
                 // Finish round 1
             }

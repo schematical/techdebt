@@ -38,7 +38,7 @@ namespace UI
             public Vector2Int Position = new Vector2Int(-1, -1);
             public string Id => Technology.TechnologyID;
             public string DisplayName => Technology.DisplayName;
-            public List<string> Dependencies => Technology.RequiredTechnologies;
+            public List<UnlockCondition> UnlockConditions => Technology.UnlockConditions;
             public TextMeshPro LabelInstance;
         }
 
@@ -176,11 +176,15 @@ namespace UI
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Research Time: {Math.Round(researchDuration * 100)/100} Hours\n";
 
          
-            if (tech.RequiredTechnologies != null && tech.RequiredTechnologies.Count == 0)
+            if (tech.UnlockConditions != null && tech.UnlockConditions.Count > 0)
             {
-                string reqs =
-                    $"Requires: {string.Join(", ", tech.RequiredTechnologies.Select(reqId => GameManager.Instance.GetTechnologyByID(reqId)?.DisplayName ?? "Unknown"))}";
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  reqs;
+                List<String> reqs = new();
+                    
+                foreach (UnlockCondition unlockCondition in tech.UnlockConditions)
+                {
+                    reqs.Add(unlockCondition.ToString());
+                }
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Requires: {string.Join(", ", reqs)}";
             }
                 
            
@@ -188,10 +192,9 @@ namespace UI
             if (tech.CurrentState == Technology.State.Locked)
             {
                 bool prerequisitesMet = true;
-                if (tech.RequiredTechnologies != null)
+                if (tech.UnlockConditions != null)
                 {
-                    prerequisitesMet = tech.RequiredTechnologies.All(reqId =>
-                        GameManager.Instance.GetTechnologyByID(reqId)?.CurrentState == Technology.State.Unlocked);
+                    prerequisitesMet = tech.UnlockConditions.All(condition => condition.IsUnlocked());
                 }
 
                 if (!prerequisitesMet){
@@ -348,20 +351,24 @@ namespace UI
         {
             foreach (TechNodeView node in nodesToDraw)
             {
-                if (node.Dependencies == null || node.Dependencies.Count == 0) continue;
+                if (node.UnlockConditions == null || node.UnlockConditions.Count == 0) continue;
 
-                foreach (var depId in node.Dependencies)
+                foreach (UnlockCondition condition in node.UnlockConditions)
                 {
-                    TechNodeView dep = _techTreeNodes.Find(n => n.Id == depId);
-                    if (dep == null) continue;
+                    if (condition.Type == UnlockCondition.ConditionType.Technology)
+                    {
+                        TechNodeView dep = _techTreeNodes.Find(n => n.Id == condition.TechnologyID);
+                        if (dep == null) continue;
 
-                    // Only draw connectors that are connected to unlocked tech
-                    if (dep.Technology.CurrentState != Technology.State.Unlocked && node.Technology.CurrentState != Technology.State.Unlocked) continue;
+                        // Only draw connectors that are connected to unlocked tech
+                        if (dep.Technology.CurrentState != Technology.State.Unlocked &&
+                            node.Technology.CurrentState != Technology.State.Unlocked) continue;
 
-                    Vector3Int start = (Vector3Int)dep.Position;
-                    Vector3Int end = (Vector3Int)node.Position;
+                        Vector3Int start = (Vector3Int)dep.Position;
+                        Vector3Int end = (Vector3Int)node.Position;
 
-                    DrawConnection(start, end, node.Technology.Direction);
+                        DrawConnection(start, end, node.Technology.Direction);
+                    }
                 }
             }
         }
@@ -372,13 +379,17 @@ namespace UI
             if (node.Technology.CurrentState == Technology.State.Researching) return true;
 
             // Roots are always visible
-            if (node.Dependencies == null || node.Dependencies.Count == 0) return true;
+            if (node.UnlockConditions == null || node.UnlockConditions.Count == 0) return true;
 
             // Visible if ANY parent is Unlocked
-            return node.Dependencies.Any(depId =>
+            return node.UnlockConditions.Any(condition =>
             {
-                var dep = _techTreeNodes.Find(n => n.Id == depId);
-                return dep != null && dep.Technology.CurrentState == Technology.State.Unlocked;
+                if (condition.Type != UnlockCondition.ConditionType.Technology)
+                {
+                    return condition.IsUnlocked();
+                }
+                TechNodeView dep = _techTreeNodes.Find(n => n.Id == condition.TechnologyID);
+                return dep != null && condition.IsUnlocked();
             });
         }
 
@@ -657,7 +668,7 @@ namespace UI
                 node.Position = new Vector2Int(-1000, -1000);
             }
 
-            TechNodeView root = _techTreeNodes.Find(n => n.Id == "application-server") ?? _techTreeNodes.Find(n => n.Dependencies == null || n.Dependencies.Count == 0);
+            TechNodeView root = _techTreeNodes.Find(n => n.Id == "application-server") ?? _techTreeNodes.Find(n => n.UnlockConditions == null || n.UnlockConditions.Count == 0);
             if (root == null) return;
 
             // Build Tree (DAG -> Tree conversion for layout)
@@ -679,7 +690,10 @@ namespace UI
 
             // Find children: Nodes that list this view as a dependency
             // Note: Since a node can have multiple dependencies, checking visited ensures it's only placed once in the hierarchy.
-            var potentialChildren = _techTreeNodes.Where(n => n.Dependencies != null && n.Dependencies.Contains(view.Id));
+            var potentialChildren = _techTreeNodes.Where(n => n.UnlockConditions != null && n.UnlockConditions.Any(condition =>
+            {
+                return condition.Type == UnlockCondition.ConditionType.Technology && condition.TechnologyID == view.Id;
+            }));
             
             // Sort children to ensure consistent order (e.g. by name or ID)
             var sortedChildren = potentialChildren.OrderBy(n => n.Id).ToList();
