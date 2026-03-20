@@ -20,8 +20,8 @@ namespace NPCs
 
         public override void OnLeftClick(PointerEventData eventData)
         {
-            // base.OnLeftClick(eventData);
-            GameManager.Instance.UIManager.tutorialStepListPanel.Show();
+            base.OnLeftClick(eventData);
+            // GameManager.Instance.UIManager.tutorialStepListPanel.Show();
         }
 
         public override void TriggerDefaultBehavior()
@@ -34,12 +34,12 @@ namespace NPCs
             
 
             MoveTo(_hangOutAt.GetInteractionPosition());
-            CurrentState = State.Wandering; // Use Wandering state to signify moving without a task
+            CurrentState = State.Idle; // Use Wandering state to signify moving without a task
      
         }
         public override bool CanAssignTask(NPCTask task)
         {
-            return task.Role == NPCTask.TaskRole.Boss;
+            return task.Role == NPCTask.TaskRole.SchematicalBot;
         }
         public override Vector3 GetHomePoint()
         {

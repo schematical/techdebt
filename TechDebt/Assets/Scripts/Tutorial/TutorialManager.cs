@@ -31,10 +31,10 @@ namespace Tutorial
                     "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit. "
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "Suit1NPC",
                     NextStepId = TutorialStepId.Infra_Door,
@@ -46,11 +46,11 @@ namespace Tutorial
                     "The team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day"
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         WorldObjectBase door =
                             GameManager.Instance.GetInfrastructureInstanceByID("door");
-                        return door.transform;
+                        return door;
                     },
                     spriteId = "Suit1NPC"
                 },
@@ -60,10 +60,10 @@ namespace Tutorial
                     "You are in charge of a small team of software engineers. Here is one now."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "Suit1NPC",
                     NextStepId = TutorialStepId.NPC_PreConsultant,
@@ -84,12 +84,12 @@ namespace Tutorial
                     "Hi! I am the consultant from Schematical and I am here to help guide you as you setup your cloud infrastructure."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
                       
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Infra_Desk
@@ -100,12 +100,12 @@ namespace Tutorial
                     "Click on the Desk to assign your team members to do research tasks."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("desk");
                         infrastructureInstance.ShowAttentionIcon();
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
 
@@ -127,12 +127,12 @@ namespace Tutorial
                     "One of your Engineers will start building it shortly."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         infrastructureInstance.ShowAttentionIcon();
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
 
@@ -152,11 +152,11 @@ namespace Tutorial
                     "It will receive Network Packets coming from the internet, process them, and send back a response to whoever sent the request on the internet."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Infra_InternetPipe
@@ -170,12 +170,12 @@ namespace Tutorial
                     "This is known as \"Latency\" and it will be important later."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
 
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("internetPipe");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.NetworkPacket_Text
@@ -188,11 +188,11 @@ namespace Tutorial
                 )
                 {
                     forcePause = false,
-                    onTrigger = () =>
+                    /*onTrigger = () =>
                     {
                         GameManager.Instance.UIManager.SetTimeScalePlay();
-                    },
-                    getTargetTranform = () =>
+                    },*/
+                    getTarget = () =>
                     {
                         NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
@@ -201,7 +201,7 @@ namespace Tutorial
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
 
                         NetworkPacket networkPacket = pipe.SendPacket(data);
-                        return networkPacket.transform;
+                        return networkPacket;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.NetworkPacket_BinaryImage
@@ -213,11 +213,11 @@ namespace Tutorial
                 )
                 {
                     forcePause = false,
-                    onTrigger = () =>
+                    /*onTrigger = () =>
                     {
                         GameManager.Instance.UIManager.SetTimeScalePlay();
-                    },
-                    getTargetTranform = () =>
+                    },*/
+                    getTarget = () =>
                     {
                         NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
@@ -226,7 +226,7 @@ namespace Tutorial
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
 
                         NetworkPacket networkPacket = pipe.SendPacket(data);
-                        return networkPacket.transform;
+                        return networkPacket;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Basics_Economy,
@@ -247,11 +247,11 @@ namespace Tutorial
                         infrastructureInstance.CurrentLoad =
                             infrastructureInstance.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
                     },
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                     // NextStepId = TutorialStepId.Infra_ApplicationServer_Frozen2
@@ -284,11 +284,11 @@ namespace Tutorial
                     "Click on the server then select \"Upsize\" to do this."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -298,11 +298,11 @@ namespace Tutorial
                     "Great work. Just remember increasing the server size also increases its cost."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                     // NextStepId = TutorialStepId.NPC_LevelUp_Pending
@@ -320,10 +320,10 @@ namespace Tutorial
                         devOps.AddXP(91);*/
                         GameManager.Instance.UIManager.SetTimeScalePause();
                     },
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -333,10 +333,10 @@ namespace Tutorial
                     "Well done. Keep your team members happy and healthy so they level up more often."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -346,7 +346,7 @@ namespace Tutorial
                     "Choose something else to research to progress forward."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("desk");
@@ -362,11 +362,11 @@ namespace Tutorial
                 )
                 {
 
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -378,11 +378,11 @@ namespace Tutorial
                 )
                 {
                    
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -393,11 +393,11 @@ namespace Tutorial
                     "Once you build it you can select a feature to focus on by clicking on the whiteboard."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -407,11 +407,11 @@ namespace Tutorial
                     "Select a feature to focus on by clicking on the whiteboard."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -422,11 +422,11 @@ namespace Tutorial
                     "You can research tools that will allow you to set tasks priority later"
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -437,11 +437,11 @@ namespace Tutorial
                     "Use Meta Challenges to unlock technologies that will automate this for you in the future."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -452,11 +452,11 @@ namespace Tutorial
                     "You can only focus on one release at a time right now."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -468,11 +468,11 @@ namespace Tutorial
                     "Be careful though, bugs left in production have consequences."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                     // NextStepId = TutorialStepId.Basics_Economy,
@@ -484,11 +484,11 @@ namespace Tutorial
                     "The quality of your latest Software Release and the amount of Tech Debt you have will influence the likely hood of bugs spawning and their severity \n"
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -520,11 +520,11 @@ namespace Tutorial
                     "Keep an eye on it in the UI."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Basics_LaunchDay
@@ -537,11 +537,11 @@ namespace Tutorial
                     "Expect a lot more traffic and a new type of `NetworkPacket` to indicate incoming purchases."
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Basics_Day
@@ -564,11 +564,11 @@ namespace Tutorial
 
                         GameManager.Instance.GameLoopManager.playTimerActive = true;
                     },
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("door");
-                        return infrastructureInstance.transform;
+                        return infrastructureInstance;
                     },
                     spriteId = "SchematicalBot",
                 },
@@ -580,11 +580,11 @@ namespace Tutorial
                     ""
                 )
                 {
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-                        return npc.transform;
+                        return npc;
                     },
                     spriteId = "Suit1NPC",
                 },
@@ -608,7 +608,7 @@ namespace Tutorial
                     {
                         GameManager.Instance.UIManager.SetTimeScalePlay();
                     },
-                    getTargetTranform = () =>
+                    getTarget = () =>
                     {
                         NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
@@ -617,7 +617,7 @@ namespace Tutorial
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
 
                         NetworkPacket networkPacket = pipe.SendPacket(data);
-                        return networkPacket.transform;
+                        return networkPacket;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.NetworkPacket_BinaryImage

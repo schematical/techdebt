@@ -206,6 +206,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         CurrentTask = newTask;
         if (newTask.TryAssign(this))
         {
+            Debug.Log($"{gameObject.name}: Assigned task {newTask.GetType().Name}");
             CurrentState = State.ExecutingTask;
             CurrentTask.OnStart(this);
         }

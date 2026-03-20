@@ -31,7 +31,7 @@ namespace Tutorial
         public TutorialStateType Type { get; set; } = TutorialStateType.Dialog;
         
         public string spriteId = null;
-        public Func<Transform> getTargetTranform = null;
+        public Func<iTargetable> getTarget = null;
         public UnityAction onTrigger = null;
         public UnityAction onFinish = null;
         public TutorialStepId NextStepId = TutorialStepId.None;
@@ -79,11 +79,13 @@ namespace Tutorial
             dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = Description;
             GameManager.Instance.cameraController
                 .ZoomToAndFollow(npc.transform);
-            if (getTargetTranform != null)// TargetSelector != null)
+            if (getTarget != null)// TargetSelector != null)
             {
                 // GameManager.Instance.cameraController
-                    // .ZoomToAndFollow(getTargetTranform()); // TargetSelector.GetTransform());
-                    npc.MoveTo(getTargetTranform().position);
+                    // .ZoomToAndFollow(getTarget()); // TargetSelector.GetTransform());
+                    npc.AssignTask(
+                        new TutorialMoveToTask(this)    
+                    );
             }
 
             foreach (DialogButtonOption option in GetDialogOptions())

@@ -22,7 +22,8 @@ public abstract class NPCTask
         Boss,
         Dev,
         Intern,
-        Enemy
+        Enemy,
+        SchematicalBot
     }
     
     public State CurrentState { get; protected set; } = State.Available;

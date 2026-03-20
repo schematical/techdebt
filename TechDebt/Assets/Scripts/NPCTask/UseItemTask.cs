@@ -24,7 +24,7 @@ public class UseItemTask : NPCTask
             }
             else
             {
-                Debug.LogWarning("TargetItem was null or destroyed before UseItemTask could complete.");
+                Debug.LogWarning("Target was null or destroyed before UseItemTask could complete.");
             }
  
         }
