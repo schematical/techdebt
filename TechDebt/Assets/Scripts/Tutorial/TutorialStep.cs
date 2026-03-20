@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using NPCs;
 using Tutorial;
 using UI;
 using UnityEngine;
@@ -43,6 +44,14 @@ namespace Tutorial
             Name = name;
             Description = description;
         }
+
+        public virtual NPCBase GetSpeaker()
+        {
+            NPCBase npc =
+                GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+                      
+            return npc;
+        }
         
         public virtual void Render()
         {
@@ -63,19 +72,23 @@ namespace Tutorial
         {
             if (forcePause)
             {
-                GameManager.Instance.UIManager.ForcePause();
+                // GameManager.Instance.UIManager.ForcePause();
             }
+            NPCBase npc = GetSpeaker();
+            npc.ShowWordBubble(Description);
+            GameManager.Instance.cameraController
+                .ZoomToAndFollow(npc.transform);
             if (getTargetTranform != null)// TargetSelector != null)
             {
-                GameManager.Instance.cameraController
-                    .ZoomToAndFollow(getTargetTranform()); // TargetSelector.GetTransform());
+                // GameManager.Instance.cameraController
+                    // .ZoomToAndFollow(getTargetTranform()); // TargetSelector.GetTransform());
+                    npc.MoveTo(getTargetTranform().position);
             }
-
-            GameManager.Instance.UIManager.ShowNPCDialog(
+            /*GameManager.Instance.UIManager.ShowNPCDialog(
                 GameManager.Instance.SpriteManager.GetSprite(spriteId),
                 Description,
                 GetDialogOptions()
-            );
+            );*/
         }
 
         public virtual List<DialogButtonOption> GetDialogOptions()

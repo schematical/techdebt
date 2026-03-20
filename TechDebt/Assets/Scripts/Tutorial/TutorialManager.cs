@@ -88,6 +88,7 @@ namespace Tutorial
                     {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+                      
                         return npc.transform;
                     },
                     spriteId = "SchematicalBot",
