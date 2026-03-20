@@ -89,7 +89,7 @@ namespace Tutorial
                     {
                         if (forcePause)
                         {
-                            GameManager.Instance.UIManager.Resume();
+                            GameManager.Instance.UIManager.StopForcePause();
                         }
                         Next();
                     }

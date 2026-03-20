@@ -354,6 +354,11 @@ public class GameManager : MonoBehaviour, iModifiable
         Releases.Clear();
         GameLoopManager.Reset();
         CurrentlyResearchingTechnology = null;
+        if (TutorialManager != null)
+        {
+            TutorialManager.End();
+            TutorialManager = null;
+        }
         AvailableTasks.Clear();
         ReleaseBase.GlobalVersion = 0;
         foreach (NPCBase npc in AllNpcs)

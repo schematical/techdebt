@@ -20,7 +20,7 @@ namespace Tutorial
 
         public TutorialManagerState State { get; protected set; } = TutorialManagerState.Active;
         protected Dictionary<TutorialStepId, TutorialStep> Steps = new Dictionary<TutorialStepId, TutorialStep>();
-
+        protected TutorialStepId CurrentTutorialStepId = TutorialStepId.None;
         public TutorialManager()
         {
             List<TutorialStep> steps = new List<TutorialStep>()
@@ -37,7 +37,8 @@ namespace Tutorial
                         return npc.transform;
                     },
                     spriteId = "Suit1NPC",
-                    NextStepId = TutorialStepId.Infra_Door
+                    NextStepId = TutorialStepId.Infra_Door,
+                    forcePause = false
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_Door,
@@ -51,7 +52,7 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("door");
                         return door.transform;
                     },
-                    spriteId = "Suit1NPC",
+                    spriteId = "Suit1NPC"
                 },
                 new TutorialStep(
                     TutorialStepId.Day_Start,
@@ -65,7 +66,8 @@ namespace Tutorial
                         return npc.transform;
                     },
                     spriteId = "Suit1NPC",
-                    NextStepId = TutorialStepId.NPC_PreConsultant
+                    NextStepId = TutorialStepId.NPC_PreConsultant,
+                    forcePause = false
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_PreConsultant,
@@ -184,6 +186,7 @@ namespace Tutorial
                     "Notice there are different network packet types. One type is just simple text like HTML."
                 )
                 {
+                    forcePause = false,
                     onTrigger = () =>
                     {
                         GameManager.Instance.UIManager.SetTimeScalePlay();
@@ -208,6 +211,7 @@ namespace Tutorial
                     "Another type is binary data like images. Different NetworkPacket types will have different server load and effects on the various infrastructure and will take different routes as your cloud architecture evolves."
                 )
                 {
+                    forcePause = false,
                     onTrigger = () =>
                     {
                         GameManager.Instance.UIManager.SetTimeScalePlay();
@@ -843,9 +847,14 @@ namespace Tutorial
             {
                 return null;
             }
- 
+
+            if (CurrentTutorialStepId != TutorialStepId.None)
+            {
+                return null;
+            }
             TutorialStep step = GetStep(stepId);
             step.Trigger();
+            CurrentTutorialStepId = stepId;
             return step;
         }
 
@@ -858,8 +867,6 @@ namespace Tutorial
             string json = JsonUtility.ToJson(metaProgressData, true);
             string path = GetSavePath();
             File.WriteAllText(path, json);
-        
-     
         }
 
         public MetaProgressData LoadProgress()
@@ -895,6 +902,7 @@ namespace Tutorial
         public void End()
         {
             State = TutorialManagerState.Inactive;
+            GameManager.Instance.GameLoopManager.playTimerActive = true;
             GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;
             GameManager.OnTechnologyStateChange -= HandleTechnologyStateChange;
             GameManager.OnPhaseChange -= HandlePhaseChange;
@@ -1030,6 +1038,7 @@ namespace Tutorial
         {
             if (nextStepId == TutorialStepId.None)
             {
+                CurrentTutorialStepId = TutorialStepId.None;
                 return;
             }
             TutorialStep tutorialStep = GetStep(nextStepId);

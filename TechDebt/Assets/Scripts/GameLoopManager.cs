@@ -153,7 +153,7 @@ public class GameLoopManager : MonoBehaviour
     private void BeginSummaryPhase()
     {
      
-       
+        
         CurrentState = GameState.WaitingForNpcsToExpire;
         GameManager.Instance.InvokeOnPhaseChange(CurrentState);
         float totalDailyCost = GameManager.Instance.CalculateTotalDailyCost();
@@ -213,7 +213,7 @@ public class GameLoopManager : MonoBehaviour
 
         SummaryData summaryData = new SummaryData
         {
-            Day = currentDay - 1,
+            Day = currentDay,
             PacketsTotal = packetsFailed + packetsServiced,
             PacketsFailed = packetsFailed,
             PacketsSucceeded = packetsServiced,
