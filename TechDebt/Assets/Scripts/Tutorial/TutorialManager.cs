@@ -664,6 +664,114 @@ namespace Tutorial
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
                         spriteId = "s3-bucket-basic"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_KanbanBoard_Tip,
+                        "Kanban Board",
+                        "The Kanban Board allows you to prioritize which tasks your team work on first. \n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "KanbanBoard"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_WhiteBoard_Tip,
+                        "Software Basics",
+                        "This unlocks the White Board which allows you to chose the focus of your team's next software release.\n" +
+                        "Deploying software releases unlock powerful rewards and bonuses.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "WhiteBoard"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_OrgChart_Tip,
+                        "Org Chart",
+                        "The Org Chart allows you to unlock new team member positions.\n" +
+                        "Each team member you have will unlock new game mechanics and quests(Coming soon).\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "OrgChart"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_ProductRoadMap_Tip,
+                        "Product Road Map",
+                        "The Product Road Map will give you insight into previous and upcoming sprints.\n" +
+                        "This will allow you to better navigate the run(Work in progress).\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "ProductRoadMap"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_Redis_Tip,
+                        "Caching",
+                        "Caching provides high-performance in-memory caching to reduce database queries.\n" +
+                        "Building this will take a significant amount of load off your Application Servers.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "redis-firewall-green"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_CDN_Tip,
+                        "Content Delivery Network",
+                        "A CDN distributes static assets like images globally to bring them closer to your users.\n" +
+                        "It will take all the Binary Data/Image load off your Application Layer except uploads.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "cloudFront 1"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_LoadBalancer_Tip,
+                        "Load Balancer",
+                        "The Load Balancer evenly distributes incoming traffic across multiple Application Servers.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server-alb-sheet"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_WaterCooler_Tip,
+                        "Water Cooler",
+                        "The Water Cooler provides a place for your team to relax and socialize.\n" +
+                        "It improves morale but also can cause occasional distractions.(Work in progress)\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "WaterCooler"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_WAF_Tip,
+                        "Firewall",
+                        "A Firewall protects your application from common malicious exploits and attacks.\n" +
+                        "It monitors network packets and filters out bad actors before they reach your servers.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "waf"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_SQS_Tip,
+                        "Queue",
+                        "Deferring computational tasks to be processed later by a Worker Server will take a lot of load off the Application Servers.\n" +
+                        "You can accomplish this by sending a requests to the Queue for the Worker Servers to pick up later. \n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "sqs"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_CodePipeline_Tip,
+                        "Build Pipeline",
+                        "Build Pipeline automates your software deployment process.\n" +
+                        "This will free up your Team Members to stay focused on other tasks.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "CodePipeline"
                     }
                 }    
             );

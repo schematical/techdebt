@@ -47,6 +47,17 @@ namespace Tutorial
         NetworkPacket_Purchase,
         Infra_ApplicationServer_Tip,
         Infra_DedicatedDB_Tip,
-        Infra_BinaryStorage_Tip
+        Infra_BinaryStorage_Tip,
+        Infra_KanbanBoard_Tip,
+        Infra_WhiteBoard_Tip,
+        Infra_OrgChart_Tip,
+        Infra_ProductRoadMap_Tip,
+        Infra_Redis_Tip,
+        Infra_CDN_Tip,
+        Infra_LoadBalancer_Tip,
+        Infra_WaterCooler_Tip,
+        Infra_WAF_Tip,
+        Infra_SQS_Tip,
+        Infra_CodePipeline_Tip
     }
 }

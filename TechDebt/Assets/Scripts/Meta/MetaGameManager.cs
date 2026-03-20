@@ -258,6 +258,7 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
+                TutorialStepId = TutorialStepId.Infra_KanbanBoard_Tip
             },
             new Technology()
             {
@@ -268,6 +269,7 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
+                TutorialStepId = TutorialStepId.Infra_WhiteBoard_Tip
             },
         
             new Technology()
@@ -279,6 +281,7 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "kanban-board" },
                 CurrentState = Technology.State.MetaLocked,
                 Direction = Technology.TechTreeDirection.Right,
+                TutorialStepId = TutorialStepId.Infra_OrgChart_Tip
             },
             new Technology()
             {
@@ -289,6 +292,7 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "white-board" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
+                TutorialStepId = TutorialStepId.Infra_ProductRoadMap_Tip
             },
             new Technology()
             {
@@ -316,7 +320,8 @@ public static class MetaGameManager
                 DisplayName = "Redis Caching",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "dedicated-db" }
+                RequiredTechnologies = new List<string>() { "dedicated-db" },
+                TutorialStepId = TutorialStepId.Infra_Redis_Tip
             },
             new Technology()
             {
@@ -324,7 +329,8 @@ public static class MetaGameManager
                 DisplayName = "Content Delivery Network(CDN)",
                 Description = "",
                 ResearchTime = 25,
-                RequiredTechnologies = new List<string>() { "binary-storage" }
+                RequiredTechnologies = new List<string>() { "binary-storage" },
+                TutorialStepId = TutorialStepId.Infra_CDN_Tip
                 // serve up X binary packets with the s3 bucket
             },
             new Technology()
@@ -333,7 +339,8 @@ public static class MetaGameManager
                 DisplayName = "Load Balancer",
                 Description = "",
                 ResearchTime = 30,
-                RequiredTechnologies = new List<string>() { "dedicated-db", "binary-storage" }
+                RequiredTechnologies = new List<string>() { "dedicated-db", "binary-storage" },
+                TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip
                 // ??? Make it to day y?
             },
             new Technology()
@@ -352,7 +359,8 @@ public static class MetaGameManager
                 Description = "",
                 ResearchTime = 5,
                 RequiredTechnologies = new List<string>() { "kanban-board" },
-                Direction = Technology.TechTreeDirection.Right
+                Direction = Technology.TechTreeDirection.Right,
+                TutorialStepId = TutorialStepId.Infra_WaterCooler_Tip
             },
             new Technology()
             {
@@ -363,6 +371,7 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "cloud-watch-metrics" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
+                TutorialStepId = TutorialStepId.Infra_WAF_Tip
                 // Survive X malicious packets
             },
             new Technology()
@@ -382,6 +391,7 @@ public static class MetaGameManager
                 Description = "",
                 ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "load-balancer" },
+                TutorialStepId = TutorialStepId.Infra_SQS_Tip
                 // survive Y packets in a single run.
             },
             new Technology()
@@ -404,6 +414,7 @@ public static class MetaGameManager
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
+                TutorialStepId = TutorialStepId.Infra_CodePipeline_Tip
                 // Push out Y deployments
             },
             new Technology()
