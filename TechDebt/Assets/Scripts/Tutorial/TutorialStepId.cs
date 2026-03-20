@@ -58,6 +58,11 @@ namespace Tutorial
         Infra_WaterCooler_Tip,
         Infra_WAF_Tip,
         Infra_SQS_Tip,
-        Infra_CodePipeline_Tip
+        Infra_CodePipeline_Tip,
+        Infra_SecretManager_Tip,
+        Infra_Cognito_Tip,
+        Infra_EmailService_Tip,
+        Infra_CloudWatchMetrics_Tip,
+        Infra_SNS_Tip
     }
 }

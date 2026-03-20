@@ -719,6 +719,12 @@ public class GameManager : MonoBehaviour, iModifiable
         WorldObjectTypes[WorldObjectType.Type.WorkerServer] = new WorkerServerWOType();
         WorldObjectTypes[WorldObjectType.Type.CodePipeline] = new CodePipelineWOType();
         WorldObjectTypes[WorldObjectType.Type.WaterCooler] = new WaterCoolerWOType();
+        WorldObjectTypes[WorldObjectType.Type.WAF] = new WAFWOType();
+        WorldObjectTypes[WorldObjectType.Type.SecretManager] = new SecretManagerWOType();
+        WorldObjectTypes[WorldObjectType.Type.Cognito] = new CognitoWOType();
+        WorldObjectTypes[WorldObjectType.Type.EmailService] = new EmailServiceWOType();
+        WorldObjectTypes[WorldObjectType.Type.CloudWatchMetrics] = new CloudWatchMetricsWOType();
+        WorldObjectTypes[WorldObjectType.Type.SNS] = new SNSWOType();
         
         foreach (WorldObjectType worldObjectType in WorldObjectTypes.Values)
         {

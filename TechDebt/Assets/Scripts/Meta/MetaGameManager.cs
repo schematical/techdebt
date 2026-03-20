@@ -382,6 +382,7 @@ public static class MetaGameManager
                 ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 Direction = Technology.TechTreeDirection.Down,
+                TutorialStepId = TutorialStepId.Infra_SecretManager_Tip
                 // Cycle credentials Y times
             },
             new Technology()
@@ -402,7 +403,8 @@ public static class MetaGameManager
                 ResearchTime = 25,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 CurrentState = Technology.State.Locked,
-                Direction = Technology.TechTreeDirection.Down
+                Direction = Technology.TechTreeDirection.Down,
+                TutorialStepId = TutorialStepId.Infra_Cognito_Tip
                 // Survive Y user info leaked
             },
             new Technology()
@@ -426,6 +428,7 @@ public static class MetaGameManager
                 CurrentState = Technology.State.Locked,
                 RequiredTechnologies = new List<string>() { "application-server" },
                 Direction = Technology.TechTreeDirection.Left,
+                TutorialStepId = TutorialStepId.Infra_EmailService_Tip
                 // Finish round 1
             },
             new Technology()
@@ -436,6 +439,7 @@ public static class MetaGameManager
                 Direction = Technology.TechTreeDirection.Down,
                 ResearchTime = 200,
                 RequiredTechnologies = new List<string>() { "application-server" },
+                TutorialStepId = TutorialStepId.Infra_CloudWatchMetrics_Tip
                 // ???
             },
             new Technology()
@@ -447,6 +451,7 @@ public static class MetaGameManager
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
                 RequiredTechnologies = new List<string>() { "application-server" },
+                TutorialStepId = TutorialStepId.Infra_SNS_Tip
                 // Finish round 1
             }
         };

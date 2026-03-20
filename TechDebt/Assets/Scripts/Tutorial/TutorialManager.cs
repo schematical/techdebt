@@ -772,8 +772,57 @@ namespace Tutorial
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
                         spriteId = "CodePipeline"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_SecretManager_Tip,
+                        "Secret Manager",
+                        "Secret Manager securely stores and manages sensitive credentials.\n" +
+                        "This will decrease the chances of a `Credentials Leaked` event.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server1"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_Cognito_Tip,
+                        "Cognito User Pools",
+                        "Cognito manages user authentication and identity.\n" +
+                        "This decreases the cost and likely hood of PII Network Packets getting leaked.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server1"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_EmailService_Tip,
+                        "Email Service",
+                        "Email Service handles automated emails and transactional messages.\n" +
+                        "It enables essential communication with your users.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server1"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_CloudWatchMetrics_Tip,
+                        "Metrics",
+                        "Metrics gives you better visibility into infrastructure load.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server1"
+                    },
+                    new TutorialStep(
+                        TutorialStepId.Infra_SNS_Tip,
+                        "Mobile Notifications",
+                        "Mobile Notifications engage users and drive traffic back to your app.\n" +
+                        "Use it strategically to increase usage and retention.\n"
+                    )
+                    {
+                        Type = TutorialStep.TutorialStateType.Tip,
+                        spriteId = "server1"
                     }
-                }    
+                }
             );
         }
 

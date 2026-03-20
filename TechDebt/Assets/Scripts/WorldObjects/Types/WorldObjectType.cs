@@ -27,7 +27,12 @@ namespace Infrastructure
             OrgChart,
             WaterCooler,
             CodePipeline,
-            WAF
+            WAF,
+            SecretManager,
+            Cognito,
+            EmailService,
+            CloudWatchMetrics,
+            SNS
         }
         
         public string DisplayName;
