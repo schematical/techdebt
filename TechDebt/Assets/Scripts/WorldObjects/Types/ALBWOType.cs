@@ -1,5 +1,6 @@
 using Infrastructure;
 using System.Collections.Generic;
+using Tutorial;
 using UnityEngine;
 
 public class ALBWOType : WorldObjectType
@@ -13,6 +14,7 @@ public class ALBWOType : WorldObjectType
         DailyCost = 30;
         CanBeUpsized = false;
         ShowInGlobalDisplay = true;
+        TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()

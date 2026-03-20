@@ -24,7 +24,10 @@ namespace Infrastructure
             WhiteBoard,
             KanbanBoard,
             ProductRoadMap,
-            OrgChart
+            OrgChart,
+            WaterCooler,
+            CodePipeline,
+            WAF
         }
         
         public string DisplayName;

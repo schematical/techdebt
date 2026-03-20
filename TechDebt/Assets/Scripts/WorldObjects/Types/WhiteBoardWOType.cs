@@ -1,4 +1,5 @@
 using Infrastructure;
+using Tutorial;
 using UnityEngine;
 
 public class WhiteBoardWOType : WorldObjectType
@@ -8,5 +9,6 @@ public class WhiteBoardWOType : WorldObjectType
         type = WorldObjectType.Type.WhiteBoard;
         DisplayName = "White Board";
         BuildTime = 30;
+        TutorialStepId = TutorialStepId.Infra_WhiteBoard_Tip;
     }
 }

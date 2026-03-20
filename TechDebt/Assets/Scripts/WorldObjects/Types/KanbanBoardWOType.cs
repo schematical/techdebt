@@ -1,4 +1,5 @@
 using Infrastructure;
+using Tutorial;
 using UnityEngine;
 
 public class KanbanBoardWOType : WorldObjectType
@@ -8,5 +9,6 @@ public class KanbanBoardWOType : WorldObjectType
         type = WorldObjectType.Type.KanbanBoard;
         DisplayName = "KanbanBoard";
         BuildTime = 30;
+        TutorialStepId = TutorialStepId.Infra_KanbanBoard_Tip;
     }
 }

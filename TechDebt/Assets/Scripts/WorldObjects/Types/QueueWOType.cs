@@ -1,5 +1,6 @@
 using Infrastructure;
 using System.Collections.Generic;
+using Tutorial;
 using UnityEngine;
 
 public class QueueWOType : WorldObjectType
@@ -13,6 +14,7 @@ public class QueueWOType : WorldObjectType
         DailyCost = 30;
         CanBeUpsized = true;
         ShowInGlobalDisplay = true;
+        TutorialStepId = TutorialStepId.Infra_SQS_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
