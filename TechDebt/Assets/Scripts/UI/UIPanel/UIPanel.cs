@@ -73,6 +73,7 @@ public class UIPanel : UIGameObject
             throw new SystemException($"Some how {prefabId} is null");
         }
         lines.Add(panelLine);
+        panelLine.CleanUp(true);
         panelLine.Initialize(0, this, null);
         panelLine.transform.SetAsLastSibling();
         LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());

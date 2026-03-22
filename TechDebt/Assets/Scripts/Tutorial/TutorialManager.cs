@@ -52,7 +52,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_Door,
                     "Door",
-                    "Your team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day"
+                    "Your team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day. \n" + 
+                    "Don't worry for this part of the Tutorial the clock is not ticking yet."
                 )
                 {
                     getTarget = () =>
@@ -97,7 +98,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Technology_ApplicationServer_Researching,
                     "Speed Up Time",
-                    "To speed things up use the controls in the lower right hand side of the screen to manipulate in game time."
+                    "To speed things up use the controls in the lower right hand side of the screen to manipulate in game time. \n" +
+                    "Once this part of the tutorial is over it will increase the speed of the game clock as well."
                 )
                 {
            // TODO: Make this non blocking. Triggered but increasing the speed.
@@ -114,7 +116,6 @@ namespace Tutorial
                     showContinue = false,
                     getTarget = () =>
                     {
-                        Debug.Log("!!GettingTarget");
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         infrastructureInstance.ShowAttentionIcon();
@@ -221,7 +222,7 @@ namespace Tutorial
                     NextStepId = TutorialStepId.Basics_Economy,
 
                 },
-
+              
                 new TutorialStep(
                     TutorialStepId.Technology_DedicatedDB_Unlocked,
                     "Dedicated DB",
@@ -241,7 +242,9 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_DedicatedDB_Operational,
                     "Dedicated DB",
-                    "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \nThis is because some of the load has been transferred to the hardware you just built.\n Research and build more to keep up with demand."
+                    "Well done! Notice the load costs of certain packets have gone down even further on the server you built earlier. \n" + 
+                    "This is because some of the load has been transferred to the hardware you just built.\n " + 
+                    "Research and build more to keep up with demand."
                 )
                 {
                    
@@ -251,7 +254,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
                         return infrastructureInstance;
                     },
-                    NextStepId = TutorialStepId.Basics_Economy
                 },
                 new TutorialStep(
                     TutorialStepId.Technology_Whiteboard_Unlocked,
@@ -275,6 +277,7 @@ namespace Tutorial
                 )
                 {
                     showContinue = false,
+                    forcePause = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -324,7 +327,7 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.Basics_Economy
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_Bug_Spawn,
@@ -341,7 +344,6 @@ namespace Tutorial
                         return npc;
                     },
                     spriteId = "SchematicalBot",
-                    // NextStepId = TutorialStepId.Basics_Economy,
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_Bug_Dead,
@@ -356,7 +358,7 @@ namespace Tutorial
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
                         return npc;
                     },
-                    spriteId = "SchematicalBot",
+                    NextStepId = TutorialStepId.Basics_Economy
                 },
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_Failed,
@@ -367,9 +369,9 @@ namespace Tutorial
                 )
                 {
                    
-                    NextStepId = TutorialStepId.Basics_Economy
+                    
                 },
-
+               
 
                 new TutorialStep(
                     TutorialStepId.Basics_Economy,
@@ -379,19 +381,19 @@ namespace Tutorial
                     "Keep an eye on it in the UI."
                 )
                 {
-                    unlockConditions = new List<UnlockCondition>()
+                    /*unlockConditions = new List<UnlockCondition>()
                     {
                         new UnlockCondition()
                         {
                             Type = UnlockCondition.ConditionType.TutorialStepState,
-                            TutorialStepID = TutorialStepId.NetworkPacket_Failed
+                            TutorialStepId = TutorialStepId.NetworkPacket_Failed
                         },
                         new UnlockCondition()
                         {
                             Type = UnlockCondition.ConditionType.TutorialStepState,
-                            TutorialStepID = TutorialStepId.Infra_DedicatedDB_Operational
+                            TutorialStepId = TutorialStepId.Infra_DedicatedDB_Operational
                         }
-                    },
+                    },*/
                     getTarget = () =>
                     {
                         NPCBase npc =
@@ -421,8 +423,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Basics_Day,
                     "Day Cycle",
-                    "At the end of each day your team members will exit through the door and you will receive a summary.\n" +
-                    "The clock is now ticking. Good luck!"
+                    "The clock is now ticking! At the end of day you will receive a summary.\n" +
+                    "Keep researching and building to progress the run. Good luck!"
                 )
                 {
                     onTrigger = () =>
@@ -442,7 +444,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("door");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
                 },
 
                 new TutorialStep(
@@ -506,7 +507,7 @@ namespace Tutorial
                         new UnlockCondition()
                         {
                             Type = UnlockCondition.ConditionType.TutorialStepState,
-                            TutorialStepID =  TutorialStepId.NetworkPacket_Failed
+                            TutorialStepId =  TutorialStepId.NetworkPacket_Failed
                         }
                     },*/
                     /*onTrigger = () =>

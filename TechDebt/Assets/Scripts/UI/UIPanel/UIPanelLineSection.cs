@@ -8,10 +8,8 @@ namespace UI
         protected string Id;
         public virtual void Initialize()
         {
-            /*if (options.width != null)
-            {
-                rectTransform.anchorMax = new Vector2(rectTransform.anchorMax.x, options.width);
-            }*/
+            Id = null;
+       
         }
 
         public void SetId(string id)

@@ -63,14 +63,16 @@ namespace UI
             {
                 throw new SystemException($"Cannot find `{prefabId}`'s component of same type");
             }
+            
             section.Initialize();
             section.transform.SetAsLastSibling();
             sections.Add(section);
             return section;
         }
 
-        public void CleanUp()
-        {
+        public void CleanUp(bool setActive = false)
+        {    
+            Debug.Log($"{gameObject.name } -> UIPanelLine CleanUp");
             foreach (UIPanelLineSection section in sections)
             {
                 section.gameObject.SetActive(false);
@@ -83,7 +85,7 @@ namespace UI
             }
             lines.Clear();
             defaultSections.Clear();
-            gameObject.SetActive(false);
+            gameObject.SetActive(setActive);
         }
         public virtual T AddLine<T>()  where T:  UIPanelLine
         {

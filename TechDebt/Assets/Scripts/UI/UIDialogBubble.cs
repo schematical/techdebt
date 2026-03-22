@@ -19,6 +19,7 @@ namespace UI
         {
             CleanUp();
             gameObject.SetActive(true);
+            transform.SetAsFirstSibling();
             panelState = UIState.Open;
         }
 

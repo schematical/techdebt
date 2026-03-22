@@ -13,6 +13,7 @@ public class UIMainMenu : UIPanel
     {
         base.Show();
         GameManager.Instance.UIManager.Block();
+        Debug.Log("UIMainMenu Show");
         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{Application.version}";
         AddButton("New Game", NewGame);
         AddButton("Challenges", ShowChallengesPanel);

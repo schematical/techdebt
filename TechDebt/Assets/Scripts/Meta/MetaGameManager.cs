@@ -408,7 +408,24 @@ public static class MetaGameManager
                 DisplayName = "Cognito User Pools",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    }
+                },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_Cognito_Tip
@@ -420,7 +437,24 @@ public static class MetaGameManager
                 DisplayName = "Code Pipeline",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    }
+                },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_CodePipeline_Tip
@@ -457,7 +491,24 @@ public static class MetaGameManager
                 Description = "",
                 Direction = Technology.TechTreeDirection.Down,
                 ResearchTime = 200,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    }
+                },
                 TutorialStepId = TutorialStepId.Infra_CloudWatchMetrics_Tip
                 // ???
             },
