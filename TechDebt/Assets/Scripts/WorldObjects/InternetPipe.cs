@@ -65,4 +65,16 @@ public class InternetPipe : InfrastructureInstance
 
       
     }
+    
+    public override Vector3 GetInteractionPosition(InteractionType interactionType =  InteractionType.Basic)
+    {
+        switch (interactionType)
+        {
+            case(InteractionType.Explain):
+                return transform.position + new Vector3(3, 2, 0);
+            default:
+               return base.GetInteractionPosition(interactionType);
+        }
+        
+    }
 }

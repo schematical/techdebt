@@ -8439,9 +8439,12 @@ MonoBehaviour:
     worldObjectType: 10
     Prefab: {fileID: 4034698048289930824, guid: 3455b08c756d94f49b083b56b9d29282, type: 3}
     GridPosition: {x: 50, y: 50, z: 0}
-    InitialState: 3
-    CurrentState: 3
-    UnlockConditions: []
+    InitialState: 0
+    CurrentState: 0
+    UnlockConditions:
+    - Type: 1
+      SprintNumber: 2
+      TechnologyID: 
   - Id: desk
     worldObjectType: 10
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}

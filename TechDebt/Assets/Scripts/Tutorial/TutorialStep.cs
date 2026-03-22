@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using NPCs;
 using Tutorial;
@@ -36,13 +37,30 @@ namespace Tutorial
         public UnityAction onFinish = null;
         public TutorialStepId NextStepId = TutorialStepId.None;
         public bool forcePause = true;
- 
+        public bool showContinue = true;
+        public List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
+        
+
 
         public TutorialStep(TutorialStepId id, string name, string description)
         {
             Id = id;
             Name = name;
             Description = description;
+        }
+
+        public bool CanBeTriggered()
+        {
+            return unlockConditions.All((condition => condition.IsUnlocked()));
+        }
+
+        public bool IsBlocking()
+        {
+            if (State == TutorialStepState.Completed)
+            {
+                return false;
+            }
+            return showContinue;
         }
 
         public virtual NPCBase GetSpeaker()
@@ -83,7 +101,7 @@ namespace Tutorial
             {
                 // GameManager.Instance.cameraController
                     // .ZoomToAndFollow(getTarget()); // TargetSelector.GetTransform());
-                    npc.AssignTask(
+                    GameManager.Instance.AddTask(
                         new TutorialMoveToTask(this)    
                     );
             }
@@ -95,6 +113,7 @@ namespace Tutorial
                     () =>
                     {
                         npc.HideDialogBubble();
+                        GameManager.Instance.cameraController.StopFollowing();
                         option.OnClick.Invoke();
                     }
                 );
@@ -108,6 +127,10 @@ namespace Tutorial
 
         public virtual List<DialogButtonOption> GetDialogOptions()
         {
+            if (!showContinue)
+            {
+                return new List<DialogButtonOption>();
+            }
             return new List<DialogButtonOption>()
             {
                 new DialogButtonOption()
@@ -150,7 +173,7 @@ namespace Tutorial
             {
                 onFinish.Invoke();
             }
-            State = TutorialStepState.Completed;
+            MarkCompleted();
             GameManager.Instance.TutorialManager.Next(NextStepId);
         }
 
@@ -167,6 +190,18 @@ namespace Tutorial
                 onTrigger.Invoke();
             }
             Render();
+        }
+
+        public void MarkCompleted()
+        {
+            switch (State)
+            {
+                case(TutorialStepState.InProgress):
+                    State =  TutorialStepState.Completed;
+                    break;
+                default:
+                    throw new SystemException($"Invalid state trasition from {State} to Completed");
+            }
         }
     }
 }

@@ -11,15 +11,7 @@ namespace Tutorial.Steps
             onTrigger = () =>
             {
                 GameManager.Instance.HideAllAttentionIcons();
-                InfrastructureInstance server = GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                GameObject sGO = GameManager.Instance.prefabManager.Create("SchematicalBot",
-                    server.transform.position + new Vector3(4, 0));
-                NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
-                schematicalBot.Initialize();
-                NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
-                bossNPC.transform.position = GameManager.Instance.GetInfrastructureInstanceByID("boss-desk")
-                    .GetInteractionPosition();
-                bossNPC.gameObject.SetActive(true);
+                
             };
         }
 

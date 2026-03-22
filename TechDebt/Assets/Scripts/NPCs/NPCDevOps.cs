@@ -39,6 +39,12 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_ResearchSpeed, 1f));
     }
 
+    public override void OnPlanPhaseStart()
+    {
+        base.OnPlanPhaseStart();
+        transform.position = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
+        gameObject.SetActive(false);
+    }
 
     public override void AddXP(float amount = 1)
     {

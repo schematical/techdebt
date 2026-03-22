@@ -1,1 +1,1 @@
-public enum InteractionType { Basic, Block, Consume }
+public enum InteractionType { Basic, Block, Consume, Explain }

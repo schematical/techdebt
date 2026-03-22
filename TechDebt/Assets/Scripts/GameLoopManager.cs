@@ -21,7 +21,7 @@ public class GameLoopManager : MonoBehaviour
     public GameState CurrentState { get; set; }
 
     protected float DayDurationSeconds = 120f;
-    public bool playTimerActive = true;
+    private bool playTimerActive = true;
     protected int currentDay = 0;
     public float dayTimer = 0f;
     public float dailyPacketIncome = 0f;
@@ -31,6 +31,11 @@ public class GameLoopManager : MonoBehaviour
         return currentDay;
     }
 
+    public void SetPlayTimerActive(bool active)
+    {
+        Debug.Log("SetPlayTimerActive: " + active);
+        playTimerActive = active;
+    }
     public int GetDaysLeftInSprint()
     {
         return GameManager.Instance.Map.GetCurrentLevel().SprintDuration - currentDay;
@@ -69,27 +74,16 @@ public class GameLoopManager : MonoBehaviour
         dailyPacketIncome = 0;
         GameManager.Instance.UIManager.Resume();
         CurrentState = GameState.Plan;
-        Vector3 vector3 = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
+        
         foreach (NPCBase npc in GameManager.Instance.AllNpcs)
         {
             if (npc.gameObject.activeInHierarchy)
             {
-                if (
-                    npc.GetComponent<BossNPC>() != null &&
-                    GameManager.Instance.TutorialManager != null
-                    )
-                {
-                    continue;
-                }
-
                 if (npc.IsDead())
                 {
                     continue;
                 }
                 npc.OnPlanPhaseStart();
-                npc.transform.position = vector3;
-                npc.gameObject.SetActive(false);
-          
             }
         }
 
@@ -269,7 +263,7 @@ public class GameLoopManager : MonoBehaviour
     public void Reset()
     {
         currentDay = 0;
-        playTimerActive = true;
+        // SetPlayTimerActive(true);
         CurrentState = GameState.Plan;
     }
 
@@ -277,7 +271,7 @@ public class GameLoopManager : MonoBehaviour
     {
         
         Reset();
-        playTimerActive = false;
+        SetPlayTimerActive(false);
         BeginPlayPhase();
     }
 }

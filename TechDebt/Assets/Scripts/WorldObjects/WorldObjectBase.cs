@@ -154,6 +154,8 @@ namespace Infrastructure
                     Vector3 rPos = GameManager.Instance.gridManager.grid.CellToWorld(destPos);
                     // Debug.Log($"{gameObject.name} - transform.position: {transform.position} - cellPos: {cellPos} - destPos: {destPos} - rPos: {rPos}");
                     return rPos;
+                case(InteractionType.Explain):
+                    return transform.position + new Vector3(2, 0, 0);
                 default:
                     throw new System.NotImplementedException();
             }

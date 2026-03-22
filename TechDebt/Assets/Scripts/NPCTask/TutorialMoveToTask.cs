@@ -8,32 +8,47 @@ public class TutorialMoveToTask : NPCTask
     public TutorialMoveToTask(TutorialStep tutorialStep) : base(tutorialStep.getTarget())
     {
         this.tutorialStep = tutorialStep;
+        Role = TaskRole.SchematicalBot;
         Priority = 10; // High priority
-        Debug.Log("TutorialMoveToTask constructed.");
+        interactionType = InteractionType.Explain;
+        maxTaskRange = 0.25f;
+        Debug.Log($"TutorialMoveToTask constructed: {tutorialStep.Id}");
     }
 
     public override void OnUpdate(NPCBase npc)
     {
-        Debug.Log("TutorialMoveToTask:OnUpdate.");
+       
         if (IsCloseEnough())
         {
-          
-                Debug.LogWarning("Introduce stuff.");
-            
- 
+
+            return;
+
+
         }
+        npc.MoveTo(target.GetInteractionPosition(interactionType));
     }
 
     public override bool IsFinished(NPCBase npc)
     {       
-        Debug.Log($"{GetType().Name}:: IsFinished - {tutorialStep.State} = {tutorialStep.State == TutorialStep.TutorialStepState.Completed}");
+        
         return tutorialStep.State == TutorialStep.TutorialStepState.Completed;
     }
 
     public override void OnEnd(NPCBase npc)
     {       
-        Debug.Log($"{GetType().Name}:: OnEnd");
+        Debug.Log($"{GetType().Name}::{tutorialStep.Id} IsFinished - {tutorialStep.State} = {tutorialStep.State == TutorialStep.TutorialStepState.Completed}");
+
         base.OnEnd(npc);
         CurrentState = State.Completed;
+    }
+    public override string GetDescription()
+    {
+        string description = $"{GetType()} - State: {CurrentState} " +
+                             $"{target.name} - Tutorial Step: {tutorialStep.Id} - {tutorialStep.State}";
+        if (AssignedNPC != null) {
+            description += $"isCloseEnough`: {IsCloseEnough()} - " +
+                           $" Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
+        }
+        return description;
     }
 }

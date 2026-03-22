@@ -66,6 +66,10 @@ public class CameraController : MonoBehaviour
     
     public void ZoomTo(Transform target, UnityAction _onZoomDone = null)
     {
+        if (_hasSnapSavedState)
+        {
+            RestoreSnap();
+        }
         StopFollowing(); // Stop any current following
         
         _isZooming = true;

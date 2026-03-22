@@ -379,7 +379,11 @@ public class GameManager : MonoBehaviour, iModifiable
         Reset();
         
         Initialize();
+
+        
         SetupRun();
+        TutorialManager = new TutorialManager();
+        TutorialManager.Start();
         UpdateInfrastructureVisibility();
         InfrastructureUpdateNetworkTargets();
   
@@ -387,6 +391,7 @@ public class GameManager : MonoBehaviour, iModifiable
         UIManager.ShowGameUI();
 
         HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+     
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
         {
@@ -396,8 +401,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {*/
             Map.GetCurrentStage().SetSelectedLevel(0);
             GameLoopManager.BeginPlanPhase();
-            TutorialManager = new TutorialManager();
-            TutorialManager.Start();
+       
         // }
     }
     public void StartDemo()
@@ -893,7 +897,7 @@ public class GameManager : MonoBehaviour, iModifiable
             }
             
         }
-        InfrastructureInstance bossDesk = GetInfrastructureInstanceByID("boss-desk");
+        /*InfrastructureInstance bossDesk = GetInfrastructureInstanceByID("boss-desk");
         if (bossDesk != null)
         {
             GameObject npcGO = prefabManager.Create("BossNPC", bossDesk.GetInteractionPosition());
@@ -904,8 +908,13 @@ public class GameManager : MonoBehaviour, iModifiable
         else
         {
             Debug.LogError("Could not find 'boss-desk to spawn BossNPC.");
-        }
+        }*/
         InfrastructureInstance desk = GetInfrastructureInstanceByID("desk");
+        GameObject sGO = prefabManager.Create("SchematicalBot",
+            desk.transform.position + new Vector3(-4, 0));
+        NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
+        schematicalBot.Initialize();
+  
         cameraController.ZoomTo(desk.transform);
         
       

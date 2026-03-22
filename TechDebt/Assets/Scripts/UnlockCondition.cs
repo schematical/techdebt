@@ -1,15 +1,18 @@
 // UnlockCondition.cs
 using System;
+using Tutorial;
 
 [Serializable]
 public class UnlockCondition
 {
 
-    public enum ConditionType { Technology, SprintGreaterOrEqual, Tutorial }
+    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState }
 
     public ConditionType Type;
     public int SprintNumber;
     public string TechnologyID;
+    public TutorialStepId TutorialStepID = TutorialStepId.None;
+    public TutorialStep.TutorialStepState TutorialStepState = TutorialStep.TutorialStepState.Completed;
 
     public bool IsUnlocked()
     {
@@ -27,6 +30,13 @@ public class UnlockCondition
                     return false;
                 }
                 return true;
+            case(ConditionType.TutorialStepState):
+                if (TutorialStepID == TutorialStepId.None)
+                {
+                    throw new SystemException("Invalid tutorial step state");
+                }
+
+                return GameManager.Instance.TutorialManager.GetStep(TutorialStepID).State == TutorialStepState;
             case(ConditionType.SprintGreaterOrEqual):
                 return GameManager.Instance.Map.GetCurrentStage().StageNumber >= SprintNumber;
             default:
@@ -41,7 +51,9 @@ public class UnlockCondition
             case(ConditionType.Technology):
                 return GameManager.Instance.GetTechnologyByID(TechnologyID).DisplayName;
             case(ConditionType.SprintGreaterOrEqual):
-                return$"Sprint {SprintNumber} Or Greater";
+                return$"Sprint {SprintNumber} Or Greater";   
+            case(ConditionType.TutorialStepState):
+                return$"Tutorial Step {TutorialStepID} is {TutorialStepState}";
             default:
                 throw new NotImplementedException();
         }

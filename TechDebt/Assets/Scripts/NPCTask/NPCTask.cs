@@ -37,7 +37,7 @@ public abstract class NPCTask
     protected InteractionType interactionType = InteractionType.Basic;
    
 
-    public TaskRole Role { get; private set; } = TaskRole.DevOps;
+    public TaskRole Role { get; protected set; } = TaskRole.DevOps;
 
     public NPCTask(iTargetable target = null, int priority = 5)
     {
@@ -144,6 +144,6 @@ public abstract class NPCTask
             description += " No Assigned NPC";
         }*/
         return description;
-}
+    }
 
 }

@@ -199,6 +199,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         if (CurrentTask != null)
         {
+            Debug.Log($"{gameObject.name}: Interrupting CurrentTask {CurrentTask.GetType().Name}");
             CurrentTask.OnInterrupt();
         }
         HideProgressBar();
@@ -295,7 +296,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         StopMovement();
         CurrentState = State.Idle;
     }
-    public void OnPlanPhaseStart()
+    public virtual void OnPlanPhaseStart()
     {
         
         if (CurrentTask != null)

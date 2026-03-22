@@ -12,10 +12,6 @@ namespace NPCs
         {
             base.Initialize();
             _hangOutAt = GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
-            if (_hangOutAt == null)
-            {
-                Debug.LogError("BossNPC: Could not find 'boss-desk'. Boss will wander.");
-            }
         }
 
         public override void OnLeftClick(PointerEventData eventData)

@@ -13,7 +13,7 @@ namespace UI
         private NPCBase _selectedNPC;
         // public UITextArea textArea; // Removed to use AddLine instead
         private List<UIPanelLineSectionButton> _taskButtons = new List<UIPanelLineSectionButton>();
-
+        private UIPanelLineSectionText tasksLineText;
         void Start()
         {
             followButton.onClick.AddListener(() =>
@@ -49,17 +49,8 @@ namespace UI
 
             // State
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {_selectedNPC.CurrentState}";
-
-            // Task
-            if (_selectedNPC.CurrentTask != null)
-            {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Task: {_selectedNPC.CurrentTask.GetDescription()}";
-            }
-            else
-            {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Task: None";
-            }
-
+            tasksLineText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+          
             // Stats
             UIStatCollectionPanelLine statsLine = AddLine<UIStatCollectionPanelLine>();
             statsLine.SetStatCollection(_selectedNPC.Stats, "Stats");
@@ -82,8 +73,16 @@ namespace UI
         {
             base.Update();
             if (_selectedNPC == null) return;
+            
+            if (_selectedNPC.CurrentTask != null)
+            {
+                tasksLineText.text.text = $"Task: {_selectedNPC.CurrentTask.GetDescription()}";
+            }
+            else
+            {
+                tasksLineText.text.text = "Task: None";
+            }
 
-            // Removed textArea update logic
         }
         public override void Close(bool forceClose = false)
         {

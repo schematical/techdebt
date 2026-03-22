@@ -58,7 +58,7 @@ namespace Tutorial
                 botSprite = schematicalBot.GetComponent<SpriteRenderer>().sprite;
             }
 
-            GameManager.Instance.GameLoopManager.playTimerActive = false;
+            // GameManager.Instance.GameLoopManager.playTimerActive = false;
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
             GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
             GameManager.OnPhaseChange += HandlePhaseChange;
@@ -492,7 +492,7 @@ namespace Tutorial
             {
                 GameManager.Instance.GetInfrastructureInstanceByID("server1").ZoomTo();
             }
-            GameManager.Instance.GameLoopManager.playTimerActive = true;
+            // GameManager.Instance.GameLoopManager.playTimerActive = true;
 
             base.End();
         }
