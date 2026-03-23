@@ -31,11 +31,11 @@ namespace Tutorial
                     "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit."
                 )
                 {
-                    NextStepId = TutorialStepId.Infra_Door,
+                    NextStepId = TutorialStepId.NPC_Consultant,
                     forcePause = false
                 },
                 new TutorialStep(
-                    TutorialStepId.NPC_PreConsultant,
+                    TutorialStepId.NPC_Consultant,
                     "Help",
                     "I am here guide you as you spin up your server infrastructure so you can run your company."
                 )
@@ -47,15 +47,17 @@ namespace Tutorial
                         return door;
                     },
                     forcePause = false,
-                    NextStepId = TutorialStepId.NPC_Consultant
+                    NextStepId = TutorialStepId.Infra_Door
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_Door,
                     "Door",
-                    "Your team will enter via this door at the beginning of the day and exit at the end of the day. Click 'Start Day' to start your day. \n" + 
-                    "Don't worry for this part of the Tutorial the clock is not ticking yet."
+                    "Your team will enter via this door at the beginning of the day and exit at the end of the day. \n" + 
+                    "Don't worry for this part of the Tutorial the clock is not ticking yet. \n" + 
+                    "Click 'Start Day' to start your day. "
                 )
                 {
+                    showContinue = false,
                     getTarget = () =>
                     {
                         WorldObjectBase door =
@@ -193,7 +195,7 @@ namespace Tutorial
                         NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
                         NetworkPacket networkPacket = pipe.SendPacket(data);
-                        return networkPacket;
+                        return pipe;
                     },
                     spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.NetworkPacket_BinaryImage
@@ -216,7 +218,7 @@ namespace Tutorial
                         NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
                         NetworkPacket networkPacket = pipe.SendPacket(data);
-                        return networkPacket;
+                        return pipe;
                     },
                    
                     NextStepId = TutorialStepId.Basics_Economy,

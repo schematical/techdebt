@@ -185,6 +185,7 @@ namespace Tutorial
                 return;
             }
             NPCBase npc = GetSpeaker();
+            npc.gameObject.SetActive(true);
             GameManager.Instance.cameraController
                 .ZoomToAndFollow(npc.transform);
             GameManager.Instance.AddTask(

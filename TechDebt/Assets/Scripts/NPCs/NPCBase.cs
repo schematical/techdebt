@@ -105,21 +105,25 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     protected virtual void FixedUpdate()
     {
-        if (
-            
-            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
-            GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire
-         )   
+        if (respectPause)
         {
-            HideAttentionIcon();
-            return;
-        }
-        if(
-            respectPause && 
-            GameManager.Instance.UIManager.IsPausedState()
-        )
-        {
-            return;
+            if (
+
+                GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play &&
+                GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.WaitingForNpcsToExpire
+            )
+            {
+                HideAttentionIcon();
+                return;
+            }
+
+            if (
+
+                GameManager.Instance.UIManager.IsPausedState()
+            )
+            {
+                return;
+            }
         }
 
         if (CurrentState == State.Dead)

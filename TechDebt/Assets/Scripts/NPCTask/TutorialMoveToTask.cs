@@ -27,8 +27,6 @@ public class TutorialMoveToTask : NPCTask
                 tutorialStep.Render();
             }
             return;
-
-
         }
         npc.MoveTo(target.GetInteractionPosition(interactionType));
     }
