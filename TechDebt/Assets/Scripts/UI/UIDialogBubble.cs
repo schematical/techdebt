@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -21,6 +22,36 @@ namespace UI
             gameObject.SetActive(true);
             transform.SetAsFirstSibling();
             panelState = UIState.Open;
+        }
+
+        public void SimpleDisplay(string description, List<DialogButtonOption> options = null)
+        {
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = description;
+
+            if (options != null)
+            {
+                options = new List<DialogButtonOption>()
+                {
+                    new DialogButtonOption()
+                    {
+                        Text = "Continue", 
+                        OnClick = () =>
+                        {
+                            Close();
+                        }
+                    },
+                };
+            }
+            foreach (DialogButtonOption option in options)
+            {
+                AddButton(
+                    option.Text,
+                    () =>
+                    {
+                        option.OnClick.Invoke();
+                    }
+                );
+            }
         }
 
         public void SetTarget(NPCBase target)

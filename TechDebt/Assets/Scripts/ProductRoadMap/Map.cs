@@ -500,15 +500,16 @@ public class MapLevel
        }
        GameManager.Instance.InfrastructureUpdateNetworkTargets();
    }
-   public virtual void EndGame(string dialog = "You have failed to keep our infrastructure up and running with in our budget. You are fired!")
+   public virtual void EndGame(string dialog = "You ran out of money. Want to try again?")
    {
     
        GameManager.Instance.UIManager.SetTimeScalePause();
-       NPCBase bossNPC = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<BossNPC>() != null);
-       GameManager.Instance.cameraController.ZoomToAndFollow(bossNPC.transform);
+      
        GameManager.Instance.UpdateMetaProgress();
-       GameManager.Instance.UIManager.ShowNPCDialog(
-           GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+       
+       NPCBase npc =
+           GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+       npc.ShowDialogBubble().SimpleDisplay(
            dialog,
            new List<DialogButtonOption>()
            {
@@ -519,11 +520,11 @@ public class MapLevel
                },
                new DialogButtonOption() { Text = "Main Menu", OnClick = () =>
                    {
-                         GameManager.Instance.ShowMainMenu();
+                       GameManager.Instance.ShowMainMenu();
                    }
                },
            }
-       );
+           );
    }
 
    public MapStage GetStage()

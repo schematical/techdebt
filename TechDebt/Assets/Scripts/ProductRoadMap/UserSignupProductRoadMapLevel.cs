@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using DefaultNamespace.Rewards;
+using NPCs;
 using Stats;
 using UI;
 using UnityEngine;
@@ -39,8 +40,9 @@ public class UserSignupProductRoadMapLevel: MapLevel
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+        NPCBase npc =
+            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ShowDialogBubble().SimpleDisplay(
             "Great work. " + (!IsLaunchDay() ? " Some signups will trickle in for now but on Launch Day you will see a lot more." : " Just in the nick of time.")
         );
     }
@@ -87,8 +89,9 @@ public class UserSignupProductRoadMapLevel: MapLevel
 
     public override void OnStartDayPlan()
     {
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+        NPCBase npc =
+            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ShowDialogBubble().SimpleDisplay(
             "Hey! This sprint we to allow users to Sign Up. Be careful handling Personally Identifiable Information(PII). If that gets leaked were in big trouble."
         );
         base.OnStartDayPlan();
@@ -96,8 +99,9 @@ public class UserSignupProductRoadMapLevel: MapLevel
     }
     public override void OnLaunchDayPlan()
     {
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+        NPCBase npc =
+            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ShowDialogBubble().SimpleDisplay(
             "Today is launch day!  \n Expect extra traffic."
         );
 

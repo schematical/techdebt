@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using NPCs;
 using Stats;
 using Tutorial;
 using UI;
@@ -44,9 +45,9 @@ public class LaunchMapLevel: MapLevel
             !GameManager.Instance.TutorialManager.IsActive()
         )
         {
-            Debug.Log("GameManager.Instance.TutorialManager: " + GameManager.Instance.TutorialManager.State);
-            GameManager.Instance.UIManager.ShowNPCDialog(
-                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+            NPCBase npc =
+                GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+            npc.ShowDialogBubble().SimpleDisplay(
                 "Hey! This sprint we need to get up and running. At the end of the sprint we will run a bit launch campaign that will drive a lot more traffic. Make sure our infrastructure can handle it."
             );
         }
@@ -65,8 +66,9 @@ public class LaunchMapLevel: MapLevel
             !GameManager.Instance.TutorialManager.IsActive()
         )
         {
-            GameManager.Instance.UIManager.ShowNPCDialog(
-                GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+            NPCBase npc =
+                GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+            npc.ShowDialogBubble().SimpleDisplay(
                 "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
             );
         }
@@ -74,17 +76,7 @@ public class LaunchMapLevel: MapLevel
         {
             GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NetworkPacket_Purchase);
         }
-
         
-       
-        
-        /*StatModifier launchDayTrafficModifier = new StatModifier("launch_day_traffic", 2f);
-        GameManager.Instance.Stats.AddModifier(StatType.Traffic, launchDayTrafficModifier);
-        StatModifiers[ModifierType.LaunchDay].Add(launchDayTrafficModifier);
-
-        networkPacketData.Stats.AddModifier(StatType.NetworkPacket_Probibility, launchDayPurchaseModifier);
-        StatModifiers[ModifierType.LaunchDay].Add(launchDayPurchaseModifier);
-        GameManager.Instance.InfrastructureUpdateNetworkTargets();*/
         base.OnLaunchDayPlan();
     }
 
