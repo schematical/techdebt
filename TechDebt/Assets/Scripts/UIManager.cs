@@ -303,10 +303,10 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        // if (newState != TimeState.Paused)
-        // {
-        _timeStateBeforePause = newState;
-        // }
+        if (newState != TimeState.Paused)
+        {
+            _timeStateBeforePause = newState;
+        }
 
      
         Time.timeScale = newTimeScale;

@@ -499,6 +499,12 @@ public class GameManager : MonoBehaviour, iModifiable
     private void FixedUpdate()
     {
         if (GameLoopManager.CurrentState != GameLoopManager.GameState.Play) return;
+        if (
+            UIManager.IsPausedState()
+        )
+        {
+            return;
+        }
       
         // Iterate over a copy of the list to prevent modification during enumeration errors.
         foreach (EffectBase effect in Effects.ToList())
@@ -507,8 +513,6 @@ public class GameManager : MonoBehaviour, iModifiable
         }
 
         TickNetworkPackets();
-        
-    
 
         // Delivery NPC Spawning Logic
         float techDebtAccumulationRate = GetStatValue(StatType.TechDebt_AccumulationRate);

@@ -12,8 +12,15 @@ public class DeliveryNPC : NPCBase
         // It should never pull from the main task queue.
     }
 
-    protected override void FixedUpdate()
+    /*protected override void FixedUpdate()
     {
+        if (
+
+            GameManager.Instance.UIManager.IsPausedState()
+        )
+        {
+            return;
+        }
         HandleMovement();
 
         if (CurrentState == State.ExecutingTask && CurrentTask != null)
@@ -26,7 +33,7 @@ public class DeliveryNPC : NPCBase
                 CurrentState = State.Idle;
             }
         }
-    }
+    }*/
 
     public override bool CanAssignTask(NPCTask task)
     {

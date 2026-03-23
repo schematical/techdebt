@@ -329,6 +329,7 @@ namespace Tutorial
                     "You can only focus on one release at a time right now."
                 )
                 {
+                    showContinue = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -591,8 +592,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
-                    // NextStepId = TutorialStepId.NPC_LevelUp_Pending
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_LevelUp_Pending,
