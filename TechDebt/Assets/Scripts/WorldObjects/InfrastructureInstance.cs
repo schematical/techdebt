@@ -41,6 +41,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public virtual void FixedUpdate()
     {
+        if (GameManager.Instance.UIManager.IsPausedState())
+        {
+            return;
+        }
         if (data.CurrentState == InfrastructureData.State.Operational)
         {
             CurrentLoad -= GetWorldObjectType().Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * Time.fixedDeltaTime;
@@ -616,14 +620,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     {
         return data.CurrentState == InfrastructureData.State.Frozen;
     }
-    public override void UpdateFootPrint()
-    {
-            
-        foreach (Vector3Int pos in GetFootPrint())
-        {
-            GameManager.Instance.gridManager.UpdateTileState(Vector3Int.FloorToInt(GridPosition + pos), !IsActive());
-        }
-    }
+   
 
     public float GetDailyCost()
     {

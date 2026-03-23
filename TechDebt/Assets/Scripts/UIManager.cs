@@ -281,7 +281,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.UIManager.SetTimeState(UIManager.TimeState.SuperFast, setDesired);
     }
 
-    public void SetTimeState(TimeState newState, bool setDesired = false)
+    public void SetTimeState(TimeState newState,  bool setDesired = false)
     {
         
         _currentTimeState = newState;
@@ -290,7 +290,7 @@ public class UIManager : MonoBehaviour
         switch (newState)
         {
             case TimeState.Paused:
-                newTimeScale = 0f;
+                newTimeScale = 1f;
                 break;
             case TimeState.Normal:
                 newTimeScale = 1f;
@@ -303,10 +303,10 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        if (newState != TimeState.Paused)
-        {
-            _timeStateBeforePause = newState;
-        }
+        // if (newState != TimeState.Paused)
+        // {
+        _timeStateBeforePause = newState;
+        // }
 
      
         Time.timeScale = newTimeScale;
@@ -317,6 +317,10 @@ public class UIManager : MonoBehaviour
         timeControlPanel.UpdateTimeScaleButtons();
     }
 
+    public bool IsPausedState()
+    {
+        return _currentTimeState == TimeState.Paused;
+    }
     public void ShowPlanUI()
     {
         Close();

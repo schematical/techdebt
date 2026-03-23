@@ -125,23 +125,8 @@ namespace Infrastructure
           
         }
 
-        public virtual void UpdateFootPrint()
-        {
-            
-            foreach (Vector3Int pos in GetFootPrint())
-            {
-                GameManager.Instance.gridManager.UpdateTileState(Vector3Int.FloorToInt(GridPosition + pos), true);
-            }
-        }
 
-        public List<Vector3Int> GetFootPrint()
-        {
-            return new List<Vector3Int>()
-            {
-                new Vector3Int(0, 0)
-            };
-        }
-
+        
         public virtual Vector3 GetInteractionPosition(InteractionType interactionType =  InteractionType.Basic)
         {
             switch (interactionType)

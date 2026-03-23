@@ -77,6 +77,10 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     }
      protected virtual void FixedUpdate()
     {
+        if (GameManager.Instance.UIManager.IsPausedState())
+        {
+            return;
+        }
         if (GameManager.Instance.NetworkPacketState == GameManager.GlobalNetworkPacketState.Frozen)
         {
             return;

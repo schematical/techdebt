@@ -29,6 +29,10 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
 
     public override void FixedUpdate()
     {
+        if (GameManager.Instance.UIManager.IsPausedState())
+        {
+            return;
+        }
         if (!IsActive())
         {
             return;

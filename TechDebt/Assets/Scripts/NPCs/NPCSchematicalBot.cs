@@ -12,6 +12,7 @@ namespace NPCs
         public override void Initialize()
         {
             base.Initialize();
+            respectPause = false;
             _hangOutAt = GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
         }
 

@@ -42,6 +42,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public enum CoolDownType { Attack, Consume }
     protected Dictionary<CoolDownType, float> coolDowns = new Dictionary<CoolDownType, float>();
     protected UIProgressBarPanel progressBar;
+    protected bool respectPause = true;
     
     void Awake()
     {
@@ -114,7 +115,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             return;
         }
         if(
-            GameManager.Instance.UIManager.GetCurrentTimeState() == UIManager.TimeState.Paused
+            respectPause && 
+            GameManager.Instance.UIManager.IsPausedState()
         )
         {
             return;

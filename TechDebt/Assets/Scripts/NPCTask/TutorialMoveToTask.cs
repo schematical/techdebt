@@ -23,6 +23,7 @@ public class TutorialMoveToTask : NPCTask
         {
             if (!hasTriggeredCloseEnough)
             {
+                hasTriggeredCloseEnough = true;
                 tutorialStep.Render();
             }
             return;
