@@ -1,6 +1,7 @@
 // ResizeTask.cs
 
 using Effects.Infrastructure;
+using Tutorial;
 using UnityEngine;
 
 public class ResizeTask : InfrastructureTaskBase
@@ -65,6 +66,15 @@ public class ResizeTask : InfrastructureTaskBase
             return "Upsize";
         }
         throw new System.Exception($"Invalid Size: {SizeChange}");
+    }
+    public override void OnQueued()
+    {
+        if (GameManager.Instance.TutorialManager != null)
+        {
+            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.Task_Resize_Queued);
+        }
+
+        base.OnQueued();
     }
   
 }

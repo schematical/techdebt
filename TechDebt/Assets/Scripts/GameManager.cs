@@ -583,18 +583,7 @@ public class GameManager : MonoBehaviour, iModifiable
         return npcBug;
     }
 
-    public bool HasOpenBugs()
-    {
-        foreach (ReleaseBase releaseBase in Releases)
-        {
-            if (releaseBase.HasOpenBugs())
-            {
-                return true;
-            }
-        }
 
-        return false;
-    }
 
     private void Initialize()
     {

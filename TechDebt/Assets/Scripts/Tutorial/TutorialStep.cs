@@ -56,6 +56,7 @@ namespace Tutorial
 
         public bool IsBlocking()
         {
+            
             if (State == TutorialStepState.Completed)
             {
                 return false;

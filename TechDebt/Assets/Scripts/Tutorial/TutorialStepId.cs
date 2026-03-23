@@ -63,6 +63,8 @@ namespace Tutorial
         Infra_Cognito_Tip,
         Infra_EmailService_Tip,
         Infra_CloudWatchMetrics_Tip,
-        Infra_SNS_Tip
+        Infra_SNS_Tip,
+        Task_FixFrozen_Queued,
+        Task_Resize_Queued
     }
 }

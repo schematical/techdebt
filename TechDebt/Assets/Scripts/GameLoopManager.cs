@@ -46,7 +46,7 @@ public class GameLoopManager : MonoBehaviour
             case GameState.Play:
                 if (
                     playTimerActive && 
-                    GameManager.Instance.UIManager.IsPausedState()
+                    !GameManager.Instance.UIManager.IsPausedState()
                 )
                 {
                     dayTimer += Time.deltaTime;

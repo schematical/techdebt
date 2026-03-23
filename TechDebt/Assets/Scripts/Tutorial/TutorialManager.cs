@@ -190,10 +190,6 @@ namespace Tutorial
                 )
                 {
                     forcePause = false,
-                    onTrigger = () =>
-                    {
-                        GameManager.Instance.UIManager.SetTimeScalePlay();  
-                    },
                     getTarget = () =>
                     {
                         InternetPipe pipe =
@@ -213,10 +209,6 @@ namespace Tutorial
                 )
                 {
                     forcePause = false,
-                    onTrigger = () =>
-                    {
-                        GameManager.Instance.UIManager.SetTimeScalePlay();  
-                    },
                     getTarget = () =>
                     {
                         InternetPipe pipe =
@@ -315,6 +307,8 @@ namespace Tutorial
                     "Use Meta Challenges to unlock technologies that will automate this for you in the future."
                 )
                 {
+                    showContinue = false,
+                    forcePause = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -325,8 +319,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Release_DeploymentRewardReady,
                     "Deployment Reward",
-                    "Well done. Now you will receive the rewards that release unlocked. \n" +
-                    "You can only focus on one release at a time right now."
+                    "Well done. Depending on the skill level of the engineers that worked on the release your reward will be assigned a higher rarity.  \n" +
+                    "Click 'Deployment Complete' to find out the rarity of your reward"
                 )
                 {
                     showContinue = false,
@@ -339,20 +333,32 @@ namespace Tutorial
                     NextStepId = TutorialStepId.Basics_Economy
                 },
                 new TutorialStep(
-                    TutorialStepId.NPC_Bug_Spawn,
-                    "A Bug!",
-                    "A bug was introduced in the last release \n" +
-                    "You can choose to `Debug` it now by clicking on it or leave it for now. \n" +
-                    "Be careful though, bugs left in production have consequences."
+                    TutorialStepId.Release_DeploymentCompleted,
+                    "Deployment Completed",
+                    "That reward will now be applied to improve your server infrastructure."
                 )
                 {
                     getTarget = () =>
                     {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        return infrastructureInstance;
+                    },
+                },
+                new TutorialStep(
+                    TutorialStepId.NPC_Bug_Spawn,
+                    "A Bug!",
+                    "A bug was introduced in the last release. Try to find it. \n" +
+                    "You can choose to `Debug` it now by clicking on it or leave it for now. \n" +
+                    "Be careful though, bugs left in production have consequences."
+                )
+                {
+                    /*getTarget = () =>
+                    {
                         NPCBase npc =
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
                         return npc;
-                    },
-                    spriteId = "SchematicalBot",
+                    },*/
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_Bug_Dead,
@@ -469,7 +475,7 @@ namespace Tutorial
                         return npc;
                     },
                     spriteId = "Suit1NPC",
-                },
+                },/*
                 new TutorialStep(
                     TutorialStepId.Item_View,
                     "Items",
@@ -477,7 +483,11 @@ namespace Tutorial
                     "While most of this game uses real Cloud Architecture these items are not... but they are fun and I am planning on adding a lot more variety soon."
                 )
                 {
-                },
+                    getTarget = () =>
+                    {
+                        
+                    }
+                },*/
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_Purchase,
                     "Items",
@@ -485,10 +495,6 @@ namespace Tutorial
                     "This packet type increases the amount of money allocated for our server infrastructure. \n" +
                     "You can unlock upgrades to increase the chances of this type of packet arriving and the amount you make on each packet."
                 ){
-                    onTrigger = () =>
-                    {
-                        GameManager.Instance.UIManager.SetTimeScalePlay();
-                    },
                     getTarget = () =>
                     {
                         NetworkPacketData data =
@@ -498,10 +504,8 @@ namespace Tutorial
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
 
                         NetworkPacket networkPacket = pipe.SendPacket(data);
-                        return networkPacket;
+                        return pipe;
                     },
-                    spriteId = "SchematicalBot",
-                    NextStepId = TutorialStepId.NetworkPacket_BinaryImage
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Frozen,
@@ -552,6 +556,21 @@ namespace Tutorial
 
                 },
                 new TutorialStep(
+                    TutorialStepId.Task_FixFrozen_Queued,
+                    "Task: Fix Queued",
+                    "One of your engineers will get to work fixing this server shortly."
+                )
+                {
+                    
+                    getTarget = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        return infrastructureInstance;
+                    },
+
+                },
+                new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed,
                     "Server Fixed",
                     "The server is back online. Great work!"
@@ -572,13 +591,28 @@ namespace Tutorial
                     "Click on the server then select \"Upsize\" to do this."
                 )
                 {
-                    // showContinue = false,
+                    showContinue = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         return infrastructureInstance;
                     },
+                },
+                new TutorialStep(
+                    TutorialStepId.Task_Resize_Queued,
+                    "Task: Resize Queued",
+                    "One of your engineers will get to work resizing this server shortly."
+                )
+                {
+                    
+                    getTarget = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        return infrastructureInstance;
+                    },
+
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Upsized,
@@ -599,7 +633,6 @@ namespace Tutorial
                     "One of your team members has leveled up. Choose a new trait to give them. Each trait comes with unique bonuses."
                 )
                 {
-                    showContinue = false,
                     getTarget = () =>
                     {
                         NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
@@ -1034,7 +1067,7 @@ namespace Tutorial
                     Trigger(TutorialStepId.Release_DeploymentRewardReady);
                     break; 
                 case(ReleaseBase.ReleaseState.DeploymentCompleted):
-                    // Trigger(TutorialStepId.Release_DeploymentCompleted);
+                    Trigger(TutorialStepId.Release_DeploymentCompleted);
                     break;
             }
         }

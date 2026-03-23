@@ -28,7 +28,7 @@ public class ReleaseBase
     public int Version  { get; set; }
     public StatsCollection Stats = new StatsCollection();
     public List<NPCBug> bugs = new List<NPCBug>();
-    // TODO Create a hidden "Bug Count"
+ 
     // MinorBugs - that has a negative impact on the amount of money you make each day.
     // MajorBugs - Knock down the whole infrastructureInstance
     // TODO: Optimized score, gives a latency bonus or a load bonus
@@ -261,18 +261,7 @@ public class ReleaseBase
         }
     }
 
-    public bool HasOpenBugs()
-    {
-        foreach (NPCBug bug in bugs)
-        {
-            if (!bug.IsDead())
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
+  
     public static int IncrGlobalVersion()
     {
         GlobalVersion += 1;

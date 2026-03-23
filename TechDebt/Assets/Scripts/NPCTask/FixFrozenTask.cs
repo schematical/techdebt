@@ -1,4 +1,6 @@
 
+using Tutorial;
+
 public class FixFrozenTask : BuildTask
 {
     public FixFrozenTask(InfrastructureInstance target, int priority = 8) : base(target, priority)
@@ -15,6 +17,15 @@ public class FixFrozenTask : BuildTask
     public override bool IsFinished(NPCBase npc)
     {
         return buildProgress >= TargetInfrastructure.GetWorldObjectType().BuildTime || TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational;
+    }
+    public override void OnQueued()
+    {
+        if (GameManager.Instance.TutorialManager != null)
+        {
+            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.Task_FixFrozen_Queued);
+        }
+
+        base.OnQueued();
     }
 
 }
