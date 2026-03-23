@@ -28,7 +28,7 @@ namespace UI
         {
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = description;
 
-            if (options != null)
+            if (options == null)
             {
                 options = new List<DialogButtonOption>()
                 {
