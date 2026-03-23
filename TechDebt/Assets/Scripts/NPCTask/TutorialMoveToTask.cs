@@ -5,6 +5,7 @@ using UnityEngine;
 public class TutorialMoveToTask : NPCTask
 {
     private TutorialStep tutorialStep;
+    private bool hasTriggeredCloseEnough = false;
     public TutorialMoveToTask(TutorialStep tutorialStep) : base(tutorialStep.getTarget())
     {
         this.tutorialStep = tutorialStep;
@@ -20,7 +21,10 @@ public class TutorialMoveToTask : NPCTask
        
         if (IsCloseEnough())
         {
-
+            if (!hasTriggeredCloseEnough)
+            {
+                tutorialStep.Render();
+            }
             return;
 
 

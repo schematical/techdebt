@@ -7,6 +7,7 @@ namespace NPCs
     public class NPCSchematicalBot: NPCBase
     {
         private InfrastructureInstance _hangOutAt;
+        protected float idleDuration = 0;
 
         public override void Initialize()
         {
@@ -22,16 +23,32 @@ namespace NPCs
 
         public override void TriggerDefaultBehavior()
         {
-     
-            if (Vector3.Distance(transform.position, _hangOutAt.GetInteractionPosition()) < 0.1f)
+            if (IsDialogBubbleActive())
             {
-                return; 
+                return;
             }
-            
+            idleDuration += Time.fixedDeltaTime;
+            if (idleDuration > 3)
+            {
+                CurrentState = State.Idle; // Use Wandering state to signify moving without a task
+                animator.SetBool("isExiting", true);
+            }
+       
+        }
 
-            MoveTo(_hangOutAt.GetInteractionPosition());
-            CurrentState = State.Idle; // Use Wandering state to signify moving without a task
      
+
+        public override void AssignTask(NPCTask task)
+        {
+            idleDuration = 0;
+            base.AssignTask(task);
+        }
+
+        public void ExitAnimationHasFinished()
+        {
+            Debug.Log("SchematicalBot::ExitAnimationHasFinished");
+            gameObject.SetActive(false);
+            animator.SetBool("isExiting", false);
         }
         public override bool CanAssignTask(NPCTask task)
         {

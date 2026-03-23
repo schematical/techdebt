@@ -72,7 +72,6 @@ namespace UI
 
         public void CleanUp(bool setActive = false)
         {    
-            Debug.Log($"{gameObject.name } -> UIPanelLine CleanUp");
             foreach (UIPanelLineSection section in sections)
             {
                 section.gameObject.SetActive(false);

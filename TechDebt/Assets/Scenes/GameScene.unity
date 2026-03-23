@@ -8445,6 +8445,8 @@ MonoBehaviour:
     - Type: 1
       SprintNumber: 2
       TechnologyID: 
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: desk
     worldObjectType: 10
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
@@ -8490,6 +8492,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: load-balancer
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: server2
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
@@ -8500,6 +8504,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: load-balancer
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: server3
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
@@ -8510,6 +8516,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: load-balancer
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: read-replica-1
     worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
@@ -8520,6 +8528,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: read-replicas
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: read-replica-2
     worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
@@ -8530,6 +8540,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: read-replicas
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: water-cooler
     worldObjectType: 15
     Prefab: {fileID: 8969239379450762066, guid: 67e736effb8308d4386ad2969166ae1f, type: 3}
@@ -8540,6 +8552,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: water-cooler
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: waf
     worldObjectType: 17
     Prefab: {fileID: 478512507227230751, guid: b5e2f03f41c59384d814c2e15808d1ca, type: 3}
@@ -8550,6 +8564,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: waf
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: redis-1
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
@@ -8567,6 +8583,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: read-replicas
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: redis-3
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
@@ -8577,6 +8595,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: read-replicas
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: secret-manager
     worldObjectType: 0
     Prefab: {fileID: 4690569163655073366, guid: 19679e1167f287e4992ba2a5b1e4085e, type: 3}
@@ -8587,6 +8607,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: secret-manager
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: sqs-queue
     worldObjectType: 8
     Prefab: {fileID: 3498545839468818472, guid: 02f907469eb21394192734a4c5606464, type: 3}
@@ -8611,6 +8633,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: cognito
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: codepipeline
     worldObjectType: 16
     Prefab: {fileID: 5600887683244989748, guid: 0bee7f7464887e943ad2c8baec8da75c, type: 3}
@@ -8621,6 +8645,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: codepipeline
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: whiteboard
     worldObjectType: 11
     Prefab: {fileID: 4771823180765048759, guid: e164a9fcc8bc8644e9a38e857eb35603, type: 3}
@@ -8631,6 +8657,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: white-board
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: kanbanboard
     worldObjectType: 12
     Prefab: {fileID: 1495299141615287234, guid: af081fe384e8b7d4aaa1d2ccc948f7f8, type: 3}
@@ -8641,6 +8669,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: kanban-board
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: internetPipe2
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
@@ -8665,6 +8695,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: email-service
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: cloud-watch-metrics
     worldObjectType: 21
     Prefab: {fileID: 8212055160970937780, guid: 989810f4f9df2ef49995253992e0a28b, type: 3}
@@ -8675,6 +8707,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: cloud-watch-metrics
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: sns
     worldObjectType: 22
     Prefab: {fileID: 2706496042187900656, guid: db27e3073396d2f4d9fa518b0cf83512, type: 3}
@@ -8685,6 +8719,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: sns
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: product-road-map
     worldObjectType: 13
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
@@ -8695,6 +8731,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: product-road-map
+      TutorialStepId: 0
+      TutorialStepState: 2
   - Id: org-chart
     worldObjectType: 14
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
@@ -8705,6 +8743,8 @@ MonoBehaviour:
     - Type: 0
       SprintNumber: 0
       TechnologyID: org-chart
+      TutorialStepId: 0
+      TutorialStepState: 2
   gridManager: {fileID: 747688044}
   NetworkPacketState: 0
   AllNpcs: []
@@ -8735,7 +8775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc18cc804b7ccf49bb29f94845e4c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameLoopManager
-  playTimerActive: 1
   dayTimer: 0
   dailyPacketIncome: 0
 --- !u!114 &776996750

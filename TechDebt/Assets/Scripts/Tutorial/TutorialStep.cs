@@ -90,23 +90,15 @@ namespace Tutorial
         {
             if (forcePause)
             {
-                // GameManager.Instance.UIManager.ForcePause();
+                GameManager.Instance.UIManager.ForcePause();
             }
+            
             NPCBase npc = GetSpeaker();
             UIDialogBubble dialogBubble = npc.ShowDialogBubble();
             dialogBubble.CleanUp();
             dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = Description;
-            GameManager.Instance.cameraController
-                .ZoomToAndFollow(npc.transform);
-            if (getTarget != null)// TargetSelector != null)
-            {
-                // GameManager.Instance.cameraController
-                    // .ZoomToAndFollow(getTarget()); // TargetSelector.GetTransform());
-                    GameManager.Instance.AddTask(
-                        new TutorialMoveToTask(this)    
-                    );
-            }
-
+           
+        
             foreach (DialogButtonOption option in GetDialogOptions())
             {
                 dialogBubble.AddButton(
@@ -119,11 +111,7 @@ namespace Tutorial
                     }
                 );
             }
-            /*GameManager.Instance.UIManager.ShowNPCDialog(
-                GameManager.Instance.SpriteManager.GetSprite(spriteId),
-                Description,
-                GetDialogOptions()
-            );*/
+            
         }
 
         public virtual List<DialogButtonOption> GetDialogOptions()
@@ -190,7 +178,20 @@ namespace Tutorial
             {
                 onTrigger.Invoke();
             }
-            Render();
+
+            if (getTarget == null)
+            {
+                Render();
+                return;
+            }
+            NPCBase npc = GetSpeaker();
+            GameManager.Instance.cameraController
+                .ZoomToAndFollow(npc.transform);
+            GameManager.Instance.AddTask(
+                new TutorialMoveToTask(this)    
+            );
+            
+           
         }
 
         public void MarkCompleted()
@@ -201,7 +202,7 @@ namespace Tutorial
                     State =  TutorialStepState.Completed;
                     break;
                 default:
-                    throw new SystemException($"Invalid state trasition from {State} to Completed");
+                    throw new SystemException($"TutorialStep: {Id} - Invalid state transition from {State} to Completed");
             }
         }
     }

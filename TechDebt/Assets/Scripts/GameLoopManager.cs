@@ -33,7 +33,6 @@ public class GameLoopManager : MonoBehaviour
 
     public void SetPlayTimerActive(bool active)
     {
-        Debug.Log("SetPlayTimerActive: " + active);
         playTimerActive = active;
     }
     public int GetDaysLeftInSprint()

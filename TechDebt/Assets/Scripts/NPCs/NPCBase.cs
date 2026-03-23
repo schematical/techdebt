@@ -195,7 +195,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         return false;
     }
 
-    public void AssignTask(NPCTask newTask)
+    public virtual void AssignTask(NPCTask newTask)
     {
         if (CurrentTask != null)
         {
@@ -677,6 +677,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             dialogBubble.Close();
         }
+        gameObject.SetActive(true);
 
         dialogBubble = GameManager.Instance.prefabManager.Create("UIDialogBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIDialogBubble>();
         dialogBubble.SetTarget(this);
@@ -686,5 +687,13 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public void HideDialogBubble()
     {
         dialogBubble.Close();
+    }
+    public bool IsDialogBubbleActive()
+    {
+        if (dialogBubble == null)
+        {
+            return false;
+        }
+        return dialogBubble.gameObject.activeInHierarchy;
     }
 }
