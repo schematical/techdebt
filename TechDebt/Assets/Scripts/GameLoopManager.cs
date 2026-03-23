@@ -44,7 +44,10 @@ public class GameLoopManager : MonoBehaviour
         switch (CurrentState)
         {
             case GameState.Play:
-                if (playTimerActive)
+                if (
+                    playTimerActive && 
+                    GameManager.Instance.UIManager.IsPausedState()
+                )
                 {
                     dayTimer += Time.deltaTime;
                     GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, DayDurationSeconds);

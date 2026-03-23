@@ -3,7 +3,7 @@ namespace Tutorial
     public enum TutorialStepId
     {
         None,
-        NPC_Boss,
+        NPC_Schematical,
         Infra_Desk,
  
 

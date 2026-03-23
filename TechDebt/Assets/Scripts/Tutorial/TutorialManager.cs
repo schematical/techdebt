@@ -26,7 +26,7 @@ namespace Tutorial
             List<TutorialStep> steps = new List<TutorialStep>()
             {
                 new FirstTutorialStep(
-                    TutorialStepId.NPC_Boss,
+                    TutorialStepId.NPC_Schematical,
                     "Welcome",
                     "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit."
                 )
@@ -57,6 +57,12 @@ namespace Tutorial
                     "Click 'Start Day' to start your day. "
                 )
                 {
+                    onTrigger = () =>
+                    {
+                        GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+                        GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                        
+                    },
                     showContinue = false,
                     getTarget = () =>
                     {
@@ -470,7 +476,6 @@ namespace Tutorial
                     "While most of this game uses real Cloud Architecture these items are not... but they are fun and I am planning on adding a lot more variety soon."
                 )
                 {
-                    spriteId = "SchematicalBot",
                 },
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_Purchase,
@@ -897,11 +902,12 @@ namespace Tutorial
         public void Start()
         {
             GameManager.Instance.GameLoopManager.SetPlayTimerActive(false);
-            TutorialStep step = GetStep(TutorialStepId.NPC_Boss);
+            TutorialStep step = GetStep(TutorialStepId.NPC_Schematical);
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
             GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
             GameManager.OnPhaseChange += HandlePhaseChange;
             GameManager.OnReleaseChanged += HandleReleaseChange;
+            GameManager.Instance.UIManager.planPhaseMenuPanel.Close();
             step.Trigger();
         }
 
@@ -914,7 +920,6 @@ namespace Tutorial
             GameManager.OnTechnologyStateChange -= HandleTechnologyStateChange;
             GameManager.OnPhaseChange -= HandlePhaseChange;
             GameManager.OnReleaseChanged -= HandleReleaseChange;
-            
         }
 
         private void HandleTechnologyStateChange(Technology technology, Technology.State previousState)

@@ -47,7 +47,6 @@ namespace NPCs
 
         public void ExitAnimationHasFinished()
         {
-            Debug.Log("SchematicalBot::ExitAnimationHasFinished");
             gameObject.SetActive(false);
             animator.SetBool("isExiting", false);
         }

@@ -7,7 +7,7 @@ namespace UI
     {
         public RectTransform pointer;
         protected NPCBase target;
-        protected Vector3 worldOffset = new Vector3(0, 1.5f, 0);
+        protected Vector3 worldOffset = new Vector3(0, 1.5f, .5f);
 
         protected override void Awake()
         {

@@ -390,7 +390,7 @@ public class GameManager : MonoBehaviour, iModifiable
         cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
 
-        HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+        
      
         /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
         if (productRoadMapInfra.IsActive())
@@ -400,7 +400,7 @@ public class GameManager : MonoBehaviour, iModifiable
         else
         {*/
             Map.GetCurrentStage().SetSelectedLevel(0);
-            GameLoopManager.BeginPlanPhase();
+            // GameLoopManager.BeginPlanPhase();
        
         // }
     }
