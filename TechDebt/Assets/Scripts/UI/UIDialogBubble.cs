@@ -69,7 +69,6 @@ namespace UI
         {
     
             base.RefreshLayout();
-     
             UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(dialogBox);
             
         }

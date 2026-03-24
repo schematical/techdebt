@@ -9,6 +9,7 @@ namespace UI
         public virtual void Initialize()
         {
             Id = null;
+            transform.localScale = Vector3.one;
        
         }
 

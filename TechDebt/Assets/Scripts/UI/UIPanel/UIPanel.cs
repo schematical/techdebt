@@ -25,6 +25,7 @@ public class UIPanel : UIGameObject
         {
             // Debug.LogError($"{gameObject.name} is missing `closeButton`");
         }
+        hasUpdateThisFrame = true;
         base.Awake();
     }
     
@@ -34,6 +35,8 @@ public class UIPanel : UIGameObject
         {
             GameManager.Instance.UIManager.CloseSideBars();
         }
+
+        hasUpdateThisFrame = true;
         base.Show();
         
     }
@@ -62,6 +65,7 @@ public class UIPanel : UIGameObject
             line.transform.SetParent(null);
         }
         lines.Clear();
+        hasUpdateThisFrame = true;
     }
 
     public T AddLine<T>() where T:  UIPanelLine
@@ -112,7 +116,7 @@ public class UIPanel : UIGameObject
         {
             line.Refresh();
         }
-        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
+        RefreshLayout();
     }
     public UIPanelLine GetLineById(string _id)
     {
