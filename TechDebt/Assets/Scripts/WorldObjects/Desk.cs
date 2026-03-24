@@ -45,6 +45,13 @@ public class Desk : InfrastructureInstance
 
     public override Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
-        return transform.position + new Vector3(-0.5f, 1.15f, 0);
+        switch (interactionType)
+        {
+            case(InteractionType.Basic):
+                return transform.position + new Vector3(-0.5f, 1.15f, 0);
+            default:
+                return base.GetInteractionPosition(interactionType);
+        }
+        
     }
 }

@@ -649,7 +649,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public virtual Vector3 GetHomePoint()
     {
-        return GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
+        return GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position + new Vector3(-0.1f, -0.1f, -0.1f);
     }
     public void ZoomToAndFollow()
     {

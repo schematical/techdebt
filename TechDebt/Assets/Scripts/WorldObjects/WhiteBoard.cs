@@ -150,7 +150,14 @@ namespace Infrastructure
         }
         public override Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
         {
-            return transform.position + new Vector3(1, 0, 0);
+            switch (interactionType)
+            {
+                case(InteractionType.Basic):
+                    return transform.position + new Vector3(1, 0, 0);
+                default:
+                    return base.GetInteractionPosition(interactionType);
+            }
+           
         }
     }
 }

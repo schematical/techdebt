@@ -42,13 +42,12 @@ public class NPCDevOps : NPCAnimatedBiped
     public override void OnPlanPhaseStart()
     {
         base.OnPlanPhaseStart();
-        transform.position = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position;
+        transform.position = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position + new Vector3(-0.1f,-0.1f, -0.1f);
         gameObject.SetActive(false);
     }
 
     public override void AddXP(float amount = 1)
     {
-
         float adjustedAmount = Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
         currentXP += adjustedAmount;
         if (Math.Floor(currentXP) != lastDisplayXP)
@@ -61,7 +60,6 @@ public class NPCDevOps : NPCAnimatedBiped
         int nextLevelXP = (int)Math.Round(60 * Math.Pow(1.5f, level));
         if (currentXP >= nextLevelXP)
         {
-       
             currentXP = currentXP - nextLevelXP;
             lastDisplayXP = 0;
             MarkReadyForLevelUp();

@@ -981,14 +981,14 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public NPCDevOps HireNPCDevOps(NPCDevOpsData candidateData)
     {
-        var door = GetInfrastructureInstanceByID("door");
+        WorldObjectBase door = GetInfrastructureInstanceByID("door");
         if (door == null)
         {
             Debug.LogError("Cannot hire NPC because 'door' infrastructure was not found.");
             return null;
         }
 
-        GameObject npcObject = prefabManager.Create("NPCDevOps", door.transform.position);
+        GameObject npcObject = prefabManager.Create("NPCDevOps", door.transform.position + new Vector3(-0.5f,-0.5f, -0.5f));
         if (npcObject == null)
         {
             Debug.LogError("Failed to create 'NPCDevOps' from PrefabManager. Is the prefab configured?");
