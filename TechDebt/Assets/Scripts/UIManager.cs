@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
     public UIItemDetailPanel itemDetailPanel;
     public UIAlertPanel alertPanel;
     public UIDialogPanel dialogPanel;
+    public RectTransform graveYard;
     [FormerlySerializedAs("tutorialPanel")] public UIGameTipPanel gameTipPanel;
     public UITutorialStepListPanel tutorialStepListPanel;
     

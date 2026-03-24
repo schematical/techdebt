@@ -36,6 +36,7 @@ namespace UI
                 sectionText.text.text = "";
                 sectionText.GetComponent<LayoutElement>().preferredWidth = depth * 10;
             }
+            transform.localScale = Vector3.one;
 
         }
 
@@ -78,6 +79,7 @@ namespace UI
         {    
             foreach (UIPanelLineSection section in sections)
             {
+                section.transform.SetParent(null);
                 section.gameObject.SetActive(false);
             }
 
@@ -88,7 +90,13 @@ namespace UI
             }
             lines.Clear();
             defaultSections.Clear();
+
             gameObject.SetActive(setActive);
+            if (!setActive)
+            {
+                transform.SetParent(null);
+            }
+            
         }
         public virtual T AddLine<T>()  where T:  UIPanelLine
         {

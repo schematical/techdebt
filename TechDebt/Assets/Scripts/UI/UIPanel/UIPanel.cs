@@ -59,6 +59,7 @@ public class UIPanel : UIGameObject
         foreach (UIPanelLine line in lines)
         {
             line.CleanUp();
+            line.transform.SetParent(null);
         }
         lines.Clear();
     }
@@ -82,7 +83,7 @@ public class UIPanel : UIGameObject
         return panelLine;
     }
 
-    public void LateUpdate()
+    protected virtual void LateUpdate()
     {
         if (hasUpdateThisFrame)
         {
@@ -102,6 +103,7 @@ public class UIPanel : UIGameObject
             UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
         }
         UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+        hasUpdateThisFrame = false;
     }
 
     public void Refresh()

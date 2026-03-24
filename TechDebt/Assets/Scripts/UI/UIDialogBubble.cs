@@ -9,7 +9,7 @@ namespace UI
         public RectTransform pointer;
         protected NPCBase target;
         protected Vector3 worldOffset = new Vector3(0, 1.5f, .5f);
-
+        public RectTransform dialogBox;
         protected override void Awake()
         {
             runUICloseOnShow = false;
@@ -65,9 +65,18 @@ namespace UI
             gameObject.SetActive(false);
         }
 
-        protected virtual void LateUpdate()
+        public override void RefreshLayout()
         {
+    
+            base.RefreshLayout();
+     
+            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(dialogBox);
+            
+        }
 
+        protected override void LateUpdate()
+        {
+            base.LateUpdate();
             Camera cam = Camera.main;
 
             Vector3 worldPos = target.transform.position + worldOffset;
