@@ -29,7 +29,7 @@ namespace UI
             layout.spacing = 15;
 
 
-            _clockText = CreateText(transform, "ClockText", "9:00 AM", 24);
+            _clockText = CreateText(transform, "ClockText", "", 24);
             
 
             List<StatType> statsToDisplay = new List<StatType>
