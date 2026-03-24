@@ -7,7 +7,7 @@ using UnityEngine;
 public class DeploymentTask : InfrastructureTaskBase
 {
 
-    private float deploymentProgress = 0f;
+
     private const float DeploymentTime = 5f; // Time in seconds to complete deployment
     private ReleaseBase _release;
 
@@ -23,23 +23,7 @@ public class DeploymentTask : InfrastructureTaskBase
         base.OnStart(npc);
         _release.SetState(ReleaseBase.ReleaseState.DeploymentInProgress);
     }
-    public override void OnUpdate(NPCBase npc)
-    {
-        base.OnUpdate(npc);
-        if (IsCloseEnough())
-        {
-           
-            deploymentProgress += Time.deltaTime;
-            npc.AddXP(Time.deltaTime);
-        }
-    }
-
-
-
-    public override bool IsFinished(NPCBase npc)
-    {
-        return deploymentProgress >= DeploymentTime;
-    }
+    
 
     public override void OnEnd(NPCBase npc)
     {
@@ -50,9 +34,9 @@ public class DeploymentTask : InfrastructureTaskBase
         _release.CheckIsOver();
     }
 
-    public override float GetProgress()
+    protected override float GetProgressRequirement()
     {
-        return deploymentProgress / DeploymentTime;
+        return DeploymentTime;
     }
 
     public override string GetAssignButtonText()

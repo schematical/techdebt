@@ -53,5 +53,6 @@ public enum StatType
     VictoryCondition_NetworkPacketLatency,
     NetworkPacket_LoadLatencyMultiplier,
     Infra_LatencyStartsAtLoad,
-    AttackPossibilityAccumulationRate
+    AttackPossibilityAccumulationRate,
+    NPC_FixSpeed
 }

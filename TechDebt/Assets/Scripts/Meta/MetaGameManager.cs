@@ -898,6 +898,15 @@ public static class MetaGameManager
                 BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
+            new NPCStatModifierReward()
+            {
+                Id = "cool_under_pressure",
+                Name = "Cool Under Pressure",
+                StatType = StatType.NPC_FixSpeed,
+                BaseValue = 1.5f,
+                IconSpriteId = "IconDebug"
+            },
+            //TODO: Add "Cool Under Presure" whic
             /*
              *
              * MATTS NOTES:
@@ -910,6 +919,8 @@ public static class MetaGameManager
              * - Documentation - Makes it easier for new NPCS to learn infra.
              * - Cross Training - Requires 2 NPCS or more - Enhances NPCs knowledge, prevents knowledge silo events.
              */
+            //TODO: Add a perk that automatically decreases tech debt on release
+            // Proboablly do the same thing with cash
              new WorldObjectTypeNetworkPacketStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,

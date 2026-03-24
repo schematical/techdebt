@@ -37,6 +37,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_DevOpsQuality, 1f));
         Stats.Add(new StatData(StatType.NPC_DevOpsSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_ResearchSpeed, 1f));
+        Stats.Add(new StatData(StatType.NPC_FixSpeed, 1f));
     }
 
     public override void OnPlanPhaseStart()

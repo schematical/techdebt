@@ -1,31 +1,27 @@
 
 using Tutorial;
 
-public class FixFrozenTask : BuildTask
+public class FixFrozenTask : InfrastructureTaskBase
 {
-    public FixFrozenTask(InfrastructureInstance target, int priority = 8) : base(target, priority)
+    public FixFrozenTask(InfrastructureInstance target, int priority = 8) : base(target)
     {
         MetaStat = MetaChallenges.MetaStat.Infra_Fix;
         OnQueuedSetState = null;
+        Priority = priority;
+        TutorialStepId = Tutorial.TutorialStepId.Task_FixFrozen_Queued;
+        npcWorkSpeedStatType = StatType.NPC_FixSpeed;
     }
 
     public override string GetAssignButtonText()
     {
         return "Fix";
     }
-    
-    public override bool IsFinished(NPCBase npc)
-    {
-        return buildProgress >= TargetInfrastructure.GetWorldObjectType().BuildTime || TargetInfrastructure.data.CurrentState == InfrastructureData.State.Operational;
-    }
-    public override void OnQueued()
-    {
-        if (GameManager.Instance.TutorialManager != null)
-        {
-            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.Task_FixFrozen_Queued);
-        }
 
-        base.OnQueued();
+    protected override float GetProgressRequirement()
+    {
+        return 5;
     }
+
+  
 
 }

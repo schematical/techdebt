@@ -3,6 +3,7 @@
 using System;
 using Infrastructure;
 using MetaChallenges;
+using Tutorial;
 using UnityEngine;
 
 public abstract class NPCTask
@@ -35,7 +36,7 @@ public abstract class NPCTask
     protected iTargetable? target;
     protected float maxTaskRange = 1f;
     protected InteractionType interactionType = InteractionType.Basic;
-   
+    protected TutorialStepId? TutorialStepId;
 
     public TaskRole Role { get; protected set; } = TaskRole.DevOps;
 
@@ -129,6 +130,13 @@ public abstract class NPCTask
     public virtual void OnQueued()
     {
         CurrentState = State.Queued;
+        if (
+            TutorialStepId != null &&
+            GameManager.Instance.TutorialManager != null
+        )
+        {
+            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.Value);
+        }
     }
 
     public virtual string GetDescription()
