@@ -1,4 +1,6 @@
 
+using NPCs;
+
 public class SecurityAuditMapLevel: MapLevel
 {
     public SecurityAuditMapLevel() : base()
@@ -10,8 +12,10 @@ public class SecurityAuditMapLevel: MapLevel
     public override void OnStartDayPlan()
     {
         base.OnStartDayPlan();
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+
+        NPCBase npc =
+            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ShowDialogBubble().SimpleDisplay(
             "If you are reading this you basically are at the end up what Matt has wired in currently. Good luck!"
         );
    

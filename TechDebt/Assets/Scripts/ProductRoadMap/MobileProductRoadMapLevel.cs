@@ -1,4 +1,6 @@
 
+using NPCs;
+
 public class MobileMapLevel: MapLevel
 {
     public MobileMapLevel() : base()
@@ -13,8 +15,10 @@ public class MobileMapLevel: MapLevel
     public override void OnStartDayPlan()
     {
         base.OnStartDayPlan();
-        GameManager.Instance.UIManager.ShowNPCDialog(
-            GameManager.Instance.SpriteManager.GetSprite("Suit1NPC"),
+        
+        NPCBase npc =
+            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ShowDialogBubble().SimpleDisplay(
             "This sprint we want to get mobile notifications working. Research it and get it up and running."
         );
    

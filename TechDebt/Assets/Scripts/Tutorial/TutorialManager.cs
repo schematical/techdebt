@@ -474,7 +474,6 @@ namespace Tutorial
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
                         return npc;
                     },
-                    spriteId = "Suit1NPC",
                 },/*
                 new TutorialStep(
                     TutorialStepId.Item_View,
