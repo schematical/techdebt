@@ -23,5 +23,10 @@ namespace UI
         }
 
 
+        public void RefreshLayout()
+        {
+            
+            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,6 +55,7 @@ namespace UI
         }
         public T Add<T>() where T:  UIPanelLineSection
         {
+            rootPanel.MarkUpdated();
             string prefabId = typeof(T).Name;
       
             T section =
@@ -69,6 +71,8 @@ namespace UI
             sections.Add(section);
             return section;
         }
+
+       
 
         public void CleanUp(bool setActive = false)
         {    
@@ -88,6 +92,7 @@ namespace UI
         }
         public virtual T AddLine<T>()  where T:  UIPanelLine
         {
+            rootPanel.MarkUpdated();
             string prefabId = typeof(T).Name;
             T panelLine =
                 GameManager.Instance.prefabManager.Create(prefabId, Vector3.zero, vertLayoutGroup.transform)
@@ -208,6 +213,22 @@ namespace UI
                 throw new SystemException($"Cannot find `{_id}` section");
             }
             return section as T;
+        }
+
+        public void RefreshLayout()
+        {
+            foreach (UIPanelLineSection section in sections)
+            {
+                section.RefreshLayout();
+            }
+            foreach (UIPanelLine line in lines)
+            {
+                line.RefreshLayout();
+            }
+            if (hozLayoutGroup != null)
+            {
+                UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(hozLayoutGroup.GetComponent<RectTransform>());
+            }
         }
     }
 

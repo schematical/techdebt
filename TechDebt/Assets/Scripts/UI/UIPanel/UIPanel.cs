@@ -13,6 +13,7 @@ public class UIPanel : UIGameObject
     public Transform scrollContent;   // Assign the Transform for the scrollable content area
     public Button closeButton; // Assign the Button component for the panel's close button
     protected List<UIPanelLine> lines = new List<UIPanelLine>();
+    public bool hasUpdateThisFrame = false;
     protected override void Awake()
     {
         if (closeButton != null)
@@ -44,7 +45,6 @@ public class UIPanel : UIGameObject
         button.button.onClick.RemoveAllListeners();
         button.button.onClick.AddListener(onClickAction);
         button.transform.SetAsLastSibling();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
         return button;
     }
 
@@ -78,7 +78,30 @@ public class UIPanel : UIGameObject
         panelLine.Initialize(0, this, null);
         panelLine.transform.SetAsLastSibling();
         LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
+        hasUpdateThisFrame = true;
         return panelLine;
+    }
+
+    public void LateUpdate()
+    {
+        if (hasUpdateThisFrame)
+        {
+            RefreshLayout();
+        }
+    }
+
+    public virtual void RefreshLayout()
+    {
+        foreach (UIPanelLine line in lines)
+        {
+            line.RefreshLayout();
+        }
+        Canvas.ForceUpdateCanvases();
+        if (scrollContent != null)
+        {
+            UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
+        }
+        UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
 
     public void Refresh()
@@ -92,5 +115,10 @@ public class UIPanel : UIGameObject
     public UIPanelLine GetLineById(string _id)
     {
         return lines.Find(line => line.GetId() == _id);
+    }
+
+    public void MarkUpdated()
+    {
+        hasUpdateThisFrame = true;
     }
 }
