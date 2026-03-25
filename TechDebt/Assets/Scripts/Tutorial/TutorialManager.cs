@@ -166,10 +166,10 @@ namespace Tutorial
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_InternetPipe,
-                    "The Internet",
-                    "Notice Network Packets flowing in from the Internet to your server.\n" +
-                    "When a packet finishes its journey, you can see how many milliseconds the trip took. \n" +
-                    "This is known as \"Latency,\" and it will be important later."
+                    "The Internetz",
+                    "Notice Network Packets flowing in from the Internet to your server.\n" //  +
+                    // "When a packet finishes it's journey you can see how many milliseconds it took for the trip to take. \n" +
+                    // "This is known as \"Latency\" and it will be important later."
                 )
                 {
                     getTarget = () =>
@@ -307,7 +307,6 @@ namespace Tutorial
                 )
                 {
                     showContinue = false,
-                    forcePause = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -395,26 +394,7 @@ namespace Tutorial
                     "Keep an eye on it in the UI."
                 )
                 {
-                    /*unlockConditions = new List<UnlockCondition>()
-                    {
-                        new UnlockCondition()
-                        {
-                            Type = UnlockCondition.ConditionType.TutorialStepState,
-                            TutorialStepId = TutorialStepId.NetworkPacket_Failed
-                        },
-                        new UnlockCondition()
-                        {
-                            Type = UnlockCondition.ConditionType.TutorialStepState,
-                            TutorialStepId = TutorialStepId.Infra_DedicatedDB_Operational
-                        }
-                    },*/
-                    getTarget = () =>
-                    {
-                        NPCBase npc =
-                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-                        return npc;
-                    },
-                    spriteId = "SchematicalBot",
+      
                     NextStepId = TutorialStepId.Basics_LaunchDay
                 },
                 new TutorialStep(
@@ -425,13 +405,7 @@ namespace Tutorial
                     "Expect a lot more traffic and a new type of `NetworkPacket` to indicate incoming purchases."
                 )
                 {
-                    getTarget = () =>
-                    {
-                        NPCBase npc =
-                            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-                        return npc;
-                    },
-                    spriteId = "SchematicalBot",
+ 
                     NextStepId = TutorialStepId.Basics_Day
                 },
                 new TutorialStep(

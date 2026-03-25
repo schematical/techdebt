@@ -695,6 +695,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         dialogBubble = GameManager.Instance.prefabManager.Create("UIDialogBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIDialogBubble>();
         dialogBubble.SetTarget(this);
         dialogBubble.transform.SetAsFirstSibling();
+        dialogBubble.CleanUp();
         return dialogBubble;
     }
 

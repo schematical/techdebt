@@ -273,7 +273,14 @@ public static class MetaGameManager
                 DisplayName = "Software Basics",
                 Description = "",
                 ResearchTime = 30,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    }
+                },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_WhiteBoard_Tip
@@ -307,7 +314,19 @@ public static class MetaGameManager
                 DisplayName = "Dedicated Database",
                 Description = "",
                 ResearchTime = 30,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "application-server"
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    },
+                },
                 CurrentState = Technology.State.Locked,
                 TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
                 // UnlockConditions - Get and instance to size 2?
@@ -906,7 +925,6 @@ public static class MetaGameManager
                 BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
-            //TODO: Add "Cool Under Presure" whic
             /*
              *
              * MATTS NOTES:

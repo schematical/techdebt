@@ -96,7 +96,7 @@ namespace Tutorial
             
             NPCBase npc = GetSpeaker();
             UIDialogBubble dialogBubble = npc.ShowDialogBubble();
-            dialogBubble.CleanUp();
+        
             dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = Description;
            
         
