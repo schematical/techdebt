@@ -31,18 +31,19 @@ public static class MetaGameManager
 
     public static string GetSavePath(string foldername = "techdebt", string filename = "meta_progress.json")
     {
-
-        #if !UNITY_EDITOR && UNITY_WEBGL
+#if !UNITY_EDITOR && UNITY_WEBGL
                 var	path = System.IO.Path.Combine("idbfs", foldername);  //	Path: "/idbfs/<foldername>"
-        #else         
-		        var	path = System.IO.Path.Combine(Application.persistentDataPath, foldername); 
-        #endif
-        
-        if (!System.IO.Directory.Exists(path)) {
+#else
+        var path = System.IO.Path.Combine(Application.persistentDataPath, foldername);
+#endif
+
+        if (!System.IO.Directory.Exists(path))
+        {
             //Console.WriteLine("Creating save directory: " + path);
             System.IO.Directory.CreateDirectory(path);
         }
-        var result = System.IO.Path.Combine(path, filename);	//	File Path: "/idbfs/<foldername>/<filename>"
+
+        var result = System.IO.Path.Combine(path, filename); //	File Path: "/idbfs/<foldername>/<filename>"
         return result;
     }
 
@@ -50,7 +51,7 @@ public static class MetaGameManager
     {
         string json = JsonUtility.ToJson(metaProgressData, true);
         File.WriteAllText(GetSavePath(), json);
-        
+
         Debug.Log($"Progress saved to {GetSavePath()}");
     }
 
@@ -60,6 +61,7 @@ public static class MetaGameManager
         {
             return new MetaProgressData();
         }
+
         string json = File.ReadAllText(GetSavePath());
         return JsonUtility.FromJson<MetaProgressData>(json);
     }
@@ -74,31 +76,32 @@ public static class MetaGameManager
     public static MetaProgressData GetUpdatedMetaStats(List<WorldObjectType> worldObjectTypes)
     {
         MetaProgressData progressData = LoadProgress();
-        
+
         if (progressData.metaStats.game == null)
         {
             progressData.metaStats.game = new List<MetaStatData>();
         }
 
-        
+
         foreach (var stat in GameManager.Instance.MetaStats.Stats)
         {
-            MetaStatData statData = 
+            MetaStatData statData =
                 progressData.metaStats.game.Find(s => s.statName == stat.Key.ToString());
             if (statData == null)
             {
                 statData = new MetaStatData() { statName = stat.Key.ToString() };
                 progressData.metaStats.game.Add(statData);
             }
+
             if (stat.Value > statData.highestValue)
             {
                 statData.highestValue = stat.Value;
             }
+
             statData.cumulativeValue += stat.Value;
         }
-        
-        
-        
+
+
         if (progressData.metaStats == null)
         {
             progressData.metaStats = new MetaStatSaveData();
@@ -106,10 +109,10 @@ public static class MetaGameManager
 
         foreach (WorldObjectType worldObjectType in worldObjectTypes)
         {
-            InfraMetaStatSaveData infraStats = progressData.metaStats.infra.Find(i => i.infraId == worldObjectType.GetTypeAsId());
+            InfraMetaStatSaveData infraStats =
+                progressData.metaStats.infra.Find(i => i.infraId == worldObjectType.GetTypeAsId());
             if (infraStats == null)
             {
-               
                 infraStats = new InfraMetaStatSaveData() { infraId = worldObjectType.GetTypeAsId() };
                 progressData.metaStats.infra.Add(infraStats);
             }
@@ -132,6 +135,7 @@ public static class MetaGameManager
                 {
                     statData.highestValue = stat.Value;
                 }
+
                 statData.cumulativeValue += stat.Value;
             }
         }
@@ -146,11 +150,12 @@ public static class MetaGameManager
         {
             throw new SystemException("`state` is null");
         }
+
         if (state.metaStats == null)
         {
             throw new SystemException("`state.metaStats` is null");
         }
-      
+
         MetaStatData statData = null;
         if (challenge.WorldObjectTypeId != null)
         {
@@ -158,22 +163,23 @@ public static class MetaGameManager
             {
                 throw new SystemException("`state.metaStats.infra` is null");
             }
+
             InfraMetaStatSaveData prevStats = state.metaStats.infra.Find(i => i.infraId == challenge.WorldObjectTypeId);
             if (prevStats != null)
             {
                 statData = prevStats.stats.Find(s => s.statName == challenge.metaStat.ToString());
             }
-
         }
         else
         {
             statData = state.metaStats.game.Find(s => s.statName == challenge.metaStat.ToString());
         }
-      
+
         if (statData != null)
         {
             value = GetChallengeStatData(statData, challenge);
         }
+
         // Debug.Log($"{challenge.ChallengeID} - metaStat: {challenge.metaStat} -RequirementType: {challenge.RequirementType} - WorldObjectTypeId: {challenge.WorldObjectTypeId} - {value} >= {challenge.RequiredValue} : {value >= challenge.RequiredValue}");
         // Check if the challenge was incomplete before but is complete now.
         return (value >= challenge.RequiredValue);
@@ -184,32 +190,34 @@ public static class MetaGameManager
         int value = 0;
         switch (challenge.RequirementType)
         {
-            case(MetaChallengeBase.MetaChallengeRequirementType.Cumulative):
+            case (MetaChallengeBase.MetaChallengeRequirementType.Cumulative):
                 value = statData.cumulativeValue;
                 break;
-            case(MetaChallengeBase.MetaChallengeRequirementType.Highest):
+            case (MetaChallengeBase.MetaChallengeRequirementType.Highest):
                 value = statData.highestValue;
                 break;
             default:
                 throw new SystemException($"`challenge.RequirementType` '{challenge.RequirementType}' doesn't exist");
-                        
         }
 
         return value;
     }
+
     public static List<MetaChallengeBase> GetUnlockedChallenges(MetaProgressData state = null)
     {
         if (state == null)
         {
             state = LoadProgress();
         }
+
         List<MetaChallengeBase> completedChallenges = new List<MetaChallengeBase>();
         List<MetaChallengeBase> allChallenges = GetAllChallenges(); // Get challenge definitions
 
         foreach (var challenge in allChallenges)
         {
             // Calculate the progress from AFTER this run (from the current in-memory data).
-            if(IsChallengeCompleted(state, challenge)){
+            if (IsChallengeCompleted(state, challenge))
+            {
                 completedChallenges.Add(challenge);
             }
         }
@@ -227,11 +235,14 @@ public static class MetaGameManager
         List<MetaChallengeBase> diffChallenges = new List<MetaChallengeBase>();
         foreach (MetaChallengeBase currChallenge in currCompletedChallenges)
         {
-            MetaChallengeBase existingChallengeBase = prevCompletedChallenges.Find((c) => c.ChallengeID == currChallenge.ChallengeID);
-            if(existingChallengeBase == null){
+            MetaChallengeBase existingChallengeBase =
+                prevCompletedChallenges.Find((c) => c.ChallengeID == currChallenge.ChallengeID);
+            if (existingChallengeBase == null)
+            {
                 diffChallenges.Add(currChallenge);
             }
         }
+
         return diffChallenges;
     }
 
@@ -259,10 +270,10 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "white-board"
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
                         SprintNumber = 1
@@ -282,7 +293,7 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     }
                 },
@@ -290,7 +301,7 @@ public static class MetaGameManager
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_WhiteBoard_Tip
             },
-        
+
             new Technology()
             {
                 TechnologyID = "org-chart",
@@ -301,7 +312,7 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "kanban-board"
                     }
                 },
@@ -319,10 +330,10 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "white-board"
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
                         SprintNumber = 1
@@ -334,6 +345,42 @@ public static class MetaGameManager
             },
             new Technology()
             {
+                TechnologyID = "application-server-size-medium",
+                DisplayName = "Application Server - Medium",
+                Description = "2x your Application Server's CPU/RAM and Costs",
+                ResearchTime = 15,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TechnologyID = "application-server"
+                    },
+                },
+                CurrentState = Technology.State.Locked,
+                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
+                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
+                TechnologyID = "application-server-size-large",
+                DisplayName = "Application Server - Large",
+                Description = "4x your Application Server's CPU/RAM and Costs",
+                ResearchTime = 30,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TechnologyID = "application-server-size-medium"
+                    },
+                },
+                CurrentState = Technology.State.Locked,
+                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
+                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
                 TechnologyID = "dedicated-db",
                 DisplayName = "Dedicated Database",
                 Description = "",
@@ -342,10 +389,10 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
@@ -361,7 +408,11 @@ public static class MetaGameManager
                 DisplayName = "Binary Storage",
                 Description = "",
                 ResearchTime = 40,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" }
+                },
                 TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip
             },
             new Technology()
@@ -370,7 +421,11 @@ public static class MetaGameManager
                 DisplayName = "Redis Caching",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" }
+                },
                 TutorialStepId = TutorialStepId.Infra_Redis_Tip
             },
             new Technology()
@@ -379,7 +434,11 @@ public static class MetaGameManager
                 DisplayName = "Content Delivery Network(CDN)",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" }
+                },
                 TutorialStepId = TutorialStepId.Infra_CDN_Tip
                 // serve up X binary packets with the s3 bucket
             },
@@ -389,7 +448,13 @@ public static class MetaGameManager
                 DisplayName = "Load Balancer",
                 Description = "",
                 ResearchTime = 30,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" }, new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" },
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" }
+                },
                 TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip
                 // ??? Make it to day y?
             },
@@ -399,7 +464,11 @@ public static class MetaGameManager
                 DisplayName = "Read Replicas",
                 Description = "",
                 ResearchTime = 60,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" } }
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" }
+                }
                 // Scale up your dedicated-db to level 2
             },
             new Technology()
@@ -408,7 +477,14 @@ public static class MetaGameManager
                 DisplayName = "Water Cooler",
                 Description = "",
                 ResearchTime = 5,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "kanban-board" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "kanban-board"
+                    }
+                },
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_WaterCooler_Tip
             },
@@ -418,7 +494,14 @@ public static class MetaGameManager
                 DisplayName = "Web Application Firewall(WAF)",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "cloud-watch-metrics" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TechnologyID = "cloud-watch-metrics"
+                    }
+                },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_WAF_Tip
@@ -430,7 +513,14 @@ public static class MetaGameManager
                 DisplayName = "Secret Manager",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "cloud-watch-metrics"
+                    }
+                },
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_SecretManager_Tip
                 // Cycle credentials Y times
@@ -441,7 +531,11 @@ public static class MetaGameManager
                 DisplayName = "Simple Queue Service",
                 Description = "",
                 ResearchTime = 25,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "load-balancer" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "load-balancer" }
+                },
                 TutorialStepId = TutorialStepId.Infra_SQS_Tip
                 // survive Y packets in a single run.
             },
@@ -455,15 +549,15 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
-                        TechnologyID = "application-server"
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TechnologyID = "cloud-watch-metrics"
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
@@ -484,15 +578,15 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
@@ -514,12 +608,12 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     },
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual, 
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
                         SprintNumber = 1
                     }
                 },
@@ -538,15 +632,15 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
                     },
-                    new  UnlockCondition()
+                    new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
@@ -567,12 +661,12 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.Technology, 
+                        Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     },
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual, 
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
                         SprintNumber = 1
                     }
                 },
@@ -584,6 +678,7 @@ public static class MetaGameManager
         {
             technology.OriginalState = technology.CurrentState;
         }
+
         return technologies;
     }
 
@@ -592,7 +687,6 @@ public static class MetaGameManager
     {
         List<MetaChallengeBase> challenges = new List<MetaChallengeBase>()
         {
-            
             new MetaChallengeBase()
             {
                 ChallengeID = "application-server",
@@ -602,7 +696,7 @@ public static class MetaGameManager
                 WorldObjectTypeId = "application-server",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 1,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     /*new RewardBase()
                     {
@@ -625,7 +719,7 @@ public static class MetaGameManager
                 WorldObjectTypeId = "white-board",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 3,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new WorldObjectTypeStartsOperationalReward()
                     {
@@ -647,7 +741,7 @@ public static class MetaGameManager
                 WorldObjectTypeId = "kanban-board",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 5,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new WorldObjectTypeStartsOperationalReward()
                     {
@@ -669,7 +763,7 @@ public static class MetaGameManager
                 WorldObjectTypeId = "product-road-map",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 1,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new WorldObjectTypeStartsOperationalReward()
                     {
@@ -691,7 +785,7 @@ public static class MetaGameManager
                 WorldObjectTypeId = "org-chart",
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
                 RequiredValue = 10,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new WorldObjectTypeStartsOperationalReward()
                     {
@@ -704,7 +798,7 @@ public static class MetaGameManager
                     }
                 }
             },
-            
+
             new MetaChallengeBase()
             {
                 ChallengeID = "binary-storage",
@@ -712,9 +806,9 @@ public static class MetaGameManager
                 Description = "Successfully handle 100 images",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 WorldObjectTypeId = "application-server",
-        
+
                 RequiredValue = 100,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -730,7 +824,7 @@ public static class MetaGameManager
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 WorldObjectTypeId = "dedicated-db",
                 RequiredValue = 100,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -757,9 +851,9 @@ public static class MetaGameManager
                 Description = "Send 200 images to S3 successfully",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 WorldObjectTypeId = "binary-storage",
-      
+
                 RequiredValue = 50,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -775,7 +869,7 @@ public static class MetaGameManager
                 metaStat = MetaStat.Day,
                 RequiredValue = 10,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -791,10 +885,10 @@ public static class MetaGameManager
                 metaStat = MetaStat.Infra_MaxSize,
                 WorldObjectTypeId = "dedicated-db",
                 RequiredValue = 2,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
-                        {
+                    {
                         TechnologyId = "read-replicas",
                     }
                 }
@@ -807,7 +901,7 @@ public static class MetaGameManager
                 metaStat = MetaStat.Deployments,
                 RequiredValue = 10,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -822,10 +916,10 @@ public static class MetaGameManager
                 Description = "Successfully handle 200 packets with the load balancer",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 WorldObjectTypeId = "load-balancer",
-            
+
                 RequiredValue = 200,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -842,7 +936,7 @@ public static class MetaGameManager
                 WorldObjectTypeId = "sns",
                 RequiredValue = 2,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
-                Rewards =  new List<RewardBase>()
+                Rewards = new List<RewardBase>()
                 {
                     new TechnologyStartStateReward()
                     {
@@ -851,17 +945,18 @@ public static class MetaGameManager
                 }
             }
         };
-        
+
         return challenges;
     }
 
     public static RewardBase GetRandomModifier(RewardBase.RewardGroup group)
     {
         List<RewardBase> modifiers = GetModifierByGroup(group);
- 
+
         int i = Random.Range(0, modifiers.Count);
         return modifiers[i];
-    }  
+    }
+
     public static List<RewardBase> GetModifierByGroup(RewardBase.RewardGroup group)
     {
         List<RewardBase> modifiers = GetAllModifiers();
@@ -876,12 +971,12 @@ public static class MetaGameManager
         }
 
         return foundModifiers;
-    }  
+    }
+
     public static List<RewardBase> GetAllModifiers()
     {
         return new List<RewardBase>()
         {
-           
             new NPCStatModifierReward()
             {
                 Id = "fast_worker",
@@ -893,10 +988,9 @@ public static class MetaGameManager
             },
             new NPCStatModifierReward()
             {
-                
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
-    
+
                 StatType = StatType.NPC_ResearchSpeed,
                 IconSpriteId = "IconResearch",
                 BaseValue = 1.1f
@@ -966,7 +1060,7 @@ public static class MetaGameManager
              */
             //TODO: Add a perk that automatically decreases tech debt on release
             // Proboablly do the same thing with cash
-             new WorldObjectTypeNetworkPacketStatModifierReward()
+            new WorldObjectTypeNetworkPacketStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
                 Id = "image_optimization",
@@ -977,7 +1071,7 @@ public static class MetaGameManager
                 BaseValue = 0.95f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconImageOptimization",
-                ScaleDirection =  ScaleDirection.Down
+                ScaleDirection = ScaleDirection.Down
             },
             new WorldObjectTypeNetworkPacketStatModifierReward()
             {
@@ -990,7 +1084,7 @@ public static class MetaGameManager
                 BaseValue = 0.9f,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection =  ScaleDirection.Down
+                ScaleDirection = ScaleDirection.Down
             },
             new GlobalNetworkPacketStatModifierReward()
             {
@@ -1042,10 +1136,10 @@ public static class MetaGameManager
                 Name = "Database Indexes",
                 Description = "Increases the CPU Load Where Latency Starts Accumulating On The DB",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
-                BaseValue =  1.25f,
+                BaseValue = 1.25f,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection =  ScaleDirection.Up
+                ScaleDirection = ScaleDirection.Up
             },
             new WorldObjectTypeStatModifierReward()
             {
@@ -1054,12 +1148,12 @@ public static class MetaGameManager
                 Name = "Multi Threaded",
                 Description = "Increases the CPU Load Where Latency Starts Accumulating On The Application Layer",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
-                BaseValue =  1.25f,
+                BaseValue = 1.25f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconCode",
-                ScaleDirection =  ScaleDirection.Up
+                ScaleDirection = ScaleDirection.Up
             }
-            
+
             /**
              * Sprint Modifiers
              *
@@ -1070,7 +1164,6 @@ public static class MetaGameManager
                 Distractions? Dumb ass questions that get asked by NPCS like the sales guy.
                 Increase tech debt rate, requires more frequent deployments
              */
-            
         };
     }
 }

@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using DefaultNamespace;
 using MetaChallenges;
 using Stats;
 using Tutorial;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Infrastructure
@@ -55,6 +59,8 @@ namespace Infrastructure
         public Vector3 interactionPositionOffset = new Vector3(0.0f, 1.0f, 0.0f);
         public Type type;
         public MetaStatCollection metaStatCollection = new MetaStatCollection();
+        protected string sizeTechnologyPrefix = null;
+        
         public string GetTypeAsId()
         {
             return System.Text.RegularExpressions.Regex.Replace(type.ToString(), "([a-z])([A-Z])", "$1-$2").ToLower();
@@ -103,6 +109,41 @@ namespace Infrastructure
             }
 
             return ShowInGlobalDisplay;
+        }
+
+        public InfraSize GetMaxSize()
+        {
+            
+            InfraSize size = InfraSize.Small;
+
+            if (sizeTechnologyPrefix == null)
+            {
+                Debug.Log($"No `sizeTechnologyPrefix` set returning {size}");
+                return size;
+            }
+
+            foreach (InfraSize _size in Enum.GetValues(typeof(InfraSize)))
+            {
+                if (_size == InfraSize.Small)
+                {
+                    continue;
+                }
+                string technologyId = $"{sizeTechnologyPrefix}-size-{_size.ToString().ToLower()}";
+                Debug.Log($"GetMaxSize: {technologyId}");
+                Technology technology = GameManager.Instance.GetTechnologyByID(technologyId);
+                if (technology == null)
+                {
+                    Debug.LogWarning($"{technologyId} not found - setting {DisplayName} Max Size to {size}");
+                    return size;
+                }
+                if (!technology.IsUnlocked())
+                {
+                    return size;
+                }
+                size = _size;
+            }
+            Debug.Log($"GetMaxSize End: {size}");
+            return size;
         }
     }
 }

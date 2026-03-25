@@ -77,7 +77,7 @@ namespace UI
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Daily Cost: ${infraInstance.GetDailyCost():F2}";
 
                 // Size
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Curr Size: {infraInstance.CurrentSizeLevel}";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Size: {infraInstance.CurrentSize} - Max:{infraInstance.GetWorldObjectType().GetMaxSize()}";
             }
 
             // Stats

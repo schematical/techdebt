@@ -6,7 +6,7 @@ using Tutorial;
 using UnityEngine.Serialization; // Added for SerializableAttribute
 
 [Serializable]
-public class Technology
+public class Technology: iUnlockable
 {
     public enum State { MetaLocked, Locked, Researching, Unlocked }
     public enum TechTreeDirection { Up, Down, Left, Right }
@@ -22,6 +22,10 @@ public class Technology
     public State OriginalState = State.MetaLocked;
     public TutorialStepId TutorialStepId { get; set; } = TutorialStepId.None;
 
+    public bool IsUnlocked()
+    {
+        return CurrentState == State.Unlocked;
+    }
 
     public void OnInterrupt()
     {

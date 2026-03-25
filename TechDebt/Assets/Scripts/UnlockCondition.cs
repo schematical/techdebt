@@ -4,7 +4,7 @@ using Tutorial;
 using UnityEngine.Serialization;
 
 [Serializable]
-public class UnlockCondition
+public class UnlockCondition: iUnlockable
 {
 
     public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState }

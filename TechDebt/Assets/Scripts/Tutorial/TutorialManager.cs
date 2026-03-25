@@ -977,7 +977,7 @@ namespace Tutorial
                     if (infrastructureInstance.data.CurrentState == InfrastructureData.State.Frozen)
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Frozen);
-                    } else if (infrastructureInstance.CurrentSizeLevel > 0)
+                    } else if (infrastructureInstance.CurrentSize > 0)
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Upsized);
                     } else if(

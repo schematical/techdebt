@@ -10,6 +10,7 @@ public class ApplicationServerWOType : WorldObjectType
         type = WorldObjectType.Type.ApplicationServer;
         DisplayName = "Application Server";
         PrefabId = "ServerPrefab";
+        sizeTechnologyPrefix = "application-server";
         BuildTime = 30;
         DailyCost = 30;
         CanBeUpsized = true;

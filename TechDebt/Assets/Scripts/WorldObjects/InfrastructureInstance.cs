@@ -4,6 +4,8 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using DefaultNamespace;
+using DefaultNamespace.Util;
 using Infrastructure;
 using MetaChallenges;
 using Random = UnityEngine.Random;
@@ -19,7 +21,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public float CurrentLoad { get; set; }
 
-    public int CurrentSizeLevel { get; private set; } = 0;
+    public InfraSize CurrentSize { get; private set; } = 0;
 
     public string Version = "0.0.1";
     public GameObject serverSmokeEffect;
@@ -71,9 +73,13 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     }
 
     protected float GetSizeMultiplier()
-    {
-        return (float) Math.Pow(2, CurrentSizeLevel);
+    {   
+        float sizeMultiplier = InfraSizeHelper.SizeToNumber(CurrentSize);
+        
+        return (float) Math.Pow(2, sizeMultiplier);
     }
+
+    
 
     public void ReceivePacket(NetworkPacket packet)
     {
@@ -463,17 +469,15 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public void ApplyResize(int sizeChange)
     {
         // Update and clamp the size level
-        CurrentSizeLevel = Mathf.Clamp(CurrentSizeLevel + sizeChange, 0,
-            (int)GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxSize));
-
-        // Calculate the visual scale factor (e.g., 1.25, 1.5, etc.)
-        float visualScaleFactor = 1.0f + (CurrentSizeLevel * 0.25f);
+        int newSizeNumber = InfraSizeHelper.SizeToNumber(CurrentSize) + sizeChange;
+        CurrentSize = InfraSizeHelper.NumberToSize(newSizeNumber);
+        float visualScaleFactor = 1.0f + (newSizeNumber * 0.3f);
         transform.localScale = Vector3.one * visualScaleFactor;
 
         
-        if (GetWorldObjectType().GetMetaStat(MetaStat.Infra_MaxSize) < CurrentSizeLevel)
+        if (GetWorldObjectType().GetMetaStat(MetaStat.Infra_MaxSize) < newSizeNumber)
         {
-            GetWorldObjectType().SetMetaStat(MetaStat.Infra_MaxSize, CurrentSizeLevel);
+            GetWorldObjectType().SetMetaStat(MetaStat.Infra_MaxSize, newSizeNumber);
         }
 
         SetState(InfrastructureData.State.Operational);
@@ -504,16 +508,16 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
           
                 break;
             case (InfrastructureData.State.Operational):
+                InfraSize maxSize = worldObjectType.GetMaxSize();
                 if (
-                    worldObjectType.CanBeUpsized && 
-                    CurrentSizeLevel > 0
+                    CurrentSize != InfraSize.Small
                 ) {
                     availableTasks.Add(new ResizeTask(this, -1));
                 }
 
                 if (
-                    worldObjectType.CanBeUpsized && 
-                    CurrentSizeLevel < (int)GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxSize)
+                    maxSize != InfraSize.Small &&
+                    maxSize != CurrentSize 
                 )
                 {
                     availableTasks.Add(new ResizeTask(this, 1));
@@ -530,79 +534,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return availableTasks;
     }
 
-    public override string GetDetailText()
-    {
-        WorldObjectType type = GetWorldObjectType();
-        string content = $"<b>{type.DisplayName}</b>\n";
-        content += $"State: {data.CurrentState}\n\n";
-        content += $"Release: {Version}\n\n";
-        content += $"Curr Load: {CurrentLoad}/{GetMaxLoad()}\n";
-        content += $"Daily Cost: ${GetDailyCost()}\n";
-        content += $"Curr Size: {CurrentSizeLevel}\n";
-        content += "<b>Stats:</b>\n";
-        foreach (StatData stat in type.Stats.Stats.Values)
-        {
-            content += $"- {stat.Type}: {stat.Value:F2} (Base: {stat.BaseValue:F2})\n";
-            if (stat.Modifiers.Count > 0)
-            {
-                content += "  <i>Modifiers:</i>\n";
-                foreach (StatModifier modifier in stat.Modifiers)
-                {
-                    content += $"  - {modifier.Id} - {modifier.Value:F2} ({modifier.Type})\n";
-                }
-            }
-        }
-        content += "<b>NetworkPackets:</b>\n";
-        foreach (InfrastructureDataNetworkPacket packet in type.networkPackets)
-        {
-            content += $"- {packet.PacketType}\n";//  Load Per Packet: {packet.loadPerPacket} - {packet.RouteType}\n";
-            {
-                content += "  <i>- Stats:</i>\n";
-                foreach (StatData stat in packet.Stats.Stats.Values)
-                {
-                    content += $"  - {stat.Type}  - Base: {stat.BaseValue} - Calculated: {stat.Value}\n";
-                    if (stat.Modifiers.Count > 0)
-                    {
-                        content += "  <i>   - Modifiers:</i>\n";
-                        foreach (StatModifier modifier in stat.Modifiers)
-                        {
-                            content += $"      - {modifier.Id} - {modifier.GetDisplayText()}\n";
-                        }
-                    }
-                }
-            }
-        }
-      
-
-        content += "\n<b>Connections:</b>\n";
-        if (CurrConnections.Count == 0)
-        {
-            content += "No active connections.";
-        }
-        else
-        {
-            foreach (KeyValuePair<NetworkPacketData.PType, List<NetworkConnection>> kvp in CurrConnections)
-            {
-                List<NetworkConnection> networkConnections = kvp.Value;
-                content += $"- <b>{kvp.Key}:</b>\n";
-                foreach (NetworkConnection networkConnection in networkConnections)
-                {
-                    content += $"-- {networkConnection.networkPacketType} - {networkConnection.worldObjectType} \n";
-                    foreach (NetworkConnectionBonus networkConnectionBonus in networkConnection.networkConnectionBonus)
-                    {
-                        content +=
-                            $"--- {networkConnectionBonus.Stat} | {networkConnectionBonus.value}\\n";
-                    }
-                }
-
-                content += "\n";
-            }
-        }
-
-
-        return content;
-    }
-
+    
 
     public void ReceiveAttack(NPCBase npcBase)
     {

@@ -29,3 +29,7 @@ public interface iModifiable
 {
     public StatsCollection Stats { get; }
 }
+public interface iUnlockable
+{
+    public bool IsUnlocked();
+}
