@@ -37,7 +37,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.NPC_Consultant,
                     "Help",
-                    "I am here guide you as you spin up your server infrastructure so you can run your company."
+                    "I am here to guide you as you spin up your server infrastructure so you can run your company."
                 )
                 {
                     getTarget = () =>
@@ -53,7 +53,7 @@ namespace Tutorial
                     TutorialStepId.Infra_Door,
                     "Door",
                     "Your team will enter via this door at the beginning of the day and exit at the end of the day. \n" + 
-                    "Don't worry for this part of the Tutorial the clock is not ticking yet. \n" + 
+                    "Don't worry, for this part of the tutorial the clock is not ticking yet. \n" + 
                     "Click 'Start Day' to start your day. "
                 )
                 {
@@ -106,8 +106,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Technology_ApplicationServer_Researching,
                     "Speed Up Time",
-                    "To speed things up use the controls in the lower right hand side of the screen to manipulate in game time. \n" +
-                    "Once this part of the tutorial is over it will increase the speed of the game clock as well."
+                    "To speed things up, use the controls in the lower right-hand side of the screen to manipulate in-game time. \n" +
+                    "Once this part of the tutorial is over, it will increase the speed of the game clock as well."
                 )
                 {
            // TODO: Make this non blocking. Triggered but increasing the speed.
@@ -151,7 +151,7 @@ namespace Tutorial
                     TutorialStepId.Infra_ApplicationServer_Operational,
                     "Server Built",
                     "This is the Application Server. " +
-                    "It will receive Network Packets coming from the internet, process them, and send back a response to whoever sent the request on the internet."
+                    "It will receive Network Packets coming from the Internet, process them, and send back a response to whoever sent the request on the Internet."
                 )
                 {
                     getTarget = () =>
@@ -166,10 +166,10 @@ namespace Tutorial
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_InternetPipe,
-                    "The Internetz",
+                    "The Internet",
                     "Notice Network Packets flowing in from the Internet to your server.\n" +
-                    "When a packet finishes it's journey you can see how many milliseconds it took for the trip to take. \n" +
-                    "This is known as \"Latency\" and it will be important later."
+                    "When a packet finishes its journey, you can see how many milliseconds the trip took. \n" +
+                    "This is known as \"Latency,\" and it will be important later."
                 )
                 {
                     getTarget = () =>
@@ -220,13 +220,12 @@ namespace Tutorial
                     },
                    
                     NextStepId = TutorialStepId.Basics_Economy,
-
                 },
               
                 new TutorialStep(
                     TutorialStepId.Technology_DedicatedDB_Unlocked,
                     "Dedicated DB",
-                    "Congrats! You researched more Server Infrastructure that available to be built. You will want to assign your team to build it when you are ready"
+                    "Congrats! You researched more Server Infrastructure that is available to be built. You will want to assign your team to build it when you are ready."
                 )
                 {
 
@@ -258,8 +257,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Technology_Whiteboard_Unlocked,
                     "Software Releases",
-                    "Great work. Another way you can level up your gameplay is to code and deploy releases." +
-                    "Once you build it you can select a feature to focus on by clicking on the whiteboard."
+                    "Great work. Another way you can level up your gameplay is to code and deploy releases. " +
+                    "Once you build it, you can select a feature to focus on by clicking on the whiteboard."
                 )
                 {
                     
@@ -290,7 +289,7 @@ namespace Tutorial
                     TutorialStepId.Release_InDevelopment,
                     "Software Releases",
                     "Your team will now work on coding the next release when higher priority tasks are not available.\n" +
-                    "You can research tools that will allow you to set tasks priority later"
+                    "You can research tools that will allow you to set task priority later."
                 )
                 {
                     getTarget = () =>
@@ -303,7 +302,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Release_DeploymentReady,
                     "Deployment Ready",
-                    "Your first release is ready to be deployed. Click on all available Application Servers to trigger up the deployment.\n" +
+                    "Your first release is ready to be deployed. Click on all available Application Servers to trigger the deployment.\n" +
                     "Use Meta Challenges to unlock technologies that will automate this for you in the future."
                 )
                 {
@@ -319,8 +318,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Release_DeploymentRewardReady,
                     "Deployment Reward",
-                    "Well done. Depending on the skill level of the engineers that worked on the release your reward will be assigned a higher rarity.  \n" +
-                    "Click 'Deployment Complete' to find out the rarity of your reward"
+                    "Well done. Depending on the skill level of the engineers that worked on the release, your reward will be assigned a higher rarity.  \n" +
+                    "Click 'Deployment Complete' to find out the rarity of your reward."
                 )
                 {
                     showContinue = false,
@@ -364,7 +363,7 @@ namespace Tutorial
                     TutorialStepId.NPC_Bug_Dead,
                     "Where bugs come from.",
                     "You debugged it! " +
-                    "The quality of your latest Software Release and the amount of Tech Debt you have will influence the likely hood of bugs spawning and their severity \n"
+                    "The quality of your latest Software Release and the amount of Tech Debt you have will influence the likelihood of bugs spawning and their severity. \n"
                 )
                 {
                     getTarget = () =>
@@ -379,7 +378,7 @@ namespace Tutorial
                     TutorialStepId.NetworkPacket_Failed,
                     "Network Packet Failed",
                     "NetworkPackets are failing! " +
-                    "There are many reasons NetworkPackets can fail. Bugs can get them, your servers can become overloaded and freeze.\n" +
+                    "There are many reasons NetworkPackets can fail. Bugs can get them, or your servers can become overloaded and freeze.\n" +
                     "Try to figure out the cause and fix it."
                 )
                 {
@@ -391,8 +390,8 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Basics_Economy,
                     "Economy Basics",
-                    "Booting up these servers isn't free. At the end of each day you will get charged for the infrastructure you use. \n" + 
-                    "We have a limited budget so if you exceed the budget that is game over. \n" + 
+                    "Booting up these servers isn't free. At the end of each day, you will get charged for the infrastructure you use. \n" + 
+                    "We have a limited budget, so if you exceed the budget, it is game over. \n" + 
                     "Keep an eye on it in the UI."
                 )
                 {
@@ -438,7 +437,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Basics_Day,
                     "Day Cycle",
-                    "The clock is now ticking! At the end of day you will receive a summary.\n" +
+                    "The clock is now ticking! At the end of the day, you will receive a summary.\n" +
                     "Keep researching and building to progress the run. Good luck!"
                 )
                 {
@@ -490,7 +489,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_Purchase,
                     "Items",
-                    "Since it is launch day we can now expect a new `NetworkPacket` type called `Purchase`. \n" +
+                    "Since it is launch day, we can now expect a new `NetworkPacket` type called `Purchase`. \n" +
                     "This packet type increases the amount of money allocated for our server infrastructure. \n" +
                     "You can unlock upgrades to increase the chances of this type of packet arriving and the amount you make on each packet."
                 ){
@@ -509,7 +508,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Frozen,
                     "Frozen Infrastructure",
-                    "If the load gets higher then the server can handle it will freeze. If that happens network requests will start to fail. This is bad."
+                    "If the load gets higher than the server can handle, it will freeze. If that happens, network requests will start to fail. This is bad."
                 )
                 {
 
@@ -541,7 +540,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Frozen2,
                     "Frozen Infrastructure",
-                    "Until you research technology that monitors the servers you will need to manually tell your engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online."
+                    "Until you research technology that monitors the servers, you will need to manually tell your engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online."
                 )
                 {
                     showContinue = false,
@@ -587,7 +586,7 @@ namespace Tutorial
                     TutorialStepId.Infra_ApplicationServer_Fixed2,
                     "Scaling Server Size",
                     "You can increase the load the server can take by increasing the server size. \n" + 
-                    "Click on the server then select \"Upsize\" to do this."
+                    "Click on the server, then select \"Upsize\" to do this."
                 )
                 {
                     showContinue = false,
@@ -616,7 +615,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Upsized,
                     "Increase Server Size",
-                    "Great work. Just remember increasing the server size also increases its cost."
+                    "Great work. Just remember that increasing the server size also increases its cost."
                 )
                 {
                     getTarget = () =>
@@ -667,7 +666,7 @@ namespace Tutorial
                         TutorialStepId.Infra_ApplicationServer_Tip,
                         "Application Server",
                         "The Application Server is where the main logic for your application should live.\n" +
-                        "You can host everything including images and your database on it but that won't scale. \n" +
+                        "You can host everything, including images and your database, on it, but that won't scale. \n" +
                         "So research specialized tech that is optimized for the various network traffic."
                         
                     )
@@ -680,7 +679,7 @@ namespace Tutorial
                         TutorialStepId.Infra_DedicatedDB_Tip,
                         "Dedicated DB",
                         "Having a Dedicated DB will significantly reduce the load on the Application Server.\n" +
-                        "It will handle text traffic but not images because saving images to a relational DB is strongly NOT recommended at scale. \n"
+                        "It will handle text traffic, but not images, because saving images to a relational DB is strongly NOT recommended at scale. \n"
                         
                     )
                     {
@@ -692,7 +691,7 @@ namespace Tutorial
                         TutorialStepId.Infra_BinaryStorage_Tip,
                         "Binary Storage",
                         "Moving binary storage to its own hardware will significantly reduce the load on the Application Server.\n" +
-                        "It will handle Image traffic. This also will make it so you can boot up more application servers once you have unlocked the Load Balancer. \n"
+                        "It will handle image traffic. This also will make it so you can boot up more application servers once you have unlocked the Load Balancer. \n"
                         
                     )
                     {
@@ -702,7 +701,7 @@ namespace Tutorial
                     new TutorialStep(
                         TutorialStepId.Infra_KanbanBoard_Tip,
                         "Kanban Board",
-                        "The Kanban Board allows you to prioritize which tasks your team work on first. \n"
+                        "The Kanban Board allows you to prioritize which tasks your team works on first. \n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -711,8 +710,8 @@ namespace Tutorial
                     new TutorialStep(
                         TutorialStepId.Infra_WhiteBoard_Tip,
                         "Software Basics",
-                        "This unlocks the White Board which allows you to chose the focus of your team's next software release.\n" +
-                        "Deploying software releases unlock powerful rewards and bonuses.\n"
+                        "This unlocks the White Board, which allows you to choose the focus of your team's next software release.\n" +
+                        "Deploying software releases unlocks powerful rewards and bonuses.\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -722,7 +721,7 @@ namespace Tutorial
                         TutorialStepId.Infra_OrgChart_Tip,
                         "Org Chart",
                         "The Org Chart allows you to unlock new team member positions.\n" +
-                        "Each team member you have will unlock new game mechanics and quests(Coming soon).\n"
+                        "Each team member you have will unlock new game mechanics and quests (Coming soon).\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -732,7 +731,7 @@ namespace Tutorial
                         TutorialStepId.Infra_ProductRoadMap_Tip,
                         "Product Road Map",
                         "The Product Road Map will give you insight into previous and upcoming sprints.\n" +
-                        "This will allow you to better navigate the run(Work in progress).\n"
+                        "This will allow you to better navigate the run (Work in progress).\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -752,7 +751,7 @@ namespace Tutorial
                         TutorialStepId.Infra_CDN_Tip,
                         "Content Delivery Network",
                         "A CDN distributes static assets like images globally to bring them closer to your users.\n" +
-                        "It will take all the Binary Data/Image load off your Application Layer except uploads.\n"
+                        "It will take all the binary data/image load off your Application Layer, except for uploads.\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -771,7 +770,7 @@ namespace Tutorial
                         TutorialStepId.Infra_WaterCooler_Tip,
                         "Water Cooler",
                         "The Water Cooler provides a place for your team to relax and socialize.\n" +
-                        "It improves morale but also can cause occasional distractions.(Work in progress)\n"
+                        "It improves morale but also can cause occasional distractions. (Work in progress)\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -791,7 +790,7 @@ namespace Tutorial
                         TutorialStepId.Infra_SQS_Tip,
                         "Queue",
                         "Deferring computational tasks to be processed later by a Worker Server will take a lot of load off the Application Servers.\n" +
-                        "You can accomplish this by sending a requests to the Queue for the Worker Servers to pick up later. \n"
+                        "You can accomplish this by sending a request to the Queue for the Worker Servers to pick up later. \n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -801,7 +800,7 @@ namespace Tutorial
                         TutorialStepId.Infra_CodePipeline_Tip,
                         "Build Pipeline",
                         "Build Pipeline automates your software deployment process.\n" +
-                        "This will free up your Team Members to stay focused on other tasks.\n"
+                        "This will free up your team members to stay focused on other tasks.\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
@@ -821,7 +820,7 @@ namespace Tutorial
                         TutorialStepId.Infra_Cognito_Tip,
                         "Cognito User Pools",
                         "Cognito manages user authentication and identity.\n" +
-                        "This decreases the cost and likely hood of PII Network Packets getting leaked.\n"
+                        "This decreases the cost and likelihood of PII Network Packets getting leaked.\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,

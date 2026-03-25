@@ -633,7 +633,14 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
-        return transform.position;
+        switch (interactionType)
+        {
+            case(InteractionType.Explain):
+                return transform.position + new Vector3(2, 0, 0);
+            default:
+                return transform.position + new Vector3(1, 0, 0);
+        }
+   
     }
 
     public void IncrMetaStat(MetaStat metaStat)

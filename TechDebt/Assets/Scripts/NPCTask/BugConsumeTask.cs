@@ -8,7 +8,7 @@ public class BugConsumeTask : NPCTask
 
     public BugConsumeTask(iTargetable target, int prioity = 1): base(target, prioity)
     {
-        maxTaskRange = 1f;
+        maxTaskRange = .5f;
     }
 /*
     public override void OnStart(NPCBase npc)
@@ -44,13 +44,13 @@ public class BugConsumeTask : NPCTask
     public override void OnEnd(NPCBase npc)
     {
         NetworkPacket networkPacket = target.gameObject.GetComponent<NetworkPacket>();
-        if (networkPacket != null)
+        if (networkPacket != null && networkPacket.isActiveAndEnabled)
         {
             networkPacket.MarkFailedAndDestroy();
         }
         else
         {
-            target.gameObject.SetActive(false);
+            Debug.LogError($"{target.gameObject.name} doesn't have a NetworkPacket");
         }
 
         npc.ResetCooldown(NPCBase.CoolDownType.Consume, 5);
