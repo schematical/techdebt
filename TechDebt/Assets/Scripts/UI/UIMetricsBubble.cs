@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +8,8 @@ namespace UI
     {
         public RectTransform pointer;
         protected InfrastructureInstance target;
-        protected Vector3 worldOffset = new Vector3(0, 1.5f, .5f);
         public RectTransform dialogBox;
+        public UIPanelLineProgressBar cpuLoadBar;
         protected override void Awake()
         {
             runUICloseOnShow = false;
@@ -21,9 +22,35 @@ namespace UI
             gameObject.SetActive(true);
             transform.SetAsFirstSibling();
             panelState = UIState.Open;
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1("Metrics:");
+            cpuLoadBar = AddLine<UIPanelLineProgressBar>();
+            
         }
 
-        public void SimpleDisplay(string description, List<DialogButtonOption> options = null)
+        public virtual void Update()
+        {
+            base.Update();
+            float load = target.CurrentLoad / target.GetMaxLoad();
+            Color color = new Color(1, 1- load, 1-load, 1);
+            cpuLoadBar.SetProgress(load, color);
+            
+            Camera cam = Camera.main;
+
+            Vector3 worldPos = target.GetInteractionPosition(InteractionType.MetricsBubble);
+            Vector3 viewportPos = cam.WorldToViewportPoint(worldPos);
+
+            bool isOffScreen = viewportPos.z < 0 || 
+                               viewportPos.x < 0 || viewportPos.x > 1 || 
+                               viewportPos.y < 0 || viewportPos.y > 1;
+            
+            
+            // Pin the UI element to the target's viewport position
+            rectTransform.anchorMin = new Vector2(viewportPos.x, viewportPos.y);
+            rectTransform.anchorMax = new Vector2(viewportPos.x, viewportPos.y);
+            rectTransform.anchoredPosition = Vector2.zero;
+        }
+
+        /*public void SimpleDisplay(string description, List<DialogButtonOption> options = null)
         {
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = description;
 
@@ -51,7 +78,7 @@ namespace UI
                     }
                 );
             }
-        }
+        }*/
 
         public void SetTarget(InfrastructureInstance target)
         {

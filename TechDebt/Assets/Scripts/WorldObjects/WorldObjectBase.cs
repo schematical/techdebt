@@ -140,7 +140,9 @@ namespace Infrastructure
                     // Debug.Log($"{gameObject.name} - transform.position: {transform.position} - cellPos: {cellPos} - destPos: {destPos} - rPos: {rPos}");
                     return rPos;
                 case(InteractionType.Explain):
-                    return transform.position + new Vector3(2, 0, 0);
+                    return transform.position + new Vector3(2, 0, 0); 
+                case(InteractionType.MetricsBubble):
+                    return transform.position + new Vector3(0, 3, 0);
                 default:
                     throw new System.NotImplementedException();
             }

@@ -1,6 +1,7 @@
 ﻿// Server.cs
 
 using System;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -53,5 +54,9 @@ public class Desk : InfrastructureInstance
                 return base.GetInteractionPosition(interactionType);
         }
         
+    }
+    public override UIMetricsBubble ShowMetricsBubble()
+    {
+        return null;
     }
 }

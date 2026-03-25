@@ -59,12 +59,12 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
 
 
-        if (IsActive())
+        /*if (IsActive())
         {
             // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
             float c = 1 - CurrentLoad / GetMaxLoad();
             spriteRenderer.color = new Color(1, c, c, 1);
-        }
+        }*/
     }
 
     public float GetMaxLoad()
@@ -321,12 +321,12 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 // Normal appearance
                 spriteRenderer.color = Color.white;
                 break;
+            case InfrastructureData.State.Frozen:
+                spriteRenderer.color = Color.red;
+                break;
         }
 
-        if (GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").CurrentState == Technology.State.Unlocked)
-        {
-            // AddStatusBar();
-        }
+      
       
     }
 
@@ -562,26 +562,30 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return data.Id;
 
     }
-    public UIMetricsBubble  ShowMetricsBubble()
+    public virtual UIMetricsBubble  ShowMetricsBubble()
     {
         if (metricsBubble != null)
         {
             metricsBubble.Close();
         }
-        gameObject.SetActive(true);
+        // gameObject.SetActive(true);
 
-        metricsBubble = GameManager.Instance.prefabManager.Create("UIMetricsBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIMetricsBubble>();
+        metricsBubble = GameManager.Instance.prefabManager.Create("UIMetricsBubble", GetInteractionPosition(), GameManager.Instance.UIManager.transform).GetComponent<UIMetricsBubble>();
         metricsBubble.SetTarget(this);
         metricsBubble.transform.SetAsFirstSibling();
         metricsBubble.CleanUp();
+        metricsBubble.Show();
         return metricsBubble;
     }
 
-    public void HideDialogBubble()
+    public void HideMetricsBubble()
     {
-        metricsBubble.Close();
+        if (metricsBubble != null)
+        {
+            metricsBubble.Close();
+        }
     }
-    public bool IsDialogBubbleActive()
+    public bool IsMetricsBubbleActive()
     {
         if (metricsBubble == null)
         {

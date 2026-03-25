@@ -1,3 +1,4 @@
+using UI;
 using UnityEngine;
 
 public class InternetPipe : InfrastructureInstance
@@ -65,7 +66,12 @@ public class InternetPipe : InfrastructureInstance
 
       
     }
-    
+
+    public override UIMetricsBubble ShowMetricsBubble()
+    {
+        return null;
+    }
+
     public override Vector3 GetInteractionPosition(InteractionType interactionType =  InteractionType.Basic)
     {
         switch (interactionType)

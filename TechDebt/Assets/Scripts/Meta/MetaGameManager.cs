@@ -624,10 +624,11 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "cloud-watch-metrics",
-                DisplayName = "Cloud Watch Metrics",
+                DisplayName = "Metrics",
                 Description = "",
                 Direction = Technology.TechTreeDirection.Down,
-                ResearchTime = 200,
+                ResearchTime = 120,
+                CurrentState = Technology.State.Locked,
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
@@ -933,7 +934,6 @@ public static class MetaGameManager
                 DisplayName = "Cloud Watch Metrics",
                 Description = "Successfully make it to Sprint 2",
                 metaStat = MetaStat.Sprint,
-                WorldObjectTypeId = "sns",
                 RequiredValue = 2,
                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Highest,
                 Rewards = new List<RewardBase>()

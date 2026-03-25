@@ -230,6 +230,30 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        if (
+            Keyboard.current.shiftKey.wasPressedThisFrame &&
+            GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").IsUnlocked()
+        )
+        {
+            
+            foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
+            {
+                if (infrastructureInstance.IsActive())
+                {
+                    infrastructureInstance.ShowMetricsBubble();
+                }
+            }
+        }else if (Keyboard.current.shiftKey.wasReleasedThisFrame)
+        {
+            foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
+            {
+                if (infrastructureInstance.IsActive())
+                {
+                    infrastructureInstance.HideMetricsBubble();
+                }
+            } 
+        }
+
        
 
        

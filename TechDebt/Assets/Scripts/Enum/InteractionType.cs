@@ -1,1 +1,8 @@
-public enum InteractionType { Basic, Block, Consume, Explain }
+public enum InteractionType
+{
+    Basic, 
+    Block, 
+    Consume, 
+    Explain,
+    MetricsBubble
+}
