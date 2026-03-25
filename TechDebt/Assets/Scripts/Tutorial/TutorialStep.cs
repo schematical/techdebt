@@ -97,9 +97,17 @@ namespace Tutorial
             NPCBase npc = GetSpeaker();
             UIDialogBubble dialogBubble = npc.ShowDialogBubble();
         
-            dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = Description;
            
-        
+           
+                
+                
+            UIPanelLine dialogLine = dialogBubble.AddLine<UIPanelLine>();
+            if (spriteId != null)
+            {
+                Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(spriteId);
+                dialogLine.Add<UIPanelLineSectionImage>().image.sprite = sprite;
+            }
+            dialogLine.Add<UIPanelLineSectionText>().text.text = Description;
             foreach (DialogButtonOption option in GetDialogOptions())
             {
                 dialogBubble.AddButton(

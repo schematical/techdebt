@@ -4,6 +4,7 @@ using System.Linq;
 using DefaultNamespace;
 using Infrastructure;
 using NPCs;
+using Stats;
 using Tutorial;
 using Tutorial.Steps;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace Tutorial
         public TutorialManagerState State { get; protected set; } = TutorialManagerState.Active;
         protected Dictionary<TutorialStepId, TutorialStep> Steps = new Dictionary<TutorialStepId, TutorialStep>();
         protected TutorialStepId CurrentTutorialStepId = TutorialStepId.None;
+        
         public TutorialManager()
         {
             List<TutorialStep> steps = new List<TutorialStep>()
@@ -31,6 +33,7 @@ namespace Tutorial
                     "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit."
                 )
                 {
+                    // spriteId = "file-cat",
                     NextStepId = TutorialStepId.NPC_Consultant,
                     forcePause = false
                 },
@@ -129,7 +132,6 @@ namespace Tutorial
                         infrastructureInstance.ShowAttentionIcon();
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
 
                 },
                 new TutorialStep(
@@ -145,7 +147,6 @@ namespace Tutorial
                         infrastructureInstance.ShowAttentionIcon();
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Operational,
@@ -160,7 +161,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.Infra_InternetPipe
 
                 },
@@ -179,7 +179,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("internetPipe");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
                     NextStepId = TutorialStepId.NetworkPacket_Text
 
                 },
@@ -194,12 +193,13 @@ namespace Tutorial
                     {
                         InternetPipe pipe =
                             GameManager.Instance.GetInfrastructureInstanceByID("internetPipe").GetComponent<InternetPipe>();
-                        NetworkPacketData data =
+                        /*NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
-                        NetworkPacket networkPacket = pipe.SendPacket(data);
+                        NetworkPacket networkPacket = pipe.SendPacket(data);*/
                         return pipe;
                     },
-                    spriteId = "SchematicalBot",
+                 
+                    spriteId = "file",
                     NextStepId = TutorialStepId.NetworkPacket_BinaryImage
                 },
                 new TutorialStep(
@@ -213,13 +213,13 @@ namespace Tutorial
                     {
                         InternetPipe pipe =
                             GameManager.Instance.GetInfrastructureInstanceByID("internetPipe").GetComponent<InternetPipe>();
-                        NetworkPacketData data =
+                        /*NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
-                        NetworkPacket networkPacket = pipe.SendPacket(data);
+                        NetworkPacket networkPacket = pipe.SendPacket(data);*/
                         return pipe;
                     },
-                   
                     NextStepId = TutorialStepId.Basics_Economy,
+                    spriteId = "file-cat"
                 },
               
                 new TutorialStep(
@@ -235,7 +235,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
                 },
 
                 new TutorialStep(
@@ -283,7 +282,6 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
                         return infrastructureInstance;
                     },
-                    spriteId = "SchematicalBot",
                 },
                 new TutorialStep(
                     TutorialStepId.Release_InDevelopment,
@@ -918,6 +916,8 @@ namespace Tutorial
 
         public void End()
         {
+     
+
             State = TutorialManagerState.Inactive;
             GameManager.Instance.GameLoopManager.SetPlayTimerActive(true);
             GameManager.OnInfrastructureStateChange -= HandleInfrastructureStateChange;

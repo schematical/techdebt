@@ -261,7 +261,12 @@ public static class MetaGameManager
                     {
                         Type = UnlockCondition.ConditionType.Technology, 
                         TechnologyID = "white-board"
-                    }
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
+                        SprintNumber = 1
+                    },
                 },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
@@ -292,7 +297,14 @@ public static class MetaGameManager
                 DisplayName = "Org Chart",
                 Description = "",
                 ResearchTime = 120,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "kanban-board" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "kanban-board"
+                    }
+                },
                 CurrentState = Technology.State.MetaLocked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_OrgChart_Tip
@@ -303,7 +315,19 @@ public static class MetaGameManager
                 DisplayName = "Product Road Map",
                 Description = "",
                 ResearchTime = 30,
-                UnlockConditions = new List<UnlockCondition>() { new UnlockCondition() { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "white-board" } },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TechnologyID = "white-board"
+                    },
+                    new  UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
+                        SprintNumber = 1
+                    },
+                },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_ProductRoadMap_Tip
@@ -925,6 +949,9 @@ public static class MetaGameManager
                 BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
+            // TODO: Multi Tasker - Reduces Time spent when switching tasks but decreases quality
+            // TODO: Headphones: Big progress/speed penalty for switching tasks but increased quality/speed when working 
+            // TODO: Heads Down - Cannot switch tasks but quality and speed is increased
             /*
              *
              * MATTS NOTES:
