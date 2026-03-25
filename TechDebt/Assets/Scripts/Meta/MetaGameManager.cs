@@ -358,7 +358,6 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
-                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
@@ -376,7 +375,6 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
-                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
@@ -931,7 +929,7 @@ public static class MetaGameManager
             new MetaChallengeBase()
             {
                 ChallengeID = "cloud-watch-metrics",
-                DisplayName = "Cloud Watch Metrics",
+                DisplayName = "Metrics",
                 Description = "Successfully make it to Sprint 2",
                 metaStat = MetaStat.Sprint,
                 RequiredValue = 2,

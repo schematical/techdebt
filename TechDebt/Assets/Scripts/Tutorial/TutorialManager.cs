@@ -811,7 +811,8 @@ namespace Tutorial
                     new TutorialStep(
                         TutorialStepId.Infra_CloudWatchMetrics_Tip,
                         "Metrics",
-                        "Metrics gives you better visibility into infrastructure load.\n"
+                        "Metrics gives you better visibility into infrastructure load.\n" + 
+                        "Just hold `Shift` and it will display all the infrastructure metrics above the instances."
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,

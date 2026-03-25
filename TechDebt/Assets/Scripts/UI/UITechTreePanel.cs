@@ -182,7 +182,10 @@ namespace UI
                     
                 foreach (UnlockCondition unlockCondition in tech.UnlockConditions)
                 {
-                    reqs.Add(unlockCondition.ToString());
+                    if (unlockCondition.Type == UnlockCondition.ConditionType.Technology)
+                    {
+                        reqs.Add(unlockCondition.ToString());
+                    }
                 }
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Requires: {string.Join(", ", reqs)}";
             }
