@@ -605,12 +605,6 @@ public class GameManager : MonoBehaviour, iModifiable
         });
         Stats.Add(new StatData(StatType.Traffic, 30)
         {
-            Modifiers =
-            {
-                new StatModifier("deleteme", 1),
-                new StatModifier("deleteme2", 1),
-                new StatModifier("deleteme3", 1)
-            }
         });
         Stats.Add(new StatData(StatType.PacketsSent, 0f)
         {
@@ -629,7 +623,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             IsModifiable = false,
         });
-        Stats.Add(new StatData(StatType.Difficulty, 1.25f)
+        Stats.Add(new StatData(StatType.Difficulty, 1.1f)
         {
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });

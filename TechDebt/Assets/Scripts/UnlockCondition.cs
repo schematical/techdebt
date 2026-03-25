@@ -37,6 +37,13 @@ public class UnlockCondition
                     throw new SystemException("Invalid tutorial step state");
                 }
 
+                if (
+                    GameManager.Instance.TutorialManager == null ||
+                    !GameManager.Instance.TutorialManager.IsActive()
+                )
+                {
+                    return true;
+                }
                 return GameManager.Instance.TutorialManager.GetStep(TutorialStepId).State == TutorialStepState;
             case(ConditionType.SprintGreaterOrEqual):
                 return GameManager.Instance.Map.GetCurrentStage().StageNumber >= SprintNumber;

@@ -28,7 +28,14 @@ namespace NPCs
   
         protected override void FixedUpdate()
         {
-            if (this.IsDead())
+            if (
+
+                GameManager.Instance.UIManager.IsPausedState()
+            )
+            {
+                return;
+            }
+            if (IsDead())
             {
                 base.FixedUpdate();
                 return ;

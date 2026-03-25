@@ -8,6 +8,7 @@ using Infrastructure;
 using MetaChallenges;
 using Random = UnityEngine.Random;
 using Stats;
+using UI;
 
 public class InfrastructureInstance : WorldObjectBase, iAttackable
 {
@@ -26,7 +27,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public Dictionary<NetworkPacketData.PType, List<NetworkConnection>> CurrConnections =
         new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
 
- 
+    protected UIMetricsBubble metricsBubble;
+
 
     void Awake()
     {
@@ -315,6 +317,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 break;
         }
 
+        if (GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").CurrentState == Technology.State.Unlocked)
+        {
+            // AddStatusBar();
+        }
       
     }
 
@@ -624,6 +630,32 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return data.Id;
 
     }
+    public UIMetricsBubble  ShowMetricsBubble()
+    {
+        if (metricsBubble != null)
+        {
+            metricsBubble.Close();
+        }
+        gameObject.SetActive(true);
 
+        metricsBubble = GameManager.Instance.prefabManager.Create("UIMetricsBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIMetricsBubble>();
+        metricsBubble.SetTarget(this);
+        metricsBubble.transform.SetAsFirstSibling();
+        metricsBubble.CleanUp();
+        return metricsBubble;
+    }
+
+    public void HideDialogBubble()
+    {
+        metricsBubble.Close();
+    }
+    public bool IsDialogBubbleActive()
+    {
+        if (metricsBubble == null)
+        {
+            return false;
+        }
+        return metricsBubble.gameObject.activeInHierarchy;
+    }
     
 }
