@@ -1806,7 +1806,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 519420031}
-  m_PlaneDistance: 1
+  m_PlaneDistance: 20
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -2533,9 +2533,9 @@ RectTransform:
   m_Father: {fileID: 709507618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 16.446884, y: -34.72017}
-  m_SizeDelta: {x: -53.98459, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 25, y: -69.554}
+  m_SizeDelta: {x: 359.5648, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &263479261
 MonoBehaviour:
@@ -7393,7 +7393,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 4.7824, y: 27.547188}
-  m_SizeDelta: {x: 409.5648, y: 480.8348}
+  m_SizeDelta: {x: 409.5648, y: 94.554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &709507619
 MonoBehaviour:
@@ -8897,6 +8897,7 @@ MonoBehaviour:
   - {fileID: 3732664238380987750, guid: 3c5034e85708a054ebfa1bf3ca05d6c9, type: 3}
   - {fileID: 6200799685780665500, guid: b07b8670bf68b4d409f5ac4f186b6c53, type: 3}
   - {fileID: 8151937311118478409, guid: c0fc971ac37ca954f84e13f8005fec5d, type: 3}
+  - {fileID: 7054603541282826544, guid: 6ca97d360e7ba4a4997182bbbfefd090, type: 3}
 --- !u!114 &776996751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17204,9 +17205,9 @@ RectTransform:
   m_Father: {fileID: 709507618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -37, y: -17.300003}
-  m_SizeDelta: {x: -97.9668, y: 19.554}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 204.7824, y: -34.777}
+  m_SizeDelta: {x: 359.5648, y: 19.554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460109567
 MonoBehaviour:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
@@ -12,15 +13,19 @@ namespace UI
     public class UIWorldObjectDetailPanel: UIPanel
     {
         private WorldObjectBase _selectedWorldObject;
-
+        protected UIPanelLineProgressBar loadBar;
         protected UIStatCollectionPanelLine statsLine;
-        // public UITextArea textArea; // Removed to use AddLine instead
-  
+        protected InfrastructureInstance infraInstance;
 
         protected override void Update()
         {
             base.Update();
-            // Removed textArea update logic
+            if (infraInstance != null)
+            {
+                loadBar.SetProgress(
+                    infraInstance.CurrentLoad/infraInstance.GetMaxLoad()
+                );
+            }
         }
 
         public override void Show()
@@ -52,7 +57,7 @@ namespace UI
 
         
             
-            InfrastructureInstance infraInstance = _selectedWorldObject as InfrastructureInstance;
+            infraInstance = _selectedWorldObject as InfrastructureInstance;
 
             if (infraInstance != null)
             {
@@ -63,7 +68,10 @@ namespace UI
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Release: {infraInstance.Version}";
 
                 // Load
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Curr Load: {infraInstance.CurrentLoad:F2}/{infraInstance.GetMaxLoad():F2}";
+                loadBar = AddLine<UIPanelLineProgressBar>();
+                loadBar.SetPreText($"CPU Load:");
+                                                            
+           
 
                 // Daily Cost
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Daily Cost: ${infraInstance.GetDailyCost():F2}";
@@ -141,6 +149,7 @@ namespace UI
             }
         }
 
+  
         public void Preview(RewardBase modifierBase, InfrastructureInstance instance)
         {
             ShowWorldObjectDetail(instance);

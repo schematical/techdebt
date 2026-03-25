@@ -25,7 +25,7 @@ namespace UI
         protected UIPanelLine parentLine;
         public Dictionary<DefaultComponentTypes, UIPanelLineSection> defaultSections = new Dictionary<DefaultComponentTypes, UIPanelLineSection>();
 
-        public void Initialize(int _depth, UIPanel _rootPanel, UIPanelLine _parentLine)
+        public virtual void Initialize(int _depth, UIPanel _rootPanel, UIPanelLine _parentLine)
         {
             depth = _depth;
             rootPanel = _rootPanel;
