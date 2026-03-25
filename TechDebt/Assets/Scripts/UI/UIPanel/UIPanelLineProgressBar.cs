@@ -53,6 +53,14 @@ namespace UI
             ProgressImage.color = color.Value;
             Text.text = $"{preText}{Math.Round(progress*100)}%";
             
+            float textWidth = Text.preferredWidth;
+            float textX = newWidth;
+            if (textX + textWidth > fullWidth)
+            {
+                textX = fullWidth - textWidth;
+            }
+            Text.rectTransform.anchoredPosition = new Vector2(textX, Text.rectTransform.anchoredPosition.y);
+            
         }
     }
 }
