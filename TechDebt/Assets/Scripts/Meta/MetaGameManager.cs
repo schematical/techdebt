@@ -1041,6 +1041,16 @@ public static class MetaGameManager
                 BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
+            new NPCStatModifierReward()
+            {
+                Id = "pays_down_debt",
+                Name = "Pays Down Debt",
+                StatType = StatType.NPC_Release_TechDebt,
+                Description = "Deploying releases coded by this team member also decreases Tech Debt slightly.",
+                BaseValue = 0.9f,
+                IconSpriteId = "IconTechDebt",
+                ScaleDirection = ScaleDirection.Down
+            },
             // TODO: Multi Tasker - Reduces Time spent when switching tasks but decreases quality
             // TODO: Headphones: Big progress/speed penalty for switching tasks but increased quality/speed when working 
             // TODO: Heads Down - Cannot switch tasks but quality and speed is increased
@@ -1058,6 +1068,17 @@ public static class MetaGameManager
              */
             //TODO: Add a perk that automatically decreases tech debt on release
             // Proboablly do the same thing with cash
+            new WorldObjectTypeNetworkPacketStatModifierReward()
+            {
+                Group = RewardBase.RewardGroup.Release,
+                Id = "code_linter",
+                Name = "Code Linter",
+                Description = "Increases the code quality of future releases",
+                StatType = StatType.Release_Quality_Multiplier,
+                BaseValue = 1.1f,
+                IconSpriteId = "IconCode",
+                ScaleDirection = ScaleDirection.Up
+            },
             new WorldObjectTypeNetworkPacketStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,

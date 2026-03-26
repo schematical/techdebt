@@ -39,6 +39,7 @@ public class ReleaseBase
     public float RequiredProgress =  30f;
     public Rarity rewardRarity = Rarity.Common;
     public float CurrentQuality = 0f;
+    public float TechDebtMultiplier = 1f;
     public ReleaseBase()
     {
         SetState(ReleaseState.InDevelopment);
@@ -134,7 +135,7 @@ public class ReleaseBase
 
     public float GetQuality()
     {
-        return CurrentQuality;
+        return CurrentQuality * GameManager.Instance.GetStatValue(StatType.Release_Quality_Multiplier);
     }
     public void OnDeploymentCompleted()
     {
@@ -160,6 +161,8 @@ public class ReleaseBase
         
         }
 
+        float techDebt = GameManager.Instance.GetStatValue(StatType.TechDebt);
+        GameManager.Instance.SetStat(StatType.TechDebt, techDebt * TechDebtMultiplier);
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
        
     }
@@ -204,7 +207,7 @@ public class ReleaseBase
 
     public string GetDescription()
     {
-        return $"{GetVersionString()} {State.ToString()} - Quality: {GetQuality():F2}";
+        return $"{GetVersionString()} {State.ToString()} - Quality: {GetQuality():F2} - Tech Debt Multiplier: {TechDebtMultiplier:F2}";
     }
 
     public void ApplyProgress(float progressGained, NPCBase NPCBase)
@@ -213,6 +216,7 @@ public class ReleaseBase
         CurrentProgress += progressGained;
         GameManager.Instance.InvokeReleaseChanged(this, this.State);
         CurrentQuality = ((CurrentQuality * CurrentProgress + NPCBase.Stats.GetStatValue(StatType.NPC_CodeQuality)) / (CurrentProgress + 1));
+        TechDebtMultiplier = ((TechDebtMultiplier * CurrentProgress + NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt)) / (TechDebtMultiplier + 1));
         if (CurrentProgress >= RequiredProgress)
         {
             NextState();

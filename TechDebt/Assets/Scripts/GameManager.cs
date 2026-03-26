@@ -631,6 +631,10 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
+        Stats.Add(new StatData(StatType.Release_Quality_Multiplier, 1)
+        {
+            
+        });
         Stats.Add(new StatData(StatType.EventCheckEverySeconds, 15));
         Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
         Stats.Add(new StatData(StatType.AttackPossibility, 0f){

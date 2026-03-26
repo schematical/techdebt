@@ -38,8 +38,9 @@ namespace Infrastructure
                 base.OnLeftClick(eventData);
                 return;
             }
-
-            List<ReleaseBase> releases = GameManager.Instance.GetOpenReleases();
+            GameManager.Instance.UIManager.releaseHistoryPanel.Show();
+            
+            /*List<ReleaseBase> releases = GameManager.Instance.GetOpenReleases();
             if (releases.Count > 0)
             {
                 ReleaseBase releaseBase = releases.Find((release =>
@@ -59,11 +60,7 @@ namespace Infrastructure
                 return;
             }
 
-            /*if (GameManager.Instance.HasOpenBugs())
-            {
-                GameManager.Instance.UIManager.ShowAlert("You must debug the bugs introduced in the last release first.");
-                return;
-            }*/
+            
             GameManager.Instance.UIManager.multiSelectPanel.Close();
 
 
@@ -146,7 +143,7 @@ namespace Infrastructure
                             HideAttentionIcon();
                         });
                 }
-            }
+            }*/
         }
         public override Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
         {

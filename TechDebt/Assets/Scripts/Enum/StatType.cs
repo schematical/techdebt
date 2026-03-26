@@ -54,5 +54,7 @@ public enum StatType
     NetworkPacket_LoadLatencyMultiplier,
     Infra_LatencyStartsAtLoad,
     AttackPossibilityAccumulationRate,
-    NPC_FixSpeed
+    NPC_FixSpeed,
+    Release_Quality_Multiplier,
+    NPC_Release_TechDebt
 }

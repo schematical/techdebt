@@ -12,6 +12,7 @@
         private int displayProgress = -1;
         public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
         public StatType? npcWorkSpeedStatType;
+        public StatType? npcWorkQualityStatType;
         protected InfrastructureTaskBase(InfrastructureInstance target): base(target)
         {
             TargetInfrastructure = target;
@@ -140,10 +141,20 @@
                 return npcDevOps.Stats.GetStatValue(npcWorkSpeedStatType.Value);
             }
             return 1;
+        } 
+        protected virtual float GetNpcWorkQuality(NPCDevOps npcDevOps)
+        {
+            if (npcWorkQualityStatType != null)
+            {
+                return npcDevOps.Stats.GetStatValue(npcWorkQualityStatType.Value);
+            }
+            return 1;
         }
 
         protected virtual float GetTaskExp()
         {
+            // TODO: Give NPC's affinities or dislikes for certain tasks and bonus or penalize appropriately.
+            // TODO: Also give inspiration phases where NPCs get extra XP or debuffs if tired.
             return 1;
         }
 
