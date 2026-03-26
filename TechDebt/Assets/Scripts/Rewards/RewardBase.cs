@@ -1,4 +1,5 @@
 
+    using UI;
     using UnityEngine;
 
     public abstract class RewardBase
@@ -17,12 +18,12 @@
 
         public RewardGroup Group;
 
-        public string GetTitle()
+        public virtual string GetTitle()
         {
             return Name;
         }
 
-        public string GetDescription()
+        public virtual string GetDescription()
         {
             return Description;
         }
@@ -36,5 +37,15 @@
                 IconSpriteId = "skelliton";
             }
             return GameManager.Instance.SpriteManager.GetSprite(IconSpriteId);
+        }
+
+        public virtual UIPanelLine Render(UIPanelLine line)
+        {
+            UIPanelLine rewardLine = line.AddLine<UIPanelLine>();
+            rewardLine.Add<UIPanelLineSectionImage>().image.sprite = GetSprite();
+            rewardLine.Add<UIPanelLineSectionText>().h3(GetTitle());
+            rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = GetDescription();
+            
+            return rewardLine;
         }
     }

@@ -197,7 +197,7 @@ namespace UI
 
             if (vertLayoutGroup == null)
             {
-                Debug.LogError($"{gameObject.name}.vertLayoutGroup is null");
+                // Debug.LogError($"{gameObject.name}.vertLayoutGroup is null");
                 return;
             }
             RectTransform rectTransform = vertLayoutGroup.GetComponent<RectTransform>();

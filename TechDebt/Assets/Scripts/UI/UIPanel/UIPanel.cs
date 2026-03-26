@@ -47,7 +47,8 @@ public class UIPanel : UIGameObject
         button.text.text = buttonText;
         button.button.onClick.RemoveAllListeners();
         button.button.onClick.AddListener(onClickAction);
-        button.transform.SetAsLastSibling();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
+        hasUpdateThisFrame = true;
         return button;
     }
 

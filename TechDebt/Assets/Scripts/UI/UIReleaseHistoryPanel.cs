@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace.Rewards;
 using UnityEngine;
 
 namespace UI
@@ -28,7 +29,11 @@ namespace UI
                 line.SetId(release.GetVersionString());
                 UIPanelLineSectionText textSection = line.Add<UIPanelLineSectionText>();
                 textSection.SetId("main");
-                textSection.text.text = release.GetDescription();
+                textSection.h2(release.GetVersionString());
+                line.SetExpandable((line =>
+                {
+                   release.Render(line);
+                }));  
             }
 
             Refresh();
@@ -168,7 +173,6 @@ namespace UI
             foreach (ReleaseBase release in releases)
             {
                 UIPanelLine line = GetLineById(release.GetVersionString());
-                line.GetSectionById<UIPanelLineSectionText>("main").text.text = release.GetDescription();
             }
         }
     }

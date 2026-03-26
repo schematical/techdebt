@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI;
 
 namespace DefaultNamespace.Rewards
 {
@@ -51,6 +52,26 @@ namespace DefaultNamespace.Rewards
         public int GetLevel()
         {
             return Levels.Count;
+        }
+
+        public override UIPanelLine Render(UIPanelLine line)
+        {
+            UIPanelLine rewardLine = base.Render(line);
+            rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Scaled Value: {GetScaledValue()}";
+            UIPanelLine levelsLine = rewardLine.AddLine<UIPanelLine>();
+            levelsLine.Add<UIPanelLineSectionText>().text.text = $"Level: {Levels.Count + 1}";
+            levelsLine.SetExpandable((levelsLine =>
+            {
+                levelsLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - Level 1";
+                for (int i = 0; i < Levels.Count; i++)
+                {
+                    UIPanelLine levelLine = levelsLine.AddLine<UIPanelLine>();
+                    levelLine.Add<UIPanelLineSectionText>().text.text = $" - Level {i + 2}: {Levels[i]}";
+                }
+            }));
+            
+
+            return rewardLine;
         }
     }
 }

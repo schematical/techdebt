@@ -511,12 +511,13 @@ public class MapLevel
 
     public virtual void EndGame(string dialog = "You ran out of money. Want to try again?")
     {
-        GameManager.Instance.UIManager.SetTimeScalePause();
+        GameManager.Instance.UIManager.ForcePause();
 
         GameManager.Instance.UpdateMetaProgress();
 
         NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ZoomToAndFollow();
         npc.ShowDialogBubble().SimpleDisplay(
             dialog,
             new List<DialogButtonOption>()

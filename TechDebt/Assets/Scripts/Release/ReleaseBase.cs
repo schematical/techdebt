@@ -6,6 +6,7 @@ using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
 using Stats;
+using UI;
 using UnityEngine;
 
 public class ReleaseBase
@@ -293,6 +294,17 @@ public class ReleaseBase
         }
     }
 
+    public virtual void Render(UIPanelLine line)
+    {
+        UIPanelLine releaseLine = line.AddLine<UIPanelLine>();
+        //releaseLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2(GetVersionString());
+        releaseLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {State.ToString()}";
+        releaseLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Quality: {Math.Round(GetQuality() * 100)}%";
+        releaseLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Tech Debt Multiplier: {TechDebtMultiplier:F2}";
+        releaseLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Reward:";
+        RewardModifier.Render(releaseLine);
+        
+    }
   
     public static int IncrGlobalVersion()
     {

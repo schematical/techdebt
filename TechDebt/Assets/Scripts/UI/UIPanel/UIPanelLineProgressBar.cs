@@ -21,6 +21,8 @@ namespace UI
             {
                 bkgdImage.type = Image.Type.Sliced;
             }
+
+            preText = "";
             base.Initialize(_depth, _rootPanel, _parentLine);
         }
 

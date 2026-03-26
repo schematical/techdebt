@@ -20,7 +20,20 @@ namespace UI
         public void h1(string s)
         {
             text.text = s;
+            text.fontSize = 28;
+            text.fontWeight = FontWeight.Bold;
+        }
+
+        public void h2(string s)
+        {
+            text.text = s;
             text.fontSize = 24;
+            text.fontWeight = FontWeight.Bold;
+        }
+        public void h3(string s)
+        {
+            text.text = s;
+            text.fontSize = 22;
             text.fontWeight = FontWeight.Bold;
         }
     }
