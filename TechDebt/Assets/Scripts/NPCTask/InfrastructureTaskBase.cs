@@ -10,7 +10,7 @@
         public InfrastructureInstance TargetInfrastructure { get; private set; }
         protected float progress = 0f;
         private int displayProgress = -1;
-        public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
+        public InfrastructureData.State? OnQueuedSetState;
         public StatType? npcWorkSpeedStatType;
         public StatType? npcWorkQualityStatType;
         protected InfrastructureTaskBase(InfrastructureInstance target): base(target)

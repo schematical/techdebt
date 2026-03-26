@@ -32,6 +32,7 @@ public class ApplicationServer : InfrastructureInstance
 
     public override void SetState(InfrastructureData.State newState)
     {
+        Debug.Log($"ApplicationServer::SetState {newState} - CurrentState: {data.CurrentState}");
         if (
             data.CurrentState == InfrastructureData.State.Planned && 
             newState == InfrastructureData.State.Operational

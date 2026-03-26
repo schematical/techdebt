@@ -216,7 +216,10 @@ public class ReleaseBase
         CurrentProgress += progressGained;
         GameManager.Instance.InvokeReleaseChanged(this, this.State);
         CurrentQuality = ((CurrentQuality * CurrentProgress + NPCBase.Stats.GetStatValue(StatType.NPC_CodeQuality)) / (CurrentProgress + 1));
-        TechDebtMultiplier = ((TechDebtMultiplier * CurrentProgress + NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt)) / (TechDebtMultiplier + 1));
+        TechDebtMultiplier = (
+            (
+                (TechDebtMultiplier * (CurrentProgress - progressGained)) + (NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt) * progressGained)
+            ) / (CurrentProgress));
         if (CurrentProgress >= RequiredProgress)
         {
             NextState();

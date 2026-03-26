@@ -29,7 +29,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Data = data;
         gameObject.name = $"NPCDevOps_{Data.Name}";
         base.Initialize();
-        Stats.Add(new StatData(StatType.NPC_ModifierSlots, 1));
+        Stats.Add(new StatData(StatType.NPC_ModifierSlots, 5));
         Stats.Add(new StatData(StatType.NPC_XPSpeed, 1));
         Stats.Add(new StatData(StatType.NPC_InfoSec, 0.75f));
         Stats.Add(new StatData(StatType.NPC_CodeSpeed, 0.5f));
@@ -38,6 +38,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_DevOpsSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_ResearchSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_FixSpeed, 1f));
+        Stats.Add(new StatData(StatType.NPC_Release_TechDebt, 1f));
     }
 
     public override void OnPlanPhaseStart()
@@ -91,7 +92,7 @@ public class NPCDevOps : NPCAnimatedBiped
         );
         int saftyCheck = 0;
         List<RewardBase> traits = new List<RewardBase>();
-        int optionCount = 3;
+        int optionCount = 6;
         if (Modifiers.Rewards.Count >= Stats.GetStatValue(StatType.NPC_ModifierSlots))
         {
             optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
@@ -230,17 +231,7 @@ public class NPCDevOps : NPCAnimatedBiped
         }
     }
   
-    public float GetBuildSpeed()
-    {
-        float npcBuildSpeed = 1;
-        if (Stats.Get(StatType.NPC_DevOpsSpeed) != null)
-        {
-            npcBuildSpeed = Stats.GetStatValue(StatType.NPC_DevOpsSpeed);
-        }
-
-        return npcBuildSpeed;
-    }
-
+   
     
    
     public override Vector3 GetHomePoint()

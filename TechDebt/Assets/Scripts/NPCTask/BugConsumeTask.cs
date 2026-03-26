@@ -50,7 +50,8 @@ public class BugConsumeTask : NPCTask
         }
         else
         {
-            Debug.LogError($"{target.gameObject.name} doesn't have a NetworkPacket");
+            // This is for the item consume stuff.
+            target.gameObject.SetActive(false);
         }
 
         npc.ResetCooldown(NPCBase.CoolDownType.Consume, 5);

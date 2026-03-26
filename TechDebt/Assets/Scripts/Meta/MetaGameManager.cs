@@ -1068,7 +1068,7 @@ public static class MetaGameManager
              */
             //TODO: Add a perk that automatically decreases tech debt on release
             // Proboablly do the same thing with cash
-            new WorldObjectTypeNetworkPacketStatModifierReward()
+            new GlobalStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
                 Id = "code_linter",
