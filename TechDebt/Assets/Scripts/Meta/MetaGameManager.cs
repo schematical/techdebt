@@ -357,6 +357,11 @@ public static class MetaGameManager
                         Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server"
                     },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    },
                 },
                 CurrentState = Technology.State.Locked,
                 // UnlockConditions - Get and instance to size 2?
@@ -373,6 +378,11 @@ public static class MetaGameManager
                     {
                         Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "application-server-size-medium"
+                    },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
                     },
                 },
                 CurrentState = Technology.State.Locked,
@@ -394,7 +404,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
-                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                        TutorialStepId = TutorialStepId.Technology_ApplicationServerSizeMedium_Unlocked
                     },
                 },
                 CurrentState = Technology.State.Locked,

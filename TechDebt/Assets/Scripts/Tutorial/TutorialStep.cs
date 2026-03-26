@@ -212,7 +212,8 @@ namespace Tutorial
                     State =  TutorialStepState.Completed;
                     break;
                 default:
-                    throw new SystemException($"TutorialStep: {Id} - Invalid state transition from {State} to Completed");
+                    Debug.LogError($"TutorialStep: {Id} - Invalid state transition from {State} to Completed");
+                    break;
             }
         }
     }

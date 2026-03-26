@@ -188,7 +188,6 @@ namespace Tutorial
                     "Notice there are different network packet types. One type is just simple text like HTML."
                 )
                 {
-                    forcePause = false,
                     getTarget = () =>
                     {
                         InternetPipe pipe =
@@ -208,7 +207,6 @@ namespace Tutorial
                     "Another type is binary data like images. Different NetworkPacket types will have different server load and effects on the various infrastructure and will take different routes as your cloud architecture evolves."
                 )
                 {
-                    forcePause = false,
                     getTarget = () =>
                     {
                         InternetPipe pipe =
@@ -271,11 +269,9 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Infra_Whiteboard_Operational,
                     "Software Releases",
-                    "Select a feature to focus on by clicking on the whiteboard."
+                    "Select a feature to focus on by clicking on the whiteboard then selecting 'Plan Next Release'."
                 )
                 {
-                    showContinue = false,
-                    forcePause = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -304,7 +300,6 @@ namespace Tutorial
                     "Use Meta Challenges to unlock technologies that will automate this for you in the future."
                 )
                 {
-                    showContinue = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -319,7 +314,6 @@ namespace Tutorial
                     "Click 'Deployment Complete' to find out the rarity of your reward."
                 )
                 {
-                    showContinue = false,
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
@@ -369,7 +363,6 @@ namespace Tutorial
                             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCBug>() != null);
                         return npc;
                     },
-                    NextStepId = TutorialStepId.Basics_Economy
                 },
                 new TutorialStep(
                     TutorialStepId.NetworkPacket_Failed,
@@ -515,7 +508,6 @@ namespace Tutorial
                     "Until you research technology that monitors the servers, you will need to manually tell your engineers to fix the frozen infrastructure. Click on the server and select 'Fix' to assign your team to bring it back online."
                 )
                 {
-                    showContinue = false,
                     
                     getTarget = () =>
                     {
@@ -552,22 +544,36 @@ namespace Tutorial
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         return infrastructureInstance;
                     },
-                    NextStepId = TutorialStepId.Infra_ApplicationServer_Fixed2
+                    NextStepId = TutorialStepId.Infra_ApplicationServer_Fixed2,
                 },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed2,
                     "Scaling Server Size",
                     "You can increase the load the server can take by increasing the server size. \n" + 
-                    "Click on the server, then select \"Upsize\" to do this."
+                    "First you will need to unlock the a bigger server size by researching it."
                 )
                 {
-                    showContinue = false,
+                    getTarget = () =>
+                    {
+                        InfrastructureInstance infrastructureInstance =
+                            GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                        return infrastructureInstance;
+                    },
+                },
+                new TutorialStep(
+                    TutorialStepId.Technology_ApplicationServerSizeMedium_Unlocked,
+                    "Technology Application Server Size Medium",
+                    "Great work. To resize a server click on it and select 'Upsize' in the menu."
+                )
+                {
+                    
                     getTarget = () =>
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
                         return infrastructureInstance;
                     },
+
                 },
                 new TutorialStep(
                     TutorialStepId.Task_Resize_Queued,
@@ -977,6 +983,16 @@ namespace Tutorial
                     )
                     {
                         Trigger(TutorialStepId.Technology_ApplicationServer_Unlocked);
+                    }
+                    
+                    break; 
+                case("application-server-size-medium"):
+                    if (
+                        technology.CurrentState == Technology.State.Unlocked &&
+                        previousState == Technology.State.Researching
+                    )
+                    {
+                        Trigger(TutorialStepId.Technology_ApplicationServerSizeMedium_Unlocked);
                     }
                     
                     break;

@@ -68,7 +68,6 @@ namespace DefaultNamespace.NetworkPackets
         public override void OnLeftClick(PointerEventData eventData)
         {
             base.OnLeftClick(eventData);
-            Debug.Log($"SQLInjectionNP: OnLeftClick - {eventData.button}");
             if (GameManager.Instance.TutorialManager != null)
             {
                 GameManager.Instance.TutorialManager.ForceRender(TutorialStepId.NPC_SQLInjection_View);

@@ -67,6 +67,7 @@ namespace Tutorial
         Task_FixFrozen_Queued,
         Task_Resize_Queued,
         NPC_XSS_View,
-        NPC_SQLInjection_View
+        NPC_SQLInjection_View,
+        Technology_ApplicationServerSizeMedium_Unlocked
     }
 }

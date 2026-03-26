@@ -92,7 +92,7 @@ public class NPCDevOps : NPCAnimatedBiped
         );
         int saftyCheck = 0;
         List<RewardBase> traits = new List<RewardBase>();
-        int optionCount = 6;
+        int optionCount = 3;
         if (Modifiers.Rewards.Count >= Stats.GetStatValue(StatType.NPC_ModifierSlots))
         {
             optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);

@@ -15,7 +15,7 @@ namespace UI
             base.Show();
             GameManager.OnReleaseChanged += HandleReleaseChanged;
             planReleaseButton = AddLine<UIPanelButton>();
-            planReleaseButton.text.text = "Plan New Release";
+            planReleaseButton.text.text = "Plan Next Release";
             planReleaseButton.button.onClick.AddListener(() => OnPlanReleaseClick());
             
             planReleaseProgressBar = AddLine<UIPanelLineProgressBar>();

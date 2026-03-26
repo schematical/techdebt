@@ -174,7 +174,6 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log($"NetworkPacket: OnPointerClick - {eventData.button}");
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnLeftClick(eventData);
@@ -188,7 +187,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
-        throw new System.NotImplementedException();
+        return transform.position;
     }
 
     public void IncrMetaStat(MetaStat metaStat, int value = 1)
