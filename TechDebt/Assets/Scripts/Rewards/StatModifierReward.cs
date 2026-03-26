@@ -1,7 +1,9 @@
 using System;
+using DefaultNamespace.Rewards;
 using Stats;
+using UI;
 
-namespace DefaultNamespace.Rewards
+namespace Rewards
 {
     public abstract class StatModifierReward: LeveledRewardBase
     {
@@ -39,6 +41,15 @@ namespace DefaultNamespace.Rewards
                 AttachedModifiable.Stats.AddModifier(StatType, StatModifier);
             }
   
+        }
+        public override UIPanelLine Render(UIPanelLine line)
+        {
+            UIPanelLine rewardLine = base.Render(line);
+            rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Stat: {Util.GetDisplayable(StatType.ToString())}";
+           
+            
+
+            return rewardLine;
         }
     }
 }

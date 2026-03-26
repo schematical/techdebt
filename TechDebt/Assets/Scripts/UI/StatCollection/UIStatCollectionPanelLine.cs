@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DefaultNamespace.Rewards;
 using NPCs;
+using Rewards;
 using Stats;
 using TMPro;
 using UnityEngine;

@@ -7,6 +7,7 @@ using DefaultNamespace.Rewards;
 using Infrastructure;
 using MetaChallenges;
 using NPCs;
+using Rewards;
 using Stats;
 using Tutorial;
 using UnityEngine;

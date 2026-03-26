@@ -2,7 +2,7 @@ using Infrastructure;
 using NPCs;
 using Stats;
 
-namespace DefaultNamespace.Rewards
+namespace Rewards
 {
     public class WorldObjectTypeStatModifierReward: StatModifierReward
     {

@@ -4,7 +4,7 @@ using NPCs;
 using Stats;
 using UnityEngine;
 
-namespace DefaultNamespace.Rewards
+namespace Rewards
 {
     public class WorldObjectTypeNetworkPacketStatModifierReward: StatModifierReward
     {

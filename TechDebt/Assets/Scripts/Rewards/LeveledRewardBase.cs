@@ -57,7 +57,7 @@ namespace DefaultNamespace.Rewards
         public override UIPanelLine Render(UIPanelLine line)
         {
             UIPanelLine rewardLine = base.Render(line);
-            rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Scaled Value: {GetScaledValue()}";
+            rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Scaled Value: {Math.Round(GetScaledValue()  *100)}";
             UIPanelLine levelsLine = rewardLine.AddLine<UIPanelLine>();
             levelsLine.Add<UIPanelLineSectionText>().text.text = $"Level: {Levels.Count + 1}";
             levelsLine.SetExpandable((levelsLine =>

@@ -1,4 +1,5 @@
 using NPCs;
+using Rewards;
 using Stats;
 
 namespace DefaultNamespace.Rewards

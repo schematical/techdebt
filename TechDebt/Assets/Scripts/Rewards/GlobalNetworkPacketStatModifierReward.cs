@@ -2,7 +2,7 @@ using System;
 using NPCs;
 using Stats;
 
-namespace DefaultNamespace.Rewards
+namespace Rewards
 {
     public class GlobalNetworkPacketStatModifierReward: StatModifierReward
     {

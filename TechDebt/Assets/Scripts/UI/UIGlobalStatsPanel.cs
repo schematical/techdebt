@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace.Rewards;
 using Infrastructure;
 using NPCs;
+using Rewards;
 using Stats;
 using Unity.VisualScripting;
 using UnityEngine;

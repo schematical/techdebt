@@ -2,6 +2,7 @@ using System;
 using DefaultNamespace;
 using DefaultNamespace.Rewards;
 using NPCs;
+using Rewards;
 using Stats;
 using UnityEngine;
 
