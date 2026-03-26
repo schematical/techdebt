@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NPCs;
 using Stats;
 using TMPro;
+using Tutorial;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,6 +68,11 @@ namespace UI
                     detailLine.Add<UIPanelLineSectionText>().text.text = $"{coolDown.Key}: {coolDown.Value:F2}";
                 }
             });
+            TutorialStepId? tutorialStepId = npc.GetTutorialStepId();
+            if (tutorialStepId != null && tutorialStepId != TutorialStepId.None)
+            {
+                AddButton("Learn More", () => GameManager.Instance.TutorialManager.ForceRender(tutorialStepId.Value));
+            }
         }
 
         protected override void Update()

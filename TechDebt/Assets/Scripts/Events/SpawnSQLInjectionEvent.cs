@@ -30,7 +30,7 @@ namespace Tutorial
             float releaseQuality = 1 - currentRelease.GetQuality();
             
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
-            return (techDebt * releaseQuality * attackPossibility)  * 100;
+            return (techDebt * releaseQuality * attackPossibility);
         }
         
 

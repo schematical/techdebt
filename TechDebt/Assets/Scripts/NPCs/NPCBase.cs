@@ -6,6 +6,7 @@ using System.Numerics;
 using DefaultNamespace;
 using MetaChallenges;
 using Stats;
+using Tutorial;
 using UI;
 using Unity.VisualScripting;
 using UnityEngine.Events;
@@ -43,6 +44,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     protected Dictionary<CoolDownType, float> coolDowns = new Dictionary<CoolDownType, float>();
     protected UIProgressBarPanel progressBar;
     protected bool respectPause = true;
+    protected TutorialStepId? tutorialStepId;
     
     void Awake()
     {
@@ -710,5 +712,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             return false;
         }
         return dialogBubble.gameObject.activeInHierarchy;
+    }
+
+    public TutorialStepId? GetTutorialStepId()
+    {
+        return tutorialStepId;
     }
 }

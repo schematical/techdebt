@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Tutorial;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace NPCs
 {
@@ -8,6 +10,7 @@ namespace NPCs
         public override void Initialize()
         {
             base.Initialize();
+            tutorialStepId = TutorialStepId.NPC_XSS_View;
             shadow.gameObject.SetActive(false);
         }
 
@@ -26,6 +29,8 @@ namespace NPCs
             return tasks;
 
         }
+
+        
 
         public override void TriggerDefaultBehavior()
         {

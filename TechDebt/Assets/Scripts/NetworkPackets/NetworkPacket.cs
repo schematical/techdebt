@@ -174,16 +174,21 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        var cameraController = FindObjectOfType<CameraController>();
-        if (cameraController != null)
+        Debug.Log($"NetworkPacket: OnPointerClick - {eventData.button}");
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            cameraController.StartFollowing(transform);
+            OnLeftClick(eventData);
         }
+    }
+
+    public virtual void OnLeftClick(PointerEventData eventData)
+    {
+
     }
 
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
-        return transform.position;
+        throw new System.NotImplementedException();
     }
 
     public void IncrMetaStat(MetaStat metaStat, int value = 1)

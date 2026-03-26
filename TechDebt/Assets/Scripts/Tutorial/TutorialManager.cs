@@ -620,7 +620,7 @@ namespace Tutorial
                         NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
                         return npc;
                     },
-                },
+                }
             };
             InitWorldObjectTips(steps);
             foreach (TutorialStep step in steps)
@@ -827,7 +827,42 @@ namespace Tutorial
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
                         spriteId = "SNS"
-                    }
+                    },
+                new TutorialStep(
+                    TutorialStepId.NPC_SQLInjection_View,
+                    "SQL Injection Attack",
+                    "Looks like you found an 'SQL Injection Attack'. \n" + 
+                    "This is where a malicious party trys to hide SQL (AKA 'Structured Query Language' in the data they send you hoping you don't validate your input.\n" + 
+                    "If it makes its way to  the Database then they could steal some of your users PII or worse. \n" + 
+                    "You may want to consider focusing a few releases on Input Validation to decrease the chance of this attack making it to the Database."
+                )
+                {
+                    Type = TutorialStep.TutorialStateType.Tip,
+                    spriteId = "SQLInjectionNetworkPacket"
+                    /*getTarget = () =>
+                    {
+                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
+                        return npc;
+                    },*/
+                },
+                new TutorialStep(
+                    TutorialStepId.NPC_XSS_View,
+                    "Cross Site Scripting (XSS) Attack",
+                    "Looks like you found an 'Cross Site Scripting Attack' (AKA 'XSS Attack'). \n" + 
+                    "This is where a malicious party sends a little frontend code, such as JavaScript, in with a request.\n" + 
+                    "If you don't have good Input Validation then that code will get served up to your legitimate users. \n" +
+                    "This can redirect your users to malicious websites cause PII leaks or worse. \n" +
+                    "You may want to consider focusing a few releases on Input Validation to decrease the chance of this attack hurting your users."
+                )
+                {
+                    Type = TutorialStep.TutorialStateType.Tip,
+                    spriteId = "NPCXSS"
+                    /*getTarget = () =>
+                    {
+                        NPCBase npc = GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCDevOps>() != null);
+                        return npc;
+                    },*/
+                },
                 }
             );
         }

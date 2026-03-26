@@ -65,6 +65,8 @@ namespace Tutorial
         Infra_CloudWatchMetrics_Tip,
         Infra_SNS_Tip,
         Task_FixFrozen_Queued,
-        Task_Resize_Queued
+        Task_Resize_Queued,
+        NPC_XSS_View,
+        NPC_SQLInjection_View
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using Infrastructure;
+using Tutorial;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 
@@ -34,7 +36,6 @@ namespace DefaultNamespace.NetworkPackets
             {
                 return NetworkPacketRouteAction.Normal;
             }
-            Debug.Log($"SQLInjectionNetworkPacket.OnInfraContact {infrastructureInstance.data.Id} -  {infrastructureInstance.data.worldObjectType}");
             switch (infrastructureInstance.data.worldObjectType)
             {
                 case(WorldObjectType.Type.ApplicationServer):
@@ -63,6 +64,15 @@ namespace DefaultNamespace.NetworkPackets
                     
             }
       
+        }
+        public override void OnLeftClick(PointerEventData eventData)
+        {
+            base.OnLeftClick(eventData);
+            Debug.Log($"SQLInjectionNP: OnLeftClick - {eventData.button}");
+            if (GameManager.Instance.TutorialManager != null)
+            {
+                GameManager.Instance.TutorialManager.ForceRender(TutorialStepId.NPC_SQLInjection_View);
+            }
         }
        
     }
