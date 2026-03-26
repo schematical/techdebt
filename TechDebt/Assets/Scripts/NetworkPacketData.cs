@@ -13,7 +13,8 @@ public class NetworkPacketData: iModifiable
         BatchJob,
         MaliciousText,
         Purchase,
-        PII
+        PII,
+        SQLInjection
     }
     // public NetworkPacketData(float probability)
     public StatsCollection Stats { get; } = new StatsCollection();

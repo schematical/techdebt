@@ -52,16 +52,24 @@ namespace DefaultNamespace
             );
         }
 
-        public Sprite GetSprite(string spriteId)
+        public Sprite GetSprite(string spriteId, string suffix = null)
         {
             Sprite sprite = Sprites.Find((s) =>
             {
                 string name = s.name;
+                string testSuffix = null;
                 if (name.Contains("_"))
                 {
                     name =  name.Substring(0, name.IndexOf("_"));
+                    testSuffix = s.name.Substring(s.name.IndexOf("_") + 1);
                 }
-                return name == spriteId;
+
+                if (suffix == null)
+                {
+                    return name == spriteId;
+                }
+                return name == spriteId &&
+                       suffix == testSuffix;
             });
             if(sprite == null) 
             {

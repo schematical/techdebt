@@ -688,12 +688,19 @@ public class GameManager : MonoBehaviour, iModifiable
                 baseLoad = 0,
                 prefabId = "PIINetworkPacket"
             },
+            new NetworkPacketData(0)
+            {
+                Type = NetworkPacketData.PType.SQLInjection,
+                baseLoad = 0,
+                prefabId = "SQLInjectionNetworkPacket"
+            },
         };
  
         Events.Clear();
         Events.Add(new ItemDeliveryEvent());
         Events.Add(new SpawnBugEvent());
         Events.Add(new SpawnXSSEvent());
+        Events.Add(new SpawnSQLInjectionEvent());
 
         Items.Clear();
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});

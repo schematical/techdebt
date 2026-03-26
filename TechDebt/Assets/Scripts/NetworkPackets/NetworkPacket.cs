@@ -9,13 +9,14 @@ using UnityEngine.EventSystems;
 public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 {
     public enum State { Running, Failed, Stolen }
+    public enum NetworkPacketRouteAction { Normal, DefferToPacket }
     public State CurrentState = State.Running;
     public string FileName { get; private set; }
     public NetworkPacketData data;
     public int Size { get; private set; } // In MB for simplicity
     public float Speed { get; private set; }
     public float BaseSpeed { get; private set; } = 5f;
-    private SpriteRenderer spriteRenderer;
+    protected SpriteRenderer spriteRenderer;
     public int returnIndex = -1;
     public Vector3 currentPosition; // Current position in world space
     public InfrastructureInstance nextHop; // The next destination for this packet
@@ -37,7 +38,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         Size = size;
         Speed = BaseSpeed;
         gameObject.name = $"Packet_{FileName}";
-        pastNodes.Clear();
+        Reset();
         pastNodes.Add(origin);
         /*if (shadow == null)
         {
@@ -153,6 +154,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 
     public void Reset()
     {
+        spriteRenderer.flipX = false;
         spriteRenderer.color = Color.white;
         returnIndex = -1;
         CurrentState = State.Running;
@@ -189,7 +191,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         // Do nothing for now
     }
 
-    public void MarkStolen()
+    public virtual void MarkStolen()
     {
         CurrentState = State.Stolen;
     }
@@ -203,5 +205,10 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     {
         Speed *= 0.1f;
         Delay = packetDelay;
+    }
+
+    public virtual NetworkPacketRouteAction OnInfraContact(InfrastructureInstance infrastructureInstance)
+    {
+        return NetworkPacketRouteAction.Normal;
     }
 }

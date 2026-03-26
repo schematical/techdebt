@@ -97,7 +97,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected virtual bool HandleIncomingPacket(NetworkPacket packet)
     {
-       
+        if (packet.OnInfraContact(this) == NetworkPacket.NetworkPacketRouteAction.DefferToPacket)
+        {
+            return false;
+        }
 
         if (data.CurrentState == InfrastructureData.State.Frozen)
         {
@@ -167,6 +170,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected virtual void RoutePacket(NetworkPacket packet)
     {
+       
         WorldObjectType worldObjectType = GetWorldObjectType();
         if (worldObjectType.NetworkConnections != null && worldObjectType.NetworkConnections.Count > 0 &&
             data.CurrentState == InfrastructureData.State.Operational)

@@ -94,6 +94,11 @@ public class ApplicationServerWOType : WorldObjectType
             },
             new NetworkConnection()
             {
+                worldObjectType = WorldObjectType.Type.DedicatedDB,
+                networkPacketType = NetworkPacketData.PType.SQLInjection
+            },
+            new NetworkConnection()
+            {
                 worldObjectType = WorldObjectType.Type.Redis,
                 networkPacketType = NetworkPacketData.PType.Text,
                 networkConnectionBonus = new List<NetworkConnectionBonus>()

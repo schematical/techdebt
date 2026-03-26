@@ -39,6 +39,11 @@ public class InternetPipeWOType : WorldObjectType
             },
             new NetworkConnection()
             {
+                worldObjectType = WorldObjectType.Type.ApplicationServer,
+                networkPacketType = NetworkPacketData.PType.SQLInjection
+            },
+            new NetworkConnection()
+            {
                 worldObjectType = WorldObjectType.Type.ALB,
                 networkPacketType = NetworkPacketData.PType.Text,
                 priority = 6
@@ -51,20 +56,26 @@ public class InternetPipeWOType : WorldObjectType
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.ApplicationServer,
+                worldObjectType = WorldObjectType.Type.ALB,
                 networkPacketType = NetworkPacketData.PType.PII,
                 priority = 6
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.ApplicationServer,
+                worldObjectType = WorldObjectType.Type.ALB,
                 networkPacketType = NetworkPacketData.PType.MaliciousText,
                 priority = 6
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.ApplicationServer,
+                worldObjectType = WorldObjectType.Type.ALB,
                 networkPacketType = NetworkPacketData.PType.Purchase,
+                priority = 6
+            },
+            new NetworkConnection()
+            {
+                worldObjectType = WorldObjectType.Type.ALB,
+                networkPacketType = NetworkPacketData.PType.SQLInjection,
                 priority = 6
             },
             new NetworkConnection()
