@@ -135,7 +135,7 @@ public class ReleaseBase
 
     public float GetQuality()
     {
-        return CurrentQuality * GameManager.Instance.GetStatValue(StatType.Release_Quality_Multiplier);
+        return CurrentQuality;
     }
     public void OnDeploymentCompleted()
     {
@@ -207,23 +207,48 @@ public class ReleaseBase
 
     public string GetDescription()
     {
-        return $"{GetVersionString()} {State.ToString()} - Quality: {GetQuality():F2} - Tech Debt Multiplier: {TechDebtMultiplier:F2}";
+        return $"{GetVersionString()} {State.ToString()} - Quality: {Math.Round(GetQuality() * 100)}% - Tech Debt Multiplier: {TechDebtMultiplier:F2}";
     }
 
     public void ApplyProgress(float progressGained, NPCBase NPCBase)
     {
         // Debug.Log($"ReleaseBase.ApplyProgress: {CurrentProgress} += {progressGained}");
         CurrentProgress += progressGained;
-        GameManager.Instance.InvokeReleaseChanged(this, this.State);
-        CurrentQuality = ((CurrentQuality * CurrentProgress + NPCBase.Stats.GetStatValue(StatType.NPC_CodeQuality)) / (CurrentProgress + 1));
-        TechDebtMultiplier = (
+        GameManager.Instance.InvokeReleaseChanged(this, State);
+        
+        float qualityMultiplier = GameManager.Instance.GetStatValue(StatType.Release_Quality_Multiplier) * NPCBase.Stats.GetStatValue(StatType.NPC_CodeQuality);
+       
+        CurrentQuality = AvgOutStat(
+            CurrentQuality,
+            qualityMultiplier,
+            CurrentProgress,
+            progressGained
+        );
+        /*TechDebtMultiplier = (
             (
                 (TechDebtMultiplier * (CurrentProgress - progressGained)) + (NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt) * progressGained)
-            ) / (CurrentProgress));
+            ) / (CurrentProgress));*/
+        TechDebtMultiplier = AvgOutStat(
+            TechDebtMultiplier,
+            NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt),
+            CurrentProgress,
+            progressGained
+        );
         if (CurrentProgress >= RequiredProgress)
         {
             NextState();
         }
+    }
+
+    private float AvgOutStat(float currentStatVal, float newStatVal, float currentProgress, float progressGained)
+    {
+        float currentWeight = (currentProgress - progressGained);
+        return (
+            (
+                (currentStatVal * currentWeight) + (newStatVal * progressGained)
+            ) 
+            / (currentProgress)
+        );
     }
 
     public float GetProgress()
