@@ -74,9 +74,18 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected float GetSizeMultiplier()
     {   
-        float sizeMultiplier = InfraSizeHelper.SizeToNumber(CurrentSize);
-        
-        return (float) Math.Pow(2, sizeMultiplier);
+        switch (CurrentSize)
+        {
+            case(InfraSize.Small):
+                return 1;
+            case(InfraSize.Medium):
+                return 2;
+            case(InfraSize.Large):
+                return 4;
+            default:
+                throw new NotImplementedException();
+
+        }
     }
 
     
