@@ -403,6 +403,7 @@ public class GameManager : MonoBehaviour, iModifiable
             // GameLoopManager.BeginPlanPhase();
        
         // }
+        TutorialManager.StartNewGameCheck();
     }
     public void StartDemo()
     {
@@ -889,7 +890,7 @@ public class GameManager : MonoBehaviour, iModifiable
             }
             else 
             {
-                //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Locked.");
+                //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Active.");
                 infraInstance.SetState(InfrastructureData.State.Locked);
                 instanceGO.SetActive(false);
             }
@@ -1013,7 +1014,7 @@ public class GameManager : MonoBehaviour, iModifiable
     {
         if (tech == null || tech.CurrentState != Technology.State.Locked)
         {
-            Debug.LogWarning($"Technology_Locked '{tech?.DisplayName}' cannot be researched because its state is not 'Locked'.");
+            Debug.LogWarning($"Technology_Locked '{tech?.DisplayName}' cannot be researched because its state is not 'Active'.");
             return;
         }
 

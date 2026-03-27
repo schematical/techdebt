@@ -21,7 +21,8 @@ namespace UI
             AddButton("Releases", () =>GameManager.Instance.UIManager.releaseHistoryPanel.Toggle());
             AddButton("Stats", () => GameManager.Instance.UIManager.globalStatsPanel.Toggle());
             AddButton("Map", () => GameManager.Instance.UIManager.productRoadMap.Toggle());
-            AddButton("Events", () =>GameManager.Instance.UIManager.eventDebugPanel.Toggle());
+            AddButton("Events", () =>GameManager.Instance.UIManager.eventDebugPanel.Toggle());;
+            AddButton("Tutorial", () =>GameManager.Instance.UIManager.tutorialStepListPanel.Toggle());
             
         }
       

@@ -38,8 +38,7 @@ public class UnlockCondition: iUnlockable
                 }
 
                 if (
-                    GameManager.Instance.TutorialManager == null ||
-                    !GameManager.Instance.TutorialManager.IsActive()
+                    GameManager.Instance.TutorialManager == null
                 )
                 {
                     return true;

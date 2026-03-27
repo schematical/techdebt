@@ -83,4 +83,8 @@ public class InternetPipe : InfrastructureInstance
         }
         
     }
+
+    public override void ShowAttentionIcon()
+    {
+    }
 }

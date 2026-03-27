@@ -79,7 +79,7 @@ namespace Infrastructure
             }
             return GameManager.Instance.WorldObjectTypes[Type];
         }
-        public void ShowAttentionIcon()
+        public virtual void ShowAttentionIcon()
         {
             if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
             {

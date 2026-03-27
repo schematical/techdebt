@@ -26,11 +26,11 @@ namespace Tutorial.Steps
                 },
                 new DialogButtonOption() { Text = "Just Get Started", OnClick = () =>
                     {
-                        GameManager.Instance.TutorialManager.End();
-                        GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
-                        GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                        
                         
                         GameManager.Instance.GetInfrastructureInstanceByID("desk").ZoomTo();
+                        GameManager.Instance.TutorialManager.QuickStart();
+                        
                     }
                 },
             };

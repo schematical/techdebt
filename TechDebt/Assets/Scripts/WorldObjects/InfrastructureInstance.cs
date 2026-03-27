@@ -51,7 +51,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
         if (data.CurrentState == InfrastructureData.State.Operational)
         {
-            CurrentLoad -= GetWorldObjectType().Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * Time.fixedDeltaTime;
+            CurrentLoad -= GetWorldObjectType().Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * GetSizeMultiplier() * Time.fixedDeltaTime;
             if (CurrentLoad < 0)
             {
                 CurrentLoad = 0;
@@ -59,12 +59,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
 
 
-        /*if (IsActive())
-        {
-            // Debug.Log("CurrentLoad: " + CurrentLoad + " - " + data.loadRecoveryRate);
-            float c = 1 - CurrentLoad / GetMaxLoad();
-            spriteRenderer.color = new Color(1, c, c, 1);
-        }*/
+    
     }
 
     public float GetMaxLoad()
@@ -493,6 +488,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             GetWorldObjectType().SetMetaStat(MetaStat.Infra_MaxSize, newSizeNumber);
         }
 
+       
         SetState(InfrastructureData.State.Operational);
         UpdateAppearance(); // Update visual state after resize
         GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display

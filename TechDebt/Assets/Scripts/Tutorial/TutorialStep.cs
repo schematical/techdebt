@@ -216,5 +216,19 @@ namespace Tutorial
                     break;
             }
         }
+
+        public TutorialStepData ToTutorialData()
+        {
+            return new TutorialStepData()
+            {
+                Id = Id,
+                State = State
+            };
+        }
+
+        public void FromData(TutorialStepData tutorialStepData)
+        {
+            State = tutorialStepData.State;
+        }
     }
 }

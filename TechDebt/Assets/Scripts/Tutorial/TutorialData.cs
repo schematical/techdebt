@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace Tutorial
 {
@@ -7,6 +8,7 @@ namespace Tutorial
     {
 
         public List<TutorialStepData> steps = new();
+        [FormerlySerializedAs("State")] public TutorialManager.TutorialManagerState state;
     }
     [System.Serializable]
     public class TutorialStepData

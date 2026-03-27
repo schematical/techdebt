@@ -16,6 +16,7 @@ namespace Tutorial
         public enum TutorialManagerState
         {
             Active,
+            Passive,
             Inactive,
         }
 
@@ -403,7 +404,7 @@ namespace Tutorial
                     TutorialStepId.Basics_Day,
                     "Day Cycle",
                     "The clock is now ticking! At the end of the day, you will receive a summary.\n" +
-                    "Keep researching and building to progress the run. Good luck!"
+                    "Keep researching and building to progress the run."
                 )
                 {
                     onTrigger = () =>
@@ -416,6 +417,7 @@ namespace Tutorial
                         GameManager.Instance.cameraController.StopFollowing();
 
                         GameManager.Instance.GameLoopManager.SetPlayTimerActive(true);
+                        MarkPassive();
                     },
                     getTarget = () =>
                     {
@@ -918,22 +920,38 @@ namespace Tutorial
         {
             return MetaGameManager.GetSavePath("techdebt", "tutorial_progress.json");
         }
-        public void SaveProgress(MetaProgressData metaProgressData)
+
+        public TutorialData BuildTutorialData()
         {
-            string json = JsonUtility.ToJson(metaProgressData, true);
+            TutorialData tutorialData = new TutorialData();
+            tutorialData.state = State;
+            foreach (TutorialStep step in Steps.Values)
+            {
+                tutorialData.steps.Add(step.ToTutorialData());
+            }
+            
+            return tutorialData;
+        }
+        public void SaveProgress(TutorialData tutorialData = null)
+        {
+            if (tutorialData == null)
+            {
+                tutorialData = BuildTutorialData();
+            }
+            string json = JsonUtility.ToJson(tutorialData, true);
             string path = GetSavePath();
             File.WriteAllText(path, json);
         }
 
-        public MetaProgressData LoadProgress()
+        public TutorialData LoadProgress()
         {
             if (!File.Exists(GetSavePath()))
             {
-                return new MetaProgressData();
+                return new TutorialData();
             }
             string path = GetSavePath();
             string json = File.ReadAllText(path);
-            return JsonUtility.FromJson<MetaProgressData>(json);
+            return JsonUtility.FromJson<TutorialData>(json);
         }
 
         public TutorialStep ForceRender(TutorialStepId tutorialStepId)
@@ -943,19 +961,64 @@ namespace Tutorial
             return step;
         }
 
-        public void Start()
+        public void QuickStart()
         {
+            MarkPassive();
+            GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+            GameManager.Instance.GameLoopManager.BeginPlanPhase();
+         
+
+        }
+        public void Start()
+        {    
+            GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
+             GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
+             GameManager.OnPhaseChange += HandlePhaseChange;
+             GameManager.OnReleaseChanged += HandleReleaseChange;
+            TutorialData tutorialData = LoadProgress();
+            if (tutorialData != null)
+            {
+                State = tutorialData.state;
+                foreach (TutorialStepId tutorialStepId in Steps.Keys)
+                {
+                    TutorialStepData tutorialStepData = tutorialData.steps.Find((data => data.Id == tutorialStepId));
+                    if (tutorialStepData != null)
+                    {
+                        Steps[tutorialStepId].FromData(tutorialStepData);
+                    }
+                }
+
+                return;
+            }
+
+
             GameManager.Instance.GameLoopManager.SetPlayTimerActive(false);
             TutorialStep step = GetStep(TutorialStepId.NPC_Schematical);
-            GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
-            GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
-            GameManager.OnPhaseChange += HandlePhaseChange;
-            GameManager.OnReleaseChanged += HandleReleaseChange;
+        
             GameManager.Instance.UIManager.planPhaseMenuPanel.Close();
             step.Trigger();
         }
 
-
+        public void StartNewGameCheck()
+        {
+            switch (State)
+            {
+                case TutorialManagerState.Inactive:
+                    return;
+                case TutorialManagerState.Passive:
+                    QuickStart();
+                    return;
+                case TutorialManagerState.Active:
+                    break;
+                default:
+                    throw new System.Exception($"Unknown state {State}");
+            }
+        }
+        public void MarkPassive()
+        {
+            State = TutorialManagerState.Passive;
+            GameManager.Instance.GameLoopManager.SetPlayTimerActive(true);
+        }
         public void End()
         {
      
@@ -1108,18 +1171,18 @@ namespace Tutorial
             if (nextStepId == TutorialStepId.None)
             {
                 CurrentTutorialStepId = TutorialStepId.None;
+                SaveProgress();
                 return;
             }
 
             Trigger(nextStepId);
-            /*TutorialStep tutorialStep = GetStep(nextStepId);
-            CurrentTutorialStepId = nextStepId;
-            tutorialStep.Trigger();*/
+            SaveProgress();
+       
         }
 
         public bool IsActive()
         {
-            return State == TutorialManagerState.Active;
+            return State != TutorialManagerState.Active;
         }
 
         public List<TutorialStep> GetSteps()
