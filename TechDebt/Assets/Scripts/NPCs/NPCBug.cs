@@ -30,16 +30,13 @@ namespace NPCs
         {
             if (
 
-                GameManager.Instance.UIManager.IsPausedState()
+                GameManager.Instance.UIManager.IsPausedState() ||
+                IsDead()
             )
             {
+                base.FixedUpdate();
                 return;
             }
-            if (IsDead())
-            {
-                base.FixedUpdate();
-                return ;
-            }     
             if (isEvolving)
              {
                  return;

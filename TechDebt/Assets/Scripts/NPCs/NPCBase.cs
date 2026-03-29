@@ -129,10 +129,12 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
                 GameManager.Instance.UIManager.IsPausedState()
             )
             {
+                animator.speed = 0;
                 return;
             }
         }
 
+        animator.speed = 1f;
         if (CurrentState == State.Dead)
         {
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
