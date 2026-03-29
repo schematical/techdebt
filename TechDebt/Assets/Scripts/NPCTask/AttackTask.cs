@@ -12,19 +12,19 @@ public class AttackTask : NPCTask
 
     private float coolDown = 0f;
     // public EnvEffectBase buildEffect;
-    public InfrastructureData.State? OnQueuedSetState = InfrastructureData.State.Planned;
+  
 
     public AttackTask(iAttackable target, int priority = 7) : base(target)
     {
        
         this.target = target;
         Priority = priority;
-        maxTaskRange = 1.5f;
+        maxTaskRange = .5f;
     }
 
     public override void OnUpdate(NPCBase npc)
     {
-        
+        // Debug.Log($"AttackTask - Dest: {target.GetInteractionPosition(interactionType)} - {Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position)} <= {maxTaskRange}");
         coolDown -= Time.deltaTime;
         // Only start building after the NPC has arrived.
         if (IsCloseEnough())
@@ -41,7 +41,7 @@ public class AttackTask : NPCTask
         } else if (!npc.isMoving || coolDown <= 0)
         {
             coolDown = .5f;
-            npc.MoveTo(target.transform.position);
+            npc.MoveTo(target.GetInteractionPosition(interactionType));
         }
     }
 

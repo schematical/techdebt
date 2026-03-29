@@ -167,12 +167,12 @@ public class UIDebugPanel : UIPanel
         GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
         gameObject.SetActive(false);*/
         GameManager.Instance.SpawnNPCBug();
-        InfrastructureInstance door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        /*InfrastructureInstance door = GameManager.Instance.GetInfrastructureInstanceByID("door");
         for (int i = 0; i < 5; i++)
         {
             GameObject npcGO = GameManager.Instance.prefabManager.Create("NukeItem",
                 door.transform.position + new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0));
-        }
+        }*/
 
 
     }

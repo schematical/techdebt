@@ -624,7 +624,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             IsModifiable = false,
         });
-        Stats.Add(new StatData(StatType.Difficulty, 1.15f)
+        Stats.Add(new StatData(StatType.Difficulty, 1.25f)
         {
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });

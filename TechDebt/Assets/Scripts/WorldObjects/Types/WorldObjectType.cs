@@ -56,7 +56,7 @@ namespace Infrastructure
   
         public List<NetworkConnection> NetworkConnections; // Array of NetworkConnection objects
         public StatsCollection Stats { get; private set; } = new StatsCollection();
-        public Vector3 interactionPositionOffset = new Vector3(0.0f, 1.0f, 0.0f);
+        public Vector3 interactionPositionOffset = new Vector3( -1.0f, 0.0f, 0.0f);
         public Type type;
         public MetaStatCollection metaStatCollection = new MetaStatCollection();
         protected string sizeTechnologyPrefix = null;

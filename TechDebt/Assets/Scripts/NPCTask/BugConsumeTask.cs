@@ -19,19 +19,12 @@ public class BugConsumeTask : NPCTask
 */
     public override void OnUpdate(NPCBase npc)
     {
-
+     
     }
 
     public override bool IsFinished(NPCBase npc)
     {
-        if (target == null)
-        {
-            return true; // No item found, so the task is "finished"
-        }
-        if (!target.gameObject.activeInHierarchy)
-        {
-            return true; // No item found, so the task is "finished"
-        }
+      
         if (IsCloseEnough())
         {
  
@@ -43,6 +36,12 @@ public class BugConsumeTask : NPCTask
 
     public override void OnEnd(NPCBase npc)
     {
+        if (target == null || !target.gameObject.activeInHierarchy)
+        {
+            // Do not reset cool down as the packet just completed its journey.
+            base.OnEnd(npc);
+            return;
+        }
         NetworkPacket networkPacket = target.gameObject.GetComponent<NetworkPacket>();
         if (networkPacket != null && networkPacket.isActiveAndEnabled)
         {

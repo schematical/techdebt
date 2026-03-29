@@ -45,13 +45,17 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     protected UIProgressBarPanel progressBar;
     protected bool respectPause = true;
     protected TutorialStepId? tutorialStepId;
-    
+    protected SpriteRenderer spriteRenderer;
     void Awake()
     {
         _lastPosition = transform.position;
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
+        }
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
        
@@ -419,7 +423,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             }
             else
             {
-                  FaceLeft();
+                FaceLeft();
             }
         }
 
@@ -440,13 +444,13 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         _lastPosition = transform.position;
     }
 
-    protected virtual void FaceRight()
-    {
-       
-    }
     protected virtual void FaceLeft()
     {
-       
+        
+        spriteRenderer.flipX = !flipMoventSprite; // Moving left
+    }
+    protected virtual void FaceRight() {
+        spriteRenderer.flipX = flipMoventSprite; // Moving right
     }
     protected virtual void FaceUp()
     {

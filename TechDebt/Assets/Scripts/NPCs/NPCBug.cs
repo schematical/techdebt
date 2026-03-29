@@ -83,9 +83,9 @@ namespace NPCs
                 switch (severity)
                 {
                     case (Severity.Minor):
-                        severity = Severity.Medium;
                         npcBug = GameManager.Instance.prefabManager.Create("NPCBug", transform.position).GetComponent<NPCBug>();
                         npcBug.Initialize();
+                        npcBug.SetSeverity(Severity.Medium);
                         npcBug.SetEvolving();
                         gameObject.SetActive(false);
                         GameManager.Instance.AllNpcs.Remove(this);
@@ -98,6 +98,11 @@ namespace NPCs
                 npcBug.SetEvolving(false);
             });
            
+        }
+
+        private void SetSeverity(Severity _severity)
+        {
+            severity = _severity;
         }
 
         public override List<NPCTask> GetAvailableTasks()
