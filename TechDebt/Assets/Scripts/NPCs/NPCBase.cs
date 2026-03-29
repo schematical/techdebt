@@ -599,6 +599,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         float damage = npcBase.Stats.GetStatValue(StatType.NPC_AttackDamage);
         ReceiveDamage(damage);
+        
     }
 
     public void ReceiveDamage(float damage)
@@ -606,7 +607,9 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(-1 * damage);
         GameManager.Instance.FloatingTextFactory.ShowText($"{damage} HP",
             transform.position); 
-        
+        GameObject gameObject = GameManager.Instance.prefabManager.Create("Spark1Effect", transform.position);
+        gameObject.transform.SetParent(transform);
+        gameObject.transform.localPosition = new Vector3(0, 0, 0f);
         if (currentHP <= 0)
         {
             SetState(State.Dead);

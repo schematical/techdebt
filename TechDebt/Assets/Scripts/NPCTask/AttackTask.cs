@@ -19,7 +19,7 @@ public class AttackTask : NPCTask
        
         this.target = target;
         Priority = priority;
-        maxTaskRange = .5f;
+        maxTaskRange = 1f;
     }
 
     public override void OnUpdate(NPCBase npc)
