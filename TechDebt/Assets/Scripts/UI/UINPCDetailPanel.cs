@@ -10,18 +10,13 @@ namespace UI
 {
     public class UINPCDetailPanel: UIPanel
     {
-        public Button followButton;
         private NPCBase _selectedNPC;
         // public UITextArea textArea; // Removed to use AddLine instead
         private List<UIPanelLineSectionButton> _taskButtons = new List<UIPanelLineSectionButton>();
         private UIPanelLineSectionText tasksLineText;
         void Start()
         {
-            followButton.onClick.AddListener(() =>
-            {
-                GameManager.Instance.UIManager.Close();
-                GameManager.Instance.cameraController.StartFollowing(_selectedNPC.transform);
-            });
+     
          
         }
         public void Show(NPCBase npc)
@@ -73,6 +68,11 @@ namespace UI
             {
                 AddButton("Learn More", () => GameManager.Instance.TutorialManager.ForceRender(tutorialStepId.Value));
             }
+            AddButton("Follow", () =>
+            {
+                GameManager.Instance.UIManager.Close();
+                GameManager.Instance.cameraController.StartFollowing(_selectedNPC.transform);
+            });
         }
 
         protected override void Update()

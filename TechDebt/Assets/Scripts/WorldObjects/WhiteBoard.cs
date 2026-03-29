@@ -21,7 +21,6 @@ namespace Infrastructure
 
         public override void SetState(InfrastructureData.State newState)
         {
-            Debug.Log($"Setting State: {newState}");
             if (data.CurrentState == newState) return;
             base.SetState(newState);
             switch (newState)
