@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 4657665096636883697}
   - component: {fileID: 4785109971797836098}
   - component: {fileID: 7639354526524102316}
+  - component: {fileID: 7423007988793560076}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -269,6 +270,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &7423007988793560076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2424965802273628689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606d0fcd34024bb6b5fb29e327b32155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCs.NPCAnimatedBipedBody
+  biped: {fileID: 3339954893976537988}
 --- !u!1 &3051307729491819341
 GameObject:
   m_ObjectHideFlags: 0

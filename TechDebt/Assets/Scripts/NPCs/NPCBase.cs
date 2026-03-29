@@ -46,6 +46,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     protected bool respectPause = true;
     protected TutorialStepId? tutorialStepId;
     protected SpriteRenderer spriteRenderer;
+    protected UnityAction onAttackHit;
     void Awake()
     {
         _lastPosition = transform.position;
@@ -568,17 +569,33 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
 
 
-    public void Attack(iAttackable targetNpc)
+    public void Attack(iAttackable attackTarget)
     {
-        targetNpc.ReceiveAttack(this);
+      
         animator.SetBool("isAttacking", true);
-        AddXP();
+        onAttackHit = () =>
+        {
+            attackTarget.ReceiveAttack(this);
+            AddXP();
+        };
+
+
+    }
+    public void HitAttackAnimation()
+    {
+        onAttackHit.Invoke();
+    }
+    
+    public void EndAttackAnimation()
+    {
         float coolDownTime = Stats.GetStatValue(StatType.NPC_CoolDown);
         if (coolDownTime == 0f)
         {
             coolDownTime = 5;
         }
         coolDowns[CoolDownType.Attack] = coolDownTime;
+        animator.SetBool("isAttacking", false);
+        onAttackHit = null;
     }
 
     public bool CanTakeAction(CoolDownType t)
@@ -599,6 +616,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         float damage = npcBase.Stats.GetStatValue(StatType.NPC_AttackDamage);
         ReceiveDamage(damage);
+        transform.position += Vector3.Normalize(transform.position - npcBase.transform.position)  * .25f;
         
     }
 
@@ -646,6 +664,8 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             case(InteractionType.Explain):
                 return transform.position + new Vector3(2, 0, 0);
+            case(InteractionType.Attack):
+                return transform.position + new Vector3(0, 0, 0);
             default:
                 return transform.position + new Vector3(1, 0, 0);
         }
@@ -672,10 +692,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         GameManager.Instance.cameraController.ZoomToAndFollow(transform);
     }
 
-    public void EndAttackAnimation()
-    {
-        animator.SetBool("isAttacking", false);
-    }
+
 
     public void HideProgressBar()
     {

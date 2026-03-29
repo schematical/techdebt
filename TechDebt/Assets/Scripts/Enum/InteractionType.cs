@@ -4,5 +4,6 @@ public enum InteractionType
     Block, 
     Consume, 
     Explain,
-    MetricsBubble
+    MetricsBubble,
+    Attack
 }
