@@ -110,9 +110,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             packet.MarkFailedAndDestroy();
             packet.MoveToNextNode();
-            GameObject gameObject = GameManager.Instance.prefabManager.Create("Spark1Effect", transform.position);
-            gameObject.transform.SetParent(transform);
-            gameObject.transform.localPosition = new Vector3(0, 0, -1f);
+            TriggerSparks();
             return false; // Stop processing
         }
 
@@ -170,6 +168,13 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         
         return true; // Continue processing
 
+    }
+
+    private void TriggerSparks()
+    {
+        GameObject gameObject = GameManager.Instance.prefabManager.Create("Spark1Effect", transform.position);
+        gameObject.transform.SetParent(transform);
+        gameObject.transform.localPosition = new Vector3(0, 0, -1f);
     }
 
     protected virtual void RoutePacket(NetworkPacket packet)
@@ -548,6 +553,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public void ReceiveAttack(NPCBase npcBase)
     {
         CurrentLoad += GetMaxLoad() / 4f;
+        TriggerSparks();
+        GameManager.Instance.UIManager.TriggerScreenShake();
     }
 
     public bool IsDead()
