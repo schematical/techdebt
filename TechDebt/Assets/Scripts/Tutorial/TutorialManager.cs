@@ -992,15 +992,12 @@ namespace Tutorial
             }
 
 
-            GameManager.Instance.GameLoopManager.SetPlayTimerActive(false);
-            TutorialStep step = GetStep(TutorialStepId.NPC_Schematical);
-        
-            GameManager.Instance.UIManager.planPhaseMenuPanel.Close();
-            step.Trigger();
+           
         }
 
         public void StartNewGameCheck()
         {
+            Debug.Log($"StartNewGameCheck: {State}");
             switch (State)
             {
                 case TutorialManagerState.Inactive:
@@ -1009,6 +1006,12 @@ namespace Tutorial
                     QuickStart();
                     return;
                 case TutorialManagerState.Active:
+                    GameManager.Instance.GameLoopManager.SetPlayTimerActive(false);
+                    TutorialStep step = GetStep(TutorialStepId.NPC_Schematical);
+        
+                    GameManager.Instance.UIManager.planPhaseMenuPanel.Close();
+                    step.Trigger();
+                    
                     break;
                 default:
                     throw new System.Exception($"Unknown state {State}");
