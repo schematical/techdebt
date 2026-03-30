@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  Type: 0
+  Type: 1
   GridPosition: {x: 0, y: 0, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 4892160938955448877}

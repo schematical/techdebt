@@ -3,8 +3,38 @@ using UnityEngine;
 
 public class InternetPipe : InfrastructureInstance
 {
-   
 
+    public enum InternetPipeState
+    {
+        Normal,
+        DDoS
+    }
+    public InternetPipeState  State { get; protected set;  } = InternetPipeState.Normal;
+    protected Animator animator;
+    protected override void Awake()
+    {
+        base.Awake();
+        if(animator == null) 
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+    }
+    public override void Initialize(InfrastructureData infraData)
+    {
+        base.Initialize(infraData);
+        MarkNormal();
+    }
+
+    public void MarkNormal()
+    {
+        State = InternetPipeState.Normal;
+        animator.SetBool("isDDoS", false);
+    }
+    public void MarkDDoS()
+    {
+        State = InternetPipeState.DDoS;
+        animator.SetBool("isDDoS", true);
+    }
     public NetworkPacket SendPacket(NetworkPacketData networkPacketData)
     {
         // int connectionCount = data.NetworkConnections?.Count ?? 0;

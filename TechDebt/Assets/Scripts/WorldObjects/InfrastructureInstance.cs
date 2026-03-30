@@ -31,8 +31,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     protected UIMetricsBubble metricsBubble;
 
-
-    void Awake()
+    
+    protected virtual void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer != null)

@@ -691,6 +691,7 @@ public class GameManager : MonoBehaviour, iModifiable
         Events.Add(new SpawnBugEvent());
         Events.Add(new SpawnXSSEvent());
         Events.Add(new SpawnSQLInjectionEvent());
+        Events.Add(new SpawnDDoSEvent());
 
         Items.Clear();
         Items.Add(new ItemData() { Id = "NukeItem", Probability = 1});
