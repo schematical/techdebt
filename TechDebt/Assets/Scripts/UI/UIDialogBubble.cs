@@ -52,6 +52,7 @@ namespace UI
                     }
                 );
             }
+            MarkUpdated();
         }
 
         public void SetTarget(NPCBase target)

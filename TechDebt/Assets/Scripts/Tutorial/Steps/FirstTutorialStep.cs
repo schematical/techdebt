@@ -28,8 +28,9 @@ namespace Tutorial.Steps
                     {
                         
                         
-                        GameManager.Instance.GetInfrastructureInstanceByID("desk").ZoomTo();
-                        GameManager.Instance.TutorialManager.QuickStart();
+                        GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+                        GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                        GameManager.Instance.TutorialManager.MarkPassive();
                         
                     }
                 },

@@ -28,7 +28,7 @@ namespace Tutorial
         {
             List<TutorialStep> steps = new List<TutorialStep>()
             {
-                new FirstTutorialStep(
+                new TutorialStep(
                     TutorialStepId.NPC_Schematical,
                     "Welcome",
                     "Hello! Welcome to the team. Your job is to keep the servers up and running fast so our startup can grow and make a profit."
@@ -36,7 +36,12 @@ namespace Tutorial
                 {
                     // spriteId = "file-cat",
                     NextStepId = TutorialStepId.NPC_Consultant,
-                    forcePause = false
+                    forcePause = false,
+                    onTrigger = () =>
+                    {
+                        GameManager.Instance.GameLoopManager.SetPlayTimerActive(false);
+                        GameManager.Instance.UIManager.planPhaseMenuPanel.Close();
+                    }
                 },
                 new TutorialStep(
                     TutorialStepId.NPC_Consultant,
@@ -66,6 +71,24 @@ namespace Tutorial
                         GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
                         GameManager.Instance.GameLoopManager.BeginPlanPhase();
                         
+                    },
+                    onPreCheck = (TutorialStep step) =>
+                    {
+                        if (step.State == TutorialStep.TutorialStepState.Completed)
+                        {
+                            GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+                            GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                            GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+                            GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
+                            GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+
+
+                            GameManager.Instance.cameraController.StopFollowing();
+
+                            GameManager.Instance.GameLoopManager.SetPlayTimerActive(true);
+                            MarkPassive();
+                        }
+
                     },
                     showContinue = false,
                     getTarget = () =>
@@ -409,6 +432,22 @@ namespace Tutorial
                 {
                     onTrigger = () =>
                     {
+                        GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+                        GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
+                        GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+
+
+                        GameManager.Instance.cameraController.StopFollowing();
+
+                        GameManager.Instance.GameLoopManager.SetPlayTimerActive(true);
+                        MarkPassive();
+                    },
+                    onPreCheck = (TutorialStep step) =>
+                    {
+                        if (step.State != TutorialStep.TutorialStepState.Incomplete)
+                        {
+                            return;
+                        }
                         GameManager.Instance.SetStat(StatType.PacketsSent, 0);
                         GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
                         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
@@ -961,14 +1000,7 @@ namespace Tutorial
             return step;
         }
 
-        public void QuickStart()
-        {
-            MarkPassive();
-            GameManager.Instance.HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
-            GameManager.Instance.GameLoopManager.BeginPlanPhase();
-         
-
-        }
+        
         public void Start()
         {    
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
@@ -997,25 +1029,28 @@ namespace Tutorial
 
         public void StartNewGameCheck()
         {
-            Debug.Log($"StartNewGameCheck: {State}");
+            Debug.Log($"StartNewGameCheck: {State} - {Steps.Values.Count}");
+            foreach (TutorialStep step in Steps.Values)
+            {
+                step.PreCheck();
+            }
             switch (State)
             {
                 case TutorialManagerState.Inactive:
-                    return;
                 case TutorialManagerState.Passive:
-                    QuickStart();
-                    return;
+                    break;
                 case TutorialManagerState.Active:
-                    GameManager.Instance.GameLoopManager.SetPlayTimerActive(false);
+                  
                     TutorialStep step = GetStep(TutorialStepId.NPC_Schematical);
-        
-                    GameManager.Instance.UIManager.planPhaseMenuPanel.Close();
+                    
                     step.Trigger();
                     
                     break;
                 default:
                     throw new System.Exception($"Unknown state {State}");
             }
+
+            
         }
         public void MarkPassive()
         {

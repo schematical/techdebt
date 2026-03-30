@@ -35,6 +35,7 @@ namespace Tutorial
         public Func<iTargetable> getTarget = null;
         public UnityAction onTrigger = null;
         public UnityAction onFinish = null;
+        public UnityAction<TutorialStep> onPreCheck = null;
         public TutorialStepId NextStepId = TutorialStepId.None;
         public bool forcePause = true;
         public bool showContinue = true;
@@ -180,7 +181,8 @@ namespace Tutorial
         {
             if (State != TutorialStepState.Incomplete)
             {
-                return;// Debug.LogWarning($"TutorialStep {Id} - Trying to Trigger but state is {State}");
+                Debug.LogWarning($"TutorialStep {Id} - Trying to Trigger but state is {State}");
+                return;
             }
             State = TutorialStepState.InProgress;
             if (onTrigger != null)
@@ -229,6 +231,17 @@ namespace Tutorial
         public void FromData(TutorialStepData tutorialStepData)
         {
             State = tutorialStepData.State;
+            
+        }
+
+        public void PreCheck()
+        {
+       
+            if (onPreCheck != null)
+            {
+                Debug.Log($"TutorialStep: PreCheck 2 {Id} - {State}");
+                onPreCheck.Invoke(this);
+            }
         }
     }
 }
