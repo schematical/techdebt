@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4102933366871729735}
   - component: {fileID: -6089119244658019923}
   - component: {fileID: 4892160938955448877}
+  - component: {fileID: 8612100181405658416}
   m_Layer: 0
   m_Name: internetPipe
   m_TagString: Untagged
@@ -105,29 +106,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
+  Type: 0
   GridPosition: {x: 0, y: 0, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
-  interactionPositionOffset: {x: 0, y: 0, z: 0}
   polygonCollider2D: {fileID: 4892160938955448877}
   startcolor: {r: 0, g: 0, b: 0, a: 0}
   data:
-    ID: e7537bd7-baed-4177-9b9d-52847ad41d35
-    DisplayName: 
-    Type: 
+    Id: e7537bd7-baed-4177-9b9d-52847ad41d35
+    worldObjectType: 0
     Prefab: {fileID: 0}
     GridPosition: {x: 0, y: 0, z: 0}
-    UnlockConditions: []
-    networkPackets: []
-    DailyCost: 100
-    BuildTime: 5
-    LoadPerPacket: 20
-    CostPerPacket: 0
-    MaxLoad: 100
-    LoadRecoveryRate: 50
-    CanBeUpsized: 0
+    InitialState: 0
     CurrentState: 0
-    NetworkConnections: []
-    interactionPositionOffset: {x: 0, y: 0, z: 0}
+    UnlockConditions: []
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
 --- !u!60 &4892160938955448877
@@ -197,3 +188,25 @@ PolygonCollider2D:
       - {x: 0.96875, y: 1.1875}
       - {x: 1.2636505, y: 1.1859567}
   m_UseDelaunayMesh: 1
+--- !u!95 &8612100181405658416
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523653573848276037}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 002233db38951454396d4d7bd85c0abd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
