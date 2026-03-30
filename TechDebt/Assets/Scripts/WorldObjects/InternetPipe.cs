@@ -18,6 +18,7 @@ public class InternetPipe : InfrastructureInstance
         {
             animator = GetComponentInChildren<Animator>();
         }
+        
     }
     public override void Initialize(InfrastructureData infraData)
     {

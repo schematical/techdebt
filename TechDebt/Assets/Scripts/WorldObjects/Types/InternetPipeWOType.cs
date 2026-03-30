@@ -9,6 +9,7 @@ public class InternetPipeWOType : WorldObjectType
         type = WorldObjectType.Type.InternetPipe;
         DisplayName = "Internet Pipe";
         PrefabId = "InternetPipe";
+        interactionPositionOffset =  new Vector3( 0f, 2.0f, 0.0f );
         NetworkConnections = new List<NetworkConnection>()
         {
             new NetworkConnection()

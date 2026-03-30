@@ -6,6 +6,8 @@ namespace Tutorial
 {
     public class SpawnDDoSEvent: EventBase
     {
+        //TODO: Severity Affects Duration + Traffic Increase Speed.
+        //TODO: Big Tech Bot Crawl
         public override void Apply()
         {
             InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
