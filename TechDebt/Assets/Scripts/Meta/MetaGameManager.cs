@@ -683,6 +683,7 @@ public static class MetaGameManager
                 TutorialStepId = TutorialStepId.Infra_SNS_Tip
                 // Finish round 1
             }
+            // TODO: Add 'Local Dev Env' and 'Version Control' as researchable tech.
         };
         foreach (Technology technology in technologies)
         {

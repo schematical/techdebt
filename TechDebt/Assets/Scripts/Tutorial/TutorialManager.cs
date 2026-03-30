@@ -444,7 +444,7 @@ namespace Tutorial
                     },
                     onPreCheck = (TutorialStep step) =>
                     {
-                        if (step.State != TutorialStep.TutorialStepState.Incomplete)
+                        if (step.State == TutorialStep.TutorialStepState.Incomplete)
                         {
                             return;
                         }

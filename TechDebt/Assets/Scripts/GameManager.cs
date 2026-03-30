@@ -389,20 +389,9 @@ public class GameManager : MonoBehaviour, iModifiable
   
         cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
-
         
-     
-        /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
-        if (productRoadMapInfra.IsActive())
-        {
-            UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
-        }
-        else
-        {*/
-            Map.GetCurrentStage().SetSelectedLevel(0);
-            // GameLoopManager.BeginPlanPhase();
-       
-        // }
+        Map.GetCurrentStage().SetSelectedLevel(0);
+ 
         TutorialManager.StartNewGameCheck();
     }
     public void StartDemo()
@@ -953,37 +942,9 @@ public class GameManager : MonoBehaviour, iModifiable
         return true;
     }
 
-    public void PlanInfrastructure(InfrastructureInstance infra)
-    {
-        if (infra.data.CurrentState != InfrastructureData.State.Unlocked) return; // MUST BE UNLOCKED TO PLAN
-
-        if (!AreUnlockConditionsMet(infra))
-        {
-            Debug.Log("Unlock conditions not met for this infrastructure.");
-            return;
-        }
-
-        infra.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Planned);
-        Debug.Log($"Successfully planned {infra.data.Id}.");
-        UIManager.worldObjectDetailPanel.Close();
-    }
     
-    public void RequestInfrastructureResize(InfrastructureInstance instance, int sizeChange)
-    {
-        var resizeTask = new ResizeTask(instance, sizeChange);
-        AddTask(resizeTask);
-        UIManager.worldObjectDetailPanel.Close();
-    }
     
-    public List<NPCDevOpsData> GenerateNPCCandidates(int count)
-    {
-        var candidates = new List<NPCDevOpsData>();
-        for (int i = 0; i < count; i++)
-        {
-            candidates.Add(new NPCDevOpsData { DailyCost = UnityEngine.Random.Range(100, 201) });
-        }
-        return candidates;
-    }
+
 
     public NPCDevOps HireNPCDevOps(NPCDevOpsData candidateData)
     {
