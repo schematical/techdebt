@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6214058271466514823, guid: e4692b1580e227a46b504be1aa291ed9, type: 3}
+  m_Sprite: {fileID: 3635942174333250433, guid: 51d644ba723694b49a86cfc071481fec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -131,14 +131,13 @@ MonoBehaviour:
   CurrentState: 0
   data:
     Type: 3
-    prefab: {fileID: 0}
+    prefabId: 
     baseLoad: 20
-    probilitly: 1
   returnIndex: -1
   currentPosition: {x: 0, y: 0, z: 0}
   nextHop: {fileID: 0}
   pastNodes: []
-  speed: 2
+  shadow: {fileID: 0}
 --- !u!61 &6264181325212063232
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -177,7 +176,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.24, y: 0.47}
     newSize: {x: 0.19, y: 0.22}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

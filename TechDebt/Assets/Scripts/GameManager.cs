@@ -663,7 +663,7 @@ public class GameManager : MonoBehaviour, iModifiable
             new NetworkPacketData(0)
             {
                 Type = NetworkPacketData.PType.MaliciousText,
-                baseLoad = 1000,
+                baseLoad = 20,
                 prefabId = "NetworkPacketAttack"
             },
             new NetworkPacketData(0)

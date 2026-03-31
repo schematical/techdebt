@@ -36,6 +36,21 @@ public class InternetPipe : InfrastructureInstance
         State = InternetPipeState.DDoS;
         animator.SetBool("isDDoS", true);
     }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (State == InternetPipeState.DDoS)
+        {
+            if (Random.value > 0.9f)
+            {
+                NetworkPacketData networkPacketData =
+                    GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.MaliciousText);
+                SendPacket(networkPacketData);
+            }
+        }
+    }
+
     public NetworkPacket SendPacket(NetworkPacketData networkPacketData)
     {
         // int connectionCount = data.NetworkConnections?.Count ?? 0;
