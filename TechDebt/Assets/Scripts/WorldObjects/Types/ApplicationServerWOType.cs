@@ -34,6 +34,11 @@ public class ApplicationServerWOType : WorldObjectType
             },
             new InfrastructureDataNetworkPacket()
             {
+                PacketType =  NetworkPacketData.PType.MaliciousText,
+                loadPerPacket = 20
+            },
+            new InfrastructureDataNetworkPacket()
+            {
                 PacketType =  NetworkPacketData.PType.Image,
                 loadPerPacket = 40
             },

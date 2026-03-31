@@ -131,6 +131,8 @@ namespace Infrastructure
         {
             switch (interactionType)
             {
+                case(InteractionType.PacketEnter):
+                    return transform.position;
                 case(InteractionType.Basic):
                     return transform.position + GetWorldObjectType().interactionPositionOffset;
                 case(InteractionType.Block):

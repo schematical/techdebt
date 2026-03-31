@@ -5,5 +5,6 @@ public enum InteractionType
     Consume, 
     Explain,
     MetricsBubble,
-    Attack
+    Attack,
+    PacketEnter
 }

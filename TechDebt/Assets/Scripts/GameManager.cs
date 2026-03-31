@@ -640,7 +640,6 @@ public class GameManager : MonoBehaviour, iModifiable
         NetworkPacketData coin = new NetworkPacketData(0f)
         {
             Type = NetworkPacketData.PType.Purchase,
-            baseLoad = 20,
             prefabId = "FileCoin"
         };
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMin, 10));
@@ -651,37 +650,31 @@ public class GameManager : MonoBehaviour, iModifiable
             new NetworkPacketData(45)
             {
                 Type = NetworkPacketData.PType.Text,
-                baseLoad = 10,
                 prefabId = "NetworkPacket"
             },
             new NetworkPacketData(45)
             {
                 Type = NetworkPacketData.PType.Image,
-                baseLoad = 20,
                 prefabId = "FileCat"
             },
             new NetworkPacketData(0)
             {
                 Type = NetworkPacketData.PType.MaliciousText,
-                baseLoad = 20,
                 prefabId = "NetworkPacketAttack"
             },
             new NetworkPacketData(0)
             {
                 Type = NetworkPacketData.PType.BatchJob,
-                baseLoad = 0,
                 prefabId = "BatchJobNetworkPacket"
             },
             new NetworkPacketData(0)
             {
                 Type = NetworkPacketData.PType.PII,
-                baseLoad = 0,
                 prefabId = "PIINetworkPacket"
             },
             new NetworkPacketData(0)
             {
                 Type = NetworkPacketData.PType.SQLInjection,
-                baseLoad = 0,
                 prefabId = "SQLInjectionNetworkPacket"
             },
         };

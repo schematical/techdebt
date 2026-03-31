@@ -20,7 +20,6 @@ public class NetworkPacketData: iModifiable
     public StatsCollection Stats { get; } = new StatsCollection();
     public PType Type;
     public string prefabId;
-    public float baseLoad = 20f;
     
 
     public NetworkPacketData(float probibility)
