@@ -22,6 +22,7 @@ namespace Tutorial
         }
         public override float GetProbability()
         {
+            // return 100;
             GameManager gameManager = GameManager.Instance;
             ReleaseBase currentRelease = gameManager.GetCurrentRelease();
             if (currentRelease == null)

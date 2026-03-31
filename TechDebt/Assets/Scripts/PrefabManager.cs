@@ -22,9 +22,6 @@ public class PrefabManager: MonoBehaviour
         try
         {
             GameObject go = Pool[prefabId].FirstOrDefault(p => !p.gameObject.activeInHierarchy);
-
-       
-
             if (go != null)
             {
                 // Reactivate and re-initialize the pooled packet
@@ -49,8 +46,10 @@ public class PrefabManager: MonoBehaviour
                     go = Instantiate(prefab, position, Quaternion.identity,  parentTransform);
                     go.name = $"{prefabId}-{Pool[prefabId].Count}";
                     Pool[prefabId].Add(go); 
+                   
                 }
             }
+            go.transform.localScale = Vector3.one;
             return go;
         }
         catch (Exception e)

@@ -5,6 +5,7 @@ public class RedirectTrafficTask: NPCTask
 {
     private float coolDown = 0f;
     public int packetsRedirected = 0;
+    protected GameObject sparks;
     public RedirectTrafficTask(iTargetable target, int priority = 7) : base(target)
     {
        
@@ -12,6 +13,11 @@ public class RedirectTrafficTask: NPCTask
         interactionType = InteractionType.Block;
         Priority = priority;
         maxTaskRange = 1.5f;
+        if (sparks != null)
+        {
+            sparks.gameObject.SetActive(false);
+            sparks = null;
+        }
     }
     public override void OnUpdate(NPCBase npc)
     {
@@ -45,6 +51,9 @@ public class RedirectTrafficTask: NPCTask
                     {
                         networkPacket.MarkFailed();
                     }
+                    sparks = GameManager.Instance.prefabManager.Create("NetworkPacketSparks", Vector3.zero, networkPacket.transform);
+                    sparks.transform.localPosition = new Vector3(0, 0, -0.1f);
+                    sparks.GetComponent<SpriteRenderer>().color = Color.purple;
                     GameManager.Instance.UIManager.TriggerScreenShake(1, .5f);
                     InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
                     if (internetPipe == null)
