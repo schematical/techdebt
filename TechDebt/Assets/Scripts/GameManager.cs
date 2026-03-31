@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     public NetworkPacket CreatePacket(NetworkPacketData data, string fileName, int size, InfrastructureInstance origin)
     {
-        NetworkPacket packet = prefabManager.Create(data.prefabId, origin.GetInteractionPosition()).GetComponent<NetworkPacket>();
+        NetworkPacket packet = prefabManager.Create(data.prefabId, origin.GetInteractionPosition(InteractionType.PacketEnter)).GetComponent<NetworkPacket>();
         packet.Initialize(data, fileName, size, origin);
         activePackets.Add(packet);
         IncrStat(StatType.PacketsSent);

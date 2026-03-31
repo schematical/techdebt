@@ -11,6 +11,7 @@ public class InternetPipe : InfrastructureInstance
     }
     public InternetPipeState  State { get; protected set;  } = InternetPipeState.Normal;
     protected Animator animator;
+    protected float ddosDuration = -1;
     protected override void Awake()
     {
         base.Awake();
@@ -31,8 +32,9 @@ public class InternetPipe : InfrastructureInstance
         State = InternetPipeState.Normal;
         animator.SetBool("isDDoS", false);
     }
-    public void MarkDDoS()
+    public void MarkDDoS(int duration = 10)
     {
+        ddosDuration = duration;
         State = InternetPipeState.DDoS;
         animator.SetBool("isDDoS", true);
     }
@@ -42,11 +44,17 @@ public class InternetPipe : InfrastructureInstance
         base.FixedUpdate();
         if (State == InternetPipeState.DDoS)
         {
-            if (Random.value > 0.9f)
+            if (Random.value > 0.95f )
             {
                 NetworkPacketData networkPacketData =
                     GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.MaliciousText);
                 SendPacket(networkPacketData);
+            }
+
+            ddosDuration -= Time.fixedDeltaTime;
+            if (ddosDuration <= 0)
+            {
+                MarkNormal();
             }
         }
     }
@@ -71,8 +79,8 @@ public class InternetPipe : InfrastructureInstance
         
         // Create the packet
         string fileName = $"file_{networkPacketData.Type}_{Random.Range(1000, 9999)}.dat";
-        int size = Random.Range(5, 50);
-        NetworkPacket packet = GameManager.Instance.CreatePacket(networkPacketData, fileName, size, this);
+        
+        NetworkPacket packet = GameManager.Instance.CreatePacket(networkPacketData, fileName, 1, this);
                 
         packet.SetNextTarget(targetReceiver);
         return packet;
@@ -124,6 +132,8 @@ public class InternetPipe : InfrastructureInstance
         {
             case(InteractionType.Explain):
                 return transform.position + new Vector3(3, 2, 0);
+            case(InteractionType.PacketEnter):
+                return transform.position + new Vector3(1.0f, 3f, 0);
             default:
                return base.GetInteractionPosition(interactionType);
         }

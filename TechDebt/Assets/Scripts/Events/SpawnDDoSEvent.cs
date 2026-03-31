@@ -11,7 +11,8 @@ namespace Tutorial
         public override void Apply()
         {
             InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
-            internetPipe.MarkDDoS();
+            int duration = (int)Math.Round(10 * GameManager.Instance.GetStatValue(StatType.Difficulty));
+            internetPipe.MarkDDoS(duration);
         }
         public override float GetProbability()
         {
