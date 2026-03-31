@@ -12,7 +12,7 @@ public class RedirectTrafficTask: NPCTask
         this.target = target;
         interactionType = InteractionType.Block;
         Priority = priority;
-        maxTaskRange = .5f;
+        maxTaskRange = 1f;
        
     }
     public override void OnUpdate(NPCBase npc)
