@@ -111,6 +111,8 @@ MonoBehaviour:
   uiAttentionIcon: {fileID: 0}
   animator: {fileID: 5339234957960226118}
   shadow: {fileID: 0}
+  shadowOffset: {x: -0.1, y: -0.25}
+  shadowScale: 0.75
 --- !u!95 &5339234957960226118
 Animator:
   serializedVersion: 7

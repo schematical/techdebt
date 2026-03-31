@@ -5,19 +5,15 @@ public class RedirectTrafficTask: NPCTask
 {
     private float coolDown = 0f;
     public int packetsRedirected = 0;
-    protected GameObject sparks;
+
     public RedirectTrafficTask(iTargetable target, int priority = 7) : base(target)
     {
        
         this.target = target;
         interactionType = InteractionType.Block;
         Priority = priority;
-        maxTaskRange = 1.5f;
-        if (sparks != null)
-        {
-            sparks.gameObject.SetActive(false);
-            sparks = null;
-        }
+        maxTaskRange = .5f;
+       
     }
     public override void OnUpdate(NPCBase npc)
     {
@@ -25,7 +21,7 @@ public class RedirectTrafficTask: NPCTask
     
         if (IsCloseEnough())
         {
-            npc.animator.SetBool("isAttacking", true);
+            npc.animator.SetBool("isWalking", false);
             if (coolDown < 0)
             {
                 coolDown = 1;
@@ -51,9 +47,8 @@ public class RedirectTrafficTask: NPCTask
                     {
                         networkPacket.MarkFailed();
                     }
-                    sparks = GameManager.Instance.prefabManager.Create("NetworkPacketSparks", Vector3.zero, networkPacket.transform);
-                    sparks.transform.localPosition = new Vector3(0, 0, -0.1f);
-                    sparks.GetComponent<SpriteRenderer>().color = Color.purple;
+                    npc.animator.SetBool("isAttacking", true);
+                    networkPacket.AttachSparks();
                     GameManager.Instance.UIManager.TriggerScreenShake(1, .5f);
                     InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
                     if (internetPipe == null)
@@ -70,7 +65,7 @@ public class RedirectTrafficTask: NPCTask
 
         } else if (!npc.isMoving)
         {
-          
+            npc.animator.SetBool("isWalking", true);
             npc.MoveTo(target.GetInteractionPosition(interactionType));
         }
     }

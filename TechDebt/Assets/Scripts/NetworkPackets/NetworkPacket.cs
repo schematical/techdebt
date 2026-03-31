@@ -25,12 +25,19 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public ShadowObject  shadow;
     protected float CurrentLatency = 0;
     protected float Delay = -100;
+    protected GameObject sparks;
 
 	void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
        
-    } 
+    }
+
+    public void AttachSparks()
+    {
+        sparks = GameManager.Instance.prefabManager.Create("NetworkPacketSparks", Vector3.zero, transform);
+        sparks.transform.localPosition = new Vector3(0, 0, -0.1f);
+    }
     public virtual void Initialize(NetworkPacketData npData, string fileName, int size, InfrastructureInstance origin = null)
     {
         data = npData;
@@ -40,6 +47,11 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         gameObject.name = $"Packet_{FileName}";
         Reset();
         pastNodes.Add(origin);
+        if (sparks != null)
+        {
+            sparks.gameObject.SetActive(false);
+            sparks = null;
+        }
         /*if (shadow == null)
         {
             shadow = GameManager.Instance.prefabManager.Create("Shadow", transform.position).GetComponent<ShadowObject>();
