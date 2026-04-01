@@ -184,7 +184,12 @@ public class UIDebugPanel : UIPanel
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector3Int cellPos = GameManager.Instance.gridManager.grid.WorldToCell(worldPos);
         mouseCoordsText.text = cellPos.ToString();
-  
+    }
+
+    public override void Close(bool forceClose = false)
+    {
+        base.Close(forceClose);
+        GameManager.Instance.UIManager.leftMenuPanel.Close(forceClose);
     }
 
     private void InstaBuild()
@@ -210,10 +215,7 @@ public class UIDebugPanel : UIPanel
         {
             string techName = GameManager.Instance.CurrentlyResearchingTechnology.DisplayName;
             GameManager.Instance.ApplyResearchProgress(GameManager.Instance.CurrentlyResearchingTechnology.ResearchTime);
-            Debug.Log($"Insta-researched {techName}");
-     
             GameManager.Instance.UIManager.techTreePanel.Refresh();
-            
         }
         else
         {

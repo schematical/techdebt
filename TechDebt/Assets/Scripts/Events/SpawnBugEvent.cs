@@ -8,7 +8,7 @@ namespace Tutorial
     {
         public override void Apply()
         {
-           GameManager.Instance.GetCurrentRelease().SpawnBug();
+           GameManager.Instance.SpawnNPCBug();
            GameManager.Instance.SetStat(StatType.AttackPossibility, 0);
            if(GameManager.Instance.TutorialManager != null)
            {

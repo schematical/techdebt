@@ -23,10 +23,16 @@ namespace UI
                 UIPanelLineSectionText probSection = line.Add<UIPanelLineSectionText>();
                 probSection.SetId(FieldType.Probability.ToString());
                 probSection.text.text = eventBase.GetProbability().ToString();
-                line.SetExpandable((UIPanelLine line) =>
+                UIPanelLineSectionButton button = line.Add<UIPanelLineSectionButton>();
+                button.text.text = "Trigger";
+                button.button.onClick.AddListener(() =>
+                {
+                    GameManager.Instance.TriggerEvent(eventBase);
+                });
+                /*line.SetExpandable((UIPanelLine line) =>
                 {
                     eventBase.Render(line);
-                });
+                });*/
             }
         }
         void Update()
