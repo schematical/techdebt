@@ -132,7 +132,7 @@ namespace Infrastructure
             switch (interactionType)
             {
                 case(InteractionType.PacketEnter):
-                    return transform.position;
+                    return transform.position + new Vector3(0, 1, 0);
                 case(InteractionType.Basic):
                     return transform.position + GetWorldObjectType().interactionPositionOffset;
                 case(InteractionType.Block):
