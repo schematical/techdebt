@@ -429,6 +429,7 @@ public class GameManager : MonoBehaviour, iModifiable
         GameLoopManager.BeginDemo();
         // }
     }
+    
 
     private void BuildAllWorldObjects()
     {

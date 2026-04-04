@@ -16,9 +16,49 @@ MonoBehaviour:
   - m_Name: Default
     m_Hash: 753088835
     m_CategoryList: []
-    m_OverrideEntries: []
+    m_OverrideEntries:
+    - m_Name: default
+      m_Hash: 593363167
+      m_Sprite: {fileID: 7107329319783599734, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 7107329319783599734, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: eyesClosed
+      m_Hash: 1063673812
+      m_Sprite: {fileID: 980116252, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 980116252, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: smile
+      m_Hash: 42599183
+      m_Sprite: {fileID: -2093075532, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2093075532, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: eyesClosedSmile
+      m_Hash: 145569997
+      m_Sprite: {fileID: 2020417670, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2020417670, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: frown
+      m_Hash: 412693140
+      m_Sprite: {fileID: 1346410807, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1346410807, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: sadFrown
+      m_Hash: 639871370
+      m_Sprite: {fileID: 384444000, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 384444000, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: angryFrown
+      m_Hash: 461407018
+      m_Sprite: {fileID: -191192997, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -191192997, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+    - m_Name: angryYell
+      m_Hash: 555495396
+      m_Sprite: {fileID: -1576003367, guid: 8c307d4324667b44f9323524375a5748, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1576003367, guid: 8c307d4324667b44f9323524375a5748, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 0
+    m_EntryOverrideCount: 8
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639056259072575807
+  m_ModificationHash: 639106525773737928
   m_Version: 1
