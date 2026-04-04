@@ -23,8 +23,18 @@ public class AttackTask : NPCTask
         interactionType = InteractionType.Attack;
     }
 
+    public override void OnStart(NPCBase npc)
+    {
+        base.OnStart(npc);
+        if (npc is NPCAnimatedBiped)
+        {
+            (npc as NPCAnimatedBiped).SetExpression(NPCAnimatedBiped.FacialExpression.AngryFrown);
+        }
+    }
+
     public override void OnUpdate(NPCBase npc)
     {
+        
         // Debug.Log($"AttackTask - Dest: {target.GetInteractionPosition(interactionType)} - {Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position)} <= {maxTaskRange}");
         coolDown -= Time.deltaTime;
         // Only start building after the NPC has arrived.
@@ -35,6 +45,10 @@ public class AttackTask : NPCTask
             {
                 npc.StopMovement();
                 npc.Attack(target);
+                if (npc is NPCAnimatedBiped)
+                {
+                    (npc as NPCAnimatedBiped).SetExpression(NPCAnimatedBiped.FacialExpression.AngryYell);
+                }
                 coolDown = 1;
 
             }
@@ -49,6 +63,15 @@ public class AttackTask : NPCTask
     public override bool IsFinished(NPCBase npc)
     {
         return target.IsDead();
+    }
+
+    public override void OnEnd(NPCBase npc)
+    {
+        base.OnEnd(npc);
+        if (npc is NPCAnimatedBiped)
+        {
+            (npc as NPCAnimatedBiped).SetExpression(NPCAnimatedBiped.FacialExpression.Default);
+        }
     }
 
    

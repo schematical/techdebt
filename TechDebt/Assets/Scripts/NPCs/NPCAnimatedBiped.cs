@@ -6,6 +6,18 @@ namespace NPCs
 {
     public class NPCAnimatedBiped: NPCBase
     {
+        public enum FacialExpression
+        {
+            Default,
+            EyesClosed,
+            Smile,
+            EyesClosedSmile,
+            Frown,
+            SadFrown,
+            AngryFrown,
+            AngryYell,
+            Panic
+        }
         public string headSprite = "Head1";
         public SpriteRenderer headSpriteRenderer;
         public SpriteRenderer bodySpriteRenderer; 
@@ -27,6 +39,14 @@ namespace NPCs
             NPCBipedAssets assets =  GameManager.Instance.SpriteManager.GetRandomNPCBipedAssets();
             headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
             bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
+        }
+
+        public void SetExpression(FacialExpression expression)
+        {
+            faceSpriteResolver.SetCategoryAndLabel(
+                "Default",
+                expression.ToString()
+            );
         }
         public override void FaceLeft()
         {

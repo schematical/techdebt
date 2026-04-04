@@ -614,7 +614,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         coolDowns[t] = value;
     }
 
-    public void ReceiveAttack(NPCBase npcBase)
+    public virtual void ReceiveAttack(NPCBase npcBase)
     {
         float damage = npcBase.Stats.GetStatValue(StatType.NPC_AttackDamage);
         ReceiveDamage(damage);

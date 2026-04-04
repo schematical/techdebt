@@ -29,6 +29,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Data = data;
         gameObject.name = $"NPCDevOps_{Data.Name}";
         base.Initialize();
+        SetExpression(FacialExpression.Default);
         Stats.Add(new StatData(StatType.NPC_ModifierSlots, 5));
         Stats.Add(new StatData(StatType.NPC_XPSpeed, 1));
         Stats.Add(new StatData(StatType.NPC_InfoSec, 0.75f));
@@ -271,5 +272,11 @@ public class NPCDevOps : NPCAnimatedBiped
         {
             FaceUp();
         }
+    }
+
+    public override void ReceiveAttack(NPCBase npcBase)
+    {
+        base.ReceiveAttack(npcBase);
+        SetExpression(FacialExpression.Panic);
     }
 }

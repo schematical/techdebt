@@ -181,6 +181,10 @@ namespace NPCs
                     
                     break;
                 case (Severity.Medium):
+                    NPCDevOps npcDevOps = GameManager.Instance.AllNpcs.Find(n => n is NPCDevOps) as NPCDevOps;
+                    AssignTask(new AttackTask(npcDevOps));
+                    return;
+                    
                     List<InfrastructureInstance> possibleTargets = new List<InfrastructureInstance>();
                     foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
                     {
