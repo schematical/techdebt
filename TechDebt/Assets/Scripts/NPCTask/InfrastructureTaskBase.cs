@@ -60,7 +60,6 @@
             {
           
                 NPCDevOps npcDevOps = npc.GetComponent<NPCDevOps>();
-        
 
                 float adjustedProgress = Time.fixedDeltaTime * GetNpcWorkSpeed(npcDevOps);
                 progress += adjustedProgress;

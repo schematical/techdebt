@@ -252,4 +252,24 @@ public class NPCDevOps : NPCAnimatedBiped
         }
         base.OnLeftClick(eventData);
     }
+
+    public void FaceTarget(Vector3 position)
+    {
+        if (transform.position.x < position.x)
+        {
+            FaceRight();
+        }
+        else
+        {
+            FaceRight();
+        }
+        if (transform.position.y >= position.y)
+        {
+            FaceDown();
+        }
+        else
+        {
+            FaceUp();
+        }
+    }
 }

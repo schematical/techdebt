@@ -37,12 +37,11 @@ public class CodeTask : NPCTask, iProgressable
         if (IsCloseEnough())
         {
             NPCDevOps devOpsNpc = npc as NPCDevOps;
-            if (devOpsNpc != null)
-            {
-                float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.deltaTime;
-                ReleaseBase.ApplyProgress(progressGained, AssignedNPC);
-                devOpsNpc.AddXP(Time.deltaTime);
-            }
+     
+            float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.deltaTime;
+            ReleaseBase.ApplyProgress(progressGained, AssignedNPC);
+            devOpsNpc.AddXP(Time.deltaTime);
+            devOpsNpc.FaceTarget(target.GetInteractionPosition());
         }
     }
     

@@ -37,16 +37,14 @@ public class ResearchTask : NPCTask, iProgressable
         if (IsCloseEnough())
         {
             NPCDevOps devOpsNpc = npc as NPCDevOps;
-            if (devOpsNpc != null)
-            {
-                
-                float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
-                GameManager.Instance.ApplyResearchProgress(researchGained);
-                devOpsNpc.AddXP(Time.deltaTime);
-                desk.OnResearchProgress(
-                    npc.transform.position
-                );
-            }
+
+            float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
+            GameManager.Instance.ApplyResearchProgress(researchGained);
+            devOpsNpc.AddXP(Time.deltaTime);
+            desk.OnResearchProgress(
+                npc.transform.position
+            );
+            devOpsNpc.FaceTarget(target.GetInteractionPosition());
         }
     }
     

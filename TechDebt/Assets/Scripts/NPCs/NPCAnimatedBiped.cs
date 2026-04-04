@@ -28,19 +28,19 @@ namespace NPCs
             headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
             bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
         }
-        protected override void FaceLeft()
+        public override void FaceLeft()
         {
             headSpriteRenderer.flipX = !flipMoventSprite; // Moving left
             bodySpriteRenderer.flipX = !flipMoventSprite; // Moving left
             faceSpriteRenderer.flipX = !flipMoventSprite; // Moving left
         }
-        protected override void FaceRight() {
+        public override void FaceRight() {
             headSpriteRenderer.flipX = flipMoventSprite; // Moving right
             bodySpriteRenderer.flipX = flipMoventSprite; // Moving right
             faceSpriteRenderer.flipX = flipMoventSprite; // Moving right
         }
 
-        protected override void FaceDown()
+        public override void FaceDown()
         {
       
             headSpriteRenderer.transform.position = new Vector3(

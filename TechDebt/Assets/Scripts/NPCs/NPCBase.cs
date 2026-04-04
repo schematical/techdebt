@@ -447,19 +447,19 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         _lastPosition = transform.position;
     }
 
-    protected virtual void FaceLeft()
+    public virtual void FaceLeft()
     {
         
         spriteRenderer.flipX = !flipMoventSprite; // Moving left
     }
-    protected virtual void FaceRight() {
+    public virtual void FaceRight() {
         spriteRenderer.flipX = flipMoventSprite; // Moving right
     }
     protected virtual void FaceUp()
     {
        
     }
-    protected virtual void FaceDown()
+    public virtual void FaceDown()
     {
        
     }

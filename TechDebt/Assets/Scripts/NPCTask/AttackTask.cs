@@ -33,7 +33,7 @@ public class AttackTask : NPCTask
 
             if (coolDown <= 0)
             {
-              
+                npc.StopMovement();
                 npc.Attack(target);
                 coolDown = 1;
 
