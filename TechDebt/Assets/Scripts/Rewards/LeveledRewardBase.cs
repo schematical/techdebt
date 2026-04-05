@@ -63,7 +63,7 @@ namespace DefaultNamespace.Rewards
             else
             {
 
-                desc += $"\n Level: {GetLevel()}";
+                desc += $"\nLevel: {GetLevel()}";
             }
 
             return desc;

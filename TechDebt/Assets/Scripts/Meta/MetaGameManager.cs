@@ -1190,7 +1190,7 @@ public static class MetaGameManager
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
             },
-            new GlobalStatBaseValueReward()
+            new GlobalStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
                 Id = "local_dev_env",
@@ -1199,8 +1199,9 @@ public static class MetaGameManager
                 StatType = StatType.Global_CodeSpeed,
                 BaseValue = 1.1f,
                 IconSpriteId = "IconCode",
+                ScaleDirection = ScaleDirection.Up
             },
-            new GlobalStatBaseValueReward()
+            new GlobalStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
                 Id = "hashed_passwords",
@@ -1209,6 +1210,7 @@ public static class MetaGameManager
                 StatType = StatType.Global_PIILossCost,
                 BaseValue = 0.9f,
                 IconSpriteId = "IconCode",
+                ScaleDirection = ScaleDirection.Down
             }
 
             /**
