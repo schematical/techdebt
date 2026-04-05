@@ -277,6 +277,7 @@ public class NPCDevOps : NPCAnimatedBiped
     public override void ReceiveAttack(NPCBase npcBase)
     {
         base.ReceiveAttack(npcBase);
+        // animator.SetBool("isHolding", true);
         SetExpression(FacialExpression.Panic);
     }
 }

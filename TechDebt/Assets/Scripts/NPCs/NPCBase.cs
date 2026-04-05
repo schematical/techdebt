@@ -36,7 +36,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public Animator animator;
     public bool isMoving { get; private set; } = false;
 
-    private List<Vector3> currentPath;
+    private List<Vector3> currentPath; 
     private int pathIndex;
   
     private Vector3 _lastPosition;
@@ -47,21 +47,9 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     protected TutorialStepId? tutorialStepId;
     protected SpriteRenderer spriteRenderer;
     protected UnityAction onAttackHit;
-    void Awake()
-    {
-        _lastPosition = transform.position;
-        if (animator == null)
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
-
-       
-    }
+    protected string ReceiveDamageEffect = "Spark1Effect";
     
+     
     public StatsCollection Stats { get; } = new StatsCollection();
     
     // --- Task Management ---
@@ -76,6 +64,21 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public Vector2 shadowOffset = new Vector2(-0.1f, -0.25f);
     public float shadowScale = 0.75f;
 
+    void Awake()
+    {
+        _lastPosition = transform.position;
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+       
+    }
+   
     public virtual void Initialize()
     {
         Stats.Clear();
@@ -83,6 +86,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Stats.Add(new StatData(StatType.NPC_HP, 5f));
         Stats.Add(new StatData(StatType.NPC_CoolDown, 1f));
         Stats.Add(new StatData(StatType.NPC_AttackDamage, 1f));
+        CurrentState = State.Idle;
         coolDowns[CoolDownType.Attack] = 5f;
         coolDowns[CoolDownType.Consume] = 5f;
         if (!GameManager.Instance.AllNpcs.Contains(this))
@@ -626,15 +630,21 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         float currentHP = Stats.Stats[StatType.NPC_HP].IncrStat(-1 * damage);
         GameManager.Instance.FloatingTextFactory.ShowText($"{damage} HP",
-            transform.position); 
-        GameObject gameObject = GameManager.Instance.prefabManager.Create("Spark1Effect", transform.position);
-        gameObject.transform.SetParent(transform);
-        gameObject.transform.localPosition = new Vector3(0, 0, 0f);
+            transform.position);
+        if (ReceiveDamageEffect != null)
+        {
+            GameObject gameObject = GameManager.Instance.prefabManager.Create(ReceiveDamageEffect, transform.position);
+            gameObject.transform.SetParent(transform);
+            gameObject.transform.localPosition = new Vector3(0, 0, 0f);
+        }
+
         if (currentHP <= 0)
         {
             SetState(State.Dead);
         }
     }
+
+    
 
     protected void SetState(State state)
     {

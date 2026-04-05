@@ -32,6 +32,7 @@ namespace NPCs
         void Awake()
         {
             Randomize();
+            ReceiveDamageEffect = null;
         }
         public void Randomize()
         {
