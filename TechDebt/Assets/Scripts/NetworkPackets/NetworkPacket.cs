@@ -160,6 +160,11 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     }
     public virtual void StartReturn()
     {
+        Animator animatior = GetComponent<Animator>();
+        if(animatior != null) 
+        {
+            animatior.SetBool("isReturning", true);
+        }
         returnIndex = pastNodes.Count - 1;
     }
     
@@ -167,11 +172,16 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public void Reset()
     {
         spriteRenderer.flipX = false;
-        spriteRenderer.color = Color.white;
+        //spriteRenderer.color = Color.white;
         returnIndex = -1;
         CurrentState = State.Running;
         nextHop = null;
         pastNodes.Clear();
+        Animator animatior = GetComponent<Animator>();
+        if(animatior != null) 
+        {
+            animatior.SetBool("isReturning", false);
+        }
     }
 
     public void SetSpeed(float speed)
@@ -179,10 +189,10 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         Speed = speed;
         UpdateAppearance();
     }
-    public void UpdateAppearance()
+    public virtual void UpdateAppearance()
     {
         float loadPct = Speed /  BaseSpeed;
-        spriteRenderer.color = new Color(1 - loadPct, 0,0, 0.2f);
+        // spriteRenderer.color = new Color(1 - loadPct, 0,0, 0.2f);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
