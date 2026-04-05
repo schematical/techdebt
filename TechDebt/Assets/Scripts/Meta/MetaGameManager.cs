@@ -991,7 +991,7 @@ public static class MetaGameManager
             {
                 Id = "fast_worker",
                 Name = "Fast Worker",
-
+                Description = "Spins up and resizes infrastructure faster",
                 StatType = StatType.NPC_DevOpsSpeed,
                 IconSpriteId = "IconHand",
                 BaseValue = 1.1f
@@ -1000,7 +1000,7 @@ public static class MetaGameManager
             {
                 Id = "fast_researcher",
                 Name = "Fast Researcher",
-
+                Description = "Researches new technology faster",
                 StatType = StatType.NPC_ResearchSpeed,
                 IconSpriteId = "IconResearch",
                 BaseValue = 1.1f
@@ -1009,6 +1009,7 @@ public static class MetaGameManager
             {
                 Id = "fast_xp",
                 Name = "Fast Learner",
+                Description = "Levels up faster",
                 StatType = StatType.NPC_XPSpeed,
                 IconSpriteId = "IconTest",
                 BaseValue = 1.1f
@@ -1017,6 +1018,7 @@ public static class MetaGameManager
             {
                 Id = "move_speed",
                 Name = "Fast Move Speed",
+                Description = "Moves faster",
                 StatType = StatType.NPC_MovmentSpeed,
                 IconSpriteId = "IconMovementSpeed",
                 BaseValue = 1.1f
@@ -1025,6 +1027,7 @@ public static class MetaGameManager
             {
                 Id = "fast_coder",
                 Name = "Fast Coder",
+                Description = "Codes releases faster",
                 StatType = StatType.NPC_CodeSpeed,
                 IconSpriteId = "IconCode",
                 BaseValue = 1.1f
@@ -1033,6 +1036,7 @@ public static class MetaGameManager
             {
                 Id = "better_coder",
                 Name = "Better Coder",
+                Description = "Increases the rarity of rewards from software releases",
                 StatType = StatType.NPC_CodeQuality,
                 BaseValue = 1.1f,
                 IconSpriteId = "IconCode",
@@ -1041,6 +1045,7 @@ public static class MetaGameManager
             {
                 Id = "better_debugger",
                 Name = "Better Debugger",
+                Description = "Debugs bugs and cyber attacks faster",
                 StatType = StatType.NPC_AttackDamage,
                 BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
@@ -1049,6 +1054,7 @@ public static class MetaGameManager
             {
                 Id = "cool_under_pressure",
                 Name = "Cool Under Pressure",
+                Description = "Fixes frozen infrastructure faster",
                 StatType = StatType.NPC_FixSpeed,
                 BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
@@ -1183,6 +1189,26 @@ public static class MetaGameManager
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
+            },
+            new GlobalStatBaseValueReward()
+            {
+                Group = RewardBase.RewardGroup.Release,
+                Id = "local_dev_env",
+                Name = "Local Dev Environment",
+                Description = "By allowing your team to write code and run it on their laptops you can speed up the time it takes to get a release out",
+                StatType = StatType.Global_CodeSpeed,
+                BaseValue = 1.1f,
+                IconSpriteId = "IconCode",
+            },
+            new GlobalStatBaseValueReward()
+            {
+                Group = RewardBase.RewardGroup.Release,
+                Id = "hashed_passwords",
+                Name = "Hashed Passwords",
+                Description = "Hashing passwords decreases the cost of losing P.I.I. because the passwords cannot be decrypted",
+                StatType = StatType.Global_PIILossCost,
+                BaseValue = 0.9f,
+                IconSpriteId = "IconCode",
             }
 
             /**

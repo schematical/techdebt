@@ -53,6 +53,21 @@ namespace DefaultNamespace.Rewards
         {
             return Levels.Count;
         }
+        public override string GetDescription()
+        {
+            string desc = base.GetDescription();
+            if (GetLevel() == 0)
+            {
+                desc += "\nNew!";
+            }
+            else
+            {
+
+                desc += $"\n Level: {GetLevel()}";
+            }
+
+            return desc;
+        }
 
         public override UIPanelLine Render(UIPanelLine line)
         {

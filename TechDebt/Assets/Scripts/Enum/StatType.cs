@@ -56,5 +56,7 @@ public enum StatType
     AttackPossibilityAccumulationRate,
     NPC_FixSpeed,
     Release_Quality_Multiplier,
-    NPC_Release_TechDebt
+    NPC_Release_TechDebt,
+    Global_CodeSpeed,
+    Global_PIILossCost
 }

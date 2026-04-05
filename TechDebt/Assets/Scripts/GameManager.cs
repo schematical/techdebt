@@ -224,10 +224,9 @@ public class GameManager : MonoBehaviour, iModifiable
             break;
             case(NetworkPacket.State.Stolen):
                 IncrStat(StatType.PacketsFailed);
-                int cost = 10;
+                float cost = GetStatValue(StatType.Global_PIILossCost);
                 IncrStat(StatType.Money, cost * -1);
                 UIManager.moneyPanel.ExplodeCoins(10);
-                //TODO: Add cost to GameLoopManager.
             break;
             case(NetworkPacket.State.Running):
                 float latency = packet.GetLatency();
@@ -636,6 +635,9 @@ public class GameManager : MonoBehaviour, iModifiable
         });
         Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f){
             DisplayType =  StatData.StatDataDisplayType.Percentage
+        });
+        Stats.Add(new StatData(StatType.Global_PIILossCost, 10){
+            
         });
         
         NetworkPacketData coin = new NetworkPacketData(0f)

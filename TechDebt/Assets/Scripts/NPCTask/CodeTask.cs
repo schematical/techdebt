@@ -38,7 +38,7 @@ public class CodeTask : NPCTask, iProgressable
         {
             NPCDevOps devOpsNpc = npc as NPCDevOps;
      
-            float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.deltaTime;
+            float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.fixedDeltaTime;
             ReleaseBase.ApplyProgress(progressGained, AssignedNPC);
             devOpsNpc.AddXP(Time.deltaTime);
             devOpsNpc.FaceTarget(target.GetInteractionPosition());

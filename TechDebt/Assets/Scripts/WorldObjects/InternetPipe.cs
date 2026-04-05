@@ -42,6 +42,10 @@ public class InternetPipe : InfrastructureInstance
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (GameManager.Instance.UIManager.IsPausedState())
+        {
+            return;
+        }
         if (State == InternetPipeState.DDoS)
         {
             if (Random.value > 0.95f )

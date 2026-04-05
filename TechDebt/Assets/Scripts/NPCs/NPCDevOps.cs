@@ -64,7 +64,7 @@ public class NPCDevOps : NPCAnimatedBiped
             lastDisplayXP = (int)Math.Floor(currentXP);
         }
 
-        int nextLevelXP = (int)Math.Round(60 * Math.Pow(1.5f, level));
+        int nextLevelXP = (int)Math.Round(5 * Math.Pow(1.5f, level));
         if (currentXP >= nextLevelXP)
         {
             currentXP = currentXP - nextLevelXP;
@@ -138,7 +138,7 @@ public class NPCDevOps : NPCAnimatedBiped
                         modifierBase.Id,
                         spriteOut,
                         modifierBase.Name,
-                        $"New - {rarity}" //  - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
+                        $"{modifierBase.GetDescription()}" //  - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
                         .OnSelect((string id) =>
                         {
@@ -175,7 +175,7 @@ public class NPCDevOps : NPCAnimatedBiped
                         existingModifierBase.Id,
                         sprite,
                         existingModifierBase.Name,
-                        $"{rarity}" // - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
+                        $"{existingModifierBase.GetDescription()}" // - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
                     .OnSelect((string id) =>
                     {
