@@ -35,7 +35,7 @@ namespace UI
         }
         public void ShowWorldObjectDetail(WorldObjectBase worldObject)
         {
-            Debug.Log("UIWorldObjectDetailPanel ShowWorldObjectDetail");
+ 
             _selectedWorldObject = worldObject;
             CleanUp(); // Clear existing lines
             base.Show();
@@ -47,8 +47,10 @@ namespace UI
             foreach (NPCTask task in tasks)
             {
                 NPCTask localTask = task; // Local copy for the closure
+                Debug.Log($"Showing Button For Task `{task.GetType()}` - {task.GetAssignButtonText()}");
                 AddButton(task.GetAssignButtonText(), () =>
                 {
+                    Debug.Log($"Clicked Button For Task `{task.GetType()}` - {task.GetAssignButtonText()}");
                     GameManager.Instance.AddTask(localTask);
                     _selectedWorldObject.HideAttentionIcon();
                     Close();

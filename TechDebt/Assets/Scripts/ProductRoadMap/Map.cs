@@ -584,7 +584,7 @@ public class MapLevel
         }
         else
         {
-            GameManager.Instance.GameLoopManager.BeginPlanPhase();
+            // GameManager.Instance.GameLoopManager.BeginPlanPhase();
         }
     }
 }

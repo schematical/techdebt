@@ -55,13 +55,29 @@ public class GameLoopManager : MonoBehaviour
               
                     if (dayTimer >= DayDurationSeconds)
                     {
-                        BeginSummaryPhase();
+                        TriggerNextDay();
                     }
                 }
 
                 break;
             
         }
+    }
+
+    private void TriggerNextDay()
+    {
+        GameManager.Instance.Map.GetCurrentLevel().PostSummaryCheck();
+        currentDay++;
+      
+        GameManager.Instance.Map.GetCurrentLevel().PlanPhaseCheck();
+        
+        dayTimer = 0f;
+        GameManager.Instance.SetStat(StatType.PacketsSent, 0);
+        GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
+        GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
+        GameManager.Instance.SetStat(StatType.TotalNetworkPacketLatency, 0);
+        GameManager.Instance.UIManager.moneyPanel.Show();
+        GameManager.Instance.UIManager.Resume();
     }
 
     public float GetDayDurationSeconds()
@@ -245,13 +261,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
         
-        foreach (EventBase e in GameManager.Instance.CurrentEvents.ToList())
-        {
-            if (e.IsOver())
-            {
-                e.End();
-            }
-        }
+       
 
         //GameManager.Instance.UpdateMetaProgress();
 
