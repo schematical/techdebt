@@ -7,7 +7,7 @@ namespace UI
     {
         protected List<UIToastPanel> toastPanels = new();
 
-        public UIToastPanel Add(string text, float duration = 10)
+        public UIToastPanel Add(string text, float duration = 15)
         {
             UIToastPanel toastPanel = GameManager.Instance.prefabManager.Create("UIToastPanel", Vector3.zero, scrollContent).GetComponent<UIToastPanel>();
             toastPanels.Add(toastPanel);
