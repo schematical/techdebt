@@ -30,8 +30,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
 
     protected UIMetricsBubble metricsBubble;
+    protected float costPerSecond = 0;
+    protected float fractionalCost = 0;
 
-    
+
     protected virtual void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -58,8 +60,28 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             }
         }
 
+        if (!IsActive())
+        {
+            return;
+        }
+        // Check costs. 
+        float tickCost = costPerSecond * Time.fixedDeltaTime;
+        fractionalCost += tickCost;
+        int fractionalCostFloor = (int)Math.Round(fractionalCost + tickCost);
+        // Debug.Log($"tickCost: ${tickCost} -  fractionalCostFloor: {fractionalCostFloor}");
+        if (fractionalCostFloor > 0)
+        {
+            // Spend fractionalCostFloor
+            GameManager.Instance.IncrStat(StatType.Money, fractionalCostFloor * -1);
+            GameManager.Instance.FloatingTextFactory.ShowText($"-${fractionalCostFloor}", transform.position,
+                Color.khaki);
+            fractionalCost = fractionalCost - fractionalCostFloor;
+        }
 
-    
+  
+
+
+
     }
 
     public float GetMaxLoad()
@@ -245,9 +267,18 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         WorldObjectType worldObjectType = GetWorldObjectType();
 
         Initialize(); // Ensure default stats are set up
+        CurrentSize = InfraSize.Small;
         CurrentLoad = 0; // SetStatCollection current load
         UpdateAppearance();
-      
+        UpdateCostPerSecond();
+
+    }
+
+    public float UpdateCostPerSecond()
+    {
+       costPerSecond = GetDailyCost() / GameManager.Instance.GameLoopManager.GetDayDurationSeconds();
+       Debug.Log($"costPerSecond: {costPerSecond}");
+       return costPerSecond;
     }
 
 
@@ -496,6 +527,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
        
         SetState(InfrastructureData.State.Operational);
+        UpdateCostPerSecond();
         UpdateAppearance(); // Update visual state after resize
         GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display
     }
