@@ -275,7 +275,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 CurrentLoad = 0;
                 break;
             case (InfrastructureData.State.Planned):
-                Debug.Log($"!!!!{gameObject.name}: State Set To {newState}");
+                // Debug.Log($"!!!!{gameObject.name}: State Set To {newState}");
                 break;
             case (InfrastructureData.State.Frozen):
 

@@ -120,7 +120,7 @@
         {
             if (OnQueuedSetState != null)
             {
-                Debug.Log($"{GetType().Name} Queued SetState - {TargetInfrastructure.gameObject.name} to `{OnQueuedSetState}`");
+                // Debug.Log($"{GetType().Name} Queued SetState - {TargetInfrastructure.gameObject.name} to `{OnQueuedSetState}`");
                 TargetInfrastructure.SetState(OnQueuedSetState.Value);
             }
 

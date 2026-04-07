@@ -146,18 +146,11 @@ public class GameLoopManager : MonoBehaviour
             }
            
         }
-
-
         // Update UI
         GameManager.Instance.UIManager.HidePlanUI();
         GameManager.Instance.UIManager.moneyPanel.Show();
-        
+        GameManager.Instance.UIManager.SetTimeScalePlay(true);
 
-        
-        GameManager.Instance.UIManager.Resume();
-      
-
-        
     }
 
 

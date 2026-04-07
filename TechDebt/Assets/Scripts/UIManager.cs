@@ -286,7 +286,7 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        // Debug.Log($"Resume...{_userSpecifiedTimeState}");
+        Debug.Log($"Resume...{_userSpecifiedTimeState}");
         SetTimeState(_userSpecifiedTimeState);
         
     }
@@ -338,6 +338,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = newTimeScale;
         if (setDesired)
         {
+            Debug.Log($"setDesired Time Scale: {newState} - prev: {_timeStateBeforePause}");
             _userSpecifiedTimeState = newState;
         }
         timeControlPanel.UpdateTimeScaleButtons();
