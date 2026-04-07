@@ -78,6 +78,8 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.TotalNetworkPacketLatency, 0);
         GameManager.Instance.UIManager.moneyPanel.Show();
         GameManager.Instance.UIManager.Resume();
+        GameManager.Instance.UIManager.toastHolderPanel.Add($"Day {currentDay} Starting");
+        GameManager.Instance.UIManager.toastHolderPanel.Add($"TODO: Traffic...");
     }
 
     public float GetDayDurationSeconds()

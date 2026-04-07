@@ -226,8 +226,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                _timeStateBeforePause = _currentTimeState;
-                SetTimeState(TimeState.Paused, true);
+                SetTimeScalePause();
             }
         }
 
@@ -277,6 +276,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void SetTimeScalePause(bool setDesired = false) {
+        _timeStateBeforePause = _currentTimeState;
         SetTimeState(TimeState.Paused, setDesired);
     }
 

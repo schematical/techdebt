@@ -7,16 +7,16 @@ namespace UI
     {
         protected List<UIToastPanel> toastPanels = new();
 
-        public UIToastPanel Add(string text, float duration = 5)
+        public UIToastPanel Add(string text, float duration = 10)
         {
-            UIToastPanel toastPanel = GameManager.Instance.prefabManager.Create("UIToastPanel", Vector3.zero, GameManager.Instance.UIManager.transform).GetComponent<UIToastPanel>();
+            UIToastPanel toastPanel = GameManager.Instance.prefabManager.Create("UIToastPanel", Vector3.zero, scrollContent).GetComponent<UIToastPanel>();
             toastPanels.Add(toastPanel);
             toastPanel.Init(text, duration);
             return toastPanel;
         }
         protected virtual void FixedUpdate()
         {
-            foreach (UIToastPanel toastPanel in toastPanels)
+            foreach (UIToastPanel toastPanel in toastPanels.ToArray())
             {
                 float duration = toastPanel.Tick(Time.fixedDeltaTime);
                 if (duration <= 0f)

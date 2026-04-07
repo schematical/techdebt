@@ -1747,8 +1747,8 @@ MonoBehaviour:
   itemDetailPanel: {fileID: 2067294679}
   alertPanel: {fileID: 380004525}
   dialogPanel: {fileID: 1215283368}
-  toastHolderPanel: {fileID: 0}
-  toolTip: {fileID: 0}
+  toastHolderPanel: {fileID: 1160260330}
+  toolTip: {fileID: 1011191253}
   gameTipPanel: {fileID: 1576793825}
   tutorialStepListPanel: {fileID: 1775488672}
   mainMenu: {fileID: 709507619}
@@ -13962,9 +13962,7 @@ GameObject:
   - component: {fileID: 1160260329}
   - component: {fileID: 1160260328}
   - component: {fileID: 1160260327}
-  - component: {fileID: 1160260326}
-  - component: {fileID: 1160260325}
-  - component: {fileID: 1160260324}
+  - component: {fileID: 1160260330}
   m_Layer: 5
   m_Name: UIToastHolderPanel
   m_TagString: Untagged
@@ -13989,70 +13987,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1160260324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160260322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e01512c41094b7c9828af010b073ebc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UI.UIToolTip
-  slideDirection: 1
-  rectTransform: {fileID: 0}
-  canvasGroup: {fileID: 0}
-  animationTime: 0.5
-  runUICloseOnShow: 1
-  titleText: {fileID: 0}
-  scrollContent: {fileID: 1530516464}
-  closeButton: {fileID: 0}
-  hasUpdateThisFrame: 0
---- !u!114 &1160260325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160260322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
-  m_Padding:
-    m_Left: 25
-    m_Right: 25
-    m_Top: 25
-    m_Bottom: 25
-  m_ChildAlignment: 0
-  m_Spacing: 25
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
---- !u!114 &1160260326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160260322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 0
-  m_VerticalFit: 0
 --- !u!225 &1160260327
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -14103,6 +14040,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160260322}
   m_CullTransparentMesh: 1
+--- !u!114 &1160260330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160260322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80c1c88badb46b69b68ac89ed53ebf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.UIToastHolderPanel
+  slideDirection: 2
+  rectTransform: {fileID: 1160260323}
+  canvasGroup: {fileID: 1160260327}
+  animationTime: 0.5
+  runUICloseOnShow: 1
+  titleText: {fileID: 0}
+  scrollContent: {fileID: 1530516464}
+  closeButton: {fileID: 0}
+  hasUpdateThisFrame: 0
 --- !u!1 &1160635026
 GameObject:
   m_ObjectHideFlags: 0
@@ -18747,11 +18705,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1160260323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1530516465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18783,7 +18741,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 6
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
