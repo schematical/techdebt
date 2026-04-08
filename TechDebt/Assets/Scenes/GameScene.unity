@@ -2121,7 +2121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &228498248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2206,10 +2206,6 @@ MonoBehaviour:
   connectorTilemap: {fileID: 1526968472}
   nodeTilemap: {fileID: 313593200}
   backgroundTilemap: {fileID: 790377098}
-  unlockedTile: {fileID: 11400000, guid: 59d0c03ca4460b54f9a26307964e0630, type: 2}
-  lockedTile: {fileID: 11400000, guid: cb9f9658c6cce16409c13b5e78b54dbf, type: 2}
-  researchedTitle: {fileID: 11400000, guid: 95b4ec60637f8cf4e8ca6d82b7a12995, type: 2}
-  researchingTile: {fileID: 11400000, guid: 6f30d0c89a15a364b8ce3a36b27db5eb, type: 2}
   connectorTile: {fileID: 11400000, guid: 7d99fb504aca96945bfe565422277365, type: 2}
   backgroundTile: {fileID: 11400000, guid: 1bc49c3e6bcd4ce40a742437e7d312aa, type: 2}
   panSpeed: 1
@@ -4414,7 +4410,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: 105.630005}
+  m_AnchoredPosition: {x: 100, y: 105.62988}
   m_SizeDelta: {x: 445.6, y: -155.63}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &409899651
@@ -8904,6 +8900,11 @@ MonoBehaviour:
   - {fileID: 7202667105660005150, guid: d2c88e1a890fb9e469f9905b24e4103f, type: 3}
   - {fileID: 8476093955393512887, guid: 936c2b1c5b7d73241851009a4e0dcc97, type: 3}
   - {fileID: 541660643718874994, guid: a8e44738a74f2fb4aa43ffdb9d289691, type: 3}
+  Tiles:
+  - {fileID: 11400000, guid: cb9f9658c6cce16409c13b5e78b54dbf, type: 2}
+  - {fileID: 11400000, guid: 95b4ec60637f8cf4e8ca6d82b7a12995, type: 2}
+  - {fileID: 11400000, guid: 6f30d0c89a15a364b8ce3a36b27db5eb, type: 2}
+  - {fileID: 11400000, guid: 59d0c03ca4460b54f9a26307964e0630, type: 2}
 --- !u!114 &776996751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20614,7 +20615,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 10, y: -75}
-  m_SizeDelta: {x: -20, y: -1045.5039}
+  m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1730293102
 MonoBehaviour:

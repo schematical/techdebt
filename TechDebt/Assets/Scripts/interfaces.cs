@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Infrastructure;
 using MetaChallenges;
 using Stats;
@@ -32,4 +33,37 @@ public interface iModifiable
 public interface iUnlockable
 {
     public bool IsUnlocked();
+}
+
+public enum MapNodeState
+{
+    MetaLocked,
+    Locked,
+    Active, // e.g. Researching
+    Unlocked
+}
+
+public enum MapNodeDirection
+{
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+public interface iMapNode
+{
+    string Id { get; }
+    string DisplayName { get; }
+    string Description { get; }
+    MapNodeState CurrentState { get; }
+    MapNodeDirection Direction { get; }
+    List<string> DependencyIds { get; }
+    
+    // Progress for Active state (0.0 to 1.0)
+    float GetProgress();
+
+    UnityEngine.Tilemaps.TileBase GetTile();
+
+    void OnSelected(UI.UIMapPanel panel);
 }

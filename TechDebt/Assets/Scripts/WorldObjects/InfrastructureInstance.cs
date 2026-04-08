@@ -277,7 +277,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
     public float UpdateCostPerSecond()
     {
        costPerSecond = GetDailyCost() / GameManager.Instance.GameLoopManager.GetDayDurationSeconds();
-       Debug.Log($"costPerSecond: {costPerSecond}");
+
        return costPerSecond;
     }
 

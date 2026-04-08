@@ -8,9 +8,16 @@ using Random = UnityEngine.Random;
 public class PrefabManager: MonoBehaviour
 {
     public List<GameObject> Prefabs = new List<GameObject>();
+    public List<UnityEngine.Tilemaps.TileBase> Tiles = new List<UnityEngine.Tilemaps.TileBase>();
     private Dictionary<string, List<GameObject>>Pool = new Dictionary<string, List<GameObject>>();
     private List<string> particleIds;
     
+    public UnityEngine.Tilemaps.TileBase GetTile(string tileId)
+    {
+        UnityEngine.Tilemaps.TileBase tile = Tiles.Find(t => t.name == tileId);
+        return tile;
+    }
+
     public GameObject Create(string prefabId, Vector3 position, Transform parentTransform = null)
     {
         // Ensure a pool for this packet type exists

@@ -7,7 +7,6 @@ public class MetaStatData
     public string statName;
     [FormerlySerializedAs("value")] public int cumulativeValue;
     public int highestValue;
-  
 }
 
 [System.Serializable]
@@ -26,7 +25,7 @@ public class InfraMetaStatSaveData
 public class MetaStatSaveData
 {
     public List<InfraMetaStatSaveData> infra;
-    public List<MetaStatData>  game;
+    public List<MetaStatData> game;
 
     public MetaStatSaveData()
     {
@@ -39,12 +38,14 @@ public class MetaStatSaveData
 public class MetaProgressData
 {
     public int researchPoints;
+    public int prestigePoints;
     public List<string> unlockedNodeIds;
     public MetaStatSaveData metaStats;
 
     public MetaProgressData()
     {
         researchPoints = 0;
+        prestigePoints = 0;
         unlockedNodeIds = new List<string>();
         metaStats = new MetaStatSaveData();
     }
