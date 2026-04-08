@@ -325,6 +325,14 @@ public class GameManager : MonoBehaviour, iModifiable
         UnityServices.InitializeAsync(options);
         Debug.Log("Starting Analytics: ");
 #endif
+#if !UNITY_WEBGL && !UNITY_EDITOR
+        recordAnalytics = true;
+        InitializationOptions options = new InitializationOptions();
+        options.SetEnvironmentName("alpha");
+        UnityServices.InitializeAsync(options);
+        Debug.Log("Starting Analytics: ");
+#endif
+        
         _instance = this;
         
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
