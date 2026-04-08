@@ -16,6 +16,14 @@ The central hub of the game. It manages:
 ### GameLoopManager (`TechDebt/Assets/Scripts/GameLoopManager.cs`)
 Manages the phases of the game (e.g., Play, Plan phases) and day/night cycles.
 
+### UIPanel System (`TechDebt/Assets/Scripts/UI/UIPanel/`)
+A programmatic UI framework for creating dynamic, data-driven panels.
+- **UIPanel:** The base class for all panels. It manages a list of `UIPanelLine` objects and provides methods like `AddButton` and `AddLine<T>`. It utilizes a `scrollContent` Transform for layout.
+- **UIPanelLine:** Represents a horizontal row within a panel. It can contain multiple `UIPanelLineSection` objects and even nested child lines for hierarchical displays (e.g., tree views).
+- **UIPanelLineSection:** Individual elements within a line (Text, Image, Button, ProgressBar).
+- **Programmatic Updates:** Use `CleanUp()` to clear existing lines and `AddLine<T>()` to rebuild the UI based on fresh data (common in `OnEnable` or `Refresh`).
+- **Layout:** Uses Unity's `LayoutRebuilder` to ensure proper sizing after dynamic instantiation. Always call `MarkUpdated()` on the panel when modifying its contents to trigger a layout refresh.
+
 ## Infrastructure System
 
 ### Base Classes
