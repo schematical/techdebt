@@ -618,7 +618,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             metricsBubble.Close();
         }
         // gameObject.SetActive(true);
-
+        if (GetWorldObjectType().networkPackets.Count == 0)
+        {
+            return null;
+        }
         metricsBubble = GameManager.Instance.prefabManager.Create("UIMetricsBubble", GetInteractionPosition(), GameManager.Instance.UIManager.transform).GetComponent<UIMetricsBubble>();
         metricsBubble.SetTarget(this);
         metricsBubble.transform.SetAsFirstSibling();

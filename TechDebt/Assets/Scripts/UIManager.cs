@@ -231,8 +231,8 @@ public class UIManager : MonoBehaviour
         }
 
         if (
-            Keyboard.current.shiftKey.wasPressedThisFrame &&
-            GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").IsUnlocked()
+            Keyboard.current.shiftKey.wasPressedThisFrame // &&
+            // GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").IsUnlocked()
         )
         {
             
