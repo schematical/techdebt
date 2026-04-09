@@ -26,6 +26,9 @@ using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour, iModifiable
 {
+ 
+
+   
     public enum GameManagerState { MainMenu, Playing }
     private static GameManager _instance;
     public bool recordAnalytics = false;
@@ -656,6 +659,44 @@ public class GameManager : MonoBehaviour, iModifiable
         };
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMin, 10));
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMax, 20));
+        
+        
+   
+        Stakeholders.Add(new Stakeholder { 
+            Id = "ciso", 
+            RoleName = "CISO", 
+            Levels = new List<StakeholderLevelConfig> { 
+                new StakeholderLevelConfig { Title = "Junior Security Officer", Description = "Handles basic SSL and Auth." },
+                new StakeholderLevelConfig { Title = "CISO", Description = "Chief Information Security Officer." }
+            }
+        });
+        Stakeholders.Add(new Stakeholder { 
+            Id = "cto", 
+            RoleName = "CTO", 
+            Levels = new List<StakeholderLevelConfig> { 
+                new StakeholderLevelConfig { Title = "Lead Developer", Description = "Focuses on infrastructure and code quality." },
+                new StakeholderLevelConfig { Title = "CTO", Description = "Chief Technology Officer." }
+            }
+        });
+        Stakeholders.Add(new Stakeholder { 
+            Id = "cfo", 
+            RoleName = "CFO", 
+            Levels = new List<StakeholderLevelConfig> { 
+                new StakeholderLevelConfig { Title = "Accountant", Description = "Tracks spending and S3 costs." },
+                new StakeholderLevelConfig { Title = "CFO", Description = "Chief Financial Officer." }
+            }
+        });
+        Stakeholders.Add(new Stakeholder { 
+            Id = "cmo", 
+            RoleName = "CMO", 
+            Levels = new List<StakeholderLevelConfig> { 
+                new StakeholderLevelConfig { Title = "Marketing Associate", Description = "Manages cart abandonment and SEO." },
+                new StakeholderLevelConfig { Title = "CMO", Description = "Chief Marketing Officer." }
+            }
+        });
+    
+
+        
         NetworkPacketDatas = new List<NetworkPacketData>()
         {
             coin,
