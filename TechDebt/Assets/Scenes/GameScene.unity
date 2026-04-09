@@ -559,6 +559,20 @@ MonoBehaviour:
   scrollContent: {fileID: 0}
   closeButton: {fileID: 727671271}
   hasUpdateThisFrame: 0
+  connectorTilemap: {fileID: 1526968472}
+  nodeTilemap: {fileID: 313593200}
+  backgroundTilemap: {fileID: 790377098}
+  connectorTile: {fileID: 11400000, guid: 7d99fb504aca96945bfe565422277365, type: 2}
+  backgroundTile: {fileID: 11400000, guid: 1bc49c3e6bcd4ce40a742437e7d312aa, type: 2}
+  panSpeed: 1
+  zoomSpeed: 1
+  minZoom: 5
+  maxZoom: 20
+  grid: {fileID: 2135397407}
+  stakeholderNameText: {fileID: 0}
+  stakeholderLevelText: {fileID: 0}
+  stakeholderDescriptionText: {fileID: 0}
+  upgradeButton: {fileID: 0}
 --- !u!225 &58927467
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2121,7 +2135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &228498248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8756,6 +8770,7 @@ MonoBehaviour:
       TechnologyID: org-chart
       TutorialStepId: 0
       TutorialStepState: 2
+  Stakeholders: []
   gridManager: {fileID: 747688044}
   NetworkPacketState: 0
   AllNpcs: []
@@ -16695,7 +16710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1354808289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16717,9 +16732,18 @@ MonoBehaviour:
   scrollContent: {fileID: 0}
   closeButton: {fileID: 1930343115}
   hasUpdateThisFrame: 0
-  Buttons: []
-  RectTransform: {fileID: 1664984701}
+  connectorTilemap: {fileID: 1526968472}
+  nodeTilemap: {fileID: 313593200}
+  backgroundTilemap: {fileID: 790377098}
+  connectorTile: {fileID: 11400000, guid: 7d99fb504aca96945bfe565422277365, type: 2}
+  backgroundTile: {fileID: 11400000, guid: 1bc49c3e6bcd4ce40a742437e7d312aa, type: 2}
+  panSpeed: 1
+  zoomSpeed: 1
+  minZoom: 5
+  maxZoom: 20
+  grid: {fileID: 2135397407}
   LevelDescriptionText: {fileID: 1236192462}
+  startSprintButton: {fileID: 0}
 --- !u!224 &1354808290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20615,7 +20639,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 10, y: -75}
-  m_SizeDelta: {x: -20, y: 0}
+  m_SizeDelta: {x: -20, y: -1045.5039}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1730293102
 MonoBehaviour:

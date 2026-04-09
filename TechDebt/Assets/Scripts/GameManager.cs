@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour, iModifiable
     protected List<Technology> AllTechnologies;
     public Dictionary<WorldObjectType.Type, WorldObjectType> WorldObjectTypes = new Dictionary<WorldObjectType.Type, WorldObjectType>();
     public Map Map;
+    public List<Stakeholder> Stakeholders = new List<Stakeholder>();
     [SerializeField] public GridManager gridManager;
     protected List<NetworkPacketData> NetworkPacketDatas  = new List<NetworkPacketData>();
     public StatsCollection Stats { get; private set; } = new StatsCollection();

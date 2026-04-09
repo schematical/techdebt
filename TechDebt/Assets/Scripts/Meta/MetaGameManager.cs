@@ -314,10 +314,10 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "kanban-board"
+                        TechnologyID = "product-road-map"
                     }
                 },
-                CurrentState = Technology.State.MetaLocked,
+                CurrentState = Technology.State.Locked, // TODO: Meta lock this?
                 Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_OrgChart_Tip
             },
@@ -333,12 +333,12 @@ public static class MetaGameManager
                     {
                         Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "white-board"
-                    },
+                    }/*,
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
                         SprintNumber = 1
-                    },
+                    },*/
                 },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,

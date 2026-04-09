@@ -105,6 +105,7 @@ namespace UI
 
             if (tech.CurrentState == Technology.State.Locked)
             {
+                
                 bool prerequisitesMet = tech.UnlockConditions?.All(condition => condition.IsUnlocked()) ?? true;
                 if (!prerequisitesMet)
                 {

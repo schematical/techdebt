@@ -76,10 +76,17 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.PacketsSucceeded, 0);
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
         GameManager.Instance.SetStat(StatType.TotalNetworkPacketLatency, 0);
+
+        int sprintNumber = GameManager.Instance.Map.CurrentStageIndex;
+        GameManager.Instance.Stats.AddModifier(
+            StatType.Traffic,
+            new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStatValue(StatType.Difficulty))
+        );
+        
         GameManager.Instance.UIManager.moneyPanel.Show();
         GameManager.Instance.UIManager.Resume();
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Day {currentDay} Starting");
-        GameManager.Instance.UIManager.toastHolderPanel.Add($"TODO: Traffic...");
+        GameManager.Instance.UIManager.toastHolderPanel.Add($"Traffic: ${ GameManager.Instance.GetStatValue(StatType.Traffic)}");
     }
 
     public float GetDayDurationSeconds()

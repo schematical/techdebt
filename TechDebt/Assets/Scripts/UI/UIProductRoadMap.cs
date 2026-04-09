@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIProductRoadMap: UIPanel
+    public class UIProductRoadMap : UIMapPanel
     {
         public enum State
         {
@@ -16,141 +15,118 @@ namespace UI
         };
         protected State CurrentState;
 
-        public List<UIProductRoadMapLevelButton> Buttons = new List<UIProductRoadMapLevelButton>();
-        public RectTransform RectTransform;
+        [Header("RoadMap Details Area")]
         public TextMeshProUGUI LevelDescriptionText;
-        private List<GameObject> Lines = new List<GameObject>();
-        
+        public UIButton startSprintButton;
 
         public void Show(State _state = State.Display)
         {
             CurrentState = _state;
-            base.Show();
-            Map Map = GameManager.Instance.Map;
-            int stageX = 0;
-            float width = RectTransform.rect.width;
-            float height = RectTransform.rect.height;
-
-            foreach (UIProductRoadMapLevelButton button in Buttons)
-            {
-                button.gameObject.SetActive(false);
-            }
-            Buttons.Clear();
-            
-            foreach (GameObject line in Lines)
-            {
-                Destroy(line);
-            }
-            Lines.Clear();
-
-            List<List<UIProductRoadMapLevelButton>> stageButtons = new List<List<UIProductRoadMapLevelButton>>();
-
-            foreach (MapStage stage in Map.Stages)
-            {
-                List<UIProductRoadMapLevelButton> currentStageButtons = new List<UIProductRoadMapLevelButton>();
-                int levelY = 0;
-                foreach (MapLevel level in stage.Levels)
-                {
-                    UIProductRoadMapLevelButton button =
-                        GameManager.Instance.prefabManager
-                            .Create("UIProductRoadMapLevelButton", new Vector3(), transform)
-                            .GetComponent<UIProductRoadMapLevelButton>();
-
-                    ButtonState state = ButtonState.Locked;
-                    if (stageX < Map.CurrentStageIndex)
-                    {
-                        if (stage.SelectedLevel == levelY)
-                        {
-                            state = ButtonState.Selected;
-                        }
-                        else
-                        {
-                            state = ButtonState.Passed;
-                        }
-                    }
-                    else if (stageX == Map.CurrentStageIndex)
-                    {
-                        state = ButtonState.Available;
-                    }
-                    
-                    button.Init(level, levelY, state, (_level) =>
-                    {
-                        if (_level == null)
-                        {
-                            LevelDescriptionText.text = "";
-                        }
-                        else
-                        {
-                            LevelDescriptionText.text = level.GetDescription();
-                        }
-                    }, (lvl) =>
-                    {
-                        switch (CurrentState)
-                        {
-                            case State.Display:
-                                
-                            break;
-                            case State.Select:
-                                stage.SetSelectedLevel(button.LevelIndex);
-                                Close();
-                                GameManager.Instance.GameLoopManager.BeginPlanPhase();
-                            break;
-                            default:
-                                throw new NotImplementedException();
-                        }
-            
-                    });
-
-                    float x = (width / Map.Stages.Count) * (stageX + 0.5f) - width / 2;
-                    float y = (height / stage.Levels.Count) * (levelY + 0.5f) - height / 2;
-                    button.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
-                    
-                    Buttons.Add(button);
-                    currentStageButtons.Add(button);
-                    levelY += 1;
-                }
-                stageButtons.Add(currentStageButtons);
-                stageX += 1;
-            }
-
-            // Draw lines connecting stages
-            for (int i = 0; i < stageButtons.Count - 1; i++)
-            {
-                List<UIProductRoadMapLevelButton> currentStage = stageButtons[i];
-                List<UIProductRoadMapLevelButton> nextStage = stageButtons[i + 1];
-
-                foreach (UIProductRoadMapLevelButton startBtn in currentStage)
-                {
-                    foreach (UIProductRoadMapLevelButton endBtn in nextStage)
-                    {
-                        CreateLine(startBtn.GetComponent<RectTransform>().anchoredPosition, endBtn.GetComponent<RectTransform>().anchoredPosition);
-                    }
-                }
-            }
+            base.Show(); // This will call Refresh() -> PopulateNodes() and CenterTilemapOnCamera()
         }
 
-        private void CreateLine(Vector2 start, Vector2 end)
+        public override void PopulateNodes()
         {
-            GameObject lineObj = new GameObject("Line", typeof(Image));
-            lineObj.transform.SetParent(transform, false);
-            lineObj.transform.SetAsFirstSibling(); 
-            
-            Image img = lineObj.GetComponent<Image>();
-            img.color = new Color(0.2f, 0.2f, 0.2f, 1.0f); 
-            
-            RectTransform rect = lineObj.GetComponent<RectTransform>();
-            Vector2 dir = (end - start).normalized;
-            float dist = Vector2.Distance(start, end);
-            
-            rect.anchorMin = new Vector2(0.5f, 0.5f);
-            rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.sizeDelta = new Vector2(dist, 2f); 
-            rect.anchoredPosition = start + dir * dist * 0.5f;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            rect.localEulerAngles = new Vector3(0, 0, angle);
-            
-            Lines.Add(lineObj);
+            Map map = GameManager.Instance.Map;
+            if (map == null || map.Stages == null) return;
+
+            MapLevel previousSelectedLevel = null;
+
+            for (int stageIndex = 0; stageIndex < map.Stages.Count; stageIndex++)
+            {
+                MapStage stage = map.Stages[stageIndex];
+
+                for (int levelIndex = 0; levelIndex < stage.Levels.Count; levelIndex++)
+                {
+                    MapLevel level = stage.Levels[levelIndex];
+
+                    // Map DependencyIds for procedural layout
+                    level.DependencyIds.Clear();
+                    if (stageIndex > 0)
+                    {
+                        // In a roguelite map, usually you depend on the previously selected node
+                        if (previousSelectedLevel != null)
+                        {
+                            level.DependencyIds.Add(previousSelectedLevel.Id);
+                        }
+                        else
+                        {
+                            // If no specific level was selected yet, depend on all from previous stage?
+                            // For procedural generation to work right, we need at least one root.
+                            // We will link it to the first level of the previous stage if nothing else is available.
+                            level.DependencyIds.Add(map.Stages[stageIndex - 1].Levels[0].Id);
+                        }
+                    }
+
+                    var nodeView = new MapNodeView
+                    {
+                        Node = level
+                    };
+                    _mapNodes.Add(nodeView);
+                }
+
+                if (stageIndex < map.CurrentStageIndex && stage.SelectedLevel != -1)
+                {
+                    previousSelectedLevel = stage.Levels[stage.SelectedLevel];
+                }
+                else
+                {
+                    previousSelectedLevel = null;
+                }
+            }
         }
-        
+
+        protected override bool IsNodeVisible(MapNodeView nodeView)
+        {
+            if (nodeView.Node is not MapLevel mapLevel) return false;
+
+            // Optional Stakeholder gating
+            if (!string.IsNullOrEmpty(mapLevel.RequiredStakeholderId))
+            {
+                var stakeholder = GameManager.Instance.Stakeholders.FirstOrDefault(s => s.Id == mapLevel.RequiredStakeholderId);
+                if (stakeholder == null || stakeholder.State == MapNodeState.MetaLocked || stakeholder.State == MapNodeState.Locked)
+                {
+                    // Stakeholder not unlocked, node remains hidden
+                    return false;
+                }
+            }
+
+            return base.IsNodeVisible(nodeView);
+        }
+
+        public override void UpdateDetailsArea()
+        {
+            if (_selectedNode == null || _selectedNode.Node is not MapLevel mapLevel)
+            {
+                if (LevelDescriptionText != null) LevelDescriptionText.text = "Select a Sprint to view details.";
+                if (startSprintButton != null) startSprintButton.gameObject.SetActive(false);
+                return;
+            }
+
+            if (LevelDescriptionText != null)
+            {
+                LevelDescriptionText.text = mapLevel.GetDescription();
+            }
+
+            if (startSprintButton != null)
+            {
+                if (CurrentState == State.Select && mapLevel.CurrentState == MapNodeState.Locked)
+                {
+                    startSprintButton.gameObject.SetActive(true);
+                    startSprintButton.buttonText.text = "Start Sprint";
+                    startSprintButton.button.onClick.RemoveAllListeners();
+                    startSprintButton.button.onClick.AddListener(() =>
+                    {
+                        mapLevel.GetStage().SetLevel(mapLevel);
+                        Close();
+                        GameManager.Instance.GameLoopManager.BeginPlanPhase();
+                    });
+                }
+                else
+                {
+                    startSprintButton.gameObject.SetActive(false);
+                }
+            }
+        }
     }
 }

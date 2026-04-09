@@ -193,7 +193,7 @@ public class MapStage
     }
 }
 
-public class MapLevel
+public class MapLevel : iMapNode
 {
     public enum MapLevelState
     {
@@ -210,6 +210,67 @@ public class MapLevel
     public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
 
     public List<MapLevelModifier> LevelRewards = new List<MapLevelModifier>();
+
+    public string RequiredStakeholderId { get; set; }
+
+    // iMapNode Implementation
+    public string Id => $"stage_{(Stage != null ? Stage.StageNumber : 0)}_{Name.Replace(" ", "")}";
+    public string DisplayName => Name;
+    public string Description => GetDescription();
+    public MapNodeState CurrentState
+    {
+        get
+        {
+            if (State == MapLevelState.Completed) return MapNodeState.Unlocked;
+            
+            if (Stage != null && GameManager.Instance.Map.Stages.Contains(Stage))
+            {
+                if (GameManager.Instance.Map.CurrentStageIndex == Stage.StageNumber)
+                {
+                    if (Stage.SelectedLevel != -1 && Stage.Levels[Stage.SelectedLevel] == this)
+                        return MapNodeState.Active; 
+                    return MapNodeState.Locked; 
+                }
+            }
+            
+            return MapNodeState.MetaLocked;
+        }
+    }
+    
+    public MapNodeDirection Direction => MapNodeDirection.Right;
+    public List<string> DependencyIds { get; set; } = new List<string>();
+
+    public float GetProgress()
+    {
+        if (SprintDuration <= 0) return 0f;
+        return (float)GameManager.Instance.GameLoopManager.GetCurrentDay() / SprintDuration;
+    }
+
+    public UnityEngine.Tilemaps.TileBase GetTile()
+    {
+        string tileId = "TileLocked";
+        switch (CurrentState)
+        {
+            case MapNodeState.MetaLocked:
+                tileId = "TileMetaLocked";
+                break;
+            case MapNodeState.Locked:
+                tileId = "TileLocked";
+                break;
+            case MapNodeState.Active:
+                tileId = "TileActive";
+                break;
+            case MapNodeState.Unlocked:
+                tileId = "TileUnlocked";
+                break;
+        }
+        return GameManager.Instance.prefabManager.GetTile(tileId);
+    }
+
+    public void OnSelected(UI.UIMapPanel panel)
+    {
+        panel.UpdateDetailsArea();
+    }
 
     // TODO Stake holder? Sales, PR, etc?
     //TODO Add in rewards
