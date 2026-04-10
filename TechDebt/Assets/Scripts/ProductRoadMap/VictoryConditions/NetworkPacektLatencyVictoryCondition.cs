@@ -14,8 +14,11 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
     public static float GetAvgLatency()
     {
         // float packetsFailed = GameManager.Instance.GetStatValue(StatType.PacketsFailed);
-        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsSucceeded); 
-        
+        float packetsServiced = GameManager.Instance.GetStatValue(StatType.PacketsSucceeded);
+        if (packetsServiced == 0)
+        {
+            return 0;
+        }
         float totalLatency = GameManager.Instance.GetStatValue(StatType.TotalNetworkPacketLatency);
         float avgLatency = totalLatency / (packetsServiced); // + packetsFailed);
         return avgLatency;

@@ -83,6 +83,7 @@ public class UIPanel : UIGameObject
         panelLine.CleanUp(true);
         panelLine.Initialize(0, this, null);
         panelLine.transform.SetAsLastSibling();
+        panelLine.transform.localPosition = Vector3.zero;
         LayoutRebuilder.ForceRebuildLayoutImmediate(scrollContent.GetComponent<RectTransform>());
         hasUpdateThisFrame = true;
         return panelLine;

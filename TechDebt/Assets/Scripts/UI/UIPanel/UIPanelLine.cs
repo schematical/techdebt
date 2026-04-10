@@ -69,6 +69,7 @@ namespace UI
             
             section.Initialize();
             section.transform.SetAsLastSibling();
+            section.transform.localPosition = Vector3.zero;
             sections.Add(section);
             return section;
         }

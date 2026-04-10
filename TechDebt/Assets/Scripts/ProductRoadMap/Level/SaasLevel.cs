@@ -7,7 +7,7 @@ public class SaasLevel : MapLevel
         Name = "SaaS Subscription Model";
         SpriteId = "IconMoney";
         RequiredStakeholderId = "cmo";
-        DependencyIds.Add("UserSignupProductRoadMapLevel");
+        DependencyIds.Add("OnlinePaymentsProductRoadMapLevel");
     }
 
     public override string GetDescription()

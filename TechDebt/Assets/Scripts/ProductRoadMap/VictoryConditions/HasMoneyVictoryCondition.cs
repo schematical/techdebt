@@ -40,6 +40,6 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
     {
         UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
         line.Add<UIPanelLineSectionText>().text.text =
-            $"Remaining Budget: {GameManager.Instance.GetStatValue(StatType.Money)}";
+            $"Remaining Budget: ${GameManager.Instance.GetStatValue(StatType.Money)}";
     }
 }

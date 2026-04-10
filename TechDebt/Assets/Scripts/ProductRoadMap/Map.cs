@@ -24,8 +24,8 @@ public class Map
         new SslLevel(),
         new SaasLevel(),
         new DiskSpaceLevel(),
-        new CheckoutCartLevel()
-        // new SecurityAuditMapLevel()
+        new CheckoutCartLevel(),
+        new OnlinePaymentsProductRoadMapLevel()
     };
     protected MapLevel CurrentLevel { get; set; }
     public int CurrentSprintNumber { get; protected set; } = 0;
@@ -176,6 +176,8 @@ public class MapLevel : iMapNode
     public MapLevel()
     {
         VictoryConditions.Add(new UpTimeVictoryCondition());
+        VictoryConditions.Add(new HasMoneyVictoryCondition());
+        VictoryConditions.Add(new NetworkPacketLatencyVictoryCondition());
     }
 
     public virtual List<RewardBase> GetSpecialReleaseRewards()
