@@ -17,7 +17,7 @@ namespace UI
             base.Start();
             pauseButton.onClick.AddListener(() =>
             {
-                GameManager.Instance.UIManager.SetTimeScalePause(true);
+                GameManager.Instance.UIManager.SetTimeScalePause();
             });
             playButton.onClick.AddListener(() => GameManager.Instance.UIManager.SetTimeScalePlay(true));
             fastForwardButton.onClick.AddListener(() => GameManager.Instance.UIManager.SetTimeScaleFastForward(true));

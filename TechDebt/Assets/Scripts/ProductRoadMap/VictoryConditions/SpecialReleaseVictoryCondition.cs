@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class SpecialReleaseVictoryCondition : MapLevelVictoryConditionBase
 {
-    protected bool hasReleaseBeedDeployed = false;
+    public bool HasReleaseBeedDeployed { get; protected set; }= false;
     protected SpecialCallbackReward reward;
     public UnityAction onComplete;
     public SpecialReleaseVictoryCondition(string name, string description, string iconSpriteId, UnityAction? onComplete = null)
@@ -33,7 +33,7 @@ public class SpecialReleaseVictoryCondition : MapLevelVictoryConditionBase
     }
     private void OnSpecialReleaseComplete()
     {
-        hasReleaseBeedDeployed = true;
+        HasReleaseBeedDeployed = true;
         if (onComplete != null)
         {
             onComplete.Invoke();
@@ -41,7 +41,7 @@ public class SpecialReleaseVictoryCondition : MapLevelVictoryConditionBase
     }
     public override VictoryConditionState GetState()
     {
-        if (hasReleaseBeedDeployed)
+        if (HasReleaseBeedDeployed)
         {
             return VictoryConditionState.Succeeded;
         }

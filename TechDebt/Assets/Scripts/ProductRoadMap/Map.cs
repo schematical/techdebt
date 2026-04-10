@@ -193,7 +193,12 @@ public class MapLevel : iMapNode
         {
             if (victoryCondition is SpecialReleaseVictoryCondition)
             {
-                rewards.Add((victoryCondition as SpecialReleaseVictoryCondition).GetReward());
+                SpecialReleaseVictoryCondition specialReleaseVictoryCondition =
+                    victoryCondition as SpecialReleaseVictoryCondition;
+                if (!specialReleaseVictoryCondition.HasReleaseBeedDeployed)
+                {
+                    rewards.Add(specialReleaseVictoryCondition.GetReward());
+                }
             }
         }
         return rewards;

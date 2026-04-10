@@ -276,9 +276,9 @@ public class UIManager : MonoBehaviour
         Resume();
     }
 
-    public void SetTimeScalePause(bool setDesired = false) {
+    public void SetTimeScalePause() {
         _timeStateBeforePause = _currentTimeState;
-        SetTimeState(TimeState.Paused, setDesired);
+        SetTimeState(TimeState.Paused);
     }
 
     public void Resume()
@@ -333,15 +333,15 @@ public class UIManager : MonoBehaviour
         if (newState != TimeState.Paused)
         {
             _timeStateBeforePause = newState;
+            if (setDesired)
+            {
+                _userSpecifiedTimeState = newState;
+            }
         }
 
      
         Time.timeScale = newTimeScale;
-        if (setDesired)
-        {
-            Debug.Log($"setDesired Time Scale: {newState} - prev: {_timeStateBeforePause}");
-            _userSpecifiedTimeState = newState;
-        }
+      
         timeControlPanel.UpdateTimeScaleButtons();
     }
 

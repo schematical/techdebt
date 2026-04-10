@@ -24,6 +24,7 @@ namespace UI
             panelState = UIState.Open;
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1("Metrics:");
             cpuLoadBar = AddLine<UIPanelLineProgressBar>();
+            cpuLoadBar.SetPreText("CPU Load:");
             
         }
 
