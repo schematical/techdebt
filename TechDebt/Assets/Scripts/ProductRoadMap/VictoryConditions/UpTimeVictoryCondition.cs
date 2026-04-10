@@ -17,7 +17,7 @@ public class UpTimeVictoryCondition : MapLevelVictoryConditionBase
             return VictoryConditionState.Failed;
         }
 
-        return VictoryConditionState.NotMet;
+        return VictoryConditionState.Succeeded;
     }
     public override string GetDescription()
     {

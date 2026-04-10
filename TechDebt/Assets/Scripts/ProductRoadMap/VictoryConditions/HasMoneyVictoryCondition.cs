@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
 {
     public int Requirement = 0;
-    public bool FailIfNotMet = true;
 
 
     public override VictoryConditionState GetState()

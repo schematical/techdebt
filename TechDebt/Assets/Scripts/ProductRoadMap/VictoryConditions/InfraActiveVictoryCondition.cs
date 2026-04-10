@@ -8,6 +8,10 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
 {
     public string TargetId;
 
+    public InfraActiveVictoryCondition()
+    {
+        FailIfNotMet = true;
+    }
 
     public override VictoryConditionState GetState()
     {

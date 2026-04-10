@@ -200,13 +200,19 @@ public class MapLevel : iMapNode
         return victoryConditions;
     }
 
-    public virtual VictoryConditionState GetVictoryConditionState()
+    public virtual VictoryConditionState GetVictoryConditionState(bool isFinal = false)
     {
         VictoryConditionState state = VictoryConditionState.Succeeded;
         List<MapLevelVictoryConditionBase> victoryConditions = GetCombinedVictoryConditions();
         foreach (MapLevelVictoryConditionBase condition in victoryConditions)
         {
-            switch (condition.GetState())
+            VictoryConditionState testState = condition.GetState();
+            if (isFinal)
+            {
+                testState = condition.GetFinalState();
+            }
+            
+            switch (testState)
             {
                 case (VictoryConditionState.Failed):
                     return VictoryConditionState.Failed;
@@ -509,7 +515,7 @@ public class MapLevel : iMapNode
 
     public void PostSummaryCheck()
     {
-        VictoryConditionState state = GetVictoryConditionState();
+        VictoryConditionState state = GetVictoryConditionState(IsLaunchDay());
         switch (state)
         {
             case (VictoryConditionState.Failed):
@@ -518,8 +524,8 @@ public class MapLevel : iMapNode
             case (VictoryConditionState.NotMet):
                 if (IsLaunchDay())
                 {
-                    EndGame();
-                    return;
+                    EndGame();//TODO: Make this show a real error message.
+                    throw new SystemException("This shouldn't happen any more");
                 }
 
                 break;

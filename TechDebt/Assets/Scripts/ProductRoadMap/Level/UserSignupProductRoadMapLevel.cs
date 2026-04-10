@@ -67,9 +67,9 @@ public class UserSignupProductRoadMapLevel: MapLevel
         };
     }
 
-    public override VictoryConditionState GetVictoryConditionState()
+    public override VictoryConditionState GetVictoryConditionState(bool isFinal = false)
     {
-        VictoryConditionState state = base.GetVictoryConditionState();
+        VictoryConditionState state = base.GetVictoryConditionState(isFinal);
         if (state == VictoryConditionState.Failed)
         {
             return state;
