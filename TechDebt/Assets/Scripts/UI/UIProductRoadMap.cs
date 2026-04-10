@@ -16,13 +16,24 @@ namespace UI
         protected State CurrentState;
 
         [Header("RoadMap Details Area")]
-        public TextMeshProUGUI LevelDescriptionText;
         public UIButton startSprintButton;
 
         public void Show(State _state = State.Display)
         {
             CurrentState = _state;
             base.Show(); // This will call Refresh() -> PopulateNodes() and CenterTilemapOnCamera()
+            
+            // Specifically focus on the Launch node
+            MapNodeView launchNode = _mapNodes.FirstOrDefault(n => n.Node is LaunchMapLevel);
+            if (launchNode != null && Camera.main != null)
+            {
+                Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)launchNode.Position);
+                Vector3 targetCenter = Vector3.zero;
+                
+                Transform gridTransform = connectorTilemap.transform.parent;
+                gridTransform.position = targetCenter - worldPos;
+                gridTransform.position = new Vector3(gridTransform.position.x, gridTransform.position.y, 0);
+            }
         }
 
         public override void PopulateNodes()
@@ -63,27 +74,30 @@ namespace UI
             }
             */
 
-            // Hide if MetaLocked
-            if (mapLevel.CurrentState == MapNodeState.MetaLocked)
-            {
-                return false;
-            }
-
+            // Show EVERYTHING during layout testing
             return true;
         }
 
         public override void UpdateDetailsArea()
         {
+            CleanUp();
             if (_selectedNode == null || _selectedNode.Node is not MapLevel mapLevel)
             {
-                if (LevelDescriptionText != null) LevelDescriptionText.text = "Select a Sprint to view details.";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a Sprint to view details.";
                 if (startSprintButton != null) startSprintButton.gameObject.SetActive(false);
                 return;
             }
 
-            if (LevelDescriptionText != null)
+            UIPanelLineSectionText header = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+            header.h1(mapLevel.DisplayName);
+
+            // Split the description by newlines to add each as a separate line for better layout
+            string fullDesc = mapLevel.GetDescription();
+            string[] lines = fullDesc.Split('\n');
+            foreach (string lineText in lines)
             {
-                LevelDescriptionText.text = mapLevel.GetDescription();
+                if (string.IsNullOrWhiteSpace(lineText)) continue;
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = lineText;
             }
 
             if (startSprintButton != null)

@@ -228,8 +228,8 @@ namespace UI
                     MapNodeView dep = _mapNodes.Find(n => n.Id == depId);
                     if (dep == null) continue;
 
-                    if (dep.Node.CurrentState != MapNodeState.Unlocked &&
-                        nodeView.Node.CurrentState != MapNodeState.Unlocked) continue;
+                    // Ensure both nodes are in the nodesToDraw list (visible)
+                    if (!nodesToDraw.Contains(dep)) continue;
 
                     DrawConnection((Vector3Int)dep.Position, (Vector3Int)nodeView.Position, nodeView.Node.Direction);
                 }
@@ -259,10 +259,22 @@ namespace UI
             }
             if (path == null) path = GetLShapePath(start, end, direction);
 
-            foreach (Vector3Int p in path)
+            if (path != null)
             {
-                if (p != start && p != end)
-                    connectorTilemap.SetTile(p, connectorTile);
+                int tilesPlaced = 0;
+                foreach (Vector3Int p in path)
+                {
+                    if (p != start && p != end)
+                    {
+                        connectorTilemap.SetTile(p, connectorTile);
+                        tilesPlaced++;
+                    }
+                }
+                Debug.Log($"DrawConnection: Placed {tilesPlaced} connector tiles from {start} to {end}");
+            }
+            else
+            {
+                Debug.LogWarning($"DrawConnection: Failed to find path from {start} to {end}");
             }
         }
 

@@ -106,7 +106,7 @@ public class MapLevel : iMapNode
     public string RequiredStakeholderId { get; set; }
 
     // iMapNode Implementation
-    public string Id => GetType().ToString();
+    public string Id => GetType().Name;
     public string DisplayName => Name;
     public string Description => GetDescription();
     public MapNodeState CurrentState
