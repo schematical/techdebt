@@ -25,7 +25,7 @@ public class TechnologyResearchVictoryCondition : MapLevelVictoryConditionBase
     }
     public override string GetDescription()
     {
-        return $"{TechnologyId} Active : {GetState()}";
+        return $"Research {TechnologyId}";
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {

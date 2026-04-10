@@ -28,7 +28,7 @@ namespace UI
         // Internal state
         protected class MapNodeView
         {
-            public iMapNode Node;
+            public iUIMapNode Node;
             public Vector2Int Position = new Vector2Int(-1000, -1000);
             public string Id => Node.Id;
             public string DisplayName => Node.DisplayName;

@@ -42,7 +42,7 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
 
     public override string GetDescription()
     {
-        return $"Avg Latency < {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency) * 100}ms  ({Math.Round(GetAvgLatency() * 100)}ms): {GetState()}";
+        return $"Avg Latency Less Than {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency) * 100}ms";
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {

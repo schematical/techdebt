@@ -6,7 +6,7 @@ using Tutorial;
 using UnityEngine.Serialization; // Added for SerializableAttribute
 
 [Serializable]
-public class Technology: iUnlockable, iMapNode
+public class Technology: iUnlockable, iUIMapNode
 {
     public enum State { MetaLocked, Locked, Researching, Unlocked }
     public enum TechTreeDirection { Up, Down, Left, Right }
@@ -22,12 +22,12 @@ public class Technology: iUnlockable, iMapNode
     public State OriginalState = State.MetaLocked;
     public TutorialStepId TutorialStepId { get; set; } = TutorialStepId.None;
 
-    // iMapNode Implementation
-    string iMapNode.Id => TechnologyID;
-    string iMapNode.DisplayName => DisplayName;
-    string iMapNode.Description => Description;
-    MapNodeState iMapNode.CurrentState => (MapNodeState)CurrentState;
-    MapNodeDirection iMapNode.Direction => (MapNodeDirection)Direction;
+    // iUIMapNode Implementation
+    string iUIMapNode.Id => TechnologyID;
+    string iUIMapNode.DisplayName => DisplayName;
+    string iUIMapNode.Description => Description;
+    MapNodeState iUIMapNode.CurrentState => (MapNodeState)CurrentState;
+    MapNodeDirection iUIMapNode.Direction => (MapNodeDirection)Direction;
 
     public List<string> DependencyIds
     {

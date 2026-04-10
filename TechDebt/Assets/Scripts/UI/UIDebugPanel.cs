@@ -44,7 +44,10 @@ public class UIDebugPanel : UIPanel
         AddButton("SpawnNPC", () => { SpawnNPC(); });
         AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
-        AddButton("Next Sprint", () => { NextSprint(); });
+        AddButton("Mark Sprint Completed", () =>
+        {
+            GameManager.Instance.Map.GetCurrentLevel().MarkCompleted();
+        });
         AddButton("Left Bar", () => { GameManager.Instance.UIManager.leftMenuPanel.Show(); });
         AddButton("Events", () =>
         {
@@ -112,12 +115,7 @@ public class UIDebugPanel : UIPanel
     }
 
 
-    private void NextSprint()
-    {
-        GameManager.Instance.Map.IncrStage();
-        Close();
-        // GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
-    }
+
 
     private void RunMisc()
     {

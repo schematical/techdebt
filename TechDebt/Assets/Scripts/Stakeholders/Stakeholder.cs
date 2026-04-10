@@ -13,7 +13,7 @@ public class StakeholderLevelConfig
 }
 
 [System.Serializable]
-public class Stakeholder : iMapNode
+public class Stakeholder : iUIMapNode
 {
     public string Id { get; set; }
     public string RoleName; // e.g., "Marketing", "Engineering"

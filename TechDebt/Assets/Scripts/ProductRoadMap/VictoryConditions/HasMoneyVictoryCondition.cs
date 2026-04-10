@@ -32,7 +32,7 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
 
     public override string GetDescription()
     {
-        return $"Money > {Requirement} : {GetState()}";
+        return $"Have more than ${Requirement} in your budget";
     }
 
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)

@@ -85,7 +85,7 @@ namespace UI
             string[] lines = fullDesc.Split('\n');
             foreach (string lineText in lines)
             {
-                if (string.IsNullOrWhiteSpace(lineText)) continue;
+               
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = lineText;
             }
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {mapLevel.State}";

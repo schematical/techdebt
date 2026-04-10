@@ -437,7 +437,7 @@ public class GameManager : MonoBehaviour, iModifiable
         }
         else
         {*/
-        Map.SetCurrentLevel(new LaunchMapLevel());
+        Map.SetCurrentLevel(Map.LevelPool[0]);
         GameLoopManager.BeginDemo();
         // }
     }

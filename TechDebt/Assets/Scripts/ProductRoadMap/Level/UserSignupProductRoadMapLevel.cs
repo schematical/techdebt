@@ -16,13 +16,14 @@ public class UserSignupProductRoadMapLevel: MapLevel
         DependencyIds.Add("LaunchMapLevel");
         Direction = MapNodeDirection.Right;
 
+        
         SpecialReleaseVictoryCondition condition = new SpecialReleaseVictoryCondition(
             "User Signup/Login",
             "Allows User To Signup",
             "IconPII",
             OnSpecialReleaseComplete
         );
-        
+        AddCashReward(100, 300);// TODO scale this with difficulty.
         VictoryConditions.Add(condition);
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;

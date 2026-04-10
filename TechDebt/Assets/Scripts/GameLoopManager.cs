@@ -86,7 +86,22 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.moneyPanel.Show();
         GameManager.Instance.UIManager.Resume();
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Day {currentDay} Starting");
-        GameManager.Instance.UIManager.toastHolderPanel.Add($"Traffic: ${ GameManager.Instance.GetStatValue(StatType.Traffic)}");
+        GameManager.Instance.UIManager.toastHolderPanel.Add($"Traffic: { GameManager.Instance.GetStatValue(StatType.Traffic)}");
+        
+        GameManager.Instance.IncrStat(
+            StatType.AttackPossibility,
+            GameManager.Instance.GetStatValue(StatType.AttackPossibilityAccumulationRate)
+        );
+        float day = GameManager.Instance.MetaStats.Incr(MetaStat.Day);
+        DaySummaryEvent myEvent = new DaySummaryEvent
+        {
+            SprintLevel = GameManager.Instance.Map.GetCurrentLevel().Name,
+            Day = (int) day,
+            SprintNumber = sprintNumber,
+            LevelName = GameManager.Instance.Map.GetCurrentLevel().Name,
+        };
+
+        GameManager.Instance.RecordEvent(myEvent);
     }
 
     public float GetDayDurationSeconds()
@@ -244,15 +259,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.moneyPanel.SpendCoins(totalDailyCost);
         
         GameManager.Instance.UIManager.ShowSummaryUI(summaryData);
-        float day = GameManager.Instance.MetaStats.Incr(MetaStat.Day);
-        DaySummaryEvent myEvent = new DaySummaryEvent
-        {
-            SprintLevel = GameManager.Instance.Map.GetCurrentLevel().Name,
-            Day = (int) day,
-            SprintNumber = sprintNumber,
-        };
-
-        GameManager.Instance.RecordEvent(myEvent);
+        
 
         // Assign "go to door" task to all NPCs
         foreach (NPCBase npc in GameManager.Instance.AllNpcs.ToList())
@@ -277,6 +284,7 @@ public class GameLoopManager : MonoBehaviour
     public void Reset()
     {
         currentDay = 0;
+        
         // SetPlayTimerActive(true);
         CurrentState = GameState.Plan;
     }

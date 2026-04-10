@@ -25,7 +25,8 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
     }
     public override string GetDescription()
     {
-        return $"{TargetId} Active : {GetState()}";
+        InfrastructureInstance infrastructureInstance = GameManager.Instance.GetInfrastructureInstanceByID(TargetId);
+        return $"Build {infrastructureInstance.GetWorldObjectType().DisplayName}";
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {

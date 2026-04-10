@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class MetaUnlockNode : iMapNode
+    public class MetaUnlockNode : iUIMapNode
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }

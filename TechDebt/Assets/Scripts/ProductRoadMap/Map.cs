@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
 using Stats;
@@ -44,6 +45,7 @@ public class Map
     }
     public void SetCurrentLevel(MapLevel level)
     {
+        CurrentSprintNumber += 1;
         CurrentLevel = level;
     }
 
@@ -89,9 +91,17 @@ public class Map
     
 }
 
-
-
-public class MapLevel : iMapNode
+public enum MapLevelRewardApplied
+{
+    Start,
+    End
+}
+public class MapLevelReward
+{   
+    public MapLevelRewardApplied AppliedAt =  MapLevelRewardApplied.End;
+    public RewardBase Reward { get; set; }
+}
+public class MapLevel : iUIMapNode
 {
     public enum MapLevelState
     {
@@ -107,11 +117,11 @@ public class MapLevel : iMapNode
 
     public List<MapLevelModifier> LevelModifiers = new List<MapLevelModifier>();
 
-    public List<MapLevelModifier> LevelRewards = new List<MapLevelModifier>();
-
+    public List<MapLevelReward> LevelRewards = new List<MapLevelReward>();
+   
     public string RequiredStakeholderId { get; set; }
 
-    // iMapNode Implementation
+    // iUIMapNode Implementation
     public string Id => GetType().Name;
     public string DisplayName => Name;
     public string Description => GetDescription();
@@ -182,8 +192,8 @@ public class MapLevel : iMapNode
     public MapLevel()
     {
         VictoryConditions.Add(new UpTimeVictoryCondition());
-        VictoryConditions.Add(new HasMoneyVictoryCondition());
-        VictoryConditions.Add(new NetworkPacketLatencyVictoryCondition());
+        // VictoryConditions.Add(new HasMoneyVictoryCondition());
+        // VictoryConditions.Add(new NetworkPacketLatencyVictoryCondition());
     }
 
     public virtual List<RewardBase> GetSpecialReleaseRewards()
@@ -254,6 +264,13 @@ public class MapLevel : iMapNode
     {
         GameManager.Instance.GameLoopManager.Reset();
         // TODO: Probably move this to the map.
+        foreach (MapLevelReward reward in LevelRewards)
+        {
+            if (reward.AppliedAt == MapLevelRewardApplied.Start)
+            {
+                reward.Reward.Apply();
+            }
+        }
  
         MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
             condition => { return condition is NetworkPacketLatencyVictoryCondition; }));
@@ -466,12 +483,15 @@ public class MapLevel : iMapNode
     {
         string res = $"{Name}\n";
         res += GetLevelDifficultyDesc() + "\n";
-        res += "LevelModifiers:\n";
-        foreach (MapLevelModifier modifier in LevelModifiers)
+        if (LevelModifiers.Count > 0)
         {
-            res += modifier.GetDescription(this) + "\n";
+            res += "LevelModifiers:\n";
+            foreach (MapLevelModifier modifier in LevelModifiers)
+            {
+                res += modifier.GetDescription(this) + "\n";
+            }
         }
-
+        res += "\n";
         res += $"Victory Conditions:\n";
         foreach (MapLevelVictoryConditionBase condition in GetCombinedVictoryConditions())
         {
@@ -483,6 +503,16 @@ public class MapLevel : iMapNode
             res += condition.GetDescription() + "\n";
         }
 
+        res += "\n";
+        if (LevelRewards.Count > 0)
+        {
+            res += $"Rewards:\n";
+            foreach (MapLevelReward reward in LevelRewards)
+            {
+                res += $"{reward.Reward.GetTitle()}\n";
+            }
+        }
+        res += "\n";
         return res;
     }
 
@@ -496,7 +526,7 @@ public class MapLevel : iMapNode
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
-    public virtual void EndGame(string dialog = "You ran out of money. Want to try again?")
+    public virtual void EndGame(string dialog = null)
     {
         GameManager.Instance.UIManager.ForcePause();
 
@@ -505,6 +535,18 @@ public class MapLevel : iMapNode
         NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
         npc.ZoomToAndFollow();
+        if (dialog == null)
+        {
+            dialog = "Unfortunately we failed the following goals: \n\n";
+            foreach (MapLevelVictoryConditionBase condition in GetCombinedVictoryConditions())
+            {
+                if (condition.GetFinalState() == VictoryConditionState.Failed)
+                {
+                    dialog += $" - {condition.GetDescription()}\n";
+                }
+            }
+            
+        }
         npc.ShowDialogBubble().SimpleDisplay(
             dialog,
             new List<DialogButtonOption>()
@@ -537,6 +579,13 @@ public class MapLevel : iMapNode
 
         CleanUp();
         State = MapLevelState.Completed;
+        foreach (MapLevelReward reward in LevelRewards)
+        {
+            if (reward.AppliedAt == MapLevelRewardApplied.End)
+            {
+                reward.Reward.Apply();
+            }
+        }
     }
 
     public void PostSummaryCheck()
@@ -570,6 +619,46 @@ public class MapLevel : iMapNode
         {
             // GameManager.Instance.GameLoopManager.BeginPlanPhase();
         }
+    }
+
+    public void AddCashReward(float start = -1, float end = -1)
+    {
+
+        if (start != -1)
+        {
+            LevelRewards.Add(new MapLevelReward()
+            {
+                Reward = new GlobalStatBaseValueReward()
+                {
+                    // Group = RewardBase.RewardGroup.Release,
+                    Id = "sprint_start_money",
+                    Name = "Sprint Start Budget Bonus",
+                    Description = "Your budget will be increased by this much at the start of the sprint",
+                    StatType = StatType.Money,
+                    BaseValue = start,
+                    // ScaleDirection = ScaleDirection.Down,
+                    IconSpriteId = "IconDollar"
+                },
+            });
+        }
+        if (end != -1)
+        {
+            LevelRewards.Add(new MapLevelReward()
+            {
+                Reward = new GlobalStatBaseValueReward()
+                {
+                    // Group = RewardBase.RewardGroup.Release,
+                    Id = "sprint_end_money",
+                    Name = "Sprint Completed Budget Bonus",
+                    Description = "Your budget will be increased by this much when you complete the sprint",
+                    StatType = StatType.Money,
+                    BaseValue = end,
+                    // ScaleDirection = ScaleDirection.Down,
+                    IconSpriteId = "IconDollar"
+                },
+            });
+        }
+
     }
 }
 

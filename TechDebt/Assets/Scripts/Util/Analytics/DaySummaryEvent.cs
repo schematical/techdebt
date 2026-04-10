@@ -9,5 +9,6 @@ namespace DefaultNamespace.Util.Analytics
         public string SprintLevel { set { SetParameter("SprintLevel", value); } }
         public int Day { set { SetParameter("Day", value); } }
         public int SprintNumber { set { SetParameter("SprintNumber", value); } }
+        public string LevelName { set { SetParameter("LevelName", value); } }
     }
 }

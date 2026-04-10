@@ -50,7 +50,7 @@ public class SpecialReleaseVictoryCondition : MapLevelVictoryConditionBase
     }
     public override string GetDescription()
     {
-        return $"{reward.Name}: {GetState()}";
+        return $"Deploy {reward.Name}";
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {

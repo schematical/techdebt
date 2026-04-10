@@ -21,13 +21,13 @@ public class UpTimeVictoryCondition : MapLevelVictoryConditionBase
     }
     public override string GetDescription()
     {
-        return $" Active : {GetState()}";
+        return $" Successfully serve {Math.Round(UpTimeRequirement * 100)}% of the NetworkPackets";
     }
 
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {
         UIPanelLineProgressBar line = victoryConditionListPanel.AddLine<UIPanelLineProgressBar>();
-        line.SetPreText("Failed: ");
+        line.SetPreText("Failed Packets: ");
         line.OnGetProgress = () =>
         {
             return GetPacketFailedPercent() / UpTimeRequirement;

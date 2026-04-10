@@ -17,6 +17,17 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
         SpriteId = "IconFlag";
         SprintDuration = 5;
         DependencyIds.Add("UserSignupProductRoadMapLevel");
+        
+        SpecialReleaseVictoryCondition condition = new SpecialReleaseVictoryCondition(
+            "Online Payments",
+            "Allows User To Pay Online",
+            "IconMoney",
+            OnSpecialReleaseComplete
+        );
+        
+        VictoryConditions.Add(condition);
+        
+        
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.Traffic;
@@ -38,7 +49,6 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
 
     private void OnSpecialReleaseComplete()
     {
-        hasReleaseBeedDeployed = true;
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
@@ -49,21 +59,12 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
         );
     }
 
-    public override List<RewardBase> GetSpecialReleaseRewards()
+    public override void OnLaunchDayPlan()
     {
-        if (hasReleaseBeedDeployed)
-        {
-            return new List<RewardBase>();
-        }
+        NetworkPacketData networkPacketData =
+            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+        GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NetworkPacket_Purchase);
 
-        return new List<RewardBase>()
-        {
-            new SpecialCallbackReward(OnSpecialReleaseComplete)
-            {
-                Name = "Online Payments",
-                Description = "Allows User To Pay Us",
-                IconSpriteId = "IconMoney"
-            }
-        };
     }
 }

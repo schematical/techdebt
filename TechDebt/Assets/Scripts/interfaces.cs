@@ -51,7 +51,7 @@ public enum MapNodeDirection
     Right
 }
 
-public interface iMapNode
+public interface iUIMapNode
 {
     string Id { get; }
     string DisplayName { get; }

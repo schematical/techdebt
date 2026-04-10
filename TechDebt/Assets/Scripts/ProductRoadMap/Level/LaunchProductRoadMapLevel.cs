@@ -14,6 +14,8 @@ public class LaunchMapLevel: MapLevel
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
         SprintDuration = 2;
+        
+        AddCashReward(0, 150);
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.Traffic;
@@ -57,10 +59,8 @@ public class LaunchMapLevel: MapLevel
     }
     public override void OnLaunchDayPlan()
     {
-
-        NetworkPacketData networkPacketData =
-            GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+       
+        GameManager.Instance.UIManager.toastHolderPanel.Add("Launch Day Start!");
         if (
             GameManager.Instance.TutorialManager == null ||
             !GameManager.Instance.TutorialManager.IsActive()
@@ -69,21 +69,11 @@ public class LaunchMapLevel: MapLevel
             NPCBase npc =
                 GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
             npc.ShowDialogBubble().SimpleDisplay(
-                "Today is launch day! Now we will receive sales packets. \n Expect extra traffic."
+                "Today is launch day! \n Expect extra traffic."
             );
-        }
-        else
-        {
-            GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NetworkPacket_Purchase);
         }
         
         base.OnLaunchDayPlan();
     }
 
-    public override void OnLaunchDaySummary()
-    {
-        base.OnLaunchDaySummary();
-        
-        
-    }
 }
