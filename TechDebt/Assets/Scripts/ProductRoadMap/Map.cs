@@ -15,6 +15,7 @@ public class Map
  
     public List<MapLevel> LevelPool { get; set; } = new List<MapLevel>()
     {
+        new LaunchMapLevel(),
         new UserSignupProductRoadMapLevel(),
         new MobileMapLevel(),
         new EmailMapLevel(),
@@ -113,14 +114,27 @@ public class MapLevel : iMapNode
         get
         {
             if (State == MapLevelState.Completed) return MapNodeState.Unlocked;
+            if (GameManager.Instance.Map.GetCurrentLevel() == this) return MapNodeState.Active;
             
+            // If it's not completed or active, check if it's reachable
+            if (DependencyIds == null || DependencyIds.Count == 0) return MapNodeState.Locked; // Root nodes are always playable if not completed/active
             
-            return MapNodeState.MetaLocked;
+            // If ANY dependency is met, it's Locked (ready to play), else MetaLocked
+            // Wait, should it be ANY or ALL? The user's mermaid diagram implies a tree/graph.
+            // Usually in these games, ANY dependency being met unlocks the node.
+            bool anyDependencyMet = DependencyIds.Any(depId => {
+                var dep = GameManager.Instance.Map.LevelPool.FirstOrDefault(l => l.Id == depId);
+                return dep != null && dep.State == MapLevelState.Completed;
+            });
+            
+            return anyDependencyMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
         }
     }
     
-    public MapNodeDirection Direction => MapNodeDirection.Right;
-    public List<string> DependencyIds { get; set; } = new List<string>();
+    public MapNodeDirection Direction { get; set; } = MapNodeDirection.Right;
+    
+
+    public List<string> DependencyIds { get; protected set; } = new List<string>();
 
     public float GetProgress()
     {

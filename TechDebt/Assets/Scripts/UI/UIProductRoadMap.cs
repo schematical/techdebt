@@ -28,70 +28,48 @@ namespace UI
         public override void PopulateNodes()
         {
             Map map = GameManager.Instance.Map;
-            if (map == null || map.Stages == null) return;
+            if (map == null) { Debug.LogError("Map is null"); return; }
+            if (map.LevelPool == null) { Debug.LogError("Map.LevelPool is null"); return; }
+            
+            Debug.Log($"Populating RoadMap nodes. Pool count: {map.LevelPool.Count}");
 
-            MapLevel previousSelectedLevel = null;
-
-            for (int stageIndex = 0; stageIndex < map.Stages.Count; stageIndex++)
+            foreach (MapLevel level in map.LevelPool)
             {
-                MapStage stage = map.Stages[stageIndex];
-
-                for (int levelIndex = 0; levelIndex < stage.Levels.Count; levelIndex++)
+                var nodeView = new MapNodeView
                 {
-                    MapLevel level = stage.Levels[levelIndex];
-
-                    // Map DependencyIds for procedural layout
-                    level.DependencyIds.Clear();
-                    if (stageIndex > 0)
-                    {
-                        // In a roguelite map, usually you depend on the previously selected node
-                        if (previousSelectedLevel != null)
-                        {
-                            level.DependencyIds.Add(previousSelectedLevel.Id);
-                        }
-                        else
-                        {
-                            // If no specific level was selected yet, depend on all from previous stage?
-                            // For procedural generation to work right, we need at least one root.
-                            // We will link it to the first level of the previous stage if nothing else is available.
-                            level.DependencyIds.Add(map.Stages[stageIndex - 1].Levels[0].Id);
-                        }
-                    }
-
-                    var nodeView = new MapNodeView
-                    {
-                        Node = level
-                    };
-                    _mapNodes.Add(nodeView);
-                }
-
-                if (stageIndex < map.CurrentStageIndex && stage.SelectedLevel != -1)
-                {
-                    previousSelectedLevel = stage.Levels[stage.SelectedLevel];
-                }
-                else
-                {
-                    previousSelectedLevel = null;
-                }
+                    Node = level
+                };
+                _mapNodes.Add(nodeView);
+                Debug.Log($"Added node: {level.DisplayName} (Id: {level.Id}, State: {level.CurrentState})");
             }
         }
 
         protected override bool IsNodeVisible(MapNodeView nodeView)
         {
-            if (nodeView.Node is not MapLevel mapLevel) return false;
+            if (nodeView.Node is not MapLevel mapLevel)
+            {
+                return false;
+            }
 
-            // Optional Stakeholder gating
+            // Temporarily disable stakeholder gating as requested
+            /*
             if (!string.IsNullOrEmpty(mapLevel.RequiredStakeholderId))
             {
                 var stakeholder = GameManager.Instance.Stakeholders.FirstOrDefault(s => s.Id == mapLevel.RequiredStakeholderId);
-                if (stakeholder == null || stakeholder.State == MapNodeState.MetaLocked || stakeholder.State == MapNodeState.Locked)
+                if (stakeholder == null || (stakeholder.CurrentState != MapNodeState.Unlocked && stakeholder.CurrentState != MapNodeState.Active))
                 {
-                    // Stakeholder not unlocked, node remains hidden
                     return false;
                 }
             }
+            */
 
-            return base.IsNodeVisible(nodeView);
+            // Hide if MetaLocked
+            if (mapLevel.CurrentState == MapNodeState.MetaLocked)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public override void UpdateDetailsArea()
@@ -117,7 +95,7 @@ namespace UI
                     startSprintButton.button.onClick.RemoveAllListeners();
                     startSprintButton.button.onClick.AddListener(() =>
                     {
-                        mapLevel.GetStage().SetLevel(mapLevel);
+                        GameManager.Instance.Map.SetCurrentLevel(mapLevel);
                         Close();
                         GameManager.Instance.GameLoopManager.BeginPlanPhase();
                     });

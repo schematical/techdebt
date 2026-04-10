@@ -7,6 +7,8 @@ public class DiskSpaceLevel : MapLevel
         Name = "Disk Space Optimization";
         SpriteId = "IconDisk";
         RequiredStakeholderId = "cto";
+        Direction = MapNodeDirection.Down;
+        DependencyIds.Add("LaunchMapLevel");
     }
 
     public override string GetDescription()

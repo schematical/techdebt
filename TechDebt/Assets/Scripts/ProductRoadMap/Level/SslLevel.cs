@@ -7,6 +7,8 @@ public class SslLevel : MapLevel
         Name = "SSL Implementation";
         SpriteId = "IconLock";
         RequiredStakeholderId = "ciso";
+        Direction = MapNodeDirection.Left;
+        DependencyIds.Add("LaunchMapLevel");
     }
 
     public override string GetDescription()
