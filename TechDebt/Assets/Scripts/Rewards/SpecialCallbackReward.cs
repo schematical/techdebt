@@ -12,8 +12,7 @@ namespace DefaultNamespace.Rewards
         }
         public override void Apply()
         {
-            // TODO: 
-            // GameManager.Instance.Map.GetCurrentLevel().
+            
             onComplete.Invoke();
             
         }

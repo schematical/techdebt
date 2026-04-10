@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class UserSignupProductRoadMapLevel: MapLevel
 {
-    protected bool hasReleaseBeedDeployed = false;
     public UserSignupProductRoadMapLevel() : base()
     {
         Name = "User Signup Sprint";
@@ -16,6 +15,15 @@ public class UserSignupProductRoadMapLevel: MapLevel
         SprintDuration = 5;
         DependencyIds.Add("LaunchMapLevel");
         Direction = MapNodeDirection.Right;
+
+        SpecialReleaseVictoryCondition condition = new SpecialReleaseVictoryCondition(
+            "User Signup/Login",
+            "Allows User To Signup",
+            "IconPII",
+            OnSpecialReleaseComplete
+        );
+        
+        VictoryConditions.Add(condition);
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.Traffic;
@@ -38,7 +46,6 @@ public class UserSignupProductRoadMapLevel: MapLevel
 
     private void OnSpecialReleaseComplete()
     {
-        hasReleaseBeedDeployed = true;
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
@@ -49,45 +56,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
         );
     }
 
-    public override List<RewardBase> GetSpecialReleaseRewards()
-    {
-        if (hasReleaseBeedDeployed)
-        {
-            return new List<RewardBase>();
-        }
-
-        return new List<RewardBase>()
-        {
-            new SpecialCallbackReward(OnSpecialReleaseComplete)
-            {
-                Name = "User Signup/Login",
-                Description = "Allows User To Signup",
-                IconSpriteId = "IconPII"
-            }
-        };
-    }
-
-    public override VictoryConditionState GetVictoryConditionState(bool isFinal = false)
-    {
-        VictoryConditionState state = base.GetVictoryConditionState(isFinal);
-        if (state == VictoryConditionState.Failed)
-        {
-            return state;
-        }
-
-        if (!hasReleaseBeedDeployed)
-        {
-            return VictoryConditionState.NotMet;
-        }
-
-        return state;
-    }
-
-    public override void Randomize(int modifierCount)
-    {
-        // base.Randomize(); // Dont randomize as it will remove modifiers.
-       
-    }
+    
 
     public override void OnStartDayPlan()
     {
@@ -111,10 +80,5 @@ public class UserSignupProductRoadMapLevel: MapLevel
         base.OnLaunchDayPlan();
     }
 
-    public override void OnLaunchDaySummary()
-    {
-        base.OnLaunchDaySummary();
-        
-        
-    }
+ 
 }

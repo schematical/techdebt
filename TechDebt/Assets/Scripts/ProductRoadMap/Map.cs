@@ -182,7 +182,15 @@ public class MapLevel : iMapNode
 
     public virtual List<RewardBase> GetSpecialReleaseRewards()
     {
-        return new List<RewardBase>();
+        List<RewardBase> rewards = new List<RewardBase>();
+        foreach (MapLevelVictoryConditionBase victoryCondition in VictoryConditions)
+        {
+            if (victoryCondition is SpecialReleaseVictoryCondition)
+            {
+                rewards.Add((victoryCondition as SpecialReleaseVictoryCondition).GetReward());
+            }
+        }
+        return rewards;
     }
 
 
