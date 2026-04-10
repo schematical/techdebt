@@ -412,25 +412,22 @@ namespace UI
             nodeTilemap.RefreshAllTiles();
         }
 
-        protected void CenterTilemapOnCamera()
+        protected virtual void CenterTilemapOnCamera()
         {
             var visibleNodes = _mapNodes.Where(IsNodeVisible).ToList();
             if (visibleNodes.Count == 0 || Camera.main == null) return;
 
-            int minX = visibleNodes.Min(n => n.Position.x);
-            int maxX = visibleNodes.Max(n => n.Position.x);
-            int minY = visibleNodes.Min(n => n.Position.y);
-            int maxY = visibleNodes.Max(n => n.Position.y);
+            // Center on the first visible root node or the first visible node
+            MapNodeView targetNode = visibleNodes.FirstOrDefault(n => n.DependencyIds == null || n.DependencyIds.Count == 0) ?? visibleNodes[0];
 
-            // Calculate the center of the nodes in grid coordinates
-            Vector3 worldCenter = nodeTilemap.GetCellCenterWorld(new Vector3Int((minX + maxX) / 2, (minY + maxY) / 2, 0));
+            Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)targetNode.Position);
             
-            // Move the camera to (0,0) and move the grid so its center is at (0,0)
+            // Move the camera to (0,0) and move the grid so the target node is at (0,0)
             Vector3 targetCenter = Vector3.zero;
             GameManager.Instance.cameraController.SnapTo(targetCenter, 10f);
             
             Transform gridTransform = connectorTilemap.transform.parent;
-            gridTransform.position = targetCenter - worldCenter;
+            gridTransform.position = targetCenter - worldPos;
             gridTransform.position = new Vector3(gridTransform.position.x, gridTransform.position.y, 0);
         }
 
