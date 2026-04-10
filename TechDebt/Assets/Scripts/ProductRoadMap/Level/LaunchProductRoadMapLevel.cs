@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using NPCs;
+using NUnit.Framework;
 using Stats;
 using Tutorial;
 using UI;
@@ -13,7 +14,7 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 2;
+        SprintDuration = 5;
         
         AddCashReward(0, 150);
         MapLevelModifier modifier = new MapLevelModifier();
@@ -42,6 +43,7 @@ public class LaunchMapLevel: MapLevel
 
     public override void OnStartDayPlan()
     {
+        GameManager.Instance.Map.AddGlobalVictoryCondition(new HasMoneyVictoryCondition());
         if (
             GameManager.Instance.TutorialManager == null ||
             !GameManager.Instance.TutorialManager.IsActive()
@@ -59,7 +61,7 @@ public class LaunchMapLevel: MapLevel
     }
     public override void OnLaunchDayPlan()
     {
-       
+        GameManager.Instance.Map.AddGlobalVictoryCondition(new UpTimeVictoryCondition());
         GameManager.Instance.UIManager.toastHolderPanel.Add("Launch Day Start!");
         if (
             GameManager.Instance.TutorialManager == null ||

@@ -8,7 +8,7 @@ namespace UI
         {
             CleanUp();
             List<MapLevelVictoryConditionBase> victoryConditions =
-                GameManager.Instance.Map.GetCurrentLevel().VictoryConditions;
+                GameManager.Instance.Map.GetCurrentLevel().GetCombinedVictoryConditions();
             foreach (MapLevelVictoryConditionBase victoryCondition in victoryConditions)
             {
                 victoryCondition.Render(this);

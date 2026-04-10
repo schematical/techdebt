@@ -57,5 +57,11 @@ public class SpecialReleaseVictoryCondition : MapLevelVictoryConditionBase
         UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
         line.Add<UIPanelLineSectionText>().text.text =
             GetDescription();
+        UIPanelLineSectionText stateText = line.Add<UIPanelLineSectionText>();
+        stateText.text.text = $"{GetState()}/{GetFinalState()}";
+        GameManager.OnReleaseChanged += (ReleaseBase, prevState) =>
+        {
+            stateText.text.text = $"{GetState()}/{GetFinalState()}";
+        };
     }
 }

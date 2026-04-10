@@ -1846,6 +1846,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1134520283}
+  - {fileID: 1160260323}
+  - {fileID: 2069648439}
   - {fileID: 320297916}
   - {fileID: 2022470872}
   - {fileID: 1507322380}
@@ -1877,8 +1879,6 @@ RectTransform:
   - {fileID: 709507618}
   - {fileID: 1910237099}
   - {fileID: 1011191252}
-  - {fileID: 1160260323}
-  - {fileID: 2069648439}
   - {fileID: 2071853940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16689,7 +16689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1354808289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16721,7 +16721,6 @@ MonoBehaviour:
   minZoom: 5
   maxZoom: 20
   grid: {fileID: 2135397407}
-  startSprintButton: {fileID: 0}
 --- !u!224 &1354808290
 RectTransform:
   m_ObjectHideFlags: 0

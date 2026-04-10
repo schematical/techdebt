@@ -12,10 +12,11 @@ public class UserSignupProductRoadMapLevel: MapLevel
     {
         Name = "User Signup Sprint";
         SpriteId = "IconFlag";// TODO: Drivers licence icon?
-        SprintDuration = 5;
+        SprintDuration = 2;
         DependencyIds.Add("LaunchMapLevel");
         Direction = MapNodeDirection.Right;
 
+        AddCashReward(100, 300);// TODO scale this with difficulty.
         
         SpecialReleaseVictoryCondition condition = new SpecialReleaseVictoryCondition(
             "User Signup/Login",
@@ -23,8 +24,8 @@ public class UserSignupProductRoadMapLevel: MapLevel
             "IconPII",
             OnSpecialReleaseComplete
         );
-        AddCashReward(100, 300);// TODO scale this with difficulty.
         VictoryConditions.Add(condition);
+        
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.Traffic;

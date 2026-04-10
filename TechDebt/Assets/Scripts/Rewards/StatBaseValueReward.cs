@@ -1,5 +1,6 @@
 using System;
 using Stats;
+using UnityEngine;
 
 namespace DefaultNamespace.Rewards
 {
@@ -21,6 +22,7 @@ namespace DefaultNamespace.Rewards
 
         public override void Apply()
         {
+            Debug.Log($"Applying {GetTitle()} - {StatType} {BaseValue}");
             AttachedModifier = GetTarget();
             AttachedModifier.Stats.Get(StatType).IncrStat(BaseValue);
   

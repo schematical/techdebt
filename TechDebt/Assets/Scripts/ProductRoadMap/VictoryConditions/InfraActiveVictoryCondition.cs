@@ -33,5 +33,6 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
         UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
         line.Add<UIPanelLineSectionText>().text.text =
             GetDescription();
+        line.Add<UIPanelLineSectionText>().text.text = $"{GetState()}/{GetFinalState()}";
     }
 }

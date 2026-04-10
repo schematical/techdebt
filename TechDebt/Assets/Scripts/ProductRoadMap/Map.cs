@@ -29,7 +29,7 @@ public class Map
         new OnlinePaymentsProductRoadMapLevel()
     };
     protected MapLevel CurrentLevel { get; set; }
-    public int CurrentSprintNumber { get; protected set; } = 0;
+    public int CurrentSprintNumber { get; protected set; } = -1;
 
     public List<MapLevelVictoryConditionBase> GlobalVictoryConditions { get; set; } =
         new List<MapLevelVictoryConditionBase>();
@@ -47,6 +47,7 @@ public class Map
     {
         CurrentSprintNumber += 1;
         CurrentLevel = level;
+        GameManager.Instance.UIManager.victoryConditionListPanel.Refresh();
     }
 
 
@@ -84,6 +85,7 @@ public class Map
     {
         condition.SetGlobal();
         GlobalVictoryConditions.Add(condition);
+        GameManager.Instance.UIManager.victoryConditionListPanel.Refresh();
     }
 
 
@@ -191,9 +193,7 @@ public class MapLevel : iUIMapNode
 
     public MapLevel()
     {
-        VictoryConditions.Add(new UpTimeVictoryCondition());
-        // VictoryConditions.Add(new HasMoneyVictoryCondition());
-        // VictoryConditions.Add(new NetworkPacketLatencyVictoryCondition());
+        
     }
 
     public virtual List<RewardBase> GetSpecialReleaseRewards()
@@ -628,6 +628,7 @@ public class MapLevel : iUIMapNode
         {
             LevelRewards.Add(new MapLevelReward()
             {
+                AppliedAt =  MapLevelRewardApplied.Start,
                 Reward = new GlobalStatBaseValueReward()
                 {
                     // Group = RewardBase.RewardGroup.Release,
@@ -645,6 +646,7 @@ public class MapLevel : iUIMapNode
         {
             LevelRewards.Add(new MapLevelReward()
             {
+                AppliedAt =  MapLevelRewardApplied.End,
                 Reward = new GlobalStatBaseValueReward()
                 {
                     // Group = RewardBase.RewardGroup.Release,

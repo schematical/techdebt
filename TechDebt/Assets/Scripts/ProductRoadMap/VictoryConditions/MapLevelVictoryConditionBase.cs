@@ -31,7 +31,7 @@ public abstract class MapLevelVictoryConditionBase
         switch (state)
         {
             case(VictoryConditionState.NotMet):
-                if (!FailIfNotMet)
+                if (FailIfNotMet)
                 {
                     return VictoryConditionState.Failed;
                 }
