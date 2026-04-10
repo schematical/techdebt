@@ -7,7 +7,7 @@ public class CheckoutCartLevel : MapLevel
         Name = "Checkout Cart";
         SpriteId = "IconCart";
         RequiredStakeholderId = "cmo";
-        DependencyIds.Add("LaunchMapLevel");
+        DependencyIds.Add("UserSignupProductRoadMapLevel");
     }
 
     public override string GetDescription()

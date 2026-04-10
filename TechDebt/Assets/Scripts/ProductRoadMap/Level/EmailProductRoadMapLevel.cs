@@ -7,6 +7,8 @@ public class EmailMapLevel:MapLevel
     {
         Name = "Email Sprint";
         SpriteId = "IconEmail";
+        Direction = MapNodeDirection.Right;
+        DependencyIds.Add("UserSignupProductRoadMapLevel");
         VictoryConditions.Add(new InfraActiveVictoryCondition()
         {
             TargetId = "email-service"

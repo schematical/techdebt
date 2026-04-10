@@ -7,6 +7,7 @@ public class SecurityAuditMapLevel: MapLevel
     {
         Name = "Security Audit Sprint";
         SpriteId = "IconLock";
+        Direction = MapNodeDirection.Left;
         
     }
     public override void OnStartDayPlan()

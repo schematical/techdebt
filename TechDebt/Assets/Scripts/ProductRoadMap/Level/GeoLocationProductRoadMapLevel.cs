@@ -5,7 +5,7 @@ public class GeoLocationMapLevel:MapLevel
     {
         Name = "Geo Location Sprint";
         SpriteId = "IconGeo";
-        
+        Direction = MapNodeDirection.Right;
     }
   
 }

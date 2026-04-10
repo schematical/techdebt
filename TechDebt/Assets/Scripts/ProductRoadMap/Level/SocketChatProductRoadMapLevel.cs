@@ -5,6 +5,7 @@ public class SocketChatMapLevel:MapLevel
     {
         Name = "Socket Chat Sprint";
         SpriteId = "IconChat";
+        Direction = MapNodeDirection.Right;
         
     }
    

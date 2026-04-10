@@ -7,6 +7,8 @@ public class MobileMapLevel: MapLevel
     {
         Name = "Mobile Notifications Sprint";
         SpriteId = "IconMobile";
+        Direction = MapNodeDirection.Right;
+        DependencyIds.Add("UserSignupProductRoadMapLevel");
         VictoryConditions.Add(new InfraActiveVictoryCondition()
         {
             TargetId = "sns"
