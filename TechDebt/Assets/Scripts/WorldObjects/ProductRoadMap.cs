@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NPCs;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,7 +21,13 @@ namespace Infrastructure
                 base.OnLeftClick(eventData);
                 return;
             }
-            GameManager.Instance.UIManager.productRoadMap.Show();
+
+            UIProductRoadMap.State state = UIProductRoadMap.State.Display;
+            if (GameManager.Instance.Map.GetCurrentLevel().State == MapLevel.MapLevelState.Completed)
+            {
+                state = UIProductRoadMap.State.Select;
+            }
+            GameManager.Instance.UIManager.productRoadMap.Show(state);
             HideAttentionIcon();
             
         }

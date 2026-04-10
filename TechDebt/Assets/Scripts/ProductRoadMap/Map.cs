@@ -65,8 +65,14 @@ public class Map
       
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
-
-        GameManager.Instance.UIManager.productRoadMap.Show();
+        if (!GameManager.Instance.GetInfrastructureInstanceByID("product-road-map").IsActive())
+        {
+            
+        }
+        else
+        {
+            GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+        }
 
     }
 
@@ -122,12 +128,12 @@ public class MapLevel : iMapNode
             // If ANY dependency is met, it's Locked (ready to play), else MetaLocked
             // Wait, should it be ANY or ALL? The user's mermaid diagram implies a tree/graph.
             // Usually in these games, ANY dependency being met unlocks the node.
-            bool anyDependencyMet = DependencyIds.Any(depId => {
-                var dep = GameManager.Instance.Map.LevelPool.FirstOrDefault(l => l.Id == depId);
-                return dep != null && dep.State == MapLevelState.Completed;
+            bool allDependencyMet = DependencyIds.All(depId => {
+                MapLevel dep = GameManager.Instance.Map.LevelPool.FirstOrDefault(l => l.Id == depId);
+                return  dep.State == MapLevelState.Completed;
             });
             
-            return anyDependencyMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
+            return allDependencyMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
         }
     }
     
@@ -403,13 +409,11 @@ public class MapLevel : iMapNode
 
     public virtual void OnLaunchDayPlan()
     {
-        Debug.Log($"OnLaunchDayPlan {LevelModifiers.Count}");
         foreach (MapLevelModifier modifier in LevelModifiers)
         {
             switch (modifier.Duration)
             {
                 case (MapLevelModifier.ModifierDuration.LaunchDay):
-                    Debug.Log($"OnLaunchDayPlan MapLevelModifier.Apply");
                     modifier.Apply(this);
                     break;
             }
@@ -420,6 +424,7 @@ public class MapLevel : iMapNode
 
     public virtual void OnLaunchDaySummary()
     {
+        MarkCompleted();
         NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
         npc.ShowDialogBubble().SimpleDisplay(
@@ -430,8 +435,16 @@ public class MapLevel : iMapNode
                 {
                     Text = "Plan Next Sprint", OnClick = () =>
                     {
-                        GameManager.Instance.Map.IncrStage();
-                        // GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                        if (!GameManager.Instance.GetInfrastructureInstanceByID("product-road-map").IsActive())
+                        {
+                            npc.ShowDialogBubble().SimpleDisplay(
+                                "Research `Product Road Map` to progress"
+                            );
+                        }
+                        else
+                        {
+                            GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                        }
                     }
                 } /*,
                 new DialogButtonOption() { Text = "Main Menu", OnSelect = () =>

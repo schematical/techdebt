@@ -13,7 +13,7 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 5;
+        SprintDuration = 2;
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
         modifier.statType = StatType.Traffic;
