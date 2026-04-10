@@ -399,9 +399,10 @@ public class GameManager : MonoBehaviour, iModifiable
         InfrastructureUpdateNetworkTargets();
   
         cameraController.EnableCameraInput();
+        Map.SetCurrentLevel(new LaunchMapLevel());
         UIManager.ShowGameUI();
         
-        Map.SetCurrentLevel(new LaunchMapLevel());
+        
  
         TutorialManager.StartNewGameCheck();
     }

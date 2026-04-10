@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI;
 using Random = UnityEngine.Random;
 
 
@@ -22,29 +23,10 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
     {
         return $"{TargetId} Active : {GetState()}";
     }
-    /*public static InfraActiveVictoryCondition GetRandomCondition(int stage)
+    public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {
-        InfraActiveVictoryCondition condition = null;
-        int saftyCheck = 0;
-        while (condition == null && saftyCheck < 10)
-        {
-            saftyCheck += 1;
-
-            List<string> infraIds = new List<string>()
-            {
-                "email-service",
-                "sns"
-            };
-            condition = new InfraActiveVictoryCondition();
-            int i = Random.Range(0, infraIds.Count);
-            condition.TargetId = infraIds[i];
-            if (condition.GetState() == VictoryConditionState.NotMet)
-            {
-                return condition;
-            }
-        }
-
-        throw new SystemException("Could not find a victory condition that was not met");
-
-    }*/
+        UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
+        line.Add<UIPanelLineSectionText>().text.text =
+            GetDescription();
+    }
 }

@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI
@@ -13,6 +14,7 @@ namespace UI
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
         protected Image ProgressImage;
+        public Func<float> OnGetProgress { get; set; }
         public override void Initialize(int _depth, UIPanel _rootPanel, UIPanelLine _parentLine)
         {
        
@@ -30,6 +32,18 @@ namespace UI
         {
             preText = text;
         }
+
+        protected void FixedUpdate()
+        {
+            if (OnGetProgress == null)
+            {
+                return;
+            }
+            float progress = OnGetProgress();
+            SetProgress(progress);
+        }
+
+
         public void SetProgress(float progress, Color ?color = null)
         {
             if (color == null)

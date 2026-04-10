@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Stats;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -40,6 +41,15 @@ public class NetworkPacketLatencyVictoryCondition: MapLevelVictoryConditionBase
     {
         return $"Avg Latency < {Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency) * 100}ms  ({Math.Round(GetAvgLatency() * 100)}ms): {GetState()}";
     }
-
+    public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
+    {
+        UIPanelLineProgressBar line = victoryConditionListPanel.AddLine<UIPanelLineProgressBar>();
+        line.SetPreText("Latency: ");
+        line.OnGetProgress = () =>
+        {
+              float avgLatency = GetAvgLatency();
+              return avgLatency / Stats.GetStatValue(StatType.VictoryCondition_NetworkPacketLatency);
+        };
+    }
    
 }

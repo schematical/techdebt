@@ -175,7 +175,7 @@ public class MapLevel : iMapNode
 
     public MapLevel()
     {
-        VictoryConditions.Add(new HasMoneyVictoryCondition());
+        VictoryConditions.Add(new UpTimeVictoryCondition());
     }
 
     public virtual List<RewardBase> GetSpecialReleaseRewards()

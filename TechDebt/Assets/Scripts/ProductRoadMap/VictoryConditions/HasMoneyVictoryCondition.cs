@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using UI;
 using Random = UnityEngine.Random;
 
 
@@ -35,5 +36,10 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
         return $"Money > {Requirement} : {GetState()}";
     }
 
-   
+    public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
+    {
+        UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
+        line.Add<UIPanelLineSectionText>().text.text =
+            $"Remaining Budget: {GameManager.Instance.GetStatValue(StatType.Money)}";
+    }
 }

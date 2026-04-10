@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
     public UIToolTip toolTip;
     public UIGameTipPanel gameTipPanel;
     public UITutorialStepListPanel tutorialStepListPanel;
+    public UIVictoryConditionListPanel victoryConditionListPanel;
     
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
@@ -459,6 +460,7 @@ public class UIManager : MonoBehaviour
         moneyPanel.Show();
         timeControlPanel.Show();
         mainMenu.Close();
+        victoryConditionListPanel.Refresh();
     }
 
 

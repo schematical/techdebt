@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using UI;
 using Random = UnityEngine.Random;
 
 
@@ -20,4 +21,5 @@ public abstract class MapLevelVictoryConditionBase
     {
         return isGlobal;
     }
+    public abstract void Render(UIVictoryConditionListPanel victoryConditionListPanel);
 }
