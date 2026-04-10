@@ -33,20 +33,20 @@ namespace UI
 
         public UnityEngine.Tilemaps.TileBase GetTile()
         {
-            string tileId = "TileLocked";
+            string tileId = "TechTreeLockedTile";
             switch (CurrentState)
             {
                 case MapNodeState.MetaLocked:
-                    tileId = "TileMetaLocked";
+                    tileId = "TechTreeLockedTile";
                     break;
                 case MapNodeState.Locked:
-                    tileId = "TileLocked";
+                    tileId = "TechTreeUnlockedTile";
                     break;
                 case MapNodeState.Active:
-                    tileId = "TileActive";
+                    tileId = "TechTreeResearching";
                     break;
                 case MapNodeState.Unlocked:
-                    tileId = "TileUnlocked";
+                    tileId = "TechTreeResearched";
                     break;
             }
             return GameManager.Instance.prefabManager.GetTile(tileId);

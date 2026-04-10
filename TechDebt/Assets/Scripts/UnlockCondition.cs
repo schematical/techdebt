@@ -45,7 +45,7 @@ public class UnlockCondition: iUnlockable
                 }
                 return GameManager.Instance.TutorialManager.GetStep(TutorialStepId).State == TutorialStepState;
             case(ConditionType.SprintGreaterOrEqual):
-                return GameManager.Instance.Map.GetCurrentStage().StageNumber >= SprintNumber;
+                return GameManager.Instance.Map.CurrentSprintNumber >= SprintNumber;
             default:
                 throw new NotImplementedException();
         }

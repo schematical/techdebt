@@ -152,7 +152,13 @@ namespace UI
 
         public virtual void Refresh()
         {
-            if (nodeTilemap == null || connectorTilemap == null) return;
+            if (nodeTilemap == null || connectorTilemap == null) 
+            {
+                Debug.LogError("nodeTilemap or connectorTilemap is null");
+                return;
+            }
+
+            Debug.Log($"UIMapPanel.Refresh called for {gameObject.name}");
 
             nodeTilemap.ClearAllTiles();
             connectorTilemap.ClearAllTiles();
@@ -165,12 +171,20 @@ namespace UI
 
             PopulateNodes();
 
-            if (_mapNodes.Count == 0) return;
+            Debug.Log($"Refresh: _mapNodes.Count = {_mapNodes.Count}");
+            if (_mapNodes.Count == 0) 
+            {
+                Debug.LogWarning("Refresh: No nodes populated!");
+                return;
+            }
 
             DrawBackground();
             CalculateNodePositions();
             DrawNodesAndLabels();
-            DrawPaths(_mapNodes.Where(IsNodeVisible).ToList());
+            
+            var visibleNodes = _mapNodes.Where(IsNodeVisible).ToList();
+            Debug.Log($"Refresh: Drawing paths for {visibleNodes.Count} visible nodes.");
+            DrawPaths(visibleNodes);
             UpdateDetailsArea();
         }
 
@@ -339,11 +353,27 @@ namespace UI
 
         protected virtual void DrawNodesAndLabels()
         {
+            int visibleCount = 0;
             foreach (MapNodeView nodeView in _mapNodes)
             {
-                if (!IsNodeVisible(nodeView)) continue;
+                bool visible = IsNodeVisible(nodeView);
+                if (!visible) 
+                {
+                    Debug.Log($"Node {nodeView.DisplayName} ({nodeView.Id}) is NOT visible.");
+                    continue;
+                }
+                visibleCount++;
 
                 UnityEngine.Tilemaps.TileBase tile = nodeView.Node.GetTile();
+                if (tile == null)
+                {
+                    Debug.LogWarning($"Node {nodeView.DisplayName} (Id: {nodeView.Id}) returned a null tile.");
+                }
+
+                if (nodeView.Position.x == -1000)
+                {
+                    Debug.LogWarning($"Node {nodeView.DisplayName} ({nodeView.Id}) has default position (-1000)!");
+                }
 
                 nodeTilemap.SetTile((Vector3Int)nodeView.Position, tile);
 
@@ -355,9 +385,18 @@ namespace UI
                     labelInstance.name = $"Node_{nodeView.DisplayName}";
                     nodeView.LabelInstance = labelInstance.GetComponentInChildren<TextMeshPro>();
                 }
-                nodeView.LabelInstance.text = nodeView.DisplayName;
-                nodeView.LabelInstance.gameObject.SetActive(true);
+                
+                if (nodeView.LabelInstance != null)
+                {
+                    nodeView.LabelInstance.text = nodeView.DisplayName;
+                    nodeView.LabelInstance.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogError($"LabelInstance is null for node {nodeView.DisplayName}");
+                }
             }
+            Debug.Log($"DrawNodesAndLabels: {visibleCount} nodes drawn.");
             nodeTilemap.RefreshAllTiles();
         }
 
@@ -371,11 +410,16 @@ namespace UI
             int minY = visibleNodes.Min(n => n.Position.y);
             int maxY = visibleNodes.Max(n => n.Position.y);
 
-            Vector3 worldCenter = new Vector3((minX + maxX + 1) / 2.0f, (minY + maxY + 1) / 2.0f, 0);
-            Transform gridTransform = connectorTilemap.transform.parent;
-            Vector3 targetCenter = new Vector3(-1000f, 0f, 0f);
+            // Calculate the center of the nodes in grid coordinates
+            Vector3 worldCenter = nodeTilemap.GetCellCenterWorld(new Vector3Int((minX + maxX) / 2, (minY + maxY) / 2, 0));
+            
+            // Move the camera to (0,0) and move the grid so its center is at (0,0)
+            Vector3 targetCenter = Vector3.zero;
             GameManager.Instance.cameraController.SnapTo(targetCenter, 10f);
-            gridTransform.position = new Vector3(targetCenter.x - worldCenter.x, targetCenter.y - worldCenter.y, gridTransform.position.z);
+            
+            Transform gridTransform = connectorTilemap.transform.parent;
+            gridTransform.position = targetCenter - worldCenter;
+            gridTransform.position = new Vector3(gridTransform.position.x, gridTransform.position.y, 0);
         }
 
         // Procedural Layout Logic
@@ -393,14 +437,53 @@ namespace UI
             if (_mapNodes.Count == 0) return;
             foreach (var node in _mapNodes) node.Position = new Vector2Int(-1000, -1000);
 
-            MapNodeView root = _mapNodes.Find(n => n.Id == "application-server") ?? _mapNodes.Find(n => n.DependencyIds == null || n.DependencyIds.Count == 0);
-            if (root == null) return;
+            // Find all roots (nodes with no dependencies)
+            var roots = _mapNodes.Where(n => n.Node.DependencyIds == null || n.Node.DependencyIds.Count == 0).ToList();
+            
+            // Special case for tech tree root if it exists
+            MapNodeView techRoot = _mapNodes.Find(n => n.Node.Id == "application-server");
+            if (techRoot != null && !roots.Contains(techRoot))
+            {
+                roots.Insert(0, techRoot);
+            }
+
+            if (roots.Count == 0)
+            {
+                Debug.LogError("CalculateNodePositions: Could not find any root nodes.");
+                return;
+            }
+
+            Debug.Log($"CalculateNodePositions: Found {roots.Count} root nodes.");
 
             HashSet<string> visited = new HashSet<string>();
-            LayoutNode rootLayout = BuildLayoutTree(root, visited);
-            CalculateSubtreeMetrics(rootLayout);
-            root.Position = Vector2Int.zero;
-            AssignPositions(rootLayout, root.Position);
+            int currentYOffset = 0;
+
+            foreach (var root in roots)
+            {
+                if (visited.Contains(root.Id)) continue;
+
+                LayoutNode rootLayout = BuildLayoutTree(root, visited);
+                CalculateSubtreeMetrics(rootLayout);
+                
+                Vector2Int rootPos = new Vector2Int(0, currentYOffset);
+                AssignPositions(rootLayout, rootPos);
+                
+                // Adjust Y offset for the next root based on the breadth of this tree
+                int treeBreadth = Mathf.Max(rowSpacing * 2, rootLayout.MaxPerpOffset - rootLayout.MinPerpOffset + rowSpacing * 2);
+                currentYOffset += treeBreadth;
+            }
+            
+            foreach(var node in _mapNodes)
+            {
+                if (node.Position.x == -1000)
+                {
+                    Debug.LogWarning($"Node {node.DisplayName} ({node.Id}) was not assigned a position!");
+                }
+                else
+                {
+                    Debug.Log($"Node {node.DisplayName} assigned position: {node.Position}");
+                }
+            }
         }
 
         private LayoutNode BuildLayoutTree(MapNodeView view, HashSet<string> visited)

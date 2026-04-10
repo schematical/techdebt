@@ -401,7 +401,7 @@ public class GameManager : MonoBehaviour, iModifiable
         cameraController.EnableCameraInput();
         UIManager.ShowGameUI();
         
-        Map.GetCurrentStage().SetSelectedLevel(0);
+        Map.SetCurrentLevel(new LaunchMapLevel());
  
         TutorialManager.StartNewGameCheck();
     }
@@ -436,7 +436,7 @@ public class GameManager : MonoBehaviour, iModifiable
         }
         else
         {*/
-        Map.GetCurrentStage().SetSelectedLevel(0);
+        Map.SetCurrentLevel(new LaunchMapLevel());
         GameLoopManager.BeginDemo();
         // }
     }

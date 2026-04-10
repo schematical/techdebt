@@ -11,8 +11,8 @@ using Random = UnityEngine.Random;
 
 public class Map
 {
-    public List<MapStage> Stages { get; set; }
 
+ 
     public List<MapLevel> LevelPool { get; set; } = new List<MapLevel>()
     {
         new UserSignupProductRoadMapLevel(),
@@ -20,178 +20,69 @@ public class Map
         new EmailMapLevel(),
         new SocketChatMapLevel(),
         new GeoLocationMapLevel(),
+        new SslLevel(),
+        new SaasLevel(),
+        new DiskSpaceLevel(),
+        new CheckoutCartLevel()
         // new SecurityAuditMapLevel()
     };
-
-    public int CurrentStageIndex { get; protected set; } = 0;
+    protected MapLevel CurrentLevel { get; set; }
+    public int CurrentSprintNumber { get; protected set; } = 0;
 
     public List<MapLevelVictoryConditionBase> GlobalVictoryConditions { get; set; } =
         new List<MapLevelVictoryConditionBase>();
 
     public void Randomize()
     {
-        Stages = new List<MapStage>();
-        // Level 1 is just launch
-        MapStage Stage = new MapStage(Stages.Count);
-        MapLevel launchLevel = new LaunchMapLevel();
-
-        launchLevel.SetStage(Stage);
-        Stage.Levels.Add(launchLevel);
-        Stages.Add(Stage);
-        /*
-       Stage = new MapStage(Stages.Count);
-
-
-       Stage.Levels.Add(new MobileMapLevel(Stage));
-       Stage.Levels.Add(new EmailMapLevel(Stage));
-       Stages.Add(Stage);
-
-       Stage = new MapStage(Stages.Count);
-       Stage.Levels.Add(new SecurityAuditMapLevel(Stage));
-       Stages.Add(Stage);
-
-       Stage = new MapStage(Stages.Count);
-       Stage.Levels.Add(new SocketChatMapLevel(Stage));
-       Stage.Levels.Add(new GeoLocationMapLevel(Stage));
-       Stages.Add(Stage);
-       foreach (MapStage nextStage in Stages)
-       {
-           nextStage.Randomize();
-       }*/
+        
     }
 
     public MapLevel GetCurrentLevel()
     {
-        return Stages[CurrentStageIndex].GetSelectedLevel();
+        return CurrentLevel;
+    }
+    public void SetCurrentLevel(MapLevel level)
+    {
+        CurrentLevel = level;
     }
 
 
     public void IncrStage()
     {
-        Stages[CurrentStageIndex].GetSelectedLevel().MarkCompleted();
+        CurrentLevel.MarkCompleted();
         List<MapLevel> levels = LevelPool.FindAll((level => level.State == MapLevel.MapLevelState.Incomplete));
 
         if (levels.Count == 0)
         {
-            Stages[CurrentStageIndex].GetSelectedLevel().EndGame(
+            CurrentLevel.EndGame(
                 "Well done! You have made it to the end of the run. Try again with new infrastructure and abilities that you unlocked during the run. Be sure tho check the Meta Challenges menu."
             );
             return;
         }
 
-        CurrentStageIndex += 1;
-        if (CurrentStageIndex >= Stages.Count)
-        {
-            Stages.Add(new MapStage(Stages.Count));
-        }
+        CurrentSprintNumber += 1;
+      
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
 
-        GameManager.Instance.UIManager.multiSelectPanel.Display(
-            "What should we work on next?",
-            "Choose a feature to focus on."
-        );
+        GameManager.Instance.UIManager.productRoadMap.Show();
 
-
-        int endAt = levels.Count;
-        if (endAt > 3)
-        {
-            endAt = 3;
-        }
-
-        for (int i = 0; i < endAt; i++)
-        {
-            MapLevel level = levels[i];
-            level.SetStage(Stages[CurrentStageIndex]);
-            level.Randomize(CurrentStageIndex);
-            UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
-                level.Name,
-                GameManager.Instance.SpriteManager.GetSprite(level.GetSpriteId()),
-                level.Name,
-                ""
-            );
-            option.OnSelect((string id) =>
-            {
-                GameManager.Instance.UIManager.multiSelectPanel.Close();
-                Stages[CurrentStageIndex].SetLevel(level);
-                GameManager.Instance.GameLoopManager.BeginPlanPhase();
-                /*for (int ii = 0; ii < levels.Count; ii++)
-                {
-                    if (i != ii)
-                    {
-                        levels[ii].SetStage(null);
-                    }
-                }*/
-            });
-            option.OnPreview((string id) => { option.SetParentBottomText(level.GetDescription()); });
-        }
     }
 
-    public MapStage GetCurrentStage()
-    {
-        return Stages[CurrentStageIndex];
-    }
+ 
 
     public void AddGlobalVictoryCondition(MapLevelVictoryConditionBase condition)
     {
         condition.SetGlobal();
         GlobalVictoryConditions.Add(condition);
     }
+
+
+
+    
 }
 
-public class MapStage
-{
-    public int SelectedLevel { get; protected set; } = -1;
-    public List<MapLevel> Levels { get; set; } = new List<MapLevel>();
-    public int StageNumber { get; protected set; }
 
-    public MapStage(int stageNumber)
-    {
-        StageNumber = stageNumber;
-    }
-
-    public void Randomize()
-    {
-        foreach (MapLevel level in Levels)
-        {
-            level.Randomize(StageNumber);
-        }
-        /*for (int i = 0; i < 3; i++)
-        {
-            MapLevel level = new MapLevel();
-            level.Randomize(StageNumber);
-        }*/
-    }
-
-    public MapLevel SetSelectedLevel(int level)
-    {
-        SelectedLevel = level;
-        Levels[SelectedLevel].OnSprintStart();
-        return Levels[SelectedLevel];
-    }
-
-    public MapLevel SetLevel(MapLevel mapLevel)
-    {
-        mapLevel.SetStage(this);
-        SelectedLevel = 0;
-        Levels = new List<MapLevel>()
-        {
-            mapLevel
-        };
-        Levels[SelectedLevel].OnSprintStart();
-        return Levels[SelectedLevel];
-    }
-
-    public MapLevel GetSelectedLevel()
-    {
-        if (SelectedLevel == -1)
-        {
-            throw new SystemException($"Selected level ({SelectedLevel}) is invalid.");
-        }
-
-        return Levels[SelectedLevel];
-    }
-}
 
 public class MapLevel : iMapNode
 {
@@ -214,7 +105,7 @@ public class MapLevel : iMapNode
     public string RequiredStakeholderId { get; set; }
 
     // iMapNode Implementation
-    public string Id => $"stage_{(Stage != null ? Stage.StageNumber : 0)}_{Name.Replace(" ", "")}";
+    public string Id => GetType().ToString();
     public string DisplayName => Name;
     public string Description => GetDescription();
     public MapNodeState CurrentState
@@ -223,15 +114,6 @@ public class MapLevel : iMapNode
         {
             if (State == MapLevelState.Completed) return MapNodeState.Unlocked;
             
-            if (Stage != null && GameManager.Instance.Map.Stages.Contains(Stage))
-            {
-                if (GameManager.Instance.Map.CurrentStageIndex == Stage.StageNumber)
-                {
-                    if (Stage.SelectedLevel != -1 && Stage.Levels[Stage.SelectedLevel] == this)
-                        return MapNodeState.Active; 
-                    return MapNodeState.Locked; 
-                }
-            }
             
             return MapNodeState.MetaLocked;
         }
@@ -248,20 +130,20 @@ public class MapLevel : iMapNode
 
     public UnityEngine.Tilemaps.TileBase GetTile()
     {
-        string tileId = "TileLocked";
+        string tileId = "TechTreeLockedTile";
         switch (CurrentState)
         {
             case MapNodeState.MetaLocked:
-                tileId = "TileMetaLocked";
+                tileId = "TechTreeLockedTile";
                 break;
             case MapNodeState.Locked:
-                tileId = "TileLocked";
+                tileId = "TechTreeUnlockedTile";
                 break;
             case MapNodeState.Active:
-                tileId = "TileActive";
+                tileId = "TechTreeResearching";
                 break;
             case MapNodeState.Unlocked:
-                tileId = "TileUnlocked";
+                tileId = "TechTreeResearched";
                 break;
         }
         return GameManager.Instance.prefabManager.GetTile(tileId);
@@ -275,7 +157,7 @@ public class MapLevel : iMapNode
     // TODO Stake holder? Sales, PR, etc?
     //TODO Add in rewards
     // protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
-    protected MapStage Stage;
+
 
     public MapLevel()
     {
@@ -287,10 +169,7 @@ public class MapLevel : iMapNode
         return new List<RewardBase>();
     }
 
-    public void SetStage(MapStage stage)
-    {
-        Stage = stage;
-    }
+
 
     public string GetSpriteId()
     {
@@ -334,25 +213,24 @@ public class MapLevel : iMapNode
     {
         GameManager.Instance.GameLoopManager.Reset();
         // TODO: Probably move this to the map.
-        if (Stage.StageNumber > 0)
+ 
+        MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
+            condition => { return condition is NetworkPacketLatencyVictoryCondition; }));
+        if (condition == null)
         {
-            MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
-                condition => { return condition is NetworkPacketLatencyVictoryCondition; }));
-            if (condition == null)
-            {
-                GameManager.Instance.Map.AddGlobalVictoryCondition(new NetworkPacketLatencyVictoryCondition());
-            }
-            else
-            {
-                (condition as NetworkPacketLatencyVictoryCondition).Stats.AddModifier(
-                    StatType.VictoryCondition_NetworkPacketLatency,
-                    new StatModifier(
-                        $"stage_{Stage.StageNumber}",
-                        0.75f
-                    )
-                );
-            }
+            GameManager.Instance.Map.AddGlobalVictoryCondition(new NetworkPacketLatencyVictoryCondition());
         }
+        else
+        {
+            (condition as NetworkPacketLatencyVictoryCondition).Stats.AddModifier(
+                StatType.VictoryCondition_NetworkPacketLatency,
+                new StatModifier(
+                    $"level_{Id}",
+                    0.75f
+                )
+            );
+        }
+        
     }
 
     public virtual void Randomize(int modifierCount)
@@ -595,10 +473,7 @@ public class MapLevel : iMapNode
         );
     }
 
-    public MapStage GetStage()
-    {
-        return Stage;
-    }
+  
 
     public List<MapLevelVictoryConditionBase> GetVictoryConditions()
     {
@@ -809,12 +684,12 @@ public class MapLevelModifier
                             GameManager.Instance.GetNetworkPacketDataByType(networkPacketType);
                         float val = CalcValue(level);
                         Debug.Log($"MapLevelModifier.Apply  {networkPacketType} = {val}");
-                        _statModifier = new StatModifier($"level_modifier_temp_{level.GetStage().StageNumber}", val);
+                        _statModifier = new StatModifier($"level_modifier_temp_{level.Id}", val);
                         networkPacketData.Stats.AddModifier(statType.Value, _statModifier);
                         break;
                     case (StatType.Traffic):
                     case (StatType.TechDebt_AccumulationRate):
-                        _statModifier = new StatModifier($"level_modifier_temp_{level.GetStage().StageNumber}",
+                        _statModifier = new StatModifier($"level_modifier_temp_{level.Id}",
                             CalcValue(level));
                         GameManager.Instance.Stats.AddModifier(statType.Value, _statModifier);
                         break;
@@ -862,10 +737,10 @@ public class MapLevelModifier
                 switch (Direction)
                 {
                     case (ModifierDirection.Positive):
-                        return 5 + level.GetStage().StageNumber; // TODO Make this dynamic
+                        return 5 + GameManager.Instance.Map.CurrentSprintNumber; // TODO Make this dynamic
                         break;
                     case (ModifierDirection.Negative):
-                        return 5 - level.GetStage().StageNumber; // TODO Make this dynamic
+                        return 5 - GameManager.Instance.Map.CurrentSprintNumber; // TODO Make this dynamic
                         break;
                     default:
                         throw new NotFiniteNumberException();
@@ -907,10 +782,10 @@ public class MapLevelModifier
                 switch (direction)
                 {
                     case (ModifierDirection.Positive):
-                        return (float)Math.Pow(1 + baseValue, level.GetStage().StageNumber);
+                        return (float)Math.Pow(1 + baseValue, GameManager.Instance.Map.CurrentSprintNumber);
 
                     case (ModifierDirection.Negative):
-                        return (float)Math.Pow(1 - baseValue, level.GetStage().StageNumber);
+                        return (float)Math.Pow(1 - baseValue, GameManager.Instance.Map.CurrentSprintNumber);
                     default:
                         throw new NotImplementedException();
                 }

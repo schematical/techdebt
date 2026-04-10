@@ -77,7 +77,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.SetStat(StatType.PacketsFailed, 0);
         GameManager.Instance.SetStat(StatType.TotalNetworkPacketLatency, 0);
 
-        int sprintNumber = GameManager.Instance.Map.CurrentStageIndex;
+        int sprintNumber = GameManager.Instance.Map.CurrentSprintNumber;
         GameManager.Instance.Stats.AddModifier(
             StatType.Traffic,
             new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStatValue(StatType.Difficulty))
@@ -201,7 +201,7 @@ public class GameLoopManager : MonoBehaviour
             }
         }
 
-        int sprintNumber = GameManager.Instance.Map.CurrentStageIndex;
+        int sprintNumber = GameManager.Instance.Map.CurrentSprintNumber;
         GameManager.Instance. Stats.AddModifier(
             StatType.Traffic,
             new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStatValue(StatType.Difficulty))
