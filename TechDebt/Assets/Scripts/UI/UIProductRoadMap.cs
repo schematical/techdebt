@@ -22,18 +22,6 @@ namespace UI
         {
             CurrentState = _state;
             base.Show(); // This will call Refresh() -> PopulateNodes() and CenterTilemapOnCamera()
-            
-            // Specifically focus on the Launch node
-            MapNodeView launchNode = _mapNodes.FirstOrDefault(n => n.Node is LaunchMapLevel);
-            if (launchNode != null && Camera.main != null)
-            {
-                Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)launchNode.Position);
-                Vector3 targetCenter = Vector3.zero;
-                
-                Transform gridTransform = connectorTilemap.transform.parent;
-                gridTransform.position = targetCenter - worldPos;
-                gridTransform.position = new Vector3(gridTransform.position.x, gridTransform.position.y, 0);
-            }
         }
 
         public override void PopulateNodes()
