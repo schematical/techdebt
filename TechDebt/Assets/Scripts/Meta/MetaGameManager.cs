@@ -325,7 +325,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "product-road-map",
                 DisplayName = "Product Road Map",
-                Description = "",
+                Description = "Allows you to plan what you want to work on next sprint.",
                 ResearchTime = 30,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -333,12 +333,12 @@ public static class MetaGameManager
                     {
                         Type = UnlockCondition.ConditionType.Technology,
                         TechnologyID = "white-board"
-                    }/*,
+                    },
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
-                        SprintNumber = 1
-                    },*/
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
+                    },
                 },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Right,
@@ -765,7 +765,7 @@ public static class MetaGameManager
                     }
                 }
             },
-            new MetaChallengeBase()
+            /*new MetaChallengeBase()
             {
                 ChallengeID = "product-road-map",
                 DisplayName = "Product Road Map",
@@ -786,7 +786,7 @@ public static class MetaGameManager
                         StartState = Technology.State.Unlocked
                     }
                 }
-            },
+            },*/
             new MetaChallengeBase()
             {
                 ChallengeID = "org-chart",

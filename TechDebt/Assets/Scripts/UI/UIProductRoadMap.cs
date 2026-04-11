@@ -20,6 +20,7 @@ namespace UI
         {
             CurrentState = _state;
             GameManager.Instance.UIManager.ForcePause();
+            connectorTilemap.color = Color.yellow;
             base.Show(); // This will call Refresh() -> PopulateNodes() and CenterTilemapOnCamera()
         }
 

@@ -13,7 +13,19 @@ namespace UI
             List<Technology> allTech = GameManager.Instance.GetAllTechnologies();
             foreach (Technology tech in allTech)
             {
-                _mapNodes.Add(new MapNodeView { Node = tech });
+                bool isVisable = tech.UnlockConditions.All(condition =>
+                {
+                    if (condition.Type != UnlockCondition.ConditionType.Technology)
+                    {
+                        return condition.IsUnlocked();
+                    }
+                    MapNodeView dep = _mapNodes.Find(n => n.Id == condition.TechnologyID);
+                    return dep != null && condition.IsUnlocked();
+                });
+                if (isVisable)
+                {
+                    _mapNodes.Add(new MapNodeView { Node = tech });
+                }
             }
         }
 
@@ -21,6 +33,7 @@ namespace UI
         {
             base.Show();
             GameManager.Instance.UIManager.ForcePause();
+            connectorTilemap.color = Color.white;
             GameManager.OnTechnologyStateChange += OnTechnologyStateChange;
         }
 
@@ -94,10 +107,10 @@ namespace UI
                 List<string> reqs = new List<string>();
                 foreach (UnlockCondition unlockCondition in tech.UnlockConditions)
                 {
-                    if (unlockCondition.Type == UnlockCondition.ConditionType.Technology)
-                    {
+                    /*if (unlockCondition.Type == UnlockCondition.ConditionType.Technology)
+                    {*/
                         reqs.Add(unlockCondition.ToString());
-                    }
+                    //}
                 }
                 if (reqs.Count > 0)
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =  $"Requires: {string.Join(", ", reqs)}";
