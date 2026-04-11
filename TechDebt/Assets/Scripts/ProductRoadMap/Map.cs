@@ -48,6 +48,7 @@ public class Map
         CurrentSprintNumber += 1;
         CurrentLevel = level;
         GameManager.Instance.UIManager.victoryConditionListPanel.Refresh();
+        level.OnSprintStart();
     }
 
 

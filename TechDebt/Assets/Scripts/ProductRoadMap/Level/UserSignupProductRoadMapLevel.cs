@@ -12,7 +12,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
     {
         Name = "User Signup Sprint";
         SpriteId = "IconFlag";// TODO: Drivers licence icon?
-        SprintDuration = 2;
+        SprintDuration = 5;
         DependencyIds.Add("LaunchMapLevel");
         Direction = MapNodeDirection.Right;
 

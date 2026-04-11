@@ -134,6 +134,7 @@ namespace Infrastructure
                 case(InteractionType.PacketEnter):
                     return transform.position + new Vector3(0, 1, 0);
                 case(InteractionType.Basic):
+                case(InteractionType.Attack):
                     return transform.position + GetWorldObjectType().interactionPositionOffset;
                 case(InteractionType.Block):
                     Vector3Int cellPos = GridPosition;// GameManager.Instance.gridManager.grid.WorldToCell(transform.position);

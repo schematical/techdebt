@@ -8829,9 +8829,14 @@ MonoBehaviour:
     worldObjectType: 13
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
     GridPosition: {x: 13, y: 55, z: 0}
-    InitialState: 3
-    CurrentState: 3
-    UnlockConditions: []
+    InitialState: 0
+    CurrentState: 0
+    UnlockConditions:
+    - Type: 0
+      SprintNumber: 0
+      TechnologyID: product-road-map
+      TutorialStepId: 0
+      TutorialStepState: 0
   - Id: org-chart
     worldObjectType: 14
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
@@ -24985,7 +24990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 379.15, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2069648440

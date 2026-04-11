@@ -12,22 +12,11 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
 
     public override VictoryConditionState GetState()
     {
-
-
         if (GameManager.Instance.GetStatValue(StatType.Money) > Requirement)
         {
             return VictoryConditionState.Succeeded;
         }
-
-        if (FailIfNotMet)
-        {
-            return VictoryConditionState.Failed;
-        }
-        else
-        {
-            return VictoryConditionState.NotMet;
-        }
-
+        return VictoryConditionState.Failed;
     }
 
     public override string GetDescription()
