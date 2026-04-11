@@ -426,7 +426,7 @@ namespace Tutorial
                 new TutorialStep(
                     TutorialStepId.Basics_Day,
                     "Day Cycle",
-                    "The clock is now ticking! At the end of the day, you will receive a summary.\n" +
+                    "The clock is now ticking! At the end of the day traffic will increase.\n" +
                     "Keep researching and building to progress the run."
                 )
                 {

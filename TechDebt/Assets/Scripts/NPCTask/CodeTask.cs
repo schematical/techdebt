@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Linq;
 
-public class CodeTask : NPCTask, iProgressable
+public class CodeTask : InfrastructureTaskBase, iProgressable
 {
     public ReleaseBase ReleaseBase { get; private set; }
     private readonly Desk desk;
@@ -12,6 +12,9 @@ public class CodeTask : NPCTask, iProgressable
         ReleaseBase = release;
         Priority = 3; // Research is a low-priority, background task.
         maxTaskRange = .1f;
+        npcWorkSpeedStatType = StatType.NPC_CodeSpeed;
+        globalSpeedStatType = StatType.Global_DeploymentSpeed;
+        npcWorkQualityStatType =  StatType.NPC_CodeQuality;
         // Find the desk to navigate to.
         InfrastructureInstance deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.Id == "desk");
         if (deskInstance != null)
@@ -38,7 +41,7 @@ public class CodeTask : NPCTask, iProgressable
         {
             NPCDevOps devOpsNpc = npc as NPCDevOps;
      
-            float progressGained = devOpsNpc.Stats.GetStatValue(StatType.NPC_CodeSpeed) * Time.fixedDeltaTime;
+            float progressGained = GetNpcWorkSpeed(devOpsNpc) * Time.fixedDeltaTime;
             ReleaseBase.ApplyProgress(progressGained, AssignedNPC);
             devOpsNpc.AddXP(Time.deltaTime);
             devOpsNpc.FaceTarget(target.GetInteractionPosition());
@@ -65,6 +68,12 @@ public class CodeTask : NPCTask, iProgressable
 
         return false;
     }
+
+    protected override float GetProgressRequirement()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override string GetAssignButtonText()
     {
         return "Research????";

@@ -8,14 +8,16 @@ public class DeploymentTask : InfrastructureTaskBase
 {
 
 
-    private const float DeploymentTime = 5f; // Time in seconds to complete deployment
+    private const float DeploymentTime = 30f; // Time in seconds to complete deployment
     private ReleaseBase _release;
+    
 
     public DeploymentTask(ApplicationServer target, ReleaseBase release) : base(target)
     {
         Priority = 4;
         _release = release;
         maxTaskRange = .1f;
+        globalSpeedStatType = StatType.Global_DeploymentSpeed;
     }
 
     public virtual void OnStart(NPCBase npc)

@@ -58,5 +58,6 @@ public enum StatType
     Release_Quality_Multiplier,
     NPC_Release_TechDebt,
     Global_CodeSpeed,
-    Global_PIILossCost
+    Global_PIILossCost,
+    Global_DeploymentSpeed
 }

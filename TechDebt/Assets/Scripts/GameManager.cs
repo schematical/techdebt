@@ -652,6 +652,9 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.Global_PIILossCost, 10){
             
         });
+        Stats.Add(new StatData(StatType.Global_DeploymentSpeed, 1){
+            
+        });
         
         NetworkPacketData coin = new NetworkPacketData(0f)
         {

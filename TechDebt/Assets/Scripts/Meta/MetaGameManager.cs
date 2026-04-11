@@ -1211,6 +1211,18 @@ public static class MetaGameManager
                 BaseValue = 0.9f,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Down
+            },
+            
+            new GlobalStatModifierReward()
+            {
+                Group = RewardBase.RewardGroup.Release,
+                Id = "base_container_images",
+                Name = "Base Container Images",
+                Description = "Maintaining a base container image prevents you from rebuilding images from needing to be rebuilt from scratch with every deploy. This means much faster deployments.",
+                StatType = StatType.Global_DeploymentSpeed,
+                BaseValue = 1.1f,
+                IconSpriteId = "IconCode",
+                ScaleDirection = ScaleDirection.Up
             }
 
             /**

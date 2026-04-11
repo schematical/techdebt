@@ -12,6 +12,7 @@
         private int displayProgress = -1;
         public InfrastructureData.State? OnQueuedSetState;
         public StatType? npcWorkSpeedStatType;
+        public StatType? globalSpeedStatType;
         public StatType? npcWorkQualityStatType;
         protected InfrastructureTaskBase(InfrastructureInstance target): base(target)
         {
@@ -136,11 +137,16 @@
 
         protected virtual float GetNpcWorkSpeed(NPCDevOps npcDevOps)
         {
+            float baseValue = 1f;
             if (npcWorkSpeedStatType != null)
             {
-                return npcDevOps.Stats.GetStatValue(npcWorkSpeedStatType.Value);
+                baseValue *= npcDevOps.Stats.GetStatValue(npcWorkSpeedStatType.Value);
             }
-            return 1;
+            if (globalSpeedStatType != null)
+            {
+                baseValue *= GameManager.Instance.Stats.GetStatValue(globalSpeedStatType.Value);
+            }
+            return baseValue;
         } 
         protected virtual float GetNpcWorkQuality(NPCDevOps npcDevOps)
         {

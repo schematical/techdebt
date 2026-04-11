@@ -11,7 +11,7 @@ public class CodePipelineWOType : WorldObjectType
         DisplayName = "Code Pipeline";
         PrefabId = "CodePipeline";
         BuildTime = 30;
-        DailyCost = 30;
+        DailyCost = 1;
         CanBeUpsized = false;
         ShowInGlobalDisplay = true;
         TutorialStepId = TutorialStepId.Infra_CodePipeline_Tip;
