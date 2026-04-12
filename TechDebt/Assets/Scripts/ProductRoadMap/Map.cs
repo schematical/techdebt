@@ -664,6 +664,22 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     }
 
+    public void AddPrestigePointsReward(int value = 1)
+    {
+        LevelRewards.Add(new MapLevelReward()
+        {
+            AppliedAt =  MapLevelRewardApplied.End,
+            Reward = new MetaStatBaseValueReward()
+            {
+                Id = "prestige_points",
+                Name = "Vested Shares",
+                Description = "Vested Shares allow you to unlock bonuses on future runs.",
+                BaseValue = value,
+                IconSpriteId = "IconDollar"
+            },
+        });
+    }
+
     public bool IsUnlocked()
     {
         return UnlockConditions.All(condition => condition.IsUnlocked());
