@@ -14,9 +14,9 @@ public class Technology: iUnlockable, iUIMapNode
     public string DisplayName;
     public string Description;
     public TechTreeDirection Direction = TechTreeDirection.Up;
-    [FormerlySerializedAs("ResearchPointCost")] public int ResearchTime;
+    public int ResearchTime;
     public float CurrentResearchProgress = 0;
-    [FormerlySerializedAs("RequiredTechnologies")] public List<UnlockCondition> UnlockConditions;
+    public List<UnlockCondition> UnlockConditions;
 
     public State CurrentState = State.MetaLocked;
     public State OriginalState = State.MetaLocked;

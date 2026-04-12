@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class MetaUnlockNode : iUIMapNode
+    public class UIMetaUnlockMapNode : iUIMapNode
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }
@@ -54,18 +54,18 @@ namespace UI
 
         public void OnSelected(UIMapPanel panel)
         {
-            // Logic handled by UIMetaUnlockPanel.UpdateDetailsArea
+            // Logic handled by UIMetaUnlockMapPanel.UpdateDetailsArea
         }
     }
 
-    public class UIMetaUnlockPanel : UIMapPanel
+    public class UIMetaUnlockMapPanel : UIMapPanel
     {
-        private List<MetaUnlockNode> _metaNodes = new List<MetaUnlockNode>();
+        private List<UIMetaUnlockMapNode> _metaNodes = new List<UIMetaUnlockMapNode>();
 
         public override void PopulateNodes()
         {
             _metaNodes = GetMetaUnlockDefinitions();
-            foreach (MetaUnlockNode node in _metaNodes)
+            foreach (UIMetaUnlockMapNode node in _metaNodes)
             {
                 _mapNodes.Add(new MapNodeView { Node = node });
             }
@@ -80,27 +80,27 @@ namespace UI
 
             if (_selectedNode == null)
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a node to unlock starting bonuses.";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a mapNode to unlock starting bonuses.";
                 return;
             }
 
-            MetaUnlockNode node = (MetaUnlockNode)_selectedNode.Node;
+            UIMetaUnlockMapNode mapNode = (UIMetaUnlockMapNode)_selectedNode.Node;
             UIPanelLineSectionText header = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
-            header.h1(node.DisplayName);
+            header.h1(mapNode.DisplayName);
             
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = node.Description;
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {node.PrestigeCost} Prestige Points";
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapNode.Description;
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapNode.PrestigeCost} Prestige Points";
 
-            if (node.CurrentState == MapNodeState.Unlocked)
+            if (mapNode.CurrentState == MapNodeState.Unlocked)
             {
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nALREADY UNLOCKED";
             }
-            else if (node.CurrentState == MapNodeState.Locked)
+            else if (mapNode.CurrentState == MapNodeState.Locked)
             {
-                if (MetaGameManager.ProgressData.prestigePoints >= node.PrestigeCost)
+                if (MetaGameManager.ProgressData.prestigePoints >= mapNode.PrestigeCost)
                 {
                     AddButton("Unlock", () => {
-                        PurchaseUnlock(node);
+                        PurchaseUnlock(mapNode);
                     });
                 }
                 else
@@ -114,25 +114,25 @@ namespace UI
             }
         }
 
-        private void PurchaseUnlock(MetaUnlockNode node)
+        private void PurchaseUnlock(UIMetaUnlockMapNode mapNode)
         {
             MetaProgressData progress = MetaGameManager.LoadProgress();
-            if (progress.prestigePoints >= node.PrestigeCost)
+            if (progress.prestigePoints >= mapNode.PrestigeCost)
             {
-                progress.prestigePoints -= node.PrestigeCost;
-                progress.unlockedNodeIds.Add(node.Id);
+                progress.prestigePoints -= mapNode.PrestigeCost;
+                progress.unlockedNodeIds.Add(mapNode.Id);
                 MetaGameManager.SaveProgress(progress);
                 Refresh();
             }
         }
 
-        private List<MetaUnlockNode> GetMetaUnlockDefinitions()
+        private List<UIMetaUnlockMapNode> GetMetaUnlockDefinitions()
         {
             // Placeholder for actual definitions. 
             // In a real scenario, these might come from a ScriptableObject or MetaGameManager.
-            return new List<MetaUnlockNode>
+            return new List<UIMetaUnlockMapNode>
             {
-                new MetaUnlockNode
+                new UIMetaUnlockMapNode
                 {
                     Id = "start-with-app-server",
                     DisplayName = "Ready to Go",
@@ -141,7 +141,7 @@ namespace UI
                     Direction = MapNodeDirection.Right,
                     DependencyIds = new List<string>()
                 },
-                new MetaUnlockNode
+                new UIMetaUnlockMapNode
                 {
                     Id = "start-with-whiteboard",
                     DisplayName = "Early Software",

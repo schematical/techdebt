@@ -104,7 +104,7 @@ public class MapLevelReward
     public MapLevelRewardApplied AppliedAt =  MapLevelRewardApplied.End;
     public RewardBase Reward { get; set; }
 }
-public class MapLevel : iUIMapNode
+public class MapLevel : iUIMapNode, iUnlockable
 {
     public enum MapLevelState
     {
@@ -123,7 +123,7 @@ public class MapLevel : iUIMapNode
     public List<MapLevelReward> LevelRewards = new List<MapLevelReward>();
    
     public string RequiredStakeholderId { get; set; }
-
+    public List<UnlockCondition> UnlockConditions;
     // iUIMapNode Implementation
     public string Id => GetType().Name;
     public string DisplayName => Name;
@@ -662,6 +662,11 @@ public class MapLevel : iUIMapNode
             });
         }
 
+    }
+
+    public bool IsUnlocked()
+    {
+        return UnlockConditions.All(condition => condition.IsUnlocked());
     }
 }
 

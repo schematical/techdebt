@@ -8,6 +8,6 @@ namespace MetaChallenges
         Sprint,
         Deployments,
         Infra_Fix,
-        Infra_Built
+        Infra_Built,
     }
 }

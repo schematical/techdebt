@@ -62,6 +62,7 @@ public class UIManager : MonoBehaviour
     public UIGameTipPanel gameTipPanel;
     public UITutorialStepListPanel tutorialStepListPanel;
     public UIVictoryConditionListPanel victoryConditionListPanel;
+    public UIMetaUnlockMapPanel metaUnlockMapPanel;
     
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
