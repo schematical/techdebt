@@ -4,6 +4,14 @@ namespace UI
 {
     public class UIVictoryConditionListPanel: UIPanel
     {
+        public override void Show()
+        {
+            runUICloseOnShow = false;
+            Refresh();
+            base.Show();
+            
+        }
+
         public void Refresh()
         {
             CleanUp();

@@ -121,6 +121,7 @@ namespace UI
         public override void Show()
         {
             base.Show();
+            GameManager.Instance.UIManager.victoryConditionListPanel.Close();
             grid.gameObject.SetActive(true);
             Refresh();
             GameManager.Instance.cameraController.DisableCameraInput();
@@ -142,6 +143,10 @@ namespace UI
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
             if (backgroundTilemap != null) backgroundTilemap.ClearAllTiles();
             grid.gameObject.SetActive(false);
+            if (GameManager.Instance.Map != null)
+            {
+                GameManager.Instance.UIManager.victoryConditionListPanel.Show();
+            }
 
             GameManager.Instance.cameraController.EnableCameraInput();
             GameManager.Instance.cameraController.RestoreSnap();
