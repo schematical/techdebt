@@ -527,11 +527,11 @@ public class MapLevel : iUIMapNode, iUnlockable
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
-    public virtual void EndGame(string dialog = null)
+    public virtual void EndGame(string dialog = null, bool isVictory = false)
     {
         GameManager.Instance.UIManager.ForcePause();
 
-        GameManager.Instance.UpdateMetaProgress();
+        GameManager.Instance.UpdateMetaProgress(isVictory);
 
         NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);

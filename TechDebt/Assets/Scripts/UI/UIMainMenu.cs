@@ -14,8 +14,7 @@ public class UIMainMenu : UIPanel
         base.Show();
         GameManager.Instance.UIManager.Block();
         
-        AddButton("New Game", NewGame);
-        AddButton("Challenges", ShowChallengesPanel);
+        AddButton("Play", () => { Close(); GameManager.Instance.UIManager.saveSlotListPanel.Show(); });
         AddButton("Discord", OpenDiscord);     
         AddButton("Quit", () => { Application.Quit(); });
         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Play Test - v{Application.version}";

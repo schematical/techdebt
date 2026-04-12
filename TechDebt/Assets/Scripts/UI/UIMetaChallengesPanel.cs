@@ -68,7 +68,7 @@ public class UIMetaChallengesPanel: UIPanel
         switch (GameManager.Instance.State)
         {
             case(GameManager.GameManagerState.MainMenu):
-                GameManager.Instance.UIManager.mainMenu.Show();
+                GameManager.Instance.UIManager.saveSlotDetailPanel.Show();
                 break;
             case(GameManager.GameManagerState.Playing):
                 GameManager.Instance.UIManager.pauseMenu.Show();

@@ -126,6 +126,15 @@ namespace UI
             }
         }
 
+        public override void Close(bool forceClose = false)
+        {
+            base.Close(forceClose);
+            if (GameManager.Instance.State == GameManager.GameManagerState.MainMenu)
+            {
+                GameManager.Instance.UIManager.saveSlotDetailPanel.Show();
+            }
+        }
+
         private List<UIMetaUnlockMapNode> GetMetaUnlockDefinitions()
         {
             // Placeholder for actual definitions. 

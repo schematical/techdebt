@@ -37,6 +37,8 @@ public class MetaStatSaveData
 [System.Serializable]
 public class MetaProgressData
 {
+    public int completedRuns;
+    public int successfulExits;
     public int researchPoints;
     public int prestigePoints;
     public List<string> unlockedNodeIds;
@@ -44,6 +46,8 @@ public class MetaProgressData
 
     public MetaProgressData()
     {
+        completedRuns = 0;
+        successfulExits = 0;
         researchPoints = 0;
         prestigePoints = 0;
         unlockedNodeIds = new List<string>();

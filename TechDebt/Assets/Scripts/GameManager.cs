@@ -1136,11 +1136,13 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     
 
-    public void UpdateMetaProgress()
+    public void UpdateMetaProgress(bool isVictory = false)
     {
         MetaProgressData prevMetaState = MetaGameManager.LoadProgress();
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
+        newMetaState.completedRuns += 1;
+        if (isVictory) newMetaState.successfulExits += 1;
         MetaGameManager.SaveProgress(newMetaState);
         //TODO: Move this to be queued to show at the end of the run.
         if (newlyPassedChallenges.Count > 0)
