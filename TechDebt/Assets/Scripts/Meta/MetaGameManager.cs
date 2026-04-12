@@ -274,6 +274,36 @@ public static class MetaGameManager
         return diffChallenges;
     }
 
+    public static bool IsResourceEquipped(MetaResourceType type, string id)
+    {
+        MetaProgressData data = LoadProgress();
+        return data.prestigePointAllocations.Exists(r => r.Type == type && r.Id == id);
+    }
+
+    public static void ToggleResourceEquip(MetaResourceType type, string id, int cost)
+    {
+        MetaProgressData data = LoadProgress();
+        MetaUnlockResource existing = data.prestigePointAllocations.Find(r => r.Type == type && r.Id == id);
+
+        if (existing != null)
+        {
+            // Unequip and refund
+            data.prestigePointAllocations.Remove(existing);
+            data.prestigePoints += cost;
+        }
+        else
+        {
+            // Equip and deduct
+            if (data.prestigePoints >= cost)
+            {
+                data.prestigePoints -= cost;
+                data.prestigePointAllocations.Add(new MetaUnlockResource { Type = type, Id = id });
+            }
+        }
+
+        SaveProgress(data);
+    }
+
     public static List<Technology> GetAllTechnologies()
     {
         List<Technology> technologies = new List<Technology>()

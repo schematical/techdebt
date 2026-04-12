@@ -121,6 +121,7 @@ namespace UI
         public override void Show()
         {
             base.Show();
+            GameManager.Instance.UIManager.ForcePause();
             GameManager.Instance.UIManager.victoryConditionListPanel.Close();
             grid.gameObject.SetActive(true);
             Refresh();
@@ -130,6 +131,7 @@ namespace UI
 
         public override void Close(bool forceClose = false)
         {
+            
             foreach (MapNodeView nodeView in _mapNodes)
             {
                 if (nodeView.LabelInstance != null)
@@ -150,7 +152,12 @@ namespace UI
 
             GameManager.Instance.cameraController.EnableCameraInput();
             GameManager.Instance.cameraController.RestoreSnap();
+            if (panelState != UIState.Closed)
+            {
+                GameManager.Instance.UIManager.StopForcePause();
+            }
             base.Close(forceClose);
+           
         }
 
         public abstract void PopulateNodes();

@@ -2,29 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class UIMetaUnlockMapNode : iUIMapNode
     {
+        public MetaResourceType ResourceType;
         public string Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public MapNodeDirection Direction { get; set; }
         public List<string> DependencyIds { get; set; }
         public int PrestigeCost { get; set; }
-        
+
         public MapNodeState CurrentState
         {
             get
             {
-                if (MetaGameManager.ProgressData.unlockedNodeIds.Contains(Id))
+                if (MetaGameManager.IsResourceEquipped(ResourceType, Id))
                     return MapNodeState.Unlocked;
-                
-                // If dependencies are met, it's Locked (purchasable), else MetaLocked
-                bool dependenciesMet = DependencyIds == null || DependencyIds.Count == 0 || 
-                                       DependencyIds.All(depId => MetaGameManager.ProgressData.unlockedNodeIds.Contains(depId));
-                
+
+                // For Meta nodes, visibility is handled by PopulateNodes, 
+                // but we still need to know if it's "Ready to purchase" (Locked) or "Prereqs not met" (MetaLocked)
+                bool dependenciesMet = DependencyIds == null || DependencyIds.Count == 0 ||
+                                       DependencyIds.All(depId => MetaGameManager.IsResourceEquipped(ResourceType, depId));
+
                 return dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
             }
         }
@@ -54,33 +57,102 @@ namespace UI
 
         public void OnSelected(UIMapPanel panel)
         {
-            // Logic handled by UIMetaUnlockMapPanel.UpdateDetailsArea
         }
     }
 
     public class UIMetaUnlockMapPanel : UIMapPanel
     {
-        private List<UIMetaUnlockMapNode> _metaNodes = new List<UIMetaUnlockMapNode>();
+        public enum MetaUnlockTab { Bonuses, Technology }
+        private MetaUnlockTab _currentTab = MetaUnlockTab.Bonuses;
+        public Transform metaUnlockMapTabs;
+
+        public override void Show()
+        {
+            base.Show();
+            CreateTabs();
+        }
+
+        private void CreateTabs()
+        {
+
+            metaUnlockMapTabs.gameObject.SetActive(true);
+            AddTabButton("Bonuses", MetaUnlockTab.Bonuses);
+            AddTabButton("Technology", MetaUnlockTab.Technology);
+        }
+
+        private void AddTabButton(string label, MetaUnlockTab tab)
+        {
+            GameObject btnGO = GameManager.Instance.prefabManager.Create("UIButton", Vector3.zero, metaUnlockMapTabs);
+            UIButton uiBtn = btnGO.GetComponent<UIButton>();
+            uiBtn.buttonText.text = label;
+            uiBtn.button.onClick.AddListener(() => SwitchTab(tab));
+        }
+
+        public void SwitchTab(MetaUnlockTab tab)
+        {
+            _currentTab = tab;
+            _selectedNode = null;
+            Refresh();
+        }
 
         public override void PopulateNodes()
         {
-            _metaNodes = GetMetaUnlockDefinitions();
-            foreach (UIMetaUnlockMapNode node in _metaNodes)
+            if (_currentTab == MetaUnlockTab.Bonuses)
             {
-                _mapNodes.Add(new MapNodeView { Node = node });
+                foreach (UIMetaUnlockMapNode node in GetMetaUnlockDefinitions())
+                {
+                    _mapNodes.Add(new MapNodeView { Node = node });
+                }
             }
+            else if (_currentTab == MetaUnlockTab.Technology)
+            {
+                List<Technology> allTech = MetaGameManager.GetAllTechnologies();
+                foreach (Technology tech in allTech)
+                {
+                    // Same visibility logic as Tech Tree: show if dependencies are met OR it's a root node
+                    bool isVisable = tech.UnlockConditions.All(condition =>
+                    {
+                        if (condition.Type != UnlockCondition.ConditionType.Technology) return true;
+                        // For the meta panel, we check if it exists in our static tech list
+                        return allTech.Any(t => t.TechnologyID == condition.TechnologyID);
+                    });
+
+                    if (isVisable)
+                    {
+                        int prestigeCost = Mathf.CeilToInt(tech.ResearchTime / 30f);
+                        UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
+                        {
+                            ResourceType = MetaResourceType.Technology,
+                            Id = tech.TechnologyID,
+                            DisplayName = tech.DisplayName,
+                            Description = tech.Description,
+                            Direction = (MapNodeDirection)tech.Direction,
+                            DependencyIds = tech.DependencyIds,
+                            PrestigeCost = prestigeCost
+                        };
+                        _mapNodes.Add(new MapNodeView { Node = node });
+                    }
+                }
+            }
+        }
+
+        protected override bool IsNodeVisible(MapNodeView nodeView)
+        {
+            // In the meta panel, we want to see the whole tree for that tab
+            return true;
         }
 
         public override void UpdateDetailsArea()
         {
             CleanUp();
             
+            MetaProgressData progress = MetaGameManager.LoadProgress();
             UIPanelLine prestigeLine = AddLine<UIPanelLine>();
-            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Prestige Points: {MetaGameManager.ProgressData.prestigePoints}";
+            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Prestige Points: {progress.prestigePoints}";
 
             if (_selectedNode == null)
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a mapNode to unlock starting bonuses.";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a node to allocate prestige points.";
                 return;
             }
 
@@ -91,44 +163,44 @@ namespace UI
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapNode.Description;
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapNode.PrestigeCost} Prestige Points";
 
-            if (mapNode.CurrentState == MapNodeState.Unlocked)
+            bool isEquipped = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, mapNode.Id);
+
+            if (isEquipped)
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nALREADY UNLOCKED";
-            }
-            else if (mapNode.CurrentState == MapNodeState.Locked)
-            {
-                if (MetaGameManager.ProgressData.prestigePoints >= mapNode.PrestigeCost)
-                {
-                    AddButton("Unlock", () => {
-                        PurchaseUnlock(mapNode);
-                    });
-                }
-                else
-                {
-                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nNOT ENOUGH PRESTIGE POINTS";
-                }
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: START UNLOCKED";
+                AddButton("Unequip (Refund)", () => {
+                    MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
+                    Refresh();
+                });
             }
             else
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nPREREQUISITES NOT MET";
-            }
-        }
-
-        private void PurchaseUnlock(UIMetaUnlockMapNode mapNode)
-        {
-            MetaProgressData progress = MetaGameManager.LoadProgress();
-            if (progress.prestigePoints >= mapNode.PrestigeCost)
-            {
-                progress.prestigePoints -= mapNode.PrestigeCost;
-                progress.unlockedNodeIds.Add(mapNode.Id);
-                MetaGameManager.SaveProgress(progress);
-                Refresh();
+                if (mapNode.CurrentState == MapNodeState.Locked)
+                {
+                    if (progress.prestigePoints >= mapNode.PrestigeCost)
+                    {
+                        AddButton("Equip", () => {
+                            MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
+                            Refresh();
+                        });
+                    }
+                    else
+                    {
+                        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nNOT ENOUGH PRESTIGE POINTS";
+                    }
+                }
+                else
+                {
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nPREREQUISITES NOT MET";
+                }
             }
         }
 
         public override void Close(bool forceClose = false)
         {
             base.Close(forceClose);
+            
+            metaUnlockMapTabs.gameObject.SetActive(false);
             if (GameManager.Instance.State == GameManager.GameManagerState.MainMenu)
             {
                 GameManager.Instance.UIManager.saveSlotDetailPanel.Show();
@@ -137,12 +209,11 @@ namespace UI
 
         private List<UIMetaUnlockMapNode> GetMetaUnlockDefinitions()
         {
-            // Placeholder for actual definitions. 
-            // In a real scenario, these might come from a ScriptableObject or MetaGameManager.
             return new List<UIMetaUnlockMapNode>
             {
                 new UIMetaUnlockMapNode
                 {
+                    ResourceType = MetaResourceType.Bonus,
                     Id = "start-with-app-server",
                     DisplayName = "Ready to Go",
                     Description = "Start every run with the Application Server already unlocked.",
@@ -152,6 +223,7 @@ namespace UI
                 },
                 new UIMetaUnlockMapNode
                 {
+                    ResourceType = MetaResourceType.Bonus,
                     Id = "start-with-whiteboard",
                     DisplayName = "Early Software",
                     Description = "Start every run with Software Basics already unlocked.",

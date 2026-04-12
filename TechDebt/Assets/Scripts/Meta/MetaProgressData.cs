@@ -1,6 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 
+public enum MetaResourceType
+{
+    Technology,
+    WorldObject,
+    Bonus
+}
+
+[System.Serializable]
+public class MetaUnlockResource
+{
+    public MetaResourceType Type;
+    public string Id;
+}
+
 [System.Serializable]
 public class MetaStatData
 {
@@ -41,7 +55,9 @@ public class MetaProgressData
     public int successfulExits;
     public int researchPoints;
     public int prestigePoints;
-    public List<string> unlockedNodeIds;
+    
+    public List<MetaUnlockResource> prestigePointAllocations;
+    
     public MetaStatSaveData metaStats;
 
     public MetaProgressData()
@@ -50,7 +66,7 @@ public class MetaProgressData
         successfulExits = 0;
         researchPoints = 0;
         prestigePoints = 0;
-        unlockedNodeIds = new List<string>();
+        prestigePointAllocations = new List<MetaUnlockResource>();
         metaStats = new MetaStatSaveData();
     }
 }

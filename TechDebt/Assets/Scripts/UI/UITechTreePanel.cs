@@ -32,17 +32,14 @@ namespace UI
         public override void Show()
         {
             base.Show();
-            GameManager.Instance.UIManager.ForcePause();
+
             connectorTilemap.color = Color.white;
             GameManager.OnTechnologyStateChange += OnTechnologyStateChange;
         }
 
         public override void Close(bool forceClose = false)
         {
-            if (panelState != UIState.Closed)
-            {
-                GameManager.Instance.UIManager.StopForcePause();
-            }
+         
             GameManager.OnTechnologyStateChange -= OnTechnologyStateChange;
             base.Close(forceClose);
         }
