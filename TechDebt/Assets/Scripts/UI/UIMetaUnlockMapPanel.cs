@@ -148,11 +148,11 @@ namespace UI
             
             MetaProgressData progress = MetaGameManager.LoadProgress();
             UIPanelLine prestigeLine = AddLine<UIPanelLine>();
-            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Prestige Points: {progress.prestigePoints}";
+            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
 
             if (_selectedNode == null)
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a node to allocate prestige points.";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a node to allocate Vested Shares.";
                 return;
             }
 
@@ -161,14 +161,34 @@ namespace UI
             header.h1(mapNode.DisplayName);
             
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapNode.Description;
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapNode.PrestigeCost} Prestige Points";
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapNode.PrestigeCost} Vested Shares";
+
+            // Display Unlock Requirements
+            if (mapNode.DependencyIds != null && mapNode.DependencyIds.Count > 0)
+            {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nRequirements:";
+                foreach (string depId in mapNode.DependencyIds)
+                {
+                    // Try to find the name of the dependency
+                    string depName = depId;
+                    if (mapNode.ResourceType == MetaResourceType.Technology)
+                    {
+                        Technology depTech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == depId);
+                        if (depTech != null) depName = depTech.DisplayName;
+                    }
+
+                    bool met = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, depId);
+                    string status = met ? "<color=green>(MET)</color>" : "<color=red>(NOT MET)</color>";
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {depName} {status}";
+                }
+            }
 
             bool isEquipped = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, mapNode.Id);
 
             if (isEquipped)
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: START UNLOCKED";
-                AddButton("Unequip (Refund)", () => {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: ALLOCATED (START UNLOCKED)";
+                AddButton("Unallocate (Refund)", () => {
                     MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
                     Refresh();
                 });
@@ -179,14 +199,14 @@ namespace UI
                 {
                     if (progress.prestigePoints >= mapNode.PrestigeCost)
                     {
-                        AddButton("Equip", () => {
+                        AddButton("Allocate", () => {
                             MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
                             Refresh();
                         });
                     }
                     else
                     {
-                        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nNOT ENOUGH PRESTIGE POINTS";
+                        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nNOT ENOUGH VESTED SHARES";
                     }
                 }
                 else

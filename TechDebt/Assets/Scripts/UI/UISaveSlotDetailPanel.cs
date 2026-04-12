@@ -23,7 +23,7 @@ public class UISaveSlotDetailPanel : UIPanel
         
         UIPanelLine pointsLine = AddLine<UIPanelLine>();
         pointsLine.Add<UIPanelLineSectionText>().text.text = $"Research: {data.researchPoints}";
-        pointsLine.Add<UIPanelLineSectionText>().text.text = $"Prestige: {data.prestigePoints}";
+        pointsLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {data.prestigePoints}";
 
         AddButton("Start Run", StartRun);
         AddButton("Challenges", ShowChallenges);
