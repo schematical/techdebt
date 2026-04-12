@@ -32,11 +32,11 @@ public static class MetaGameManager
 
     public static int CurrentSlotIndex = 0;
 
-    public static string GetSavePath(string foldername = "techdebt", string filename = null)
+    public static string GetSavePath(string foldername = null, string filename = "meta_progress.json")
     {
-        if (filename == null)
+        if (foldername == null)
         {
-            filename = $"meta_progress_{CurrentSlotIndex}.json";
+            foldername = $"techdebt_slot_{CurrentSlotIndex}";
         }
 #if !UNITY_EDITOR && UNITY_WEBGL
                 var	path = System.IO.Path.Combine("idbfs", foldername);  //	Path: "/idbfs/<foldername>"
@@ -75,7 +75,7 @@ public static class MetaGameManager
     
     public static MetaProgressData LoadProgress(int slotIndex)
     {
-        string path = GetSavePath(filename: $"meta_progress_{slotIndex}.json");
+        string path = GetSavePath(foldername: $"techdebt_slot_{slotIndex}", filename: "meta_progress.json");
         if (!File.Exists(path))
         {
             return null;
@@ -87,10 +87,10 @@ public static class MetaGameManager
 
     public static void DeleteSlot(int slotIndex)
     {
-        string path = GetSavePath(filename: $"meta_progress_{slotIndex}.json");
-        if (File.Exists(path))
+        string path = GetSavePath(foldername: $"techdebt_slot_{slotIndex}", filename: ""); // Get directory path
+        if (Directory.Exists(path))
         {
-            File.Delete(path);
+            Directory.Delete(path, true);
         }
     }
 

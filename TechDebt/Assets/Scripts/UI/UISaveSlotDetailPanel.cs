@@ -28,6 +28,7 @@ public class UISaveSlotDetailPanel : UIPanel
         AddButton("Start Run", StartRun);
         AddButton("Challenges", ShowChallenges);
         AddButton("Unlock Map", ShowUnlockMap);
+        AddButton("Delete Slot", DeleteSlot);
         AddButton("Back", () => { Close(); GameManager.Instance.UIManager.saveSlotListPanel.Show(); });
     }
 
@@ -49,5 +50,28 @@ public class UISaveSlotDetailPanel : UIPanel
     {
         Close();
         GameManager.Instance.UIManager.metaUnlockMapPanel.Show();
+    }
+
+    private void DeleteSlot()
+    {
+        int index = MetaGameManager.CurrentSlotIndex;
+        GameManager.Instance.UIManager.dialogPanel.ShowDialog(
+            null,
+            $"Are you sure you want to delete slot {index + 1}? This cannot be undone.",
+            new List<DialogButtonOption>
+            {
+                new DialogButtonOption 
+                { 
+                    Text = "Delete", 
+                    OnClick = () => 
+                    { 
+                        MetaGameManager.DeleteSlot(index); 
+                        Close();
+                        GameManager.Instance.UIManager.saveSlotListPanel.Show();
+                    } 
+                },
+                new DialogButtonOption { Text = "Cancel", OnClick = () => { } }
+            }
+        );
     }
 }

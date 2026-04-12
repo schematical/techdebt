@@ -22,14 +22,10 @@ public class UISaveSlotListPanel : UIPanel
 
             if (data != null)
             {
-                line.Add<UIPanelLineSectionText>().text.text = $"Slot {slotIndex + 1}: {data.completedRuns} Runs, {data.successfulExits} Wins";
+                line.Add<UIPanelLineSectionText>().text.text = $"Slot {slotIndex + 1}: {data.completedRuns} Runs";
                 UIPanelLineSectionButton selectBtn = line.Add<UIPanelLineSectionButton>();
                 selectBtn.text.text = "Select";
                 selectBtn.button.onClick.AddListener(() => SelectSlot(slotIndex));
-
-                UIPanelLineSectionButton deleteBtn = line.Add<UIPanelLineSectionButton>();
-                deleteBtn.text.text = "Delete";
-                deleteBtn.button.onClick.AddListener(() => DeleteSlot(slotIndex));
             }
             else
             {
@@ -46,20 +42,14 @@ public class UISaveSlotListPanel : UIPanel
     private void SelectSlot(int index)
     {
         MetaGameManager.CurrentSlotIndex = index;
+        
+        // If the slot is empty, initialize it with default progress so it exists on disk
+        if (MetaGameManager.LoadProgress(index) == null)
+        {
+            MetaGameManager.SaveProgress(new MetaProgressData());
+        }
+
         Close();
         GameManager.Instance.UIManager.saveSlotDetailPanel.Show();
-    }
-
-    private void DeleteSlot(int index)
-    {
-        GameManager.Instance.UIManager.dialogPanel.ShowDialog(
-            null,
-            $"Are you sure you want to delete slot {index + 1}? This cannot be undone.",
-            new System.Collections.Generic.List<DialogButtonOption>
-            {
-                new DialogButtonOption { Text = "Delete", OnClick = () => { MetaGameManager.DeleteSlot(index); Refresh(); } },
-                new DialogButtonOption { Text = "Cancel", OnClick = () => { } }
-            }
-        );
     }
 }

@@ -957,7 +957,7 @@ namespace Tutorial
 
         public string GetSavePath()
         {
-            return MetaGameManager.GetSavePath("techdebt", "tutorial_progress.json");
+            return MetaGameManager.GetSavePath(null, "tutorial_progress.json");
         }
 
         public TutorialData BuildTutorialData()

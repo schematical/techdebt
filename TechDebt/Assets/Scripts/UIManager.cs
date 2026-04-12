@@ -449,6 +449,7 @@ public class UIManager : MonoBehaviour
     {
         Close(true);
         Block();
+        victoryConditionListPanel.Close(true);
         topBarPanel.Close(true);
         moneyPanel.Close(true);
         timeControlPanel.Close(true);
@@ -462,6 +463,7 @@ public class UIManager : MonoBehaviour
         topBarPanel.Clear();
         topBarPanel.Show();
         moneyPanel.Show();
+        victoryConditionListPanel.Show();
         timeControlPanel.Show();
         mainMenu.Close();
         victoryConditionListPanel.Refresh();
