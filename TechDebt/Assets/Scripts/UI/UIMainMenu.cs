@@ -24,22 +24,5 @@ public class UIMainMenu : UIPanel
     {
         Application.OpenURL("https://discord.gg/yFDKNDBquZ");
     }
-
-
-    public void NewGame()
-    {
-        Close();
-        EndUserConsent.SetConsentState(new ConsentState {
-            AnalyticsIntent = ConsentStatus.Granted,
-            // AdsIntent = ConsentStatus.Denied
-        });
-        GameManager.Instance.StartNewGame();
-    }
-
-
-    public void ShowChallengesPanel()
-    {
-        Close();
-        GameManager.Instance.UIManager.metaChallengesPanel.Show();
-    }
+    
 }

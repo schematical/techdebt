@@ -31,7 +31,7 @@ namespace UI
           previewingOption.MarkSelected();
       }
 
-      public void Close(bool forceClose = false)
+      public override void Close(bool forceClose = false)
       {
           base.Close(forceClose);
           previewingOption = null;

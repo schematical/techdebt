@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UI
 {
@@ -6,6 +7,7 @@ namespace UI
     {
         public override void Show()
         {
+            Debug.Log("Showing UIVictoryConditionListPanel");
             runUICloseOnShow = false;
             Refresh();
             base.Show();
@@ -14,6 +16,12 @@ namespace UI
 
         public void Refresh()
         {
+            switch (panelState)
+            {
+                case(UIState.Closed):
+                case(UIState.Closing):
+                    return;
+            }
             CleanUp();
             List<MapLevelVictoryConditionBase> victoryConditions =
                 GameManager.Instance.Map.GetCurrentLevel().GetCombinedVictoryConditions();
