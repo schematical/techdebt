@@ -578,6 +578,18 @@ public class MapLevel : iUIMapNode, iUnlockable
             throw new SystemException("MapLevel.State is not incomplete");
         }
 
+        MetaProgressData metaData = MetaGameManager.LoadProgress();
+        if (metaData.mapLevelData == null) metaData.mapLevelData = new List<MetaMapLevelData>();
+        
+        MetaMapLevelData levelMeta = metaData.mapLevelData.Find(l => l.levelId == Id);
+        if (levelMeta == null)
+        {
+            levelMeta = new MetaMapLevelData { levelId = Id, completedCount = 0 };
+            metaData.mapLevelData.Add(levelMeta);
+        }
+        levelMeta.completedCount++;
+        MetaGameManager.SaveProgress(metaData);
+
         CleanUp();
         State = MapLevelState.Completed;
         foreach (MapLevelReward reward in LevelRewards)
@@ -666,6 +678,12 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public void AddPrestigePointsReward(int value = 1)
     {
+        MetaMapLevelData metaData = MetaGameManager.GetLevelDataById(Id);
+        if (metaData != null && metaData.completedCount > 0)
+        {
+            return;
+        }
+
         LevelRewards.Add(new MapLevelReward()
         {
             AppliedAt =  MapLevelRewardApplied.End,

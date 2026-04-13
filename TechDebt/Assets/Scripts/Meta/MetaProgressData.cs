@@ -49,6 +49,13 @@ public class MetaStatSaveData
 }
 
 [System.Serializable]
+public class MetaMapLevelData
+{
+    public string levelId;
+    public int completedCount;
+}
+
+[System.Serializable]
 public class MetaProgressData
 {
     public int completedRuns;
@@ -57,6 +64,7 @@ public class MetaProgressData
     public int prestigePoints;
     
     public List<MetaUnlockResource> prestigePointAllocations;
+    public List<MetaMapLevelData> mapLevelData;
     
     public MetaStatSaveData metaStats;
 
@@ -67,6 +75,7 @@ public class MetaProgressData
         researchPoints = 0;
         prestigePoints = 0;
         prestigePointAllocations = new List<MetaUnlockResource>();
+        mapLevelData = new List<MetaMapLevelData>();
         metaStats = new MetaStatSaveData();
     }
 }

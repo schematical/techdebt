@@ -95,6 +95,13 @@ public static class MetaGameManager
     }
 
 
+    public static MetaMapLevelData GetLevelDataById(string levelId)
+    {
+        MetaProgressData data = LoadProgress();
+        if (data.mapLevelData == null) return null;
+        return data.mapLevelData.Find(l => l.levelId == levelId);
+    }
+
     // Optional: Reset progress for testing or new game
     public static void ResetProgress()
     {
