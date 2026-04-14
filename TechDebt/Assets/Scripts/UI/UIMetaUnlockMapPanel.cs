@@ -199,14 +199,28 @@ namespace UI
                         Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
                         return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(mapNode.Id);
                     }
+                    if (r.Type == MetaResourceType.GlobalStat)
+                    {
+                        UIMetaUnlockMapNode node = GetMetaUnlockDefinitions().Find(n => n.Id == r.Id);
+                        return node != null && node.DependencyIds != null && node.DependencyIds.Contains(mapNode.Id);
+                    }
                     return false;
                 });
 
                 if (allocatedDependents.Count > 0)
                 {
                     string depNames = string.Join(", ", allocatedDependents.Select(d => {
-                        Technology t = MetaGameManager.GetAllTechnologies().Find(tech => tech.TechnologyID == d.Id);
-                        return t != null ? t.DisplayName : d.Id;
+                        if (d.Type == MetaResourceType.Technology)
+                        {
+                            Technology t = MetaGameManager.GetAllTechnologies().Find(tech => tech.TechnologyID == d.Id);
+                            return t != null ? t.DisplayName : d.Id;
+                        }
+                        if (d.Type == MetaResourceType.GlobalStat)
+                        {
+                            UIMetaUnlockMapNode n = GetMetaUnlockDefinitions().Find(node => node.Id == d.Id);
+                            return n != null ? n.DisplayName : d.Id;
+                        }
+                        return d.Id;
                     }));
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"<color=orange>Warning: Unallocating this will also refund dependents: {depNames}</color>";
                 }
