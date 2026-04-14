@@ -91,6 +91,29 @@ namespace UI
             }
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {mapLevel.State}";
       
+            MetaProgressData metaData = MetaGameManager.LoadProgress();
+            List<MapLevelReward> bonusRewards = mapLevel.LevelRewards.FindAll(r => r.VictoryConditions.Count > 0);
+
+            if (bonusRewards.Count > 0)
+            {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Bonus Objectives:");
+                foreach (MapLevelReward reward in bonusRewards)
+                {
+                    bool isCompleted = reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id);
+                    string status = isCompleted ? "<color=green>[COMPLETED]</color>" : "<color=red>[INCOMPLETE]</color>";
+                    
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{status} {reward.Description}";
+                    
+                    if (reward.VictoryConditions.Count > 0)
+                    {
+                        foreach (MapLevelVictoryConditionBase condition in reward.VictoryConditions)
+                        {
+                            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"  - Condition: {condition.GetDescription()}";
+                        }
+                    }
+                }
+            }
+
             if (CurrentState == State.Select && mapLevel.CurrentState == MapNodeState.Locked)
             {
                 UIPanelButton startButton = AddLine<UIPanelButton>();

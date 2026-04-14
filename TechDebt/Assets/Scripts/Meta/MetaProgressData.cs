@@ -83,6 +83,7 @@ public class MetaProgressData
     
     public List<MetaUnlockResource> prestigePointAllocations;
     public List<MetaMapLevelData> mapLevelData;
+    public List<string> claimedMetaRewardIds;
     
     public MetaStatSaveData metaStats;
 
@@ -94,6 +95,7 @@ public class MetaProgressData
         prestigePoints = 0;
         prestigePointAllocations = new List<MetaUnlockResource>();
         mapLevelData = new List<MetaMapLevelData>();
+        claimedMetaRewardIds = new List<string>();
         metaStats = new MetaStatSaveData();
     }
 }

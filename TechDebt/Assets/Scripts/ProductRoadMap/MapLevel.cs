@@ -187,15 +187,33 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     private void ApplyRewards(MapLevelReward.MapLevelRewardApplied appliedAt)
     {
+        MetaProgressData metaData = MetaGameManager.LoadProgress();
+        bool progressChanged = false;
+
         foreach (MapLevelReward reward in LevelRewards)
         {
-            if (
-                reward.AppliedAt ==  appliedAt &&
-                reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded)
-            )
+            if (reward.AppliedAt != appliedAt) continue;
+
+            if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id))
+            {
+                continue;
+            }
+
+            if (reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded))
             {
                 reward.Reward.Apply();
+                
+                if (reward.Type == MapLevelReward.MapLevelRewardType.Meta)
+                {
+                    metaData.claimedMetaRewardIds.Add(reward.Id);
+                    progressChanged = true;
+                }
             }
+        }
+
+        if (progressChanged)
+        {
+            MetaGameManager.SaveProgress(metaData);
         }
     }
 
@@ -412,10 +430,11 @@ public class MapLevel : iUIMapNode, iUnlockable
         }
 
         res += "\n";
-        if (LevelRewards.Count > 0)
+        List<MapLevelReward> rewardsWithoutConditions = LevelRewards.FindAll(r => r.VictoryConditions.Count == 0);
+        if (rewardsWithoutConditions.Count > 0)
         {
             res += $"Rewards:\n";
-            foreach (MapLevelReward reward in LevelRewards)
+            foreach (MapLevelReward reward in rewardsWithoutConditions)
             {
                 res += $"{reward.Reward.GetTitle()}\n";
             }
@@ -585,6 +604,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             Id = $"{Id}_completed",
             Description = $"Level Completed",
+            Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
             Reward = new MetaStatBaseValueReward()
             {
@@ -599,6 +619,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             Id = $"{Id}_uptime_75",
             Description = $"Uptime Greater Than 75%",
+            Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
@@ -617,6 +638,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             Id = $"{Id}_uptime_90",
             Description = $"Uptime Greater Than 90%",
+            Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
@@ -635,6 +657,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             Id = $"{Id}_uptime_99",
             Description = $"Uptime Greater Than 99%",
+            Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
