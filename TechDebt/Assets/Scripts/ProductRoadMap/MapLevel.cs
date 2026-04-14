@@ -168,13 +168,7 @@ public class MapLevel : iUIMapNode, iUnlockable
     {
         GameManager.Instance.GameLoopManager.Reset();
         // TODO: Probably move this to the map.
-        foreach (MapLevelReward reward in LevelRewards)
-        {
-            if (reward.AppliedAt ==  MapLevelReward.MapLevelRewardApplied.Start)
-            {
-                reward.Reward.Apply();
-            }
-        }
+        ApplyRewards(MapLevelReward.MapLevelRewardApplied.Start);
  
         MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
             condition => { return condition is NetworkPacketLatencyVictoryCondition; }));
@@ -193,6 +187,17 @@ public class MapLevel : iUIMapNode, iUnlockable
             );
         }
         
+    }
+
+    private void ApplyRewards(MapLevelReward.MapLevelRewardApplied start)
+    {
+        foreach (MapLevelReward reward in LevelRewards)
+        {
+            if (reward.AppliedAt ==  MapLevelReward.MapLevelRewardApplied.Start)
+            {
+                reward.Reward.Apply();
+            }
+        }
     }
 
     public virtual void Randomize(int modifierCount)
@@ -495,13 +500,7 @@ public class MapLevel : iUIMapNode, iUnlockable
 
         CleanUp();
         State = MapLevelState.Completed;
-        foreach (MapLevelReward reward in LevelRewards)
-        {
-            if (reward.AppliedAt == MapLevelReward.MapLevelRewardApplied.End)
-            {
-                reward.Reward.Apply();
-            }
-        }
+        ApplyRewards(MapLevelReward.MapLevelRewardApplied.End);
     }
 
     public void PostSummaryCheck()
@@ -581,15 +580,31 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public void AddPrestigePointsReward(int value = 1)
     {
-        MetaMapLevelData metaData = MetaGameManager.GetLevelDataById(Id);
-        if (metaData != null && metaData.completedCount > 0)
-        {
-            return;
-        }
+   
 
         LevelRewards.Add(new MapLevelReward()
         {
+            Id = $"{Id}_completed",
+            Description = $"Level Completed",
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            Reward = new MetaStatBaseValueReward()
+            {
+                Id = "prestige_points",
+                Name = "Vested Shares",
+                Description = "Vested Shares allow you to unlock bonuses on future runs.",
+                BaseValue = value,
+                IconSpriteId = "IconDollar"
+            },
+        });
+        LevelRewards.Add(new MapLevelReward()
+        {
+            Id = $"{Id}_uptime_75",
+            Description = $"Uptime Greater Than 75%",
+            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            VictoryConditions = new List<MapLevelVictoryConditionBase>()
+            {
+                new UpTimeVictoryCondition(0.75f)
+            },
             Reward = new MetaStatBaseValueReward()
             {
                 Id = "prestige_points",

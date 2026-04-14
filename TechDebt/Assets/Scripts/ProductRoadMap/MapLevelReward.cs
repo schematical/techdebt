@@ -9,7 +9,9 @@ public class MapLevelReward
         End
     }
 
-    public List<MapLevelVictoryConditionBase> MapLevelVictoryConditionBaseList = new();
+    public string Id;
+    public string Description;
+    public List<MapLevelVictoryConditionBase> VictoryConditions = new();
     public MapLevelRewardApplied AppliedAt =  MapLevelRewardApplied.End;
     public RewardBase Reward { get; set; }
 }

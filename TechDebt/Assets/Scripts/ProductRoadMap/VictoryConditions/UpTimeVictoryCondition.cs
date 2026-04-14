@@ -9,6 +9,10 @@ public class UpTimeVictoryCondition : MapLevelVictoryConditionBase
 
     protected float UpTimeRequirement = .5f;
 
+    public UpTimeVictoryCondition(float requirement = .5f)
+    {
+        UpTimeRequirement = requirement;
+    }
     public override VictoryConditionState GetState()
     {
         
