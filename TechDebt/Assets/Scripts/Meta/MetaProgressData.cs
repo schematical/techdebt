@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using DefaultNamespace.Rewards;
+using Rewards;
 using UnityEngine.Serialization;
 
 public enum MetaResourceType
@@ -13,6 +15,22 @@ public class MetaUnlockResource
 {
     public MetaResourceType Type;
     public string Id;
+
+    public RewardBase ToReward()
+    {
+        switch (Type)
+        {
+            case MetaResourceType.Technology:
+                return new TechnologyStartStateReward()
+                {
+                    TechnologyId = Id,
+                    StartState = Technology.State.Unlocked
+                };
+            // other types can be added here
+            default:
+                throw new System.NotImplementedException();
+        }
+    }
 }
 
 [System.Serializable]

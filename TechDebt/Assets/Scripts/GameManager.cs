@@ -390,8 +390,8 @@ public class GameManager : MonoBehaviour, iModifiable
         Reset();
         
         Initialize();
+        MetaGameManager.ApplyAllocatedPrestige();
 
-        
         SetupRun();
         TutorialManager = new TutorialManager();
         TutorialManager.Start();

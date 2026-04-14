@@ -311,6 +311,19 @@ public static class MetaGameManager
         SaveProgress(data);
     }
 
+    public static void ApplyAllocatedPrestige()
+    {
+        MetaProgressData data = LoadProgress();
+        foreach (MetaUnlockResource allocation in data.prestigePointAllocations)
+        {
+            RewardBase reward = allocation.ToReward();
+            if (reward != null)
+            {
+                reward.Apply();
+            }
+        }
+    }
+
     public static List<Technology> GetAllTechnologies()
     {
         List<Technology> technologies = new List<Technology>()
