@@ -762,73 +762,73 @@ public static class MetaGameManager
     {
         List<MetaChallengeBase> challenges = new List<MetaChallengeBase>()
         {
-            new MetaChallengeBase()
-            {
-                ChallengeID = "application-server",
-                DisplayName = "My First Server",
-                Description = "Unlock and build the Application Server Once",
-                metaStat = MetaStat.Infra_Built,
-                WorldObjectTypeId = "application-server",
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
-                RequiredValue = 1,
-                Rewards = new List<RewardBase>()
-                {
-                    /*new RewardBase()
-                    {
-                        RewardId = "server1",
-                        Type = RewardBase.RewardType.WorldObject_StartsOperational,
-                    },*/
-                    new TechnologyStartStateReward()
-                    {
-                        TechnologyId = "application-server",
-                        StartState = Technology.State.Unlocked
-                    }
-                }
-            },
-            new MetaChallengeBase()
-            {
-                ChallengeID = "white-board",
-                DisplayName = "Junior SWE",
-                Description = "Unlock and build the White Board 3 Times",
-                metaStat = MetaStat.Infra_Built,
-                WorldObjectTypeId = "white-board",
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
-                RequiredValue = 3,
-                Rewards = new List<RewardBase>()
-                {
-                    new WorldObjectTypeStartsOperationalReward()
-                    {
-                        WorldObjectTypeId = "white-board",
-                    },
-                    new TechnologyStartStateReward()
-                    {
-                        TechnologyId = "white-board",
-                        StartState = Technology.State.Unlocked
-                    }
-                }
-            },
-            new MetaChallengeBase()
-            {
-                ChallengeID = "kanban-board",
-                DisplayName = "Beginner Project Management",
-                Description = "Unlock and build the Kanban Board 5 Times",
-                metaStat = MetaStat.Infra_Built,
-                WorldObjectTypeId = "kanban-board",
-                RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
-                RequiredValue = 5,
-                Rewards = new List<RewardBase>()
-                {
-                    new WorldObjectTypeStartsOperationalReward()
-                    {
-                        WorldObjectTypeId = "kanban-board",
-                    },
-                    new TechnologyStartStateReward()
-                    {
-                        TechnologyId = "kanban-board",
-                        StartState = Technology.State.Unlocked
-                    }
-                }
-            },
+            /* new MetaChallengeBase()
+             {
+                 ChallengeID = "application-server",
+                 DisplayName = "My First Server",
+                 Description = "Unlock and build the Application Server Once",
+                 metaStat = MetaStat.Infra_Built,
+                 WorldObjectTypeId = "application-server",
+                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                 RequiredValue = 1,
+                 Rewards = new List<RewardBase>()
+                 {
+                     /*new RewardBase()
+                     {
+                         RewardId = "server1",
+                         Type = RewardBase.RewardType.WorldObject_StartsOperational,
+                     },#1#
+                     new TechnologyStartStateReward()
+                     {
+                         TechnologyId = "application-server",
+                         StartState = Technology.State.Unlocked
+                     }
+                 }
+             },
+             new MetaChallengeBase()
+             {
+                 ChallengeID = "white-board",
+                 DisplayName = "Junior SWE",
+                 Description = "Unlock and build the White Board 3 Times",
+                 metaStat = MetaStat.Infra_Built,
+                 WorldObjectTypeId = "white-board",
+                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                 RequiredValue = 3,
+                 Rewards = new List<RewardBase>()
+                 {
+                     new WorldObjectTypeStartsOperationalReward()
+                     {
+                         WorldObjectTypeId = "white-board",
+                     },
+                     new TechnologyStartStateReward()
+                     {
+                         TechnologyId = "white-board",
+                         StartState = Technology.State.Unlocked
+                     }
+                 }
+             },
+             new MetaChallengeBase()
+             {
+                 ChallengeID = "kanban-board",
+                 DisplayName = "Beginner Project Management",
+                 Description = "Unlock and build the Kanban Board 5 Times",
+                 metaStat = MetaStat.Infra_Built,
+                 WorldObjectTypeId = "kanban-board",
+                 RequirementType = MetaChallengeBase.MetaChallengeRequirementType.Cumulative,
+                 RequiredValue = 5,
+                 Rewards = new List<RewardBase>()
+                 {
+                     new WorldObjectTypeStartsOperationalReward()
+                     {
+                         WorldObjectTypeId = "kanban-board",
+                     },
+                     new TechnologyStartStateReward()
+                     {
+                         TechnologyId = "kanban-board",
+                         StartState = Technology.State.Unlocked
+                     }
+                 }
+             },*/
             /*new MetaChallengeBase()
             {
                 ChallengeID = "product-road-map",

@@ -14,11 +14,11 @@ using Object = UnityEngine.Object;
 
 public class EditorSpriteManager
 {
-    private const string MasterBodySpriteSheetPath = "Assets/ImportedSprites/NPCv2/NPCBody.png";
-    private const string MasterHeadFrontSpriteSheetPath = "Assets/ImportedSprites/NPCv2/NPCHeadFront.png";
-    private const string MasterHeadBackSpriteSheetPath = "Assets/ImportedSprites/NPCv2/NPCHeadBack.png";
+    private const string MasterBodySpriteSheetPath = "Assets/Sprites/NPCv2/NPCBody.png";
+    private const string MasterHeadFrontSpriteSheetPath = "Assets/Sprites/NPCv2/NPCHeadFront.png";
+    private const string MasterHeadBackSpriteSheetPath = "Assets/Sprites/NPCv2/NPCHeadBack.png";
    
-    private const string GeneratedAssetsPath = "Assets/ImportedSprites/Generated";
+    private const string GeneratedAssetsPath = "Assets/Sprites/Generated";
     private const string GameScenePath = "Assets/Scenes/GameScene.unity";
 
     [MenuItem("Tech Debt/Generate NPC Sprite Sheets")]

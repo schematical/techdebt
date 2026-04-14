@@ -31,6 +31,10 @@ public class MapLevel : iUIMapNode, iUnlockable
     public string Id => GetType().Name;
     public string DisplayName => Name;
     public string Description => GetDescription();
+    public MapLevel()
+    {
+        
+    }
     public MapNodeState CurrentState
     {
         get
@@ -72,7 +76,7 @@ public class MapLevel : iUIMapNode, iUnlockable
             case MapNodeState.MetaLocked:
                 tileId = "TechTreeLockedTile";
                 break;
-            case MapNodeState.Locked:
+            case MapNodeState.Locked:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                 tileId = "TechTreeUnlockedTile";
                 break;
             case MapNodeState.Active:
@@ -89,16 +93,8 @@ public class MapLevel : iUIMapNode, iUnlockable
     {
         panel.UpdateDetailsArea();
     }
+    
 
-    // TODO Stake holder? Sales, PR, etc?
-    //TODO Add in rewards
-    // protected Dictionary<ModifierType, List<StatModifier>> StatModifiers { get; set; } = new Dictionary<ModifierType, List<StatModifier>>();
-
-
-    public MapLevel()
-    {
-        
-    }
 
     public virtual List<RewardBase> GetSpecialReleaseRewards()
     {
@@ -189,11 +185,14 @@ public class MapLevel : iUIMapNode, iUnlockable
         
     }
 
-    private void ApplyRewards(MapLevelReward.MapLevelRewardApplied start)
+    private void ApplyRewards(MapLevelReward.MapLevelRewardApplied appliedAt)
     {
         foreach (MapLevelReward reward in LevelRewards)
         {
-            if (reward.AppliedAt ==  MapLevelReward.MapLevelRewardApplied.Start)
+            if (
+                reward.AppliedAt ==  appliedAt &&
+                reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded)
+            )
             {
                 reward.Reward.Apply();
             }
@@ -604,6 +603,42 @@ public class MapLevel : iUIMapNode, iUnlockable
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
                 new UpTimeVictoryCondition(0.75f)
+            },
+            Reward = new MetaStatBaseValueReward()
+            {
+                Id = "prestige_points",
+                Name = "Vested Shares",
+                Description = "Vested Shares allow you to unlock bonuses on future runs.",
+                BaseValue = value,
+                IconSpriteId = "IconDollar"
+            },
+        });
+        LevelRewards.Add(new MapLevelReward()
+        {
+            Id = $"{Id}_uptime_90",
+            Description = $"Uptime Greater Than 90%",
+            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            VictoryConditions = new List<MapLevelVictoryConditionBase>()
+            {
+                new UpTimeVictoryCondition(0.90f)
+            },
+            Reward = new MetaStatBaseValueReward()
+            {
+                Id = "prestige_points",
+                Name = "Vested Shares",
+                Description = "Vested Shares allow you to unlock bonuses on future runs.",
+                BaseValue = value,
+                IconSpriteId = "IconDollar"
+            },
+        });
+        LevelRewards.Add(new MapLevelReward()
+        {
+            Id = $"{Id}_uptime_99",
+            Description = $"Uptime Greater Than 99%",
+            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            VictoryConditions = new List<MapLevelVictoryConditionBase>()
+            {
+                new UpTimeVictoryCondition(0.99f)
             },
             Reward = new MetaStatBaseValueReward()
             {

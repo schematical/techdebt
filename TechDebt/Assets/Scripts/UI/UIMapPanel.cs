@@ -282,11 +282,7 @@ namespace UI
                         tilesPlaced++;
                     }
                 }
-                Debug.Log($"DrawConnection: Placed {tilesPlaced} connector tiles from {start} to {end}");
-            }
-            else
-            {
-                Debug.LogWarning($"DrawConnection: Failed to find path from {start} to {end}");
+               
             }
         }
 
