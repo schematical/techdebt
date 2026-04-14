@@ -81,17 +81,41 @@ namespace UI
             UIPanelLineSectionText header = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
             header.h1(mapLevel.DisplayName);
 
-            // Split the description by newlines to add each as a separate line for better layout
-            string fullDesc = mapLevel.GetDescription();
-            string[] lines = fullDesc.Split('\n');
-            foreach (string lineText in lines)
+            // AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapLevel.GetLevelDifficultyDesc();
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Sprint Duration: {mapLevel.SprintDuration} Days";
+
+            if (mapLevel.LevelModifiers.Count > 0)
             {
-               
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = lineText;
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Sprint Modifiers:");
+                foreach (MapLevelModifier modifier in mapLevel.LevelModifiers)
+                {
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = modifier.GetDescription(mapLevel);
+                }
             }
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {mapLevel.State}";
-      
+
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Sprint Objectives:");
+            foreach (MapLevelVictoryConditionBase condition in mapLevel.GetCombinedVictoryConditions())
+            {
+                // string prefix = condition.IsGlobal() ? "(Global) " : "";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{condition.GetDescription()}";
+            }
+
             MetaProgressData metaData = MetaGameManager.LoadProgress();
+            List<MapLevelReward> rewardsWithoutConditions = mapLevel.LevelRewards.FindAll(r => {
+                if (r.VictoryConditions.Count > 0) return false;
+                if (r.DependencyIds.Count > 0 && !r.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))) return false;
+                return true;
+            });
+
+            if (rewardsWithoutConditions.Count > 0)
+            {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Guaranteed Rewards:");
+                foreach (MapLevelReward reward in rewardsWithoutConditions)
+                {
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.Reward.GetTitle();
+                }
+            }
+
             List<MapLevelReward> bonusRewards = mapLevel.LevelRewards.FindAll(r => {
                 if (r.VictoryConditions.Count == 0) return false;
                 if (r.DependencyIds.Count > 0 && !r.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))) return false;
@@ -108,16 +132,15 @@ namespace UI
                     
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{status} {reward.Description}";
                     
-                    if (reward.VictoryConditions.Count > 0)
+                    foreach (MapLevelVictoryConditionBase condition in reward.VictoryConditions)
                     {
-                        foreach (MapLevelVictoryConditionBase condition in reward.VictoryConditions)
-                        {
-                            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"  - Condition: {condition.GetDescription()}";
-                        }
+                        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"  - Condition: {condition.GetDescription()}";
                     }
                 }
             }
 
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nState: {mapLevel.State}";
+      
             if (CurrentState == State.Select && mapLevel.CurrentState == MapNodeState.Locked)
             {
                 UIPanelButton startButton = AddLine<UIPanelButton>();
