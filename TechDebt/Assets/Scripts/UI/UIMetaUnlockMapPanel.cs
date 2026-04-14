@@ -297,25 +297,22 @@ namespace UI
             float[] moneyValues = { 50, 100, 200, 400, 800, 1600 };
             for (int i = 1; i <= 6; i++)
             {
-                nodes.Add(new UIMetaUnlockMapNode
+                UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
                     ResourceType = MetaResourceType.GlobalStat,
                     Id = $"money-{i}",
-                    DisplayName = $"Investment Level {i}",
+                    DisplayName = $"Budget Bonus {i}",
                     Description = $"Start each run with an additional ${moneyValues[i-1]}.",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Up,
                     DependencyIds = i == 1 ? new List<string>() : new List<string> { $"money-{i-1}" },
                     StatType = StatType.Money,
                     Value = moneyValues[i-1]
-                });
+                };
+                nodes.Add(node);
             }
 
-            // --- Downward Tree (ReRolls & Banish) ---
-            // Root: ReRoll 1
-          
 
-            // Subsequent ReRolls (2-6)
             for (int i = 1; i <= 6; i++)
             {
                 UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
@@ -326,14 +323,14 @@ namespace UI
                     Description = $"Gain an additional Re-Roll (Total: {i}).",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Down,
-                    DependencyIds = new List<string> { $"reroll-{i - 1}" },
+                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"reroll-{i - 1}" },
                     StatType = StatType.Global_ReRolls,
                     Value = 1
                 };
+             
                 nodes.Add(node);
             }
 
-            // Subsequent Banishes (2-6)
             for (int i = 1; i <= 6; i++)
             {
                 nodes.Add(new UIMetaUnlockMapNode
@@ -344,7 +341,7 @@ namespace UI
                     Description = $"Gain an additional Banish (Total: {i}).",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Down,
-                    DependencyIds = new List<string> { $"banish-{i-1}" },
+                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"banish-{i-1}" },
                     StatType = StatType.Global_Banish,
                     Value = 1
                 });
