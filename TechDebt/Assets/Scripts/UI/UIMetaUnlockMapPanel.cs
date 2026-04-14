@@ -252,7 +252,7 @@ namespace UI
                 return false;
             });
 
-            foreach (var dep in dependents)
+            foreach (MetaUnlockResource dep in dependents)
             {
                 int depCost = 0;
                 if (dep.Type == MetaResourceType.Technology)
