@@ -188,8 +188,29 @@ namespace UI
             if (isEquipped)
             {
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: ALLOCATED (START UNLOCKED)";
+                
+                // Check for allocated dependents to show a warning
+                List<MetaUnlockResource> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
+                    if (r.Type != mapNode.ResourceType) return false;
+                    if (r.Type == MetaResourceType.Technology)
+                    {
+                        Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
+                        return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(mapNode.Id);
+                    }
+                    return false;
+                });
+
+                if (allocatedDependents.Count > 0)
+                {
+                    string depNames = string.Join(", ", allocatedDependents.Select(d => {
+                        Technology t = MetaGameManager.GetAllTechnologies().Find(tech => tech.TechnologyID == d.Id);
+                        return t != null ? t.DisplayName : d.Id;
+                    }));
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"<color=orange>Warning: Unallocating this will also refund dependents: {depNames}</color>";
+                }
+
                 AddButton("Unallocate (Refund)", () => {
-                    MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
+                    UnallocateRecursive(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
                     Refresh();
                 });
             }
@@ -214,6 +235,35 @@ namespace UI
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nPREREQUISITES NOT MET";
                 }
             }
+        }
+
+        private void UnallocateRecursive(MetaResourceType type, string id, int cost)
+        {
+            MetaProgressData progress = MetaGameManager.LoadProgress();
+            
+            // Find everything that depends on this resource
+            List<MetaUnlockResource> dependents = progress.prestigePointAllocations.FindAll(r => {
+                if (r.Type != type) return false;
+                if (r.Type == MetaResourceType.Technology)
+                {
+                    Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
+                    return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(id);
+                }
+                return false;
+            });
+
+            foreach (var dep in dependents)
+            {
+                int depCost = 0;
+                if (dep.Type == MetaResourceType.Technology)
+                {
+                    Technology depTech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == dep.Id);
+                    depCost = depTech != null ? Mathf.CeilToInt(depTech.ResearchTime / 30f) : 0;
+                }
+                UnallocateRecursive(dep.Type, dep.Id, depCost);
+            }
+
+            MetaGameManager.ToggleResourceEquip(type, id, cost);
         }
 
         public override void Close(bool forceClose = false)
