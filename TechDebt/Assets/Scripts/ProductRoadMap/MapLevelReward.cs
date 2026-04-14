@@ -18,5 +18,6 @@ public class MapLevelReward
     public MapLevelRewardType Type = MapLevelRewardType.Normal; 
     public List<MapLevelVictoryConditionBase> VictoryConditions = new();
     public MapLevelRewardApplied AppliedAt =  MapLevelRewardApplied.End;
+    public List<string> DependencyIds = new();
     public RewardBase Reward { get; set; }
 }

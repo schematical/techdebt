@@ -92,7 +92,11 @@ namespace UI
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {mapLevel.State}";
       
             MetaProgressData metaData = MetaGameManager.LoadProgress();
-            List<MapLevelReward> bonusRewards = mapLevel.LevelRewards.FindAll(r => r.VictoryConditions.Count > 0);
+            List<MapLevelReward> bonusRewards = mapLevel.LevelRewards.FindAll(r => {
+                if (r.VictoryConditions.Count == 0) return false;
+                if (r.DependencyIds.Count > 0 && !r.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))) return false;
+                return true;
+            });
 
             if (bonusRewards.Count > 0)
             {

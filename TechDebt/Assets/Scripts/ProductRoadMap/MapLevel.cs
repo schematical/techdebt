@@ -194,6 +194,11 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             if (reward.AppliedAt != appliedAt) continue;
 
+            if (reward.DependencyIds.Count > 0 && !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId)))
+            {
+                continue;
+            }
+
             if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id))
             {
                 continue;
@@ -430,7 +435,12 @@ public class MapLevel : iUIMapNode, iUnlockable
         }
 
         res += "\n";
-        List<MapLevelReward> rewardsWithoutConditions = LevelRewards.FindAll(r => r.VictoryConditions.Count == 0);
+        MetaProgressData metaData = MetaGameManager.LoadProgress();
+        List<MapLevelReward> rewardsWithoutConditions = LevelRewards.FindAll(r => {
+            if (r.VictoryConditions.Count > 0) return false;
+            if (r.DependencyIds.Count > 0 && !r.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))) return false;
+            return true;
+        });
         if (rewardsWithoutConditions.Count > 0)
         {
             res += $"Rewards:\n";
@@ -598,14 +608,14 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public void AddPrestigePointsReward(int value = 1)
     {
-   
 
-        LevelRewards.Add(new MapLevelReward()
+
+        MapLevelReward levelCompleted = new MapLevelReward()
         {
             Id = $"{Id}_completed",
             Description = $"Level Completed",
             Type = MapLevelReward.MapLevelRewardType.Meta,
-            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
             Reward = new MetaStatBaseValueReward()
             {
                 Id = "prestige_points",
@@ -614,13 +624,18 @@ public class MapLevel : iUIMapNode, iUnlockable
                 BaseValue = value,
                 IconSpriteId = "IconDollar"
             },
-        });
-        LevelRewards.Add(new MapLevelReward()
+        };
+        LevelRewards.Add(levelCompleted);
+        MapLevelReward uptime75 = new MapLevelReward()
         {
             Id = $"{Id}_uptime_75",
             Description = $"Uptime Greater Than 75%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
-            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            DependencyIds = new List<string>()
+            {
+                levelCompleted.Id
+            },
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
                 new UpTimeVictoryCondition(0.75f)
@@ -633,13 +648,18 @@ public class MapLevel : iUIMapNode, iUnlockable
                 BaseValue = value,
                 IconSpriteId = "IconDollar"
             },
-        });
-        LevelRewards.Add(new MapLevelReward()
+        };
+        LevelRewards.Add(uptime75);
+        MapLevelReward uptime90 = new MapLevelReward()
         {
             Id = $"{Id}_uptime_90",
             Description = $"Uptime Greater Than 90%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
-            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            DependencyIds = new List<string>()
+            {
+                uptime75.Id
+            },
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
                 new UpTimeVictoryCondition(0.90f)
@@ -652,13 +672,18 @@ public class MapLevel : iUIMapNode, iUnlockable
                 BaseValue = value,
                 IconSpriteId = "IconDollar"
             },
-        });
+        };
+        LevelRewards.Add(uptime90);
         LevelRewards.Add(new MapLevelReward()
         {
             Id = $"{Id}_uptime_99",
             Description = $"Uptime Greater Than 99%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            DependencyIds = new List<string>()
+            {
+                uptime90.Id
+            },
             VictoryConditions = new List<MapLevelVictoryConditionBase>()
             {
                 new UpTimeVictoryCondition(0.99f)
