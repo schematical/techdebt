@@ -287,7 +287,7 @@ public static class MetaGameManager
         return data.prestigePointAllocations.Exists(r => r.Type == type && r.Id == id);
     }
 
-    public static void ToggleResourceEquip(MetaResourceType type, string id, int cost)
+    public static void ToggleResourceEquip(MetaResourceType type, string id, int cost, StatType statType = StatType.Money, float value = 0)
     {
         MetaProgressData data = LoadProgress();
         MetaUnlockResource existing = data.prestigePointAllocations.Find(r => r.Type == type && r.Id == id);
@@ -304,10 +304,9 @@ public static class MetaGameManager
             if (data.prestigePoints >= cost)
             {
                 data.prestigePoints -= cost;
-                data.prestigePointAllocations.Add(new MetaUnlockResource { Type = type, Id = id });
+                data.prestigePointAllocations.Add(new MetaUnlockResource { Type = type, Id = id, StatType = statType, Value = value });
             }
         }
-
         SaveProgress(data);
     }
 

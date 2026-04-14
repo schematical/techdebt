@@ -59,5 +59,8 @@ public enum StatType
     NPC_Release_TechDebt,
     Global_CodeSpeed,
     Global_PIILossCost,
-    Global_DeploymentSpeed
+    Global_DeploymentSpeed,
+
+    Global_ReRolls,
+    Global_Banish
 }

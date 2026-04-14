@@ -12,7 +12,8 @@ namespace Stats
         {
             Default,
             Percentage,
-            Dollar
+            Dollar,
+            Int
         }
 
         public enum StatDataBelowZeroBehavior
@@ -169,6 +170,8 @@ namespace Stats
                     return $"${Math.Round(value  * 100)/100}";
                 case(StatDataDisplayType.Default):
                     return $"{Math.Round(value * 100)/100}";
+                case(StatDataDisplayType.Int):
+                    return $"{Math.Round(value)}";
                 default:
                     throw new NotImplementedException();
             }

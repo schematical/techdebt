@@ -599,6 +599,16 @@ public class GameManager : MonoBehaviour, iModifiable
             IsModifiable = false,
             DisplayType =  StatData.StatDataDisplayType.Dollar
         });
+        Stats.Add(new StatData(StatType.Global_ReRolls, 0f)
+        {
+            IsModifiable = false,
+            DisplayType =  StatData.StatDataDisplayType.Int
+        });
+        Stats.Add(new StatData(StatType.Global_Banish, 0f)
+        {
+            IsModifiable = false,
+            DisplayType =  StatData.StatDataDisplayType.Int
+        });
        
         Stats.Add(new StatData(StatType.TechDebt, 0f)
         {

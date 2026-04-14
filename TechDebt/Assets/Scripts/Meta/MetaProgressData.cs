@@ -7,7 +7,7 @@ public enum MetaResourceType
 {
     Technology,
     WorldObject,
-    Bonus
+    GlobalStat
 }
 
 [System.Serializable]
@@ -15,6 +15,8 @@ public class MetaUnlockResource
 {
     public MetaResourceType Type;
     public string Id;
+    public StatType StatType;
+    public float Value;
 
     public RewardBase ToReward()
     {
@@ -26,7 +28,13 @@ public class MetaUnlockResource
                     TechnologyId = Id,
                     StartState = Technology.State.Unlocked
                 };
-            // other types can be added here
+            case MetaResourceType.GlobalStat:
+                return new GlobalStatBaseValueReward()
+                {
+                    StatType = StatType,
+                    BaseValue = Value,
+                    IconSpriteId = StatType == StatType.Money ? "IconDollar" : ""
+                };
             default:
                 throw new System.NotImplementedException();
         }

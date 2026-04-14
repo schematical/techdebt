@@ -15,6 +15,8 @@ namespace UI
         public MapNodeDirection Direction { get; set; }
         public List<string> DependencyIds { get; set; }
         public int PrestigeCost { get; set; }
+        public StatType StatType;
+        public float Value;
 
         public MapNodeState CurrentState
         {
@@ -63,7 +65,7 @@ namespace UI
     public class UIMetaUnlockMapPanel : UIMapPanel
     {
         public enum MetaUnlockTab { Bonuses, Technology }
-        private MetaUnlockTab _currentTab = MetaUnlockTab.Bonuses;
+        private MetaUnlockTab _currentTab = MetaUnlockTab.Technology;
         public Transform metaUnlockMapTabs;
 
         public override void Show()
@@ -76,8 +78,8 @@ namespace UI
         {
 
             metaUnlockMapTabs.gameObject.SetActive(true);
-            AddTabButton("Bonuses", MetaUnlockTab.Bonuses);
             AddTabButton("Technology", MetaUnlockTab.Technology);
+            AddTabButton("Bonuses", MetaUnlockTab.Bonuses);
         }
 
         private void AddTabButton(string label, MetaUnlockTab tab)
@@ -221,7 +223,7 @@ namespace UI
                     if (progress.prestigePoints >= mapNode.PrestigeCost)
                     {
                         AddButton("Allocate", () => {
-                            MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
+                            MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost, mapNode.StatType, mapNode.Value);
                             Refresh();
                         });
                     }
@@ -249,6 +251,11 @@ namespace UI
                     Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
                     return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(id);
                 }
+                if (r.Type == MetaResourceType.GlobalStat)
+                {
+                    UIMetaUnlockMapNode node = GetMetaUnlockDefinitions().Find(n => n.Id == r.Id);
+                    return node != null && node.DependencyIds != null && node.DependencyIds.Contains(id);
+                }
                 return false;
             });
 
@@ -259,6 +266,11 @@ namespace UI
                 {
                     Technology depTech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == dep.Id);
                     depCost = depTech != null ? Mathf.CeilToInt(depTech.ResearchTime / 30f) : 0;
+                }
+                else if (dep.Type == MetaResourceType.GlobalStat)
+                {
+                    UIMetaUnlockMapNode depNode = GetMetaUnlockDefinitions().Find(n => n.Id == dep.Id);
+                    depCost = depNode != null ? depNode.PrestigeCost : 0;
                 }
                 UnallocateRecursive(dep.Type, dep.Id, depCost);
             }
@@ -279,29 +291,66 @@ namespace UI
 
         private List<UIMetaUnlockMapNode> GetMetaUnlockDefinitions()
         {
-            return new List<UIMetaUnlockMapNode>
+            List<UIMetaUnlockMapNode> nodes = new List<UIMetaUnlockMapNode>();
+
+            // --- Upward Tree (Money) ---
+            float[] moneyValues = { 50, 100, 200, 400, 800, 1600 };
+            for (int i = 1; i <= 6; i++)
             {
-                new UIMetaUnlockMapNode
+                nodes.Add(new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.Bonus,
-                    Id = "start-with-app-server",
-                    DisplayName = "Ready to Go",
-                    Description = "Start every run with the Application Server already unlocked.",
-                    PrestigeCost = 10,
-                    Direction = MapNodeDirection.Right,
-                    DependencyIds = new List<string>()
-                },
-                new UIMetaUnlockMapNode
+                    ResourceType = MetaResourceType.GlobalStat,
+                    Id = $"money-{i}",
+                    DisplayName = $"Investment Level {i}",
+                    Description = $"Start each run with an additional ${moneyValues[i-1]}.",
+                    PrestigeCost = i,
+                    Direction = MapNodeDirection.Up,
+                    DependencyIds = i == 1 ? new List<string>() : new List<string> { $"money-{i-1}" },
+                    StatType = StatType.Money,
+                    Value = moneyValues[i-1]
+                });
+            }
+
+            // --- Downward Tree (ReRolls & Banish) ---
+            // Root: ReRoll 1
+          
+
+            // Subsequent ReRolls (2-6)
+            for (int i = 1; i <= 6; i++)
+            {
+                UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.Bonus,
-                    Id = "start-with-whiteboard",
-                    DisplayName = "Early Software",
-                    Description = "Start every run with Software Basics already unlocked.",
-                    PrestigeCost = 20,
-                    Direction = MapNodeDirection.Right,
-                    DependencyIds = new List<string> { "start-with-app-server" }
-                }
-            };
+                    ResourceType = MetaResourceType.GlobalStat,
+                    Id = $"reroll-{i}",
+                    DisplayName = $"ReRoll {i}",
+                    Description = $"Gain an additional Re-Roll (Total: {i}).",
+                    PrestigeCost = i,
+                    Direction = MapNodeDirection.Down,
+                    DependencyIds = new List<string> { $"reroll-{i - 1}" },
+                    StatType = StatType.Global_ReRolls,
+                    Value = 1
+                };
+                nodes.Add(node);
+            }
+
+            // Subsequent Banishes (2-6)
+            for (int i = 1; i <= 6; i++)
+            {
+                nodes.Add(new UIMetaUnlockMapNode
+                {
+                    ResourceType = MetaResourceType.GlobalStat,
+                    Id = $"banish-{i}",
+                    DisplayName = $"Banish Level {i}",
+                    Description = $"Gain an additional Banish (Total: {i}).",
+                    PrestigeCost = i,
+                    Direction = MapNodeDirection.Down,
+                    DependencyIds = new List<string> { $"banish-{i-1}" },
+                    StatType = StatType.Global_Banish,
+                    Value = 1
+                });
+            }
+
+            return nodes;
         }
     }
 }
