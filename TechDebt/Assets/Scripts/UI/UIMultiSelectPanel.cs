@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace UI
 {
@@ -15,9 +16,17 @@ namespace UI
       public UIButton confirmButton;
       public UIMultiSelectOption previewingOption;
 
+      public UIButton rerollButton;
+      private UnityAction _onReRoll;
+
       void Start()
       {
           confirmButton.button.onClick.AddListener(OnConfirmClick);
+      }
+
+      public void OnReRoll(UnityAction action)
+      {
+          _onReRoll = action;
       }
 
       private void OnConfirmClick()
@@ -47,6 +56,32 @@ namespace UI
           titleText.text = title;
           bottomText.text = bottom;
           CleanUp();
+
+          // Handle ReRoll button
+          if (rerollButton != null)
+          {
+              rerollButton.gameObject.SetActive(false);
+              rerollButton.button.onClick.RemoveAllListeners();
+
+              if (_onReRoll != null)
+              {
+                  int rerollCount = (int)GameManager.Instance.GetStatValue(StatType.Global_ReRolls);
+                  if (rerollCount > 0)
+                  {
+                      rerollButton.gameObject.SetActive(true);
+                      rerollButton.buttonText.text = $"Re-Roll ({rerollCount})";
+
+                      rerollButton.button.onClick.AddListener(() =>
+                      {
+                          Debug.Log("RerollButtonClicked");
+                          if (_onReRoll != null)
+                          {  Debug.Log("_onReRoll.Invoke();");
+                              _onReRoll.Invoke();
+                          }
+                      });
+                  }
+              }
+          }
       }
 
       public void CleanUp()
@@ -57,7 +92,9 @@ namespace UI
           }
           _optionPool.Clear();
           confirmButton.gameObject.SetActive(false);
+          _onReRoll = null;
       }
+
       public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
       {
           if (panelState == UIState.Closed)

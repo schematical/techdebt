@@ -44,6 +44,11 @@ public class UIDebugPanel : UIPanel
         AddButton("SpawnNPC", () => { SpawnNPC(); });
         AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
+        AddButton("Demo", () =>
+        {
+            GameManager.Instance.Reset();
+            GameManager.Instance.StartDemo();
+        });
         AddButton("Mark Sprint Completed", () =>
         {
             GameManager.Instance.Map.GetCurrentLevel().MarkCompleted();

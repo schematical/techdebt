@@ -22,7 +22,13 @@ public class UISaveSlotListPanel : UIMultiSelectPanel
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite("IconSave"); 
 
             UIMultiSelectOption option = Add(slotIndex.ToString(), icon, primaryText, secondaryText);
-            option.OnSelect((id) => SelectSlot(int.Parse(id)));
+            option.OnInteract((type, id) =>
+            {
+                if (type == UIMultiSelectOption.InteractionType.Select)
+                {
+                    SelectSlot(int.Parse(id));
+                }
+            });
         }
     }
 

@@ -8,6 +8,7 @@ using DefaultNamespace.Rewards;
 using Tutorial;
 using NPCs;
 using Stats;
+using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -140,29 +141,36 @@ public class NPCDevOps : NPCAnimatedBiped
                         modifierBase.Name,
                         $"{modifierBase.GetDescription()}" //  - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
                         )
-                        .OnSelect((string id) =>
+                        .MarkBanisable()
+                        .OnInteract((type, id) =>
                         {
-                            try
+                            if (type == UIMultiSelectOption.InteractionType.Select)
                             {
-                                if (modifierBase is NPCStatModifierReward)
+                                try
                                 {
-                                    (modifierBase as NPCStatModifierReward).SetTarget(this);
-                                }
-                                AddModifier(modifierBase);
-                                modifierBase.Apply();
+                                    if (modifierBase is NPCStatModifierReward)
+                                    {
+                                        (modifierBase as NPCStatModifierReward).SetTarget(this);
+                                    }
 
-                                if (GameManager.Instance.TutorialManager != null)
-                                {
-                                    GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
+                                    AddModifier(modifierBase);
+                                    modifierBase.Apply();
+
+                                    if (GameManager.Instance.TutorialManager != null)
+                                    {
+                                        GameManager.Instance.TutorialManager
+                                            .Trigger(TutorialStepId.NPC_LevelUp_Completed);
+                                    }
+
+                                    GameManager.Instance.UIManager.multiSelectPanel.Close();
                                 }
-                                GameManager.Instance.UIManager.multiSelectPanel.Close();
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.LogError("NPC Level Up Exception Start");
-                                Debug.LogException(e);
-                                Debug.LogError("NPC Level Up Exception End");
-                                throw e;
+                                catch (Exception e)
+                                {
+                                    Debug.LogError("NPC Level Up Exception Start");
+                                    Debug.LogException(e);
+                                    Debug.LogError("NPC Level Up Exception End");
+                                    throw e;
+                                }
                             }
                         });
                 }
@@ -177,22 +185,30 @@ public class NPCDevOps : NPCAnimatedBiped
                         existingModifierBase.Name,
                         $"{existingModifierBase.GetDescription()}" // - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
-                    .OnSelect((string id) =>
+                    .OnInteract((type, id) =>
                     {
-                        try {
-                            if (existingModifierBase is LeveledRewardBase)
+                        if (type == UIMultiSelectOption.InteractionType.Select)
+                        {
+                            try
                             {
-                                (existingModifierBase as LeveledRewardBase).LevelUp(rarity);
+                                if (existingModifierBase is LeveledRewardBase)
+                                {
+                                    (existingModifierBase as LeveledRewardBase).LevelUp(rarity);
+                                }
+
+                                if (GameManager.Instance.TutorialManager != null)
+                                {
+                                    GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
+                                }
+
+                                GameManager.Instance.UIManager.multiSelectPanel.Close();
                             }
-                            if (GameManager.Instance.TutorialManager != null)
+                            catch (Exception e)
                             {
-                                GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
+                                Debug.LogError("NPC Level Up Exception2 Start");
+                                Debug.LogException(e);
+                                Debug.LogError("NPC Level Up Exception2 End");
                             }
-                            GameManager.Instance.UIManager.multiSelectPanel.Close();
-                        }catch (Exception e) {
-                            Debug.LogError("NPC Level Up Exception2 Start");
-                            Debug.LogException(e);
-                            Debug.LogError("NPC Level Up Exception2 End");
                         }
                     });
             }

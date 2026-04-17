@@ -73,6 +73,7 @@ namespace UI
                 "Select a release focus.",
                 "Your team will start working towards a feature that will reward you once deployed."
             );
+            
             int saftyCheck = 0;
             List<RewardBase> modifiers = new List<RewardBase>();
             int optionCount = 3;
@@ -113,19 +114,19 @@ namespace UI
                         modifierBase.GetTitle(),
                         modifierBase.GetDescription()
                     );
-                    option.OnSelect((string id) =>
+                    option.MarkBanisable();
+                    option.OnInteract((type, id) =>
                     {
-                        ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
-                        GameManager.Instance.Releases.Add(releaseBase);
-                        CodeTask codeTask = new CodeTask(releaseBase);
-                        GameManager.Instance.AddTask(codeTask);
-                        GameManager.Instance.UIManager.multiSelectPanel.Close();
-                        GameManager.Instance.UIManager.CloseSideBars();
-                        GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
-                    });
-                    option.OnPreview((string id) =>
-                    {
-                        // modifierBase.ShowPreviewUI();
+                        if (type == UIMultiSelectOption.InteractionType.Select)
+                        {
+                            ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
+                            GameManager.Instance.Releases.Add(releaseBase);
+                            CodeTask codeTask = new CodeTask(releaseBase);
+                            GameManager.Instance.AddTask(codeTask);
+                            GameManager.Instance.UIManager.multiSelectPanel.Close();
+                            GameManager.Instance.UIManager.CloseSideBars();
+                            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                        }
                     });
                 }
                 else
@@ -137,15 +138,19 @@ namespace UI
                             existingRewardBase.GetTitle(),
                             existingRewardBase.GetDescription()
                         )
-                        .OnSelect((string id) =>
+                        .MarkBanisable()
+                        .OnInteract((type, id) =>
                         {
-                            ReleaseBase releaseBase =
-                                new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingRewardBase);
-                            GameManager.Instance.Releases.Add(releaseBase);
-                            CodeTask codeTask = new CodeTask(releaseBase);
-                            GameManager.Instance.AddTask(codeTask);
-                            GameManager.Instance.UIManager.multiSelectPanel.Close();
-                            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                            if (type == UIMultiSelectOption.InteractionType.Select)
+                            {
+                                ReleaseBase releaseBase =
+                                    new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingRewardBase);
+                                GameManager.Instance.Releases.Add(releaseBase);
+                                CodeTask codeTask = new CodeTask(releaseBase);
+                                GameManager.Instance.AddTask(codeTask);
+                                GameManager.Instance.UIManager.multiSelectPanel.Close();
+                                GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                            }
                         });
                 }
             }
