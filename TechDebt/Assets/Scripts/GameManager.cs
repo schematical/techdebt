@@ -602,12 +602,14 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.Global_ReRolls, 0f)
         {
             IsModifiable = false,
-            DisplayType =  StatData.StatDataDisplayType.Int
+            DisplayType =  StatData.StatDataDisplayType.Int,
+            BelowZeroBehavior = StatData.StatDataBelowZeroBehavior.SetZero
         });
         Stats.Add(new StatData(StatType.Global_Banish, 0f)
         {
             IsModifiable = false,
-            DisplayType =  StatData.StatDataDisplayType.Int
+            DisplayType =  StatData.StatDataDisplayType.Int,
+            BelowZeroBehavior = StatData.StatDataBelowZeroBehavior.SetZero
         });
        
         Stats.Add(new StatData(StatType.TechDebt, 0f)

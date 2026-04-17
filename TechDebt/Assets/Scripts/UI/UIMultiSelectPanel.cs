@@ -57,7 +57,7 @@ namespace UI
           bottomText.text = bottom;
           CleanUp();
 
-          // Handle ReRoll button
+          // Handle ReRoll selectButton
           if (rerollButton != null)
           {
               rerollButton.gameObject.SetActive(false);

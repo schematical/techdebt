@@ -34,6 +34,8 @@ public class Map
     public List<MapLevelVictoryConditionBase> GlobalVictoryConditions { get; set; } =
         new List<MapLevelVictoryConditionBase>();
 
+    public List<string> BanishedRewardIds { get; set; } = new();
+
     public void Randomize()
     {
         

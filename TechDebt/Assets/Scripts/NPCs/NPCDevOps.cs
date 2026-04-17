@@ -96,6 +96,12 @@ public class NPCDevOps : NPCAnimatedBiped
             "One of your team has leveled up!",
             "Choose a bonus to be applied to your engineer"
         );
+        GameManager.Instance.UIManager.multiSelectPanel.OnReRoll(() =>
+        {
+            GameManager.Instance.IncrStat(StatType.Global_ReRolls, -1);
+            LevelUp();
+        });
+
         int saftyCheck = 0;
         List<RewardBase> traits = new List<RewardBase>();
         int optionCount = 3;
@@ -172,6 +178,12 @@ public class NPCDevOps : NPCAnimatedBiped
                                     throw e;
                                 }
                             }
+                            else if (type == UIMultiSelectOption.InteractionType.Banish)
+                            {
+                                GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
+                                GameManager.Instance.Map.BanishedRewardIds.Add(id);
+                                LevelUp();
+                            }
                         });
                 }
             }
@@ -185,6 +197,7 @@ public class NPCDevOps : NPCAnimatedBiped
                         existingModifierBase.Name,
                         $"{existingModifierBase.GetDescription()}" // - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
                     )
+                    .MarkBanisable()
                     .OnInteract((type, id) =>
                     {
                         if (type == UIMultiSelectOption.InteractionType.Select)
@@ -209,6 +222,12 @@ public class NPCDevOps : NPCAnimatedBiped
                                 Debug.LogException(e);
                                 Debug.LogError("NPC Level Up Exception2 End");
                             }
+                        }
+                        else if (type == UIMultiSelectOption.InteractionType.Banish)
+                        {
+                            GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
+                            GameManager.Instance.Map.BanishedRewardIds.Add(id);
+                            LevelUp();
                         }
                     });
             }

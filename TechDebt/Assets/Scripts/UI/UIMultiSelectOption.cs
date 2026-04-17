@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
@@ -20,12 +21,13 @@ namespace UI
         public Image image;
         public TextMeshProUGUI primaryText;
         public TextMeshProUGUI secondaryText;
-        public Button button;
+        public TextMeshProUGUI banishButtonText;
+        public Button selectButton;
         
         protected UnityAction<InteractionType, string> onInteract;
         protected UIMultiSelectPanel parentPanel;
         
-        public UIButton banishButton;
+        public Button banishButton;
         private bool _banishable = false;
 
         public UIMultiSelectOption OnInteract(UnityAction<InteractionType, string> action)
@@ -48,13 +50,14 @@ namespace UI
             if (banishButton != null)
             {
                 banishButton.gameObject.SetActive(false);
-                banishButton.button.onClick.RemoveAllListeners();
+                banishButton.onClick.RemoveAllListeners();
             }
 
-            // Clear any previous listeners and reset the button state.
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener((() =>
+            // Clear any previous listeners and reset the selectButton state.
+            selectButton.onClick.RemoveAllListeners();
+            selectButton.onClick.AddListener((() =>
             {
+                Debug.Log("selectButton.onClick");
                 if (onInteract != null)
                 {
                     onInteract.Invoke(InteractionType.Preview, id);
@@ -69,14 +72,16 @@ namespace UI
             _banishable = true;
 
             int banishCount = (int)GameManager.Instance.GetStatValue(StatType.Global_Banish);
-            if (banishCount > 0 && banishButton != null)
+            if (banishCount > 0)
             {
                 banishButton.gameObject.SetActive(true);
-                banishButton.buttonText.text = $"Banish ({banishCount})";
+                banishButtonText.text = $"Banish ({banishCount})";
 
-                banishButton.button.onClick.RemoveAllListeners();
-                banishButton.button.onClick.AddListener(() =>
+                banishButton.onClick.RemoveAllListeners();
+          
+                banishButton.onClick.AddListener(() =>
                 {
+  
                     if (onInteract != null)
                     {
                         onInteract.Invoke(InteractionType.Banish, id);
@@ -93,8 +98,10 @@ namespace UI
 
         public void MarkSelected()
         {
+
             if (onInteract != null)
-            {
+            { 
+
                 onInteract.Invoke(InteractionType.Select, id);
             }
         }

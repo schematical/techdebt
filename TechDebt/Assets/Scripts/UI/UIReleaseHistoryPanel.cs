@@ -73,6 +73,11 @@ namespace UI
                 "Select a release focus.",
                 "Your team will start working towards a feature that will reward you once deployed."
             );
+            GameManager.Instance.UIManager.multiSelectPanel.OnReRoll(() =>
+            {
+                GameManager.Instance.IncrStat(StatType.Global_ReRolls, -1);
+                OnPlanReleaseClick();
+            });
             
             int saftyCheck = 0;
             List<RewardBase> modifiers = new List<RewardBase>();
@@ -117,6 +122,7 @@ namespace UI
                     option.MarkBanisable();
                     option.OnInteract((type, id) =>
                     {
+                        Debug.Log($"OnInteract: {type}: {id}");
                         if (type == UIMultiSelectOption.InteractionType.Select)
                         {
                             ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
@@ -126,6 +132,12 @@ namespace UI
                             GameManager.Instance.UIManager.multiSelectPanel.Close();
                             GameManager.Instance.UIManager.CloseSideBars();
                             GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                        }
+                        else if (type == UIMultiSelectOption.InteractionType.Banish)
+                        {
+                            GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
+                            GameManager.Instance.Map.BanishedRewardIds.Add(id);
+                            OnPlanReleaseClick();
                         }
                     });
                 }
@@ -150,6 +162,12 @@ namespace UI
                                 GameManager.Instance.AddTask(codeTask);
                                 GameManager.Instance.UIManager.multiSelectPanel.Close();
                                 GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                            }
+                            else if (type == UIMultiSelectOption.InteractionType.Banish)
+                            {
+                                GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
+                                GameManager.Instance.Map.BanishedRewardIds.Add(id);
+                                OnPlanReleaseClick();
                             }
                         });
                 }
