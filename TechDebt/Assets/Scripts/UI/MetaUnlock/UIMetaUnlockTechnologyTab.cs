@@ -33,6 +33,7 @@ namespace UI
                         DependencyIds = tech.DependencyIds,
                         PrestigeCost = prestigeCost
                     };
+                    SetNodeState(node);
                     mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
                 }
             }
@@ -46,7 +47,7 @@ namespace UI
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
             prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
 
-            var selectedNode = _panel.GetSelectedNode();
+            UIMapPanel.MapNodeView selectedNode = _panel.GetSelectedNode();
             if (selectedNode == null)
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a node to allocate Vested Shares.";

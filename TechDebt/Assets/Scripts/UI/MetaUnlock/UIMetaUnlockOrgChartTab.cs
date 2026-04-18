@@ -13,6 +13,7 @@ namespace UI
         {
             foreach (UIMetaUnlockMapLeveledNode node in GetOrgChartDefinitions())
             {
+                SetNodeState(node);
                 mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
             }
         }
@@ -26,7 +27,7 @@ namespace UI
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
             prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
 
-            var selectedNode = _panel.GetSelectedNode();
+            UIMapPanel.MapNodeView selectedNode = _panel.GetSelectedNode();
             if (selectedNode == null)
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a position on the Org Chart to view details.";
@@ -47,17 +48,16 @@ namespace UI
 
             int currentLevelIdx = mapLeveledNode.CurrentLevelIndex;
             bool isMaxLevel = mapLeveledNode.Levels != null && currentLevelIdx == mapLeveledNode.Levels.Count - 1;
-            bool isCEO = mapLeveledNode.Id == "OrgChart_CEO";
+ 
 
-            string statusText = "STATUS: VACANT";
-            if (isCEO) statusText = "STATUS: ACTIVE (FOUNDER)";
-            else if (isMaxLevel) statusText = "STATUS: MAX LEVEL REACHED";
-            else if (currentLevelIdx >= 0) statusText = $"STATUS: LEVEL {currentLevelIdx + 1} ACTIVE";
+            string statusText = $"STATUS: {selectedNode.Node.CurrentState}";
+            /*else if (isMaxLevel) statusText = "STATUS: MAX LEVEL REACHED";
+            else if (currentLevelIdx >= 0) statusText = $"STATUS: LEVEL {currentLevelIdx + 1} ACTIVE";*/
             
             _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\n{statusText}";
 
             // Action Buttons
-            if (!isCEO && !isMaxLevel)
+            if (!isMaxLevel)
             {
                 bool canAfford = progress.prestigePoints >= mapLeveledNode.PrestigeCost;
                 bool readyToUnlock = mapLeveledNode.CurrentState == MapNodeState.Locked;
@@ -68,7 +68,7 @@ namespace UI
                     {
                         _panel.AddButton("Hire / Promote", () =>
                         {
-                            var nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
+                            UIMetaUnlockLevelData nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
                             MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
                             _panel.Refresh();
                         });
@@ -84,11 +84,11 @@ namespace UI
                 }
             }
 
-            if (!isCEO && currentLevelIdx >= 0)
+            if (currentLevelIdx >= 0)
             {
-                _panel.AddButton("Step Down (Refund)", () =>
+                _panel.AddButton("Demote", () =>
                 {
-                    var currentLevel = mapLeveledNode.Levels[currentLevelIdx];
+                    UIMetaUnlockLevelData currentLevel = mapLeveledNode.Levels[currentLevelIdx];
                     MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
                     _panel.Refresh();
                 });
@@ -113,7 +113,7 @@ namespace UI
                 Description = "The founder and visionary leader of the company.",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string>(),
-                CurrentState = MapNodeState.Active
+                CurrentState = MapNodeState.Unlocked
             });
 
             // Branch: Marketing

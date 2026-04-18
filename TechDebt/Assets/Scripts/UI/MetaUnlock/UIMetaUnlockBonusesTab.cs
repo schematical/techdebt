@@ -12,6 +12,7 @@ namespace UI
         {
             foreach (UIMetaUnlockMapNode node in GetMetaUnlockDefinitions())
             {
+                SetNodeState(node);
                 mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
             }
         }
@@ -24,7 +25,7 @@ namespace UI
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
             prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
 
-            var selectedNode = _panel.GetSelectedNode();
+            UIMapPanel.MapNodeView selectedNode = _panel.GetSelectedNode();
             if (selectedNode == null)
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Select a node to allocate Vested Shares.";
@@ -34,7 +35,7 @@ namespace UI
             UIMetaUnlockMapNode mapNode = (UIMetaUnlockMapNode)selectedNode.Node;
             UIPanelLineSectionText header = _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
             header.h1(mapNode.DisplayName);
-            
+
             _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapNode.Description;
             _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapNode.PrestigeCost} Vested Shares";
 
@@ -44,7 +45,7 @@ namespace UI
                 foreach (string depId in mapNode.DependencyIds)
                 {
                     string depName = depId;
-                    var depNode = GetNodeById(depId);
+                    UIMetaUnlockMapNode depNode = GetNodeById(depId);
                     if (depNode != null) depName = depNode.DisplayName;
 
                     bool met = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, depId);

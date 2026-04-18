@@ -60,6 +60,34 @@ namespace UI
         public abstract void PopulateNodes(List<UIMapPanel.MapNodeView> mapNodes);
         public abstract void UpdateDetailsArea();
 
+        protected virtual void SetNodeState(UIMetaUnlockMapNode node)
+        {
+            if (node.CurrentState == MapNodeState.Active) return; // Already set (e.g. CEO)
+
+            if (MetaGameManager.IsResourceEquipped(node.ResourceType, node.Id))
+            {
+                node.CurrentState = MapNodeState.Unlocked;
+                return;
+            }
+
+            if (node is UIMetaUnlockMapLeveledNode leveledNode && leveledNode.CurrentLevelIndex >= 0)
+            {
+                node.CurrentState = MapNodeState.Unlocked;
+                return;
+            }
+
+            bool dependenciesMet = node.DependencyIds == null || node.DependencyIds.Count == 0 ||
+                                   node.DependencyIds.All(depId => 
+                                   {
+                                       if (MetaGameManager.IsResourceEquipped(node.ResourceType, depId)) return true;
+                                       
+                                       UIMetaUnlockMapNode depNode = GetNodeById(depId);
+                                       return depNode != null && depNode.CurrentState == MapNodeState.Active;
+                                   });
+
+            node.CurrentState = dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
+        }
+
         protected virtual void UnallocateRecursive(MetaResourceType type, string id, int cost)
         {
             MetaProgressData progress = MetaGameManager.LoadProgress();

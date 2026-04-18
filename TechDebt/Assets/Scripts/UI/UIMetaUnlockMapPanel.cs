@@ -23,7 +23,7 @@ namespace UI
                 new UIMetaUnlockBonusesTab(),
                 new UIMetaUnlockOrgChartTab()
             };
-            foreach (var tab in _tabs)
+            foreach (UIMetaUnlockMapTabBase tab in _tabs)
             {
                 tab.Initialize(this);
             }
