@@ -27,7 +27,33 @@ namespace UI
             {
                 tab.Initialize(this);
             }
+
+            CreateTabButtons();
         }
+
+        private void CreateTabButtons()
+        {
+            // Clean up existing buttons
+            foreach (Transform child in metaUnlockMapTabs)
+            {
+                Destroy(child.gameObject);
+            }
+
+            for (int i = 0; i < _tabs.Count; i++)
+            {
+                int index = i; // Local copy for closure
+                AddTabButton(_tabs[i].TabName, index);
+            }
+        }
+
+        private void AddTabButton(string label, int index)
+        {
+            GameObject btnGO = GameManager.Instance.prefabManager.Create("UIButton", Vector3.zero, metaUnlockMapTabs);
+            UIButton uiBtn = btnGO.GetComponent<UIButton>();
+            uiBtn.buttonText.text = label;
+            uiBtn.button.onClick.AddListener(() => SwitchTab(index));
+        }
+
         public override void Show()
         {
             base.Show();
