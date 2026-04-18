@@ -11,7 +11,7 @@ namespace UI
 
         public override void PopulateNodes(List<UIMapPanel.MapNodeView> mapNodes)
         {
-            foreach (UIMetaUnlockMapNode node in GetOrgChartDefinitions())
+            foreach (UIMetaUnlockMapLeveledNode node in GetOrgChartDefinitions())
             {
                 mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
             }
@@ -33,21 +33,21 @@ namespace UI
                 return;
             }
 
-            UIMetaUnlockMapNode mapNode = (UIMetaUnlockMapNode)selectedNode.Node;
+            UIMetaUnlockMapLeveledNode mapLeveledNode = (UIMetaUnlockMapLeveledNode)selectedNode.Node;
             
             UIPanelLineSectionText header = _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
-            header.h1(mapNode.DisplayName);
+            header.h1(mapLeveledNode.DisplayName);
             
-            _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapNode.Description;
+            _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapLeveledNode.Description;
             
-            if (mapNode.PrestigeCost > 0)
+            if (mapLeveledNode.PrestigeCost > 0)
             {
-                _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapNode.PrestigeCost} Vested Shares";
+                _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost: {mapLeveledNode.PrestigeCost} Vested Shares";
             }
 
-            int currentLevelIdx = mapNode.CurrentLevelIndex;
-            bool isMaxLevel = mapNode.Levels != null && currentLevelIdx == mapNode.Levels.Count - 1;
-            bool isCEO = mapNode.Id == "OrgChart_CEO";
+            int currentLevelIdx = mapLeveledNode.CurrentLevelIndex;
+            bool isMaxLevel = mapLeveledNode.Levels != null && currentLevelIdx == mapLeveledNode.Levels.Count - 1;
+            bool isCEO = mapLeveledNode.Id == "OrgChart_CEO";
 
             string statusText = "STATUS: VACANT";
             if (isCEO) statusText = "STATUS: ACTIVE (FOUNDER)";
@@ -59,8 +59,8 @@ namespace UI
             // Action Buttons
             if (!isCEO && !isMaxLevel)
             {
-                bool canAfford = progress.prestigePoints >= mapNode.PrestigeCost;
-                bool readyToUnlock = mapNode.CurrentState == MapNodeState.Locked;
+                bool canAfford = progress.prestigePoints >= mapLeveledNode.PrestigeCost;
+                bool readyToUnlock = mapLeveledNode.CurrentState == MapNodeState.Locked;
 
                 if (readyToUnlock)
                 {
@@ -68,8 +68,8 @@ namespace UI
                     {
                         _panel.AddButton("Hire / Promote", () =>
                         {
-                            var nextLevel = mapNode.Levels[currentLevelIdx + 1];
-                            MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
+                            var nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
+                            MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
                             _panel.Refresh();
                         });
                     }
@@ -88,8 +88,8 @@ namespace UI
             {
                 _panel.AddButton("Step Down (Refund)", () =>
                 {
-                    var currentLevel = mapNode.Levels[currentLevelIdx];
-                    MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
+                    var currentLevel = mapLeveledNode.Levels[currentLevelIdx];
+                    MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
                     _panel.Refresh();
                 });
             }
@@ -100,23 +100,24 @@ namespace UI
             return GetOrgChartDefinitions().Find(n => n.Id == id || (n.Levels != null && n.Levels.Any(l => l.Id == id)));
         }
 
-        private List<UIMetaUnlockMapNode> GetOrgChartDefinitions()
+        private List<UIMetaUnlockMapLeveledNode> GetOrgChartDefinitions()
         {
-            List<UIMetaUnlockMapNode> nodes = new List<UIMetaUnlockMapNode>();
+            List<UIMetaUnlockMapLeveledNode> nodes = new List<UIMetaUnlockMapLeveledNode>();
 
             // Root Node: CEO
-            nodes.Add(new UIMetaUnlockMapNode
+            nodes.Add(new UIMetaUnlockMapLeveledNode
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_CEO",
                 DisplayName = "CEO",
                 Description = "The founder and visionary leader of the company.",
                 Direction = MapNodeDirection.Down,
-                DependencyIds = new List<string>()
+                DependencyIds = new List<string>(),
+                unlockedByDefault = true
             });
 
             // Branch: Marketing
-            nodes.Add(new UIMetaUnlockMapNode
+            nodes.Add(new UIMetaUnlockMapLeveledNode
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Marketing",
@@ -131,7 +132,7 @@ namespace UI
             });
 
             // Branch: Engineering
-            nodes.Add(new UIMetaUnlockMapNode
+            nodes.Add(new UIMetaUnlockMapLeveledNode
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Engineering",
@@ -146,7 +147,7 @@ namespace UI
             });
 
             // Branch: Finance
-            nodes.Add(new UIMetaUnlockMapNode
+            nodes.Add(new UIMetaUnlockMapLeveledNode
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Finance",
@@ -161,7 +162,7 @@ namespace UI
             });
 
             // Branch: Security
-            nodes.Add(new UIMetaUnlockMapNode
+            nodes.Add(new UIMetaUnlockMapLeveledNode
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Security",
@@ -178,4 +179,6 @@ namespace UI
             return nodes;
         }
     }
+
+
 }

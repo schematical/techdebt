@@ -6,121 +6,34 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIMetaUnlockLevelData
-    {
-        public string Id;
-        public string DisplayName;
-        public string Description;
-        public int PrestigeCost;
-        public StatType StatType;
-        public float Value;
-    }
-
     public class UIMetaUnlockMapNode : iUIMapNode
     {
         public MetaResourceType ResourceType;
         public string Id { get; set; }
-
-        public List<UIMetaUnlockLevelData> Levels;
-
-        public int CurrentLevelIndex
-        {
-            get
-            {
-                if (Levels == null || Levels.Count == 0) return -1;
-                for (int i = Levels.Count - 1; i >= 0; i--)
-                {
-                    if (MetaGameManager.IsResourceEquipped(ResourceType, Levels[i].Id))
-                        return i;
-                }
-                return -1;
-            }
-        }
-
-        private string _displayName;
-        public string DisplayName 
-        { 
-            get 
-            {
-                if (Levels != null && Levels.Count > 0)
-                {
-                    if (Id == "OrgChart_CEO") return "CEO";
-                    int idx = CurrentLevelIndex;
-                    if (idx == Levels.Count - 1) return Levels[idx].DisplayName + " (Max)";
-                    if (idx == -1) return Levels[0].DisplayName;
-                    return Levels[idx].DisplayName + " -> " + Levels[idx + 1].DisplayName;
-                }
-                return _displayName;
-            }
-            set => _displayName = value;
-        }
-
-        private string _description;
-        public string Description 
-        { 
-            get 
-            {
-                if (Levels != null && Levels.Count > 0)
-                {
-                    if (Id == "OrgChart_CEO") return "The visionary leader. Unlocked by default.";
-                    int idx = CurrentLevelIndex;
-                    if (idx == Levels.Count - 1) return $"Max level reached: {Levels[idx].DisplayName}.\n\n{Levels[idx].Description}";
-                    
-                    var next = Levels[idx + 1];
-                    return $"Current: {(idx == -1 ? "None" : Levels[idx].DisplayName)}\nNext: {next.DisplayName}\n\n{next.Description}";
-                }
-                return _description;
-            }
-            set => _description = value;
-        }
-
+        public virtual string DisplayName { get; set; }
+        public virtual string Description { get; set; }
         public MapNodeDirection Direction { get; set; }
         public List<string> DependencyIds { get; set; }
-        
-        private int _prestigeCost;
-        public int PrestigeCost 
-        { 
-            get 
-            {
-                if (Levels != null && Levels.Count > 0)
-                {
-                    int idx = CurrentLevelIndex;
-                    if (idx == Levels.Count - 1) return 0;
-                    return Levels[idx + 1].PrestigeCost;
-                }
-                return _prestigeCost;
-            }
-            set => _prestigeCost = value;
-        }
-
+        public virtual int PrestigeCost { get; set; }
         public StatType StatType;
         public float Value;
+        public bool unlockedByDefault = false;
 
-        public MapNodeState CurrentState
+        public virtual MapNodeState CurrentState
         {
             get
             {
-                if (Levels != null && Levels.Count > 0)
+                if (unlockedByDefault)
                 {
-                    if (Id == "OrgChart_CEO") return MapNodeState.Unlocked;
-                    if (CurrentLevelIndex == Levels.Count - 1) return MapNodeState.Unlocked;
-                    
-                    bool dependenciesMet = DependencyIds == null || DependencyIds.Count == 0 ||
-                                           DependencyIds.All(depId => 
-                                           {
-                                               if (depId == "OrgChart_CEO") return true;
-                                               return MetaGameManager.IsResourceEquipped(ResourceType, depId);
-                                           });
-                    return dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
+                    return MapNodeState.Active;
                 }
-
                 if (MetaGameManager.IsResourceEquipped(ResourceType, Id))
                     return MapNodeState.Unlocked;
 
-                bool dependenciesMet2 = DependencyIds == null || DependencyIds.Count == 0 ||
+                bool dependenciesMet = DependencyIds == null || DependencyIds.Count == 0 ||
                                        DependencyIds.All(depId => MetaGameManager.IsResourceEquipped(ResourceType, depId));
 
-                return dependenciesMet2 ? MapNodeState.Locked : MapNodeState.MetaLocked;
+                return dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
             }
         }
 
