@@ -118,21 +118,7 @@ namespace UI
             globalModifiersLine.Add<UIPanelLineSectionText>().text.text = "Upgrades:";
             globalModifiersLine.SetExpandable((_globalModifiersLine =>
             {
-                /*GameManager.Instance.Modifiers.Modifiers.Add(new ModifierBase()
-                {
-                    Group = ModifierBase.ModifierGroup.Release,
-                    Target = ModifierBase.ModifierTarget.Run,
-                    Type = ModifierBase.ModifierType.Run_Stat,
-                    Id = "input_validation",
-                    Name = "Input Validation",
-                    StatType = StatType.Infra_InputValidation,
-                    // BaseValue = 1.05f,
-                    IconSpriteId = "IconCode"
-                });
-                GameManager.Instance.Modifiers.Modifiers[0].Apply();
-                GameManager.Instance.Modifiers.Modifiers[0].LevelUp(Rarity.Common);*/
-                // TODO: Create a reward render class
-                // GameManager.Instance.Rewards.Render(_globalModifiersLine);
+                GameManager.Instance.Rewards.Render(_globalModifiersLine);
             }));
 
 

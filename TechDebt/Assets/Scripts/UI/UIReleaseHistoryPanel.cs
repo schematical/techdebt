@@ -156,7 +156,13 @@ namespace UI
                 {
                     continue;
                 }
-
+              
+         
+                RewardBase existingModifierBase = GameManager.Instance.Rewards.Rewards.Find((r) => r.Id == modifierBase.Id);
+                if (existingModifierBase != null)
+                {
+                    modifierBase = existingModifierBase;
+                }
                 modifiers.Add(modifierBase);
                 UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                     modifierBase.Id,

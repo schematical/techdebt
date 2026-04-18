@@ -65,7 +65,7 @@ namespace UI
             
             GameManager.Instance.UIManager.SetTimeScalePause();
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconSpriteId);
-            rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
+            rewardImage.sprite = RarityHelper.PaintIcon(release.rewardRarity, icon);
             List<ApplicationServer> targets = release.GetAllReleaseTargets();
             targets[0].ZoomTo();
             foreach (ApplicationServer applicationServer in targets)
@@ -78,7 +78,7 @@ namespace UI
                         return;
                     }
                     rewardImage.sprite = RarityHelper.PaintIcon(currentlyDisplayedRarity, icon);
-                    secondaryText.text = "";//release.RewardModifier.GetNextLevelUpDisplayText(currentlyDisplayedRarity);
+                    secondaryText.text = release.rewardRarity.ToString(); // .GetNextLevelUpDisplayText(currentlyDisplayedRarity);
                 });
             }
         }

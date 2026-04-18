@@ -7,12 +7,12 @@ namespace DefaultNamespace.Rewards
     public abstract class LeveledRewardBase: RewardBase
     {
         public List<Rarity> Levels { get; set; } = new List<Rarity>();
-        public float BaseValue { get; set; } = 1f;
+        public float BaseValueMultiplier { get; set; } = 1f;
         
         public ScaleDirection ScaleDirection = ScaleDirection.Up;
         public float GetScaledValue()
         {
-            float percent = BaseValue;
+            float percent = 1;
             foreach (Rarity rarity in Levels)
             {
                 percent *= GetScaledAdjustmentValue(rarity);

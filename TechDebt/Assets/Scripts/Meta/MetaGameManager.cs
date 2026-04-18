@@ -1069,8 +1069,7 @@ public static class MetaGameManager
                 Name = "Fast Worker",
                 Description = "Spins up and resizes infrastructure faster",
                 StatType = StatType.NPC_DevOpsSpeed,
-                IconSpriteId = "IconHand",
-                BaseValue = 1.1f
+                IconSpriteId = "IconHand"
             },
             new NPCStatModifierReward()
             {
@@ -1078,8 +1077,7 @@ public static class MetaGameManager
                 Name = "Fast Researcher",
                 Description = "Researches new technology faster",
                 StatType = StatType.NPC_ResearchSpeed,
-                IconSpriteId = "IconResearch",
-                BaseValue = 1.1f
+                IconSpriteId = "IconResearch"
             },
             new NPCStatModifierReward()
             {
@@ -1087,8 +1085,7 @@ public static class MetaGameManager
                 Name = "Fast Learner",
                 Description = "Levels up faster",
                 StatType = StatType.NPC_XPSpeed,
-                IconSpriteId = "IconTest",
-                BaseValue = 1.1f
+                IconSpriteId = "IconTest"
             },
             new NPCStatModifierReward()
             {
@@ -1096,8 +1093,7 @@ public static class MetaGameManager
                 Name = "Fast Move Speed",
                 Description = "Moves faster",
                 StatType = StatType.NPC_MovmentSpeed,
-                IconSpriteId = "IconMovementSpeed",
-                BaseValue = 1.1f
+                IconSpriteId = "IconMovementSpeed"
             },
             new NPCStatModifierReward()
             {
@@ -1105,8 +1101,7 @@ public static class MetaGameManager
                 Name = "Fast Coder",
                 Description = "Codes releases faster",
                 StatType = StatType.NPC_CodeSpeed,
-                IconSpriteId = "IconCode",
-                BaseValue = 1.1f
+                IconSpriteId = "IconCode"
             },
             new NPCStatModifierReward()
             {
@@ -1114,7 +1109,6 @@ public static class MetaGameManager
                 Name = "Better Coder",
                 Description = "Increases the rarity of rewards from software releases",
                 StatType = StatType.NPC_CodeQuality,
-                BaseValue = 1.1f,
                 IconSpriteId = "IconCode",
             },
             new NPCStatModifierReward()
@@ -1123,7 +1117,6 @@ public static class MetaGameManager
                 Name = "Better Debugger",
                 Description = "Debugs bugs and cyber attacks faster",
                 StatType = StatType.NPC_AttackDamage,
-                BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
             new NPCStatModifierReward()
@@ -1132,7 +1125,6 @@ public static class MetaGameManager
                 Name = "Cool Under Pressure",
                 Description = "Fixes frozen infrastructure faster",
                 StatType = StatType.NPC_FixSpeed,
-                BaseValue = 1.5f,
                 IconSpriteId = "IconDebug"
             },
             new NPCStatModifierReward()
@@ -1141,7 +1133,6 @@ public static class MetaGameManager
                 Name = "Pays Down Debt",
                 StatType = StatType.NPC_Release_TechDebt,
                 Description = "Deploying releases coded by this team member also decreases Tech Debt slightly.",
-                BaseValue = 0.9f,
                 IconSpriteId = "IconTechDebt",
                 ScaleDirection = ScaleDirection.Down
             },
@@ -1169,7 +1160,6 @@ public static class MetaGameManager
                 Name = "Code Linter",
                 Description = "Increases the code quality of future releases",
                 StatType = StatType.Release_Quality_Multiplier,
-                BaseValue = 1.1f,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
             },
@@ -1181,7 +1171,6 @@ public static class MetaGameManager
                 Description = "Decreases CPU Load Of Images",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Image,
-                BaseValue = 0.95f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconImageOptimization",
                 ScaleDirection = ScaleDirection.Down
@@ -1194,7 +1183,6 @@ public static class MetaGameManager
                 Description = "Decreases CPU Load Of Packets On The Dedicated DB",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
-                BaseValue = 0.9f,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection = ScaleDirection.Down
@@ -1207,7 +1195,6 @@ public static class MetaGameManager
                 Description = "Increases Purchase Probability",
                 StatType = StatType.NetworkPacket_Probibility,
                 NetworkPacketType = NetworkPacketData.PType.Purchase,
-                BaseValue = 1.1f,
                 IconSpriteId = "IconCart"
             },
             new GlobalStatModifierReward()
@@ -1217,7 +1204,6 @@ public static class MetaGameManager
                 Name = "Input Validation",
                 Description = "Decreases Chance Of XSS Attacks",
                 StatType = StatType.Infra_InputValidation,
-                BaseValue = 0.95f,
                 IconSpriteId = "IconCode"
             },
             new GlobalStatBaseValueReward()
@@ -1249,7 +1235,6 @@ public static class MetaGameManager
                 Name = "Database Indexes",
                 Description = "Increases the CPU Load Where Latency Starts Accumulating On The DB",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
-                BaseValue = 1.25f,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection = ScaleDirection.Up
@@ -1261,7 +1246,6 @@ public static class MetaGameManager
                 Name = "Multi Threaded",
                 Description = "Increases the CPU Load Where Latency Starts Accumulating On The Application Layer",
                 StatType = StatType.Infra_LatencyStartsAtLoad,
-                BaseValue = 1.25f,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
@@ -1273,7 +1257,6 @@ public static class MetaGameManager
                 Name = "Local Dev Environment",
                 Description = "By allowing your team to write code and run it on their laptops you can speed up the time it takes to get a release out",
                 StatType = StatType.Global_CodeSpeed,
-                BaseValue = 1.1f,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
             },
@@ -1284,7 +1267,6 @@ public static class MetaGameManager
                 Name = "Hashed Passwords",
                 Description = "Hashing passwords decreases the cost of losing P.I.I. because the passwords cannot be decrypted",
                 StatType = StatType.Global_PIILossCost,
-                BaseValue = 0.9f,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Down
             },
@@ -1296,7 +1278,6 @@ public static class MetaGameManager
                 Name = "Base Container Images",
                 Description = "Maintaining a base container image prevents you from rebuilding images from needing to be rebuilt from scratch with every deploy. This means much faster deployments.",
                 StatType = StatType.Global_DeploymentSpeed,
-                BaseValue = 1.1f,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
             }

@@ -494,7 +494,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                 },
                 new DialogButtonOption()
                 {
-                    Text = "Main Menu", OnClick = () => { GameManager.Instance.ShowMainMenu(); }
+                    Text = "Main Menu", OnClick = () => { GameManager.Instance.ShowSaveSlotDetailPanel(); }
                 },
             }
         );

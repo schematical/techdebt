@@ -45,8 +45,9 @@ namespace UI
             primaryText.text = _primaryText;
             secondaryText.text = _secondaryText;
             onInteract = null;
-            image.color = Color.white;
-            backgroundImage.color = Color.grey;
+            /*image.color = Color.white;
+            backgroundImage.color = Color.grey;*/
+            Reset();
             _banishable = false;
 
             if (banishButton != null)
@@ -104,9 +105,16 @@ namespace UI
         {
 
             if (onInteract != null)
-            { 
+            {
                 onInteract.Invoke(InteractionType.Select, id);
             }
+        }
+
+        public void Reset()
+        {              
+            backgroundImage.color = Color.grey;
+            image.color = Color.white;
+            selectButton.gameObject.SetActive(true);
         }
     }
 }
