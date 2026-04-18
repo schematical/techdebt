@@ -26,7 +26,7 @@ namespace UI
         public Grid grid;
 
         // Internal state
-        protected class MapNodeView
+        public class MapNodeView
         {
             public iUIMapNode Node;
             public Vector2Int Position = new Vector2Int(-1000, -1000);
@@ -117,6 +117,8 @@ namespace UI
         }
 
         public abstract void UpdateDetailsArea();
+
+        public MapNodeView GetSelectedNode() => _selectedNode;
 
         public override void Show()
         {
