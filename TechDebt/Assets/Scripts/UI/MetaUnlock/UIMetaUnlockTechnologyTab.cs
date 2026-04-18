@@ -125,19 +125,6 @@ namespace UI
             }
         }
 
-        protected override UIMetaUnlockMapNode GetNodeById(string id)
-        {
-            Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == id);
-            if (tech == null) return null;
-            
-            return new UIMetaUnlockMapNode
-            {
-                ResourceType = MetaResourceType.Technology,
-                Id = tech.TechnologyID,
-                DisplayName = tech.DisplayName,
-                DependencyIds = tech.DependencyIds,
-                PrestigeCost = Mathf.CeilToInt(tech.ResearchTime / 30f)
-            };
-        }
+       
     }
 }

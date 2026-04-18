@@ -103,11 +103,7 @@ namespace UI
             }
         }
 
-        protected override UIMetaUnlockMapNode GetNodeById(string id)
-        {
-            return GetMetaUnlockDefinitions().Find(n => n.Id == id);
-        }
-
+    
         private List<UIMetaUnlockMapNode> GetMetaUnlockDefinitions()
         {
             List<UIMetaUnlockMapNode> nodes = new List<UIMetaUnlockMapNode>();

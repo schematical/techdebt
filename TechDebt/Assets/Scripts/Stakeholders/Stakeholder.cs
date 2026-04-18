@@ -29,7 +29,7 @@ public class Stakeholder : iUIMapNode
 
     public string DisplayName => Levels.Count > 0 ? Levels[CurrentLevelIndex].Title : RoleName;
     public string Description => Levels.Count > 0 ? Levels[CurrentLevelIndex].Description : "";
-    public MapNodeState CurrentState => State;
+    public MapNodeState? CurrentState => State;
     public MapNodeDirection Direction => NodeDirection;
     public List<string> DependencyIds => Dependencies;
 

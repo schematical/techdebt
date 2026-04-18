@@ -26,7 +26,7 @@ public class Technology: iUnlockable, iUIMapNode
     string iUIMapNode.Id => TechnologyID;
     string iUIMapNode.DisplayName => DisplayName;
     string iUIMapNode.Description => Description;
-    MapNodeState iUIMapNode.CurrentState => (MapNodeState)CurrentState;
+    MapNodeState? iUIMapNode.CurrentState => (MapNodeState)CurrentState;
     MapNodeDirection iUIMapNode.Direction => (MapNodeDirection)Direction;
 
     public List<string> DependencyIds

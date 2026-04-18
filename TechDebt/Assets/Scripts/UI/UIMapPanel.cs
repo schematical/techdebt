@@ -569,5 +569,10 @@ namespace UI
 
         private Vector2Int GetDirectionVector(MapNodeDirection dir) => dir switch { MapNodeDirection.Up => Vector2Int.up, MapNodeDirection.Down => Vector2Int.down, MapNodeDirection.Left => Vector2Int.left, MapNodeDirection.Right => Vector2Int.right, _ => Vector2Int.right };
         private Vector2Int GetPerpendicularVector(MapNodeDirection dir) => (dir == MapNodeDirection.Up || dir == MapNodeDirection.Down) ? Vector2Int.right : Vector2Int.up;
+
+        public MapNodeView GetNodeById(string id)
+        {
+            return _mapNodes.FirstOrDefault(n => n.Id == id);
+        }
     }
 }

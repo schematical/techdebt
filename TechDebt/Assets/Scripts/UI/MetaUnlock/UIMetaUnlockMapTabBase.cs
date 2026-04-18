@@ -6,47 +6,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIMetaUnlockMapNode : iUIMapNode
-    {
-        public MetaResourceType ResourceType;
-        public string Id { get; set; }
-        public virtual string DisplayName { get; set; }
-        public virtual string Description { get; set; }
-        public MapNodeDirection Direction { get; set; }
-        public List<string> DependencyIds { get; set; }
-        public virtual int PrestigeCost { get; set; }
-        public StatType StatType;
-        public float Value;
-
-        public MapNodeState CurrentState { get; set; }
-        public float GetProgress() => 0;
-
-        public UnityEngine.Tilemaps.TileBase GetTile()
-        {
-            string tileId = "TechTreeLockedTile";
-            switch (CurrentState)
-            {
-                case MapNodeState.MetaLocked:
-                    tileId = "TechTreeLockedTile";
-                    break;
-                case MapNodeState.Locked:
-                    tileId = "TechTreeUnlockedTile";
-                    break;
-                case MapNodeState.Active:
-                    tileId = "TechTreeResearching";
-                    break;
-                case MapNodeState.Unlocked:
-                    tileId = "TechTreeResearched";
-                    break;
-            }
-            return GameManager.Instance.prefabManager.GetTile(tileId);
-        }
-
-        public void OnSelected(UIMapPanel panel)
-        {
-        }
-    }
-
+   
     public abstract class UIMetaUnlockMapTabBase
     {
         protected UIMapPanel _panel;
@@ -62,7 +22,7 @@ namespace UI
 
         protected virtual void SetNodeState(UIMetaUnlockMapNode node)
         {
-            if (node.CurrentState == MapNodeState.Active) return; // Already set (e.g. CEO)
+            if (node.CurrentState != null) return;
 
             if (MetaGameManager.IsResourceEquipped(node.ResourceType, node.Id))
             {
@@ -82,7 +42,7 @@ namespace UI
                                        if (MetaGameManager.IsResourceEquipped(node.ResourceType, depId)) return true;
                                        
                                        UIMetaUnlockMapNode depNode = GetNodeById(depId);
-                                       return depNode != null && depNode.CurrentState == MapNodeState.Active;
+                                       return depNode != null && depNode.CurrentState == MapNodeState.Unlocked;
                                    });
 
             node.CurrentState = dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
@@ -113,7 +73,16 @@ namespace UI
             MetaGameManager.ToggleResourceEquip(type, id, cost);
         }
 
-        protected abstract UIMetaUnlockMapNode GetNodeById(string id);
+        public virtual UIMetaUnlockMapNode GetNodeById(string id)
+        {
+            Debug.Log($"GetNodeById: {id}");
+            UIMapPanel.MapNodeView nodeView = _panel.GetNodeById(id);
+            if (nodeView == null)
+            {
+                return null;
+            }
+            return nodeView.Node as UIMetaUnlockMapNode;
+        }
         
         protected virtual int GetNodeCost(MetaUnlockResource resource)
         {

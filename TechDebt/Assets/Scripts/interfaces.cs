@@ -56,7 +56,7 @@ public interface iUIMapNode
     string Id { get; }
     string DisplayName { get; }
     string Description { get; }
-    MapNodeState CurrentState { get; }
+    MapNodeState? CurrentState { get; }
     MapNodeDirection Direction { get; }
     List<string> DependencyIds { get; }
     

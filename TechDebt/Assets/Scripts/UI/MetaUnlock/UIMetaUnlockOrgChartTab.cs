@@ -95,10 +95,7 @@ namespace UI
             }
         }
 
-        protected override UIMetaUnlockMapNode GetNodeById(string id)
-        {
-            return GetOrgChartDefinitions().Find(n => n.Id == id || (n.Levels != null && n.Levels.Any(l => l.Id == id)));
-        }
+     
 
         private List<UIMetaUnlockMapLeveledNode> GetOrgChartDefinitions()
         {

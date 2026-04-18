@@ -35,7 +35,7 @@ public class MapLevel : iUIMapNode, iUnlockable
     {
         
     }
-    public MapNodeState CurrentState
+    public MapNodeState? CurrentState
     {
         get
         {
