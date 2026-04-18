@@ -43,7 +43,7 @@
         {
             UIPanelLine rewardLine = line.AddLine<UIPanelLine>();
             rewardLine.Add<UIPanelLineSectionImage>().image.sprite = GetSprite();
-            rewardLine.Add<UIPanelLineSectionText>().h3(GetTitle());
+            rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h3(GetTitle());
             rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = GetDescription();
             
             return rewardLine;
