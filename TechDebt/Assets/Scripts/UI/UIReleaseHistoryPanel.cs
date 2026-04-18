@@ -79,10 +79,59 @@ namespace UI
                 OnPlanReleaseClick();
             });
             
-            int saftyCheck = 0;
-            List<RewardBase> modifiers = new List<RewardBase>();
             int optionCount = 3;
             List<RewardBase> specialOptions = GameManager.Instance.Map.GetCurrentLevel().GetSpecialReleaseRewards();
+            List<RewardBase> modifiers = new List<RewardBase>();
+            
+            System.Action<UIMultiSelectOption, RewardBase> setupOption = null;
+            setupOption = (opt, mod) =>
+            {
+                opt.Initialize(GameManager.Instance.UIManager.multiSelectPanel, mod.Id, mod.GetSprite(), mod.GetTitle(), mod.GetDescription());
+                opt.MarkBanisable();
+                opt.OnInteract((type, currentId) =>
+                {
+                    if (type == UIMultiSelectOption.InteractionType.Select)
+                    {
+                        ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), mod);
+                        GameManager.Instance.Releases.Add(releaseBase);
+                        CodeTask codeTask = new CodeTask(releaseBase);
+                        GameManager.Instance.AddTask(codeTask);
+                        GameManager.Instance.UIManager.multiSelectPanel.Close();
+                        GameManager.Instance.UIManager.CloseSideBars();
+                        GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                    }
+                    else if (type == UIMultiSelectOption.InteractionType.Banish)
+                    {
+                        GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
+                        GameManager.Instance.Map.BanishedRewardIds.Add(currentId);
+                        modifiers.Remove(mod);
+
+                        RewardBase replacement = null;
+                        int safety = 0;
+                        while (safety < 50)
+                        {
+                            safety++;
+                            if (specialOptions.Count > 0)
+                            {
+                                replacement = specialOptions[0];
+                                specialOptions.RemoveAt(0);
+                            }
+                            else
+                            {
+                                replacement = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.Release);
+                            }
+
+                            if (!modifiers.Any(m => m.Id == replacement.Id)) break;
+                        }
+
+                        modifiers.Add(replacement);
+                        setupOption(opt, replacement);
+                        GameManager.Instance.UIManager.multiSelectPanel.RefreshBanishButtons();
+                    }
+                });
+            };
+
+            int saftyCheck = 0;
             while (
                 saftyCheck < 20 &&
                 modifiers.Count < optionCount
@@ -104,73 +153,15 @@ namespace UI
                 {
                     continue;
                 }
-                Sprite sprite = modifierBase.GetSprite();
-                RewardBase existingRewardBase = GameManager.Instance.Rewards.Rewards.Find((t) => t.Id == modifierBase.Id);
-                
 
-                if (
-                    existingRewardBase == null
-                )
-                {
-                    modifiers.Add(modifierBase);
-                    UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
-                        modifierBase.Id,
-                        sprite,
-                        modifierBase.GetTitle(),
-                        modifierBase.GetDescription()
-                    );
-                    option.MarkBanisable();
-                    option.OnInteract((type, id) =>
-                    {
-                        Debug.Log($"OnInteract: {type}: {id}");
-                        if (type == UIMultiSelectOption.InteractionType.Select)
-                        {
-                            ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), modifierBase);
-                            GameManager.Instance.Releases.Add(releaseBase);
-                            CodeTask codeTask = new CodeTask(releaseBase);
-                            GameManager.Instance.AddTask(codeTask);
-                            GameManager.Instance.UIManager.multiSelectPanel.Close();
-                            GameManager.Instance.UIManager.CloseSideBars();
-                            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
-                        }
-                        else if (type == UIMultiSelectOption.InteractionType.Banish)
-                        {
-                            GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
-                            GameManager.Instance.Map.BanishedRewardIds.Add(id);
-                            OnPlanReleaseClick();
-                        }
-                    });
-                }
-                else
-                {
-                    modifiers.Add(existingRewardBase);
-                    GameManager.Instance.UIManager.multiSelectPanel.Add(
-                            existingRewardBase.Id,
-                            sprite,
-                            existingRewardBase.GetTitle(),
-                            existingRewardBase.GetDescription()
-                        )
-                        .MarkBanisable()
-                        .OnInteract((type, id) =>
-                        {
-                            if (type == UIMultiSelectOption.InteractionType.Select)
-                            {
-                                ReleaseBase releaseBase =
-                                    new ReleaseBase(ReleaseBase.IncrGlobalVersion(), existingRewardBase);
-                                GameManager.Instance.Releases.Add(releaseBase);
-                                CodeTask codeTask = new CodeTask(releaseBase);
-                                GameManager.Instance.AddTask(codeTask);
-                                GameManager.Instance.UIManager.multiSelectPanel.Close();
-                                GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
-                            }
-                            else if (type == UIMultiSelectOption.InteractionType.Banish)
-                            {
-                                GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
-                                GameManager.Instance.Map.BanishedRewardIds.Add(id);
-                                OnPlanReleaseClick();
-                            }
-                        });
-                }
+                modifiers.Add(modifierBase);
+                UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
+                    modifierBase.Id,
+                    modifierBase.GetSprite(),
+                    modifierBase.GetTitle(),
+                    modifierBase.GetDescription()
+                );
+                setupOption(option, modifierBase);
             }
         }
 

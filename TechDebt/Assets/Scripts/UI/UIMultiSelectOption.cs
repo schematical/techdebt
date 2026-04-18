@@ -72,7 +72,7 @@ namespace UI
             _banishable = true;
 
             int banishCount = (int)GameManager.Instance.GetStatValue(StatType.Global_Banish);
-            if (banishCount > 0)
+            if (banishCount > 0 && banishButton != null)
             {
                 banishButton.gameObject.SetActive(true);
                 banishButtonText.text = $"Banish ({banishCount})";
@@ -81,12 +81,15 @@ namespace UI
           
                 banishButton.onClick.AddListener(() =>
                 {
-  
                     if (onInteract != null)
                     {
                         onInteract.Invoke(InteractionType.Banish, id);
                     }
                 });
+            }
+            else if (banishButton != null)
+            {
+                banishButton.gameObject.SetActive(false);
             }
             return this;
         }

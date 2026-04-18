@@ -110,6 +110,60 @@ public class NPCDevOps : NPCAnimatedBiped
             optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
         }
 
+        System.Action<UIMultiSelectOption, RewardBase, Rarity> setupOption = null;
+        setupOption = (opt, mod, rar) =>
+        {
+            Sprite sprite = mod.GetSprite();
+            Sprite spriteOut = RarityHelper.PaintIcon(rar, sprite);
+            RewardBase existing = Modifiers.Rewards.Find((t) => t.Id == mod.Id);
+
+            opt.Initialize(GameManager.Instance.UIManager.multiSelectPanel, mod.Id, spriteOut, mod.Name, mod.GetDescription());
+            opt.MarkBanisable();
+            opt.OnInteract((type, currentId) =>
+            {
+                if (type == UIMultiSelectOption.InteractionType.Select)
+                {
+                
+                    if (existing == null)
+                    {
+                        if (mod is NPCStatModifierReward statMod) statMod.SetTarget(this);
+                        AddModifier(mod);
+                        mod.Apply();
+                    }
+                    else if (existing is LeveledRewardBase leveled)
+                    {
+                        leveled.LevelUp(rar);
+                    }
+
+                    if (GameManager.Instance.TutorialManager != null)
+                    {
+                        GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
+                    }
+                    GameManager.Instance.UIManager.multiSelectPanel.Close();
+                
+                }
+                else if (type == UIMultiSelectOption.InteractionType.Banish)
+                {
+                    GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
+                    GameManager.Instance.Map.BanishedRewardIds.Add(currentId);
+                    traits.Remove(mod);
+
+                    RewardBase replacement = null;
+                    int safety = 0;
+                    while (safety < 50)
+                    {
+                        safety++;
+                        replacement = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.NPC);
+                        if (!traits.Any(t => t.Id == replacement.Id)) break;
+                    }
+
+                    traits.Add(replacement);
+                    setupOption(opt, replacement, RarityHelper.GetRandomRarity());
+                    GameManager.Instance.UIManager.multiSelectPanel.RefreshBanishButtons();
+                }
+            });
+        };
+
         while (
             saftyCheck < 20 &&
             traits.Count < optionCount
@@ -122,115 +176,14 @@ public class NPCDevOps : NPCAnimatedBiped
                 continue;
             }
 
-            Sprite sprite = modifierBase.GetSprite();
-            
-
-         
-  
-            Rarity rarity = RarityHelper.GetRandomRarity();
-            Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite); // spriteRenderer.sprite;
-            
-            RewardBase existingModifierBase = Modifiers.Rewards.Find((t) => t.Id == modifierBase.Id);
-            // Debug.Log($"TraitTest: {existingModifierBase != null} && {Modifiers.Modifiers.Count} < {Stats.GetStatValue(StatType.NPC_ModifierSlots)}");
- 
-            if (
-                existingModifierBase == null
-            )
-            {
-                if (Modifiers.Rewards.Count < Stats.GetStatValue(StatType.NPC_ModifierSlots))
-                {
-                    traits.Add(modifierBase);
-
-                    GameManager.Instance.UIManager.multiSelectPanel.Add(
-                        modifierBase.Id,
-                        spriteOut,
-                        modifierBase.Name,
-                        $"{modifierBase.GetDescription()}" //  - {modifierBase.GetNextLevelUpDisplayText(rarity)}"
-                        )
-                        .MarkBanisable()
-                        .OnInteract((type, id) =>
-                        {
-                            if (type == UIMultiSelectOption.InteractionType.Select)
-                            {
-                                try
-                                {
-                                    if (modifierBase is NPCStatModifierReward)
-                                    {
-                                        (modifierBase as NPCStatModifierReward).SetTarget(this);
-                                    }
-
-                                    AddModifier(modifierBase);
-                                    modifierBase.Apply();
-
-                                    if (GameManager.Instance.TutorialManager != null)
-                                    {
-                                        GameManager.Instance.TutorialManager
-                                            .Trigger(TutorialStepId.NPC_LevelUp_Completed);
-                                    }
-
-                                    GameManager.Instance.UIManager.multiSelectPanel.Close();
-                                }
-                                catch (Exception e)
-                                {
-                                    Debug.LogError("NPC Level Up Exception Start");
-                                    Debug.LogException(e);
-                                    Debug.LogError("NPC Level Up Exception End");
-                                    throw e;
-                                }
-                            }
-                            else if (type == UIMultiSelectOption.InteractionType.Banish)
-                            {
-                                GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
-                                GameManager.Instance.Map.BanishedRewardIds.Add(id);
-                                LevelUp();
-                            }
-                        });
-                }
-            }
-            else
-            {
-                traits.Add(existingModifierBase);
-            
-                GameManager.Instance.UIManager.multiSelectPanel.Add(
-                        existingModifierBase.Id,
-                        sprite,
-                        existingModifierBase.Name,
-                        $"{existingModifierBase.GetDescription()}" // - {existingModifierBase.GetNextLevelUpDisplayText(rarity)}"
-                    )
-                    .MarkBanisable()
-                    .OnInteract((type, id) =>
-                    {
-                        if (type == UIMultiSelectOption.InteractionType.Select)
-                        {
-                            try
-                            {
-                                if (existingModifierBase is LeveledRewardBase)
-                                {
-                                    (existingModifierBase as LeveledRewardBase).LevelUp(rarity);
-                                }
-
-                                if (GameManager.Instance.TutorialManager != null)
-                                {
-                                    GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
-                                }
-
-                                GameManager.Instance.UIManager.multiSelectPanel.Close();
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.LogError("NPC Level Up Exception2 Start");
-                                Debug.LogException(e);
-                                Debug.LogError("NPC Level Up Exception2 End");
-                            }
-                        }
-                        else if (type == UIMultiSelectOption.InteractionType.Banish)
-                        {
-                            GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
-                            GameManager.Instance.Map.BanishedRewardIds.Add(id);
-                            LevelUp();
-                        }
-                    });
-            }
+            traits.Add(modifierBase);
+            UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
+                modifierBase.Id,
+                modifierBase.GetSprite(),
+                modifierBase.Name,
+                modifierBase.GetDescription()
+            );
+            setupOption(option, modifierBase, RarityHelper.GetRandomRarity());
         }
     }
 

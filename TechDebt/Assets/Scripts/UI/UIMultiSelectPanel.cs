@@ -127,5 +127,16 @@ namespace UI
           previewingOption.image.color = Color.green;
           confirmButton.gameObject.SetActive(true);
       }
+
+      public void RefreshBanishButtons()
+      {
+          foreach (UIMultiSelectOption option in _optionPool)
+          {
+              if (option.gameObject.activeSelf)
+              {
+                  option.MarkBanisable();
+              }
+          }
+      }
     }
 }
