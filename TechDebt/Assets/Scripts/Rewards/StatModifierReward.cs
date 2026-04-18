@@ -34,12 +34,12 @@ namespace Rewards
 
         public override void Apply()
         {
-            if (AttachedModifiable == null)
-            {
+            /*if (AttachedModifiable == null)
+            {*/
                 AttachedModifiable = GetTarget();
                 StatModifier = BuildStatModifier();
                 AttachedModifiable.Stats.AddModifier(StatType, StatModifier);
-            }
+            //}
   
         }
         public override UIPanelLine Render(UIPanelLine line)

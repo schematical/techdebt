@@ -9,6 +9,7 @@ namespace UI
 
         public UIToastPanel Add(string text, float duration = 15)
         {
+            Debug.Log("Adding Toast");
             UIToastPanel toastPanel = GameManager.Instance.prefabManager.Create("UIToastPanel", Vector3.zero, scrollContent).GetComponent<UIToastPanel>();
             toastPanels.Add(toastPanel);
             toastPanel.Init(text, duration);

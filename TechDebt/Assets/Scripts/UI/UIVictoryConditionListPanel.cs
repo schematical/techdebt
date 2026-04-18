@@ -7,7 +7,6 @@ namespace UI
     {
         public override void Show()
         {
-            Debug.Log("Showing UIVictoryConditionListPanel");
             runUICloseOnShow = false;
             Refresh();
             base.Show();

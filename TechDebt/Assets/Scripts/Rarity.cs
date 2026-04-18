@@ -33,8 +33,9 @@ public class RarityHelper
         }
     }
 
-    public static Rarity GetRandomRarity(float probibility = 0.2f)
+    public static Rarity GetRandomRarity(float probibility = 0.5f)
     {
+        Debug.Log($"GetRandomRarity: {probibility}");
         Rarity resRarity = Rarity.Common;
         foreach (Rarity rarity in Enum.GetValues(typeof(Rarity)))
         {
