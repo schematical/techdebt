@@ -91,7 +91,11 @@ public class NPCDevOps : NPCAnimatedBiped
     protected void LevelUp()
     {
         level++;
+        GenerateLevelUpOptions();
+    }
 
+    private void GenerateLevelUpOptions()
+    {
         GameManager.Instance.UIManager.multiSelectPanel.Display(
             "One of your team has leveled up!",
             "Choose a bonus to be applied to your engineer"
@@ -99,7 +103,7 @@ public class NPCDevOps : NPCAnimatedBiped
         GameManager.Instance.UIManager.multiSelectPanel.OnReRoll(() =>
         {
             GameManager.Instance.IncrStat(StatType.Global_ReRolls, -1);
-            LevelUp();
+            GenerateLevelUpOptions();
         });
 
         int saftyCheck = 0;

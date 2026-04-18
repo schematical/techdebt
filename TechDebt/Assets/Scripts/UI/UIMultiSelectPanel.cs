@@ -27,6 +27,29 @@ namespace UI
       public void OnReRoll(UnityAction action)
       {
           _onReRoll = action;
+          
+
+          rerollButton.gameObject.SetActive(false);
+          rerollButton.button.onClick.RemoveAllListeners();
+
+          if (_onReRoll != null)
+          {
+              int rerollCount = (int)GameManager.Instance.GetStatValue(StatType.Global_ReRolls);
+              if (rerollCount > 0)
+              {
+                  rerollButton.gameObject.SetActive(true);
+                  rerollButton.buttonText.text = $"Re-Roll ({rerollCount})";
+
+                  rerollButton.button.onClick.AddListener(() =>
+                  {
+                      if (_onReRoll != null)
+                      {
+                          _onReRoll.Invoke();
+                      }
+                  });
+              }
+          }
+          
       }
 
       private void OnConfirmClick()
@@ -34,7 +57,6 @@ namespace UI
          
           if (previewingOption == null)
           {
-              Debug.LogError("previewingOption is null");
               return;
           }
           previewingOption.MarkSelected();
@@ -57,31 +79,10 @@ namespace UI
           bottomText.text = bottom;
           CleanUp();
 
-          // Handle ReRoll selectButton
-          if (rerollButton != null)
-          {
-              rerollButton.gameObject.SetActive(false);
-              rerollButton.button.onClick.RemoveAllListeners();
-
-              if (_onReRoll != null)
-              {
-                  int rerollCount = (int)GameManager.Instance.GetStatValue(StatType.Global_ReRolls);
-                  if (rerollCount > 0)
-                  {
-                      rerollButton.gameObject.SetActive(true);
-                      rerollButton.buttonText.text = $"Re-Roll ({rerollCount})";
-
-                      rerollButton.button.onClick.AddListener(() =>
-                      {
-                          Debug.Log("RerollButtonClicked");
-                          if (_onReRoll != null)
-                          {  Debug.Log("_onReRoll.Invoke();");
-                              _onReRoll.Invoke();
-                          }
-                      });
-                  }
-              }
-          }
+    
+          rerollButton.gameObject.SetActive(false);
+          rerollButton.button.onClick.RemoveAllListeners();
+          
       }
 
       public void CleanUp()

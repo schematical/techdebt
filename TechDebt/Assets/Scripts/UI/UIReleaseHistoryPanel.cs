@@ -67,8 +67,11 @@ namespace UI
 
             
             GameManager.Instance.UIManager.multiSelectPanel.Close();
+            GenerateReleaseOptions();
+        }
 
-
+        private void GenerateReleaseOptions()
+        {
             GameManager.Instance.UIManager.multiSelectPanel.Display(
                 "Select a release focus.",
                 "Your team will start working towards a feature that will reward you once deployed."
@@ -76,7 +79,7 @@ namespace UI
             GameManager.Instance.UIManager.multiSelectPanel.OnReRoll(() =>
             {
                 GameManager.Instance.IncrStat(StatType.Global_ReRolls, -1);
-                OnPlanReleaseClick();
+                GenerateReleaseOptions();
             });
             
             int optionCount = 3;
