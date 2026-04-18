@@ -124,10 +124,11 @@ namespace UI
       {
           foreach (UIMultiSelectOption panel in _optionPool)
           {
+              panel.backgroundImage.color = Color.grey;
               panel.image.color = Color.white;
           }
           previewingOption = uiMultiSelectOption;
-          previewingOption.image.color = Color.green;
+          previewingOption.backgroundImage.color = Color.white;
           confirmButton.gameObject.SetActive(true);
       }
 

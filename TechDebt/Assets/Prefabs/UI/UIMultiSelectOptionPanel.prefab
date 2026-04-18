@@ -444,6 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIMultiSelectOption
   id: 
   image: {fileID: 9122412667013605817}
+  backgroundImage: {fileID: 6329964324119445587}
   primaryText: {fileID: 5746075649585509392}
   secondaryText: {fileID: 1351207702104165725}
   banishButtonText: {fileID: 7391202484509432216}

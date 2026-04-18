@@ -19,6 +19,7 @@ namespace UI
 
         public string id;
         public Image image;
+        public Image backgroundImage;
         public TextMeshProUGUI primaryText;
         public TextMeshProUGUI secondaryText;
         public TextMeshProUGUI banishButtonText;
@@ -45,6 +46,7 @@ namespace UI
             secondaryText.text = _secondaryText;
             onInteract = null;
             image.color = Color.white;
+            backgroundImage.color = Color.grey;
             _banishable = false;
 
             if (banishButton != null)
@@ -57,7 +59,6 @@ namespace UI
             selectButton.onClick.RemoveAllListeners();
             selectButton.onClick.AddListener((() =>
             {
-                Debug.Log("selectButton.onClick");
                 if (onInteract != null)
                 {
                     onInteract.Invoke(InteractionType.Preview, id);
@@ -104,7 +105,6 @@ namespace UI
 
             if (onInteract != null)
             { 
-
                 onInteract.Invoke(InteractionType.Select, id);
             }
         }
