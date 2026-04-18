@@ -79,10 +79,12 @@ namespace UI
           bottomText.text = bottom;
           CleanUp();
 
-    
-          rerollButton.gameObject.SetActive(false);
-          rerollButton.button.onClick.RemoveAllListeners();
-          
+          if (rerollButton != null)
+          {
+              rerollButton.gameObject.SetActive(false);
+              rerollButton.button.onClick.RemoveAllListeners();
+          }
+
       }
 
       public void CleanUp()

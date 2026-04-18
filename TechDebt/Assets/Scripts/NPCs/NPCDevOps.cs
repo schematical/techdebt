@@ -158,7 +158,10 @@ public class NPCDevOps : NPCAnimatedBiped
                     {
                         safety++;
                         replacement = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.NPC);
-                        if (!traits.Any(t => t.Id == replacement.Id)) break;
+                        if (
+                            !traits.Any(t => t.Id == replacement.Id) ||
+                            GameManager.Instance.Map.BanishedRewardIds.Contains(replacement.Id)
+                        ) break;
                     }
 
                     traits.Add(replacement);
@@ -175,7 +178,10 @@ public class NPCDevOps : NPCAnimatedBiped
         {
             saftyCheck++;
             RewardBase modifierBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.NPC);
-            if (traits.Find((t) => t.Id == modifierBase.Id) != null)
+            if (
+                traits.Find((t) => t.Id == modifierBase.Id) != null ||
+                GameManager.Instance.Map.BanishedRewardIds.Contains(modifierBase.Id)
+            )
             {
                 continue;
             }

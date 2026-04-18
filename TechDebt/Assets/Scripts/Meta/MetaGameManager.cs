@@ -1038,7 +1038,7 @@ public static class MetaGameManager
     public static RewardBase GetRandomModifier(RewardBase.RewardGroup group)
     {
         List<RewardBase> modifiers = GetModifierByGroup(group);
-
+        
         int i = Random.Range(0, modifiers.Count);
         return modifiers[i];
     }
