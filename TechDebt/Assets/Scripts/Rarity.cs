@@ -35,7 +35,7 @@ public class RarityHelper
 
     public static Rarity GetRandomRarity(float probibility = 0.5f)
     {
-        Debug.Log($"GetRandomRarity: {probibility}");
+        
         Rarity resRarity = Rarity.Common;
         foreach (Rarity rarity in Enum.GetValues(typeof(Rarity)))
         {
@@ -50,7 +50,7 @@ public class RarityHelper
             }
             resRarity = rarity;
         }
-
+        Debug.Log($"GetRandomRarity: {probibility} - {resRarity}");
         return resRarity;
     }
 
@@ -97,17 +97,17 @@ public class RarityHelper
             {
                 new SimpleColorReplaceCombo()
                 {
-                    findColor = SpriteManager.FromHex("#99e550"),
+                    findColor = SpriteManager.FromHex("#ffffff"),
                     replaceColor = RarityHelper.GetColor(rarity)
                 },
                 new SimpleColorReplaceCombo()
                 {
-                    findColor = SpriteManager.FromHex("#75ae3e"),
+                    findColor = SpriteManager.FromHex("#939393"),
                     replaceColor = SpriteManager.MakeDarker(RarityHelper.GetColor(rarity))
                 },
                 new SimpleColorReplaceCombo()
                 {
-                    findColor = SpriteManager.FromHex("#4b692f"),
+                    findColor = SpriteManager.FromHex("#404040"),
                     replaceColor = SpriteManager.MakeDarker(RarityHelper.GetColor(rarity), 0.5f)
                 },
             }

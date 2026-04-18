@@ -63,6 +63,21 @@ namespace UI
                     detailLine.Add<UIPanelLineSectionText>().text.text = $"{coolDown.Key}: {coolDown.Value:F2}";
                 }
             });
+            if (_selectedNPC is NPCDevOps)
+            {
+                NPCDevOps npcDevOps = (NPCDevOps)_selectedNPC;
+                UIPanelLine traitsLine = AddLine<UIPanelLine>();
+                traitsLine.Add<UIPanelLineSectionText>().text.text = "Traits:";
+                traitsLine.SetExpandable((line) =>
+                {
+                    foreach (RewardBase rewardBase in npcDevOps.Modifiers.Rewards)
+                    {
+                        UIPanelLine detailLine = line.AddLine<UIPanelLine>();
+                        rewardBase.Render(detailLine); // .Add<UIPanelLineSectionText>().text.text = $"{}");
+                    }
+                });
+            }
+
             TutorialStepId? tutorialStepId = npc.GetTutorialStepId();
             if (tutorialStepId != null && tutorialStepId != TutorialStepId.None)
             {
