@@ -113,7 +113,7 @@ namespace UI
                 Description = "The founder and visionary leader of the company.",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string>(),
-                unlockedByDefault = true
+                CurrentState = MapNodeState.Active
             });
 
             // Branch: Marketing

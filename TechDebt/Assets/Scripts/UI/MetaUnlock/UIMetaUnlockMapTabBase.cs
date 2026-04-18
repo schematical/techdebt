@@ -17,26 +17,8 @@ namespace UI
         public virtual int PrestigeCost { get; set; }
         public StatType StatType;
         public float Value;
-        public bool unlockedByDefault = false;
 
-        public virtual MapNodeState CurrentState
-        {
-            get
-            {
-                if (unlockedByDefault)
-                {
-                    return MapNodeState.Active;
-                }
-                if (MetaGameManager.IsResourceEquipped(ResourceType, Id))
-                    return MapNodeState.Unlocked;
-
-                bool dependenciesMet = DependencyIds == null || DependencyIds.Count == 0 ||
-                                       DependencyIds.All(depId => MetaGameManager.IsResourceEquipped(ResourceType, depId));
-
-                return dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
-            }
-        }
-
+        public MapNodeState CurrentState { get; set; }
         public float GetProgress() => 0;
 
         public UnityEngine.Tilemaps.TileBase GetTile()

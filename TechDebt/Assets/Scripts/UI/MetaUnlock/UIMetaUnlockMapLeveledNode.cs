@@ -31,21 +31,6 @@ namespace UI
                 return -1;
             }
         }
-
-      
-        public override int PrestigeCost
-        {
-            get
-            {
-                if (Levels != null && Levels.Count > 0)
-                {
-                    int idx = CurrentLevelIndex;
-                    if (idx == Levels.Count - 1) return 0;
-                    return Levels[idx + 1].PrestigeCost;
-                }
-                return base.PrestigeCost;
-            }
-            set => base.PrestigeCost = value;
-        }
+        
     }
 }
