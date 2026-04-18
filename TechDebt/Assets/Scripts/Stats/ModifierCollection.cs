@@ -13,7 +13,7 @@ namespace Stats
         {
             foreach (RewardBase rewardBase in Rewards)
             {
-                rewardBase.Render(line);
+                rewardBase.Render(line.AddLine<UIPanelLine>());
             }
         }
     }
