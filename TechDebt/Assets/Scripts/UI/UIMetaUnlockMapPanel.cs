@@ -70,17 +70,12 @@ namespace UI
 
         public void SwitchTab(int index)
         {
-            Debug.Log($"SwitchTab {index} - _tabs.Count: {_tabs.Count}");
             _currentTabIndex = index;
             _selectedNode = null;
             Refresh();
             CenterTilemapOnCamera();
         }
-
-        // Methods to be called from UI buttons in Editor
-        public void SwitchToTechnology() => SwitchTab(0);
-        public void SwitchToBonuses() => SwitchTab(1);
-        public void SwitchToOrgChart() => SwitchTab(2);
+        
 
         public override void PopulateNodes()
         {
