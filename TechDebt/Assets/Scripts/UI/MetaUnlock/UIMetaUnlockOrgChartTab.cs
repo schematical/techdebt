@@ -7,7 +7,7 @@ namespace UI
 {
     public class UIMetaUnlockOrgChartTab : UIMetaUnlockMapTabBase
     {
-        public override string TabName => "OrgChart";
+        public override string TabName => "Org Chart";
 
         public override void PopulateNodes(List<UIMapPanel.MapNodeView> mapNodes)
         {
@@ -120,7 +120,7 @@ namespace UI
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Marketing",
-                Direction = MapNodeDirection.Left,
+                Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
                 Levels = new List<UIMetaUnlockLevelData>
                 {
@@ -135,7 +135,7 @@ namespace UI
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Engineering",
-                Direction = MapNodeDirection.Right,
+                Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
                 Levels = new List<UIMetaUnlockLevelData>
                 {

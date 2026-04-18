@@ -74,6 +74,7 @@ namespace UI
             _currentTabIndex = index;
             _selectedNode = null;
             Refresh();
+            CenterTilemapOnCamera();
         }
 
         // Methods to be called from UI buttons in Editor
