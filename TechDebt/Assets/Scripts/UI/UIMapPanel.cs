@@ -168,11 +168,9 @@ namespace UI
         {
             if (nodeTilemap == null || connectorTilemap == null) 
             {
-                Debug.LogError("nodeTilemap or connectorTilemap is null");
                 return;
             }
 
-            Debug.Log($"UIMapPanel.Refresh called for {gameObject.name}");
 
             nodeTilemap.ClearAllTiles();
             connectorTilemap.ClearAllTiles();
@@ -185,10 +183,8 @@ namespace UI
 
             PopulateNodes();
 
-            Debug.Log($"Refresh: _mapNodes.Count = {_mapNodes.Count}");
             if (_mapNodes.Count == 0) 
             {
-                Debug.LogWarning("Refresh: No nodes populated!");
                 return;
             }
 
@@ -197,7 +193,6 @@ namespace UI
             DrawNodesAndLabels();
             
             var visibleNodes = _mapNodes.Where(IsNodeVisible).ToList();
-            Debug.Log($"Refresh: Drawing paths for {visibleNodes.Count} visible nodes.");
             DrawPaths(visibleNodes);
             UpdateDetailsArea();
         }
@@ -492,17 +487,7 @@ namespace UI
                 currentYOffset += treeBreadth;
             }
             
-            foreach(var node in _mapNodes)
-            {
-                if (node.Position.x == -1000)
-                {
-                    Debug.LogWarning($"Node {node.DisplayName} ({node.Id}) was not assigned a position!");
-                }
-                else
-                {
-                    Debug.Log($"Node {node.DisplayName} assigned position: {node.Position}");
-                }
-            }
+            
         }
 
         private LayoutNode BuildLayoutTree(MapNodeView view, HashSet<string> visited)

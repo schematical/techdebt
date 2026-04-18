@@ -355,6 +355,14 @@ public class GameManager : MonoBehaviour, iModifiable
         StartDemo();
         UIManager.ShowMainMenu();
     }
+    public void ShowSaveSlotDetailPanel()
+    {
+        State = GameManagerState.MainMenu;
+
+        Reset();
+        StartDemo();
+        UIManager.saveSlotDetailPanel.Show();
+    }
 
     public void Reset()
     {

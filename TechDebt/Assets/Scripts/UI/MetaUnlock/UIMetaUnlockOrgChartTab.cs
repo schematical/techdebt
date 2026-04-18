@@ -40,6 +40,7 @@ namespace UI
             header.h1(mapLeveledNode.DisplayName);
             
             _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = mapLeveledNode.Description;
+            // _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"DEBUG:CurrentLevelIndex: {mapLeveledNode.CurrentLevelIndex}";
             
             if (mapLeveledNode.PrestigeCost > 0)
             {
@@ -49,24 +50,52 @@ namespace UI
             int currentLevelIdx = mapLeveledNode.CurrentLevelIndex;
             bool isMaxLevel = mapLeveledNode.Levels != null && currentLevelIdx == mapLeveledNode.Levels.Count - 1;
  
+            bool canAfford = progress.prestigePoints >= mapLeveledNode.PrestigeCost;
+            bool readyToUnlock = mapLeveledNode.CurrentState == MapNodeState.Locked;
 
-            string statusText = $"STATUS: {selectedNode.Node.CurrentState}";
-            /*else if (isMaxLevel) statusText = "STATUS: MAX LEVEL REACHED";
-            else if (currentLevelIdx >= 0) statusText = $"STATUS: LEVEL {currentLevelIdx + 1} ACTIVE";*/
+            int i = 0;
+            foreach (UIMetaUnlockLevelData level in mapLeveledNode.Levels)
+            {
+                UIPanelLine levelLine = _panel.AddLine<UIPanelLine>();
+                Color color = Color.grey;
             
-            _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\n{statusText}";
+                if (currentLevelIdx == i)
+                {
+                    color = Color.white;
+                }
+                else if (currentLevelIdx < i)
+                {
+                    color = Color.darkGray;
+                }
+                
+
+                UIPanelLineSectionText titleText = levelLine.Add<UIPanelLineSectionText>();
+                titleText.h2( $"Level {i + 1}: {level.DisplayName}");
+                titleText.text.color = color;
+
+                UIPanelLineSectionText descText = _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+                descText.text.text = $"{level.Description}";
+                descText.text.color = color;
+                
+                i++;
+            }
+            
+          
 
             // Action Buttons
             if (!isMaxLevel)
             {
-                bool canAfford = progress.prestigePoints >= mapLeveledNode.PrestigeCost;
-                bool readyToUnlock = mapLeveledNode.CurrentState == MapNodeState.Locked;
-
+    
                 if (readyToUnlock)
                 {
                     if (canAfford)
                     {
-                        _panel.AddButton("Hire / Promote", () =>
+                        string hireText = "Hire";
+                        if (currentLevelIdx >= 0)
+                        {
+                            hireText = "Promote";
+                        }
+                        _panel.AddButton(hireText, () =>
                         {
                             UIMetaUnlockLevelData nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
                             MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
@@ -84,9 +113,14 @@ namespace UI
                 }
             }
 
-            if (currentLevelIdx >= 0)
+            if (currentLevelIdx > -1)
             {
-                _panel.AddButton("Demote", () =>
+                string demoteText = "Remove";
+                if (currentLevelIdx > 0)
+                {
+                    demoteText = "Demote";
+                }
+                _panel.AddButton(demoteText, () =>
                 {
                     UIMetaUnlockLevelData currentLevel = mapLeveledNode.Levels[currentLevelIdx];
                     MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
@@ -107,7 +141,7 @@ namespace UI
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_CEO",
                 DisplayName = "CEO",
-                Description = "The founder and visionary leader of the company.",
+                Description = "",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string>(),
                 CurrentState = MapNodeState.Unlocked
@@ -118,28 +152,30 @@ namespace UI
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Marketing",
+                DisplayName = "Marketing",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
                 Levels = new List<UIMetaUnlockLevelData>
                 {
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_1", DisplayName = "Marketing Intern", Description = "An eager intern to help spread the word.", PrestigeCost = 1 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_2", DisplayName = "Director Of Marketing", Description = "A seasoned professional to lead marketing campaigns.", PrestigeCost = 2 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_3", DisplayName = "CMO", Description = "Chief Marketing Officer. Total market dominance.", PrestigeCost = 4 }
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_1", DisplayName = "Marketing Intern", Description = "Unlock beginner marketing missions at the Product Road Map", PrestigeCost = 1 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_2", DisplayName = "Director Of Marketing", Description = "Unlock intermediate marketing missions at the Product Road Map", PrestigeCost = 2 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_3", DisplayName = "CMO", Description = "Unlock advanced marketing missions at the Product Road Map", PrestigeCost = 4 }
                 }
             });
 
-            // Branch: Engineering
+         
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
                 ResourceType = MetaResourceType.GlobalStat,
-                Id = "OrgChart_Engineering",
+                Id = "OrgChart_Technology",
+                DisplayName = "Technology",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
                 Levels = new List<UIMetaUnlockLevelData>
                 {
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Dev_1", DisplayName = "Dev Intern", Description = "Someone to write the unit tests no one wants to write.", PrestigeCost = 1 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Dev_2", DisplayName = "Senior Dev", Description = "Solves complex architectural problems and mentors others.", PrestigeCost = 3 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Dev_3", DisplayName = "CTO", Description = "Chief Technology Officer. Visionary engineering leadership.", PrestigeCost = 5 }
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Dev_1", DisplayName = "Dev Intern", Description = "Unlock beginner technology missions at the Product Road Map", PrestigeCost = 1 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Dev_2", DisplayName = "Senior Dev", Description = "Unlock intermediate technology missions at the Product Road Map", PrestigeCost = 3 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Dev_3", DisplayName = "CTO", Description = "Unlock advanced technology missions at the Product Road Map", PrestigeCost = 5 }
                 }
             });
 
@@ -148,13 +184,14 @@ namespace UI
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Finance",
+                DisplayName =  "Finance",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
                 Levels = new List<UIMetaUnlockLevelData>
                 {
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Finance_1", DisplayName = "Office Assistant", Description = "Keeps the office running and manages basic expenses.", PrestigeCost = 1 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Finance_2", DisplayName = "Accountant", Description = "Expertly manages taxes, payroll, and budget allocation.", PrestigeCost = 2 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Finance_3", DisplayName = "CFO", Description = "Chief Financial Officer. Maximizing shareholder value.", PrestigeCost = 4 }
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Finance_1", DisplayName = "Office Assistant", Description = "Unlock beginner financial missions at the Product Road Map", PrestigeCost = 1 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Finance_2", DisplayName = "Accountant", Description = "Unlock intermediate financial missions at the Product Road Map", PrestigeCost = 2 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Finance_3", DisplayName = "CFO", Description = "Unlock advanced financial missions at the Product Road Map", PrestigeCost = 4 }
                 }
             });
 
@@ -163,13 +200,14 @@ namespace UI
             {
                 ResourceType = MetaResourceType.GlobalStat,
                 Id = "OrgChart_Security",
+                DisplayName = "Info Security",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
                 Levels = new List<UIMetaUnlockLevelData>
                 {
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Security_1", DisplayName = "Cyber Security Intern", Description = "Checking logs and running vulnerability scanners.", PrestigeCost = 1 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Security_2", DisplayName = "Security Consultant", Description = "Implementing zero-trust architecture and hardening systems.", PrestigeCost = 3 },
-                    new UIMetaUnlockLevelData { Id = "OrgChart_Security_3", DisplayName = "CISO", Description = "Chief Information Security Officer. Unbreakable infrastructure.", PrestigeCost = 5 }
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Security_1", DisplayName = "Cyber Security Intern", Description = "Unlock beginner cyber security missions at the Product Road Map", PrestigeCost = 1 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Security_2", DisplayName = "Security Consultant", Description = "Unlock intermediate cyber security missions at the Product Road Map", PrestigeCost = 3 },
+                    new UIMetaUnlockLevelData { Id = "OrgChart_Security_3", DisplayName = "CISO", Description = "Unlock advanced cyber security missions at the Product Road Map", PrestigeCost = 5 }
                 }
             });
 

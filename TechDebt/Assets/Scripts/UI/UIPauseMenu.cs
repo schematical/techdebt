@@ -21,7 +21,8 @@ public class UIPauseMenu : UIPanel
     private void Quit()
     {
         GameManager.Instance.Reset();
-        GameManager.Instance.ShowMainMenu();
+        Close();
+        GameManager.Instance.ShowSaveSlotDetailPanel();
     }
 
 

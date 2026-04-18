@@ -863,7 +863,7 @@ public static class MetaGameManager
                     }
                 }
             },*/
-            new MetaChallengeBase()
+            /*new MetaChallengeBase()
             {
                 ChallengeID = "org-chart",
                 DisplayName = "Org Chart",
@@ -884,7 +884,7 @@ public static class MetaGameManager
                         StartState = Technology.State.Unlocked
                     }
                 }
-            },
+            },*/
 
             new MetaChallengeBase()
             {
