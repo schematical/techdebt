@@ -159,7 +159,13 @@ public class ReleaseBase
         }
 
         float techDebt = GameManager.Instance.GetStatValue(StatType.TechDebt);
+        if (TechDebtMultiplier != 1)
+        {
+            float diff = techDebt * TechDebtMultiplier;
+            GameManager.Instance.UIManager.toastHolderPanel.Add($"Tech Debt decreased from {Math.Round(techDebt * 100)}% to {Math.Round(diff * 100)}%");
+        }
         GameManager.Instance.SetStat(StatType.TechDebt, techDebt * TechDebtMultiplier);
+     
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
        
     }
@@ -207,13 +213,13 @@ public class ReleaseBase
         return $"{GetVersionString()} {State.ToString()} - Quality: {Math.Round(GetQuality() * 100)}% - Tech Debt Multiplier: {TechDebtMultiplier:F2}";
     }
 
-    public void ApplyProgress(float progressGained, NPCBase NPCBase)
+    public void ApplyProgress(float progressGained, NPCBase npcBase)
     {
         // Debug.Log($"ReleaseBase.ApplyProgress: {CurrentProgress} += {progressGained}");
         CurrentProgress += progressGained;
         GameManager.Instance.InvokeReleaseChanged(this, State);
         
-        float qualityMultiplier = GameManager.Instance.GetStatValue(StatType.Release_Quality_Multiplier) * NPCBase.Stats.GetStatValue(StatType.NPC_CodeQuality);
+        float qualityMultiplier = GameManager.Instance.GetStatValue(StatType.Release_Quality_Multiplier) * npcBase.Stats.GetStatValue(StatType.NPC_CodeQuality);
        
         CurrentQuality = AvgOutStat(
             CurrentQuality,
@@ -227,7 +233,7 @@ public class ReleaseBase
             ) / (CurrentProgress));*/
         TechDebtMultiplier = AvgOutStat(
             TechDebtMultiplier,
-            NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt),
+            npcBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt),
             CurrentProgress,
             progressGained
         );

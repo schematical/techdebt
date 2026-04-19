@@ -15,7 +15,7 @@ namespace Rewards
         {
             if (StatModifier == null)
             {
-                throw new SystemException($"StatModifier for {GetType()} is null");
+                throw new SystemException($"StatModifier for Name: {Name} - Type: {GetType()} is null");
             }
             StatModifier.SetValue(GetScaledValue());
 

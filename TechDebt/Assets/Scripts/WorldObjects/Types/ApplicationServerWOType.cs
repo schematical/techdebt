@@ -63,7 +63,7 @@ public class ApplicationServerWOType : WorldObjectType
                 {
                     new NetworkConnectionBonus()
                     {
-                        value = 0.75f
+                        value = 0.5f
                     }
                 }
             },
@@ -75,7 +75,7 @@ public class ApplicationServerWOType : WorldObjectType
                 {
                     new NetworkConnectionBonus()
                     {
-                        value = 0.75f
+                        value = 0.5f
                     }
                 }
             },
@@ -87,7 +87,7 @@ public class ApplicationServerWOType : WorldObjectType
                 {
                     new NetworkConnectionBonus()
                     {
-                        value = 0.75f
+                        value = 0.5f
                     }
                 }
                 
@@ -110,7 +110,7 @@ public class ApplicationServerWOType : WorldObjectType
                 {
                     new NetworkConnectionBonus()
                     {
-                        value = 0.75f
+                        value = 0.5f
                     }
                 }
             },
