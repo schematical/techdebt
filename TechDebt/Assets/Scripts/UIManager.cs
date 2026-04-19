@@ -234,6 +234,29 @@ public class UIManager : MonoBehaviour
                 SetTimeScalePause();
             }
         }
+        
+        if (
+            !forcePause &&
+            Keyboard.current != null && 
+            Keyboard.current.fKey.wasPressedThisFrame
+        )
+        {
+            switch (_currentTimeState)
+            {
+                case(TimeState.Paused):
+                    SetTimeState(TimeState.Normal, true);
+                    break;
+                case(TimeState.Normal):
+                    SetTimeState(TimeState.Fast, true);
+                    break;
+                case(TimeState.Fast):
+                    SetTimeState(TimeState.SuperFast, true);
+                    break;
+                case(TimeState.SuperFast):
+                    SetTimeState(TimeState.Normal, true);
+                    break;
+            }
+        }
 
         if (
             Keyboard.current.shiftKey.wasPressedThisFrame &&
@@ -291,7 +314,7 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        // Debug.Log($"Resume...{_userSpecifiedTimeState}");
+        Debug.Log($"Resume...{_userSpecifiedTimeState}");
         SetTimeState(_userSpecifiedTimeState);
         
     }
@@ -339,6 +362,7 @@ public class UIManager : MonoBehaviour
             _timeStateBeforePause = newState;
             if (setDesired)
             {
+                // Debug.Log($"Setting `_userSpecifiedTimeState`: {newState}");
                 _userSpecifiedTimeState = newState;
             }
         }

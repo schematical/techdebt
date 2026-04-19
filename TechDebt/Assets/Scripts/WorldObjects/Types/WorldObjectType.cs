@@ -129,7 +129,7 @@ namespace Infrastructure
                     continue;
                 }
                 string technologyId = $"{sizeTechnologyPrefix}-size-{_size.ToString().ToLower()}";
-                Debug.Log($"GetMaxSize: {technologyId}");
+               
                 Technology technology = GameManager.Instance.GetTechnologyByID(technologyId);
                 if (technology == null)
                 {
@@ -142,7 +142,7 @@ namespace Infrastructure
                 }
                 size = _size;
             }
-            Debug.Log($"GetMaxSize End: {size}");
+     
             return size;
         }
     }

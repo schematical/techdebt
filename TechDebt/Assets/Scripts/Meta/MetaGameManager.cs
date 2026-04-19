@@ -59,7 +59,7 @@ public static class MetaGameManager
         string json = JsonUtility.ToJson(metaProgressData, true);
         File.WriteAllText(GetSavePath(), json);
 
-        Debug.Log($"Progress saved to {GetSavePath()}");
+        // Debug.Log($"Progress saved to {GetSavePath()}");
     }
 
     public static MetaProgressData LoadProgress()

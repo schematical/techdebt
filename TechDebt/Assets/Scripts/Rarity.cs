@@ -50,7 +50,7 @@ public class RarityHelper
             }
             resRarity = rarity;
         }
-        Debug.Log($"GetRandomRarity: {probibility} - {resRarity}");
+        // Debug.Log($"GetRandomRarity: {probibility} - {resRarity}");
         return resRarity;
     }
 

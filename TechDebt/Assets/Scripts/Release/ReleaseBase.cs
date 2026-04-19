@@ -147,14 +147,15 @@ public class ReleaseBase
             RewardBase existingModifierBase = GameManager.Instance.Rewards.Rewards.Find((r) => r.Id == RewardModifier.Id);
             if(existingModifierBase == null){
                 
-                Debug.Log($"Modifier Base Did NOT Exist: {RewardModifier.Id} - Count: {GameManager.Instance.Rewards.Rewards.Count}");
+                // Debug.Log($"Modifier Base Did NOT Exist: {RewardModifier.Id} - Count: {GameManager.Instance.Rewards.Rewards.Count}");
                 GameManager.Instance.AddModifier(RewardModifier);
             }
+           
+            RewardModifier.Apply();
             if (RewardModifier is LeveledRewardBase leveled)
             {
                 leveled.LevelUp(rewardRarity);
             }
-            RewardModifier.Apply();
         
         }
 
