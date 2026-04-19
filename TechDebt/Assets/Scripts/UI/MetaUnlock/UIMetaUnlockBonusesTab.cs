@@ -113,7 +113,7 @@ namespace UI
             {
                 UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStat,
+                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"money-{i}",
                     DisplayName = $"Budget Bonus {i}",
                     Description = $"Start each run with an additional ${moneyValues[i-1]}.",
@@ -130,7 +130,7 @@ namespace UI
             {
                 UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStat,
+                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"reroll-{i}",
                     DisplayName = $"ReRoll {i}",
                     Description = $"Gain an additional Re-Roll (Total: {i}).",
@@ -147,7 +147,7 @@ namespace UI
             {
                 nodes.Add(new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStat,
+                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"banish-{i}",
                     DisplayName = $"Banish Level {i}",
                     Description = $"Gain an additional Banish (Total: {i}).",
@@ -156,6 +156,38 @@ namespace UI
                     DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"banish-{i-1}" },
                     StatType = StatType.Global_Banish,
                     Value = 1
+                });
+            }
+            
+            /*for (int i = 1; i <= 6; i++)
+            {
+                nodes.Add(new UIMetaUnlockMapNode
+                {
+                    ResourceType = MetaResourceType.GlobalStatBaseStat,
+                    Id = $"technical-interviews-{i}",
+                    DisplayName = $"Technical Interviews {i}",
+                    Description = $"Starting Team Member starts at Lvl {i}).",
+                    PrestigeCost = i,
+                    Direction = MapNodeDirection.Left,
+                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"technical-interviews-{i-1}" },
+                    StatType = StatType.NPC_StartLevel,
+                    Value = 1
+                });
+            }*/
+            
+            for (int i = 1; i <= 6; i++)
+            {
+                nodes.Add(new UIMetaUnlockMapNode
+                {
+                    ResourceType = MetaResourceType.GlobalStatBaseStat,
+                    Id = $"training-program-{i}",
+                    DisplayName = $"Training Program {i}",
+                    Description = $"Team Member gain XP faster.",
+                    PrestigeCost = i,
+                    Direction = MapNodeDirection.Left,
+                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"training-program-{i-1}" },
+                    StatType = StatType.NPC_XPSpeed,
+                    Value = .25f * i/2
                 });
             }
 

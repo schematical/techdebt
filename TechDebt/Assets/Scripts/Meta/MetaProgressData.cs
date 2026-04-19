@@ -7,7 +7,8 @@ public enum MetaResourceType
 {
     Technology,
     WorldObject,
-    GlobalStat
+    GlobalStatBaseStat,
+    // GlobalStatMultiplier,
 }
 
 [System.Serializable]
@@ -17,6 +18,7 @@ public class MetaUnlockResource
     public string Id;
     public StatType StatType;
     public float Value;
+    public string IconSpriteId = "IconDollar";
 
     public RewardBase ToReward()
     {
@@ -26,15 +28,22 @@ public class MetaUnlockResource
                 return new TechnologyStartStateReward()
                 {
                     TechnologyId = Id,
-                    StartState = Technology.State.Unlocked
+                    StartState = Technology.State.Unlocked,
+                    IconSpriteId = IconSpriteId
                 };
-            case MetaResourceType.GlobalStat:
+            case MetaResourceType.GlobalStatBaseStat:
                 return new GlobalStatBaseValueReward()
                 {
                     StatType = StatType,
                     BaseValue = Value,
-                    IconSpriteId = StatType == StatType.Money ? "IconDollar" : ""
+                    IconSpriteId = IconSpriteId
                 };
+            /*case MetaResourceType.GlobalStatMultiplier:
+                return new GlobalStatModifierReward()
+                {
+                    StatType = StatType,
+                    IconSpriteId = IconSpriteId
+                };*/
             default:
                 throw new System.NotImplementedException();
         }

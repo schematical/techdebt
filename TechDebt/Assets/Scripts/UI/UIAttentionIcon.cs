@@ -102,7 +102,6 @@ namespace UI
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                Debug.Log("UIAttentionIcon::OnPointerClick Left");
                 onClick.Invoke();
             }
            

@@ -164,7 +164,6 @@ public class MapLevelModifier
                         NetworkPacketData networkPacketData =
                             GameManager.Instance.GetNetworkPacketDataByType(networkPacketType);
                         float val = CalcValue(level);
-                        Debug.Log($"MapLevelModifier.Apply  {networkPacketType} = {val}");
                         _statModifier = new StatModifier($"level_modifier_temp_{level.Id}", val);
                         networkPacketData.Stats.AddModifier(statType.Value, _statModifier);
                         break;

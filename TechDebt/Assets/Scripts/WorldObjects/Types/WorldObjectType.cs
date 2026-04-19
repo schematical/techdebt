@@ -118,7 +118,6 @@ namespace Infrastructure
 
             if (sizeTechnologyPrefix == null)
             {
-                Debug.Log($"No `sizeTechnologyPrefix` set returning {size}");
                 return size;
             }
 

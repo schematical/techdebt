@@ -218,7 +218,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         if (CurrentTask != null)
         {
-            Debug.Log($"{gameObject.name}: Interrupting CurrentTask {CurrentTask.GetType().Name}");
+            //Debug.Log($"{gameObject.name}: Interrupting CurrentTask {CurrentTask.GetType().Name}");
             CurrentTask.OnInterrupt();
         }
         HideProgressBar();

@@ -62,5 +62,6 @@ public enum StatType
     Global_DeploymentSpeed,
 
     Global_ReRolls,
-    Global_Banish
+    Global_Banish,
+    NPC_StartLevel
 }

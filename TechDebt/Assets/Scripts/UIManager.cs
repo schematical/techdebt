@@ -314,7 +314,6 @@ public class UIManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log($"Resume...{_userSpecifiedTimeState}");
         SetTimeState(_userSpecifiedTimeState);
         
     }

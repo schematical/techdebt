@@ -31,7 +31,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
         modifier.statType = StatType.Traffic;
         modifier.Direction = MapLevelModifier.ModifierDirection.Negative;
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
-        modifier.SetOverrideValue(2);
+        modifier.SetOverrideValue(1.25f);
         LevelModifiers.Add(modifier);
         
         modifier = new MapLevelModifier();

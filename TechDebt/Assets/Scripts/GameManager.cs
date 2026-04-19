@@ -664,9 +664,9 @@ public class GameManager : MonoBehaviour, iModifiable
             DisplayType =  StatData.StatDataDisplayType.Percentage,
             IsModifiable = false,
         });
-        Stats.Add(new StatData(StatType.AttackPossibilityAccumulationRate, 0.5f){
+        Stats.Add(new StatData(StatType.AttackPossibilityAccumulationRate, 0.25f){
         });
-        Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.01f){
+        Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.005f){
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
         Stats.Add(new StatData(StatType.Global_PIILossCost, 10){
@@ -676,6 +676,9 @@ public class GameManager : MonoBehaviour, iModifiable
             
         });
         Stats.Add(new StatData(StatType.Global_CodeSpeed, 1){
+            
+        });
+        Stats.Add(new StatData(StatType.NPC_XPSpeed, 1){
             
         });
         
@@ -1295,10 +1298,8 @@ public class GameManager : MonoBehaviour, iModifiable
     {
         if (!recordAnalytics)
         {
-            Debug.Log("Skipping Analytics");
             return;
         }
         AnalyticsService.Instance.RecordEvent(myEvent);
-        Debug.Log("AnalyticsService.Instance.RecordEvent: " + myEvent);
     }
 }

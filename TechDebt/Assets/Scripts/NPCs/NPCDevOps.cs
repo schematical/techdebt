@@ -57,7 +57,8 @@ public class NPCDevOps : NPCAnimatedBiped
 
     public override void AddXP(float amount = 1)
     {
-        float adjustedAmount = Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
+        float adjustedAmount = GameManager.Instance.GetStatValue(StatType.NPC_XPSpeed) * 
+            Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
         currentXP += adjustedAmount;
         if (Math.Floor(currentXP) != lastDisplayXP)
         {
@@ -78,7 +79,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
     protected void MarkReadyForLevelUp()
     {
-        leveledUpTo++;
+     
         if (GameManager.Instance.TutorialManager != null)
         {
             GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Pending);
@@ -148,7 +149,11 @@ public class NPCDevOps : NPCAnimatedBiped
                     {
                         leveled.LevelUp(rarity);
                     }
-
+                    leveledUpTo++;
+                    if (level > leveledUpTo)
+                    {
+                        MarkReadyForLevelUp();
+                    }
                     if (GameManager.Instance.TutorialManager != null)
                     {
                         GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);

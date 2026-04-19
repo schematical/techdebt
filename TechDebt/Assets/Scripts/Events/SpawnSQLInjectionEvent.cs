@@ -8,7 +8,6 @@ namespace Tutorial
     {
         public override void Apply()
         {
-            Debug.Log("SpawnSQLInjectionEvent.Apply()");
             InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
             NetworkPacketData data =
                 GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.SQLInjection);

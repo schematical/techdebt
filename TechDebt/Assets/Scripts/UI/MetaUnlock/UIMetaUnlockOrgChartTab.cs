@@ -138,7 +138,7 @@ namespace UI
             // Root Node: CEO
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStat,
+                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_CEO",
                 DisplayName = "CEO",
                 Description = "",
@@ -150,7 +150,7 @@ namespace UI
             // Branch: Marketing
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStat,
+                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Marketing",
                 DisplayName = "Marketing",
                 Direction = MapNodeDirection.Down,
@@ -166,7 +166,7 @@ namespace UI
          
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStat,
+                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Technology",
                 DisplayName = "Technology",
                 Direction = MapNodeDirection.Down,
@@ -182,7 +182,7 @@ namespace UI
             // Branch: Finance
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStat,
+                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Finance",
                 DisplayName =  "Finance",
                 Direction = MapNodeDirection.Down,
@@ -198,7 +198,7 @@ namespace UI
             // Branch: Security
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStat,
+                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Security",
                 DisplayName = "Info Security",
                 Direction = MapNodeDirection.Down,
