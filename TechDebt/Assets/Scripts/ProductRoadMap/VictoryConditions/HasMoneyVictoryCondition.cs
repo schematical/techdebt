@@ -27,7 +27,11 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {
         UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
-        line.Add<UIPanelLineSectionText>().text.text =
-            $"Remaining Budget: ${GameManager.Instance.GetStatValue(StatType.Money)}";
+        UIPanelLineSectionText lineText = line.Add<UIPanelLineSectionText>();
+        lineText.OnFixedUpdate((lineSection) =>
+        {
+            (lineSection as UIPanelLineSectionText).text.text =
+                $"Remaining Budget: ${GameManager.Instance.GetStatValue(StatType.Money)}";
+        });
     }
 }

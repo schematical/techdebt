@@ -9,7 +9,6 @@ using Tutorial;
 using NPCs;
 using Stats;
 using UI;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

@@ -376,7 +376,7 @@ namespace UI
                 bool visible = IsNodeVisible(nodeView);
                 if (!visible) 
                 {
-                    Debug.Log($"Node {nodeView.DisplayName} ({nodeView.Id}) is NOT visible.");
+                   
                     continue;
                 }
                 visibleCount++;
@@ -413,7 +413,6 @@ namespace UI
                     Debug.LogError($"LabelInstance is null for node {nodeView.DisplayName}");
                 }
             }
-            Debug.Log($"DrawNodesAndLabels: {visibleCount} nodes drawn.");
             nodeTilemap.RefreshAllTiles();
         }
 
@@ -467,7 +466,6 @@ namespace UI
                 return;
             }
 
-            Debug.Log($"CalculateNodePositions: Found {roots.Count} root nodes.");
 
             HashSet<string> visited = new HashSet<string>();
             int currentYOffset = 0;

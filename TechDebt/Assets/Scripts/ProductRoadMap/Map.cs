@@ -49,12 +49,12 @@ public class Map
     {
         CurrentSprintNumber += 1;
         CurrentLevel = level;
-        GameManager.Instance.UIManager.victoryConditionListPanel.Refresh();
         level.OnSprintStart();
+        GameManager.Instance.UIManager.victoryConditionListPanel.Refresh();
     }
 
 
-    public void IncrStage()
+    /*public void IncrStage()
     {
         CurrentLevel.MarkCompleted();
         List<MapLevel> levels = LevelPool.FindAll((level => level.State == MapLevel.MapLevelState.Incomplete));
@@ -80,7 +80,7 @@ public class Map
             GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
         }
 
-    }
+    }*/
 
  
 

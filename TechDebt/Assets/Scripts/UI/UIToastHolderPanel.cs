@@ -18,7 +18,7 @@ namespace UI
         {
             foreach (UIToastPanel toastPanel in toastPanels.ToArray())
             {
-                float duration = toastPanel.Tick(Time.fixedDeltaTime);
+                float duration = toastPanel.Tick(Time.fixedUnscaledDeltaTime);
                 if (duration <= 0f)
                 {
                     toastPanel.gameObject.SetActive(false);

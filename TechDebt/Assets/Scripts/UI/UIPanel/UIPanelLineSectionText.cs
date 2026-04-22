@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI
@@ -7,6 +9,8 @@ namespace UI
     public class UIPanelLineSectionText: UIPanelLineSection
     {
         public TextMeshProUGUI text;
+
+
         public override void Initialize()
         {
             base.Initialize();
@@ -15,7 +19,10 @@ namespace UI
             text.fontWeight = FontWeight.Regular;
             text.color = Color.white;
             GetComponent<LayoutElement>().preferredWidth = -1;
+     
         }
+
+       
 
         public void h1(string s)
         {

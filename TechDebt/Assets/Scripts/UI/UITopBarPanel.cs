@@ -34,7 +34,7 @@ namespace UI
 
             List<StatType> statsToDisplay = new List<StatType>
             {
-                StatType.Money,
+                // StatType.Money,
                 StatType.TechDebt,
             };
 

@@ -166,7 +166,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         // TODO: Probably move this to the map.
         ApplyRewards(MapLevelReward.MapLevelRewardApplied.Start);
  
-        MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
+        /*MapLevelVictoryConditionBase condition = GameManager.Instance.Map.GlobalVictoryConditions.Find((
             condition => { return condition is NetworkPacketLatencyVictoryCondition; }));
         if (condition == null)
         {
@@ -181,7 +181,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     0.75f
                 )
             );
-        }
+        }*/
         
     }
 
@@ -207,7 +207,7 @@ public class MapLevel : iUIMapNode, iUnlockable
             if (reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded))
             {
                 reward.Reward.Apply();
-                
+                GameManager.Instance.UIManager.toastHolderPanel.Add("Applied " + reward.Reward.Name);
                 if (reward.Type == MapLevelReward.MapLevelRewardType.Meta)
                 {
                     metaData.claimedMetaRewardIds.Add(reward.Id);
