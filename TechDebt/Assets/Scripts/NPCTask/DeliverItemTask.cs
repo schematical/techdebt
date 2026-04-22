@@ -25,6 +25,7 @@ public class DeliverItemTask : NPCTask
             return;
         }
 
+        toastComplete = false;
         Priority = 10; 
         _currentState = DeliveryState.MovingToDropOff;
     }

@@ -67,4 +67,8 @@ public class ResearchTask : NPCTask, iProgressable
     {
         return "Research????";
     }
+    public override string GetName()
+    {
+        return "Research " + TargetTechnology.DisplayName;
+    }
 }

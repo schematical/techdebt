@@ -11,7 +11,7 @@ public class CloudWatchMetricsWOType : WorldObjectType
         DisplayName = "Cloud Watch Metrics";
         PrefabId = "CloudWatchMetrics";
         BuildTime = 30;
-        DailyCost = 30;
+        DailyCost = 1;
         CanBeUpsized = false;
         ShowInGlobalDisplay = true;
         TutorialStepId = TutorialStepId.Infra_CloudWatchMetrics_Tip;

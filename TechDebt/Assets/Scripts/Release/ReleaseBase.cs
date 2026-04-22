@@ -167,12 +167,16 @@ public class ReleaseBase
         if (TechDebtMultiplier != 1)
         {
             float diff = techDebt * TechDebtMultiplier;
-            GameManager.Instance.UIManager.toastHolderPanel.Add($"Tech Debt decreased from {Math.Round(techDebt * 100)}% to {Math.Round(diff * 100)}%");
+            int from = (int)Math.Round(techDebt * 100);
+            int to = (int)Math.Round(diff * 100);
+            if (from != to)
+            {
+                GameManager.Instance.UIManager.toastHolderPanel.Add(
+                    $"Tech Debt decreased from {from}% to {to}%");
+            }
         }
         GameManager.Instance.SetStat(StatType.TechDebt, techDebt * TechDebtMultiplier);
-     
         GameManager.Instance.MetaStats.Incr(MetaStat.Deployments);
-       
     }
 
     public void SpawnBug()

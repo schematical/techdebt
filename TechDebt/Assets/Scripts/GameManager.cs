@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public void CompleteTask(NPCTask task)
     {
+        
         if (AvailableTasks.Contains(task))
         {
             AvailableTasks.Remove(task);
@@ -763,7 +764,7 @@ public class GameManager : MonoBehaviour, iModifiable
         };
  
         Events.Clear();
-        Events.Add(new ItemDeliveryEvent());
+        // Events.Add(new ItemDeliveryEvent());
         Events.Add(new SpawnBugEvent());
         Events.Add(new SpawnXSSEvent());
         Events.Add(new SpawnSQLInjectionEvent());

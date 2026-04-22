@@ -77,7 +77,7 @@ namespace UI
         {
             if (panelState == UIState.Open)
             {
-                Debug.LogWarning($"{gameObject.name}  already has an `{panelState}` state. Skipping Show");
+                // Debug.LogWarning($"{gameObject.name}  already has an `{panelState}` state. Skipping Show");
                 return;
             }
             gameObject.SetActive(true);

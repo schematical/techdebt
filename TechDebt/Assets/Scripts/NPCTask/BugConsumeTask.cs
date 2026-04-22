@@ -9,6 +9,7 @@ public class BugConsumeTask : NPCTask
     public BugConsumeTask(iTargetable target, int prioity = 1): base(target, prioity)
     {
         maxTaskRange = .5f;
+        toastComplete = false;
     }
 /*
     public override void OnStart(NPCBase npc)

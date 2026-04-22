@@ -37,6 +37,7 @@ public abstract class NPCTask
     protected float maxTaskRange = 1f;
     protected InteractionType interactionType = InteractionType.Basic;
     protected TutorialStepId? TutorialStepId;
+    protected bool toastComplete = true;
 
     public TaskRole Role { get; protected set; } = TaskRole.DevOps;
 
@@ -105,11 +106,17 @@ public abstract class NPCTask
     public virtual void OnEnd(NPCBase npc)
     {
         npc.HideProgressBar();
+    
+
         GameManager.Instance.CompleteTask(this);
         if (MetaStat != null)
         {
             GameManager.Instance.MetaStats.Incr(MetaStat.Value);
             target.IncrMetaStat(MetaStat.Value);
+        }
+        if (toastComplete)
+        {
+            GameManager.Instance.UIManager.toastHolderPanel.Add("Task Completed: " + GetName());
         }
     }
 
@@ -139,6 +146,15 @@ public abstract class NPCTask
         }
     }
 
+    public virtual string GetName()
+    {
+       string name = Util.GetDisplayable(GetType().ToString().Replace("Task", ""));
+       /*if (target != null)
+       {
+           name += " " + target.name;
+       }*/
+       return name;
+    }
     public virtual string GetDescription()
     {
         string description = $"{GetType()} - State: {CurrentState} " +

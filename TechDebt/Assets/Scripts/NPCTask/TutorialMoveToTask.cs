@@ -10,6 +10,7 @@ public class TutorialMoveToTask : NPCTask
     {
         this.tutorialStep = tutorialStep;
         Role = TaskRole.SchematicalBot;
+        toastComplete = false;
         Priority = 10; // High priority
         interactionType = InteractionType.Explain;
         maxTaskRange = 0.25f;
