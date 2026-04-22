@@ -468,7 +468,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "dedicated-db",
                 DisplayName = "Dedicated Database",
-                Description = "",
+                Description = "Takes load off the Application Server by moving the database to its own dedicated hardware.",
                 ResearchTime = 30,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -491,20 +491,25 @@ public static class MetaGameManager
             {
                 TechnologyID = "binary-storage",
                 DisplayName = "Binary Storage",
-                Description = "",
+                Description = "A data store optimized for large binary objects like images.",
                 ResearchTime = 40,
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" }
+                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
+                    },
                 },
                 TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip
             },
             new Technology()
             {
                 TechnologyID = "redis",
-                DisplayName = "Redis Caching",
-                Description = "",
+                DisplayName = "Caching",
+                Description = "A lightning fast value key store. Allows you to decrease load on the application server by caching complex operations.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -517,7 +522,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "cdn",
                 DisplayName = "Content Delivery Network(CDN)",
-                Description = "",
+                Description = "Serves up binary files fast taking all the load off of the Application Server.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -531,7 +536,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "load-balancer",
                 DisplayName = "Load Balancer",
-                Description = "",
+                Description = "Distributes load among multiple Application Servers.",
                 ResearchTime = 30,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -547,7 +552,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "read-replicas",
                 DisplayName = "Read Replicas",
-                Description = "",
+                Description = "Takes load off the main 'Writer' database by distributing it among read replica database servers.",
                 ResearchTime = 60,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -560,7 +565,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "water-cooler",
                 DisplayName = "Water Cooler",
-                Description = "",
+                Description = "I don't have anything for this one yet.",
                 ResearchTime = 5,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -577,7 +582,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "waf",
                 DisplayName = "Web Application Firewall(WAF)",
-                Description = "",
+                Description = "Filters out bad traffic.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -596,7 +601,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "secret-manager",
                 DisplayName = "Secret Manager",
-                Description = "",
+                Description = "Decreases the chance you will leak sensitive credentials to malicious parties.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -614,7 +619,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "sqs",
                 DisplayName = "Simple Queue Service",
-                Description = "",
+                Description = "Takes a lot of CPU load off the application server by queueing up complex operations to be processed by worker servers.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -627,8 +632,8 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "cognito",
-                DisplayName = "Cognito User Pools",
-                Description = "",
+                DisplayName = "Authentication Service",
+                Description = "Further prevents PII leaks.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -657,7 +662,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "codepipeline",
                 DisplayName = "Code Pipeline",
-                Description = "",
+                Description = "Automated deployments saving you and your team time deploying software releases.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
                 {
@@ -686,7 +691,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "email-service",
                 DisplayName = "Email Service",
-                Description = "",
+                Description = "Sends emails at scale.",
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
                 UnlockConditions = new List<UnlockCondition>()
@@ -710,7 +715,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "cloud-watch-metrics",
                 DisplayName = "Metrics",
-                Description = "",
+                Description = "Gives you faster better insights into the health of your server infrastructure.",
                 Direction = Technology.TechTreeDirection.Down,
                 ResearchTime = 120,
                 CurrentState = Technology.State.Locked,
@@ -739,7 +744,7 @@ public static class MetaGameManager
             {
                 TechnologyID = "sns",
                 DisplayName = "Mobile Notifications",
-                Description = "",
+                Description = "Sends mobile phone notifications at scale.",
                 Direction = Technology.TechTreeDirection.Left,
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
