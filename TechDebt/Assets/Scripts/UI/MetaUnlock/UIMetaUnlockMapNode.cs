@@ -15,7 +15,6 @@ namespace UI
         public int Level { get; set; }
 
         public float GetProgress() => 0;
-
         public UnityEngine.Tilemaps.TileBase GetTile()
         {
             string tileId = "TechTreeLockedTile";

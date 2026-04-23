@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MetaChallenges;
 using UnityEngine;
 
 namespace UI
@@ -21,9 +22,8 @@ namespace UI
         {
             _panel.CleanUp();
             
-            MetaProgressData progress = MetaGameManager.LoadProgress();
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
-            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
+            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {GetAvailablePrestigePoints()}";
 
             UIMapPanel.MapNodeView selectedNode = _panel.GetSelectedNode();
             if (selectedNode == null)
@@ -48,20 +48,22 @@ namespace UI
                     UIMetaUnlockMapNode depNode = GetNodeById(depId);
                     if (depNode != null) depName = depNode.DisplayName;
 
-                    bool met = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, depId);
+                    bool met = false;
+                    if (depNode != null) met = MetaGameManager.IsPrestigePointAllocationLeveledUp(depNode.AllocationId, depNode.Level);
+                    
                     string status = met ? "<color=green>(MET)</color>" : "<color=red>(NOT MET)</color>";
                     _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {depName} {status}";
                 }
             }
 
-            bool isEquipped = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, mapNode.Id);
+            bool isEquipped = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.AllocationId, mapNode.Level);
 
             if (isEquipped)
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: ALLOCATED (START UNLOCKED)";
                 
-                List<PrestigePointAllocation> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
-                    if (r.Type != mapNode.ResourceType) return false;
+                MetaProgressData progress = MetaGameManager.GetProgress();
+                List<MetaPrestigePointAllocation> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
                     UIMetaUnlockMapNode node = GetNodeById(r.Id);
                     return node != null && node.DependencyIds != null && node.DependencyIds.Contains(mapNode.Id);
                 });
@@ -76,7 +78,7 @@ namespace UI
                 }
 
                 _panel.AddButton("Unallocate (Refund)", () => {
-                    UnallocateRecursive(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
+                    UnallocateRecursive(mapNode);
                     _panel.Refresh();
                 });
             }
@@ -84,10 +86,10 @@ namespace UI
             {
                 if (mapNode.CurrentState == MapNodeState.Locked)
                 {
-                    if (progress.prestigePoints >= mapNode.PrestigeCost)
+                    if (GetAvailablePrestigePoints() >= mapNode.PrestigeCost)
                     {
                         _panel.AddButton("Allocate", () => {
-                            MetaGameManager.UpdatePrestigePointAllocation( mapNode.AllocationId, mapNode.PrestigeCost, mapNode.Level);
+                            MetaGameManager.UpdatePrestigePointAllocation( mapNode.AllocationId, mapNode.Level, mapNode.PrestigeCost);
                             _panel.Refresh();
                         });
                     }
@@ -113,15 +115,14 @@ namespace UI
             {
                 UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"money-{i}",
+                    AllocationId = "money",
+                    Level = i,
                     DisplayName = $"Budget Bonus {i}",
                     Description = $"Start each run with an additional ${moneyValues[i-1]}.",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Up,
-                    DependencyIds = i == 1 ? new List<string>() : new List<string> { $"money-{i-1}" },
-                    StatType = StatType.Money,
-                    Value = moneyValues[i-1]
+                    DependencyIds = i == 1 ? new List<string>() : new List<string> { $"money-{i-1}" }
                 };
                 nodes.Add(node);
             }
@@ -131,13 +132,13 @@ namespace UI
                 UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
                     Id = $"reroll-{i}",
+                    AllocationId = "reroll",
+                    Level = i,
                     DisplayName = $"ReRoll {i}",
                     Description = $"Gain an additional Re-Roll (Total: {i}).",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Down,
-                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"reroll-{i - 1}" },
-                    AllocationId = "reroll",
-                    Level = i
+                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"reroll-{i - 1}" }
                 };
                 nodes.Add(node);
             }
@@ -147,37 +148,23 @@ namespace UI
                 nodes.Add(new UIMetaUnlockMapNode
                 {
                     Id = $"banish-{i}",
+                    AllocationId = "banish",
+                    Level = i,
                     DisplayName = $"Banish Level {i}",
                     Description = $"Gain an additional Banish (Total: {i}).",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Down,
-                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"banish-{i-1}" },
-                    AllocationId = "banish",
-                    Level = i
+                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"banish-{i-1}" }
                 });
             }
-            
-            /*for (int i = 1; i <= 6; i++)
-            {
-                nodes.Add(new UIMetaUnlockMapNode
-                {
-                    ResourceType = MetaResourceType.GlobalStatBaseStat,
-                    Id = $"technical-interviews-{i}",
-                    DisplayName = $"Technical Interviews {i}",
-                    Description = $"Starting Team Member starts at Lvl {i}).",
-                    PrestigeCost = i,
-                    Direction = MapNodeDirection.Left,
-                    DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"technical-interviews-{i-1}" },
-                    StatType = StatType.NPC_StartLevel,
-                    Value = 1
-                });
-            }*/
             
             for (int i = 1; i <= 6; i++)
             {
                 nodes.Add(new UIMetaUnlockMapNode
                 {
                     Id = $"training-program-{i}",
+                    AllocationId = "training-program",
+                    Level = i,
                     DisplayName = $"Training Program {i}",
                     Description = $"Team Members are more likely to get rarer level ups",
                     PrestigeCost = i,

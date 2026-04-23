@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MetaChallenges;
 using UnityEngine;
 
 namespace UI
@@ -17,7 +18,7 @@ namespace UI
                 bool isVisable = tech.UnlockConditions.All(condition =>
                 {
                     if (condition.Type != UnlockCondition.ConditionType.Technology) return true;
-                    return allTech.Any(t => t.TechnologyID == condition.TechnologyID);
+                    return allTech.Any(t => t.TechnologyID == condition.TargetId);
                 });
 
                 if (isVisable)
@@ -25,8 +26,9 @@ namespace UI
                     int prestigeCost = Mathf.CeilToInt(tech.ResearchTime / 30f);
                     UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                     {
-                        ResourceType = MetaResourceType.Technology,
                         Id = tech.TechnologyID,
+                        AllocationId = tech.TechnologyID,
+                        Level = 1,
                         DisplayName = tech.DisplayName,
                         Description = tech.Description,
                         Direction = (MapNodeDirection)tech.Direction,
@@ -43,9 +45,8 @@ namespace UI
         {
             _panel.CleanUp();
             
-            MetaProgressData progress = MetaGameManager.GetProgress();
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
-            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
+            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {GetAvailablePrestigePoints()}";
 
             UIMapPanel.MapNodeView selectedNode = _panel.GetSelectedNode();
             if (selectedNode == null)
@@ -70,19 +71,20 @@ namespace UI
                     Technology depTech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == depId);
                     if (depTech != null) depName = depTech.DisplayName;
 
-                    bool met = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, depId);
+                    bool met = MetaGameManager.IsPrestigePointAllocationLeveledUp(depId, 1);
                     string status = met ? "<color=green>(MET)</color>" : "<color=red>(NOT MET)</color>";
                     _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {depName} {status}";
                 }
             }
 
-            bool isEquipped = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, mapNode.Id);
+            bool isEquipped = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.AllocationId, mapNode.Level);
 
             if (isEquipped)
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: ALLOCATED (START UNLOCKED)";
                 
-                List<PrestigePointAllocation> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
+                MetaProgressData progress = MetaGameManager.GetProgress();
+                List<MetaPrestigePointAllocation> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
                     Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
                     return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(mapNode.Id);
                 });
@@ -97,7 +99,7 @@ namespace UI
                 }
 
                 _panel.AddButton("Unallocate (Refund)", () => {
-                    UnallocateRecursive(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost);
+                    UnallocateRecursive(mapNode);
                     _panel.Refresh();
                 });
             }
@@ -105,10 +107,10 @@ namespace UI
             {
                 if (mapNode.CurrentState == MapNodeState.Locked)
                 {
-                    if (progress.prestigePoints >= mapNode.PrestigeCost)
+                    if (GetAvailablePrestigePoints() >= mapNode.PrestigeCost)
                     {
                         _panel.AddButton("Allocate", () => {
-                            MetaGameManager.UpdatePrestigePointAllocation(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost, mapNode.StatType, mapNode.Value);
+                            MetaGameManager.UpdatePrestigePointAllocation(mapNode.AllocationId, mapNode.Level, mapNode.PrestigeCost);
                             _panel.Refresh();
                         });
                     }

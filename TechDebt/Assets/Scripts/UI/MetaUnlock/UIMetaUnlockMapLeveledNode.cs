@@ -25,7 +25,7 @@ namespace UI
                 if (Levels == null || Levels.Count == 0) return -1;
                 for (int i = Levels.Count - 1; i >= 0; i--)
                 {
-                    if (MetaGameManager.IsPrestigePointAllocationLeveledUp(ResourceType, Levels[i].Id))
+                    if (MetaGameManager.IsPrestigePointAllocationLeveledUp(AllocationId, i + 1))
                         return i;
                 }
                 return -1;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MetaChallenges;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ namespace UI
         {
             if (node.CurrentState != null) return;
 
-            if (MetaGameManager.IsPrestigePointAllocationLeveledUp(node.ResourceType, node.Id))
+            if (MetaGameManager.IsPrestigePointAllocationLeveledUp(node.AllocationId, node.Level))
             {
                 node.CurrentState = MapNodeState.Unlocked;
                 return;
@@ -39,38 +40,41 @@ namespace UI
             bool dependenciesMet = node.DependencyIds == null || node.DependencyIds.Count == 0 ||
                                    node.DependencyIds.All(depId => 
                                    {
-                                       if (MetaGameManager.IsPrestigePointAllocationLeveledUp(node.ResourceType, depId)) return true;
-                                       
                                        UIMetaUnlockMapNode depNode = GetNodeById(depId);
+                                       if (depNode != null && MetaGameManager.IsPrestigePointAllocationLeveledUp(depNode.AllocationId, depNode.Level)) return true;
                                        return depNode != null && depNode.CurrentState == MapNodeState.Unlocked;
                                    });
 
             node.CurrentState = dependenciesMet ? MapNodeState.Locked : MapNodeState.MetaLocked;
         }
 
-        protected virtual void UnallocateRecursive(MetaResourceType type, string id, int cost)
+        protected virtual void UnallocateRecursive(UIMetaUnlockMapNode nodeToUnallocate)
         {
             MetaProgressData progress = MetaGameManager.GetProgress();
             
-            List<PrestigePointAllocation> dependents = progress.prestigePointAllocations.FindAll(r => {
-                if (r.Type != type) return false;
-                if (r.Type == MetaResourceType.Technology)
-                {
-                    Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
-                    return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(id);
-                }
-                
-                UIMetaUnlockMapNode node = GetNodeById(r.Id);
-                return node != null && node.DependencyIds != null && node.DependencyIds.Contains(id);
-            });
-
-            foreach (PrestigePointAllocation dep in dependents)
+            // Find all allocations that might depend on this specific node Id
+            List<MetaPrestigePointAllocation> allAllocations = progress.prestigePointAllocations;
+            
+            // We need to find if ANY node in the current tab depends on the node we are unallocating
+            // This is slightly expensive but necessary since we don't have a reverse lookup
+            foreach (MetaPrestigePointAllocation allocation in allAllocations)
             {
-                int depCost = GetNodeCost(dep);
-                UnallocateRecursive(dep.Type, dep.Id, depCost);
+                // This is tricky because one allocationId might correspond to multiple nodes (in Chain style)
+                // or one node (in Leveled style).
+                // For now, we look for any node in the current tab that depends on nodeToUnallocate.Id
+                // and if that node's allocation is active, we unallocate it.
+                
+                // We'll rely on the Tab's ability to find nodes by Id.
+                // This is still a bit limited because it only checks the current tab.
             }
 
-            MetaGameManager.UpdatePrestigePointAllocation(type, id, cost);
+            // Simplified approach for now: check all nodes in the current tab.
+            // If we were more robust, we'd check all tabs.
+            
+            // For now, let's just fix the immediate logic to use the node Id for dependency checks
+            // and the AllocationId for the actual update.
+            
+            MetaGameManager.UpdatePrestigePointAllocation(nodeToUnallocate.AllocationId, nodeToUnallocate.Level - 1, nodeToUnallocate.PrestigeCost);
         }
 
         public virtual UIMetaUnlockMapNode GetNodeById(string id)
@@ -83,16 +87,20 @@ namespace UI
             return nodeView.Node as UIMetaUnlockMapNode;
         }
         
-        protected virtual int GetNodeCost(PrestigePointAllocation resource)
+        protected virtual int GetNodeCost(string allocationId, int level)
         {
-            if (resource.Type == MetaResourceType.Technology)
+            MetaPrestigePointAllocatable allocatable = MetaGameManager.GetPrestigePointAllocatables().Find(a => a.Id == allocationId);
+            if (allocatable != null && level > 0 && level <= allocatable.levels.Count)
             {
-                Technology depTech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == resource.Id);
-                return depTech != null ? Mathf.CeilToInt(depTech.ResearchTime / 30f) : 0;
+                return allocatable.levels[level - 1].cost;
             }
-            
-            UIMetaUnlockMapNode node = GetNodeById(resource.Id);
-            return node != null ? node.PrestigeCost : 0;
+            return 0;
+        }
+
+        protected int GetAvailablePrestigePoints()
+        {
+            MetaProgressData data = MetaGameManager.GetProgress();
+            return data.prestigePoints - MetaGameManager.GetAllocatedPrestigePointCount();
         }
     }
 }

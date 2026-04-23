@@ -22,10 +22,8 @@ namespace UI
         {
             _panel.CleanUp();
             
-            MetaProgressData progress = MetaGameManager.GetProgress();
-            
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
-            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
+            prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {GetAvailablePrestigePoints()}";
 
             UIMapPanel.MapNodeView selectedNode = _panel.GetSelectedNode();
             if (selectedNode == null)
@@ -50,7 +48,7 @@ namespace UI
             int currentLevelIdx = mapLeveledNode.CurrentLevelIndex;
             bool isMaxLevel = mapLeveledNode.Levels != null && currentLevelIdx == mapLeveledNode.Levels.Count - 1;
  
-            bool canAfford = progress.prestigePoints >= mapLeveledNode.PrestigeCost;
+            bool canAfford = GetAvailablePrestigePoints() >= mapLeveledNode.PrestigeCost;
             bool readyToUnlock = mapLeveledNode.CurrentState == MapNodeState.Locked;
 
             int i = 0;
@@ -98,7 +96,7 @@ namespace UI
                         _panel.AddButton(hireText, () =>
                         {
                             UIMetaUnlockLevelData nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
-                            MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
+                            MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.AllocationId, currentLevelIdx + 2, nextLevel.PrestigeCost);
                             _panel.Refresh();
                         });
                     }
@@ -123,7 +121,7 @@ namespace UI
                 _panel.AddButton(demoteText, () =>
                 {
                     UIMetaUnlockLevelData currentLevel = mapLeveledNode.Levels[currentLevelIdx];
-                    MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
+                    MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.AllocationId, currentLevelIdx, currentLevel.PrestigeCost);
                     _panel.Refresh();
                 });
             }
@@ -138,8 +136,9 @@ namespace UI
             // Root Node: CEO
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_CEO",
+                AllocationId = "OrgChart_CEO",
+                Level = 1,
                 DisplayName = "CEO",
                 Description = "",
                 Direction = MapNodeDirection.Down,
@@ -150,8 +149,8 @@ namespace UI
             // Branch: Marketing
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Marketing",
+                AllocationId = "OrgChart_Marketing",
                 DisplayName = "Marketing",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
@@ -166,8 +165,8 @@ namespace UI
          
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Technology",
+                AllocationId = "OrgChart_Technology",
                 DisplayName = "Technology",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
@@ -182,8 +181,8 @@ namespace UI
             // Branch: Finance
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Finance",
+                AllocationId = "OrgChart_Finance",
                 DisplayName =  "Finance",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },
@@ -198,8 +197,8 @@ namespace UI
             // Branch: Security
             nodes.Add(new UIMetaUnlockMapLeveledNode
             {
-                ResourceType = MetaResourceType.GlobalStatBaseStat,
                 Id = "OrgChart_Security",
+                AllocationId = "OrgChart_Security",
                 DisplayName = "Info Security",
                 Direction = MapNodeDirection.Down,
                 DependencyIds = new List<string> { "OrgChart_CEO" },

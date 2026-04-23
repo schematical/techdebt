@@ -282,6 +282,10 @@ public static class MetaGameManager
     {
         MetaProgressData data = GetProgress();
         MetaPrestigePointAllocation allocation =  data.prestigePointAllocations.Find(r =>  r.Id == allocationId);
+        if (allocation == null)
+        {
+            return false;
+        }
         return allocation.level == level;
     }
 
@@ -1356,35 +1360,20 @@ public static class MetaGameManager
 
     public static List<MetaPrestigePointAllocatable> GetPrestigePointAllocatables()
     {
-        return new List<MetaPrestigePointAllocatable>()
+        List<MetaPrestigePointAllocatable> list = new List<MetaPrestigePointAllocatable>()
         {
             new MetaPrestigePointAllocatable()
             {
                 Id = "banish",
-                levels =  new List<MetaPrestigePointAllocatableLevel>()
+                levels = new List<MetaPrestigePointAllocatableLevel>()
                 {
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 1,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 2,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 3,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 4,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 5,
-                    }
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 4 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 5 }
                 },
-                reward =   new GlobalStatBaseValueReward()
+                reward = new GlobalStatBaseValueReward()
                 {
                     Group = RewardBase.RewardGroup.Meta,
                     Id = "banish",
@@ -1392,39 +1381,21 @@ public static class MetaGameManager
                     Description = "Allows you to banish rewards",
                     StatType = StatType.Global_Banish,
                     IconSpriteId = "IconTechDebt",
-                    LevelValues = new List<float>()
-                    {
-                        1,2,3,4,5,6
-                    }
+                    LevelValues = new List<float>() { 1, 2, 3, 4, 5, 6 }
                 },
             },
             new MetaPrestigePointAllocatable()
             {
                 Id = "reroll",
-                levels =  new List<MetaPrestigePointAllocatableLevel>()
+                levels = new List<MetaPrestigePointAllocatableLevel>()
                 {
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 1,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 2,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 3,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 4,
-                    },
-                    new MetaPrestigePointAllocatableLevel()
-                    {
-                        cost = 5,
-                    }
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 4 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 5 }
                 },
-                reward =  new GlobalStatBaseValueReward()
+                reward = new GlobalStatBaseValueReward()
                 {
                     Group = RewardBase.RewardGroup.Meta,
                     Id = "rerolls",
@@ -1432,12 +1403,99 @@ public static class MetaGameManager
                     Description = "Allows you to reroll rewards",
                     StatType = StatType.Global_ReRolls,
                     IconSpriteId = "IconTechDebt",
-                    LevelValues = new List<float>()
-                    {
-                        1,2,3,4,5,6
-                    }
+                    LevelValues = new List<float>() { 1, 2, 3, 4, 5, 6 }
                 },
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "money",
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 4 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 5 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 6 }
+                },
+                reward = new GlobalStatBaseValueReward()
+                {
+                    Group = RewardBase.RewardGroup.Meta,
+                    Id = "money",
+                    Name = "Budget Bonus",
+                    Description = "Start each run with additional budget",
+                    StatType = StatType.Money,
+                    IconSpriteId = "IconDollar",
+                    LevelValues = new List<float>() { 50, 100, 200, 400, 800, 1600 }
+                }
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "training-program",
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 4 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 5 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 6 }
+                }
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "OrgChart_Marketing",
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 4 }
+                }
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "OrgChart_Technology",
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 5 }
+                }
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "OrgChart_Finance",
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 4 }
+                }
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "OrgChart_Security",
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
+                    new MetaPrestigePointAllocatableLevel() { cost = 5 }
+                }
             }
         };
+
+        foreach (Technology tech in GetAllTechnologies())
+        {
+            list.Add(new MetaPrestigePointAllocatable()
+            {
+                Id = tech.TechnologyID,
+                levels = new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel() { cost = Mathf.CeilToInt(tech.ResearchTime / 30f) }
+                }
+            });
+        }
+
+        return list;
     }
 }
