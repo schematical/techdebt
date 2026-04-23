@@ -281,12 +281,12 @@ public static class MetaGameManager
     public static bool IsPrestigePointAllocationLeveledUp(string allocationId, int level = 1)
     {
         MetaProgressData data = GetProgress();
-        MetaPrestigePointAllocation allocation =  data.prestigePointAllocations.Find(r =>  r.Id == allocationId);
+        MetaPrestigePointAllocation allocation = data.prestigePointAllocations.Find(r => r.Id == allocationId);
         if (allocation == null)
         {
             return false;
         }
-        return allocation.level == level;
+        return allocation.level >= level;
     }
 
     public static void UpdatePrestigePointAllocation(string allocationId, int level, int cost)
