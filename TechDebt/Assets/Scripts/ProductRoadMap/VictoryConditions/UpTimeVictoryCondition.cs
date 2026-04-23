@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UI;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 
@@ -30,11 +31,25 @@ public class UpTimeVictoryCondition : MapLevelVictoryConditionBase
 
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {
+        UIPanelLineSectionText textSection = victoryConditionListPanel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+        textSection.text.text =
+            $"Keep Failed Packets less than {Math.Round(UpTimeRequirement * 100)}%";
         UIPanelLineProgressBar line = victoryConditionListPanel.AddLine<UIPanelLineProgressBar>();
         line.SetPreText("Failed Packets: ");
         line.OnGetProgress = () =>
         {
-            return GetPacketFailedPercent() / UpTimeRequirement;
+            float progress = GetPacketFailedPercent();
+            Color color = Color.white;
+            if (progress > UpTimeRequirement)
+            {
+                color = Color.red;
+            }else if (progress > .75 * UpTimeRequirement)
+            {
+                color = Color.orangeRed;
+            }
+            line.SetColor(color);
+            textSection.text.color = color;
+            return progress;
         };
     }
 

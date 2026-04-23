@@ -22,6 +22,7 @@ namespace UI
                     return;
             }
             CleanUp();
+            
             List<MapLevelVictoryConditionBase> victoryConditions =
                 GameManager.Instance.Map.GetCurrentLevel().GetCombinedVictoryConditions();
             foreach (MapLevelVictoryConditionBase victoryCondition in victoryConditions)

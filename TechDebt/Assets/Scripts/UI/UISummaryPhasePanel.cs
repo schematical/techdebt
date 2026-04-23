@@ -1,36 +1,20 @@
 using System.Collections.Generic;
+using MetaChallenges;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class SummaryData
-    {
-        public int Day;
-        public float PacketsTotal;
-        public float PacketsFailed;
-        public float PacketsSucceeded;
-        public float PercentageServed;
-        public float TotalCosts;
-        public float TotalIncome;
-        public float NetIncome;
-        public float TotalMoney;
-        public float AttackPossibility;
-        public List<string> VictoryConditions = new List<string>();
-        public List<KeyValuePair<string, float>> InfraCosts = new List<KeyValuePair<string, float>>();
-    }
 
     public class UISummaryPhasePanel: UIPanel
     {
      
 
-        void Start()
-        {
-        
-        }
+       
 
-        public void ShowSummary(List<MapLevelVictoryConditionBase> victoryConditions)
+        public void ShowSummary(List<MapLevelVictoryConditionBase> victoryConditions, List<MetaChallengeBase> newlyUnlockedMetaChallenges)
         {
             CleanUp();
+            GameManager.Instance.UIManager.ForcePause();
             GameManager.Instance.UIManager.Block();
             base.Show();
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1("Game Over");
@@ -43,7 +27,16 @@ namespace UI
                
                 }
             }
-          
+
+            if (newlyUnlockedMetaChallenges.Count > 0)
+            {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Unlocked");
+                foreach (MetaChallengeBase metaChallenge in newlyUnlockedMetaChallenges)
+                {
+                        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                            $" - {metaChallenge.DisplayName}";
+                }
+            }
             AddButton("Start Over", () => { GameManager.Instance.StartNewGame(); });
             AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
        

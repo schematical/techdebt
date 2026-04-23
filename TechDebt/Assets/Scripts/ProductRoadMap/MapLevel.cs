@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.Rewards;
+using MetaChallenges;
 using NPCs;
 using Stats;
 using UI;
@@ -465,16 +466,8 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public virtual void EndGame(string dialog = null, bool isVictory = false)
     {
-        //TODO: Display run summary screen.
-        // - Stats
-        // - Unlocks
-        // - Rewards 
-        // - Meta Progress
-             
- 
-
-        GameManager.Instance.UpdateMetaProgress(isVictory);
-        GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(GetCombinedVictoryConditions());
+        List<MetaChallengeBase> newlyUnlockedMetaChallenges = GameManager.Instance.UpdateMetaProgress(isVictory);
+        GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(GetCombinedVictoryConditions(), newlyUnlockedMetaChallenges);
 
         /*NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);

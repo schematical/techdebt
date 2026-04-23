@@ -14,6 +14,7 @@ namespace UI
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
         protected Image ProgressImage;
+        protected Color _color = Color.white;
         public Func<float> OnGetProgress { get; set; }
         public override void Initialize(int _depth, UIPanel _rootPanel, UIPanelLine _parentLine)
         {
@@ -48,7 +49,7 @@ namespace UI
         {
             if (color == null)
             {
-                color = Color.white;
+                color = _color;
             }
             if (ProgressPanelHolder == null || ProgressBar == null)
             {
@@ -77,6 +78,12 @@ namespace UI
             }
             Text.rectTransform.anchoredPosition = new Vector2(textX, Text.rectTransform.anchoredPosition.y);
             
+        }
+
+        public void SetColor(Color color)
+        {
+            _color = color;
+            ProgressImage.color = color;
         }
     }
 }

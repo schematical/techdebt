@@ -1163,7 +1163,7 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     
 
-    public void UpdateMetaProgress(bool isVictory = false)
+    public List<MetaChallengeBase> UpdateMetaProgress(bool isVictory = false)
     {
         MetaProgressData prevMetaState = MetaGameManager.LoadProgress();
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
@@ -1172,7 +1172,7 @@ public class GameManager : MonoBehaviour, iModifiable
         if (isVictory) newMetaState.successfulExits += 1;
         MetaGameManager.SaveProgress(newMetaState);
         //TODO: Move this to be queued to show at the end of the run.
-        if (newlyPassedChallenges.Count > 0)
+        /*if (newlyPassedChallenges.Count > 0)
         {
             string alertText = "";
             foreach (MetaChallengeBase challenge in newlyPassedChallenges)
@@ -1181,7 +1181,8 @@ public class GameManager : MonoBehaviour, iModifiable
             } 
 
             UIManager.ShowAlert(alertText);
-        }
+        }*/
+        return newlyPassedChallenges;
 
     }
 

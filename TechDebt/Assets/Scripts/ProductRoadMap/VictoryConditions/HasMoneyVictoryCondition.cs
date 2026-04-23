@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UI;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 
@@ -30,7 +31,20 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
         UIPanelLineSectionText lineText = line.Add<UIPanelLineSectionText>();
         lineText.OnFixedUpdate((lineSection) =>
         {
-            (lineSection as UIPanelLineSectionText).text.text =
+            UIPanelLineSectionText textSection = (lineSection as UIPanelLineSectionText);
+            float money = GameManager.Instance.GetStatValue(StatType.Money);
+            if (money > Requirement + 100)
+            {
+                textSection.text.color = Color.white;
+            }
+            else if (money > Requirement)
+            {
+                textSection.text.color = Color.orangeRed;
+            }else
+            {
+                textSection.text.color = Color.red;
+            }
+            textSection.text.text =
                 $"Remaining Budget: ${GameManager.Instance.GetStatValue(StatType.Money)}";
         });
     }
