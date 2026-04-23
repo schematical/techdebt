@@ -682,6 +682,9 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.NPC_XPSpeed, 1){
             
         });
+        Stats.Add(new StatData(StatType.NPC_LevelUpRarity, .1f){
+            
+        });
         
         NetworkPacketData coin = new NetworkPacketData(0f)
         {
