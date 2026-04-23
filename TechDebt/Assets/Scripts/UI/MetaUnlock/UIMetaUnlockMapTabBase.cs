@@ -75,7 +75,6 @@ namespace UI
 
         public virtual UIMetaUnlockMapNode GetNodeById(string id)
         {
-            Debug.Log($"GetNodeById: {id}");
             UIMapPanel.MapNodeView nodeView = _panel.GetNodeById(id);
             if (nodeView == null)
             {

@@ -182,12 +182,12 @@ namespace UI
                     ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"training-program-{i}",
                     DisplayName = $"Training Program {i}",
-                    Description = $"Team Member gain XP faster.",
+                    Description = $"Team Members are more likely to get rarer level ups",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Left,
                     DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"training-program-{i-1}" },
-                    StatType = StatType.NPC_XPSpeed,
-                    Value = .25f * i/2
+                    StatType = StatType.NPC_LevelUpRarity,
+                    Value = i * .1f
                 });
             }
 
