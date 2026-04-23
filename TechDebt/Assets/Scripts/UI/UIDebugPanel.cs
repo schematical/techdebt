@@ -125,7 +125,7 @@ public class UIDebugPanel : UIPanel
     private void RunMisc()
     {
         Debug.Log("LoadingProgress");
-        MetaProgressData prevMetaState = MetaGameManager.LoadProgress();
+        MetaProgressData prevMetaState = MetaGameManager.GetProgress();
         Debug.Log("Progress Loaded");
         MetaGameManager.SaveProgress(prevMetaState);
         Debug.Log("Progress Saved");

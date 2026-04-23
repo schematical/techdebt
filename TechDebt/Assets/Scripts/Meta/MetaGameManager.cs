@@ -18,19 +18,10 @@ public static class MetaGameManager
 {
     private static List<MetaChallengeBase> _challenges = new List<MetaChallengeBase>();
 
-    public static MetaProgressData ProgressData
-    {
-        get { return LoadProgress(); }
-    }
-
-    static MetaGameManager()
-    {
-        // Static constructor called once when the class is first accessed
-
-        LoadProgress();
-    }
-
     public static int CurrentSlotIndex = 0;
+    public static MetaProgressData ProgressData;
+    
+
 
     public static string GetSavePath(string foldername = null, string filename = "meta_progress.json")
     {
@@ -62,18 +53,24 @@ public static class MetaGameManager
         // Debug.Log($"Progress saved to {GetSavePath()}");
     }
 
-    public static MetaProgressData LoadProgress()
+    public static MetaProgressData GetProgress(bool forceReload = false)
     {
+        if (!forceReload && ProgressData != null)
+        {
+            return ProgressData;
+        }
         if (!File.Exists(GetSavePath()))
         {
-            return new MetaProgressData();
+            ProgressData =  new MetaProgressData();
+            return ProgressData;
         }
 
         string json = File.ReadAllText(GetSavePath());
-        return JsonUtility.FromJson<MetaProgressData>(json);
+        ProgressData = JsonUtility.FromJson<MetaProgressData>(json);
+        return ProgressData;
     }
     
-    public static MetaProgressData LoadProgress(int slotIndex)
+    public static MetaProgressData LoadProgressFromSaveSlot(int slotIndex)
     {
         string path = GetSavePath(foldername: $"techdebt_slot_{slotIndex}", filename: "meta_progress.json");
         if (!File.Exists(path))
@@ -97,7 +94,7 @@ public static class MetaGameManager
 
     public static MetaMapLevelData GetLevelDataById(string levelId)
     {
-        MetaProgressData data = LoadProgress();
+        MetaProgressData data = GetProgress();
         if (data.mapLevelData == null) return null;
         return data.mapLevelData.Find(l => l.levelId == levelId);
     }
@@ -110,7 +107,7 @@ public static class MetaGameManager
 
     public static MetaProgressData GetUpdatedMetaStats(List<WorldObjectType> worldObjectTypes)
     {
-        MetaProgressData progressData = LoadProgress();
+        MetaProgressData progressData = GetProgress();
 
         if (progressData.metaStats.game == null)
         {
@@ -242,7 +239,7 @@ public static class MetaGameManager
     {
         if (state == null)
         {
-            state = LoadProgress();
+            state = GetProgress();
         }
 
         List<MetaChallengeBase> completedChallenges = new List<MetaChallengeBase>();
@@ -283,14 +280,14 @@ public static class MetaGameManager
 
     public static bool IsResourceEquipped(MetaResourceType type, string id)
     {
-        MetaProgressData data = LoadProgress();
-        return data.prestigePointAllocations.Exists(r => r.Type == type && r.Id == id);
+        MetaProgressData data = GetProgress();
+        return data.prestigePointAllocations.Exists(r =>  r.Id == id);
     }
 
     public static void ToggleResourceEquip(MetaResourceType type, string id, int cost, StatType statType = StatType.Money, float value = 0)
     {
-        MetaProgressData data = LoadProgress();
-        MetaUnlockResource existing = data.prestigePointAllocations.Find(r => r.Type == type && r.Id == id);
+        MetaProgressData data = GetProgress();
+        PrestigePointAllocation existing = data.prestigePointAllocations.Find(r => r.Id == id);
 
         if (existing != null)
         {
@@ -304,22 +301,30 @@ public static class MetaGameManager
             if (data.prestigePoints >= cost)
             {
                 data.prestigePoints -= cost;
-                data.prestigePointAllocations.Add(new MetaUnlockResource { Type = type, Id = id, StatType = statType, Value = value });
+                data.prestigePointAllocations.Add(new PrestigePointAllocation {  Id = id, });
             }
         }
         SaveProgress(data);
     }
 
-    public static void ApplyAllocatedPrestige()
+    public static void ApplyMetaRewards()
     {
-        MetaProgressData data = LoadProgress();
-        foreach (MetaUnlockResource allocation in data.prestigePointAllocations)
+        MetaProgressData data = GetProgress();
+        List<RewardBase> rewards = GetModifierByGroup(RewardBase.RewardGroup.Meta).FindAll((reward => reward.IsUnlocked()));
+        foreach (RewardBase reward in rewards)
         {
-            RewardBase reward = allocation.ToReward();
-            if (reward != null)
+            if (reward is GlobalStatBaseValueReward)
             {
-                reward.Apply();
+                PrestigePointAllocation allocation = data.prestigePointAllocations.Find((allocation => allocation.Id == reward.Id));
+                if (allocation == null)
+                {
+                    throw new SystemException($"Cannot find an allocation for Meta Reward `{reward.Id}`");
+                }
+
+                (reward as GlobalStatBaseValueReward).Level = allocation.level;
             }
+           
+            reward.Apply();
         }
     }
 
@@ -348,7 +353,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "white-board"
+                        TargetId = "white-board"
                     },
                     new UnlockCondition()
                     {
@@ -371,7 +376,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     }
                 },
                 CurrentState = Technology.State.Locked,
@@ -390,7 +395,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "product-road-map"
+                        TargetId = "product-road-map"
                     }
                 },
                 CurrentState = Technology.State.Locked, // TODO: Meta lock this?
@@ -408,7 +413,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "white-board"
+                        TargetId = "white-board"
                     },
                     new UnlockCondition()
                     {
@@ -431,7 +436,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     },
                     new UnlockCondition()
                     {
@@ -453,7 +458,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server-size-medium"
+                        TargetId = "application-server-size-medium"
                     },
                     new UnlockCondition()
                     {
@@ -475,7 +480,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     },
                     new UnlockCondition()
                     {
@@ -496,7 +501,7 @@ public static class MetaGameManager
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "application-server" },
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "application-server" },
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
@@ -514,7 +519,7 @@ public static class MetaGameManager
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" }
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
                 },
                 TutorialStepId = TutorialStepId.Infra_Redis_Tip
             },
@@ -527,7 +532,7 @@ public static class MetaGameManager
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" }
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "binary-storage" }
                 },
                 TutorialStepId = TutorialStepId.Infra_CDN_Tip
                 // serve up X binary packets with the s3 bucket
@@ -541,9 +546,9 @@ public static class MetaGameManager
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" },
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" },
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "binary-storage" }
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "binary-storage" }
                 },
                 TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip
                 // ??? Make it to day y?
@@ -557,7 +562,7 @@ public static class MetaGameManager
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "dedicated-db" }
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
                 }
                 // Scale up your dedicated-db to level 2
             },
@@ -572,7 +577,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology, 
-                        TechnologyID = "kanban-board"
+                        TargetId = "kanban-board"
                     }
                 },
                 Direction = Technology.TechTreeDirection.Right,
@@ -589,7 +594,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "cloud-watch-metrics"
+                        TargetId = "cloud-watch-metrics"
                     }
                 },
                 CurrentState = Technology.State.Locked,
@@ -608,7 +613,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology, 
-                        TechnologyID = "cloud-watch-metrics"
+                        TargetId = "cloud-watch-metrics"
                     }
                 },
                 Direction = Technology.TechTreeDirection.Down,
@@ -624,7 +629,7 @@ public static class MetaGameManager
                 UnlockConditions = new List<UnlockCondition>()
                 {
                     new UnlockCondition()
-                        { Type = UnlockCondition.ConditionType.Technology, TechnologyID = "load-balancer" }
+                        { Type = UnlockCondition.ConditionType.Technology, TargetId = "load-balancer" }
                 },
                 TutorialStepId = TutorialStepId.Infra_SQS_Tip
                 // survive Y packets in a single run.
@@ -640,7 +645,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "cloud-watch-metrics"
+                        TargetId = "cloud-watch-metrics"
                     },
                     new UnlockCondition()
                     {
@@ -669,7 +674,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     },
                     new UnlockCondition()
                     {
@@ -698,7 +703,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     },
                     new UnlockCondition()
                     {
@@ -723,7 +728,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     },
                     new UnlockCondition()
                     {
@@ -752,7 +757,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TechnologyID = "application-server"
+                        TargetId = "application-server"
                     },
                     new UnlockCondition()
                     {
@@ -1229,7 +1234,7 @@ public static class MetaGameManager
                 Name = "Tech Debt",
                 Description = "Decreases Current Tech Debt",
                 StatType = StatType.TechDebt,
-                BaseValue = -2.0f,
+                LevelValues = new List<float>() {-2.0f }, 
                 // ScaleDirection = ScaleDirection.Down,
                 IconSpriteId = "IconTechDebt"
             },
@@ -1240,7 +1245,7 @@ public static class MetaGameManager
                 Name = "Contract Work",
                 Description = "Good for some quick cash",
                 StatType = StatType.Money,
-                BaseValue = 50f,
+                LevelValues = new List<float>() { 50f }, 
                 // ScaleDirection = ScaleDirection.Down,
                 IconSpriteId = "IconDollar"
             },
@@ -1296,8 +1301,28 @@ public static class MetaGameManager
                 StatType = StatType.Global_DeploymentSpeed,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
-            }
-
+            },
+            new GlobalStatBaseValueReward()
+            {
+                Group = RewardBase.RewardGroup.Meta,
+                Id = "rerolls",
+                Name = "Rerolls",
+                Description = "Allows you to reroll rewards",
+                StatType = StatType.TechDebt,
+                IconSpriteId = "IconTechDebt",
+                LevelValues = new List<float>()
+                {
+                    1,2,3,4,5,6
+                },
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.PrestigePointAllocation,
+                        TargetId = "rerolls"
+                    }
+                }
+            },
             /**
              * Sprint Modifiers
              *

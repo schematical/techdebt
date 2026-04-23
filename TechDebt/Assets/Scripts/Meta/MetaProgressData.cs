@@ -12,42 +12,12 @@ public enum MetaResourceType
 }
 
 [System.Serializable]
-public class MetaUnlockResource
+public class PrestigePointAllocation
 {
-    public MetaResourceType Type;
-    public string Id;
-    public StatType StatType;
-    public float Value;
-    public string IconSpriteId = "IconDollar";
 
-    public RewardBase ToReward()
-    {
-        switch (Type)
-        {
-            case MetaResourceType.Technology:
-                return new TechnologyStartStateReward()
-                {
-                    TechnologyId = Id,
-                    StartState = Technology.State.Unlocked,
-                    IconSpriteId = IconSpriteId
-                };
-            case MetaResourceType.GlobalStatBaseStat:
-                return new GlobalStatBaseValueReward()
-                {
-                    StatType = StatType,
-                    BaseValue = Value,
-                    IconSpriteId = IconSpriteId
-                };
-            /*case MetaResourceType.GlobalStatMultiplier:
-                return new GlobalStatModifierReward()
-                {
-                    StatType = StatType,
-                    IconSpriteId = IconSpriteId
-                };*/
-            default:
-                throw new System.NotImplementedException();
-        }
-    }
+    public string Id;
+    public int level = 1;
+
 }
 
 [System.Serializable]
@@ -98,7 +68,7 @@ public class MetaProgressData
     public int researchPoints;
     public int prestigePoints;
     
-    public List<MetaUnlockResource> prestigePointAllocations;
+    public List<PrestigePointAllocation> prestigePointAllocations;
     public List<MetaMapLevelData> mapLevelData;
     public List<string> claimedMetaRewardIds;
     
@@ -110,7 +80,7 @@ public class MetaProgressData
         successfulExits = 0;
         researchPoints = 0;
         prestigePoints = 0;
-        prestigePointAllocations = new List<MetaUnlockResource>();
+        prestigePointAllocations = new List<PrestigePointAllocation>();
         mapLevelData = new List<MetaMapLevelData>();
         claimedMetaRewardIds = new List<string>();
         metaStats = new MetaStatSaveData();

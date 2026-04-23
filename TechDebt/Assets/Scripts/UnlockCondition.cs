@@ -7,12 +7,12 @@ using UnityEngine.Serialization;
 public class UnlockCondition: iUnlockable
 {
 
-    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState }
+    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState, PrestigePointAllocation }
 
     public ConditionType Type;
     public int SprintNumber;
-    public string TechnologyID;
-    [FormerlySerializedAs("TutorialStepID")] public TutorialStepId TutorialStepId = TutorialStepId.None;
+    [FormerlySerializedAs("TechnologyID")] public string TargetId;
+    public TutorialStepId TutorialStepId = TutorialStepId.None;
     public TutorialStep.TutorialStepState TutorialStepState = TutorialStep.TutorialStepState.Completed;
 
     public bool IsUnlocked()
@@ -20,7 +20,7 @@ public class UnlockCondition: iUnlockable
         switch (Type)
         {
             case(ConditionType.Technology):
-                Technology technology = GameManager.Instance.GetTechnologyByID(TechnologyID);
+                Technology technology = GameManager.Instance.GetTechnologyByID(TargetId);
                 if (technology == null)
                 {
                     return false;
@@ -45,7 +45,10 @@ public class UnlockCondition: iUnlockable
                 }
                 return GameManager.Instance.TutorialManager.GetStep(TutorialStepId).State == TutorialStepState;
             case(ConditionType.SprintGreaterOrEqual):
-                return GameManager.Instance.Map.CurrentSprintNumber >= SprintNumber;
+                return GameManager.Instance.Map.CurrentSprintNumber >= SprintNumber; 
+            case(ConditionType.PrestigePointAllocation):
+                MetaProgressData progress = MetaGameManager.GetProgress();
+                return progress.prestigePointAllocations.Find((allocation) => allocation.Id == TargetId) != null;
             default:
                 throw new NotImplementedException();
         }
@@ -56,7 +59,7 @@ public class UnlockCondition: iUnlockable
         switch (Type)
         {
             case(ConditionType.Technology):
-                return GameManager.Instance.GetTechnologyByID(TechnologyID).DisplayName;
+                return GameManager.Instance.GetTechnologyByID(TargetId).DisplayName;
             case(ConditionType.SprintGreaterOrEqual):
                 return$"Sprint {SprintNumber} Or Greater";   
             case(ConditionType.TutorialStepState):
@@ -71,7 +74,7 @@ public class UnlockCondition: iUnlockable
         switch (Type)
         {
             case ConditionType.Technology:
-                return $"Requires Technology_Locked {TechnologyID}";
+                return $"Requires Technology_Locked {TargetId}";
             default:
                 return "Unknown requirement";
         }

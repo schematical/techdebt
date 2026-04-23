@@ -1071,7 +1071,7 @@ namespace Tutorial
 
         private void HandleTechnologyStateChange(Technology technology, Technology.State previousState)
         {
-            // Debug.Log($"HandleTechnologyStateChange: {technology.TechnologyID} - {technology.CurrentState} - previousState: {previousState}");
+            // Debug.Log($"HandleTechnologyStateChange: {technology.TargetId} - {technology.CurrentState} - previousState: {previousState}");
             switch (technology.TechnologyID)
             {
                 case("application-server"):
@@ -1118,7 +1118,7 @@ namespace Tutorial
 
                     break;
                 default:
-                    // Debug.LogError($"Not Implemented: {technology.TechnologyID}");
+                    // Debug.LogError($"Not Implemented: {technology.TargetId}");
                     break;
             }
         }

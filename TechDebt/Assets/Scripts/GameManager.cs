@@ -399,7 +399,7 @@ public class GameManager : MonoBehaviour, iModifiable
         Reset();
         
         Initialize();
-        MetaGameManager.ApplyAllocatedPrestige();
+        MetaGameManager.ApplyMetaRewards();
 
         SetupRun();
         TutorialManager = new TutorialManager();
@@ -1168,7 +1168,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public List<MetaChallengeBase> UpdateMetaProgress(bool isVictory = false)
     {
-        MetaProgressData prevMetaState = MetaGameManager.LoadProgress();
+        MetaProgressData prevMetaState = MetaGameManager.GetProgress();
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
         newMetaState.completedRuns += 1;

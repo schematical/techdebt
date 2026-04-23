@@ -13,7 +13,7 @@ public class UISaveSlotDetailPanel : UIPanel
     public void Refresh()
     {
         CleanUp();
-        MetaProgressData data = MetaGameManager.LoadProgress();
+        MetaProgressData data = MetaGameManager.GetProgress();
         
         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Save Slot {MetaGameManager.CurrentSlotIndex + 1}";
         

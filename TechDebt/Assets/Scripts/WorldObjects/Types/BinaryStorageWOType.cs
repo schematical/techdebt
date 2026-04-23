@@ -20,7 +20,7 @@ public class BinaryStorageWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "binary-storage"
+                TargetId = "binary-storage"
             }
         };
     }

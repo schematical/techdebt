@@ -20,7 +20,7 @@ public class RedisWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "redis"
+                TargetId = "redis"
             }
         };
     }

@@ -20,7 +20,7 @@ public class CloudWatchMetricsWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "cloud-watch-metrics"
+                TargetId = "cloud-watch-metrics"
             }
         };
     }

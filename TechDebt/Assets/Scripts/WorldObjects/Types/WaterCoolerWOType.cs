@@ -20,7 +20,7 @@ public class WaterCoolerWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "water-cooler"
+                TargetId = "water-cooler"
             }
         };
     }

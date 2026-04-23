@@ -20,7 +20,7 @@ public class QueueWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "sqs"
+                TargetId = "sqs"
             }
         };
     }

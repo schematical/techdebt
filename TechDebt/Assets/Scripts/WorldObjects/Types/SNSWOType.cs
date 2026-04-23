@@ -20,7 +20,7 @@ public class SNSWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "sns"
+                TargetId = "sns"
             }
         };
     }

@@ -100,7 +100,7 @@ namespace UI
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{condition.GetDescription()}";
             }
 
-            MetaProgressData metaData = MetaGameManager.LoadProgress();
+            MetaProgressData metaData = MetaGameManager.GetProgress();
             List<MapLevelReward> rewardsWithoutConditions = mapLevel.LevelRewards.FindAll(r => {
                 if (r.VictoryConditions.Count > 0) return false;
                 if (r.DependencyIds.Count > 0 && !r.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))) return false;

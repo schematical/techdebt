@@ -21,7 +21,7 @@ public class CDNWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "cdn"
+                TargetId = "cdn"
             }
         };
         NetworkConnections = new List<NetworkConnection>()

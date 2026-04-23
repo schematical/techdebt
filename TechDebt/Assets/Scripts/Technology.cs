@@ -40,7 +40,7 @@ public class Technology: iUnlockable, iUIMapNode
                 {
                     if (condition.Type == UnlockCondition.ConditionType.Technology)
                     {
-                        ids.Add(condition.TechnologyID);
+                        ids.Add(condition.TargetId);
                     }
                 }
             }

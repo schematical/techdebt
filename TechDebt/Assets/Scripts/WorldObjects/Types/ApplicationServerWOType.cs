@@ -22,7 +22,7 @@ public class ApplicationServerWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "application-server"
+                TargetId = "application-server"
             }
         };
         networkPackets = new List<InfrastructureDataNetworkPacket>()

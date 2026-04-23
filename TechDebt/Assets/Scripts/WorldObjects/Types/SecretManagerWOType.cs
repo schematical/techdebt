@@ -20,7 +20,7 @@ public class SecretManagerWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "secret-manager"
+                TargetId = "secret-manager"
             }
         };
     }

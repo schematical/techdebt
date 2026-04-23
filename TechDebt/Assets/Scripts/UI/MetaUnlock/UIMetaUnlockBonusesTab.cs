@@ -60,7 +60,7 @@ namespace UI
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: ALLOCATED (START UNLOCKED)";
                 
-                List<MetaUnlockResource> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
+                List<PrestigePointAllocation> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
                     if (r.Type != mapNode.ResourceType) return false;
                     UIMetaUnlockMapNode node = GetNodeById(r.Id);
                     return node != null && node.DependencyIds != null && node.DependencyIds.Contains(mapNode.Id);
@@ -179,15 +179,13 @@ namespace UI
             {
                 nodes.Add(new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"training-program-{i}",
                     DisplayName = $"Training Program {i}",
                     Description = $"Team Members are more likely to get rarer level ups",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Left,
                     DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"training-program-{i-1}" },
-                    StatType = StatType.NPC_LevelUpRarity,
-                    Value = i * .1f
+                    
                 });
             }
 

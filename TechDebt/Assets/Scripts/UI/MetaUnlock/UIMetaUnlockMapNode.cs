@@ -4,16 +4,13 @@ namespace UI
 {
     public class UIMetaUnlockMapNode : iUIMapNode
     {
-        public MetaResourceType ResourceType;
         public string Id { get; set; }
         public virtual string DisplayName { get; set; }
         public virtual string Description { get; set; }
         public MapNodeDirection Direction { get; set; }
         public List<string> DependencyIds { get; set; }
         public virtual int PrestigeCost { get; set; }
-        public StatType StatType;
-        public float Value;
-
+        public string RewardId { get; set; }
         public MapNodeState? CurrentState { get; set; }
         public float GetProgress() => 0;
 

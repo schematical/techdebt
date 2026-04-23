@@ -21,7 +21,7 @@ public class DedicatedDBWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "dedicated-db"
+                TargetId = "dedicated-db"
             }
         };
         networkPackets = new List<InfrastructureDataNetworkPacket>()

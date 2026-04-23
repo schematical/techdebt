@@ -22,7 +22,7 @@ namespace UI
         {
             _panel.CleanUp();
             
-            MetaProgressData progress = MetaGameManager.LoadProgress();
+            MetaProgressData progress = MetaGameManager.GetProgress();
             
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
             prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";

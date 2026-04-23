@@ -1,4 +1,6 @@
 
+    using System.Collections.Generic;
+    using System.Linq;
     using UI;
     using UnityEngine;
 
@@ -14,6 +16,7 @@
         public string IconSpriteId;
         public string Name;
         public string Description = "";
+        public List<UnlockCondition> UnlockConditions = new();
       
 
         public RewardGroup Group;
@@ -47,5 +50,10 @@
             rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = GetDescription();
             
             return rewardLine;
+        }
+
+        public virtual bool IsUnlocked()
+        {
+            return UnlockConditions.All((condition) => condition.IsUnlocked() );
         }
     }

@@ -188,7 +188,7 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     private void ApplyRewards(MapLevelReward.MapLevelRewardApplied appliedAt)
     {
-        MetaProgressData metaData = MetaGameManager.LoadProgress();
+        MetaProgressData metaData = MetaGameManager.GetProgress();
         bool progressChanged = false;
 
         foreach (MapLevelReward reward in LevelRewards)
@@ -436,7 +436,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         }
 
         res += "\n";
-        MetaProgressData metaData = MetaGameManager.LoadProgress();
+        MetaProgressData metaData = MetaGameManager.GetProgress();
         List<MapLevelReward> rewardsWithoutConditions = LevelRewards.FindAll(r => {
             if (r.VictoryConditions.Count > 0) return false;
             if (r.DependencyIds.Count > 0 && !r.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))) return false;
@@ -514,7 +514,7 @@ public class MapLevel : iUIMapNode, iUnlockable
             throw new SystemException("MapLevel.State is not incomplete");
         }
 
-        MetaProgressData metaData = MetaGameManager.LoadProgress();
+        MetaProgressData metaData = MetaGameManager.GetProgress();
         if (metaData.mapLevelData == null) metaData.mapLevelData = new List<MetaMapLevelData>();
         
         MetaMapLevelData levelMeta = metaData.mapLevelData.Find(l => l.levelId == Id);
@@ -579,8 +579,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Name = "Sprint Start Budget Bonus",
                     Description = "Your budget will be increased by this much at the start of the sprint",
                     StatType = StatType.Money,
-                    BaseValue = start,
-                    // ScaleDirection = ScaleDirection.Down,
+                    LevelValues = new List<float>() {start },
                     IconSpriteId = "IconDollar"
                 },
             });
@@ -597,8 +596,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Name = "Sprint Completed Budget Bonus",
                     Description = "Your budget will be increased by this much when you complete the sprint",
                     StatType = StatType.Money,
-                    BaseValue = end,
-                    // ScaleDirection = ScaleDirection.Down,
+                    LevelValues = new List<float>() {end },
                     IconSpriteId = "IconDollar"
                 },
             });

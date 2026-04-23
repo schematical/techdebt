@@ -43,7 +43,7 @@ namespace UI
         {
             _panel.CleanUp();
             
-            MetaProgressData progress = MetaGameManager.LoadProgress();
+            MetaProgressData progress = MetaGameManager.GetProgress();
             UIPanelLine prestigeLine = _panel.AddLine<UIPanelLine>();
             prestigeLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {progress.prestigePoints}";
 
@@ -82,8 +82,7 @@ namespace UI
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\nSTATUS: ALLOCATED (START UNLOCKED)";
                 
-                List<MetaUnlockResource> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
-                    if (r.Type != mapNode.ResourceType) return false;
+                List<PrestigePointAllocation> allocatedDependents = progress.prestigePointAllocations.FindAll(r => {
                     Technology tech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == r.Id);
                     return tech != null && tech.DependencyIds != null && tech.DependencyIds.Contains(mapNode.Id);
                 });

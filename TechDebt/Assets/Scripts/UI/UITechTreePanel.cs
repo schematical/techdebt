@@ -19,7 +19,7 @@ namespace UI
                     {
                         return condition.IsUnlocked();
                     }
-                    MapNodeView dep = _mapNodes.Find(n => n.Id == condition.TechnologyID);
+                    MapNodeView dep = _mapNodes.Find(n => n.Id == condition.TargetId);
                     return dep != null && condition.IsUnlocked();
                 });
                 if (isVisable)

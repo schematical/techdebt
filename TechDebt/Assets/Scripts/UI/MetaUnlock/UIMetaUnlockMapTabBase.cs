@@ -50,9 +50,9 @@ namespace UI
 
         protected virtual void UnallocateRecursive(MetaResourceType type, string id, int cost)
         {
-            MetaProgressData progress = MetaGameManager.LoadProgress();
+            MetaProgressData progress = MetaGameManager.GetProgress();
             
-            List<MetaUnlockResource> dependents = progress.prestigePointAllocations.FindAll(r => {
+            List<PrestigePointAllocation> dependents = progress.prestigePointAllocations.FindAll(r => {
                 if (r.Type != type) return false;
                 if (r.Type == MetaResourceType.Technology)
                 {
@@ -64,7 +64,7 @@ namespace UI
                 return node != null && node.DependencyIds != null && node.DependencyIds.Contains(id);
             });
 
-            foreach (MetaUnlockResource dep in dependents)
+            foreach (PrestigePointAllocation dep in dependents)
             {
                 int depCost = GetNodeCost(dep);
                 UnallocateRecursive(dep.Type, dep.Id, depCost);
@@ -83,7 +83,7 @@ namespace UI
             return nodeView.Node as UIMetaUnlockMapNode;
         }
         
-        protected virtual int GetNodeCost(MetaUnlockResource resource)
+        protected virtual int GetNodeCost(PrestigePointAllocation resource)
         {
             if (resource.Type == MetaResourceType.Technology)
             {

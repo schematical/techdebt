@@ -21,7 +21,7 @@ namespace DefaultNamespace.Rewards
         public override void Apply()
         {
             //TODO: Possibly move this to the end of the run. So you can chose if they vest or not.
-            MetaProgressData data = MetaGameManager.LoadProgress();
+            MetaProgressData data = MetaGameManager.GetProgress();
             data.prestigePoints += BaseValue;
             MetaGameManager.SaveProgress(data);
             

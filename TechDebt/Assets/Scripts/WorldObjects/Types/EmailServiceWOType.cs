@@ -20,7 +20,7 @@ public class EmailServiceWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "email-service"
+                TargetId = "email-service"
             }
         };
     }

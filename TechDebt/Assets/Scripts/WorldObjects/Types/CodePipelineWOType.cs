@@ -20,7 +20,7 @@ public class CodePipelineWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "codepipeline"
+                TargetId = "codepipeline"
             }
         };
     }

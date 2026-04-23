@@ -20,7 +20,7 @@ public class ALBWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "load-balancer"
+                TargetId = "load-balancer"
             }
         };
         NetworkConnections = new List<NetworkConnection>()

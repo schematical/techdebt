@@ -14,7 +14,7 @@ public class UISaveSlotListPanel : UIMultiSelectPanel
         for (int i = 0; i < 3; i++)
         {
             int slotIndex = i;
-            MetaProgressData data = MetaGameManager.LoadProgress(slotIndex);
+            MetaProgressData data = MetaGameManager.LoadProgressFromSaveSlot(slotIndex);
 
             string primaryText = $"Slot {slotIndex + 1}";
             string secondaryText = data != null ? $"{data.completedRuns} Runs Completed" : "Empty Slot";
@@ -37,7 +37,7 @@ public class UISaveSlotListPanel : UIMultiSelectPanel
         MetaGameManager.CurrentSlotIndex = index;
 
         // If the slot is empty, initialize it with default progress so it exists on disk
-        if (MetaGameManager.LoadProgress(index) == null)
+        if (MetaGameManager.LoadProgressFromSaveSlot(index) == null)
         {
             MetaGameManager.SaveProgress(new MetaProgressData());
         }

@@ -20,7 +20,7 @@ public class WAFWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "waf"
+                TargetId = "waf"
             }
         };
     }

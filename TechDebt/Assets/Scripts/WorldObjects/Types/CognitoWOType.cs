@@ -20,7 +20,7 @@ public class CognitoWOType : WorldObjectType
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TechnologyID = "cognito"
+                TargetId = "cognito"
             }
         };
     }
