@@ -52,29 +52,42 @@ namespace UI
         {
             MetaProgressData progress = MetaGameManager.GetProgress();
             
-            // Find all allocations that might depend on this specific node Id
-            List<MetaPrestigePointAllocation> allAllocations = progress.prestigePointAllocations;
-            
-            // We need to find if ANY node in the current tab depends on the node we are unallocating
-            // This is slightly expensive but necessary since we don't have a reverse lookup
-            foreach (MetaPrestigePointAllocation allocation in allAllocations)
+            // 1. Find and refund Technology dependents
+            List<Technology> allTech = MetaGameManager.GetAllTechnologies();
+            foreach (Technology tech in allTech)
             {
-                // This is tricky because one allocationId might correspond to multiple nodes (in Chain style)
-                // or one node (in Leveled style).
-                // For now, we look for any node in the current tab that depends on nodeToUnallocate.Id
-                // and if that node's allocation is active, we unallocate it.
-                
-                // We'll rely on the Tab's ability to find nodes by Id.
-                // This is still a bit limited because it only checks the current tab.
+                if (tech.DependencyIds != null && tech.DependencyIds.Contains(nodeToUnallocate.Id))
+                {
+                    if (MetaGameManager.IsPrestigePointAllocationLeveledUp(tech.TechnologyID, 1))
+                    {
+                        UIMetaUnlockMapNode techNode = new UIMetaUnlockMapNode { Id = tech.TechnologyID, AllocationId = tech.TechnologyID, Level = 1 };
+                        UnallocateRecursive(techNode);
+                    }
+                }
             }
 
-            // Simplified approach for now: check all nodes in the current tab.
-            // If we were more robust, we'd check all tabs.
+            // 2. Find and refund dependents in the map (e.g., Bonuses chain or Org Chart)
+            foreach (UIMapPanel.MapNodeView nodeView in _panel.GetAllNodes())
+            {
+                UIMetaUnlockMapNode otherNode = nodeView.Node as UIMetaUnlockMapNode;
+                if (otherNode != null && otherNode.Id != nodeToUnallocate.Id && otherNode.DependencyIds != null && otherNode.DependencyIds.Contains(nodeToUnallocate.Id))
+                {
+                    if (MetaGameManager.IsPrestigePointAllocationLeveledUp(otherNode.AllocationId, otherNode.Level))
+                    {
+                        UnallocateRecursive(otherNode);
+                    }
+                }
+            }
             
-            // For now, let's just fix the immediate logic to use the node Id for dependency checks
-            // and the AllocationId for the actual update.
-            
-            MetaGameManager.UpdatePrestigePointAllocation(nodeToUnallocate.AllocationId, nodeToUnallocate.Level - 1, nodeToUnallocate.PrestigeCost);
+            // 3. Perform the actual unallocation for this node
+            MetaPrestigePointAllocatable allocatable = MetaGameManager.GetPrestigePointAllocatables().Find(a => a.Id == nodeToUnallocate.AllocationId);
+            int cost = 0;
+            if (allocatable != null && nodeToUnallocate.Level > 0 && nodeToUnallocate.Level <= allocatable.levels.Count)
+            {
+                cost = allocatable.levels[nodeToUnallocate.Level - 1].cost;
+            }
+
+            MetaGameManager.UpdatePrestigePointAllocation(nodeToUnallocate.AllocationId, nodeToUnallocate.Level - 1, cost);
         }
 
         public virtual UIMetaUnlockMapNode GetNodeById(string id)

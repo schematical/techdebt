@@ -120,6 +120,8 @@ namespace UI
 
         public MapNodeView GetSelectedNode() => _selectedNode;
 
+        public List<MapNodeView> GetAllNodes() => _mapNodes;
+
         public override void Show()
         {
             base.Show();

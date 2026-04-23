@@ -120,7 +120,16 @@ namespace UI
             {
                 GameManager.Instance.Rewards.Render(_globalModifiersLine);
             }));
-
+            UIStatCollectionPanelLine banishesLine = AddLine<UIStatCollectionPanelLine>();
+            banishesLine.Add<UIPanelLineSectionText>().text.text = "Banishes:";
+            banishesLine.SetExpandable((line =>
+            {
+                foreach (string mapBanishedRewardId in GameManager.Instance.Map.BanishedRewardIds)
+                {
+                    line.AddLine<UIStatCollectionPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                        mapBanishedRewardId;
+                }
+            }));
 
 
         }

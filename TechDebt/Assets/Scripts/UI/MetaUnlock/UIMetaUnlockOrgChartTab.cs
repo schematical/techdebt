@@ -121,7 +121,15 @@ namespace UI
                 _panel.AddButton(demoteText, () =>
                 {
                     UIMetaUnlockLevelData currentLevel = mapLeveledNode.Levels[currentLevelIdx];
-                    MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.AllocationId, currentLevelIdx, currentLevel.PrestigeCost);
+                    // Create a temporary node representing the current level to trigger recursive refunds
+                    UIMetaUnlockMapNode tempNode = new UIMetaUnlockMapNode 
+                    { 
+                        Id = mapLeveledNode.Id, 
+                        AllocationId = mapLeveledNode.AllocationId, 
+                        Level = currentLevelIdx + 1,
+                        PrestigeCost = currentLevel.PrestigeCost
+                    };
+                    UnallocateRecursive(tempNode);
                     _panel.Refresh();
                 });
             }

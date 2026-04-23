@@ -339,6 +339,10 @@ public static class MetaGameManager
             {
                 continue;
             }
+            if (allocatable.reward == null)
+            {
+                throw new SystemException($"Missing `allocation.reward` for: ${allocatable.Id}");
+            }
             if (allocatable.reward is GlobalStatBaseValueReward)
             {
                
@@ -349,6 +353,8 @@ public static class MetaGameManager
 
                 (allocatable.reward as GlobalStatBaseValueReward).Level = allocation.level;
             }
+
+           
             allocatable.reward.Apply();
         }
         /*List<RewardBase> rewards = GetModifierByGroup(RewardBase.RewardGroup.Meta).FindAll((reward => reward.IsUnlocked()));
@@ -1440,6 +1446,16 @@ public static class MetaGameManager
                     new MetaPrestigePointAllocatableLevel() { cost = 4 },
                     new MetaPrestigePointAllocatableLevel() { cost = 5 },
                     new MetaPrestigePointAllocatableLevel() { cost = 6 }
+                },
+                reward = new GlobalStatBaseValueReward()
+                {
+                    Group = RewardBase.RewardGroup.Meta,
+                    Id = "training-program",
+                    Name = "Training Program",
+                    Description = "Increases the rarity of your Team Members Level Ups",
+                    StatType = StatType.Money,
+                    IconSpriteId = "IconDollar",
+                    LevelValues = new List<float>() { 1.1f, 1.15f, 1.2f, 1.25f, 1.3f, 1.4f, 1.5f }
                 }
             },
             new MetaPrestigePointAllocatable()
@@ -1492,6 +1508,11 @@ public static class MetaGameManager
                 levels = new List<MetaPrestigePointAllocatableLevel>()
                 {
                     new MetaPrestigePointAllocatableLevel() { cost = Mathf.CeilToInt(tech.ResearchTime / 30f) }
+                },
+                reward = new TechnologyStartStateReward()
+                {
+                    TechnologyId =  tech.TechnologyID,
+                    StartState = Technology.State.Unlocked
                 }
             });
         }
