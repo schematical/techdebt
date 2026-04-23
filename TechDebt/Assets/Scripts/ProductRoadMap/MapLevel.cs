@@ -465,11 +465,18 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public virtual void EndGame(string dialog = null, bool isVictory = false)
     {
-        GameManager.Instance.UIManager.ForcePause();
+        //TODO: Display run summary screen.
+        // - Stats
+        // - Unlocks
+        // - Rewards 
+        // - Meta Progress
+             
+ 
 
         GameManager.Instance.UpdateMetaProgress(isVictory);
+        GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(GetCombinedVictoryConditions());
 
-        NPCBase npc =
+        /*NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
         npc.ZoomToAndFollow();
         if (dialog == null)
@@ -497,7 +504,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Text = "Main Menu", OnClick = () => { GameManager.Instance.ShowSaveSlotDetailPanel(); }
                 },
             }
-        );
+        );*/
     }
 
   

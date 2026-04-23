@@ -389,10 +389,6 @@ public class UIManager : MonoBehaviour
         timeControlPanel.Show();
     }
 
-    public void ShowSummaryUI(UI.SummaryData data)
-    {
-        summaryPhasePanel.ShowSummary(data);
-    }
 
     
 
@@ -477,7 +473,7 @@ public class UIManager : MonoBehaviour
         moneyPanel.Close(true);
         timeControlPanel.Close(true);
         mainMenu.Show();
-
+        summaryPhasePanel.Close();
     }
 
     public void ShowGameUI()
@@ -490,6 +486,7 @@ public class UIManager : MonoBehaviour
         timeControlPanel.Show();
         mainMenu.Close();
         victoryConditionListPanel.Refresh();
+        summaryPhasePanel.Close();
     }
 
 
@@ -503,4 +500,6 @@ public class UIManager : MonoBehaviour
         SetTimeState(TimeState.Normal, true);
         clickBlockingPanel.gameObject.SetActive(false);
     }
+
+ 
 }

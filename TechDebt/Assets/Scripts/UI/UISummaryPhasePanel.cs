@@ -28,48 +28,26 @@ namespace UI
         
         }
 
-        public void ShowSummary(SummaryData data)
+        public void ShowSummary(List<MapLevelVictoryConditionBase> victoryConditions)
         {
             CleanUp();
+            GameManager.Instance.UIManager.Block();
             base.Show();
-
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"End of Day {data.Day}");
-            
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Total Packets: {data.PacketsTotal}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Packets Failed: {data.PacketsFailed}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Packets Succeeded: {data.PacketsSucceeded}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Percentage Served: %{data.PercentageServed:F2}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Total Costs: ${data.TotalCosts}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Total Income: ${data.TotalIncome}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Net Income: ${data.NetIncome}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Total: {data.TotalMoney}";
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Tomorrow's Attack Possibility: {data.AttackPossibility:F2}%";
-
-            // Victory Conditions
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\n<b>Victory Conditions:</b>";
-            foreach (string condition in data.VictoryConditions)
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1("Game Over");
+            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Failed Victory Conditions");
+            foreach (MapLevelVictoryConditionBase condition in victoryConditions)
             {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"  - {condition}";
-            }
-
-            // Infrastructure Costs
-            if (data.InfraCosts.Count > 0)
-            {
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "\n<b>Infrastructure Costs:</b>";
-                
-                foreach (var kvp in data.InfraCosts)
+                if (condition.GetFinalState() == VictoryConditionState.Failed)
                 {
-                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"{kvp.Key}: ${kvp.Value}";
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {condition.GetDescription()}";
+               
                 }
             }
-            AddButton("Continue", OnContinue);
+          
+            AddButton("Start Over", () => { GameManager.Instance.StartNewGame(); });
+            AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
+       
         }
-
-    
-        private void OnContinue()
-        {
-            GameManager.Instance.GameLoopManager.PostSummaryCheck();
-            Close();
-        }
+        
     }
 }
