@@ -10,8 +10,10 @@ namespace UI
         public MapNodeDirection Direction { get; set; }
         public List<string> DependencyIds { get; set; }
         public virtual int PrestigeCost { get; set; }
-        public string RewardId { get; set; }
+        public string AllocationId { get; set; }
         public MapNodeState? CurrentState { get; set; }
+        public int Level { get; set; }
+
         public float GetProgress() => 0;
 
         public UnityEngine.Tilemaps.TileBase GetTile()

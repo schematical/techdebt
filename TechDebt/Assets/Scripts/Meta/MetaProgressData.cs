@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DefaultNamespace.Rewards;
+using MetaChallenges;
 using Rewards;
 using UnityEngine.Serialization;
 
@@ -11,14 +12,7 @@ public enum MetaResourceType
     // GlobalStatMultiplier,
 }
 
-[System.Serializable]
-public class PrestigePointAllocation
-{
 
-    public string Id;
-    public int level = 1;
-
-}
 
 [System.Serializable]
 public class MetaStatData
@@ -68,7 +62,7 @@ public class MetaProgressData
     public int researchPoints;
     public int prestigePoints;
     
-    public List<PrestigePointAllocation> prestigePointAllocations;
+    public List<MetaPrestigePointAllocation> prestigePointAllocations;
     public List<MetaMapLevelData> mapLevelData;
     public List<string> claimedMetaRewardIds;
     
@@ -80,7 +74,7 @@ public class MetaProgressData
         successfulExits = 0;
         researchPoints = 0;
         prestigePoints = 0;
-        prestigePointAllocations = new List<PrestigePointAllocation>();
+        prestigePointAllocations = new List<MetaPrestigePointAllocation>();
         mapLevelData = new List<MetaMapLevelData>();
         claimedMetaRewardIds = new List<string>();
         metaStats = new MetaStatSaveData();

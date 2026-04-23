@@ -48,13 +48,13 @@ namespace UI
                     UIMetaUnlockMapNode depNode = GetNodeById(depId);
                     if (depNode != null) depName = depNode.DisplayName;
 
-                    bool met = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, depId);
+                    bool met = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, depId);
                     string status = met ? "<color=green>(MET)</color>" : "<color=red>(NOT MET)</color>";
                     _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {depName} {status}";
                 }
             }
 
-            bool isEquipped = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, mapNode.Id);
+            bool isEquipped = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, mapNode.Id);
 
             if (isEquipped)
             {
@@ -87,7 +87,7 @@ namespace UI
                     if (progress.prestigePoints >= mapNode.PrestigeCost)
                     {
                         _panel.AddButton("Allocate", () => {
-                            MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost, mapNode.StatType, mapNode.Value);
+                            MetaGameManager.UpdatePrestigePointAllocation( mapNode.AllocationId, mapNode.PrestigeCost, mapNode.Level);
                             _panel.Refresh();
                         });
                     }
@@ -130,15 +130,14 @@ namespace UI
             {
                 UIMetaUnlockMapNode node = new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"reroll-{i}",
                     DisplayName = $"ReRoll {i}",
                     Description = $"Gain an additional Re-Roll (Total: {i}).",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Down,
                     DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"reroll-{i - 1}" },
-                    StatType = StatType.Global_ReRolls,
-                    Value = 1
+                    AllocationId = "reroll",
+                    Level = i
                 };
                 nodes.Add(node);
             }
@@ -147,15 +146,14 @@ namespace UI
             {
                 nodes.Add(new UIMetaUnlockMapNode
                 {
-                    ResourceType = MetaResourceType.GlobalStatBaseStat,
                     Id = $"banish-{i}",
                     DisplayName = $"Banish Level {i}",
                     Description = $"Gain an additional Banish (Total: {i}).",
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Down,
                     DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"banish-{i-1}" },
-                    StatType = StatType.Global_Banish,
-                    Value = 1
+                    AllocationId = "banish",
+                    Level = i
                 });
             }
             
@@ -185,7 +183,6 @@ namespace UI
                     PrestigeCost = i,
                     Direction = MapNodeDirection.Left,
                     DependencyIds = i == 1 ? new List<string> { "money-1" } : new List<string> { $"training-program-{i-1}" },
-                    
                 });
             }
 

@@ -278,44 +278,81 @@ public static class MetaGameManager
         return diffChallenges;
     }
 
-    public static bool IsResourceEquipped(MetaResourceType type, string id)
+    public static bool IsPrestigePointAllocationLeveledUp(string allocationId, int level = 1)
     {
         MetaProgressData data = GetProgress();
-        return data.prestigePointAllocations.Exists(r =>  r.Id == id);
+        MetaPrestigePointAllocation allocation =  data.prestigePointAllocations.Find(r =>  r.Id == allocationId);
+        return allocation.level == level;
     }
 
-    public static void ToggleResourceEquip(MetaResourceType type, string id, int cost, StatType statType = StatType.Money, float value = 0)
+    public static void UpdatePrestigePointAllocation(string allocationId, int level, int cost)
     {
         MetaProgressData data = GetProgress();
-        PrestigePointAllocation existing = data.prestigePointAllocations.Find(r => r.Id == id);
+        if (level == 0)
+        {
+            data.prestigePointAllocations.RemoveAll(r => r.Id == allocationId);
+            SaveProgress(data);
+            return;
+        }
+        MetaPrestigePointAllocation allocation = data.prestigePointAllocations.Find(r => r.Id == allocationId);
+        if (allocation == null)
+        {
+            allocation = new MetaPrestigePointAllocation();
+            allocation.Id = allocationId;
+            data.prestigePointAllocations.Add(allocation);
+        }
 
-        if (existing != null)
-        {
-            // Unequip and refund
-            data.prestigePointAllocations.Remove(existing);
-            data.prestigePoints += cost;
-        }
-        else
-        {
-            // Equip and deduct
-            if (data.prestigePoints >= cost)
-            {
-                data.prestigePoints -= cost;
-                data.prestigePointAllocations.Add(new PrestigePointAllocation {  Id = id, });
-            }
-        }
+        allocation.level = level;
         SaveProgress(data);
     }
 
+    public static int GetAllocatedPrestigePointCount()
+    {
+        int count = 0;
+        foreach (MetaPrestigePointAllocatable allocatable in GetPrestigePointAllocatables())
+        {
+            MetaPrestigePointAllocation allocation = allocatable.GetAllocation();
+            if (allocation == null)
+            {
+                continue;
+            }
+
+            for (int i = 0; i < allocation.level; i++)
+            {
+                count += allocatable.levels[i].cost;
+            }
+        }
+
+        return count;
+    }
     public static void ApplyMetaRewards()
     {
         MetaProgressData data = GetProgress();
-        List<RewardBase> rewards = GetModifierByGroup(RewardBase.RewardGroup.Meta).FindAll((reward => reward.IsUnlocked()));
+        foreach (MetaPrestigePointAllocatable allocatable in GetPrestigePointAllocatables())
+        {
+            MetaPrestigePointAllocation allocation = allocatable.GetAllocation();
+            if (allocation == null)
+            {
+                continue;
+            }
+            if (allocatable.reward is GlobalStatBaseValueReward)
+            {
+               
+                if (allocation == null)
+                {
+                    throw new SystemException($"Cannot find an allocation for Meta Reward `{allocatable.reward.Id}`");
+                }
+
+                (allocatable.reward as GlobalStatBaseValueReward).Level = allocation.level;
+            }
+            allocatable.reward.Apply();
+        }
+        /*List<RewardBase> rewards = GetModifierByGroup(RewardBase.RewardGroup.Meta).FindAll((reward => reward.IsUnlocked()));
         foreach (RewardBase reward in rewards)
         {
             if (reward is GlobalStatBaseValueReward)
             {
-                PrestigePointAllocation allocation = data.prestigePointAllocations.Find((allocation => allocation.Id == reward.Id));
+                MetaPrestigePointAllocation allocation = data.prestigePointAllocations.Find((allocation => allocation.Id == reward.Id));
                 if (allocation == null)
                 {
                     throw new SystemException($"Cannot find an allocation for Meta Reward `{reward.Id}`");
@@ -325,7 +362,7 @@ public static class MetaGameManager
             }
            
             reward.Apply();
-        }
+        }*/
     }
 
     public static List<Technology> GetAllTechnologies()
@@ -796,7 +833,7 @@ public static class MetaGameManager
                  {
                      /*new RewardBase()
                      {
-                         RewardId = "server1",
+                         AllocationId = "server1",
                          Type = RewardBase.RewardType.WorldObject_StartsOperational,
                      },#1#
                      new TechnologyStartStateReward()
@@ -934,7 +971,7 @@ public static class MetaGameManager
                 DisplayName = "Extra Starting Cash 1",
                 Description = "Make it to day 5",
                 metaStat = MetaStat.Day,
-                RewardId = StatType.Money.ToString(),
+                AllocationId = StatType.Money.ToString(),
                 RewardValue = 1.5f,
                 RequiredValue = 5,
                 RewardType = MetaChallengeBase.MetaChallengeRewardType.StartingStatValue,
@@ -1302,27 +1339,8 @@ public static class MetaGameManager
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
             },
-            new GlobalStatBaseValueReward()
-            {
-                Group = RewardBase.RewardGroup.Meta,
-                Id = "rerolls",
-                Name = "Rerolls",
-                Description = "Allows you to reroll rewards",
-                StatType = StatType.TechDebt,
-                IconSpriteId = "IconTechDebt",
-                LevelValues = new List<float>()
-                {
-                    1,2,3,4,5,6
-                },
-                UnlockConditions = new List<UnlockCondition>()
-                {
-                    new UnlockCondition()
-                    {
-                        Type = UnlockCondition.ConditionType.PrestigePointAllocation,
-                        TargetId = "rerolls"
-                    }
-                }
-            },
+            
+          
             /**
              * Sprint Modifiers
              *
@@ -1333,6 +1351,93 @@ public static class MetaGameManager
                 Distractions? Dumb ass questions that get asked by NPCS like the sales guy.
                 Increase tech debt rate, requires more frequent deployments
              */
+        };
+    }
+
+    public static List<MetaPrestigePointAllocatable> GetPrestigePointAllocatables()
+    {
+        return new List<MetaPrestigePointAllocatable>()
+        {
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "banish",
+                levels =  new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 1,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 2,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 3,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 4,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 5,
+                    }
+                },
+                reward =   new GlobalStatBaseValueReward()
+                {
+                    Group = RewardBase.RewardGroup.Meta,
+                    Id = "banish",
+                    Name = "Banishes",
+                    Description = "Allows you to banish rewards",
+                    StatType = StatType.Global_Banish,
+                    IconSpriteId = "IconTechDebt",
+                    LevelValues = new List<float>()
+                    {
+                        1,2,3,4,5,6
+                    }
+                },
+            },
+            new MetaPrestigePointAllocatable()
+            {
+                Id = "reroll",
+                levels =  new List<MetaPrestigePointAllocatableLevel>()
+                {
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 1,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 2,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 3,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 4,
+                    },
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = 5,
+                    }
+                },
+                reward =  new GlobalStatBaseValueReward()
+                {
+                    Group = RewardBase.RewardGroup.Meta,
+                    Id = "rerolls",
+                    Name = "Rerolls",
+                    Description = "Allows you to reroll rewards",
+                    StatType = StatType.Global_ReRolls,
+                    IconSpriteId = "IconTechDebt",
+                    LevelValues = new List<float>()
+                    {
+                        1,2,3,4,5,6
+                    }
+                },
+            }
         };
     }
 }

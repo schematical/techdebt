@@ -24,7 +24,7 @@ namespace UI
         {
             if (node.CurrentState != null) return;
 
-            if (MetaGameManager.IsResourceEquipped(node.ResourceType, node.Id))
+            if (MetaGameManager.IsPrestigePointAllocationLeveledUp(node.ResourceType, node.Id))
             {
                 node.CurrentState = MapNodeState.Unlocked;
                 return;
@@ -39,7 +39,7 @@ namespace UI
             bool dependenciesMet = node.DependencyIds == null || node.DependencyIds.Count == 0 ||
                                    node.DependencyIds.All(depId => 
                                    {
-                                       if (MetaGameManager.IsResourceEquipped(node.ResourceType, depId)) return true;
+                                       if (MetaGameManager.IsPrestigePointAllocationLeveledUp(node.ResourceType, depId)) return true;
                                        
                                        UIMetaUnlockMapNode depNode = GetNodeById(depId);
                                        return depNode != null && depNode.CurrentState == MapNodeState.Unlocked;
@@ -70,7 +70,7 @@ namespace UI
                 UnallocateRecursive(dep.Type, dep.Id, depCost);
             }
 
-            MetaGameManager.ToggleResourceEquip(type, id, cost);
+            MetaGameManager.UpdatePrestigePointAllocation(type, id, cost);
         }
 
         public virtual UIMetaUnlockMapNode GetNodeById(string id)

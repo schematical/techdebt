@@ -70,13 +70,13 @@ namespace UI
                     Technology depTech = MetaGameManager.GetAllTechnologies().Find(t => t.TechnologyID == depId);
                     if (depTech != null) depName = depTech.DisplayName;
 
-                    bool met = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, depId);
+                    bool met = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, depId);
                     string status = met ? "<color=green>(MET)</color>" : "<color=red>(NOT MET)</color>";
                     _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {depName} {status}";
                 }
             }
 
-            bool isEquipped = MetaGameManager.IsResourceEquipped(mapNode.ResourceType, mapNode.Id);
+            bool isEquipped = MetaGameManager.IsPrestigePointAllocationLeveledUp(mapNode.ResourceType, mapNode.Id);
 
             if (isEquipped)
             {
@@ -108,7 +108,7 @@ namespace UI
                     if (progress.prestigePoints >= mapNode.PrestigeCost)
                     {
                         _panel.AddButton("Allocate", () => {
-                            MetaGameManager.ToggleResourceEquip(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost, mapNode.StatType, mapNode.Value);
+                            MetaGameManager.UpdatePrestigePointAllocation(mapNode.ResourceType, mapNode.Id, mapNode.PrestigeCost, mapNode.StatType, mapNode.Value);
                             _panel.Refresh();
                         });
                     }

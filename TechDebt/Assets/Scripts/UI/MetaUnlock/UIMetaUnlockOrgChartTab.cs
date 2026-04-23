@@ -98,7 +98,7 @@ namespace UI
                         _panel.AddButton(hireText, () =>
                         {
                             UIMetaUnlockLevelData nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
-                            MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
+                            MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.ResourceType, nextLevel.Id, nextLevel.PrestigeCost, nextLevel.StatType, nextLevel.Value);
                             _panel.Refresh();
                         });
                     }
@@ -123,7 +123,7 @@ namespace UI
                 _panel.AddButton(demoteText, () =>
                 {
                     UIMetaUnlockLevelData currentLevel = mapLeveledNode.Levels[currentLevelIdx];
-                    MetaGameManager.ToggleResourceEquip(mapLeveledNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
+                    MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.ResourceType, currentLevel.Id, currentLevel.PrestigeCost, currentLevel.StatType, currentLevel.Value);
                     _panel.Refresh();
                 });
             }

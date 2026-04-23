@@ -34,7 +34,7 @@ namespace UI
                 UIPanelLine rewardLine = rewardHolderLine.AddLine<UIPanelLine>();
                 // TODO: Make a panel that renders this
                 rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.GetDescription();
-                // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardId;
+                // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.AllocationId;
                 // rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = reward.RewardValue.ToString();
             }
             Refresh();
