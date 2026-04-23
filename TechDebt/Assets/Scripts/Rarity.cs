@@ -33,7 +33,7 @@ public class RarityHelper
         }
     }
 
-    public static Rarity GetRandomRarity(float probibility = 0.5f)
+    public static Rarity GetRandomRarity(float probibility = 0.1f)
     {
         
         Rarity resRarity = Rarity.Common;
@@ -59,16 +59,16 @@ public class RarityHelper
         switch (rarity)
         {
             case (Rarity.Common):
-                return 1.05f;
-            case (Rarity.Uncommon):
                 return 1.1f;
-            case (Rarity.Rare):
-                return 1.15f;
-            case (Rarity.Epic):
+            case (Rarity.Uncommon):
                 return 1.2f;
+            case (Rarity.Rare):
+                return 1.3f;
+            case (Rarity.Epic):
+                return 1.4f;
             default:
             case Rarity.Legendary:
-                return 1.25f;
+                return 1.5f;
         }
     }
     public static Color GetColor(Rarity rarity)
@@ -78,11 +78,11 @@ public class RarityHelper
             case (Rarity.Common):
                 return Color.white;
             case (Rarity.Uncommon):
-                return Color.green;
+                return Color.greenYellow;
             case (Rarity.Rare):
-                return Color.blue;
+                return Color.dodgerBlue;
             case (Rarity.Epic):
-                return Color.purple;
+                return Color.mediumPurple;
             default:
             case Rarity.Legendary:
                 return Color.yellow;;

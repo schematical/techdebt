@@ -56,8 +56,10 @@ public class NPCDevOps : NPCAnimatedBiped
 
     public override void AddXP(float amount = 1)
     {
-        float adjustedAmount = GameManager.Instance.GetStatValue(StatType.NPC_XPSpeed) * 
-            Stats.GetStatValue(StatType.NPC_XPSpeed) * amount;
+        float adjustedAmount = 
+            GameManager.Instance.GetStatValue(StatType.NPC_XPSpeed) * 
+            Stats.GetStatValue(StatType.NPC_XPSpeed) * 
+            amount;
         currentXP += adjustedAmount;
         if (Math.Floor(currentXP) != lastDisplayXP)
         {
@@ -179,7 +181,9 @@ public class NPCDevOps : NPCAnimatedBiped
                     }
 
                     traits.Add(replacement);
-                    setupOption(multiSelectOption, replacement, RarityHelper.GetRandomRarity());
+                    float rarityModifier = GameManager.Instance.GetStatValue(StatType.NPC_LevelUpRarity);
+                    Rarity rarity = RarityHelper.GetRandomRarity(rarityModifier);
+                    setupOption(multiSelectOption, replacement, rarity);
                     GameManager.Instance.UIManager.multiSelectPanel.RefreshBanishButtons();
                 }
             });
@@ -201,7 +205,8 @@ public class NPCDevOps : NPCAnimatedBiped
             }
 
             traits.Add(modifierBase);
-            Rarity rarity = RarityHelper.GetRandomRarity();
+            float rarityModifier = GameManager.Instance.GetStatValue(StatType.NPC_LevelUpRarity);
+            Rarity rarity = RarityHelper.GetRandomRarity(rarityModifier);
             UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                 modifierBase.Id,
                 modifierBase.GetSprite(),

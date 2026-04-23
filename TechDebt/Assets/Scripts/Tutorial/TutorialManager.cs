@@ -558,7 +558,7 @@ namespace Tutorial
                     },
 
                 },
-                new TutorialStep(
+                /*new TutorialStep(
                     TutorialStepId.Task_FixFrozen_Queued,
                     "Task: Fix Queued",
                     "One of your engineers will get to work fixing this server shortly."
@@ -572,7 +572,7 @@ namespace Tutorial
                         return infrastructureInstance;
                     },
 
-                },
+                },*/
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed,
                     "Server Fixed",

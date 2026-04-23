@@ -63,5 +63,6 @@ public enum StatType
 
     Global_ReRolls,
     Global_Banish,
-    NPC_StartLevel
+    NPC_StartLevel,
+    NPC_LevelUpRarity
 }
