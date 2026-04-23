@@ -685,7 +685,6 @@ public static class MetaGameManager
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_CodePipeline_Tip
-                // Push out Y deployments
             },
             new Technology()
             {
@@ -1189,6 +1188,18 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
+                IconSpriteId = "IconRelationalDBDesign",
+                ScaleDirection = ScaleDirection.Down
+            },
+            new WorldObjectTypeNetworkPacketStatModifierReward()
+            {
+                Group = RewardBase.RewardGroup.Release,
+                Id = "code_optimization",
+                Name = "Code Optimization",
+                Description = "Decreases CPU Load Of Text Packets On The Application Server",
+                StatType = StatType.Infra_LoadPerPacket,
+                NetworkPacketType = NetworkPacketData.PType.Text,
+                WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconRelationalDBDesign",
                 ScaleDirection = ScaleDirection.Down
             },

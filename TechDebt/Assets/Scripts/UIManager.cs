@@ -499,6 +499,8 @@ public class UIManager : MonoBehaviour
     {
         SetTimeState(TimeState.Normal, true);
         clickBlockingPanel.gameObject.SetActive(false);
+        summaryPhasePanel.Close();
+        
     }
 
  
