@@ -1519,4 +1519,10 @@ public static class MetaGameManager
 
         return list;
     }
+
+    public static void SetCurrentSaveSlot(int index)
+    {
+        CurrentSlotIndex = index;
+        ProgressData = null;
+    }
 }

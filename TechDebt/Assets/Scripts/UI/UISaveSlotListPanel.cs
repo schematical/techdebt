@@ -34,10 +34,10 @@ public class UISaveSlotListPanel : UIMultiSelectPanel
 
     private void SelectSlot(int index)
     {
-        MetaGameManager.CurrentSlotIndex = index;
+        MetaGameManager.SetCurrentSaveSlot(index); 
 
         // If the slot is empty, initialize it with default progress so it exists on disk
-        if (MetaGameManager.LoadProgressFromSaveSlot(index) == null)
+        if (MetaGameManager.GetProgress() == null)
         {
             MetaGameManager.SaveProgress(new MetaProgressData());
         }
