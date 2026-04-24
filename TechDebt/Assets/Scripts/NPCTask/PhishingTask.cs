@@ -6,7 +6,7 @@ using NPCs;
 using Stats;
 using UnityEngine;
 
-public class FishingTask : NPCTask
+public class PhishingTask : NPCTask
 {
     public iTargetable target { get; set; }
     private float coolDown = 0f;
@@ -15,7 +15,7 @@ public class FishingTask : NPCTask
     // public EnvEffectBase buildEffect;
   
 
-    public FishingTask(iAttackable target, int priority = 7) : base(target)
+    public PhishingTask(iAttackable target, int priority = 7) : base(target)
     {
        
         this.target = target;
@@ -56,7 +56,7 @@ public class FishingTask : NPCTask
                     target = internetPipe;
                     npc.MoveTo(internetPipe.GetInteractionPosition(InteractionType.PacketEnter));
                     coolDown = 1;
-                    (npc as NPCFishingAttack).MarkReturning();
+                    (npc as NPCPhishingAttack).MarkReturning();
 
                 }
 

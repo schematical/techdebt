@@ -770,7 +770,7 @@ public class GameManager : MonoBehaviour, iModifiable
         // Events.Add(new ItemDeliveryEvent());
         Events.Add(new SpawnBugEvent());
         Events.Add(new SpawnXSSEvent());
-        Events.Add(new SpawnFishingAttackEvent());
+        Events.Add(new SpawnPhishingAttackEvent());
         Events.Add(new SpawnSQLInjectionEvent());
         Events.Add(new SpawnDDoSEvent());
 

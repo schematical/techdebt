@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace NPCs
 {
-    public class NPCFishingAttack: NPCBase
+    public class NPCPhishingAttack: NPCBase
     {
         public override void Initialize()
         {
@@ -52,7 +52,7 @@ namespace NPCs
  
             int i = Random.Range(0, npcs.Count);
             NPCBase npc = npcs[i];
-            AssignTask(new FishingTask(npc));
+            AssignTask(new PhishingTask(npc));
             
 
         }

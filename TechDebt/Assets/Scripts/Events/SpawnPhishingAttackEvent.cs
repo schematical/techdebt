@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tutorial
 {
-    public class SpawnFishingAttackEvent: EventBase
+    public class SpawnPhishingAttackEvent: EventBase
     {
         public override void Apply()
         {
@@ -12,9 +12,9 @@ namespace Tutorial
           
             InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
 
-            GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCFishingAttack", internetPipe.transform.position);
+            GameObject npcGO = GameManager.Instance.prefabManager.Create("NPCPhishingAttack", internetPipe.transform.position);
 
-            NPCFishingAttack npc = npcGO.GetComponent<NPCFishingAttack>();
+            NPCPhishingAttack npc = npcGO.GetComponent<NPCPhishingAttack>();
             npc.Initialize();
             GameManager.Instance.SetStat(StatType.AttackPossibility, 0);
             
