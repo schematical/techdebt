@@ -160,7 +160,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             float coolDown = coolDowns[t];
             if (coolDown > 0f)
             {
-                coolDowns[t] = coolDown - Time.deltaTime;
+                coolDowns[t] = coolDown - Time.fixedDeltaTime;
             }
         }
         HandleMovement();
@@ -186,7 +186,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
                     }
                     else
                     {
-                        taskCheckTimer += Time.deltaTime;
+                        taskCheckTimer += Time.fixedDeltaTime;
                         if (taskCheckTimer >= TaskCheckInterval)
                         {
                             taskCheckTimer = 0f;
@@ -398,7 +398,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
-            Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.deltaTime);
+            Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.fixedDeltaTime);
             transform.position = new Vector3(nextPos.x, nextPos.y, targetWaypoint.z);
         }
         else

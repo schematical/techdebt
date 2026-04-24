@@ -49,7 +49,7 @@ public class GameLoopManager : MonoBehaviour
                     !GameManager.Instance.UIManager.IsPausedState()
                 )
                 {
-                    dayTimer += Time.deltaTime;
+                    dayTimer += Time.fixedDeltaTime;
                     GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, DayDurationSeconds);
                   
               

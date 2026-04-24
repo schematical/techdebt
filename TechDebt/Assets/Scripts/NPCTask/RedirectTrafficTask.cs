@@ -18,7 +18,7 @@ public class RedirectTrafficTask: NPCTask
     }
     public override void OnUpdate(NPCBase npc)
     {
-        coolDown -= Time.deltaTime;
+        coolDown -= Time.fixedDeltaTime;
     
         if (IsCloseEnough())
         {

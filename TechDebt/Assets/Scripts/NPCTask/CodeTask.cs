@@ -43,7 +43,7 @@ public class CodeTask : InfrastructureTaskBase, iProgressable
      
             float progressGained = GetNpcWorkSpeed(devOpsNpc) * Time.fixedDeltaTime;
             ReleaseBase.ApplyProgress(progressGained, AssignedNPC);
-            devOpsNpc.AddXP(Time.deltaTime);
+            devOpsNpc.AddXP(Time.fixedDeltaTime);
             devOpsNpc.FaceTarget(target.GetInteractionPosition());
         }
     }

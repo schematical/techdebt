@@ -38,9 +38,9 @@ public class ResearchTask : NPCTask, iProgressable
         {
             NPCDevOps devOpsNpc = npc as NPCDevOps;
 
-            float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.deltaTime;
+            float researchGained = devOpsNpc.GetResearchPointsPerSecond(TargetTechnology) * Time.fixedDeltaTime;
             GameManager.Instance.ApplyResearchProgress(researchGained);
-            devOpsNpc.AddXP(Time.deltaTime);
+            devOpsNpc.AddXP(Time.fixedDeltaTime);
             desk.OnResearchProgress(
                 npc.transform.position
             );

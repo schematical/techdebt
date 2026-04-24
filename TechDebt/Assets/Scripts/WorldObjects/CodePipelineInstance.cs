@@ -62,7 +62,7 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
                 return;
         }
      
-        _deploymentProgress += Time.deltaTime * _deploymentSpeed;
+        _deploymentProgress += Time.fixedDeltaTime * _deploymentSpeed;
        
         if (_targetServer != null)
         {

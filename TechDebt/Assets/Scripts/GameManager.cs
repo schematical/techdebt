@@ -550,7 +550,7 @@ public class GameManager : MonoBehaviour, iModifiable
        }
 
         float secondsBetweenPackets = GameLoopManager.GetDayDurationSeconds() / GetStatValue(StatType.Traffic);
-        timeSinceLastPacket += Time.deltaTime;
+        timeSinceLastPacket += Time.fixedDeltaTime;
     
 
         if (timeSinceLastPacket >= secondsBetweenPackets)

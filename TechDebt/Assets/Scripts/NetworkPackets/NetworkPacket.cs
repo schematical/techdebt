@@ -98,12 +98,12 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         {
             return;
         }
-        CurrentLatency += Time.deltaTime;
+        CurrentLatency += Time.fixedDeltaTime;
         
         
         if (Delay > 0)
         {
-            Delay -= Time.deltaTime;
+            Delay -= Time.fixedDeltaTime;
         } else if (Delay > -100)
         {
             Speed = BaseSpeed;
@@ -118,7 +118,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         }
 
         Vector3 destinationPosition = nextHop.GetInteractionPosition(InteractionType.PacketEnter);
-        transform.position = Vector3.MoveTowards(transform.position, destinationPosition, Speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, destinationPosition, Speed * Time.fixedDeltaTime);
         float dist = Vector3.Distance(transform.position, destinationPosition);
         if (dist < 1f)
         {
@@ -128,7 +128,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
         {
             if (transform.localScale.x < 1)
             {
-                transform.localScale = new Vector3(transform.localScale.x + Time.deltaTime, transform.localScale.y + Time.deltaTime, 1);
+                transform.localScale = new Vector3(transform.localScale.x + Time.fixedDeltaTime, transform.localScale.y + Time.deltaTime, 1);
             }
             else
             {

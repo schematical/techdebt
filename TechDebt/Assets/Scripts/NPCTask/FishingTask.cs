@@ -37,7 +37,7 @@ public class FishingTask : NPCTask
     {
         
         // Debug.Log($"AttackTask - Dest: {target.GetInteractionPosition(interactionType)} - {Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position)} <= {maxTaskRange}");
-        coolDown -= Time.deltaTime;
+        coolDown -= Time.fixedDeltaTime;
         // Only start building after the NPC has arrived.
         if (isRetreating)
         {
