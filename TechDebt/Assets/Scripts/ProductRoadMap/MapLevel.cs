@@ -195,15 +195,15 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             if (reward.AppliedAt != appliedAt) continue;
 
-            if (reward.DependencyIds.Count > 0 && !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId)))
+            /*if (reward.DependencyIds.Count > 0 && !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId)))
             {
                 continue;
-            }
+            } */
 
-            if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id))
+            /*if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id))
             {
                 continue;
-            }
+            }*/
 
             if (reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded))
             {
@@ -215,6 +215,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     progressChanged = true;
                 }
             }
+            
         }
 
         if (progressChanged)
@@ -606,8 +607,8 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public void AddPrestigePointsReward(int value = 1)
     {
-
-
+        List<MapLevelReward> levelRewards = new List<MapLevelReward>();
+            
         MapLevelReward levelCompleted = new MapLevelReward()
         {
             Id = $"{Id}_completed",
@@ -623,7 +624,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                 IconSpriteId = "IconDollar"
             },
         };
-        LevelRewards.Add(levelCompleted);
+        levelRewards.Add(levelCompleted);
         MapLevelReward uptime75 = new MapLevelReward()
         {
             Id = $"{Id}_uptime_75",
@@ -647,7 +648,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                 IconSpriteId = "IconDollar"
             },
         };
-        LevelRewards.Add(uptime75);
+        levelRewards.Add(uptime75);
         MapLevelReward uptime90 = new MapLevelReward()
         {
             Id = $"{Id}_uptime_90",
@@ -671,8 +672,8 @@ public class MapLevel : iUIMapNode, iUnlockable
                 IconSpriteId = "IconDollar"
             },
         };
-        LevelRewards.Add(uptime90);
-        LevelRewards.Add(new MapLevelReward()
+        levelRewards.Add(uptime90);
+        levelRewards.Add(new MapLevelReward()
         {
             Id = $"{Id}_uptime_99",
             Description = $"Uptime Greater Than 99%",
@@ -695,6 +696,32 @@ public class MapLevel : iUIMapNode, iUnlockable
                 IconSpriteId = "IconDollar"
             },
         });
+        
+        
+        
+        
+        MetaProgressData metaData = MetaGameManager.GetProgress();
+        foreach (MapLevelReward reward in levelRewards)
+        {
+            if ( //reward.Type == MapLevelReward.MapLevelRewardType.Meta 
+                metaData.claimedMetaRewardIds.Contains(reward.Id)
+               )
+            {
+                // Debug.Log($"Already unlocked yet {reward.Id}");
+                continue; 
+            }
+            if (
+                //reward.Type == MapLevelReward.MapLevelRewardType.Meta &&
+                !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))
+            )
+            {
+                // Debug.Log($"Not unlocked yet {reward.Id}");
+                continue;
+            }
+            // Debug.Log($"Adding {reward.Id}");
+            LevelRewards.Add(reward);
+        }
+      
     }
 
     public bool IsUnlocked()

@@ -918,7 +918,7 @@ namespace Tutorial
         {
             if (!Steps.ContainsKey(stepId))
             {
-                throw new System.Exception($"Step {stepId} not found");
+                Debug.LogWarning($"Step {stepId} not found");
             }
             
             return Steps[stepId];

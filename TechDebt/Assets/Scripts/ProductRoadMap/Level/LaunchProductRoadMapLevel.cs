@@ -14,10 +14,11 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 5;
+        SprintDuration = 2;
         
         AddCashReward(-1, 150);
         AddPrestigePointsReward();
+        
         
         MapLevelModifier modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;

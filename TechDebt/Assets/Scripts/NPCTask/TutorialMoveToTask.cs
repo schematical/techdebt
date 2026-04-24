@@ -40,7 +40,7 @@ public class TutorialMoveToTask : NPCTask
 
     public override void OnEnd(NPCBase npc)
     {       
-        Debug.Log($"{GetType().Name}::{tutorialStep.Id} IsFinished - {tutorialStep.State} = {tutorialStep.State == TutorialStep.TutorialStepState.Completed}");
+        // Debug.Log($"{GetType().Name}::{tutorialStep.Id} IsFinished - {tutorialStep.State} = {tutorialStep.State == TutorialStep.TutorialStepState.Completed}");
 
         base.OnEnd(npc);
         CurrentState = State.Completed;
