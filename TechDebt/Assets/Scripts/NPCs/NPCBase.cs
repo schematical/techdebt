@@ -269,6 +269,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
     public void Wander()
     {
+        HideProgressBar();
         Vector3 wanderDestination = GetRandomWalkablePoint(GetHomePoint(), 10f);
   
         if (!Vector3.zero.Equals(wanderDestination))

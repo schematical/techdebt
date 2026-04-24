@@ -41,6 +41,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_ResearchSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_FixSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_Release_TechDebt, 1f));
+        Stats.Add(new StatData(StatType.NPC_ContractWorkMoneyMultiplier, 1f));
         currentXP = 0;
         lastDisplayXP = 0;
         level = 1;
