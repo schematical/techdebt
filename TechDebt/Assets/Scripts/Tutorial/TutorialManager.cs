@@ -1029,7 +1029,7 @@ namespace Tutorial
 
         public void StartNewGameCheck()
         {
-            Debug.Log($"StartNewGameCheck: {State} - {Steps.Values.Count}");
+
             foreach (TutorialStep step in Steps.Values)
             {
                 step.PreCheck();

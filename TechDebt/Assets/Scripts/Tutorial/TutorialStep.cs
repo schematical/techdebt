@@ -239,7 +239,6 @@ namespace Tutorial
        
             if (onPreCheck != null)
             {
-                Debug.Log($"TutorialStep: PreCheck 2 {Id} - {State}");
                 onPreCheck.Invoke(this);
             }
         }

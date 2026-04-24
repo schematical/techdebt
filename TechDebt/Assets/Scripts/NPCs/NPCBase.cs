@@ -719,7 +719,6 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public void AddProgressBar(iProgressable progressable)
     {
-        Debug.Log("Showing Status Bar");
         progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
         progressBar.Initialize(this, progressable);
     }
