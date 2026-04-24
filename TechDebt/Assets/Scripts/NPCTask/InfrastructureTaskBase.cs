@@ -21,7 +21,7 @@
 
         public override void OnStart(NPCBase npc)
         {
-            npc.AddStatusBar(this);
+            npc.AddProgressBar(this);
             base.OnStart(npc);
         }
         public void CheckBuildEffect()

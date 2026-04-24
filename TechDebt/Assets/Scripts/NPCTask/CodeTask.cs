@@ -29,7 +29,7 @@ public class CodeTask : InfrastructureTaskBase, iProgressable
     }
     public override void OnStart(NPCBase npc)
     {
-        npc.AddStatusBar(this);
+        npc.AddProgressBar(this);
         base.OnStart(npc);
     }
     public override void OnUpdate(NPCBase npc)
