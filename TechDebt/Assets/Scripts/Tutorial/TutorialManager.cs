@@ -558,7 +558,7 @@ namespace Tutorial
                     },
 
                 },
-                /*new TutorialStep(
+                new TutorialStep(
                     TutorialStepId.Task_FixFrozen_Queued,
                     "Task: Fix Queued",
                     "One of your engineers will get to work fixing this server shortly."
@@ -572,7 +572,7 @@ namespace Tutorial
                         return infrastructureInstance;
                     },
 
-                },*/
+                },
                 new TutorialStep(
                     TutorialStepId.Infra_ApplicationServer_Fixed,
                     "Server Fixed",
@@ -918,7 +918,7 @@ namespace Tutorial
         {
             if (!Steps.ContainsKey(stepId))
             {
-                Debug.LogWarning($"Step {stepId} not found");
+                throw new System.Exception($"Step {stepId} not found");
             }
             
             return Steps[stepId];
