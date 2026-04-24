@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class UnlockCondition: iUnlockable
 {
 
-    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState, PrestigePointAllocation }
+    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState, PrestigePointAllocation, GlobalNetworkPacket }
 
     public ConditionType Type;
     public int SprintNumber;
@@ -49,6 +49,14 @@ public class UnlockCondition: iUnlockable
             case(ConditionType.PrestigePointAllocation):
                 MetaProgressData progress = MetaGameManager.GetProgress();
                 return progress.prestigePointAllocations.Find((allocation) => allocation.Id == TargetId) != null;
+            case(ConditionType.GlobalNetworkPacket):
+                NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas()
+                    .Find((networkPacketData => networkPacketData.Type.ToString() == TargetId));
+                if (networkPacketData == null)
+                {
+                    throw new SystemException($"Invalid network packet data: ${TargetId}");
+                }
+                return networkPacketData.GetProbability() > 0;
             default:
                 throw new NotImplementedException();
         }

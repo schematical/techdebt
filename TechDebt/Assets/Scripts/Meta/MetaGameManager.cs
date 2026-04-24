@@ -1115,9 +1115,9 @@ public static class MetaGameManager
         return foundModifiers;
     }
 
-    public static List<RewardBase> GetAllModifiers()
+    public static List<RewardBase> GetAllModifiers(bool unlockedOnly = true)
     {
-        return new List<RewardBase>()
+        List<RewardBase> modifierRewards = new List<RewardBase>()
         {
             new NPCStatModifierReward()
             {
@@ -1241,7 +1241,15 @@ public static class MetaGameManager
                 NetworkPacketType = NetworkPacketData.PType.Text,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection = ScaleDirection.Down
+                ScaleDirection = ScaleDirection.Down,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TargetId = "dedicated-db"
+                    }
+                },
             },
             new WorldObjectTypeNetworkPacketStatModifierReward()
             {
@@ -1263,7 +1271,15 @@ public static class MetaGameManager
                 Description = "Increases Purchase Probability",
                 StatType = StatType.NetworkPacket_Probibility,
                 NetworkPacketType = NetworkPacketData.PType.Purchase,
-                IconSpriteId = "IconCart"
+                IconSpriteId = "IconCart",
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.GlobalNetworkPacket, 
+                        TargetId = "Purchase"
+                    }
+                }
             },
             new GlobalStatModifierReward()
             {
@@ -1305,7 +1321,15 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 WorldObjectType = WorldObjectType.Type.DedicatedDB,
                 IconSpriteId = "IconRelationalDBDesign",
-                ScaleDirection = ScaleDirection.Up
+                ScaleDirection = ScaleDirection.Up,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology, 
+                        TargetId = "relational-db"
+                    }
+                }
             },
             new WorldObjectTypeStatModifierReward()
             {
@@ -1316,7 +1340,16 @@ public static class MetaGameManager
                 StatType = StatType.Infra_LatencyStartsAtLoad,
                 WorldObjectType = WorldObjectType.Type.ApplicationServer,
                 IconSpriteId = "IconCode",
-                ScaleDirection = ScaleDirection.Up
+                ScaleDirection = ScaleDirection.Up,
+                // TODO: Add latency lock condition
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual, 
+                        SprintNumber = 2
+                    }
+                }
             },
             new GlobalStatModifierReward()
             {
@@ -1336,7 +1369,15 @@ public static class MetaGameManager
                 Description = "Hashing passwords decreases the cost of losing P.I.I. because the passwords cannot be decrypted",
                 StatType = StatType.Global_PIILossCost,
                 IconSpriteId = "IconCode",
-                ScaleDirection = ScaleDirection.Down
+                ScaleDirection = ScaleDirection.Down,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.GlobalNetworkPacket, 
+                        TargetId = "PII"
+                    }
+                }
             },
             
             new GlobalStatModifierReward()
@@ -1362,6 +1403,12 @@ public static class MetaGameManager
                 Increase tech debt rate, requires more frequent deployments
              */
         };
+        if (!unlockedOnly)
+        {
+            return modifierRewards;
+        }
+
+        return modifierRewards.FindAll((rewardBase => rewardBase.IsUnlocked()));
     }
 
     public static List<MetaPrestigePointAllocatable> GetPrestigePointAllocatables()

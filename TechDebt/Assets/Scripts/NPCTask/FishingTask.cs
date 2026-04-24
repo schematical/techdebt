@@ -6,15 +6,16 @@ using NPCs;
 using Stats;
 using UnityEngine;
 
-public class AttackTask : NPCTask
+public class FishingTask : NPCTask
 {
-    public iAttackable target { get; }
-    public string assignButtonText { get; set; } = "Debug";
+    public iTargetable target { get; set; }
     private float coolDown = 0f;
+
+    private bool isRetreating = false;
     // public EnvEffectBase buildEffect;
   
 
-    public AttackTask(iAttackable target, int priority = 7) : base(target)
+    public FishingTask(iAttackable target, int priority = 7) : base(target)
     {
        
         this.target = target;
@@ -38,40 +39,46 @@ public class AttackTask : NPCTask
         // Debug.Log($"AttackTask - Dest: {target.GetInteractionPosition(interactionType)} - {Vector3.Distance(target.GetInteractionPosition(interactionType), AssignedNPC.transform.position)} <= {maxTaskRange}");
         coolDown -= Time.deltaTime;
         // Only start building after the NPC has arrived.
-        if (IsCloseEnough())
+        if (isRetreating)
         {
-
-            if (coolDown <= 0)
+            return;
+        }
+        else
+        {
+            if (IsCloseEnough())
             {
-                npc.StopMovement();
-                npc.Attack(target);
-                if (npc is NPCAnimatedBiped)
+
+                if (coolDown <= 0)
                 {
-                    (npc as NPCAnimatedBiped).SetExpression(NPCAnimatedBiped.FacialExpression.AngryYell);
+                    // npc.StopMovement();
+                    isRetreating = true;
+                    InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
+                    target = internetPipe;
+                    npc.MoveTo(internetPipe.GetInteractionPosition(InteractionType.PacketEnter));
+                    coolDown = 1;
+                    (npc as NPCFishingAttack).MarkReturning();
+
                 }
-                coolDown = 1;
 
             }
-
-        } else if (!npc.isMoving || coolDown <= 0)
-        {
-            coolDown = .5f;
-            npc.MoveTo(target.GetInteractionPosition(interactionType));
+            else if (!npc.isMoving || coolDown <= 0)
+            {
+                coolDown = .5f;
+                npc.MoveTo(target.GetInteractionPosition(interactionType));
+            }
         }
     }
 
     public override bool IsFinished(NPCBase npc)
     {
-        return target.IsDead();
+        return coolDown <= 0 && isRetreating && IsCloseEnough();
     }
 
     public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
-        if (npc is NPCAnimatedBiped)
-        {
-            (npc as NPCAnimatedBiped).SetExpression(NPCAnimatedBiped.FacialExpression.Default);
-        }
+        npc.gameObject.SetActive(false);
+        GameManager.Instance.UIManager.ShowPacketFail(GameManager.Instance.SpriteManager.GetSprite("FishingAttack", "1"));
     }
 
    
@@ -79,7 +86,7 @@ public class AttackTask : NPCTask
     
     public override string GetAssignButtonText()
     {
-        return assignButtonText;
+        return "Stop Fishing Attack";
     }
 
 

@@ -22,9 +22,11 @@ public class Map
         new EmailMapLevel(),
         new SocketChatMapLevel(),
         new GeoLocationMapLevel(),
+        new CodePipelineLevel(),
+        new Metrics1Level(),
         new SslLevel(),
         new SaasLevel(),
-        new DiskSpaceLevel(),
+        // new DiskSpaceLevel(),
         new CheckoutCartLevel(),
         new OnlinePaymentsProductRoadMapLevel()
     };
