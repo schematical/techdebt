@@ -15,6 +15,7 @@ public class DedicatedDBWOType : WorldObjectType
         CanBeUpsized = true;
         LoadRecoveryRate = 10;
         ShowInGlobalDisplay = true;
+        sizeTechnologyPrefix = "dedicated-db";
         TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {

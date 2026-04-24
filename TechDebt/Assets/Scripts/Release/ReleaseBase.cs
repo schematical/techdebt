@@ -236,6 +236,18 @@ public class ReleaseBase
             CurrentProgress,
             progressGained
         );
+        switch (RewardModifier.Id)
+        {
+            case("contract_work"): //TODO: Find a better way to make this work. We should probablly do this for tech debt.
+                GlobalStatBaseValueReward reward = (RewardModifier as GlobalStatBaseValueReward);
+                    reward.LevelValues[0] = AvgOutStat(
+                        reward.LevelValues[0],
+                    npcBase.Stats.GetStatValue(StatType.NPC_ContractWorkMoneyMultiplier),
+                    CurrentProgress,
+                    progressGained
+                );
+            break;
+        }
         /*TechDebtMultiplier = (
             (
                 (TechDebtMultiplier * (CurrentProgress - progressGained)) + (NPCBase.Stats.GetStatValue(StatType.NPC_Release_TechDebt) * progressGained)

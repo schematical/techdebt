@@ -15,6 +15,7 @@ public class RedisWOType : WorldObjectType
         CanBeUpsized = true;
         ShowInGlobalDisplay = true;
         TutorialStepId = TutorialStepId.Infra_Redis_Tip;
+        sizeTechnologyPrefix = "redis";
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()

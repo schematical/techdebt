@@ -537,7 +537,43 @@ public static class MetaGameManager
                 },
                 CurrentState = Technology.State.Locked,
                 TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
-                // UnlockConditions - Get and instance to size 2?
+            },
+            new Technology()
+            {
+                TechnologyID = "dedicated-db-size-medium",
+                DisplayName = "Database - Medium",
+                Description = "2x your Database Server's CPU/RAM and Costs",
+                ResearchTime = 15,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TargetId = "dedicated-db"
+                    },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    },
+                },
+                CurrentState = Technology.State.Locked,
+            },
+            new Technology()
+            {
+                TechnologyID = "dedicated-db-size-large",
+                DisplayName = "Database - Medium",
+                Description = "4x your Database Server's CPU/RAM and Costs",
+                ResearchTime = 30,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TargetId = "dedicated-db-size-medium"
+                    },
+                },
+                CurrentState = Technology.State.Locked,
             },
             new Technology()
             {
@@ -560,7 +596,7 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "redis",
-                DisplayName = "Caching",
+                DisplayName = "Key Value Store",
                 Description = "A lightning fast value key store. Allows you to decrease load on the application server by caching complex operations.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
@@ -569,6 +605,43 @@ public static class MetaGameManager
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
                 },
                 TutorialStepId = TutorialStepId.Infra_Redis_Tip
+            },
+            new Technology()
+            {
+                TechnologyID = "redis-size-medium",
+                DisplayName = "Key Value Store - Medium",
+                Description = "2x your Key Value Store Server's CPU/RAM and Costs",
+                ResearchTime = 15,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TargetId = "dedicated-db"
+                    },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.TutorialStepState,
+                        TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
+                    },
+                },
+                CurrentState = Technology.State.Locked,
+            },
+            new Technology()
+            {
+                TechnologyID = "redis-size-large",
+                DisplayName = "Key Value Store - Medium",
+                Description = "4x your Key Value Store Server's CPU/RAM and Costs",
+                ResearchTime = 30,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TargetId = "dedicated-db-size-medium"
+                    },
+                },
+                CurrentState = Technology.State.Locked,
             },
             new Technology()
             {
@@ -1192,6 +1265,15 @@ public static class MetaGameManager
                 IconSpriteId = "IconTechDebt",
                 ScaleDirection = ScaleDirection.Down
             },
+            new NPCStatModifierReward()
+            {
+                Id = "developer_reputation",
+                Name = "Developer Reputation",
+                StatType = StatType.NPC_ContractWorkMoneyMultiplier,
+                Description = "This developer has contributed heavily to opensource projects and done a lot of speaking allowing you to charge more for contract work.",
+                IconSpriteId = "IconTechDebt",
+                ScaleDirection = ScaleDirection.Up
+            },
             // TODO: Multi Tasker - Reduces Time spent when switching tasks but decreases quality
             // TODO: Headphones: Big progress/speed penalty for switching tasks but increased quality/speed when working 
             // TODO: Heads Down - Cannot switch tasks but quality and speed is increased
@@ -1254,8 +1336,8 @@ public static class MetaGameManager
             new WorldObjectTypeNetworkPacketStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
-                Id = "code_optimization",
-                Name = "Code Optimization",
+                Id = "performance_optimization",
+                Name = "Performance Optimization",
                 Description = "Decreases CPU Load Of Text Packets On The Application Server",
                 StatType = StatType.Infra_LoadPerPacket,
                 NetworkPacketType = NetworkPacketData.PType.Text,

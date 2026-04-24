@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FishingAttack_0
+      name: PhishingAttack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,16 +126,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 39e75766d37cf65d0800000000000000
-      internalID: -3067013754690109805
+      spriteID: ab0e65d14725d034597f6df40474a52b
+      internalID: -752713505
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FishingAttack_1
+      name: PhishingAttack_1
       rect:
         serializedVersion: 2
         x: 64
@@ -150,8 +150,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afdf5eb3f58998f49bdabacf480a9921
-      internalID: -866983692
+      spriteID: 98dbb2df6f3e7a44ebda24eac7f5d630
+      internalID: 2118481465
       vertices: []
       indices: 
       edges: []
@@ -172,8 +172,8 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      FishingAttack_0: -3067013754690109805
-      FishingAttack_1: -866983692
+      PhishingAttack_0: -752713505
+      PhishingAttack_1: 2118481465
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

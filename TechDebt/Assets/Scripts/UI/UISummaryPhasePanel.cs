@@ -19,6 +19,8 @@ namespace UI
             base.Show();
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1("Game Over");
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Failed Victory Conditions");
+            
+
             foreach (MapLevelVictoryConditionBase condition in victoryConditions)
             {
                 if (condition.GetFinalState() == VictoryConditionState.Failed)
@@ -37,8 +39,22 @@ namespace UI
                             $" - {metaChallenge.DisplayName}";
                 }
             }
-            AddButton("Start Over", () => { GameManager.Instance.StartNewGame(); });
-            AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
+            if (GameManager.Instance.Map.GetMetaRewards().Count > 0)
+            {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "You have earned new `Vested Shares`. Spend them to unlock bonuses for future runs.";
+                AddButton("Allocate Vested Shares", () =>
+                {
+                    GameManager.Instance.ShowMainMenu();
+                    GameManager.Instance.UIManager.mainMenu.Close(true);
+                    GameManager.Instance.UIManager.metaUnlockMapPanel.Show();
+                });
+            }
+            else
+            {
+                AddButton("Start Over", () => { GameManager.Instance.StartNewGame(); });
+                AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
+            }
+           
        
         }
         

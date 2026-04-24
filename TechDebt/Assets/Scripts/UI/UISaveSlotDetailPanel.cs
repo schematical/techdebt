@@ -27,7 +27,7 @@ public class UISaveSlotDetailPanel : UIPanel
 
         AddButton("Start Run", StartRun);
         AddButton("Challenges", ShowChallenges);
-        AddButton("Unlock Map", ShowUnlockMap);
+        AddButton("Manage Vested Shares", ShowUnlockMap);
         AddButton("Delete Slot", DeleteSlot);
         AddButton("Back", () => { Close(); GameManager.Instance.UIManager.saveSlotListPanel.Show(); });
     }

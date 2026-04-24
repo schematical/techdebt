@@ -16,7 +16,7 @@ namespace UI
 
         public void SetupTabs()
         {
-            Debug.Log("SetupTabs");
+         
             _tabs = new List<UIMetaUnlockMapTabBase> 
             {
                 new UIMetaUnlockTechnologyTab(),

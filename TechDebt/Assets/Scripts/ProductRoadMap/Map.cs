@@ -37,12 +37,22 @@ public class Map
         new List<MapLevelVictoryConditionBase>();
 
     public List<string> BanishedRewardIds { get; set; } = new();
+    protected List<MapLevelReward> MetaLevelRewards = new();
 
     public void Randomize()
     {
         
     }
 
+    public void MarkMetaRewardRedeemed(MapLevelReward reward)
+    {
+        if (reward.Type != MapLevelReward.MapLevelRewardType.Meta)
+        {
+            Debug.LogError(reward.Type + " is not a meta reward");
+            return;
+        }
+        MetaLevelRewards.Add(reward);
+    }
     public MapLevel GetCurrentLevel()
     {
         return CurrentLevel;
@@ -94,8 +104,10 @@ public class Map
     }
 
 
-
-    
+    public List<MapLevelReward> GetMetaRewards()
+    {
+        return MetaLevelRewards;
+    }
 }
 
 

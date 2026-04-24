@@ -211,6 +211,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                 GameManager.Instance.UIManager.toastHolderPanel.Add("Applied " + reward.Reward.Name);
                 if (reward.Type == MapLevelReward.MapLevelRewardType.Meta)
                 {
+                    GameManager.Instance.Map.MarkMetaRewardRedeemed(reward);
                     metaData.claimedMetaRewardIds.Add(reward.Id);
                     progressChanged = true;
                 }
