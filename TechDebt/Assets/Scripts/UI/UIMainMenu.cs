@@ -17,6 +17,7 @@ public class UIMainMenu : UIPanel
         AddButton("Play", () => { Close(); GameManager.Instance.UIManager.saveSlotListPanel.Show(); });
         AddButton("Discord", OpenDiscord);  
         AddButton("Feedback", () => Application.OpenURL("https://forms.gle/NRRbLNhtoaJQrRzp9"));     
+        AddButton("Wishlist now!", () => Application.OpenURL("https://store.steampowered.com/app/4567430/Tech_Debt/"));     
         AddButton("Quit", () => { Application.Quit(); });
         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Play Test - v{Application.version}";
     }

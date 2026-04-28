@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MetaChallenges;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
@@ -54,7 +55,7 @@ namespace UI
                 AddButton("Start Over", () => { GameManager.Instance.StartNewGame(); });
                 AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
             }
-           
+            AddButton("Wishlist now!", () => Application.OpenURL("https://store.steampowered.com/app/4567430/Tech_Debt/")); 
        
         }
         

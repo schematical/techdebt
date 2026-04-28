@@ -15,6 +15,7 @@ public class UIPauseMenu : UIPanel
         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"v{Application.version}";
         AddButton("Resume", () => Close());
         AddButton("Challenges", ShowChallengesPanel);
+        AddButton("Wishlist now!", () => Application.OpenURL("https://store.steampowered.com/app/4567430/Tech_Debt/")); 
         AddButton("Quit", Quit);
     }
 
