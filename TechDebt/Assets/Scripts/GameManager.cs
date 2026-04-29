@@ -655,7 +655,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             DisplayType =  StatData.StatDataDisplayType.Percentage
         });
-        Stats.Add(new StatData(StatType.Release_Quality_Multiplier, 1)
+        Stats.Add(new StatData(StatType.Global_ReleaseQualityMultiplier, 1)
         {
             
         });
@@ -665,7 +665,7 @@ public class GameManager : MonoBehaviour, iModifiable
             DisplayType =  StatData.StatDataDisplayType.Percentage,
             IsModifiable = false,
         });
-        Stats.Add(new StatData(StatType.AttackPossibilityAccumulationRate, 0.25f){
+        Stats.Add(new StatData(StatType.Global_AttackPossibilityAccumulationRate, 0.25f){
         });
         Stats.Add(new StatData(StatType.TechDebt_AccumulationRate, 0.005f){
             DisplayType =  StatData.StatDataDisplayType.Percentage

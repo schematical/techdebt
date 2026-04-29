@@ -1306,7 +1306,7 @@ public static class MetaGameManager
                 Id = "code_linter",
                 Name = "Code Linter",
                 Description = "Increases the code quality of future releases",
-                StatType = StatType.Release_Quality_Multiplier,
+                StatType = StatType.Global_ReleaseQualityMultiplier,
                 IconSpriteId = "IconCode",
                 ScaleDirection = ScaleDirection.Up
             },

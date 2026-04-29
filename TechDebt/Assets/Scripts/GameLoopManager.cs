@@ -90,7 +90,7 @@ public class GameLoopManager : MonoBehaviour
         
         GameManager.Instance.IncrStat(
             StatType.AttackPossibility,
-            GameManager.Instance.GetStatValue(StatType.AttackPossibilityAccumulationRate)
+            GameManager.Instance.GetStatValue(StatType.Global_AttackPossibilityAccumulationRate)
         );
         float day = GameManager.Instance.MetaStats.Incr(MetaStat.Day);
         DaySummaryEvent myEvent = new DaySummaryEvent

@@ -18,6 +18,11 @@ namespace Tutorial
         {
             // return 100;
             GameManager gameManager = GameManager.Instance;
+            if (gameManager.Stats.GetStatValue(StatType.Traffic) < 200)
+            {
+                return 0;
+            }
+          
             ReleaseBase currentRelease = gameManager.GetCurrentRelease();
             if (currentRelease == null)
             {
@@ -32,7 +37,5 @@ namespace Tutorial
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
             return (techDebt * releaseQuality * inputValidation * attackPossibility);
         }
-        
-
     }
 }

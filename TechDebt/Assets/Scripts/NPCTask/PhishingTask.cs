@@ -41,6 +41,7 @@ public class PhishingTask : NPCTask
         // Only start building after the NPC has arrived.
         if (isRetreating)
         {
+            npc.MoveTo(target.GetInteractionPosition(InteractionType.PacketEnter));
             return;
         }
         else
@@ -48,17 +49,15 @@ public class PhishingTask : NPCTask
             if (IsCloseEnough())
             {
 
-                if (coolDown <= 0)
-                {
-                    // npc.StopMovement();
-                    isRetreating = true;
-                    InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
-                    target = internetPipe;
-                    npc.MoveTo(internetPipe.GetInteractionPosition(InteractionType.PacketEnter));
-                    coolDown = 1;
-                    (npc as NPCPhishingAttack).MarkReturning();
+            
+                // npc.StopMovement();
+                isRetreating = true;
+                InternetPipe internetPipe = GameManager.Instance.GetRandomInfrastructureInstanceByClass<InternetPipe>();
+                target = internetPipe;
+                npc.MoveTo(internetPipe.GetInteractionPosition(InteractionType.PacketEnter));
+                coolDown = 1;
+                (npc as NPCPhishingAttack).MarkReturning();
 
-                }
 
             }
             else if (!npc.isMoving || coolDown <= 0)

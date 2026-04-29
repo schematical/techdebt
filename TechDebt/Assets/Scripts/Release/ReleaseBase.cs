@@ -228,7 +228,7 @@ public class ReleaseBase
         CurrentProgress += progressGained;
         GameManager.Instance.InvokeReleaseChanged(this, State);
         
-        float qualityMultiplier = GameManager.Instance.GetStatValue(StatType.Release_Quality_Multiplier) * npcBase.Stats.GetStatValue(StatType.NPC_CodeQuality);
+        float qualityMultiplier = GameManager.Instance.GetStatValue(StatType.Global_ReleaseQualityMultiplier) * npcBase.Stats.GetStatValue(StatType.NPC_CodeQuality);
        
         CurrentQuality = AvgOutStat(
             CurrentQuality,

@@ -9185,7 +9185,7 @@ MonoBehaviour:
     CurrentState: 0
     UnlockConditions:
     - Type: 1
-      SprintNumber: 2
+      SprintNumber: 20
       TargetId: 
       TutorialStepId: 0
       TutorialStepState: 2

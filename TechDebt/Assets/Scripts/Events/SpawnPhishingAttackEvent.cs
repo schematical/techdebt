@@ -28,7 +28,10 @@ namespace Tutorial
             {
                 return 0;
             }
-
+            if (gameManager.Stats.GetStatValue(StatType.Traffic) < 100)
+            {
+                return 0;
+            }
             float techDebt = gameManager.GetStatValue(StatType.TechDebt);
             
             float releaseQuality = 1 - currentRelease.GetQuality();
