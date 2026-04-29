@@ -78,7 +78,7 @@ public class PhishingTask : NPCTask
     {
         base.OnEnd(npc);
         npc.gameObject.SetActive(false);
-        GameManager.Instance.UIManager.ShowPacketFail(GameManager.Instance.SpriteManager.GetSprite("FishingAttack", "1"));
+        GameManager.Instance.UIManager.ShowPacketFail(GameManager.Instance.SpriteManager.GetSprite("PhishingAttack", "1"));
     }
 
    

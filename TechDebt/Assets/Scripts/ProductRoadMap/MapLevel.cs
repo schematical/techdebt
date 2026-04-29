@@ -400,6 +400,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                         else
                         {
                             GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                            npc.HideDialogBubble();
                         }
                     }
                 } /*,
