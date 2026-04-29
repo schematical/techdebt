@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NPCs;
 using Stats;
@@ -14,6 +15,8 @@ namespace UI
         // public UITextArea textArea; // Removed to use AddLine instead
         private List<UIPanelLineSectionButton> _taskButtons = new List<UIPanelLineSectionButton>();
         private UIPanelLineSectionText tasksLineText;
+        private UIPanelLineSectionText levelLineText;
+        private UIPanelLineSectionText xpLineText;
         void Start()
         {
      
@@ -46,7 +49,21 @@ namespace UI
             // State
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {_selectedNPC.CurrentState}";
             tasksLineText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
-          
+            if (_selectedNPC is NPCDevOps)
+            {
+                NPCDevOps npcDevOps = (NPCDevOps)_selectedNPC;
+                UIPanelLine levelLine = AddLine<UIPanelLine>();
+                levelLineText = levelLine.Add<UIPanelLineSectionText>();
+                UIPanelLine xpLine = AddLine<UIPanelLine>();
+                xpLineText = xpLine.Add<UIPanelLineSectionText>();
+                
+            }
+            else
+            {
+                levelLineText = null;
+                xpLineText = null;
+            }
+         
             // Stats
             UIStatCollectionPanelLine statsLine = AddLine<UIStatCollectionPanelLine>();
             statsLine.SetStatCollection(_selectedNPC.Stats, "Stats");
@@ -103,18 +120,15 @@ namespace UI
             {
                 tasksLineText.text.text = "Task: None";
             }
+            if (_selectedNPC is NPCDevOps)
+            {
+                // This is a bit hacky
+                NPCDevOps npcDevOps = (NPCDevOps)_selectedNPC;
+                levelLineText.text.text = $"Level: {npcDevOps.level} (Leveled Up To: {npcDevOps.leveledUpTo})";
+                xpLineText.text.text = $"XP:{Math.Round(npcDevOps.currentXP)} - Next Level At: {npcDevOps.GetNextLevelXP()}";
+            }
 
         }
-        public override void Close(bool forceClose = false)
-        {
-            // _selectedNPC = null;
-            base.Close(forceClose);
-        }
-
-        public void Preview(RewardBase modifierBase, NPCDevOps npc)
-        {
-            Show(npc);
-            Debug.Log("TODO: Preview");
-        }
+        
     }
 }

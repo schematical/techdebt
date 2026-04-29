@@ -1271,7 +1271,7 @@ public static class MetaGameManager
                 Name = "Developer Reputation",
                 StatType = StatType.NPC_ContractWorkMoneyMultiplier,
                 Description = "This developer has contributed heavily to opensource projects and done a lot of speaking allowing you to charge more for contract work.",
-                IconSpriteId = "IconMoney",
+                IconSpriteId = "IconDollar",
                 ScaleDirection = ScaleDirection.Up
             },
             new NPCStatModifierReward()

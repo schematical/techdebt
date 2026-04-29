@@ -42,6 +42,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Stats.Add(new StatData(StatType.NPC_FixSpeed, 1f));
         Stats.Add(new StatData(StatType.NPC_Release_TechDebt, 1f));
         Stats.Add(new StatData(StatType.NPC_ContractWorkMoneyMultiplier, 1f));
+        Stats.Add(new StatData(StatType.NPC_BugAttackTechDebtMultiplier, 1f));
         currentXP = 0;
         lastDisplayXP = 0;
         level = 1;
@@ -69,7 +70,7 @@ public class NPCDevOps : NPCAnimatedBiped
             lastDisplayXP = (int)Math.Floor(currentXP);
         }
 
-        int nextLevelXP = (int)Math.Round(30 * Math.Pow(1.5f, level));
+        int nextLevelXP = GetNextLevelXP();
         if (currentXP >= nextLevelXP)
         {
             currentXP = currentXP - nextLevelXP;
@@ -77,6 +78,11 @@ public class NPCDevOps : NPCAnimatedBiped
             MarkReadyForLevelUp();
            
         }
+    }
+
+    public virtual int GetNextLevelXP()
+    {
+        return (int)Math.Round(30 * Math.Pow(1.5f, level));
     }
 
     protected void MarkReadyForLevelUp()
@@ -306,7 +312,11 @@ public class NPCDevOps : NPCAnimatedBiped
         if (!Mathf.Approximately(techDebtModifier, 1))
         {
             float techDebt = GameManager.Instance.GetStatValue(StatType.TechDebt);
-            GameManager.Instance.Stats.Get(StatType.TechDebt).SetBaseValue(techDebt * techDebtModifier);
+            float newTechDebt = techDebt * techDebtModifier;
+            GameManager.Instance.Stats.Get(StatType.TechDebt).SetBaseValue(newTechDebt);
+            
+            GameManager.Instance.FloatingTextFactory.ShowText($"-{Math.Round(techDebt - newTechDebt)} Tech Debt",
+                transform.position, Color.blueViolet);
         };
         base.Attack(attackTarget);
     }
