@@ -12,7 +12,7 @@ namespace NPCs
             base.Initialize();
             // tutorialStepId = TutorialStepId.NPC_XSS_View;
             shadow.gameObject.SetActive(false);
-            spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetSprite("FishingAttack", "0");
+            spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetSprite("PhishingAttack", "0");
         }
 
         public override List<NPCTask> GetAvailableTasks()
@@ -59,7 +59,7 @@ namespace NPCs
 
         public void MarkReturning()
         {
-            spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetSprite("FishingAttack", "1");
+            spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetSprite("PhishingAttack", "1");
         }
     }
 }
