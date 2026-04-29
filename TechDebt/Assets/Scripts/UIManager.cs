@@ -481,7 +481,7 @@ public class UIManager : MonoBehaviour
         Close(true);
         topBarPanel.Clear();
         topBarPanel.Show();
-        moneyPanel.Show();
+        // moneyPanel.Show();
         victoryConditionListPanel.Show();
         timeControlPanel.Show();
         mainMenu.Close();

@@ -56,7 +56,7 @@ namespace UI
                 AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
             }
             AddButton("Wishlist now!", () => Application.OpenURL("https://store.steampowered.com/app/4567430/Tech_Debt/")); 
-       
+            AddButton("Give Feedback", () => Application.OpenURL("https://forms.gle/NRRbLNhtoaJQrRzp9"));  
         }
         
     }

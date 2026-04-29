@@ -1271,8 +1271,17 @@ public static class MetaGameManager
                 Name = "Developer Reputation",
                 StatType = StatType.NPC_ContractWorkMoneyMultiplier,
                 Description = "This developer has contributed heavily to opensource projects and done a lot of speaking allowing you to charge more for contract work.",
-                IconSpriteId = "IconTechDebt",
+                IconSpriteId = "IconMoney",
                 ScaleDirection = ScaleDirection.Up
+            },
+            new NPCStatModifierReward()
+            {
+                Id = "exterminator",
+                Name = "Exterminator",
+                StatType = StatType.NPC_BugAttackTechDebtMultiplier,
+                Description = "This team member pays down some of your tech debt when they debug a bug or cyber attack.",
+                IconSpriteId = "IconTechDebt",
+                ScaleDirection = ScaleDirection.Down
             },
             // TODO: Multi Tasker - Reduces Time spent when switching tasks but decreases quality
             // TODO: Headphones: Big progress/speed penalty for switching tasks but increased quality/speed when working 

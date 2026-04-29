@@ -299,4 +299,15 @@ public class NPCDevOps : NPCAnimatedBiped
         // animator.SetBool("isHolding", true);
         SetExpression(FacialExpression.Panic);
     }
+
+    public override void Attack(iAttackable attackTarget)
+    {
+        float techDebtModifier = Stats.Get(StatType.NPC_BugAttackTechDebtMultiplier).Value;
+        if (!Mathf.Approximately(techDebtModifier, 1))
+        {
+            float techDebt = GameManager.Instance.GetStatValue(StatType.TechDebt);
+            GameManager.Instance.Stats.Get(StatType.TechDebt).SetBaseValue(techDebt * techDebtModifier);
+        };
+        base.Attack(attackTarget);
+    }
 }

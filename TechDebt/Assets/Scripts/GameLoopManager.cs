@@ -83,7 +83,7 @@ public class GameLoopManager : MonoBehaviour
             new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStatValue(StatType.Difficulty))
         );
         
-        GameManager.Instance.UIManager.moneyPanel.Show();
+        // GameManager.Instance.UIManager.moneyPanel.Show();
         GameManager.Instance.UIManager.Resume();
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Day {currentDay} Starting");
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Expected Traffic: { Math.Round(GameManager.Instance.GetStatValue(StatType.Traffic))} Packets/Day");
@@ -172,7 +172,7 @@ public class GameLoopManager : MonoBehaviour
         }
         // Update UI
         GameManager.Instance.UIManager.HidePlanUI();
-        GameManager.Instance.UIManager.moneyPanel.Show();
+        // GameManager.Instance.UIManager.moneyPanel.Show();
         GameManager.Instance.UIManager.SetTimeScalePlay(true);
 
     }

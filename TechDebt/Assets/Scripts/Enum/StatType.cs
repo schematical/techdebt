@@ -65,5 +65,6 @@ public enum StatType
     Global_Banish,
     NPC_StartLevel,
     NPC_LevelUpRarity,
-    NPC_ContractWorkMoneyMultiplier
+    NPC_ContractWorkMoneyMultiplier,
+    NPC_BugAttackTechDebtMultiplier
 }

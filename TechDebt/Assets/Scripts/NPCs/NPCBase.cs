@@ -576,7 +576,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
 
 
-    public void Attack(iAttackable attackTarget)
+    public virtual void Attack(iAttackable attackTarget)
     {
       
         animator.SetBool("isAttacking", true);
