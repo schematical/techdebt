@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
+using DefaultNamespace.EnvGraphic;
 using DefaultNamespace.Rewards;
 using Tutorial;
 using NPCs;
 using Stats;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class NPCDevOps : NPCAnimatedBiped
@@ -167,7 +169,8 @@ public class NPCDevOps : NPCAnimatedBiped
                         GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Completed);
                     }
                     GameManager.Instance.UIManager.multiSelectPanel.Close();
-                
+                    ShowLevelUpGraphic(rarity);
+
                 }
                 else if (type == UIMultiSelectOption.InteractionType.Banish)
                 {
@@ -319,5 +322,15 @@ public class NPCDevOps : NPCAnimatedBiped
                 transform.position, Color.blueViolet);
         };
         base.Attack(attackTarget);
+    }
+    public virtual LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity, UnityAction<Rarity, bool> _onDone = null)
+    {
+        LevelUpEnvGraphic levelUpEnvGraphic = GameManager.Instance.prefabManager.Create("LevelUpEnvGraphic",
+            transform.position + new Vector3(0, 0, .1f)).GetComponent<LevelUpEnvGraphic>();
+        levelUpEnvGraphic.transform.localScale = Vector3.one;
+        GameManager.Instance.UIManager.SetTimeScalePause();
+        levelUpEnvGraphic.Init(rarity, _onDone);
+        levelUpEnvGraphic.Follow(this);
+        return levelUpEnvGraphic;
     }
 }

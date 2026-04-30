@@ -890,7 +890,7 @@ public class GameManager : MonoBehaviour, iModifiable
         return totalCost;
     }
     
-    public void NotifyDailyCostChanged() => OnDailyCostChanged?.Invoke();
+
 
     public void UpdateInfrastructureVisibility()
     {
@@ -1046,8 +1046,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
         NPCDevOps npc = npcObject.GetComponent<NPCDevOps>();
         npc.Initialize(candidateData);
-        
-        NotifyDailyCostChanged();
+       
         return npc;
     }
 

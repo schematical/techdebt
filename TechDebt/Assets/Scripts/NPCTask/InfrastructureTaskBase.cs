@@ -113,7 +113,6 @@
             CurrentState = State.Completed; // Set status to completed
         
             TargetInfrastructure.SetState(InfrastructureData.State.Operational);
-            GameManager.Instance.NotifyDailyCostChanged();
 
         }
 

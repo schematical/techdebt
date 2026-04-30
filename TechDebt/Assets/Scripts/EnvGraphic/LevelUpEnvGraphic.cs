@@ -27,6 +27,7 @@ namespace DefaultNamespace.EnvGraphic
         private List<ScreenParticle> particles = new List<ScreenParticle>();
         private float nextParticleAt = 10000;
         private UnityAction<Rarity, bool> onStateChange;
+        private iTargetable targetable;
 
         public void Init(Rarity _goalRarity, UnityAction<Rarity, bool> _onStateChange = null)
         {
@@ -46,6 +47,10 @@ namespace DefaultNamespace.EnvGraphic
         }
         void Update()
         {
+            if(targetable != null) 
+            {
+                transform.position = targetable.transform.position - new Vector3(0f,0f,-0.5f);
+            }
             if (animationState == AnimationState.Intro)
             {
                 return;
@@ -177,6 +182,10 @@ namespace DefaultNamespace.EnvGraphic
             }
             throw new NotImplementedException($"GetLevelAnimationDuration {goalRarity}");
         }
-        
+
+        public void Follow(iTargetable targetable)
+        {
+            this.targetable = targetable;
+        }
     }
 }

@@ -5,12 +5,14 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using DefaultNamespace;
+using DefaultNamespace.EnvGraphic;
 using DefaultNamespace.Util;
 using Infrastructure;
 using MetaChallenges;
 using Random = UnityEngine.Random;
 using Stats;
 using UI;
+using UnityEngine.Events;
 
 public class InfrastructureInstance : WorldObjectBase, iAttackable
 {
@@ -335,7 +337,6 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;
         }
-        // UpdateFootPrint();
         UpdateAppearance();
         GameManager.Instance.NotifyInfrastructureStateChange(this, previousState);
     }
@@ -516,8 +517,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         // Update and clamp the size level
         int newSizeNumber = InfraSizeHelper.SizeToNumber(CurrentSize) + sizeChange;
         CurrentSize = InfraSizeHelper.NumberToSize(newSizeNumber);
-        float visualScaleFactor = 1.0f + (newSizeNumber * 0.3f);
-        transform.localScale = Vector3.one * visualScaleFactor;
+
+        transform.localScale = GetLocalScale();
 
         
         if (GetWorldObjectType().GetMetaStat(MetaStat.Infra_MaxSize) < newSizeNumber)
@@ -529,7 +530,18 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         SetState(InfrastructureData.State.Operational);
         UpdateCostPerSecond();
         UpdateAppearance(); // Update visual state after resize
-        GameManager.Instance.NotifyDailyCostChanged(); // Recalculate and update daily cost display
+    }
+
+    public virtual Vector3 GetLocalScale()
+    {
+        float visualScaleFactor = 1.0f + (1 - InfraSizeHelper.SizeToNumber(CurrentSize) * 0.3f);
+        return Vector3.one * visualScaleFactor;
+    }
+    public override LevelUpEnvGraphic ShowLevelUpGraphic(Rarity rarity, UnityAction<Rarity, bool> _onDone = null)
+    {
+        LevelUpEnvGraphic levelUpEnvGraphic = base.ShowLevelUpGraphic(rarity, _onDone);
+        levelUpEnvGraphic.transform.localScale = GetLocalScale();
+        return levelUpEnvGraphic;
     }
 
     public bool IsActive()
