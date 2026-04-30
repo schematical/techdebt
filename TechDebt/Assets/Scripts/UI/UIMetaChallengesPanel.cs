@@ -14,7 +14,7 @@ public class UIMetaChallengesPanel: UIPanel
         base.Show();
         GameManager.Instance.UIManager.Block();
         // Ensure MetaProgressData is loaded before trying to access metaStats
-        MetaProgressData progressData = MetaGameManager.ProgressData;
+        MetaProgressData progressData = MetaGameManager.GetProgress();
         int rowI = 0;
         Transform row = null;
         List<MetaChallengeBase> challenges = MetaGameManager.GetAllChallenges();

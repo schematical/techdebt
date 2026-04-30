@@ -1169,36 +1169,29 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public List<MetaChallengeBase> UpdateMetaProgress(bool isVictory = false)
     {
-        MetaProgressData prevMetaState = MetaGameManager.GetProgress();
+        MetaProgressData prevMetaState = MetaGameManager.GetProgress(true);
+       
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
+
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
+
         foreach (MetaChallengeBase challenge in newlyPassedChallenges)
         {
             if (SteamManager.Initialized)
             {
                 Steamworks.SteamUserStats.GetAchievement(challenge.ChallengeID, out bool achieved);
+
                 if (achieved)
                 {
                     SteamUserStats.SetAchievement(challenge.ChallengeID);
-                    SteamUserStats.StoreStats();
                 }
             }
         }
-
+        SteamUserStats.StoreStats();
         newMetaState.completedRuns += 1;
         if (isVictory) newMetaState.successfulExits += 1;
         MetaGameManager.SaveProgress(newMetaState);
-        //TODO: Move this to be queued to show at the end of the run.
-        /*if (newlyPassedChallenges.Count > 0)
-        {
-            string alertText = "";
-            foreach (MetaChallengeBase challenge in newlyPassedChallenges)
-            {
-                alertText += $"Unlocked: {challenge.DisplayName!}\n";
-            } 
-
-            UIManager.ShowAlert(alertText);
-        }*/
+       
         return newlyPassedChallenges;
 
     }

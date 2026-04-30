@@ -20,7 +20,7 @@ public static class MetaGameManager
     private static List<MetaChallengeBase> _challenges = new List<MetaChallengeBase>();
 
     public static int CurrentSlotIndex = 0;
-    public static MetaProgressData ProgressData;
+    private static MetaProgressData ProgressData;
     
 
 
@@ -46,9 +46,15 @@ public static class MetaGameManager
         return result;
     }
 
-    public static void SaveProgress(MetaProgressData metaProgressData)
+    public static void SaveProgress(MetaProgressData metaProgressData = null)
     {
-        string json = JsonUtility.ToJson(metaProgressData, true);
+        if (metaProgressData != null)
+        {
+            ProgressData = metaProgressData;
+        }
+
+        string json = JsonUtility.ToJson(ProgressData, true);
+        
         File.WriteAllText(GetSavePath(), json);
 
         // Debug.Log($"Progress saved to {GetSavePath()}");
@@ -58,15 +64,17 @@ public static class MetaGameManager
     {
         if (!forceReload && ProgressData != null)
         {
-            return ProgressData;
+            return JsonUtility.FromJson<MetaProgressData>(JsonUtility.ToJson(ProgressData));
         }
         if (!File.Exists(GetSavePath()))
         {
-            ProgressData =  new MetaProgressData();
-            return ProgressData;
+            throw new SystemException("No progress data found at  path: " + GetSavePath());
+            /*ProgressData =  new MetaProgressData();
+            return ProgressData;*/
         }
 
         string json = File.ReadAllText(GetSavePath());
+        Debug.Log($"GetProgress - File.ReadAllText - forceReload: {forceReload}- JSON: {json}" );
         ProgressData = JsonUtility.FromJson<MetaProgressData>(json);
         return ProgressData;
     }
@@ -265,6 +273,8 @@ public static class MetaGameManager
     {
         List<MetaChallengeBase> prevCompletedChallenges = GetUnlockedChallenges(prevState);
         List<MetaChallengeBase> currCompletedChallenges = GetUnlockedChallenges(nextState);
+        Debug.Log($"prevCompletedChallenges: {prevCompletedChallenges.Count}");
+        Debug.Log($"currCompletedChallenges: {currCompletedChallenges.Count}");
         List<MetaChallengeBase> diffChallenges = new List<MetaChallengeBase>();
         foreach (MetaChallengeBase currChallenge in currCompletedChallenges)
         {
@@ -1026,7 +1036,7 @@ public static class MetaGameManager
             {
                 ChallengeID = "binary-storage",
                 DisplayName = "Binary Storage",
-                Description = "Successfully handle 100 images",
+                Description = "Successfully serve 100 network packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 WorldObjectTypeId = "application-server",
 

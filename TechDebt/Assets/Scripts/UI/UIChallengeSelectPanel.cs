@@ -11,7 +11,7 @@ namespace UI
         {
             CleanUp();
             
-            bool isCompleted = MetaGameManager.IsChallengeCompleted(MetaGameManager.ProgressData, challenge);
+            bool isCompleted = MetaGameManager.IsChallengeCompleted(MetaGameManager.GetProgress(), challenge);
             GetComponent<Image>().color = isCompleted ? Color.green : Color.white;
             
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = challenge.DisplayName;
