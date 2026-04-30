@@ -105,7 +105,10 @@ namespace DefaultNamespace.EnvGraphic
    
             animator.SetBool($"Intro{currentlyDisplayedRarity}", false);
             animator.SetBool($"Show{currentlyDisplayedRarity}", true);
-            onStateChange.Invoke(currentlyDisplayedRarity, false);
+            if (onStateChange != null)
+            {
+                onStateChange.Invoke(currentlyDisplayedRarity, false);
+            }
         }
         public void StartNextLevel()
         {

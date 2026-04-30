@@ -95,7 +95,6 @@ public class GameLoopManager : MonoBehaviour
         float day = GameManager.Instance.MetaStats.Incr(MetaStat.Day);
         DaySummaryEvent myEvent = new DaySummaryEvent
         {
-            SprintLevel = GameManager.Instance.Map.GetCurrentLevel().Name,
             Day = (int) day,
             SprintNumber = sprintNumber,
             LevelName = GameManager.Instance.Map.GetCurrentLevel().Name,

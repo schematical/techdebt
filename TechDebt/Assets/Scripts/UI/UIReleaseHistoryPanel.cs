@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.Rewards;
+using DefaultNamespace.Util.Analytics;
 using UnityEngine;
 
 namespace UI
@@ -93,6 +94,14 @@ namespace UI
                 opt.MarkBanisable();
                 opt.OnInteract((type, currentId) =>
                 {
+                    
+                    RewardInteractionEvent myEvent = new RewardInteractionEvent
+                    {
+                       InteractionType = type,
+                       RewardId = currentId
+                    };
+                    GameManager.Instance.RecordEvent(myEvent);
+                    
                     if (type == UIMultiSelectOption.InteractionType.Select)
                     {
                         ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), mod);

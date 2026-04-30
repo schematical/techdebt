@@ -6,6 +6,7 @@ using System.Linq;
 using DefaultNamespace;
 using DefaultNamespace.EnvGraphic;
 using DefaultNamespace.Rewards;
+using DefaultNamespace.Util.Analytics;
 using Tutorial;
 using NPCs;
 using Stats;
@@ -142,6 +143,14 @@ public class NPCDevOps : NPCAnimatedBiped
             multiSelectOption.MarkBanisable();
             multiSelectOption.OnInteract((type, currentId) =>
             {
+                RewardInteractionEvent myEvent = new RewardInteractionEvent
+                {
+                    InteractionType = type,
+                    RewardId = currentId
+                };
+                GameManager.Instance.RecordEvent(myEvent);
+                
+                
                 if (type == UIMultiSelectOption.InteractionType.Select)
                 {
                 
