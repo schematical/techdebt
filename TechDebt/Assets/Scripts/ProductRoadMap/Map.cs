@@ -5,6 +5,7 @@ using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
 using Stats;
+using Steamworks;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -52,6 +53,15 @@ public class Map
             return;
         }
         MetaLevelRewards.Add(reward);
+        /*if (SteamManager.Initialized)
+        {
+            Steamworks.SteamUserStats.GetAchievement(reward.Id, out bool achieved);
+            if (achieved)
+            {
+                SteamUserStats.SetAchievement(reward.Id);
+                SteamUserStats.StoreStats();
+            }
+        }*/
     }
     public MapLevel GetCurrentLevel()
     {

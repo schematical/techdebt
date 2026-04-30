@@ -17,6 +17,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
+using Steamworks;
 using UI;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
@@ -1171,6 +1172,19 @@ public class GameManager : MonoBehaviour, iModifiable
         MetaProgressData prevMetaState = MetaGameManager.GetProgress();
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
+        foreach (MetaChallengeBase challenge in newlyPassedChallenges)
+        {
+            if (SteamManager.Initialized)
+            {
+                Steamworks.SteamUserStats.GetAchievement(challenge.ChallengeID, out bool achieved);
+                if (achieved)
+                {
+                    SteamUserStats.SetAchievement(challenge.ChallengeID);
+                    SteamUserStats.StoreStats();
+                }
+            }
+        }
+
         newMetaState.completedRuns += 1;
         if (isVictory) newMetaState.successfulExits += 1;
         MetaGameManager.SaveProgress(newMetaState);

@@ -17,7 +17,7 @@ namespace DefaultNamespace.EnvGraphic
         };
 
         public Animator animator;
-        protected Rarity currentlyDisplayedRarity = Rarity.Common; // TODO: Do something for common
+        protected Rarity currentlyDisplayedRarity = Rarity.Common;
         protected Rarity goalRarity = Rarity.Legendary;
         protected float currentDisplayTime = 0;
         protected AnimationState  animationState = AnimationState.Intro;
@@ -92,7 +92,10 @@ namespace DefaultNamespace.EnvGraphic
                     else
                     {
                         gameObject.SetActive(false);
-                        onStateChange.Invoke(currentlyDisplayedRarity, true);
+                        if (onStateChange != null)
+                        {
+                            onStateChange.Invoke(currentlyDisplayedRarity, true);
+                        }
                     }
                 }
             }
