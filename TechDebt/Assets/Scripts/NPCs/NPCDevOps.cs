@@ -315,7 +315,7 @@ public class NPCDevOps : NPCAnimatedBiped
             float newTechDebt = techDebt * techDebtModifier;
             GameManager.Instance.Stats.Get(StatType.TechDebt).SetBaseValue(newTechDebt);
             
-            GameManager.Instance.FloatingTextFactory.ShowText($"-{Math.Round(techDebt - newTechDebt)} Tech Debt",
+            GameManager.Instance.FloatingTextFactory.ShowText($"-{Math.Round((techDebt - newTechDebt) * 100)}% Tech Debt",
                 transform.position, Color.blueViolet);
         };
         base.Attack(attackTarget);
