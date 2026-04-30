@@ -29,7 +29,12 @@ public class UIManager : MonoBehaviour
         Fast,
         SuperFast
     }
- 
+
+    public enum MetricsState
+    {
+        Display,
+        Hidden
+    }
     protected List<UIAttentionIcon> attentionIcons = new  List<UIAttentionIcon>();
     
     public UITopBarPanel topBarPanel;
@@ -92,6 +97,7 @@ public class UIManager : MonoBehaviour
 
     private float lastTaskListUpdateTime;
     private bool forcePause = false;
+    private MetricsState metricsState = MetricsState.Hidden;
 
 
     public void Initialize()
@@ -263,30 +269,31 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").IsUnlocked()
         )
         {
-            
+
+            if (metricsState == MetricsState.Display)
+            {
+                metricsState = MetricsState.Hidden;
+            }
+            else
+            {
+                metricsState = MetricsState.Display;
+            }
             foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
             {
                 if (infrastructureInstance.IsActive())
                 {
-                    infrastructureInstance.ShowMetricsBubble();
+                    if (metricsState == MetricsState.Display)
+                    {
+                        infrastructureInstance.ShowMetricsBubble();
+                    }
+                    else
+                    {
+                        infrastructureInstance.HideMetricsBubble(); 
+                    }
                 }
             }
-        }else if (Keyboard.current.shiftKey.wasReleasedThisFrame)
-        {
-            foreach (InfrastructureInstance infrastructureInstance in GameManager.Instance.ActiveInfrastructure)
-            {
-                if (infrastructureInstance.IsActive())
-                {
-                    infrastructureInstance.HideMetricsBubble();
-                }
-            } 
         }
 
-       
-
-       
-
-      
     }
 
     public void ForcePause()

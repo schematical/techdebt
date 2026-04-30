@@ -44,6 +44,11 @@ public class UIDebugPanel : UIPanel
         AddButton("SpawnNPC", () => { SpawnNPC(); });
         AddButton("End Day", () => { EndDay(); }); 
         AddButton("End Run", () => { EndRun(); });
+        AddButton("Product Road Map", () =>
+        {
+            Close();
+            GameManager.Instance.UIManager.productRoadMap.Show();
+        });
         AddButton("Demo", () =>
         {
             GameManager.Instance.Reset();
