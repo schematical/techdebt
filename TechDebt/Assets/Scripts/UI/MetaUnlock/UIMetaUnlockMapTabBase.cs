@@ -81,13 +81,13 @@ namespace UI
             
             // 3. Perform the actual unallocation for this node
             MetaPrestigePointAllocatable allocatable = MetaGameManager.GetPrestigePointAllocatables().Find(a => a.Id == nodeToUnallocate.AllocationId);
-            int cost = 0;
+            /*int cost = 0;
             if (allocatable != null && nodeToUnallocate.Level > 0 && nodeToUnallocate.Level <= allocatable.levels.Count)
             {
                 cost = allocatable.levels[nodeToUnallocate.Level - 1].cost;
-            }
+            }*/
 
-            MetaGameManager.UpdatePrestigePointAllocation(nodeToUnallocate.AllocationId, nodeToUnallocate.Level - 1, cost);
+            MetaGameManager.UpdatePrestigePointAllocation(nodeToUnallocate.AllocationId, nodeToUnallocate.Level - 1);
         }
 
         public virtual UIMetaUnlockMapNode GetNodeById(string id)
@@ -100,15 +100,6 @@ namespace UI
             return nodeView.Node as UIMetaUnlockMapNode;
         }
         
-        protected virtual int GetNodeCost(string allocationId, int level)
-        {
-            MetaPrestigePointAllocatable allocatable = MetaGameManager.GetPrestigePointAllocatables().Find(a => a.Id == allocationId);
-            if (allocatable != null && level > 0 && level <= allocatable.levels.Count)
-            {
-                return allocatable.levels[level - 1].cost;
-            }
-            return 0;
-        }
 
         protected int GetAvailablePrestigePoints()
         {

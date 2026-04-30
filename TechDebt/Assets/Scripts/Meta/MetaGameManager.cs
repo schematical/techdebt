@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.Rewards;
+using DefaultNamespace.Util.Analytics;
 using Infrastructure;
 using MetaChallenges;
 using NPCs;
@@ -289,8 +290,14 @@ public static class MetaGameManager
         return allocation.level >= level;
     }
 
-    public static void UpdatePrestigePointAllocation(string allocationId, int level, int cost)
+    public static void UpdatePrestigePointAllocation(string allocationId, int level)
     {
+        PrestigePointAllocationEvent myEvent = new PrestigePointAllocationEvent
+        {
+            AllocationId = allocationId,
+            Level = level
+        };
+        GameManager.Instance.RecordEvent(myEvent);
         MetaProgressData data = GetProgress();
         if (level == 0)
         {

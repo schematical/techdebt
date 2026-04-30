@@ -110,7 +110,7 @@ namespace UI
                     if (GetAvailablePrestigePoints() >= mapNode.PrestigeCost)
                     {
                         _panel.AddButton("Allocate", () => {
-                            MetaGameManager.UpdatePrestigePointAllocation(mapNode.AllocationId, mapNode.Level, mapNode.PrestigeCost);
+                            MetaGameManager.UpdatePrestigePointAllocation(mapNode.AllocationId, mapNode.Level);
                             _panel.Refresh();
                         });
                     }

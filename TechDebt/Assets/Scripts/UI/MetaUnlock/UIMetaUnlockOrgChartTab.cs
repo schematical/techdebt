@@ -96,7 +96,7 @@ namespace UI
                         _panel.AddButton(hireText, () =>
                         {
                             UIMetaUnlockLevelData nextLevel = mapLeveledNode.Levels[currentLevelIdx + 1];
-                            MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.AllocationId, currentLevelIdx + 2, nextLevel.PrestigeCost);
+                            MetaGameManager.UpdatePrestigePointAllocation(mapLeveledNode.AllocationId, currentLevelIdx + 2);
                             _panel.Refresh();
                         });
                     }
