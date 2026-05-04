@@ -5,7 +5,9 @@ using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
 using Stats;
+#if !DISABLESTEAMWORKS
 using Steamworks;
+#endif
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;

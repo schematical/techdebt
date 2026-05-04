@@ -17,7 +17,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Stats;
+#if !DISABLESTEAMWORKS
 using Steamworks;
+#endif
 using UI;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
@@ -1174,7 +1176,7 @@ public class GameManager : MonoBehaviour, iModifiable
         MetaProgressData newMetaState = MetaGameManager.GetUpdatedMetaStats(WorldObjectTypes.Values.ToList());
 
         List<MetaChallengeBase> newlyPassedChallenges = MetaGameManager.CheckChallengeProgress(prevMetaState, newMetaState);
-
+#if !DISABLESTEAMWORKS
         foreach (MetaChallengeBase challenge in newlyPassedChallenges)
         {
             if (SteamManager.Initialized)
@@ -1188,6 +1190,7 @@ public class GameManager : MonoBehaviour, iModifiable
             }
         }
         SteamUserStats.StoreStats();
+#endif
         newMetaState.completedRuns += 1;
         if (isVictory) newMetaState.successfulExits += 1;
         MetaGameManager.SaveProgress(newMetaState);

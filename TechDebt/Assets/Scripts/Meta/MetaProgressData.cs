@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using DefaultNamespace.Rewards;
 using MetaChallenges;
 using Rewards;
@@ -67,6 +68,7 @@ public class MetaProgressData
     public List<string> claimedMetaRewardIds;
     
     public MetaStatSaveData metaStats;
+    public GameStage gameStage = GameStage.Bootstrapped;
 
     public MetaProgressData()
     {

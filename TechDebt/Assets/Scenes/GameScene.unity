@@ -2182,6 +2182,7 @@ MonoBehaviour:
   tutorialStepListPanel: {fileID: 1775488672}
   victoryConditionListPanel: {fileID: 2069648440}
   metaUnlockMapPanel: {fileID: 1160309479}
+  runSetupPanel: {fileID: 1664936854}
   saveSlotListPanel: {fileID: 1300304829}
   saveSlotDetailPanel: {fileID: 635307453}
   mainMenu: {fileID: 709507619}
