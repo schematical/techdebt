@@ -41,7 +41,11 @@ public class PhishingTask : NPCTask
         // Only start building after the NPC has arrived.
         if (isRetreating)
         {
-            npc.MoveTo(target.GetInteractionPosition(InteractionType.PacketEnter));
+            if (!IsCloseEnough())
+            {
+                npc.MoveTo(target.GetInteractionPosition(InteractionType.PacketEnter));
+            }
+
             return;
         }
         else

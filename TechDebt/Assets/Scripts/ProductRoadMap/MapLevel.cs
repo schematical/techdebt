@@ -623,7 +623,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         MapLevelReward levelCompleted = new MapLevelReward()
         {
             Id = $"{Id}_completed",
-            Description = $"Level Completed",
+            Description = $"{Name} Completed",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
             Reward = new MetaStatBaseValueReward()
@@ -639,7 +639,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         MapLevelReward uptime75 = new MapLevelReward()
         {
             Id = $"{Id}_uptime_75",
-            Description = $"Uptime Greater Than 75%",
+            Description = $"{Name} Uptime Greater Than 75%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
             DependencyIds = new List<string>()
@@ -652,7 +652,7 @@ public class MapLevel : iUIMapNode, iUnlockable
             },
             Reward = new MetaStatBaseValueReward()
             {
-                Id = "prestige_points",
+                Id = $"prestige_points",
                 Name = "Vested Shares",
                 Description = "Vested Shares allow you to unlock bonuses on future runs.",
                 BaseValue = value,
@@ -663,7 +663,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         MapLevelReward uptime90 = new MapLevelReward()
         {
             Id = $"{Id}_uptime_90",
-            Description = $"Uptime Greater Than 90%",
+            Description = $"{Name} Uptime Greater Than 90%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
             DependencyIds = new List<string>()
@@ -687,7 +687,7 @@ public class MapLevel : iUIMapNode, iUnlockable
         levelRewards.Add(new MapLevelReward()
         {
             Id = $"{Id}_uptime_99",
-            Description = $"Uptime Greater Than 99%",
+            Description = $"{Name} Uptime Greater Than 99%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
             DependencyIds = new List<string>()

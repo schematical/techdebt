@@ -15,7 +15,7 @@ public class TutorialProductRoadMapLevel: MapLevel
     {
         Name = "Tutorial Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 2;
+        SprintDuration = 5;
         
    
         AddPrestigePointsReward();

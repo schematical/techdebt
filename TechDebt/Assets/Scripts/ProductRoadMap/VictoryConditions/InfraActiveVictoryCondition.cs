@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UI;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 
@@ -30,9 +31,31 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {
+        Color color = Color.white;
+        if (GetFinalState() == VictoryConditionState.Succeeded)
+        {
+            color = Color.green;
+        }
+        else
+        {
+            switch (GameManager.Instance.GameLoopManager.GetDaysLeftInSprint())
+            {
+                case 0:
+                    color = Color.red;
+                    break;
+                case 1:
+                    color = Color.darkOrange;
+                    break;
+            }
+        }
+
         UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
-        line.Add<UIPanelLineSectionText>().text.text =
-            GetDescription();
-        line.Add<UIPanelLineSectionText>().text.text = $"{GetState()}/{GetFinalState()}";
+        UIPanelLineSectionText description = line.Add<UIPanelLineSectionText>();
+        description.text.text = GetDescription();
+        description.text.color = color;
+        UIPanelLineSectionText stateText = line.Add<UIPanelLineSectionText>();
+        stateText.text.text = $"{GetState()}"; // /{GetFinalState()}";
+        stateText.text.color = color;
+       
     }
 }

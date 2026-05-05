@@ -373,7 +373,12 @@ public static class MetaGameManager
 
            
             allocatable.reward.Apply();
+         
+
+            data.claimedMetaRewardIds.Add(allocatable.Id);
+         
         }
+        SaveProgress(data);
         /*List<RewardBase> rewards = GetModifierByGroup(RewardBase.RewardGroup.Meta).FindAll((reward => reward.IsUnlocked()));
         foreach (RewardBase reward in rewards)
         {
