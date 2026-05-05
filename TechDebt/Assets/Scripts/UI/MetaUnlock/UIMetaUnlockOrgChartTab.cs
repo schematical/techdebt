@@ -11,7 +11,7 @@ namespace UI
 
         public override void PopulateNodes(List<UIMapPanel.MapNodeView> mapNodes)
         {
-            foreach (UIMetaUnlockMapLeveledNode node in GetOrgChartDefinitions())
+            foreach (Stakeholder node in GetOrgChartDefinitions())
             {
                 SetNodeState(node);
                 mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
@@ -137,9 +137,10 @@ namespace UI
 
      
 
-        private List<UIMetaUnlockMapLeveledNode> GetOrgChartDefinitions()
+        private List<Stakeholder> GetOrgChartDefinitions()
         {
-            List<UIMetaUnlockMapLeveledNode> nodes = new List<UIMetaUnlockMapLeveledNode>();
+            return GameManager.Instance.Stakeholders;
+            /*List<UIMetaUnlockMapLeveledNode> nodes = new List<UIMetaUnlockMapLeveledNode>();
 
             // Root Node: CEO
             nodes.Add(new UIMetaUnlockMapLeveledNode
@@ -290,7 +291,8 @@ namespace UI
                 }
             });
 
-            return nodes;
+            return nodes; 
+            */
         }
     }
 

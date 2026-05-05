@@ -707,11 +707,15 @@ public class GameManager : MonoBehaviour, iModifiable
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMin, 10));
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMax, 20));
         
-        
+        Stakeholders.Add(new Stakeholder { 
+            Id = "ceo", 
+            RoleName = "CEO", 
+        });
    
         Stakeholders.Add(new Stakeholder { 
             Id = "ciso", 
             RoleName = "CISO", 
+            DependencyIds = new List<string> { "OrgChart_CEO" },
             Levels = new List<StakeholderLevelConfig> { 
                 new StakeholderLevelConfig { Title = "Junior Security Officer", Description = "Handles basic SSL and Auth." },
                 new StakeholderLevelConfig { Title = "CISO", Description = "Chief Information Security Officer." }
@@ -720,6 +724,7 @@ public class GameManager : MonoBehaviour, iModifiable
         Stakeholders.Add(new Stakeholder { 
             Id = "cto", 
             RoleName = "CTO", 
+            DependencyIds = new List<string> { "OrgChart_CEO" },
             Levels = new List<StakeholderLevelConfig> { 
                 new StakeholderLevelConfig { Title = "Lead Developer", Description = "Focuses on infrastructure and code quality." },
                 new StakeholderLevelConfig { Title = "CTO", Description = "Chief Technology Officer." }
@@ -728,6 +733,7 @@ public class GameManager : MonoBehaviour, iModifiable
         Stakeholders.Add(new Stakeholder { 
             Id = "cfo", 
             RoleName = "CFO", 
+            DependencyIds = new List<string> { "OrgChart_CEO" },
             Levels = new List<StakeholderLevelConfig> { 
                 new StakeholderLevelConfig { Title = "Accountant", Description = "Tracks spending and S3 costs." },
                 new StakeholderLevelConfig { Title = "CFO", Description = "Chief Financial Officer." }
@@ -736,6 +742,7 @@ public class GameManager : MonoBehaviour, iModifiable
         Stakeholders.Add(new Stakeholder { 
             Id = "cmo", 
             RoleName = "CMO", 
+            DependencyIds = new List<string> { "OrgChart_CEO" },
             Levels = new List<StakeholderLevelConfig> { 
                 new StakeholderLevelConfig { Title = "Marketing Associate", Description = "Manages cart abandonment and SEO." },
                 new StakeholderLevelConfig { Title = "CMO", Description = "Chief Marketing Officer." }

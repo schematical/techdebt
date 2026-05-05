@@ -9,29 +9,26 @@ public class StakeholderLevelConfig
 {
     public string Title;
     public string Description;
-    public int RequiredDesks; // Placeholder for upgrade requirement
 }
 
 [System.Serializable]
-public class Stakeholder : iUIMapNode
+public class Stakeholder : UIMetaUnlockMapLeveledNode
 {
-    public string Id { get; set; }
+
     public string RoleName; // e.g., "Marketing", "Engineering"
     
     public int CurrentLevelIndex { get; set; } = 0;
     public List<StakeholderLevelConfig> Levels = new List<StakeholderLevelConfig>();
 
     public MapNodeState State { get; set; } = MapNodeState.Locked;
-    public MapNodeDirection NodeDirection { get; set; } = MapNodeDirection.Right;
-    public List<string> Dependencies { get; set; } = new List<string>();
+    public MapNodeDirection Direction { get; } = MapNodeDirection.Down;
+    public List<string> DependencyIds { get; set; } = new List<string>();
 
     public NPCBase AttachedNPC { get; set; }
 
     public string DisplayName => Levels.Count > 0 ? Levels[CurrentLevelIndex].Title : RoleName;
     public string Description => Levels.Count > 0 ? Levels[CurrentLevelIndex].Description : "";
     public MapNodeState? CurrentState => State;
-    public MapNodeDirection Direction => NodeDirection;
-    public List<string> DependencyIds => Dependencies;
 
     public bool CanUpgrade()
     {
