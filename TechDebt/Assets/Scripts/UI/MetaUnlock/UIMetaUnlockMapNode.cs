@@ -14,8 +14,8 @@ namespace UI
         public MapNodeState? CurrentState { get; set; }
         public int Level { get; set; }
 
-        public float GetProgress() => 0;
-        public UnityEngine.Tilemaps.TileBase GetTile()
+        public virtual float GetProgress() => 0;
+        public virtual UnityEngine.Tilemaps.TileBase GetTile()
         {
             string tileId = "TechTreeLockedTile";
             switch (CurrentState)
@@ -36,7 +36,7 @@ namespace UI
             return GameManager.Instance.prefabManager.GetTile(tileId);
         }
 
-        public void OnSelected(UIMapPanel panel)
+        public virtual void OnSelected(UIMapPanel panel)
         {
         }
 

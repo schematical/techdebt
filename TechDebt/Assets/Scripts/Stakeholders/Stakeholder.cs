@@ -5,36 +5,45 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [System.Serializable]
-public class StakeholderLevelConfig
-{
-    public string Title;
-    public string Description;
-}
-
-[System.Serializable]
 public class Stakeholder : UIMetaUnlockMapLeveledNode
 {
-
-    public string RoleName; // e.g., "Marketing", "Engineering"
+    public string RoleName; 
     
-    public int CurrentLevelIndex { get; set; } = 0;
-    public List<StakeholderLevelConfig> Levels = new List<StakeholderLevelConfig>();
-
-    public MapNodeState State { get; set; } = MapNodeState.Locked;
-    public MapNodeDirection Direction { get; } = MapNodeDirection.Down;
-    public List<string> DependencyIds { get; set; } = new List<string>();
-
     public NPCBase AttachedNPC { get; set; }
 
-    public string DisplayName => Levels.Count > 0 ? Levels[CurrentLevelIndex].Title : RoleName;
-    public string Description => Levels.Count > 0 ? Levels[CurrentLevelIndex].Description : "";
-    public MapNodeState? CurrentState => State;
+    public override string DisplayName
+    {
+        get
+        {
+            if (Levels != null && Levels.Count > 0)
+            {
+                int idx = CurrentLevelIndex;
+                if (idx >= 0 && idx < Levels.Count)
+                    return Levels[idx].DisplayName;
+            }
+            return base.DisplayName ?? RoleName;
+        }
+        set => base.DisplayName = value;
+    }
+
+    public override string Description
+    {
+        get
+        {
+            if (Levels != null && Levels.Count > 0)
+            {
+                int idx = CurrentLevelIndex;
+                if (idx >= 0 && idx < Levels.Count)
+                    return Levels[idx].Description;
+            }
+            return base.Description;
+        }
+        set => base.Description = value;
+    }
 
     public bool CanUpgrade()
     {
-        if (CurrentLevelIndex >= Levels.Count - 1) return false;
-        // Future logic: Check against actual infrastructure (e.g., GameManager.Instance.GetTotalDesks())
-        // or a new 'Influence' currency.
+        if (Levels == null || CurrentLevelIndex >= Levels.Count - 1) return false;
         return true; 
     }
 
@@ -42,17 +51,18 @@ public class Stakeholder : UIMetaUnlockMapLeveledNode
     {
         if (CanUpgrade())
         {
-            CurrentLevelIndex++;
-            State = MapNodeState.Unlocked;
+            // Note: In the meta-progression system, this is handled via MetaGameManager.
+            // This method might be for in-game upgrades if they are separate.
+            MetaGameManager.UpdatePrestigePointAllocation(AllocationId, CurrentLevelIndex + 2);
         }
     }
 
-    public float GetProgress()
+    public override float GetProgress()
     {
         return 0f;
     }
 
-    public TileBase GetTile()
+    public override TileBase GetTile()
     {
         string tileId = "TechTreeLockedTile";
         switch (CurrentState)
@@ -73,7 +83,7 @@ public class Stakeholder : UIMetaUnlockMapLeveledNode
         return GameManager.Instance.prefabManager.GetTile(tileId);
     }
 
-    public void OnSelected(UIMapPanel panel)
+    public override void OnSelected(UIMapPanel panel)
     {
         panel.UpdateDetailsArea();
     }
