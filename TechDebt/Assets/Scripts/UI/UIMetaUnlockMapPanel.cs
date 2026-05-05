@@ -51,6 +51,7 @@ namespace UI
             GameObject btnGO = GameManager.Instance.prefabManager.Create("UIButton", Vector3.zero, metaUnlockMapTabs);
             UIButton uiBtn = btnGO.GetComponent<UIButton>();
             uiBtn.buttonText.text = label;
+            uiBtn.button.onClick.RemoveAllListeners();
             uiBtn.button.onClick.AddListener(() => SwitchTab(index));
         }
 
@@ -74,6 +75,7 @@ namespace UI
             _selectedNode = null;
             Refresh();
             CenterTilemapOnCamera();
+            Debug.Log($"UIMetaUnlockMapPanel.SwitchTab Index `{index}`");
         }
         
 

@@ -26,25 +26,24 @@ public class UISaveSlotListPanel : UIMultiSelectPanel
             {
                 if (type == UIMultiSelectOption.InteractionType.Select)
                 {
-                    SelectSlot(int.Parse(id));
+                    
+                    int index = int.Parse(id);
+                    
+                    MetaGameManager.SetCurrentSaveSlot(index); 
+
+                    if (data == null)
+                    {
+                        MetaGameManager.SaveProgress(new MetaProgressData());
+                    }
+
+                    Close();
+                    GameManager.Instance.UIManager.saveSlotDetailPanel.Show();
                 }
             });
         }
     }
 
-    private void SelectSlot(int index)
-    {
-        MetaGameManager.SetCurrentSaveSlot(index); 
 
-        // If the slot is empty, initialize it with default progress so it exists on disk
-        if (MetaGameManager.GetProgress() == null)
-        {
-            MetaGameManager.SaveProgress(new MetaProgressData());
-        }
-
-        Close();
-        GameManager.Instance.UIManager.saveSlotDetailPanel.Show();
-    }
     
     /*public override void Close(bool forceClose = false)
     {

@@ -75,7 +75,7 @@ public static class MetaGameManager
         }
 
         string json = File.ReadAllText(GetSavePath());
-        Debug.Log($"GetProgress - File.ReadAllText - forceReload: {clone}- JSON: {json}" );
+        // Debug.Log($"GetProgress - File.ReadAllText - forceReload: {clone}- JSON: {json}" );
         ProgressData = JsonUtility.FromJson<MetaProgressData>(json);
         return ProgressData;
     }
@@ -95,7 +95,7 @@ public static class MetaGameManager
     public static void DeleteSlot(int slotIndex)
     {
         string path = GetSavePath(foldername: $"techdebt_slot_{slotIndex}", filename: ""); // Get directory path
-        
+        Debug.Log("Deleting slot " + path);
         Directory.Delete(path, true);
         
     }

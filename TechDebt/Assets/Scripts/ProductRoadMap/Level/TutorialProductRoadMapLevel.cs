@@ -87,6 +87,7 @@ public class TutorialProductRoadMapLevel: MapLevel
         GameManager.Instance.UIManager.ForcePause();
         MetaProgressData metaProgress = MetaGameManager.GetProgress();
         metaProgress.gameStage = GameStage.Bootstrapped;
+        MetaGameManager.SaveProgress(metaProgress);
         MarkCompleted();
         GameManager.Instance.TutorialManager.End();
 
@@ -100,6 +101,7 @@ public class TutorialProductRoadMapLevel: MapLevel
                 {
                     Text = "View summary ane allocate `Vested Shares`", OnClick = () =>
                     {
+                        npc.HideDialogBubble();
                        EndGame();
                     }
                 }
