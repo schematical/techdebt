@@ -149,17 +149,15 @@ namespace UI
             if (connectorTilemap != null) connectorTilemap.ClearAllTiles();
             if (backgroundTilemap != null) backgroundTilemap.ClearAllTiles();
             grid.gameObject.SetActive(false);
-            if (GameManager.Instance.State == GameManager.GameManagerState.Playing)
-            {
-                GameManager.Instance.UIManager.victoryConditionListPanel.Show();
-            }
+           
+            GameManager.Instance.UIManager.victoryConditionListPanel.Show();
+            
 
             GameManager.Instance.cameraController.EnableCameraInput();
             GameManager.Instance.cameraController.RestoreSnap();
-            if (panelState != UIState.Closed)
-            {
-                GameManager.Instance.UIManager.StopForcePause();
-            }
+           
+            GameManager.Instance.UIManager.StopForcePause();
+            
             base.Close(forceClose);
            
         }

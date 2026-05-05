@@ -8,13 +8,17 @@ namespace UI
         public override void Show()
         {
             runUICloseOnShow = false;
-            Refresh();
             base.Show();
+            Refresh();
             
         }
 
         public void Refresh()
         {
+            if (GameManager.Instance.Map == null)
+            {
+                return;
+            }
             switch (panelState)
             {
                 case(UIState.Closed):
@@ -29,6 +33,12 @@ namespace UI
             {
                 victoryCondition.Render(this);
             }
+        }
+
+        public override void Close(bool forceClose = false)
+        {
+            Debug.Log("UIVictoryConditionListPanel::Close");
+            base.Close(forceClose);
         }
     }
 }

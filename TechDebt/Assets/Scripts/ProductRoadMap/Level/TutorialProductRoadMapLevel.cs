@@ -107,6 +107,7 @@ public class TutorialProductRoadMapLevel: MapLevel
                 }
             }
         );
+        npc.ZoomToAndFollow();
     }
 
 }
