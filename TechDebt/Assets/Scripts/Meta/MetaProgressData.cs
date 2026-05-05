@@ -68,7 +68,7 @@ public class MetaProgressData
     public List<string> claimedMetaRewardIds;
     
     public MetaStatSaveData metaStats;
-    public GameStage gameStage = GameStage.Bootstrapped;
+    public GameStage gameStage = GameStage.Tutorial;
 
     public MetaProgressData()
     {

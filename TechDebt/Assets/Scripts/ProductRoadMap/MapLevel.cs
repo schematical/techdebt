@@ -189,10 +189,11 @@ public class MapLevel : iUIMapNode, iUnlockable
     private void ApplyRewards(MapLevelReward.MapLevelRewardApplied appliedAt)
     {
         MetaProgressData metaData = MetaGameManager.GetProgress();
-        bool progressChanged = false;
+        // bool progressChanged = false;
 
         foreach (MapLevelReward reward in LevelRewards)
         {
+        
             if (reward.AppliedAt != appliedAt) continue;
 
             /*if (reward.DependencyIds.Count > 0 && !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId)))
@@ -204,25 +205,33 @@ public class MapLevel : iUIMapNode, iUnlockable
             {
                 continue;
             }*/
-
+            Debug.Log($"Applying Reward {reward.Reward.Id} 1");
             if (reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded))
             {
+                Debug.Log($"Applying Reward {reward.Reward.Id} 2");
                 reward.Reward.Apply();
                 GameManager.Instance.UIManager.toastHolderPanel.Add("Applied " + reward.Reward.Name);
                 if (reward.Type == MapLevelReward.MapLevelRewardType.Meta)
                 {
+                    Debug.Log($"Applying Reward {reward.Reward.Id} 3");
                     GameManager.Instance.Map.MarkMetaRewardRedeemed(reward);
-                    metaData.claimedMetaRewardIds.Add(reward.Id);
-                    progressChanged = true;
+                    /*metaData.claimedMetaRewardIds.Add(reward.Id);
+                    progressChanged = true;*/
                 }
             }
             
         }
 
-        if (progressChanged)
+        /*if (progressChanged)
         {
+            
             MetaGameManager.SaveProgress(metaData);
+            Debug.Log($"Saving Progress");
         }
+        else
+        {
+            Debug.Log($"Skipping Save");
+        }*/
     }
 
     public virtual void Randomize(int modifierCount)

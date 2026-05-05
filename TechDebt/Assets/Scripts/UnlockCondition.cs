@@ -1,5 +1,6 @@
 // UnlockCondition.cs
 using System;
+using DefaultNamespace;
 using Tutorial;
 using UnityEngine.Serialization;
 
@@ -7,13 +8,14 @@ using UnityEngine.Serialization;
 public class UnlockCondition: iUnlockable
 {
 
-    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState, PrestigePointAllocation, GlobalNetworkPacket }
+    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState, PrestigePointAllocation, GlobalNetworkPacket, GameStage }
 
     public ConditionType Type;
     public int SprintNumber;
     [FormerlySerializedAs("TechnologyID")] public string TargetId;
     public TutorialStepId TutorialStepId = TutorialStepId.None;
     public TutorialStep.TutorialStepState TutorialStepState = TutorialStep.TutorialStepState.Completed;
+    public GameStage? gameStage = null;
 
     public bool IsUnlocked()
     {
@@ -57,6 +59,14 @@ public class UnlockCondition: iUnlockable
                     throw new SystemException($"Invalid network packet data: ${TargetId}");
                 }
                 return networkPacketData.GetProbability() > 0;
+            case(ConditionType.GameStage):
+                MetaProgressData metaProgressData = MetaGameManager.GetProgress();
+                if (gameStage == null)
+                {
+                    throw new SystemException("Invalid game stage");
+                }
+
+                return (metaProgressData.gameStage >= gameStage);
             default:
                 throw new NotImplementedException();
         }

@@ -14,7 +14,6 @@ public class TutorialMoveToTask : NPCTask
         Priority = 10; // High priority
         interactionType = InteractionType.Explain;
         maxTaskRange = 0.25f;
-        Debug.Log($"TutorialMoveToTask constructed: {tutorialStep.Id} - {tutorialStep.getTarget().name} - {tutorialStep.getTarget().GetInteractionPosition(interactionType)} - {interactionType}");
     }
 
     public override void OnUpdate(NPCBase npc)

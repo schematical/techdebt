@@ -46,35 +46,36 @@ public static class MetaGameManager
         return result;
     }
 
-    public static void SaveProgress(MetaProgressData metaProgressData = null)
+    public static void SaveProgress(MetaProgressData metaProgressData)
     {
-        if (metaProgressData != null)
+        if (metaProgressData == null)
         {
-            ProgressData = metaProgressData;
+          throw new SystemException("Invalid MetaProgressData  = null");
         }
-
+        ProgressData = metaProgressData;
         string json = JsonUtility.ToJson(ProgressData, true);
         
         File.WriteAllText(GetSavePath(), json);
 
-        // Debug.Log($"Progress saved to {GetSavePath()}");
+       Debug.Log($"Progress saved to {GetSavePath()} \n\n {json}");
     }
 
-    public static MetaProgressData GetProgress(bool forceReload = false)
+    public static MetaProgressData GetProgress(bool clone = false)
     {
-        if (!forceReload && ProgressData != null)
+        if (clone && ProgressData != null)
         {
             return JsonUtility.FromJson<MetaProgressData>(JsonUtility.ToJson(ProgressData));
         }
         if (!File.Exists(GetSavePath()))
         {
-            throw new SystemException("No progress data found at  path: " + GetSavePath());
-            /*ProgressData =  new MetaProgressData();
-            return ProgressData;*/
+           
+            // return null;
+            ProgressData =  new MetaProgressData();
+            return ProgressData;
         }
 
         string json = File.ReadAllText(GetSavePath());
-        Debug.Log($"GetProgress - File.ReadAllText - forceReload: {forceReload}- JSON: {json}" );
+        Debug.Log($"GetProgress - File.ReadAllText - forceReload: {clone}- JSON: {json}" );
         ProgressData = JsonUtility.FromJson<MetaProgressData>(json);
         return ProgressData;
     }
@@ -94,10 +95,9 @@ public static class MetaGameManager
     public static void DeleteSlot(int slotIndex)
     {
         string path = GetSavePath(foldername: $"techdebt_slot_{slotIndex}", filename: ""); // Get directory path
-        if (Directory.Exists(path))
-        {
-            Directory.Delete(path, true);
-        }
+        
+        Directory.Delete(path, true);
+        
     }
 
 
@@ -116,7 +116,7 @@ public static class MetaGameManager
 
     public static MetaProgressData GetUpdatedMetaStats(List<WorldObjectType> worldObjectTypes)
     {
-        MetaProgressData progressData = GetProgress();
+        MetaProgressData progressData = GetProgress(true);
 
         if (progressData.metaStats.game == null)
         {

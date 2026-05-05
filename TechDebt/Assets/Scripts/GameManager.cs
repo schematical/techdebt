@@ -415,11 +415,17 @@ public class GameManager : MonoBehaviour, iModifiable
         InfrastructureUpdateNetworkTargets();
   
         cameraController.EnableCameraInput();
-        Map.SetCurrentLevel(Map.LevelPool[0]);
+        MetaProgressData metaProgress = MetaGameManager.GetProgress();
+        if (metaProgress.gameStage == GameStage.Tutorial)
+        {
+            Map.SetCurrentLevel(new TutorialProductRoadMapLevel());
+        }
+        else
+        {
+            Map.SetCurrentLevel(Map.LevelPool[0]);
+        }
+
         UIManager.ShowGameUI();
-        
-        
- 
         TutorialManager.StartNewGameCheck();
     }
     public void StartDemo()

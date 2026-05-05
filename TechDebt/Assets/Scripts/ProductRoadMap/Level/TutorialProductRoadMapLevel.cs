@@ -8,16 +8,16 @@ using Tutorial;
 using UI;
 using UnityEngine;
 
-public class LaunchMapLevel: MapLevel
+public class TutorialProductRoadMapLevel: MapLevel
 {
 
-    public LaunchMapLevel() : base()
+    public TutorialProductRoadMapLevel() : base()
     {
-        Name = "Launch Sprint";
+        Name = "Tutorial Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 5;
+        SprintDuration = 2;
         
-        AddCashReward(-1, 150);
+   
         AddPrestigePointsReward();
         
         
@@ -37,14 +37,7 @@ public class LaunchMapLevel: MapLevel
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
         modifier.SetOverrideValue(2f);
         LevelModifiers.Add(modifier);
-        MetaProgressData metaProgressData = MetaGameManager.GetProgress();
-        if (metaProgressData.gameStage != GameStage.Tutorial)
-        {
-            VictoryConditions.Add(new InfraActiveVictoryCondition()
-            {
-                TargetId = "email-service"
-            });
-        }
+       
     }
 
     public override void Randomize(int modifierCount)
@@ -88,6 +81,30 @@ public class LaunchMapLevel: MapLevel
         }
         
         base.OnLaunchDayPlan();
+    }
+    public override void OnLaunchDaySummary()
+    {
+        GameManager.Instance.UIManager.ForcePause();
+        MetaProgressData metaProgress = MetaGameManager.GetProgress();
+        metaProgress.gameStage = GameStage.Bootstrapped;
+        MarkCompleted();
+        GameManager.Instance.TutorialManager.End();
+
+        NPCBase npc =
+            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        npc.ShowDialogBubble().SimpleDisplay(
+            "Great work. You have earned some `Vested Shares`. Vested Shares can be spent between runs to improve your starting resources.",
+            new List<DialogButtonOption>()
+            {
+                new DialogButtonOption()
+                {
+                    Text = "View summary ane allocate `Vested Shares`", OnClick = () =>
+                    {
+                       EndGame();
+                    }
+                }
+            }
+        );
     }
 
 }

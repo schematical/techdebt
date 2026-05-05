@@ -18,6 +18,7 @@ public class UISaveSlotDetailPanel : UIPanel
         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Save Slot {MetaGameManager.CurrentSlotIndex + 1}";
         
         UIPanelLine statsLine = AddLine<UIPanelLine>();
+        statsLine.Add<UIPanelLineSectionText>().text.text = $"Stage: {data.gameStage}";
         statsLine.Add<UIPanelLineSectionText>().text.text = $"Runs: {data.completedRuns}";
         statsLine.Add<UIPanelLineSectionText>().text.text = $"Wins: {data.successfulExits}";
         

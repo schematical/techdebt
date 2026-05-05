@@ -19,15 +19,14 @@ namespace UI
             GameManager.Instance.UIManager.Block();
             base.Show();
             AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1("Game Over");
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Failed Victory Conditions");
-            
-
-            foreach (MapLevelVictoryConditionBase condition in victoryConditions)
+            List<MapLevelVictoryConditionBase> failedVictoryConditions = victoryConditions.FindAll(condition => condition.GetFinalState() == VictoryConditionState.Failed);
+            if (failedVictoryConditions.Count > 0)
             {
-                if (condition.GetFinalState() == VictoryConditionState.Failed)
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Failed Victory Conditions");
+                foreach (MapLevelVictoryConditionBase condition in failedVictoryConditions)
                 {
-                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $" - {condition.GetDescription()}";
-               
+                        AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                            $" - {condition.GetDescription()}";
                 }
             }
 

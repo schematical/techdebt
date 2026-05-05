@@ -37,6 +37,7 @@ namespace DefaultNamespace.EnvGraphic
             spriteRenderer.color = Color.white;
             currentlyDisplayedRarity = Rarity.Common;
             animator.ResetControllerState();
+            targetable = null;
             foreach (Rarity rarity in Enum.GetValues(typeof(Rarity)))
             {
                 animator.SetBool($"Show{rarity}", false);
