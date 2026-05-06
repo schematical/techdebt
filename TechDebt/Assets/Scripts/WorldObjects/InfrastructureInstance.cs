@@ -62,6 +62,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             }
         }
 
+        if (GameManager.Instance.GameLoopManager.CurrentState != GameLoopManager.GameState.Play)
+        {
+            return;
+        }
         if (!IsActive())
         {
             return;

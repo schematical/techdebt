@@ -945,6 +945,12 @@ public static class MetaGameManager
                         Type = UnlockCondition.ConditionType.Technology,
                         TargetId = "application-server"
                     },
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Stakeholder,
+                        Level = 0,
+                        TargetId = "ciso"
+                    }
                 },
             }
             // TODO: Add 'Local Dev Env' and 'Version Control' as researchable tech.

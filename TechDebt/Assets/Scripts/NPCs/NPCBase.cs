@@ -89,6 +89,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         CurrentState = State.Idle;
         coolDowns[CoolDownType.Attack] = 5f;
         coolDowns[CoolDownType.Consume] = 5f;
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        spriteRenderer.color = Color.white;
         if (!GameManager.Instance.AllNpcs.Contains(this))
         {
             GameManager.Instance.AllNpcs.Add(this);
@@ -590,6 +595,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     }
     public void HitAttackAnimation()
     {
+        if (onAttackHit == null)
+        {
+            return;
+        }
         onAttackHit.Invoke();
     }
     

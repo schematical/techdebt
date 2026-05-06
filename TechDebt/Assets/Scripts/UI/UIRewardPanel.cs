@@ -59,26 +59,26 @@ namespace UI
             primaryText.gameObject.SetActive(true);
             primaryText.text = release.RewardModifier.Name;
             secondaryText.gameObject.SetActive(true);
-            secondaryText.text = "";//release.RewardModifier.GetNextLevelUpDisplayText(Rarity.Common);
+            secondaryText.text = Rarity.Common.ToString();
             UIButton uiButton = openButton.GetComponent<UIButton>();
             uiButton.Close();
             
             GameManager.Instance.UIManager.SetTimeScalePause();
             Sprite icon = GameManager.Instance.SpriteManager.GetSprite(release.RewardModifier.IconSpriteId);
-            rewardImage.sprite = RarityHelper.PaintIcon(release.rewardRarity, icon);
+            rewardImage.sprite = RarityHelper.PaintIcon(Rarity.Common, icon);
             List<ApplicationServer> targets = release.GetAllReleaseTargets();
             targets[0].ZoomTo();
             foreach (ApplicationServer applicationServer in targets)
             {
                 applicationServer.ShowLevelUpGraphic(release.rewardRarity, (currentlyDisplayedRarity, isDone) =>
                 {
+                    rewardImage.sprite = RarityHelper.PaintIcon(currentlyDisplayedRarity, icon);
+                    secondaryText.text = currentlyDisplayedRarity.ToString(); // .GetNextLevelUpDisplayText(currentlyDisplayedRarity);
                     if (isDone)
                     {
                         Finish();
                         return;
                     }
-                    rewardImage.sprite = RarityHelper.PaintIcon(currentlyDisplayedRarity, icon);
-                    secondaryText.text = release.rewardRarity.ToString(); // .GetNextLevelUpDisplayText(currentlyDisplayedRarity);
                 });
             }
         }

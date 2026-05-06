@@ -15,6 +15,12 @@ public class SslLevel : MapLevel
             Level = 0,
             TargetId = "ciso"
         });
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 0,
+            TargetId = "ciso"
+        });
     }
 
     public override string GetDescription()
