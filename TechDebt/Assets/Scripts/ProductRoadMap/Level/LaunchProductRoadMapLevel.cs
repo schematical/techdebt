@@ -60,7 +60,7 @@ public class LaunchMapLevel: MapLevel
         NPCStakeholder npc =
             GameManager.Instance.GetNPCById<NPCStakeholder>("ceo");
         npc.ShowDialogBubble().SimpleDisplay(
-            $"{npc.Id} - Welcome to the team! This sprint we need to get up and running. At the end of the sprint we will run a bit launch campaign that will drive a lot more traffic. Make sure our infrastructure can handle it."
+            $"Welcome to the team! This sprint we need to get up and running. At the end of the sprint we will run a bit launch campaign that will drive a lot more traffic. Make sure our infrastructure can handle it."
         );
         npc.ZoomToAndFollow();
      

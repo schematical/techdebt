@@ -435,12 +435,14 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public void SetupNPCs()
     {
+        
         WorldObjectBase door = GameManager.Instance.GetInfrastructureInstanceByID("door");
         if (door == null)
         {
             Debug.LogError("Cannot place Stakeholder because 'door' infrastructure was not found.");
             return ;
         }
+        int stakeholderCount = 0;
         foreach (Stakeholder stakeholder in Stakeholders)
         {
             if (stakeholder.Level == -1)
@@ -451,6 +453,17 @@ public class GameManager : MonoBehaviour, iModifiable
             
             // Add a desk
 
+            Vector3 worldPos = gridManager.grid.CellToWorld(new Vector3Int(45, 55 - (stakeholderCount * 5), 0));
+            Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
+            GameObject instanceGO = prefabManager.Create("Desk",  adjustedWorldPos);
+
+            InfrastructureInstance infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
+
+            
+            // infraInstance.Initialize(infraData);
+           
+            ActiveInfrastructure.Add(infraInstance);
+                
             // Add a NPC
           
            
@@ -460,10 +473,11 @@ public class GameManager : MonoBehaviour, iModifiable
                 Debug.LogError("Cannot place Stakeholder from PrefabManager. Is the prefab configured?");
                 return;
             }
-
+            npcObject.name = stakeholder.DisplayName;
             NPCStakeholder npc = npcObject.GetComponent<NPCStakeholder>();
-            npc.Initialize(stakeholder);
+            npc.Initialize(stakeholder, infraInstance);
             AllNpcs.Add(npc);
+            stakeholderCount += 1;
         }
     }
     public T GetNPCById<T>(string id) where T:  NPCBase
