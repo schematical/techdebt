@@ -1,6 +1,7 @@
 
 
 using System;
+using Infrastructure;
 using UI;
 using UnityEngine;
 
@@ -17,13 +18,9 @@ namespace DefaultNamespace.Rewards
            {
                throw new SystemException($"Missing Stakeholder ID {Id}");
            }
-Debug.Log($"StakeHolderReward:Apply - Setting {stakeholder.Id} from {stakeholder.Level} to {Level}");
+// Debug.Log($"StakeHolderReward:Apply - Setting {stakeholder.Id} from {stakeholder.Level} to {Level}");
            stakeholder.Level = Level;
-           // UIMetaUnlockLevelData level = stakeholder.Levels.Find(level => level.Id == LevelId);
-
-           // Add a desk
-
-           // Add a NPC
+          
         }
     }
 }

@@ -353,13 +353,13 @@ public static class MetaGameManager
         foreach (MetaPrestigePointAllocatable allocatable in GetPrestigePointAllocatables())
         {
             MetaPrestigePointAllocation allocation = allocatable.GetAllocation();
-            Debug.Log($"allocatable:  {allocatable.Id}");
+            // Debug.Log($"allocatable:  {allocatable.Id}");
             if (allocation == null)
             {
                
                 continue;
             }
-            Debug.Log($"allocatable:  {allocatable.Id} - Hit");
+            // Debug.Log($"allocatable:  {allocatable.Id} - Hit");
             if (allocatable.reward == null)
             {
                 throw new SystemException($"Missing `allocation.reward` for: ${allocatable.Id}");

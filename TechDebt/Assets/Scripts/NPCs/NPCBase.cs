@@ -27,7 +27,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         Exited,
         Dead
     }
-
+    public string Id { get; protected set; }
     [field: SerializeField]public bool isDebugging { get; set; } = false;
     [field: SerializeField]public bool flipMoventSprite { get; set; } = false;
     public UIAttentionIcon uiAttentionIcon;

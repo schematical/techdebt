@@ -9405,6 +9405,7 @@ MonoBehaviour:
       TargetId: 
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: desk
     worldObjectType: 10
     Prefab: {fileID: 2466434679544307316, guid: 58bf2350b2ee7bc44b62f4d8bebde0b5, type: 3}
@@ -9452,6 +9453,7 @@ MonoBehaviour:
       TargetId: load-balancer
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: server2
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
@@ -9464,6 +9466,7 @@ MonoBehaviour:
       TargetId: load-balancer
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: server3
     worldObjectType: 2
     Prefab: {fileID: 5477300238665778594, guid: e9502225a01c33f4aa0589c340676b6b, type: 3}
@@ -9476,6 +9479,7 @@ MonoBehaviour:
       TargetId: load-balancer
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: read-replica-1
     worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
@@ -9488,6 +9492,7 @@ MonoBehaviour:
       TargetId: read-replicas
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: read-replica-2
     worldObjectType: 3
     Prefab: {fileID: 545194629418438606, guid: 286e42dcb78c52741ba1a8d8310df1b7, type: 3}
@@ -9500,6 +9505,7 @@ MonoBehaviour:
       TargetId: read-replicas
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: water-cooler
     worldObjectType: 15
     Prefab: {fileID: 8969239379450762066, guid: 67e736effb8308d4386ad2969166ae1f, type: 3}
@@ -9512,6 +9518,7 @@ MonoBehaviour:
       TargetId: water-cooler
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: waf
     worldObjectType: 17
     Prefab: {fileID: 478512507227230751, guid: b5e2f03f41c59384d814c2e15808d1ca, type: 3}
@@ -9524,6 +9531,7 @@ MonoBehaviour:
       TargetId: waf
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: redis-1
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
@@ -9543,6 +9551,7 @@ MonoBehaviour:
       TargetId: read-replicas
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: redis-3
     worldObjectType: 4
     Prefab: {fileID: 5872030865655263420, guid: 861e06a3872cacb41bd33731f2e2d384, type: 3}
@@ -9555,6 +9564,7 @@ MonoBehaviour:
       TargetId: read-replicas
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: secret-manager
     worldObjectType: 0
     Prefab: {fileID: 4690569163655073366, guid: 19679e1167f287e4992ba2a5b1e4085e, type: 3}
@@ -9567,6 +9577,7 @@ MonoBehaviour:
       TargetId: secret-manager
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: sqs-queue
     worldObjectType: 8
     Prefab: {fileID: 3498545839468818472, guid: 02f907469eb21394192734a4c5606464, type: 3}
@@ -9593,6 +9604,7 @@ MonoBehaviour:
       TargetId: cognito
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: codepipeline
     worldObjectType: 16
     Prefab: {fileID: 5600887683244989748, guid: 0bee7f7464887e943ad2c8baec8da75c, type: 3}
@@ -9605,6 +9617,7 @@ MonoBehaviour:
       TargetId: codepipeline
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: whiteboard
     worldObjectType: 11
     Prefab: {fileID: 4771823180765048759, guid: e164a9fcc8bc8644e9a38e857eb35603, type: 3}
@@ -9617,6 +9630,7 @@ MonoBehaviour:
       TargetId: white-board
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: kanbanboard
     worldObjectType: 12
     Prefab: {fileID: 1495299141615287234, guid: af081fe384e8b7d4aaa1d2ccc948f7f8, type: 3}
@@ -9629,6 +9643,7 @@ MonoBehaviour:
       TargetId: kanban-board
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: internetPipe2
     worldObjectType: 1
     Prefab: {fileID: 1523653573848276037, guid: ea731b68b7a2f604e98142e08ced8ed4, type: 3}
@@ -9655,6 +9670,7 @@ MonoBehaviour:
       TargetId: email-service
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: cloud-watch-metrics
     worldObjectType: 21
     Prefab: {fileID: 8212055160970937780, guid: 989810f4f9df2ef49995253992e0a28b, type: 3}
@@ -9667,6 +9683,7 @@ MonoBehaviour:
       TargetId: cloud-watch-metrics
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: sns
     worldObjectType: 22
     Prefab: {fileID: 2706496042187900656, guid: db27e3073396d2f4d9fa518b0cf83512, type: 3}
@@ -9679,6 +9696,7 @@ MonoBehaviour:
       TargetId: sns
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   - Id: product-road-map
     worldObjectType: 13
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
@@ -9691,6 +9709,7 @@ MonoBehaviour:
       TargetId: product-road-map
       TutorialStepId: 0
       TutorialStepState: 0
+      Level: -1
   - Id: org-chart
     worldObjectType: 14
     Prefab: {fileID: 1656835775774576691, guid: 72d6ddb328e40904b84dc567ecbfe2d0, type: 3}
@@ -9703,6 +9722,7 @@ MonoBehaviour:
       TargetId: org-chart
       TutorialStepId: 0
       TutorialStepState: 2
+      Level: -1
   Stakeholders: []
   gridManager: {fileID: 747688044}
   NetworkPacketState: 0
@@ -9850,6 +9870,7 @@ MonoBehaviour:
   - {fileID: 541660643718874994, guid: a8e44738a74f2fb4aa43ffdb9d289691, type: 3}
   - {fileID: 8967605821565020109, guid: c44b7a3b82e81d24a8eb7c681aff5689, type: 3}
   - {fileID: 910485683170465427, guid: 3403744ed52b965438484771b95ada97, type: 3}
+  - {fileID: 8171619797052537809, guid: a623bd8d814e3034a99403cb6428adae, type: 3}
   Tiles:
   - {fileID: 11400000, guid: cb9f9658c6cce16409c13b5e78b54dbf, type: 2}
   - {fileID: 11400000, guid: 95b4ec60637f8cf4e8ca6d82b7a12995, type: 2}
@@ -15595,6 +15616,7 @@ MonoBehaviour:
   maxZoom: 20
   grid: {fileID: 2135397407}
   metaUnlockMapTabs: {fileID: 1791876512}
+  tabButtons: []
 --- !u!225 &1160309480
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -56,17 +56,14 @@ public class LaunchMapLevel: MapLevel
     public override void OnStartDayPlan()
     {
         GameManager.Instance.Map.AddGlobalVictoryCondition(new HasMoneyVictoryCondition());
-        if (
-            GameManager.Instance.TutorialManager == null ||
-            !GameManager.Instance.TutorialManager.IsActive()
-        )
-        {
-            NPCBase npc =
-                GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-            npc.ShowDialogBubble().SimpleDisplay(
-                "Hey! This sprint we need to get up and running. At the end of the sprint we will run a bit launch campaign that will drive a lot more traffic. Make sure our infrastructure can handle it."
-            );
-        }
+       
+        NPCStakeholder npc =
+            GameManager.Instance.GetNPCById<NPCStakeholder>("ceo");
+        npc.ShowDialogBubble().SimpleDisplay(
+            $"{npc.Id} - Welcome to the team! This sprint we need to get up and running. At the end of the sprint we will run a bit launch campaign that will drive a lot more traffic. Make sure our infrastructure can handle it."
+        );
+        npc.ZoomToAndFollow();
+     
 
         base.OnStartDayPlan();
    

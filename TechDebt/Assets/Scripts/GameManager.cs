@@ -423,11 +423,52 @@ public class GameManager : MonoBehaviour, iModifiable
         }
         else
         {
+            Stakeholder stakeholder = Stakeholders.Find((stakeholder => stakeholder.Id == "ceo"));
+            stakeholder.Level = 0;
             Map.SetCurrentLevel(Map.LevelPool[0]);
         }
 
         UIManager.ShowGameUI();
+        SetupNPCs();
         TutorialManager.StartNewGameCheck();
+    }
+
+    public void SetupNPCs()
+    {
+        WorldObjectBase door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        if (door == null)
+        {
+            Debug.LogError("Cannot place Stakeholder because 'door' infrastructure was not found.");
+            return ;
+        }
+        foreach (Stakeholder stakeholder in Stakeholders)
+        {
+            if (stakeholder.Level == -1)
+            {
+                continue;
+            }
+            // UIMetaUnlockLevelData level = stakeholder.Levels.Find(level => level.Id == LevelId);
+            
+            // Add a desk
+
+            // Add a NPC
+          
+           
+            GameObject npcObject = GameManager.Instance.prefabManager.Create("NPCStakeholder", door.transform.position + new Vector3(-0.5f,-0.5f, -0.5f));
+            if (npcObject == null)
+            {
+                Debug.LogError("Cannot place Stakeholder from PrefabManager. Is the prefab configured?");
+                return;
+            }
+
+            NPCStakeholder npc = npcObject.GetComponent<NPCStakeholder>();
+            npc.Initialize(stakeholder);
+            AllNpcs.Add(npc);
+        }
+    }
+    public T GetNPCById<T>(string id) where T:  NPCBase
+    {
+        return AllNpcs.Find((npc) => id == npc.Id) as T;
     }
     public void StartDemo()
     {
