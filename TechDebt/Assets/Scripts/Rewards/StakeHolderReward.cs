@@ -2,10 +2,11 @@
 
 using System;
 using UI;
+using UnityEngine;
 
 namespace DefaultNamespace.Rewards
 {
-    public class NPCStakeHolderReward: RewardBase, iLevelable
+    public class StakeHolderReward: RewardBase, iLevelable
     {
         public int Level {get; set;}
         public override void Apply()
@@ -16,7 +17,7 @@ namespace DefaultNamespace.Rewards
            {
                throw new SystemException($"Missing Stakeholder ID {Id}");
            }
-
+Debug.Log($"StakeHolderReward:Apply - Setting {stakeholder.Id} from {stakeholder.Level} to {Level}");
            stakeholder.Level = Level;
            // UIMetaUnlockLevelData level = stakeholder.Levels.Find(level => level.Id == LevelId);
 

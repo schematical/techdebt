@@ -716,20 +716,22 @@ public class GameManager : MonoBehaviour, iModifiable
             AllocationId = "OrgChart_CEO",
             RoleName = "CEO",
             CurrentState = MapNodeState.Unlocked,
-            Direction = MapNodeDirection.Down
+            Direction = MapNodeDirection.Down,
+            Level = -1
         });
 
         Stakeholders.Add(new Stakeholder
         {
             Id = "ciso",
-            AllocationId = "OrgChart_Security",
+            AllocationId = "ciso",
             RoleName = "CISO",
             DependencyIds = new List<string> { "ceo" },
+            Level = -1,
             Levels = new List<UIMetaUnlockLevelData>
             {
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Security_1", DisplayName = "Junior Security Officer",
+                    Id = "ciso_1", DisplayName = "Junior Security Officer",
                     Description = "Handles basic SSL and Auth.", PrestigeCost = 1,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -739,7 +741,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Security_2", DisplayName = "Security Consultant",
+                    Id = "ciso_2", DisplayName = "Security Consultant",
                     Description = "Intermediate cyber security expert.", PrestigeCost = 3,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -749,7 +751,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Security_3", DisplayName = "CISO",
+                    Id = "ciso_3", DisplayName = "CISO",
                     Description = "Chief Information Security Officer.", PrestigeCost = 5,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -766,11 +768,12 @@ public class GameManager : MonoBehaviour, iModifiable
             AllocationId = "OrgChart_Technology",
             RoleName = "CTO",
             DependencyIds = new List<string> { "ceo" },
+            Level = -1,
             Levels = new List<UIMetaUnlockLevelData>
             {
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Dev_1", DisplayName = "Dev Intern",
+                    Id = "cto_1", DisplayName = "Dev Intern",
                     Description = "Unlock beginner technology missions.", PrestigeCost = 1,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -780,7 +783,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Dev_2", DisplayName = "Senior Dev",
+                    Id = "cto_2", DisplayName = "Senior Dev",
                     Description = "Unlock intermediate technology missions.", PrestigeCost = 3,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -790,7 +793,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Dev_3", DisplayName = "CTO", Description = "Chief Technology Officer.",
+                    Id = "cto_3", DisplayName = "CTO", Description = "Chief Technology Officer.",
                     PrestigeCost = 5,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -804,14 +807,15 @@ public class GameManager : MonoBehaviour, iModifiable
         Stakeholders.Add(new Stakeholder
         {
             Id = "cfo",
-            AllocationId = "OrgChart_Finance",
+            AllocationId = "cfo",
             RoleName = "CFO",
             DependencyIds = new List<string> { "ceo" },
+            Level = -1,
             Levels = new List<UIMetaUnlockLevelData>
             {
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Finance_1", DisplayName = "Office Assistant",
+                    Id = "cfo_1", DisplayName = "Office Assistant",
                     Description = "Handles basic finances.", PrestigeCost = 1,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -821,7 +825,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Finance_2", DisplayName = "Accountant",
+                    Id = "cfo_2", DisplayName = "Accountant",
                     Description = "Intermediate financial tracking.", PrestigeCost = 2,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -831,7 +835,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Finance_3", DisplayName = "CFO", Description = "Chief Financial Officer.",
+                    Id = "cfo_3", DisplayName = "CFO", Description = "Chief Financial Officer.",
                     PrestigeCost = 4,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -845,14 +849,15 @@ public class GameManager : MonoBehaviour, iModifiable
         Stakeholders.Add(new Stakeholder
         {
             Id = "cmo",
-            AllocationId = "OrgChart_Marketing",
+            AllocationId = "cmo",
             RoleName = "CMO",
             DependencyIds = new List<string> { "ceo" },
+            Level = -1,
             Levels = new List<UIMetaUnlockLevelData>
             {
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Marketing_1", DisplayName = "Marketing Intern",
+                    Id = "cmo_1", DisplayName = "Marketing Intern",
                     Description = "Basic marketing missions.", PrestigeCost = 1,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -862,7 +867,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Marketing_2", DisplayName = "Director Of Marketing",
+                    Id = "cmo_2", DisplayName = "Director Of Marketing",
                     Description = "Intermediate marketing missions.", PrestigeCost = 2,
                     UnlockConditions = new List<UnlockCondition>
                     {
@@ -872,7 +877,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 },
                 new UIMetaUnlockLevelData
                 {
-                    Id = "OrgChart_Marketing_3", DisplayName = "CMO", Description = "Chief Marketing Officer.",
+                    Id = "cmo_3", DisplayName = "CMO", Description = "Chief Marketing Officer.",
                     PrestigeCost = 4,
                     UnlockConditions = new List<UnlockCondition>
                     {

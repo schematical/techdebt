@@ -2,6 +2,7 @@
 using System;
 using DefaultNamespace;
 using Tutorial;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 [Serializable]
@@ -74,8 +75,8 @@ public class UnlockCondition: iUnlockable
                 {
                     throw new SystemException($"Invalid stakeholder: ${TargetId}");
                 }
-
-                return stakeholder.Level == Level;
+                Debug.Log($"Stake holder: {stakeholder.DisplayName} - {stakeholder.Level} == {Level} - {stakeholder.Level == Level}");
+                return stakeholder.Level >= Level;
             case(ConditionType.GameStage):
                 MetaProgressData metaProgressData = MetaGameManager.GetProgress();
                 if (gameStage == null)

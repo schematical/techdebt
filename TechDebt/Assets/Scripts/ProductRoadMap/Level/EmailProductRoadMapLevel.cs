@@ -16,7 +16,7 @@ public class EmailMapLevel:MapLevel
         UnlockConditions.Add(new UnlockCondition()
         {
             Type = UnlockCondition.ConditionType.Stakeholder,
-            Level = 1,
+            Level = 0,
             TargetId = "cmo"
         });
     }

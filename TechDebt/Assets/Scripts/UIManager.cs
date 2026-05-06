@@ -109,7 +109,6 @@ public class UIManager : MonoBehaviour
 
     public void Close(bool forceClose = false)
     {
-        Debug.Log("Close");
         clickBlockingPanel.gameObject.SetActive(false);
    
         productRoadMap.Close(forceClose);

@@ -24,7 +24,7 @@ public class SteamManager : MonoBehaviour {
 #if DISABLESTEAMWORKS
 	void Awake()
 	{
-		Debug.Log("[Steamworks.NET] Awake - DISABLESTEAMWORKS");
+		// Debug.Log("[Steamworks.NET] Awake - DISABLESTEAMWORKS");
 	}
 #endif
 #if !DISABLESTEAMWORKS

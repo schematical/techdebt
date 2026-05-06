@@ -353,15 +353,18 @@ public static class MetaGameManager
         foreach (MetaPrestigePointAllocatable allocatable in GetPrestigePointAllocatables())
         {
             MetaPrestigePointAllocation allocation = allocatable.GetAllocation();
+            Debug.Log($"allocatable:  {allocatable.Id}");
             if (allocation == null)
             {
+               
                 continue;
             }
+            Debug.Log($"allocatable:  {allocatable.Id} - Hit");
             if (allocatable.reward == null)
             {
                 throw new SystemException($"Missing `allocation.reward` for: ${allocatable.Id}");
             }
-            if (allocatable.reward is GlobalStatBaseValueReward)
+            if (allocatable.reward is iLevelable)
             {
                
                 if (allocation == null)
@@ -1629,7 +1632,7 @@ public static class MetaGameManager
             MetaPrestigePointAllocatable allocatable = new MetaPrestigePointAllocatable(){
                 Id = stakeholder.Id,
                 levels = new List<MetaPrestigePointAllocatableLevel>(),
-                reward = new NPCStakeHolderReward()
+                reward = new StakeHolderReward()
                 {
                     Id = stakeholder.Id
                 },

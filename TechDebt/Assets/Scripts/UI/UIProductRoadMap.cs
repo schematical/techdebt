@@ -41,24 +41,15 @@ namespace UI
 
         protected override bool IsNodeVisible(MapNodeView nodeView)
         {
-            if (nodeView.Node is not MapLevel mapLevel)
+            if (nodeView.Node is not MapLevel)
             {
                 return false;
             }
-
-            // Temporarily disable stakeholder gating as requested
-            /*
-            if (!string.IsNullOrEmpty(mapLevel.RequiredStakeholderId))
+            MapLevel mapLevel = (MapLevel) nodeView.Node;
+            if (!mapLevel.IsUnlocked())
             {
-                var stakeholder = GameManager.Instance.Stakeholders.FirstOrDefault(s => s.Id == mapLevel.RequiredStakeholderId);
-                if (stakeholder == null || (stakeholder.CurrentState != MapNodeState.Unlocked && stakeholder.CurrentState != MapNodeState.Active))
-                {
-                    return false;
-                }
+                return false;
             }
-            */
-
-            // Show EVERYTHING during layout testing
             return true;
         }
         public override void Close(bool forceClose = false)
