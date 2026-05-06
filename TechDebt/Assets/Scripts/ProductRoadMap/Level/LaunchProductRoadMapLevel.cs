@@ -15,7 +15,7 @@ public class LaunchMapLevel: MapLevel
     {
         Name = "Launch Sprint";
         SpriteId = "IconFlag";
-        SprintDuration = 5;
+        SprintDuration = 2;
         
         AddCashReward(-1, 150);
         AddPrestigePointsReward();
@@ -72,18 +72,13 @@ public class LaunchMapLevel: MapLevel
     {
         GameManager.Instance.Map.AddGlobalVictoryCondition(new UpTimeVictoryCondition());
         GameManager.Instance.UIManager.toastHolderPanel.Add("Launch Day Start!");
-        if (
-            GameManager.Instance.TutorialManager == null ||
-            !GameManager.Instance.TutorialManager.IsActive()
-        )
-        {
-            NPCBase npc =
-                GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
-            npc.ShowDialogBubble().SimpleDisplay(
-                "Today is launch day! \n Expect extra traffic."
-            );
-        }
-        
+      
+        NPCStakeholder npc =
+            GameManager.Instance.GetNPCById<NPCStakeholder>("ceo");
+        npc.ShowDialogBubble().SimpleDisplay(
+            "Today is launch day! \n Expect extra traffic."
+        );
+        npc.ZoomToAndFollow();
         base.OnLaunchDayPlan();
     }
 

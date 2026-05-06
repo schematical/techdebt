@@ -175,15 +175,7 @@ public class GameLoopManager : MonoBehaviour
         GameManager.Instance.UIManager.SetTimeScalePlay(true);
 
     }
-
-
-
-   
-
-    public void PostSummaryCheck()
-    {
-        GameManager.Instance.Map.GetCurrentLevel().PostSummaryCheck();
-    }
+    
 
     public void Reset()
     {

@@ -13,13 +13,19 @@ public class MobileMapLevel: MapLevel
         {
             TargetId = "sns"
         });
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 0,
+            TargetId = "cmo"
+        });
     }
     public override void OnStartDayPlan()
     {
         base.OnStartDayPlan();
         
-        NPCBase npc =
-            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        NPCStakeholder npc =
+            GameManager.Instance.GetNPCById<NPCStakeholder>("cmo");
         npc.ShowDialogBubble().SimpleDisplay(
             "This sprint we want to get mobile notifications working. Research it and get it up and running."
         );

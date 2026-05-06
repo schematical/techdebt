@@ -389,37 +389,70 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public virtual void OnLaunchDaySummary()
     {
+        Debug.Log("OnLaunchDaySummary");
         MarkCompleted();
         NPCBase npc =
-            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+            GameManager.Instance.GetNPCById<NPCBase>("ceo");
+        List<MapLevel> availableIncompleteLevels =
+            GameManager.Instance.Map.LevelPool.FindAll(
+                (level => level.IsUnlocked() && State == MapLevelState.Incomplete));
+        if (availableIncompleteLevels.Count > 0)
+        {
+            GameManager.Instance.UIManager.ForcePause();
+            npc.ShowDialogBubble().SimpleDisplay(
+                "Great work. Lets get working on our next sprint.",
+                new List<DialogButtonOption>()
+                {
+                    new DialogButtonOption()
+                    {
+                        Text = "Plan Next Sprint", OnClick = () =>
+                        {
+                            GameManager.Instance.UIManager.StopForcePause();
+                            if (!GameManager.Instance.GetInfrastructureInstanceByID("product-road-map").IsActive())
+                            {
+                                npc.ShowDialogBubble().SimpleDisplay(
+                                    "Research `Product Road Map` to progress"
+                                );
+                            }
+                            else
+                            {
+                                GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
+                                npc.HideDialogBubble();
+                            }
+                        }
+                    }
+                }
+            );
+            npc.ZoomToAndFollow();
+            return;
+
+        }
+        GameManager.Instance.UIManager.ForcePause();
         npc.ShowDialogBubble().SimpleDisplay(
-            "Great work. Lets get working on our next sprint.",
+            "Great work. I think we have taken the company as far as we can go this run. We can sell the business now. We can always start another one later using the bonuses unlocked by our vested shares.",
             new List<DialogButtonOption>()
             {
                 new DialogButtonOption()
                 {
-                    Text = "Plan Next Sprint", OnClick = () =>
+                    Text = "Sell The Company", 
+                    OnClick = () =>
                     {
-                        if (!GameManager.Instance.GetInfrastructureInstanceByID("product-road-map").IsActive())
-                        {
-                            npc.ShowDialogBubble().SimpleDisplay(
-                                "Research `Product Road Map` to progress"
-                            );
-                        }
-                        else
-                        {
-                            GameManager.Instance.UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
-                            npc.HideDialogBubble();
-                        }
+                        npc.HideDialogBubble();
+                        EndGame();
                     }
-                } /*,
-                new DialogButtonOption() { Text = "Main Menu", OnSelect = () =>
+                },
+                new DialogButtonOption()
+                {
+                    Text = "Endless Mode", 
+                    OnClick = () =>
                     {
- // TODO: Prestige?
+                        GameManager.Instance.UIManager.StopForcePause();
+                        npc.HideDialogBubble();
                     }
-                },*/
+                }
             }
         );
+        npc.ZoomToAndFollow();
     }
 
 
@@ -565,7 +598,6 @@ public class MapLevel : iUIMapNode, iUnlockable
                 throw new NotImplementedException();
         }
 
-        // TODO: Possibly make the amount of packets served up increase or decrease the amount of PURCHASE packets served up
         if (IsLaunchDay())
         {
             OnLaunchDaySummary();

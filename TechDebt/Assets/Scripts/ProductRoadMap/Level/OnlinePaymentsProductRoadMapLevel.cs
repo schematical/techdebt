@@ -44,6 +44,13 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
         modifier.SetOverrideValue(2f);
         LevelModifiers.Add(modifier);
+        
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 1,
+            TargetId = "cmo"
+        });
     }
 
 

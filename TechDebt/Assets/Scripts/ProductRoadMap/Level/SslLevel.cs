@@ -9,6 +9,12 @@ public class SslLevel : MapLevel
         RequiredStakeholderId = "ciso";
         Direction = MapNodeDirection.Left;
         DependencyIds.Add("LaunchMapLevel");
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 0,
+            TargetId = "ciso"
+        });
     }
 
     public override string GetDescription()

@@ -413,6 +413,7 @@ public static class MetaGameManager
                 ResearchTime = 30,
                 UnlockConditions = new List<UnlockCondition>(),
                 CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down,
                 TutorialStepId = TutorialStepId.Infra_ApplicationServer_Tip
             },
             new Technology()
@@ -435,7 +436,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
-                Direction = Technology.TechTreeDirection.Right,
+                Direction = Technology.TechTreeDirection.Up,
                 TutorialStepId = TutorialStepId.Infra_KanbanBoard_Tip,
             },
             new Technology()
@@ -453,7 +454,7 @@ public static class MetaGameManager
                     }
                 },
                 CurrentState = Technology.State.Locked,
-                Direction = Technology.TechTreeDirection.Right,
+                Direction = Technology.TechTreeDirection.Up,
                 TutorialStepId = TutorialStepId.Infra_WhiteBoard_Tip
             },
 
@@ -472,7 +473,7 @@ public static class MetaGameManager
                     }
                 },
                 CurrentState = Technology.State.Locked, // TODO: Meta lock this?
-                Direction = Technology.TechTreeDirection.Right,
+                Direction = Technology.TechTreeDirection.Up,
                 TutorialStepId = TutorialStepId.Infra_OrgChart_Tip
             },
             new Technology()
@@ -495,7 +496,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
-                Direction = Technology.TechTreeDirection.Right,
+                Direction = Technology.TechTreeDirection.Up,
                 TutorialStepId = TutorialStepId.Infra_ProductRoadMap_Tip
             },
             new Technology()
@@ -518,6 +519,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
+                Direction =  Technology.TechTreeDirection.Down
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
@@ -540,6 +542,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
+                Direction =  Technology.TechTreeDirection.Down
                 // UnlockConditions - Get and instance to size 2?
             },
             new Technology()
@@ -562,7 +565,8 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
-                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip
+                TutorialStepId = TutorialStepId.Infra_DedicatedDB_Tip,
+                Direction = Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -584,6 +588,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -600,6 +605,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -617,7 +623,8 @@ public static class MetaGameManager
                         TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
                     },
                 },
-                TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip
+                TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip,
+                Direction = Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -630,7 +637,8 @@ public static class MetaGameManager
                     new UnlockCondition()
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
                 },
-                TutorialStepId = TutorialStepId.Infra_Redis_Tip
+                TutorialStepId = TutorialStepId.Infra_Redis_Tip,
+                Direction =  Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -652,6 +660,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -668,6 +677,7 @@ public static class MetaGameManager
                     },
                 },
                 CurrentState = Technology.State.Locked,
+                Direction = Technology.TechTreeDirection.Down
             },
             new Technology()
             {
@@ -680,7 +690,8 @@ public static class MetaGameManager
                     new UnlockCondition()
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "binary-storage" }
                 },
-                TutorialStepId = TutorialStepId.Infra_CDN_Tip
+                TutorialStepId = TutorialStepId.Infra_CDN_Tip,
+                Direction = Technology.TechTreeDirection.Down
                 // serve up X binary packets with the s3 bucket
             },
             new Technology()
@@ -696,7 +707,8 @@ public static class MetaGameManager
                     new UnlockCondition()
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "binary-storage" }
                 },
-                TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip
+                TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip,
+                Direction = Technology.TechTreeDirection.Down
                 // ??? Make it to day y?
             },
             new Technology()
@@ -709,7 +721,8 @@ public static class MetaGameManager
                 {
                     new UnlockCondition()
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
-                }
+                },
+                Direction = Technology.TechTreeDirection.Down
                 // Scale up your dedicated-db to level 2
             },
             new Technology()
@@ -726,8 +739,8 @@ public static class MetaGameManager
                         TargetId = "kanban-board"
                     }
                 },
-                Direction = Technology.TechTreeDirection.Right,
-                TutorialStepId = TutorialStepId.Infra_WaterCooler_Tip
+                Direction = Technology.TechTreeDirection.Up,
+                TutorialStepId = TutorialStepId.Infra_WaterCooler_Tip,
             },
             new Technology()
             {
@@ -744,7 +757,7 @@ public static class MetaGameManager
                     }
                 },
                 CurrentState = Technology.State.Locked,
-                Direction = Technology.TechTreeDirection.Down,
+                Direction = Technology.TechTreeDirection.Left,
                 TutorialStepId = TutorialStepId.Infra_WAF_Tip
                 // Survive X malicious packets
             },
@@ -762,7 +775,7 @@ public static class MetaGameManager
                         TargetId = "cloud-watch-metrics"
                     }
                 },
-                Direction = Technology.TechTreeDirection.Down,
+                Direction = Technology.TechTreeDirection.Left,
                 TutorialStepId = TutorialStepId.Infra_SecretManager_Tip
                 // Cycle credentials Y times
             },
@@ -777,7 +790,8 @@ public static class MetaGameManager
                     new UnlockCondition()
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "load-balancer" }
                 },
-                TutorialStepId = TutorialStepId.Infra_SQS_Tip
+                TutorialStepId = TutorialStepId.Infra_SQS_Tip,
+                Direction = Technology.TechTreeDirection.Down
                 // survive Y packets in a single run.
             },
             new Technology()
@@ -805,7 +819,7 @@ public static class MetaGameManager
                     }
                 },
                 CurrentState = Technology.State.Locked,
-                Direction = Technology.TechTreeDirection.Down,
+                Direction = Technology.TechTreeDirection.Left,
                 TutorialStepId = TutorialStepId.Infra_Cognito_Tip
                 // Survive Y user info leaked
             },
@@ -853,11 +867,12 @@ public static class MetaGameManager
                     },
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
-                        SprintNumber = 1
+                        Type = UnlockCondition.ConditionType.Stakeholder,
+                        TargetId = "cmo",
+                        Level = 0
                     }
                 },
-                Direction = Technology.TechTreeDirection.Left,
+                Direction = Technology.TechTreeDirection.Right,
                 TutorialStepId = TutorialStepId.Infra_EmailService_Tip
                 // Finish round 1
             },
@@ -866,7 +881,7 @@ public static class MetaGameManager
                 TechnologyID = "cloud-watch-metrics",
                 DisplayName = "Metrics",
                 Description = "Gives you faster better insights into the health of your server infrastructure.",
-                Direction = Technology.TechTreeDirection.Down,
+                Direction = Technology.TechTreeDirection.Left,
                 ResearchTime = 120,
                 CurrentState = Technology.State.Locked,
                 UnlockConditions = new List<UnlockCondition>()
@@ -895,7 +910,7 @@ public static class MetaGameManager
                 TechnologyID = "sns",
                 DisplayName = "Mobile Notifications",
                 Description = "Sends mobile phone notifications at scale.",
-                Direction = Technology.TechTreeDirection.Left,
+                Direction = Technology.TechTreeDirection.Down,
                 ResearchTime = 200,
                 CurrentState = Technology.State.Locked,
                 UnlockConditions = new List<UnlockCondition>()
@@ -907,12 +922,30 @@ public static class MetaGameManager
                     },
                     new UnlockCondition()
                     {
-                        Type = UnlockCondition.ConditionType.SprintGreaterOrEqual,
-                        SprintNumber = 1
+                        Type = UnlockCondition.ConditionType.Stakeholder,
+                        TargetId = "cmo",
+                        Level = 0
                     }
                 },
                 TutorialStepId = TutorialStepId.Infra_SNS_Tip
                 // Finish round 1
+            },
+            new Technology()
+            {
+                TechnologyID = "ssl",
+                DisplayName = "SSL (Secure Sockets Layer)",
+                Description = "Encrypts network packets in transit preventing certain cyber attacks.",
+                Direction = Technology.TechTreeDirection.Down,
+                ResearchTime = 200,
+                CurrentState = Technology.State.Locked,
+                UnlockConditions = new List<UnlockCondition>()
+                {
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.Technology,
+                        TargetId = "application-server"
+                    },
+                },
             }
             // TODO: Add 'Local Dev Env' and 'Version Control' as researchable tech.
         };

@@ -15,6 +15,12 @@ public class Metrics1Level : MapLevel
         });
         AddCashReward(100, 250);
         AddPrestigePointsReward(2);
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 0,
+            TargetId = "cto"
+        });
     }
 
     public override string GetDescription()

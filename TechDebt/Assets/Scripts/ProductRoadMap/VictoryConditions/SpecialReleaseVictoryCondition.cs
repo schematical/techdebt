@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DefaultNamespace.Rewards;
 using UI;
+using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
@@ -54,14 +55,16 @@ public class SpecialReleaseVictoryCondition : MapLevelVictoryConditionBase
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)
     {
+        Color color = GetColor();
         UIPanelLine line = victoryConditionListPanel.AddLine<UIPanelLine>();
         line.Add<UIPanelLineSectionText>().text.text =
             GetDescription();
         UIPanelLineSectionText stateText = line.Add<UIPanelLineSectionText>();
-        stateText.text.text = $"{GetState()}/{GetFinalState()}";
+        stateText.text.text = $"{GetState()}";
+        stateText.text.color = color;
         GameManager.OnReleaseChanged += (ReleaseBase, prevState) =>
         {
-            stateText.text.text = $"{GetState()}/{GetFinalState()}";
+            stateText.text.text = $"{GetState()}";
         };
     }
 }

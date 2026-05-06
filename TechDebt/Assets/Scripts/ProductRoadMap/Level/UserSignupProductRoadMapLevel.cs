@@ -42,6 +42,13 @@ public class UserSignupProductRoadMapLevel: MapLevel
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
         modifier.SetOverrideValue(2f);
         LevelModifiers.Add(modifier);
+        
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 0,
+            TargetId = "cmo"
+        });
 
         
     }
@@ -51,8 +58,8 @@ public class UserSignupProductRoadMapLevel: MapLevel
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
         networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
-        NPCBase npc =
-            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        NPCStakeholder npc =
+            GameManager.Instance.GetNPCById<NPCStakeholder>("cmo");
         npc.ShowDialogBubble().SimpleDisplay(
             "Great work. " + (!IsLaunchDay() ? " Some signups will trickle in for now but on Launch Day you will see a lot more." : " Just in the nick of time.")
         );
@@ -62,22 +69,22 @@ public class UserSignupProductRoadMapLevel: MapLevel
 
     public override void OnStartDayPlan()
     {
-        NPCBase npc =
-            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+        NPCStakeholder npc =
+            GameManager.Instance.GetNPCById<NPCStakeholder>("cmo");
         npc.ShowDialogBubble().SimpleDisplay(
             "Hey! This sprint we to allow users to Sign Up. Be careful handling Personally Identifiable Information(PII). If that gets leaked were in big trouble."
         );
+        
         base.OnStartDayPlan();
    
     }
     public override void OnLaunchDayPlan()
-    {
-        NPCBase npc =
-            GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+    {  
+        NPCStakeholder npc =
+            GameManager.Instance.GetNPCById<NPCStakeholder>("cmo");
         npc.ShowDialogBubble().SimpleDisplay(
             "Today is launch day!  \n Expect extra traffic."
         );
-
  
         base.OnLaunchDayPlan();
     }

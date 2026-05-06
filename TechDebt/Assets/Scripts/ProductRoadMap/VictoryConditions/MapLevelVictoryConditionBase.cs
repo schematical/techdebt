@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UI;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 
@@ -40,6 +41,29 @@ public abstract class MapLevelVictoryConditionBase
             default:
                 return state;
         }
+    }
+
+    public Color GetColor()
+    {
+        Color color = Color.white;
+        if (GetFinalState() == VictoryConditionState.Succeeded)
+        {
+            color = Color.green;
+        }
+        else
+        {
+            switch (GameManager.Instance.GameLoopManager.GetDaysLeftInSprint())
+            {
+                case 0:
+                    color = Color.red;
+                    break;
+                case 1:
+                    color = Color.darkOrange;
+                    break;
+            }
+        }
+
+        return color;
     }
     public abstract void Render(UIVictoryConditionListPanel victoryConditionListPanel);
 }
