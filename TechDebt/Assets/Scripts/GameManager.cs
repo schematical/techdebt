@@ -457,8 +457,8 @@ public class GameManager : MonoBehaviour, iModifiable
             Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
             GameObject instanceGO = prefabManager.Create("Desk",  adjustedWorldPos);
 
-            InfrastructureInstance infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
-
+            Desk infraInstance = instanceGO.GetComponent<Desk>();
+            infraInstance.SetClickable(false);
             
             // infraInstance.Initialize(infraData);
            

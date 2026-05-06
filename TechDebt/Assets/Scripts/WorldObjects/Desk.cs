@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class Desk : InfrastructureInstance
 {
     public int lastDisplayedProgress = -1;
+    protected bool clickable = true;
     public override void Initialize()
     {
         base.Initialize();
@@ -15,6 +16,10 @@ public class Desk : InfrastructureInstance
         ShowAttentionIcon();
     }
 
+    public void SetClickable(bool clickable)
+    {
+        this.clickable = clickable;
+    }
     public void OnResearchProgress(Vector3 position)
     {
         if (GameManager.Instance.CurrentlyResearchingTechnology == null)
@@ -38,6 +43,10 @@ public class Desk : InfrastructureInstance
     
     public override void OnLeftClick(PointerEventData eventData)
     {
+        if (!clickable)
+        {
+            return;
+        }
         GameManager.Instance.UIManager.Close();
         GameManager.Instance.UIManager.techTreePanel.Show();
         GameManager.Instance.GetInfrastructureInstanceByID("desk").HideAttentionIcon();
