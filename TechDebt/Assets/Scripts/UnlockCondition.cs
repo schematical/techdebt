@@ -7,8 +7,16 @@ using UnityEngine.Serialization;
 [Serializable]
 public class UnlockCondition: iUnlockable
 {
-
-    public enum ConditionType { Technology, SprintGreaterOrEqual, TutorialStepState, PrestigePointAllocation, GlobalNetworkPacket, GameStage }
+    public enum ConditionType
+    {
+        Technology,
+        SprintGreaterOrEqual,
+        TutorialStepState,
+        PrestigePointAllocation,
+        GlobalNetworkPacket,
+        GameStage,
+        Stakeholder
+    }
 
     public ConditionType Type;
     public int SprintNumber;
@@ -16,6 +24,7 @@ public class UnlockCondition: iUnlockable
     public TutorialStepId TutorialStepId = TutorialStepId.None;
     public TutorialStep.TutorialStepState TutorialStepState = TutorialStep.TutorialStepState.Completed;
     public GameStage? gameStage = null;
+    public int Level = -1;
 
     public bool IsUnlocked()
     {
@@ -59,6 +68,14 @@ public class UnlockCondition: iUnlockable
                     throw new SystemException($"Invalid network packet data: ${TargetId}");
                 }
                 return networkPacketData.GetProbability() > 0;
+            case(ConditionType.Stakeholder):
+                Stakeholder stakeholder = GameManager.Instance.Stakeholders.Find(stakeholder => stakeholder.Id == TargetId);
+                if (stakeholder == null)
+                {
+                    throw new SystemException($"Invalid stakeholder: ${TargetId}");
+                }
+
+                return stakeholder.Level == Level;
             case(ConditionType.GameStage):
                 MetaProgressData metaProgressData = MetaGameManager.GetProgress();
                 if (gameStage == null)

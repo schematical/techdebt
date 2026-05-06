@@ -27,7 +27,7 @@ public class MapLevel : iUIMapNode, iUnlockable
     public List<MapLevelReward> LevelRewards = new List<MapLevelReward>();
    
     public string RequiredStakeholderId { get; set; }
-    public List<UnlockCondition> UnlockConditions;
+    public List<UnlockCondition> UnlockConditions = new();
     // iUIMapNode Implementation
     public string Id => GetType().Name;
     public string DisplayName => Name;

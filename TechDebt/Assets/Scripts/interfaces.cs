@@ -67,3 +67,7 @@ public interface iUIMapNode
 
     void OnSelected(UI.UIMapPanel panel);
 }
+public interface iLevelable
+{
+    public int Level { get; set; }
+}

@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace DefaultNamespace.Rewards
 {
-    public abstract class StatBaseValueReward: RewardBase
+    public abstract class StatBaseValueReward: RewardBase, iLevelable
     {
         public StatType StatType;
         protected iModifiable AttachedModifier { get; private set; }
         public abstract iModifiable GetTarget();
-        public int Level = 0;
+        public int Level { get; set; } = 0;
         public List<float> LevelValues = new(); 
 
 

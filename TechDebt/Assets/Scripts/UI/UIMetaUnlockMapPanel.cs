@@ -12,7 +12,7 @@ namespace UI
 
         public Transform metaUnlockMapTabs;
 
-     
+        public List<UIButton> tabButtons = new();
 
         public void SetupTabs()
         {
@@ -33,8 +33,10 @@ namespace UI
 
         private void CreateTabButtons()
         {
-            // Clean up existing buttons
-
+            foreach (UIButton tabButton in tabButtons)
+            {
+                tabButton.gameObject.SetActive(false);
+            }
             for (int i = 0; i < _tabs.Count; i++)
             {
                 int index = i; // Local copy for closure
@@ -49,6 +51,7 @@ namespace UI
             uiBtn.buttonText.text = label;
             uiBtn.button.onClick.RemoveAllListeners();
             uiBtn.button.onClick.AddListener(() => SwitchTab(index));
+            tabButtons.Add(uiBtn);
         }
 
         public override void Show()
@@ -70,7 +73,6 @@ namespace UI
             _selectedNode = null;
             Refresh();
             CenterTilemapOnCamera();
-            Debug.Log($"UIMetaUnlockMapPanel.SwitchTab Index `{index}`");
         }
         
 

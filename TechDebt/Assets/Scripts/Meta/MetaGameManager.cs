@@ -11,6 +11,7 @@ using NPCs;
 using Rewards;
 using Stats;
 using Tutorial;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -368,7 +369,7 @@ public static class MetaGameManager
                     throw new SystemException($"Cannot find an allocation for Meta Reward `{allocatable.reward.Id}`");
                 }
 
-                (allocatable.reward as GlobalStatBaseValueReward).Level = allocation.level;
+                (allocatable.reward as iLevelable).Level = allocation.level;
             }
 
            
@@ -1618,48 +1619,32 @@ public static class MetaGameManager
                     LevelValues = new List<float>() { 1.1f, 1.15f, 1.2f, 1.25f, 1.3f, 1.4f, 1.5f }
                 }
             },
-            new MetaPrestigePointAllocatable()
-            {
-                Id = "OrgChart_Marketing",
-                levels = new List<MetaPrestigePointAllocatableLevel>()
-                {
-                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 4 }
-                }
-            },
-            new MetaPrestigePointAllocatable()
-            {
-                Id = "OrgChart_Technology",
-                levels = new List<MetaPrestigePointAllocatableLevel>()
-                {
-                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 5 }
-                }
-            },
-            new MetaPrestigePointAllocatable()
-            {
-                Id = "OrgChart_Finance",
-                levels = new List<MetaPrestigePointAllocatableLevel>()
-                {
-                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 2 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 4 }
-                }
-            },
-            new MetaPrestigePointAllocatable()
-            {
-                Id = "OrgChart_Security",
-                levels = new List<MetaPrestigePointAllocatableLevel>()
-                {
-                    new MetaPrestigePointAllocatableLevel() { cost = 1 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 3 },
-                    new MetaPrestigePointAllocatableLevel() { cost = 5 }
-                }
-            }
         };
-
+        foreach (Stakeholder stakeholder in GameManager.Instance.Stakeholders)
+        {
+            if (stakeholder.Levels == null)
+            {
+                continue;
+            }
+            MetaPrestigePointAllocatable allocatable = new MetaPrestigePointAllocatable(){
+                Id = stakeholder.Id,
+                levels = new List<MetaPrestigePointAllocatableLevel>(),
+                reward = new NPCStakeHolderReward()
+                {
+                    Id = stakeholder.Id
+                },
+            };
+            foreach (UIMetaUnlockLevelData level in stakeholder.Levels)
+            {
+                allocatable.levels.Add(
+                    new MetaPrestigePointAllocatableLevel()
+                    {
+                        cost = level.PrestigeCost
+                    }    
+                );
+            }
+            list.Add(allocatable);
+        }
         foreach (Technology tech in GetAllTechnologies())
         {
             list.Add(new MetaPrestigePointAllocatable()

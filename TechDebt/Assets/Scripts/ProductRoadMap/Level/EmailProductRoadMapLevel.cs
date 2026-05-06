@@ -13,6 +13,12 @@ public class EmailMapLevel:MapLevel
         {
             TargetId = "email-service"
         });
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 1,
+            TargetId = "cmo"
+        });
     }
     public override void OnStartDayPlan()
     {

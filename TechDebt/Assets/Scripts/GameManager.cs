@@ -1205,6 +1205,13 @@ public class GameManager : MonoBehaviour, iModifiable
         return npc;
     }
 
+    /*public List<NPCBase> SetupStakeHolders()
+    {
+        
+    }*/
+    
+    
+
   
 
     public void SelectTechnologyForResearch(Technology tech)
