@@ -152,7 +152,11 @@ namespace UI
 
             if (!forceClose && panelState != UIState.Closed)
             {
-                GameManager.Instance.UIManager.victoryConditionListPanel.Show();
+                if (GameManager.Instance.State == GameManager.GameManagerState.Playing)
+                {
+                    GameManager.Instance.UIManager.victoryConditionListPanel.Show();
+                }
+
                 GameManager.Instance.cameraController.EnableCameraInput();
                 GameManager.Instance.cameraController.RestoreSnap();
                 GameManager.Instance.UIManager.StopForcePause();

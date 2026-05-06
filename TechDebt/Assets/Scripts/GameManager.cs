@@ -369,6 +369,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
         Reset();
         StartDemo();
+        UIManager.Block();
         UIManager.saveSlotDetailPanel.Show();
     }
 
@@ -706,60 +707,179 @@ public class GameManager : MonoBehaviour, iModifiable
         };
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMin, 10));
         coin.Stats.Add(new StatData(StatType.NetworkPacket_ValueMax, 20));
-        
-        Stakeholders.Add(new Stakeholder { 
-            Id = "ceo", 
+
+        Stakeholders.Clear();
+
+        Stakeholders.Add(new Stakeholder
+        {
+            Id = "ceo",
             AllocationId = "OrgChart_CEO",
-            RoleName = "CEO", 
+            RoleName = "CEO",
             CurrentState = MapNodeState.Unlocked,
             Direction = MapNodeDirection.Down
         });
-   
-        Stakeholders.Add(new Stakeholder { 
-            Id = "ciso", 
+
+        Stakeholders.Add(new Stakeholder
+        {
+            Id = "ciso",
             AllocationId = "OrgChart_Security",
-            RoleName = "CISO", 
+            RoleName = "CISO",
             DependencyIds = new List<string> { "ceo" },
-            Levels = new List<UIMetaUnlockLevelData> { 
-                new UIMetaUnlockLevelData { Id = "OrgChart_Security_1", DisplayName = "Junior Security Officer", Description = "Handles basic SSL and Auth.", PrestigeCost = 1 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Security_2", DisplayName = "Security Consultant", Description = "Intermediate cyber security expert.", PrestigeCost = 3 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Security_3", DisplayName = "CISO", Description = "Chief Information Security Officer.", PrestigeCost = 5 }
+            Levels = new List<UIMetaUnlockLevelData>
+            {
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Security_1", DisplayName = "Junior Security Officer",
+                    Description = "Handles basic SSL and Auth.", PrestigeCost = 1,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Bootstrapped }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Security_2", DisplayName = "Security Consultant",
+                    Description = "Intermediate cyber security expert.", PrestigeCost = 3,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Seed }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Security_3", DisplayName = "CISO",
+                    Description = "Chief Information Security Officer.", PrestigeCost = 5,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.SeriesA }
+                    }
+                }
             },
             Direction = MapNodeDirection.Down
         });
-        Stakeholders.Add(new Stakeholder { 
-            Id = "cto", 
+        Stakeholders.Add(new Stakeholder
+        {
+            Id = "cto",
             AllocationId = "OrgChart_Technology",
-            RoleName = "CTO", 
+            RoleName = "CTO",
             DependencyIds = new List<string> { "ceo" },
-            Levels = new List<UIMetaUnlockLevelData> { 
-                new UIMetaUnlockLevelData { Id = "OrgChart_Dev_1", DisplayName = "Dev Intern", Description = "Unlock beginner technology missions.", PrestigeCost = 1 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Dev_2", DisplayName = "Senior Dev", Description = "Unlock intermediate technology missions.", PrestigeCost = 3 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Dev_3", DisplayName = "CTO", Description = "Chief Technology Officer.", PrestigeCost = 5 }
+            Levels = new List<UIMetaUnlockLevelData>
+            {
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Dev_1", DisplayName = "Dev Intern",
+                    Description = "Unlock beginner technology missions.", PrestigeCost = 1,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Bootstrapped }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Dev_2", DisplayName = "Senior Dev",
+                    Description = "Unlock intermediate technology missions.", PrestigeCost = 3,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Seed }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Dev_3", DisplayName = "CTO", Description = "Chief Technology Officer.",
+                    PrestigeCost = 5,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.SeriesA }
+                    }
+                }
             },
             Direction = MapNodeDirection.Down
         });
-        Stakeholders.Add(new Stakeholder { 
-            Id = "cfo", 
+        Stakeholders.Add(new Stakeholder
+        {
+            Id = "cfo",
             AllocationId = "OrgChart_Finance",
-            RoleName = "CFO", 
+            RoleName = "CFO",
             DependencyIds = new List<string> { "ceo" },
-            Levels = new List<UIMetaUnlockLevelData> { 
-                new UIMetaUnlockLevelData { Id = "OrgChart_Finance_1", DisplayName = "Office Assistant", Description = "Handles basic finances.", PrestigeCost = 1 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Finance_2", DisplayName = "Accountant", Description = "Intermediate financial tracking.", PrestigeCost = 2 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Finance_3", DisplayName = "CFO", Description = "Chief Financial Officer.", PrestigeCost = 4 }
+            Levels = new List<UIMetaUnlockLevelData>
+            {
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Finance_1", DisplayName = "Office Assistant",
+                    Description = "Handles basic finances.", PrestigeCost = 1,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Bootstrapped }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Finance_2", DisplayName = "Accountant",
+                    Description = "Intermediate financial tracking.", PrestigeCost = 2,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Seed }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Finance_3", DisplayName = "CFO", Description = "Chief Financial Officer.",
+                    PrestigeCost = 4,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.SeriesA }
+                    }
+                }
             },
             Direction = MapNodeDirection.Down
         });
-        Stakeholders.Add(new Stakeholder { 
-            Id = "cmo", 
+        Stakeholders.Add(new Stakeholder
+        {
+            Id = "cmo",
             AllocationId = "OrgChart_Marketing",
-            RoleName = "CMO", 
+            RoleName = "CMO",
             DependencyIds = new List<string> { "ceo" },
-            Levels = new List<UIMetaUnlockLevelData> { 
-                new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_1", DisplayName = "Marketing Intern", Description = "Basic marketing missions.", PrestigeCost = 1 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_2", DisplayName = "Director Of Marketing", Description = "Intermediate marketing missions.", PrestigeCost = 2 },
-                new UIMetaUnlockLevelData { Id = "OrgChart_Marketing_3", DisplayName = "CMO", Description = "Chief Marketing Officer.", PrestigeCost = 4 }
+            Levels = new List<UIMetaUnlockLevelData>
+            {
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Marketing_1", DisplayName = "Marketing Intern",
+                    Description = "Basic marketing missions.", PrestigeCost = 1,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Bootstrapped }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Marketing_2", DisplayName = "Director Of Marketing",
+                    Description = "Intermediate marketing missions.", PrestigeCost = 2,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.Seed }
+                    }
+                },
+                new UIMetaUnlockLevelData
+                {
+                    Id = "OrgChart_Marketing_3", DisplayName = "CMO", Description = "Chief Marketing Officer.",
+                    PrestigeCost = 4,
+                    UnlockConditions = new List<UnlockCondition>
+                    {
+                        new UnlockCondition
+                            { Type = UnlockCondition.ConditionType.GameStage, gameStage = GameStage.SeriesA }
+                    }
+                }
             },
             Direction = MapNodeDirection.Down
         });

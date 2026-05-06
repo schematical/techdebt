@@ -7,6 +7,7 @@ namespace UI
     {
         public override void Show()
         {
+            Debug.Log("UIVictoryConditionListPanel Show");
             runUICloseOnShow = false;
             base.Show();
             Refresh();
@@ -37,7 +38,6 @@ namespace UI
 
         public override void Close(bool forceClose = false)
         {
-            Debug.Log("UIVictoryConditionListPanel::Close");
             base.Close(forceClose);
         }
     }

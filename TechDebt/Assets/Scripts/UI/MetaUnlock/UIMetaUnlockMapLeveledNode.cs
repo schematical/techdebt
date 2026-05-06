@@ -12,6 +12,7 @@ namespace UI
         public int PrestigeCost;
         public StatType StatType;
         public float Value;
+        public List<UnlockCondition> UnlockConditions = new List<UnlockCondition>();
     }
 
     public class UIMetaUnlockMapLeveledNode : UIMetaUnlockMapNode

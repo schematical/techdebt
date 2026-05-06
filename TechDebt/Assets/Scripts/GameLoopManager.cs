@@ -50,7 +50,7 @@ public class GameLoopManager : MonoBehaviour
                 )
                 {
                     dayTimer += Time.fixedDeltaTime;
-                    GameManager.Instance.UIManager.UpdateClockDisplay(dayTimer, DayDurationSeconds);
+                    GameManager.Instance.UIManager.topBarPanel.UpdateClockDisplay(dayTimer, DayDurationSeconds);
                   
               
                     if (dayTimer >= DayDurationSeconds)

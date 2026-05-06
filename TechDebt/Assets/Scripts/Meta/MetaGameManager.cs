@@ -57,7 +57,7 @@ public static class MetaGameManager
         
         File.WriteAllText(GetSavePath(), json);
 
-       Debug.Log($"Progress saved to {GetSavePath()} \n\n {json}");
+       // Debug.Log($"Progress saved to {GetSavePath()} \n\n {json}");
     }
 
     public static MetaProgressData GetProgress(bool clone = false)

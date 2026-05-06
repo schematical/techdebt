@@ -44,12 +44,27 @@ namespace UI
             
             int nextLevelIdx = currentLevelIdx + 1;
             int nextLevelCost = 0;
+            UIMetaUnlockLevelData nextLevel = null;
             if (mapLeveledNode.Levels != null && nextLevelIdx >= 0 && nextLevelIdx < mapLeveledNode.Levels.Count)
             {
-                nextLevelCost = mapLeveledNode.Levels[nextLevelIdx].PrestigeCost;
+                nextLevel = mapLeveledNode.Levels[nextLevelIdx];
+                nextLevelCost = nextLevel.PrestigeCost;
             }
 
-            if (nextLevelCost > 0 && !isMaxLevel)
+            bool conditionsMet = true;
+            if (nextLevel != null && nextLevel.UnlockConditions != null)
+            {
+                foreach (UnlockCondition condition in nextLevel.UnlockConditions)
+                {
+                    if (!condition.IsUnlocked())
+                    {
+                        conditionsMet = false;
+                        break;
+                    }
+                }
+            }
+
+            if (nextLevelCost > 0 && !isMaxLevel && conditionsMet)
             {
                 _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"\nCost to Upgrade: {nextLevelCost} Vested Shares";
             }
@@ -75,7 +90,27 @@ namespace UI
                     }
                     
                     UIPanelLineSectionText titleText = levelLine.Add<UIPanelLineSectionText>();
-                    titleText.h2( $"Level {i + 1}: {level.DisplayName}");
+                    
+                    bool levelConditionsMet = true;
+                    if (level.UnlockConditions != null)
+                    {
+                        foreach (UnlockCondition condition in level.UnlockConditions)
+                        {
+                            if (!condition.IsUnlocked())
+                            {
+                                levelConditionsMet = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    string levelTitle = $"Level {i + 1}: {level.DisplayName}";
+                    if (!levelConditionsMet)
+                    {
+                        levelTitle += " (Locked)";
+                    }
+                    
+                    titleText.h2(levelTitle);
                     titleText.text.color = color;
 
                     UIPanelLineSectionText descText = _panel.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
@@ -87,7 +122,7 @@ namespace UI
             }
             
             // Action Buttons
-            if (!isMaxLevel)
+            if (!isMaxLevel && conditionsMet)
             {
                 if (readyToUnlock)
                 {

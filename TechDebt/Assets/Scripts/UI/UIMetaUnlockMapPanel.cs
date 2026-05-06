@@ -34,10 +34,6 @@ namespace UI
         private void CreateTabButtons()
         {
             // Clean up existing buttons
-            foreach (Transform child in metaUnlockMapTabs)
-            {
-                Destroy(child.gameObject);
-            }
 
             for (int i = 0; i < _tabs.Count; i++)
             {
@@ -60,10 +56,9 @@ namespace UI
             base.Show();
             
             metaUnlockMapTabs.gameObject.SetActive(true);
-            if (_tabs == null || _tabs.Count == 0)
-            {
-                SetupTabs();
-            }
+            
+            SetupTabs();
+            
             
             // Default to first tab (Technology)
             SwitchTab(0);

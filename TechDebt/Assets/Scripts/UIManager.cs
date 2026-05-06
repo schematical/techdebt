@@ -109,6 +109,7 @@ public class UIManager : MonoBehaviour
 
     public void Close(bool forceClose = false)
     {
+        Debug.Log("Close");
         clickBlockingPanel.gameObject.SetActive(false);
    
         productRoadMap.Close(forceClose);
@@ -211,17 +212,27 @@ public class UIManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (
-                pauseMenu.GetPanelState() == UIGameObject.UIState.Closed
-                )
+                GameManager.Instance.State == GameManager.GameManagerState.Playing
+            )
             {
-                ForcePause();
-                pauseMenu.Show();
+                if (
+                    pauseMenu.GetPanelState() == UIGameObject.UIState.Closed
+                )
+                {
+                    ForcePause();
+                    pauseMenu.Show();
+                }
+                else
+                {
+                    StopForcePause();
+                    pauseMenu.Close();
+                } 
             }
             else
             {
-                StopForcePause();
-                pauseMenu.Close();
+                //TODO: Make panels navigate
             }
+            
         }
 
         
@@ -409,10 +420,7 @@ public class UIManager : MonoBehaviour
 
    
 
-    public void UpdateClockDisplay(float timeElapsed, float dayDuration)
-    {
-        topBarPanel.UpdateClockDisplay(timeElapsed, dayDuration);
-    }
+
 
     public TimeState GetCurrentTimeState()
     {
@@ -507,6 +515,8 @@ public class UIManager : MonoBehaviour
         SetTimeState(TimeState.Normal, true);
         clickBlockingPanel.gameObject.SetActive(false);
         summaryPhasePanel.Close();
+        topBarPanel.Close(true);
+        victoryConditionListPanel.Close(true);
         
     }
 
