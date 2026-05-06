@@ -18,7 +18,8 @@ public class Stakeholder : UIMetaUnlockMapLeveledNode
             if (Levels != null && Levels.Count > 0)
             {
                 int idx = CurrentLevelIndex;
-                if (idx >= 0 && idx < Levels.Count)
+                if (idx < 0) idx = 0; // Use lowest level if not unlocked
+                if (idx < Levels.Count)
                     return Levels[idx].DisplayName;
             }
             return base.DisplayName ?? RoleName;
@@ -33,7 +34,8 @@ public class Stakeholder : UIMetaUnlockMapLeveledNode
             if (Levels != null && Levels.Count > 0)
             {
                 int idx = CurrentLevelIndex;
-                if (idx >= 0 && idx < Levels.Count)
+                if (idx < 0) idx = 0; // Use lowest level if not unlocked
+                if (idx < Levels.Count)
                     return Levels[idx].Description;
             }
             return base.Description;
