@@ -20,7 +20,7 @@ namespace Infrastructure
                 base.OnLeftClick(eventData);
                 return;
             }
-            GameManager.Instance.UIManager.productRoadMap.Show();
+            GameManager.Instance.UIManager.orgChartPanel.Show();
             HideAttentionIcon();
             
         }
