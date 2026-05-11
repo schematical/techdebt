@@ -8,6 +8,12 @@ public class SaasLevel : MapLevel
         SpriteId = "IconMoney";
         RequiredStakeholderId = "cmo";
         DependencyIds.Add("OnlinePaymentsProductRoadMapLevel");
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 1,
+            TargetId = "cmo"
+        });
     }
 
     public override string GetDescription()

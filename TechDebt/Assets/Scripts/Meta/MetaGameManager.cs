@@ -651,7 +651,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TargetId = "dedicated-db"
+                        TargetId = "redis"
                     },
                     new UnlockCondition()
                     {
@@ -665,7 +665,7 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "redis-size-large",
-                DisplayName = "Key Value Store - Medium",
+                DisplayName = "Key Value Store - Large",
                 Description = "4x your Key Value Store Server's CPU/RAM and Costs",
                 ResearchTime = 30,
                 UnlockConditions = new List<UnlockCondition>()
@@ -673,7 +673,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TargetId = "dedicated-db-size-medium"
+                        TargetId = "redis-size-medium"
                     },
                 },
                 CurrentState = Technology.State.Locked,
@@ -1100,7 +1100,7 @@ public static class MetaGameManager
             new MetaChallengeBase()
             {
                 ChallengeID = "redis",
-                DisplayName = "Redis Cache",
+                DisplayName = "Key Value Store",
                 Description = "Have your dedicated database handle 100 text packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
                 WorldObjectTypeId = "dedicated-db",

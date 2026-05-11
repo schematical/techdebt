@@ -9,6 +9,12 @@ public class DiskSpaceLevel : MapLevel
         RequiredStakeholderId = "cto";
         Direction = MapNodeDirection.Down;
         DependencyIds.Add("LaunchMapLevel");
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 1,
+            TargetId = "cto"
+        });
     }
 
     public override string GetDescription()

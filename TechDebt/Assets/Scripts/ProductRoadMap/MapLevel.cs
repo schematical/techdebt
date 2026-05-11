@@ -388,11 +388,14 @@ public class MapLevel : iUIMapNode, iUnlockable
         List<MapLevel> availableIncompleteLevels =
             GameManager.Instance.Map.LevelPool.FindAll(
                 (level => level.IsUnlocked() && level.State == MapLevelState.Incomplete));
-        /*foreach (MapLevel level in GameManager.Instance.Map.LevelPool)
+        
+        
+        foreach (MapLevel level in GameManager.Instance.Map.LevelPool)
         {
-            Debug.Log($"{level.Name} ({level.State} - IsUnlocked: {level.IsUnlocked()} - level.IsUnlocked() && State == MapLevelState.Incomplete -> {level.IsUnlocked() && State == MapLevelState.Incomplete})");
+            Debug.Log($"{level.Name} ({level.State} - IsUnlocked: {level.IsUnlocked()} - level.IsUnlocked() && State == MapLevelState.Incomplete -> {level.IsUnlocked() && level.State == MapLevelState.Incomplete})");
         }
-        Debug.Log($"{availableIncompleteLevels.Count} available incomplete levels)");*/
+        Debug.Log($"{availableIncompleteLevels.Count} available incomplete levels)");
+        
         if (availableIncompleteLevels.Count > 0)
         {
             GameManager.Instance.UIManager.ForcePause();
