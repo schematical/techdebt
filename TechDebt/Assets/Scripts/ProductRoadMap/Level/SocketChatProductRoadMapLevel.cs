@@ -6,7 +6,12 @@ public class SocketChatMapLevel:MapLevel
         Name = "Socket Chat Sprint";
         SpriteId = "IconChat";
         Direction = MapNodeDirection.Right;
-        
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 2,
+            TargetId = "cto"
+        });
     }
    
 }

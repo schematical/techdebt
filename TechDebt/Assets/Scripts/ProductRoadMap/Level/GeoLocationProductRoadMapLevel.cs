@@ -6,6 +6,12 @@ public class GeoLocationMapLevel:MapLevel
         Name = "Geo Location Sprint";
         SpriteId = "IconGeo";
         Direction = MapNodeDirection.Right;
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 3,
+            TargetId = "cmo"
+        });
     }
   
 }

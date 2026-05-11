@@ -8,7 +8,12 @@ public class SecurityAuditMapLevel: MapLevel
         Name = "Security Audit Sprint";
         SpriteId = "IconLock";
         Direction = MapNodeDirection.Left;
-        
+        UnlockConditions.Add(new UnlockCondition()
+        {
+            Type = UnlockCondition.ConditionType.Stakeholder,
+            Level = 0,
+            TargetId = "ciso"
+        });
     }
     public override void OnStartDayPlan()
     {
