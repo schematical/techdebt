@@ -58,7 +58,11 @@ public class Map
             Debug.LogError(reward.Type + " is not a meta reward");
             return;
         }
+        
         MetaLevelRewards.Add(reward);
+        MetaProgressData metaData = MetaGameManager.GetProgress();
+        metaData.claimedMetaRewardIds.Add(reward.Id);
+        MetaGameManager.SaveProgress(metaData);
         /*if (SteamManager.Initialized)
         {
             Steamworks.SteamUserStats.GetAchievement(reward.Id, out bool achieved);

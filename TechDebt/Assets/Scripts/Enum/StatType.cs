@@ -66,5 +66,6 @@ public enum StatType
     NPC_StartLevel,
     NPC_LevelUpRarity,
     NPC_ContractWorkMoneyMultiplier,
-    NPC_BugAttackTechDebtMultiplier
+    NPC_BugAttackTechDebtMultiplier,
+    Global_DailyBudget
 }

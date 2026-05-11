@@ -122,8 +122,6 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
                 infra.Version != _currentRelease.GetVersionString()
             )
             {
-
-                Debug.Log($"CodePipelineInstance::FindTargetServer - Found {infra.gameObject.name}");
                 return infra;
             }
         }

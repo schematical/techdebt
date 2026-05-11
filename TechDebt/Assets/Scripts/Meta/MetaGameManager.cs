@@ -379,7 +379,7 @@ public static class MetaGameManager
             allocatable.reward.Apply();
          
 
-            data.claimedMetaRewardIds.Add(allocatable.Id);
+            
          
         }
         SaveProgress(data);

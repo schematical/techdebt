@@ -1,6 +1,7 @@
 using UI;
 using UnityEngine;
 using System.Collections.Generic;
+using DefaultNamespace;
 
 public class UISaveSlotDetailPanel : UIPanel
 {
@@ -25,12 +26,30 @@ public class UISaveSlotDetailPanel : UIPanel
         UIPanelLine pointsLine = AddLine<UIPanelLine>();
         pointsLine.Add<UIPanelLineSectionText>().text.text = $"Research: {data.researchPoints}";
         pointsLine.Add<UIPanelLineSectionText>().text.text = $"Vested Shares: {data.prestigePoints}";
-
+        /*if (data.gameStage == GameStage.Tutorial)
+        {
+            AddButton("Start Tutorial", StartRun);
+            AddButton("Skip Tutorial", SkipTutorial);
+        }
+        else
+        {
+            AddButton("Start Run", StartRun);
+        }*/
         AddButton("Start Run", StartRun);
+
+
         AddButton("Challenges", ShowChallenges);
         AddButton("Manage Vested Shares", ShowUnlockMap);
         AddButton("Delete Slot", DeleteSlot);
         AddButton("Back", () => { Close(); GameManager.Instance.UIManager.saveSlotListPanel.Show(); });
+    }
+
+    private void SkipTutorial()
+    {
+        MetaProgressData data = MetaGameManager.GetProgress();
+        data.gameStage = GameStage.Bootstrapped;
+        MetaGameManager.SaveProgress(data);
+        Refresh();
     }
 
     private void StartRun()

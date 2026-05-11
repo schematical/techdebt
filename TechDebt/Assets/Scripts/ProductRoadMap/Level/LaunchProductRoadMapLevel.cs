@@ -17,7 +17,7 @@ public class LaunchMapLevel: MapLevel
         SpriteId = "IconFlag";
         SprintDuration = 5;
         
-        AddCashReward(-1, 150);
+        AddCashReward(-1, 150, 25);
         AddPrestigePointsReward();
         
         

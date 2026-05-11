@@ -101,6 +101,12 @@ public class GameLoopManager : MonoBehaviour
         };
 
         GameManager.Instance.RecordEvent(myEvent);
+        float dailyBudget = GameManager.Instance.GetStatValue(StatType.Global_DailyBudget);
+        if (!Mathf.Approximately(dailyBudget, 0))
+        {
+            GameManager.Instance.IncrStat(StatType.Money, dailyBudget);
+            GameManager.Instance.UIManager.toastHolderPanel.Add($"Daily Budget +${dailyBudget}");
+        }
     }
 
     public float GetDayDurationSeconds()

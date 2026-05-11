@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class UISaveSlotListPanel : UIMultiSelectPanel
 {
+    public UIButton backButton;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        backButton.button.onClick.AddListener(OnBack);
+    }
     public override void Show()
     {
         Display("Select Save Slot", "Select a profile to continue");
@@ -43,6 +50,11 @@ public class UISaveSlotListPanel : UIMultiSelectPanel
         }
     }
 
+    public void OnBack()
+    {
+        Close();
+        GameManager.Instance.UIManager.mainMenu.Show();
+    }
 
     
     /*public override void Close(bool forceClose = false)

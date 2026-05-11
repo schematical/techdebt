@@ -754,6 +754,10 @@ public class GameManager : MonoBehaviour, iModifiable
         Stats.Add(new StatData(StatType.NPC_LevelUpRarity, .1f){
             
         });
+        Stats.Add(new StatData(StatType.Global_DailyBudget, 00f)
+        {
+            DisplayType =  StatData.StatDataDisplayType.Dollar
+        });
         
         NetworkPacketData coin = new NetworkPacketData(0f)
         {

@@ -486,8 +486,10 @@ public class UIManager : MonoBehaviour
         topBarPanel.Close(true);
         moneyPanel.Close(true);
         timeControlPanel.Close(true);
+        summaryPhasePanel.Close(true);
+        saveSlotDetailPanel.Close(true);
+        saveSlotListPanel.Close(true);
         mainMenu.Show();
-        summaryPhasePanel.Close();
     }
 
     public void ShowGameUI()

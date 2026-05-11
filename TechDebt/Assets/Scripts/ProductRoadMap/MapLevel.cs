@@ -188,8 +188,8 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     private void ApplyRewards(MapLevelReward.MapLevelRewardApplied appliedAt)
     {
-        MetaProgressData metaData = MetaGameManager.GetProgress();
-        // bool progressChanged = false;
+        // MetaProgressData metaData = MetaGameManager.GetProgress();
+        //bool progressChanged = false;
 
         foreach (MapLevelReward reward in LevelRewards)
         {
@@ -201,22 +201,19 @@ public class MapLevel : iUIMapNode, iUnlockable
                 continue;
             } */
 
-            /*if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id))
+            /*if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && !metaData.claimedMetaRewardIds.Contains(reward.Id))
             {
-                continue;
+             
+                progressChanged = true;
             }*/
-            Debug.Log($"Applying Reward {reward.Reward.Id} 1");
             if (reward.VictoryConditions.All((condition) => condition.GetFinalState() == VictoryConditionState.Succeeded))
             {
-                Debug.Log($"Applying Reward {reward.Reward.Id} 2");
                 reward.Reward.Apply();
                 GameManager.Instance.UIManager.toastHolderPanel.Add("Applied " + reward.Reward.Name);
                 if (reward.Type == MapLevelReward.MapLevelRewardType.Meta)
                 {
-                    Debug.Log($"Applying Reward {reward.Reward.Id} 3");
                     GameManager.Instance.Map.MarkMetaRewardRedeemed(reward);
-                    /*metaData.claimedMetaRewardIds.Add(reward.Id);
-                    progressChanged = true;*/
+                
                 }
             }
             
@@ -224,14 +221,9 @@ public class MapLevel : iUIMapNode, iUnlockable
 
         /*if (progressChanged)
         {
-            
             MetaGameManager.SaveProgress(metaData);
-            Debug.Log($"Saving Progress");
-        }
-        else
-        {
-            Debug.Log($"Skipping Save");
         }*/
+       
     }
 
     public virtual void Randomize(int modifierCount)
@@ -389,13 +381,18 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public virtual void OnLaunchDaySummary()
     {
-        Debug.Log("OnLaunchDaySummary");
+        
         MarkCompleted();
         NPCBase npc =
             GameManager.Instance.GetNPCById<NPCBase>("ceo");
         List<MapLevel> availableIncompleteLevels =
             GameManager.Instance.Map.LevelPool.FindAll(
-                (level => level.IsUnlocked() && State == MapLevelState.Incomplete));
+                (level => level.IsUnlocked() && level.State == MapLevelState.Incomplete));
+        /*foreach (MapLevel level in GameManager.Instance.Map.LevelPool)
+        {
+            Debug.Log($"{level.Name} ({level.State} - IsUnlocked: {level.IsUnlocked()} - level.IsUnlocked() && State == MapLevelState.Incomplete -> {level.IsUnlocked() && State == MapLevelState.Incomplete})");
+        }
+        Debug.Log($"{availableIncompleteLevels.Count} available incomplete levels)");*/
         if (availableIncompleteLevels.Count > 0)
         {
             GameManager.Instance.UIManager.ForcePause();
@@ -512,6 +509,7 @@ public class MapLevel : iUIMapNode, iUnlockable
     public virtual void EndGame(string dialog = null, bool isVictory = false)
     {
         List<MetaChallengeBase> newlyUnlockedMetaChallenges = GameManager.Instance.UpdateMetaProgress(isVictory);
+        
         GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(GetCombinedVictoryConditions(), newlyUnlockedMetaChallenges);
 
         /*NPCBase npc =
@@ -608,10 +606,10 @@ public class MapLevel : iUIMapNode, iUnlockable
         }
     }
 
-    public void AddCashReward(float start = -1, float end = -1)
+    public void AddCashReward(float start = -1, float end = -1, float endDailyBudget = -1)
     {
 
-        if (start != -1)
+        if (!Mathf.Approximately(start, -1))
         {
             LevelRewards.Add(new MapLevelReward()
             {
@@ -628,7 +626,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                 },
             });
         }
-        if (end != -1)
+        if (!Mathf.Approximately(end, -1))
         {
             LevelRewards.Add(new MapLevelReward()
             {
@@ -641,6 +639,23 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Description = "Your budget will be increased by this much when you complete the sprint",
                     StatType = StatType.Money,
                     LevelValues = new List<float>() {end },
+                    IconSpriteId = "IconDollar"
+                },
+            });
+        }
+        if (!Mathf.Approximately(endDailyBudget, -1))
+        {
+            LevelRewards.Add(new MapLevelReward()
+            {
+                AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+                Reward = new GlobalStatBaseValueReward()
+                {
+                    // Group = RewardBase.RewardGroup.Release,
+                    Id = "sprint_end_daily_budget",
+                    Name = "Sprint Completed Daily Budget Bonus",
+                    Description = "Your budget will be increased by this much every day when you complete the sprint",
+                    StatType = StatType.Global_DailyBudget,
+                    LevelValues = new List<float>() { endDailyBudget },
                     IconSpriteId = "IconDollar"
                 },
             });
