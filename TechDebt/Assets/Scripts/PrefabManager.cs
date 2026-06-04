@@ -28,7 +28,7 @@ public class PrefabManager: MonoBehaviour
 
         try
         {
-            GameObject go = Pool[prefabId].FirstOrDefault(p => !p.gameObject.activeInHierarchy);
+            GameObject go = Pool[prefabId].Find(p => !p.gameObject.activeInHierarchy);
             if (go != null)
             {
                 // Reactivate and re-initialize the pooled packet

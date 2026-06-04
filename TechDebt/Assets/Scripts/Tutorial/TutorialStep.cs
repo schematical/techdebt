@@ -97,18 +97,29 @@ namespace Tutorial
             
             NPCBase npc = GetSpeaker();
             UIDialogBubble dialogBubble = npc.ShowDialogBubble();
-        
+            List<DialogButtonOption> options = GetDialogOptions(); // new List<DialogButtonOption>();
+            foreach (DialogButtonOption option in options) // GetDialogOptions())
+            {
+                UnityAction originalOnClick = option.OnClick;
+                option.OnClick = () =>
+                {
+                    npc.HideDialogBubble();
+                    GameManager.Instance.cameraController.StopFollowing();
+                    originalOnClick.Invoke();
+                };
+            }
+            dialogBubble.SimpleDisplay(Description, options); // GetDialogOptions());
            
            
                 
                 
-            UIPanelLine dialogLine = dialogBubble.AddLine<UIPanelLine>();
+            /*UIPanelLine dialogLine = dialogBubble.AddLine<UIPanelLine>();
             if (spriteId != null)
             {
                 Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(spriteId);
                 dialogLine.Add<UIPanelLineSectionImage>().image.sprite = sprite;
-            }
-            dialogLine.Add<UIPanelLineSectionText>().text.text = Description;
+            }*/
+            /*dialogLine.Add<UIPanelLineSectionText>().text.text = Description;
             foreach (DialogButtonOption option in GetDialogOptions())
             {
                 dialogBubble.AddButton(
@@ -120,7 +131,7 @@ namespace Tutorial
                         option.OnClick.Invoke();
                     }
                 );
-            }
+            }*/
             
         }
 
