@@ -4,14 +4,20 @@ using System.Text;
 using UI;
 using MetaChallenges;
 
-public class UIMetaChallengesPanel: UIPanel
+public class UIMetaChallengesPanel: UIFocusablePanel
 {
     protected List<Transform> rows = new List<Transform>();
     protected List<UIChallengeSelectPanel> challengePanels = new List<UIChallengeSelectPanel>();
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     public override void Show()
     {
         base.Show();
+        
         GameManager.Instance.UIManager.Block();
         // Ensure MetaProgressData is loaded before trying to access metaStats
         MetaProgressData progressData = MetaGameManager.GetProgress();
@@ -56,6 +62,7 @@ public class UIMetaChallengesPanel: UIPanel
 
     public override void Close(bool forceClose = false)
     {
+        GameManager.Instance.UIManager.SetFocusedPanel(GameManager.Instance.UIManager.pauseMenu);
         foreach (UIChallengeSelectPanel challengePanel in challengePanels)
         {
             challengePanel.gameObject.SetActive(false);
@@ -78,4 +85,5 @@ public class UIMetaChallengesPanel: UIPanel
         }
 
     }
+
 }

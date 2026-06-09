@@ -971,6 +971,22 @@ namespace Tutorial
             
             return tutorialData;
         }
+        public TutorialData MarkTutorialDataDone()
+        {
+            foreach (TutorialStep step in Steps.Values)
+            {
+                step.Skip();
+            }
+            TutorialData tutorialData = BuildTutorialData();
+            SaveProgress(tutorialData);
+            End();
+            return tutorialData;
+        }
+
+        public void ResetProgress()
+        {
+            SaveProgress(new TutorialData());
+        }
         public void SaveProgress(TutorialData tutorialData = null)
         {
             if (tutorialData == null)

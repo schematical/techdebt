@@ -230,6 +230,11 @@ namespace Tutorial
             }
         }
 
+        public void Skip()
+        {
+            State =  TutorialStepState.Completed;
+        }
+
         public TutorialStepData ToTutorialData()
         {
             return new TutorialStepData()

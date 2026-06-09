@@ -77,7 +77,8 @@ public class UIManager : MonoBehaviour
     public UIPauseMenu pauseMenu;
 
     public GameObject clickBlockingPanel;
-    // OLD UI Containers
+
+    public UIFocusablePanel focusedPanel;
 
    
 
@@ -214,7 +215,14 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.State == GameManager.GameManagerState.Playing
             )
             {
-                if (
+                if (focusedPanel != null)
+                {
+                    focusedPanel.MarkUnfocused();
+                } else
+                {
+                    pauseMenu.MarkFocused(); 
+                }
+                /*if (
                     pauseMenu.GetPanelState() == UIGameObject.UIState.Closed
                 )
                 {
@@ -225,7 +233,7 @@ public class UIManager : MonoBehaviour
                 {
                     StopForcePause();
                     pauseMenu.Close();
-                } 
+                } */
             }
             else
             {
@@ -521,5 +529,17 @@ public class UIManager : MonoBehaviour
         
     }
 
- 
+
+    public void SetFocusedPanel(UIFocusablePanel _focusedPanel)
+    {
+        if (focusedPanel != null)
+        {
+            focusedPanel.MarkUnfocused();
+        }
+        focusedPanel = _focusedPanel;
+        if (focusedPanel != null)
+        {
+            focusedPanel.MarkFocused();
+        }
+    }
 }

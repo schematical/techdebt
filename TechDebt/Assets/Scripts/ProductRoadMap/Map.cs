@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
@@ -37,6 +38,7 @@ public class Map
         new CheckoutCartLevel(),
         new OnlinePaymentsProductRoadMapLevel()
     };
+    public GameStage difficulty { get; set; }
     protected MapLevel CurrentLevel { get; set; }
     public int CurrentSprintNumber { get; protected set; } = -1;
 
@@ -128,6 +130,13 @@ public class Map
     {
         return MetaLevelRewards;
     }
+
+    public void SetDifficulty(GameStage _difficulty)
+    {
+        difficulty = _difficulty;
+    }
+
+    
 }
 
 

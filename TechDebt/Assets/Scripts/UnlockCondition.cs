@@ -82,7 +82,6 @@ public class UnlockCondition: iUnlockable
                 {
                     throw new SystemException("Invalid game stage");
                 }
-
                 return (metaProgressData.gameStage >= gameStage);
             default:
                 throw new NotImplementedException();
@@ -99,8 +98,33 @@ public class UnlockCondition: iUnlockable
                 return$"Sprint {SprintNumber} Or Greater";   
             case(ConditionType.TutorialStepState):
                 return$"Tutorial Step {TutorialStepId} is {TutorialStepState}";
+            case(ConditionType.PrestigePointAllocation):
+                MetaProgressData progress = MetaGameManager.GetProgress();
+                bool isAllocated = progress.prestigePointAllocations.Find((allocation) => allocation.Id == TargetId) !=
+                                   null;
+                return $"PrestigePoint: {TargetId} {(isAllocated ? "Allocated" : "Not Allocated")}";
+            case(ConditionType.GlobalNetworkPacket):
+                NetworkPacketData networkPacketData = GameManager.Instance.GetNetworkPacketDatas()
+                    .Find((networkPacketData => networkPacketData.Type.ToString() == TargetId));
+                if (networkPacketData == null)
+                {
+                    throw new SystemException($"Invalid network packet data: ${TargetId}");
+                }
+                bool isMet = networkPacketData.GetProbability() > 0;
+                return $"Global Network Packet: {TargetId} {(isMet ? "Met" : "Not Met")}";
+            case(ConditionType.Stakeholder):
+                Stakeholder stakeholder = GameManager.Instance.Stakeholders.Find(stakeholder => stakeholder.Id == TargetId);
+                if (stakeholder == null)
+                {
+                    throw new SystemException($"Invalid stakeholder: ${TargetId}");
+                }
+                bool isMet2 = stakeholder.Level >= Level;
+                return $"Stakeholder: {Level} {(isMet2 ? "Met" : "Not Met")}";
+            case(ConditionType.GameStage):
+                MetaProgressData metaProgressData = MetaGameManager.GetProgress();
+                return $"Game Stage {metaProgressData.gameStage} >= {gameStage}";
             default:
-                throw new NotImplementedException();
+                throw new NotImplementedException($"Unlock Condition {Type} not implemented");
         }
     }
     

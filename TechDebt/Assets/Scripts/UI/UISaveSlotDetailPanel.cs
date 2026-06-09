@@ -44,18 +44,13 @@ public class UISaveSlotDetailPanel : UIPanel
         AddButton("Back", () => { Close(); GameManager.Instance.UIManager.saveSlotListPanel.Show(); });
     }
 
-    private void SkipTutorial()
-    {
-        MetaProgressData data = MetaGameManager.GetProgress();
-        data.gameStage = GameStage.Bootstrapped;
-        MetaGameManager.SaveProgress(data);
-        Refresh();
-    }
+ 
 
     private void StartRun()
     {
         Close();
-        GameManager.Instance.StartNewGame();
+        // GameManager.Instance.StartNewGame();
+        GameManager.Instance.UIManager.runSetupPanel.Show();
     }
 
     private void ShowChallenges()

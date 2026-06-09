@@ -1392,7 +1392,7 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     
 
-    public List<MetaChallengeBase> UpdateMetaProgress(bool isVictory = false)
+    public MetaProgressUpdateContext UpdateMetaProgress(GameStage difficulty, bool isVictory = false)
     {
         MetaProgressData prevMetaState = MetaGameManager.GetProgress(true);
        
@@ -1415,10 +1415,24 @@ public class GameManager : MonoBehaviour, iModifiable
         SteamUserStats.StoreStats();
 #endif
         newMetaState.completedRuns += 1;
-        if (isVictory) newMetaState.successfulExits += 1;
+        MetaProgressUpdateContext context = new MetaProgressUpdateContext();
+        context.startingStage = difficulty;
+        context.currentStage = difficulty;
+        if (isVictory)
+        {
+            newMetaState.successfulExits += 1;
+            if (difficulty > newMetaState.gameStage)
+            {
+                newMetaState.gameStage += 1;
+                context.currentStage = newMetaState.gameStage;
+            }
+        }
+      
         MetaGameManager.SaveProgress(newMetaState);
-       
-        return newlyPassedChallenges;
+
+
+        context.newlyPassedChallenges =  newlyPassedChallenges;
+        return context;
 
     }
 

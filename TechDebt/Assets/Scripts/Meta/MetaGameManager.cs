@@ -488,12 +488,17 @@ public static class MetaGameManager
                     {
                         Type = UnlockCondition.ConditionType.Technology,
                         TargetId = "white-board"
-                    },
+                    },/*
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
-                    },
+                    },*/
+                    new UnlockCondition()
+                    {
+                        Type = UnlockCondition.ConditionType.GameStage,
+                        gameStage = GameStage.Bootstrapped
+                    }
                 },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Up,

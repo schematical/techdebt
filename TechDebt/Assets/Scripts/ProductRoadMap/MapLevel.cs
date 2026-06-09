@@ -438,7 +438,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     OnClick = () =>
                     {
                         npc.HideDialogBubble();
-                        EndGame();
+                        EndGame(true);
                     }
                 },
                 new DialogButtonOption()
@@ -509,11 +509,14 @@ public class MapLevel : iUIMapNode, iUnlockable
         GameManager.Instance.InfrastructureUpdateNetworkTargets();
     }
 
-    public virtual void EndGame(string dialog = null, bool isVictory = false)
+    public virtual void EndGame(bool isVictory = false)
     {
-        List<MetaChallengeBase> newlyUnlockedMetaChallenges = GameManager.Instance.UpdateMetaProgress(isVictory);
+        MetaProgressUpdateContext context = GameManager.Instance.UpdateMetaProgress(
+            GameManager.Instance.Map.difficulty,
+            isVictory
+        );
         
-        GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(GetCombinedVictoryConditions(), newlyUnlockedMetaChallenges);
+        GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(GetCombinedVictoryConditions(), context);
 
         /*NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);

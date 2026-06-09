@@ -12,8 +12,10 @@ namespace UI
 
        
 
-        public void ShowSummary(List<MapLevelVictoryConditionBase> victoryConditions, List<MetaChallengeBase> newlyUnlockedMetaChallenges)
+        public void ShowSummary(List<MapLevelVictoryConditionBase> victoryConditions, MetaProgressUpdateContext context)
         {
+            
+                //List<MetaChallengeBase> newlyUnlockedMetaChallenges 
             CleanUp();
             GameManager.Instance.UIManager.ForcePause();
             GameManager.Instance.UIManager.Block();
@@ -30,10 +32,15 @@ namespace UI
                 }
             }
 
-            if (newlyUnlockedMetaChallenges.Count > 0)
+            if (context.HasUnlockedNewStage())
+            {
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("NEW DIFFICULTY UNLOCKED: " + context.currentStage);
+                // TODO: Make it look much cooler.
+            }
+            if (context.newlyPassedChallenges.Count > 0)
             {
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Unlocked");
-                foreach (MetaChallengeBase metaChallenge in newlyUnlockedMetaChallenges)
+                foreach (MetaChallengeBase metaChallenge in context.newlyPassedChallenges)
                 {
                         AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
                             $" - {metaChallenge.DisplayName}";
