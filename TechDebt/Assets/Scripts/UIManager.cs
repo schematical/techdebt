@@ -215,14 +215,14 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.State == GameManager.GameManagerState.Playing
             )
             {
-                if (focusedPanel != null)
+                /*if (focusedPanel != null)
                 {
                     focusedPanel.MarkUnfocused();
                 } else
                 {
                     pauseMenu.MarkFocused(); 
-                }
-                /*if (
+                }*/
+                if (
                     pauseMenu.GetPanelState() == UIGameObject.UIState.Closed
                 )
                 {
@@ -233,7 +233,7 @@ public class UIManager : MonoBehaviour
                 {
                     StopForcePause();
                     pauseMenu.Close();
-                } */
+                } 
             }
             else
             {

@@ -758,6 +758,10 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             DisplayType =  StatData.StatDataDisplayType.Dollar
         });
+        Stats.Add(new StatData(StatType.Global_LevelUpRarityModifier, 1f)
+        {
+            
+        });
         
         NetworkPacketData coin = new NetworkPacketData(0f)
         {
@@ -1421,7 +1425,8 @@ public class GameManager : MonoBehaviour, iModifiable
         if (isVictory)
         {
             newMetaState.successfulExits += 1;
-            if (difficulty > newMetaState.gameStage)
+            Debug.Log($"difficulty >= newMetaState.gameStage: {difficulty} >= {newMetaState.gameStage} ----> {difficulty >= newMetaState.gameStage}");
+            if (difficulty >= newMetaState.gameStage)
             {
                 newMetaState.gameStage += 1;
                 context.currentStage = newMetaState.gameStage;

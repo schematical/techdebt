@@ -201,6 +201,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
                     traits.Add(replacement);
                     float rarityModifier = GameManager.Instance.GetStatValue(StatType.NPC_LevelUpRarity);
+                    rarityModifier *= GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier);
                     Rarity rarity = RarityHelper.GetRandomRarity(rarityModifier);
                     setupOption(multiSelectOption, replacement, rarity);
                     GameManager.Instance.UIManager.multiSelectPanel.RefreshBanishButtons();
@@ -225,6 +226,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
             traits.Add(modifierBase);
             float rarityModifier = GameManager.Instance.GetStatValue(StatType.NPC_LevelUpRarity);
+            rarityModifier *= GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier);
             Rarity rarity = RarityHelper.GetRandomRarity(rarityModifier);
             UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
                 modifierBase.Id,

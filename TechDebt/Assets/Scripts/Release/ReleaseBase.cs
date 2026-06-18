@@ -127,7 +127,9 @@ public class ReleaseBase
             throw new SystemException("How did this release go with no targets?");
         }
         targets[0].ZoomTo();
-        rewardRarity = RarityHelper.GetRandomRarity(GetQuality()); //TODO: Feed in release quality to this
+        float quality = GetQuality();
+        float probibility = quality * GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier);
+        rewardRarity = RarityHelper.GetRandomRarity(probibility); //TODO: Feed in release quality to this
         GameManager.Instance.UIManager.rewardPanel.Show(this);
         
         

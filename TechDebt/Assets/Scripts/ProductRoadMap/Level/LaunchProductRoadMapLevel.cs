@@ -70,6 +70,7 @@ public class LaunchMapLevel: MapLevel
     }
     public override void OnLaunchDayPlan()
     {
+        GameManager.Instance.UIManager.SetTimeScalePause();
         GameManager.Instance.Map.AddGlobalVictoryCondition(new UpTimeVictoryCondition());
         GameManager.Instance.UIManager.toastHolderPanel.Add("Launch Day Start!");
       

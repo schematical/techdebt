@@ -71,25 +71,34 @@ namespace UI
             GameManager.Instance.StartNewGame();
             GameManager.Instance.Map.SetDifficulty(stage);
             StatModifier difficultyStatModifier = null;
+            StatModifier rarityStatModifier = null;
             switch (stage)
             {
-                case(GameStage.Bootstrapped):
+                /*case(GameStage.Bootstrapped):
                     difficultyStatModifier =
                         new StatModifier("difficulty_" + stage, 1.1f);
-                    break;
+                    break;*/
                 case(GameStage.Seed):
+                    
                     difficultyStatModifier =
-                        new StatModifier("difficulty_" + stage, 1.25f);
+                        new StatModifier("difficulty_" + stage, 1.05f);
+                    rarityStatModifier =  new StatModifier("rarity_" + stage, 1.05f);
                     break;
                 case(GameStage.SeriesA):
                     difficultyStatModifier =
-                        new StatModifier("difficulty_" + stage, 1.5f);
+                        new StatModifier("difficulty_" + stage, 1.15f);
+                    rarityStatModifier =  new StatModifier("rarity_" + stage, 1.15f);
                     break;
             }
 
             if (difficultyStatModifier != null)
             {
                 GameManager.Instance.Stats.AddModifier(StatType.Difficulty, difficultyStatModifier);
+            }
+
+            if (rarityStatModifier != null)
+            {
+                GameManager.Instance.Stats.AddModifier(StatType.Global_LevelUpRarityModifier, difficultyStatModifier);
             }
         }
 
