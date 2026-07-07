@@ -68,17 +68,20 @@ public class TutorialProductRoadMapLevel: MapLevel
     {
         GameManager.Instance.Map.AddGlobalVictoryCondition(new UpTimeVictoryCondition());
         GameManager.Instance.UIManager.toastHolderPanel.Add("Launch Day Start!");
-        if (
+        /*if (
             GameManager.Instance.TutorialManager == null ||
             !GameManager.Instance.TutorialManager.IsActive()
         )
-        {
+        {*/
+    
             NPCBase npc =
                 GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
+            GameManager.Instance.UIManager.SetTimeScalePause();
+            npc.ZoomTo();
             npc.ShowDialogBubble().SimpleDisplay(
                 "Today is launch day! \n Expect extra traffic."
             );
-        }
+        //}
         
         base.OnLaunchDayPlan();
     }

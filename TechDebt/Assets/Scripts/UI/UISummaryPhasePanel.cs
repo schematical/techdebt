@@ -58,7 +58,7 @@ namespace UI
             }
             else
             {
-                AddButton("Start Over", () => { GameManager.Instance.StartNewGame(); });
+                AddButton("Start Over", () => { GameManager.Instance.StartNewGame(GameManager.Instance.Map.difficulty); });
                 AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
             }
             AddButton("Wishlist now!", () => Application.OpenURL("https://store.steampowered.com/app/4567430/Tech_Debt/")); 

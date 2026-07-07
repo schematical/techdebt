@@ -21,23 +21,8 @@ using Random = UnityEngine.Random;
 public class Map
 {
 
- 
-    public List<MapLevel> LevelPool { get; set; } = new List<MapLevel>()
-    {
-        new LaunchMapLevel(),
-        new UserSignupProductRoadMapLevel(),
-        new MobileMapLevel(),
-        new EmailMapLevel(),
-        new SocketChatMapLevel(),
-        new GeoLocationMapLevel(),
-        new CodePipelineLevel(),
-        new Metrics1Level(),
-        new SslLevel(),
-        new SaasLevel(),
-        // new DiskSpaceLevel(),
-        new CheckoutCartLevel(),
-        new OnlinePaymentsProductRoadMapLevel()
-    };
+
+    public List<MapLevel> LevelPool { get; set; }
     public GameStage difficulty { get; set; }
     protected MapLevel CurrentLevel { get; set; }
     public int CurrentSprintNumber { get; protected set; } = -1;
@@ -48,9 +33,29 @@ public class Map
     public List<string> BanishedRewardIds { get; set; } = new();
     protected List<MapLevelReward> MetaLevelRewards = new();
 
-    public void Randomize()
+    public Map(GameStage stage)
     {
-        
+        difficulty = stage;
+    }
+
+    public void Init()
+    {
+        LevelPool = new List<MapLevel>()
+        {
+            new LaunchMapLevel(),
+            new UserSignupProductRoadMapLevel(),
+            new MobileMapLevel(),
+            new EmailMapLevel(),
+            new SocketChatMapLevel(),
+            new GeoLocationMapLevel(),
+            new CodePipelineLevel(),
+            new Metrics1Level(),
+            new SslLevel(),
+            new SaasLevel(),
+            // new DiskSpaceLevel(),
+            new CheckoutCartLevel(),
+            new OnlinePaymentsProductRoadMapLevel()
+        };
     }
 
     public void MarkMetaRewardRedeemed(MapLevelReward reward)
@@ -131,10 +136,10 @@ public class Map
         return MetaLevelRewards;
     }
 
-    public void SetDifficulty(GameStage _difficulty)
+    /*public void SetDifficulty(GameStage _difficulty)
     {
         difficulty = _difficulty;
-    }
+    }*/
 
     
 }

@@ -84,7 +84,7 @@ public class GameLoopManager : MonoBehaviour
         );
         
         // GameManager.Instance.UIManager.moneyPanel.Show();
-        GameManager.Instance.UIManager.Resume();
+        // GameManager.Instance.UIManager.Resume();
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Day {currentDay} Starting");
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Expected Traffic: { Math.Round(GameManager.Instance.GetStatValue(StatType.Traffic))} Packets/Day");
         

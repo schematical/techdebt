@@ -38,6 +38,11 @@ public class UpTimeVictoryCondition : MapLevelVictoryConditionBase
         line.SetPreText("Failed Packets: ");
         line.OnGetProgress = () =>
         {
+            if(line == null) 
+            {
+                Debug.LogWarning("Victory Condition Line is null!");
+                return 0;
+            }
             float progress = GetPacketFailedPercent();
             Color color = Color.white;
             if (progress > UpTimeRequirement)

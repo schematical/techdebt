@@ -764,4 +764,9 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     {
         return tutorialStepId;
     }
+
+    public void ZoomTo()
+    {
+        GameManager.Instance.cameraController.ZoomTo(transform);
+    }
 }

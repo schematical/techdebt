@@ -70,17 +70,19 @@ public class LaunchMapLevel: MapLevel
     }
     public override void OnLaunchDayPlan()
     {
-        GameManager.Instance.UIManager.SetTimeScalePause();
+     
         GameManager.Instance.Map.AddGlobalVictoryCondition(new UpTimeVictoryCondition());
         GameManager.Instance.UIManager.toastHolderPanel.Add("Launch Day Start!");
       
         NPCStakeholder npc =
             GameManager.Instance.GetNPCById<NPCStakeholder>("ceo");
+
         npc.ShowDialogBubble().SimpleDisplay(
             "Today is launch day! \n Expect extra traffic."
         );
         npc.ZoomToAndFollow();
         base.OnLaunchDayPlan();
+        GameManager.Instance.UIManager.SetTimeScalePause();
     }
 
 }

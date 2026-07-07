@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using DefaultNamespace.Rewards;
 using MetaChallenges;
 using NPCs;
 using Stats;
 using UI;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MapLevel : iUIMapNode, iUnlockable
@@ -669,16 +671,19 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     }
 
-    public void AddPrestigePointsReward(int value = 1)
+    public void AddPrestigePointsReward(int baseValue = 1)
     {
         List<MapLevelReward> levelRewards = new List<MapLevelReward>();
-            
+        GameStage stage = GameManager.Instance.Map.difficulty;
+        
+        int value = baseValue * (int) stage;
         MapLevelReward levelCompleted = new MapLevelReward()
         {
-            Id = $"{Id}_completed",
-            Description = $"{Name} Completed",
+            Id = $"{Id}_{stage}_completed",
+            Description = $"{stage} {Name} Completed",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            GameStage = stage,
             Reward = new MetaStatBaseValueReward()
             {
                 Id = "prestige_points",
@@ -691,10 +696,11 @@ public class MapLevel : iUIMapNode, iUnlockable
         levelRewards.Add(levelCompleted);
         MapLevelReward uptime75 = new MapLevelReward()
         {
-            Id = $"{Id}_uptime_75",
-            Description = $"{Name} Uptime Greater Than 75%",
+            Id = $"{Id}_{stage}_uptime_75",
+            Description = $"{stage} {Name} Uptime Greater Than 75%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            GameStage = stage,
             DependencyIds = new List<string>()
             {
                 levelCompleted.Id
@@ -715,10 +721,11 @@ public class MapLevel : iUIMapNode, iUnlockable
         levelRewards.Add(uptime75);
         MapLevelReward uptime90 = new MapLevelReward()
         {
-            Id = $"{Id}_uptime_90",
-            Description = $"{Name} Uptime Greater Than 90%",
+            Id = $"{Id}_{stage}_uptime_90",
+            Description = $"{stage} {Name} Uptime Greater Than 90%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
             AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            GameStage = stage,
             DependencyIds = new List<string>()
             {
                 uptime75.Id
@@ -739,10 +746,11 @@ public class MapLevel : iUIMapNode, iUnlockable
         levelRewards.Add(uptime90);
         levelRewards.Add(new MapLevelReward()
         {
-            Id = $"{Id}_uptime_99",
-            Description = $"{Name} Uptime Greater Than 99%",
+            Id = $"{Id}_{stage}_uptime_99",
+            Description = $"{stage} {Name} Uptime Greater Than 99%",
             Type = MapLevelReward.MapLevelRewardType.Meta,
-            AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
+            AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            GameStage = stage,
             DependencyIds = new List<string>()
             {
                 uptime90.Id
@@ -760,10 +768,10 @@ public class MapLevel : iUIMapNode, iUnlockable
                 IconSpriteId = "IconDollar"
             },
         });
-        
-        
-        
-        
+
+
+
+
         MetaProgressData metaData = MetaGameManager.GetProgress();
         foreach (MapLevelReward reward in levelRewards)
         {
@@ -772,8 +780,9 @@ public class MapLevel : iUIMapNode, iUnlockable
                )
             {
                 // Debug.Log($"Already unlocked yet {reward.Id}");
-                continue; 
+                continue;
             }
+
             if (
                 //reward.Type == MapLevelReward.MapLevelRewardType.Meta &&
                 !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))
@@ -782,10 +791,12 @@ public class MapLevel : iUIMapNode, iUnlockable
                 // Debug.Log($"Not unlocked yet {reward.Id}");
                 continue;
             }
+
             // Debug.Log($"Adding {reward.Id}");
             LevelRewards.Add(reward);
         }
-      
+    
+
     }
 
     public bool IsUnlocked()

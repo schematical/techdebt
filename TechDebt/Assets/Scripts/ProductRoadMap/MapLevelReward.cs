@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using DefaultNamespace;
 
 public class MapLevelReward
 {   
@@ -20,4 +21,5 @@ public class MapLevelReward
     public MapLevelRewardApplied AppliedAt =  MapLevelRewardApplied.End;
     public List<string> DependencyIds = new();
     public RewardBase Reward { get; set; }
+    public GameStage GameStage { get; set; }
 }

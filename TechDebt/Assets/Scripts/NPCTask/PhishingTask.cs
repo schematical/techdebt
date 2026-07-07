@@ -9,10 +9,9 @@ using UnityEngine;
 public class PhishingTask : NPCTask
 {
     public iTargetable target { get; set; }
-    private float coolDown = 0f;
+    private float coolDown = 15f; //TODO: Set this with dificulty
 
     private bool isRetreating = false;
-    // public EnvEffectBase buildEffect;
   
 
     public PhishingTask(iAttackable target, int priority = 7) : base(target)
@@ -41,9 +40,13 @@ public class PhishingTask : NPCTask
         // Only start building after the NPC has arrived.
         if (isRetreating)
         {
-            if (!IsCloseEnough())
+            /*if (!IsCloseEnough())
             {
                 npc.MoveTo(target.GetInteractionPosition(InteractionType.PacketEnter));
+            }*/
+            if (IsCloseEnough())
+            {
+                npc.gameObject.SetActive(false);
             }
 
             return;

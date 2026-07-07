@@ -400,13 +400,15 @@ public class GameManager : MonoBehaviour, iModifiable
             worldObjectBase.Reset();
         }
     }
-    public void StartNewGame()
+    public void StartNewGame(GameStage stage)
     {
         Analytics.CustomEvent("StartNewGame");
         State = GameManagerState.Playing;
         Reset();
         
         Initialize();
+        Map = new Map(stage);
+        Map.Init();
         MetaGameManager.ApplyMetaRewards();
 
         SetupRun();
@@ -487,6 +489,8 @@ public class GameManager : MonoBehaviour, iModifiable
     public void StartDemo()
     {
         Initialize();
+        Map = new Map(GameStage.SeriesA);
+        Map.Init();
         SetupRun();
         UnlockAllTechnologies();
         BuildAllWorldObjects();
@@ -1033,8 +1037,7 @@ public class GameManager : MonoBehaviour, iModifiable
             worldObjectType.Initialize();
         }
 
-        Map = new Map();
-        Map.Randomize();
+ 
         
            
        
