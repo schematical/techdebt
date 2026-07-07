@@ -616,7 +616,23 @@ public class MapLevel : iUIMapNode, iUnlockable
 
     public void AddCashReward(float start = -1, float end = -1, float endDailyBudget = -1)
     {
-
+        GameStage stage = GameManager.Instance.Map.difficulty;
+        float multiplier = 1;
+        switch (stage)
+        {
+            case(GameStage.Bootstrapped):
+                multiplier = 1;
+                break;
+                case(GameStage.Seed):
+                multiplier = 1.25f;
+                    break;
+                case(GameStage.SeriesA):
+                    multiplier = 1.5f;
+                    break;
+        }
+        float adjustedStart = start * multiplier;
+        float adjustedEnd = end * multiplier;
+        float adjustedEndDailyBudget = endDailyBudget * multiplier;
         if (!Mathf.Approximately(start, -1))
         {
             LevelRewards.Add(new MapLevelReward()
@@ -629,7 +645,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Name = "Sprint Start Budget Bonus",
                     Description = "Your budget will be increased by this much at the start of the sprint",
                     StatType = StatType.Money,
-                    LevelValues = new List<float>() {start },
+                    LevelValues = new List<float>() {adjustedStart  },
                     IconSpriteId = "IconDollar"
                 },
             });
@@ -646,7 +662,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Name = "Sprint Completed Budget Bonus",
                     Description = "Your budget will be increased by this much when you complete the sprint",
                     StatType = StatType.Money,
-                    LevelValues = new List<float>() {end },
+                    LevelValues = new List<float>() {adjustedEnd },
                     IconSpriteId = "IconDollar"
                 },
             });
@@ -663,7 +679,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                     Name = "Sprint Completed Daily Budget Bonus",
                     Description = "Your budget will be increased by this much every day when you complete the sprint",
                     StatType = StatType.Global_DailyBudget,
-                    LevelValues = new List<float>() { endDailyBudget },
+                    LevelValues = new List<float>() { adjustedEndDailyBudget },
                     IconSpriteId = "IconDollar"
                 },
             });

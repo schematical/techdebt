@@ -68,18 +68,27 @@ namespace UI
                 
                 // Release
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Release: {infraInstance.Version}";
+                if (infraInstance.GetWorldObjectType().LoadRecoveryRate != 0)
+                {
+                    // Load
+                    loadBar = AddLine<UIPanelLineProgressBar>();
+                    loadBar.SetPreText($"CPU Load:");
+                }
 
-                // Load
-                loadBar = AddLine<UIPanelLineProgressBar>();
-                loadBar.SetPreText($"CPU Load:");
-                                                            
-           
+                if (infraInstance.GetDailyCost() != 0)
+                {
 
-                // Daily Cost
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Daily Cost: ${infraInstance.GetDailyCost():F2}";
+                    // Daily Cost
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                        $"Daily Cost: ${infraInstance.GetDailyCost():F2}";
+                }
 
-                // Size
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Size: {infraInstance.CurrentSize} - Max:{infraInstance.GetWorldObjectType().GetMaxSize()}";
+                if (infraInstance.GetWorldObjectType().CanBeUpsized)
+                {
+                    // Size
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                        $"Size: {infraInstance.CurrentSize} - Max:{infraInstance.GetWorldObjectType().GetMaxSize()}";
+                }
             }
 
             // Stats

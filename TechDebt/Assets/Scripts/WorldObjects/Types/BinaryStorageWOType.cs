@@ -12,8 +12,9 @@ public class BinaryStorageWOType : WorldObjectType
         PrefabId = "S3Bucket";
         BuildTime = 30;
         DailyCost = 30;
-        CanBeUpsized = true;
+        CanBeUpsized = false;
         ShowInGlobalDisplay = true;
+        LoadRecoveryRate = 20;
         TutorialStepId = TutorialStepId.Infra_BinaryStorage_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
@@ -21,6 +22,34 @@ public class BinaryStorageWOType : WorldObjectType
             {
                 Type = UnlockCondition.ConditionType.Technology,
                 TargetId = "binary-storage"
+            }
+        };
+        networkPackets = new List<InfrastructureDataNetworkPacket>()
+        {
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.Text,
+                loadPerPacket = 20
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.MaliciousText,
+                loadPerPacket = 20
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.Image,
+                loadPerPacket = 2
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.PII,
+                loadPerPacket = 20
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.Purchase,
+                loadPerPacket = 20
             }
         };
     }
