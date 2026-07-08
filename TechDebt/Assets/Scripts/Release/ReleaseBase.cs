@@ -143,6 +143,7 @@ public class ReleaseBase
     public void OnDeploymentCompleted()
     {
        
+        Debug.Log($"OnDeploymentCompleted: {RewardModifier}");
         if (RewardModifier != null)
         {
          

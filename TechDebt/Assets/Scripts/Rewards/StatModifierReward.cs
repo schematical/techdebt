@@ -2,6 +2,7 @@ using System;
 using DefaultNamespace.Rewards;
 using Stats;
 using UI;
+using UnityEngine;
 
 namespace Rewards
 {
@@ -34,7 +35,7 @@ namespace Rewards
 
         public override void Apply()
         {
-          
+            Debug.Log($"Applying StatModifier for Name: {Name}");
             AttachedModifiable = GetTarget();
             StatModifier = BuildStatModifier();
             AttachedModifiable.Stats.AddModifier(StatType, StatModifier);

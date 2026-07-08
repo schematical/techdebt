@@ -192,11 +192,12 @@ public class MapLevel : iUIMapNode, iUnlockable
     {
         // MetaProgressData metaData = MetaGameManager.GetProgress();
         //bool progressChanged = false;
-
+        MetaProgressData metaData = MetaGameManager.GetProgress();
         foreach (MapLevelReward reward in LevelRewards)
         {
         
             if (reward.AppliedAt != appliedAt) continue;
+            if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id)) continue;
 
             /*if (reward.DependencyIds.Count > 0 && !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId)))
             {
@@ -792,13 +793,13 @@ public class MapLevel : iUIMapNode, iUnlockable
         MetaProgressData metaData = MetaGameManager.GetProgress();
         foreach (MapLevelReward reward in levelRewards)
         {
-            if ( //reward.Type == MapLevelReward.MapLevelRewardType.Meta 
+            /*if ( //reward.Type == MapLevelReward.MapLevelRewardType.Meta 
                 metaData.claimedMetaRewardIds.Contains(reward.Id)
                )
             {
                 // Debug.Log($"Already unlocked yet {reward.Id}");
                 continue;
-            }
+            }*/
 
             if (
                 //reward.Type == MapLevelReward.MapLevelRewardType.Meta &&

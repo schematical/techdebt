@@ -17,19 +17,21 @@ namespace Rewards
             {
                 if (networkPacketData.PacketType == NetworkPacketType)
                 {
-                    return networkPacketData;
-                    /*hitCheck += 1;
+                    hitCheck += 1;
                     if (hitCheck > 1)
                     {
                         Debug.LogError($"Hit more than once. Something is wrong. {this.WorldObjectType} + {NetworkPacketType} - {StatType}");
-                    }*/
+                    }
+                    Debug.Log($"Found target: {networkPacketData}");
+                    return networkPacketData;
+                    
                 }
             }
             Debug.LogError($"Could not find a network packet for Something is wrong. {this.WorldObjectType} + {NetworkPacketType} - {StatType}");
-            /*if (hitCheck == 0)
+            if (hitCheck == 0)
             {
                 Debug.LogError($"Could not find a network packet for Something is wrong. {this.WorldObjectType} + {NetworkPacketType} - {StatType}");
-            }*/
+            }
             return null;
         }
 

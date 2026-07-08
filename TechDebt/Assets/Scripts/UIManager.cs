@@ -71,7 +71,8 @@ public class UIManager : MonoBehaviour
     public UIRunSetupPanel runSetupPanel;
     public UISaveSlotListPanel saveSlotListPanel;
     public UISaveSlotDetailPanel saveSlotDetailPanel;
-
+    public UILevelDetailPanel levelDetailPanel;
+    
     public UIMainMenu mainMenu;
     public UIMetaChallengesPanel metaChallengesPanel;
     public UIPauseMenu pauseMenu;
@@ -279,6 +280,21 @@ public class UIManager : MonoBehaviour
                 case(TimeState.SuperFast):
                     SetTimeState(TimeState.Normal, true);
                     break;
+            }
+        }
+
+        if (
+            Keyboard.current != null &&
+            Keyboard.current.cKey.wasPressedThisFrame
+        )
+        {
+            if (levelDetailPanel.IsOpen())
+            {
+                levelDetailPanel.Close();
+            }
+            else
+            {
+                levelDetailPanel.Show();
             }
         }
 
