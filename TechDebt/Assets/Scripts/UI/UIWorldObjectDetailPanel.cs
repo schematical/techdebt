@@ -20,7 +20,7 @@ namespace UI
         protected override void Update()
         {
             base.Update();
-            if (infraInstance != null)
+            if (infraInstance != null && loadBar != null)
             {
                 loadBar.SetProgress(
                     infraInstance.CurrentLoad/infraInstance.GetMaxLoad()

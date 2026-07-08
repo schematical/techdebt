@@ -624,15 +624,16 @@ public class MapLevel : iUIMapNode, iUnlockable
                 multiplier = 1;
                 break;
                 case(GameStage.Seed):
-                multiplier = 1.25f;
+                multiplier = 1.5f;
                     break;
                 case(GameStage.SeriesA):
-                    multiplier = 1.5f;
+                    multiplier = 2f;
                     break;
         }
         float adjustedStart = start * multiplier;
         float adjustedEnd = end * multiplier;
         float adjustedEndDailyBudget = endDailyBudget * multiplier;
+        // Debug.Log($"multiplier: {multiplier} - start: {start} - adjustedStart: {adjustedStart} - adjustedEnd: {adjustedEnd} - adjustedEndDailyBudget: {adjustedEndDailyBudget}");
         if (!Mathf.Approximately(start, -1))
         {
             LevelRewards.Add(new MapLevelReward()

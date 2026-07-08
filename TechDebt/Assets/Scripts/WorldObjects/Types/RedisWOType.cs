@@ -14,6 +14,7 @@ public class RedisWOType : WorldObjectType
         DailyCost = 30;
         CanBeUpsized = true;
         ShowInGlobalDisplay = true;
+        LoadRecoveryRate = 40;
         TutorialStepId = TutorialStepId.Infra_Redis_Tip;
         sizeTechnologyPrefix = "redis";
         UnlockConditions = new List<UnlockCondition>()

@@ -362,7 +362,7 @@ public class UIManager : MonoBehaviour
 
     public void SetTimeState(TimeState newState,  bool setDesired = false)
     {
-        Debug.Log($"SetTimeState from {_currentTimeState} to {newState}");
+        // Debug.Log($"SetTimeState from {_currentTimeState} to {newState}");
         _currentTimeState = newState;
 
         float newTimeScale = 1f;

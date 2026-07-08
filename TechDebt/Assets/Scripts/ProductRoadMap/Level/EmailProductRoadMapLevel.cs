@@ -25,6 +25,7 @@ public class EmailMapLevel:MapLevel
         base.OnStartDayPlan();
         NPCStakeholder npc =
             GameManager.Instance.GetNPCById<NPCStakeholder>("cmo");
+        npc.ZoomToAndFollow();
         npc.ShowDialogBubble().SimpleDisplay(
             "This sprint we want to get a dedicated email sending service. Research it and get it up and running."
         );
