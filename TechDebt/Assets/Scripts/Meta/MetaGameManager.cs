@@ -1661,9 +1661,9 @@ public static class MetaGameManager
                     Id = "training-program",
                     Name = "Training Program",
                     Description = "Increases the rarity of your Team Members Level Ups",
-                    StatType = StatType.Money,
-                    IconSpriteId = "IconDollar",
-                    LevelValues = new List<float>() { 1.1f, 1.15f, 1.2f, 1.25f, 1.3f, 1.4f, 1.5f }
+                    StatType = StatType.NPC_LevelUpRarity,
+                    IconSpriteId = "IconTest",
+                    LevelValues = new List<float>() { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.75f }
                 }
             },
         };
