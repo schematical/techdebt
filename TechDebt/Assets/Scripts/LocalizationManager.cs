@@ -16,7 +16,11 @@ namespace DefaultNamespace
                         Name = "Difficulty", 
                         ToolTip = "`Difficulty` affects things like how quickly traffic or tech debt increases."
                     };
-                
+                case(StatType.TechDebt):
+                    return new LocalizationData() {
+                        Name = "TechDebt", 
+                        ToolTip = "`TechDebt` Determines likely hood of things bad things happening like cyber attacks."
+                    };
                 case(StatType.Global_LevelUpRarityModifier):
                     return new LocalizationData() {
                         Name = "Rarity", 

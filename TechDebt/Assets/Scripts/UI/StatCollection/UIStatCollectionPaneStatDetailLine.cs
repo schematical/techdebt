@@ -18,6 +18,17 @@ namespace UI
             statData = _statData;
             mainText = Add<UIPanelLineSectionText>();
             ResetText();
+            try
+            {
+                mainText.SetToolTip(
+                    GameManager.Instance.localizationManager.GetStatTypeData(statData.Type).ToolTip
+                );
+            }
+            catch (NotImplementedException e)
+            {
+                // Just don't display anything.
+            }
+            
             if (statData.Modifiers.Count == 0)
             {
                 return;

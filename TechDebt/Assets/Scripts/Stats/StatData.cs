@@ -135,7 +135,15 @@ namespace Stats
 
         public string FormatDescription(float value)
         {
-            return $"{Util.GetDisplayable(Type.ToString())}: {FormatDisplayValue(value)}";
+            try
+            {
+                return $"{GameManager.Instance.localizationManager.GetStatTypeData(Type).Name}: {FormatDisplayValue(value)}";
+            }
+            catch (NotImplementedException e)
+            {
+                return $"{Util.GetDisplayable(Type.ToString())}: {FormatDisplayValue(value)}";
+            }
+           
         }
 
         public string GetDisplayValue()

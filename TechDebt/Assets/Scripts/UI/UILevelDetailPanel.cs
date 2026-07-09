@@ -8,18 +8,23 @@ namespace UI
         public override void Show()
         {
             base.Show();
-            UIPanelLineSectionText difficultyText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
-            difficultyText.text.text =
+            
+            UIStatCollectionPaneStatDetailLine difficultyLine = AddLine<UIStatCollectionPaneStatDetailLine>();
+            difficultyLine.SetStatData(GameManager.Instance.Stats.Get(StatType.Difficulty));
+            // UIPanelLineSectionText difficultyText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+            /*difficultyText.text.text =
                 $"Difficulty: {GameManager.Instance.GetStatValue(StatType.Difficulty)}";
             difficultyText.SetToolTip(
                 GameManager.Instance.localizationManager.GetStatTypeData(StatType.Difficulty).ToolTip
-                );
-            UIPanelLineSectionText rarityText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+                );*/
+            UIStatCollectionPaneStatDetailLine rarityLine = AddLine<UIStatCollectionPaneStatDetailLine>();
+            rarityLine.SetStatData(GameManager.Instance.Stats.Get(StatType.Global_LevelUpRarityModifier));
+            /*UIPanelLineSectionText rarityText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
             rarityText.text.text =
                 $"Rarity: {GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier)}";
             rarityText.SetToolTip(
                 GameManager.Instance.localizationManager.GetStatTypeData(StatType.Global_LevelUpRarityModifier).ToolTip
-            );
+            );*/
             rewardsLine = AddLine<UIPanelLine>();
             rewardsLine.Add<UIPanelLineSectionText>().text.text = $"Rewards";
             rewardsLine.SetExpandable(OnExpandRewards);
