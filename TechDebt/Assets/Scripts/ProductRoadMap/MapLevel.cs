@@ -198,7 +198,14 @@ public class MapLevel : iUIMapNode, iUnlockable
         
             if (reward.AppliedAt != appliedAt) continue;
             if (reward.Type == MapLevelReward.MapLevelRewardType.Meta && metaData.claimedMetaRewardIds.Contains(reward.Id)) continue;
-
+            if (
+                //reward.Type == MapLevelReward.MapLevelRewardType.Meta &&
+                !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))
+            )
+            {
+                // Debug.Log($"Not unlocked yet {reward.Id}");
+                continue;
+            }
             /*if (reward.DependencyIds.Count > 0 && !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId)))
             {
                 continue;
@@ -639,6 +646,8 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             LevelRewards.Add(new MapLevelReward()
             {
+                Id = "sprint_start_money",
+                Description = "Sprint Start Budget Bonus",
                 AppliedAt =   MapLevelReward.MapLevelRewardApplied.Start,
                 Reward = new GlobalStatBaseValueReward()
                 {
@@ -656,6 +665,8 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             LevelRewards.Add(new MapLevelReward()
             {
+                Id = "sprint_end_money",
+                Description = "Sprint Completed Budget Bonus",
                 AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
                 Reward = new GlobalStatBaseValueReward()
                 {
@@ -673,6 +684,8 @@ public class MapLevel : iUIMapNode, iUnlockable
         {
             LevelRewards.Add(new MapLevelReward()
             {
+                Id = "sprint_end_daily_budget",
+                Description = "Sprint Completed Daily Budget Bonus",
                 AppliedAt =   MapLevelReward.MapLevelRewardApplied.End,
                 Reward = new GlobalStatBaseValueReward()
                 {
@@ -801,14 +814,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                 continue;
             }*/
 
-            if (
-                //reward.Type == MapLevelReward.MapLevelRewardType.Meta &&
-                !reward.DependencyIds.All(depId => metaData.claimedMetaRewardIds.Contains(depId))
-            )
-            {
-                // Debug.Log($"Not unlocked yet {reward.Id}");
-                continue;
-            }
+           
 
             // Debug.Log($"Adding {reward.Id}");
             LevelRewards.Add(reward);

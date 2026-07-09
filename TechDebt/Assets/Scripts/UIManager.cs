@@ -559,4 +559,15 @@ public class UIManager : MonoBehaviour
             focusedPanel.MarkFocused();
         }
     }
+    public void ShowTooltip(PointerEventData eventData, Action<UIToolTip> onToolTip)
+    {
+        toolTip.gameObject.SetActive(true);
+        toolTip.transform.position = Camera.main.WorldToScreenPoint(eventData.position);
+        onToolTip(toolTip);
+    }
+
+    public void HideTooltip()
+    {
+        toolTip.gameObject.SetActive(false);
+    }
 }

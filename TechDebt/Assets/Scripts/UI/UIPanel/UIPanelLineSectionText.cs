@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI
@@ -21,7 +20,6 @@ namespace UI
             GetComponent<LayoutElement>().preferredWidth = -1;
      
         }
-
        
 
         public void h1(string s)
