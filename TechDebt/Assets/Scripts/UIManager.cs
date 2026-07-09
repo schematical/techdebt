@@ -562,8 +562,55 @@ public class UIManager : MonoBehaviour
     public void ShowTooltip(PointerEventData eventData, Action<UIToolTip> onToolTip)
     {
         toolTip.gameObject.SetActive(true);
-        toolTip.transform.position = Camera.main.WorldToScreenPoint(eventData.position);
+        toolTip.CleanUp();
         onToolTip(toolTip);
+        
+        // Force layout refresh to get accurate size
+        toolTip.RefreshLayout();
+
+        Vector2 screenPoint = Mouse.current.position.ReadValue();
+        Canvas canvas = toolTip.GetComponentInParent<Canvas>();
+        if (canvas != null)
+        {
+            RectTransform canvasRect = canvas.transform as RectTransform;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvasRect,
+                screenPoint,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
+                out Vector2 localPoint);
+
+            Vector2 offset = new Vector2(15f, -15f); // Default: bottom-right
+            float tooltipWidth = toolTip.rectTransform.rect.width;
+            float tooltipHeight = toolTip.rectTransform.rect.height;
+
+            // Check right edge
+            if (localPoint.x + offset.x + tooltipWidth > canvasRect.rect.xMax)
+            {
+                offset.x = -tooltipWidth - 15f; // Flip to left
+            }
+            // Check left edge
+            if (localPoint.x + offset.x < canvasRect.rect.xMin)
+            {
+                offset.x = 15f; // Force to right if it still doesn't fit
+            }
+
+            // Check bottom edge
+            if (localPoint.y + offset.y - tooltipHeight < canvasRect.rect.yMin)
+            {
+                offset.y = tooltipHeight + 15f; // Flip to top
+            }
+            // Check top edge
+            if (localPoint.y + offset.y > canvasRect.rect.yMax)
+            {
+                offset.y = -15f; // Force to bottom if it still doesn't fit
+            }
+
+            toolTip.rectTransform.anchoredPosition = localPoint + offset;
+        }
+        else
+        {
+            toolTip.transform.position = screenPoint;
+        }
     }
 
     public void HideTooltip()
