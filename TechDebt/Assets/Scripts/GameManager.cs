@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour, iModifiable
     public GlobalNetworkPacketState NetworkPacketState = GlobalNetworkPacketState.Running;
     
     public TutorialManager TutorialManager;
+    public LocalizationManager localizationManager;
 
     public Technology CurrentlyResearchingTechnology { get; private set; }
     public ModifierCollection Rewards { get; set; } = new  ModifierCollection();
@@ -346,6 +347,7 @@ public class GameManager : MonoBehaviour, iModifiable
 #endif
         
         _instance = this;
+        _instance.localizationManager = new LocalizationManager();
         
         OnInfrastructureStateChange += HandleInfrastructureStateChange;
         OnTechnologyStateChange += HandleTechnologyStateChange;

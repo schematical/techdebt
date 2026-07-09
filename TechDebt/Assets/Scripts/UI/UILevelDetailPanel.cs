@@ -11,9 +11,15 @@ namespace UI
             UIPanelLineSectionText difficultyText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
             difficultyText.text.text =
                 $"Difficulty: {GameManager.Instance.GetStatValue(StatType.Difficulty)}";
-            difficultyText.SetToolTip("The difficulty affects things like how quickly traffic or tech debt increases");
-            AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+            difficultyText.SetToolTip(
+                GameManager.Instance.localizationManager.GetStatTypeData(StatType.Difficulty).ToolTip
+                );
+            UIPanelLineSectionText rarityText = AddLine<UIPanelLine>().Add<UIPanelLineSectionText>();
+            rarityText.text.text =
                 $"Rarity: {GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier)}";
+            rarityText.SetToolTip(
+                GameManager.Instance.localizationManager.GetStatTypeData(StatType.Global_LevelUpRarityModifier).ToolTip
+            );
             rewardsLine = AddLine<UIPanelLine>();
             rewardsLine.Add<UIPanelLineSectionText>().text.text = $"Rewards";
             rewardsLine.SetExpandable(OnExpandRewards);

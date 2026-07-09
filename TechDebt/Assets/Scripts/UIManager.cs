@@ -589,23 +589,30 @@ public class UIManager : MonoBehaviour
         if (height <= 0) height = rect.rect.height * canvas.scaleFactor;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        Vector2 targetScreenPos = mousePos + new Vector2(20, -20); // Initial offset: bottom-right
+        
+        // targetTopLeft is where the Top-Left corner of the tooltip should be
+        Vector2 targetTopLeft = mousePos + new Vector2(20, -20); 
 
         // Flip to left if it would go off the right edge
-        if (targetScreenPos.x + width > Screen.width)
-            targetScreenPos.x = mousePos.x - width - 20;
+        if (targetTopLeft.x + width > Screen.width)
+            targetTopLeft.x = mousePos.x - width - 20;
         
         // Flip to top if it would go off the bottom edge
-        if (targetScreenPos.y - height < 0)
-            targetScreenPos.y = mousePos.y + height + 20;
+        if (targetTopLeft.y - height < 0)
+            targetTopLeft.y = mousePos.y + height + 20;
 
         // Clamp to screen edges with a small margin
-        targetScreenPos.x = Mathf.Clamp(targetScreenPos.x, 5, Screen.width - width - 5);
-        targetScreenPos.y = Mathf.Clamp(targetScreenPos.y, height + 5, Screen.height - 5);
+        targetTopLeft.x = Mathf.Clamp(targetTopLeft.x, 5, Screen.width - width - 5);
+        targetTopLeft.y = Mathf.Clamp(targetTopLeft.y, height + 5, Screen.height - 5);
 
-        // Position the tooltip by its top-left pivot
-        rect.pivot = new Vector2(0, 1);
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(parentRect, targetScreenPos, cam, out Vector3 worldPoint))
+        // Calculate the target pivot position based on the current pivot settings
+        // Pivot (0,1) is top-left, (1,0) is bottom-right, (0.5, 0.5) is center.
+        Vector2 targetPivotPos = new Vector2(
+            targetTopLeft.x + (rect.pivot.x * width),
+            targetTopLeft.y - ((1 - rect.pivot.y) * height)
+        );
+
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(parentRect, targetPivotPos, cam, out Vector3 worldPoint))
         {
             rect.position = worldPoint;
         }
