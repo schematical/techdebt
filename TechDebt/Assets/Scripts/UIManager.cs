@@ -565,51 +565,48 @@ public class UIManager : MonoBehaviour
         toolTip.CleanUp();
         onToolTip(toolTip);
         
-        // Force layout refresh to get accurate size
+        // Force layout refresh to get accurate size after content is added
         toolTip.RefreshLayout();
 
-        Vector2 screenPoint = Mouse.current.position.ReadValue();
         Canvas canvas = toolTip.GetComponentInParent<Canvas>();
-        if (canvas != null)
+        if (canvas == null) return;
+        
+        Camera cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+        RectTransform rect = toolTip.rectTransform;
+        RectTransform parentRect = rect.parent as RectTransform;
+
+        // Get current screen size of the tooltip
+        Vector3[] corners = new Vector3[4];
+        rect.GetWorldCorners(corners);
+        Vector2 s0 = RectTransformUtility.WorldToScreenPoint(cam, corners[0]);
+        Vector2 s2 = RectTransformUtility.WorldToScreenPoint(cam, corners[2]);
+        float width = Mathf.Abs(s2.x - s0.x);
+        float height = Mathf.Abs(s2.y - s0.y);
+        
+        // Fallback for first frame if width/height isn't yet calculated by GetWorldCorners
+        if (width <= 0) width = rect.rect.width * canvas.scaleFactor;
+        if (height <= 0) height = rect.rect.height * canvas.scaleFactor;
+
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Vector2 targetScreenPos = mousePos + new Vector2(20, -20); // Initial offset: bottom-right
+
+        // Flip to left if it would go off the right edge
+        if (targetScreenPos.x + width > Screen.width)
+            targetScreenPos.x = mousePos.x - width - 20;
+        
+        // Flip to top if it would go off the bottom edge
+        if (targetScreenPos.y - height < 0)
+            targetScreenPos.y = mousePos.y + height + 20;
+
+        // Clamp to screen edges with a small margin
+        targetScreenPos.x = Mathf.Clamp(targetScreenPos.x, 5, Screen.width - width - 5);
+        targetScreenPos.y = Mathf.Clamp(targetScreenPos.y, height + 5, Screen.height - 5);
+
+        // Position the tooltip by its top-left pivot
+        rect.pivot = new Vector2(0, 1);
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(parentRect, targetScreenPos, cam, out Vector3 worldPoint))
         {
-            RectTransform canvasRect = canvas.transform as RectTransform;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvasRect,
-                screenPoint,
-                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
-                out Vector2 localPoint);
-
-            Vector2 offset = new Vector2(15f, -15f); // Default: bottom-right
-            float tooltipWidth = toolTip.rectTransform.rect.width;
-            float tooltipHeight = toolTip.rectTransform.rect.height;
-
-            // Check right edge
-            if (localPoint.x + offset.x + tooltipWidth > canvasRect.rect.xMax)
-            {
-                offset.x = -tooltipWidth - 15f; // Flip to left
-            }
-            // Check left edge
-            if (localPoint.x + offset.x < canvasRect.rect.xMin)
-            {
-                offset.x = 15f; // Force to right if it still doesn't fit
-            }
-
-            // Check bottom edge
-            if (localPoint.y + offset.y - tooltipHeight < canvasRect.rect.yMin)
-            {
-                offset.y = tooltipHeight + 15f; // Flip to top
-            }
-            // Check top edge
-            if (localPoint.y + offset.y > canvasRect.rect.yMax)
-            {
-                offset.y = -15f; // Force to bottom if it still doesn't fit
-            }
-
-            toolTip.rectTransform.anchoredPosition = localPoint + offset;
-        }
-        else
-        {
-            toolTip.transform.position = screenPoint;
+            rect.position = worldPoint;
         }
     }
 
