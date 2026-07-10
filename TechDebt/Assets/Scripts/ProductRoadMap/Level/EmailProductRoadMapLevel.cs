@@ -9,6 +9,8 @@ public class EmailMapLevel:MapLevel
         SpriteId = "IconEmail";
         Direction = MapNodeDirection.Right;
         DependencyIds.Add("UserSignupProductRoadMapLevel");
+        AddCashReward(250, 500);
+        AddPrestigePointsReward();
         VictoryConditions.Add(new InfraActiveVictoryCondition()
         {
             TargetId = "email-service"

@@ -8,6 +8,8 @@ public class CheckoutCartLevel : MapLevel
         SpriteId = "IconCart";
         RequiredStakeholderId = "cmo";
         DependencyIds.Add("OnlinePaymentsProductRoadMapLevel");
+        AddCashReward(500, 1000);
+        AddPrestigePointsReward(2);
         UnlockConditions.Add(new UnlockCondition()
         {
             Type = UnlockCondition.ConditionType.Stakeholder,

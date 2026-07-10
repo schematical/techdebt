@@ -35,7 +35,7 @@ public class UISaveSlotDetailPanel : UIPanel
         {
             AddButton("Start Run", StartRun);
         }*/
-        AddButton("Start Run", StartRun);
+        AddButton("New Run", StartRun);
 
 
         AddButton("Challenges", ShowChallenges);

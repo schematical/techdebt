@@ -62,6 +62,7 @@ namespace UI
                         break;
                 }
             }
+            AddButton("Back", () => { Close(); GameManager.Instance.UIManager.saveSlotDetailPanel.Show(); });
          
         }
 
@@ -82,12 +83,12 @@ namespace UI
                     
                     difficultyStatModifier =
                         new StatModifier("difficulty_" + stage, 1.05f);
-                    rarityStatModifier =  new StatModifier("rarity_" + stage, 1.05f);
+                    rarityStatModifier =  new StatModifier("rarity_" + stage, 1.1f);
                     break;
                 case(GameStage.SeriesA):
                     difficultyStatModifier =
                         new StatModifier("difficulty_" + stage, 1.15f);
-                    rarityStatModifier =  new StatModifier("rarity_" + stage, 1.15f);
+                    rarityStatModifier =  new StatModifier("rarity_" + stage, 1.25f);
                     break;
             }
 

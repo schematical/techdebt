@@ -9,6 +9,8 @@ public class DiskSpaceLevel : MapLevel
         RequiredStakeholderId = "cto";
         Direction = MapNodeDirection.Down;
         DependencyIds.Add("LaunchMapLevel");
+        AddCashReward(100, 250);
+        AddPrestigePointsReward(2);
         UnlockConditions.Add(new UnlockCondition()
         {
             Type = UnlockCondition.ConditionType.Stakeholder,

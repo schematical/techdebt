@@ -14,6 +14,8 @@ public class SaasLevel : MapLevel
             Level = 1,
             TargetId = "cmo"
         });
+        AddCashReward(500, 1000);// TODO scale this with difficulty.
+        AddPrestigePointsReward();
     }
 
     public override string GetDescription()

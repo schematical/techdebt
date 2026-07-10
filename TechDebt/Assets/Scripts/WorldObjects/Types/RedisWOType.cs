@@ -25,5 +25,33 @@ public class RedisWOType : WorldObjectType
                 TargetId = "redis"
             }
         };
+        networkPackets = new List<InfrastructureDataNetworkPacket>()
+        {
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.Text,
+                loadPerPacket = 10
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.MaliciousText,
+                loadPerPacket = 20
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.Image,
+                loadPerPacket = 100
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.PII,
+                loadPerPacket = 10
+            },
+            new InfrastructureDataNetworkPacket()
+            {
+                PacketType =  NetworkPacketData.PType.Purchase,
+                loadPerPacket = 5
+            }
+        };
     }
 }

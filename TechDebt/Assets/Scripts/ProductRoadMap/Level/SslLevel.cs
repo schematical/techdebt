@@ -9,6 +9,8 @@ public class SslLevel : MapLevel
         RequiredStakeholderId = "ciso";
         Direction = MapNodeDirection.Left;
         DependencyIds.Add("LaunchMapLevel");
+        AddCashReward(100, 300);// TODO scale this with difficulty.
+        AddPrestigePointsReward();
         UnlockConditions.Add(new UnlockCondition()
         {
             Type = UnlockCondition.ConditionType.Stakeholder,

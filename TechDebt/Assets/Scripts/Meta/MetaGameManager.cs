@@ -598,7 +598,7 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "dedicated-db-size-large",
-                DisplayName = "Database - Medium",
+                DisplayName = "Database - Large",
                 Description = "4x your Database Server's CPU/RAM and Costs",
                 ResearchTime = 30,
                 UnlockConditions = new List<UnlockCondition>()

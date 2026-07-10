@@ -17,7 +17,8 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
         SpriteId = "IconFlag";
         SprintDuration = 5;
         DependencyIds.Add("UserSignupProductRoadMapLevel");
-        
+        AddCashReward(100, 250);
+        AddPrestigePointsReward(2);
         SpecialReleaseVictoryCondition condition = new SpecialReleaseVictoryCondition(
             "Online Payments",
             "Allows User To Pay Online",

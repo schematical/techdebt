@@ -8,6 +8,8 @@ public class SecurityAuditMapLevel: MapLevel
         Name = "Security Audit Sprint";
         SpriteId = "IconLock";
         Direction = MapNodeDirection.Left;
+        AddCashReward(100, 250);
+        AddPrestigePointsReward(2);
         UnlockConditions.Add(new UnlockCondition()
         {
             Type = UnlockCondition.ConditionType.Stakeholder,

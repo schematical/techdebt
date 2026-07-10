@@ -16,8 +16,8 @@ public class UserSignupProductRoadMapLevel: MapLevel
         DependencyIds.Add("LaunchMapLevel");
         Direction = MapNodeDirection.Right;
 
-        AddCashReward(100, 300);// TODO scale this with difficulty.
-        
+        AddCashReward(100, 300);
+        AddPrestigePointsReward();
         SpecialReleaseVictoryCondition condition = new SpecialReleaseVictoryCondition(
             "User Signup/Login",
             "Allows User To Signup",
