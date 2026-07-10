@@ -697,7 +697,6 @@ public static class MetaGameManager
                 },
                 TutorialStepId = TutorialStepId.Infra_CDN_Tip,
                 Direction = Technology.TechTreeDirection.Down
-                // serve up X binary packets with the s3 bucket
             },
             new Technology()
             {
@@ -714,7 +713,6 @@ public static class MetaGameManager
                 },
                 TutorialStepId = TutorialStepId.Infra_LoadBalancer_Tip,
                 Direction = Technology.TechTreeDirection.Down
-                // ??? Make it to day y?
             },
             new Technology()
             {
@@ -728,7 +726,6 @@ public static class MetaGameManager
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
                 },
                 Direction = Technology.TechTreeDirection.Down
-                // Scale up your dedicated-db to level 2
             },
             new Technology()
             {
