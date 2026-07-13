@@ -14,7 +14,7 @@ namespace Effects
         }
         public override void OnFinish()
         {
-            npc.Stats.RemoveModifier(StatType.NPC_MovmentSpeed, statModifier);
+            npc.Stats.RemoveModifier(StatType.NPC_MovementSpeed, statModifier);
         }
     }
 }

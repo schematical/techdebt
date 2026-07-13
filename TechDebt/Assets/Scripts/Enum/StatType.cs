@@ -30,7 +30,7 @@ public enum StatType
     
     ItemDropChance,
     EventCheckEverySeconds,
-    NPC_MovmentSpeed,
+    NPC_MovementSpeed,
     NPC_XPSpeed,
     NPC_DevOpsSpeed,
     NPC_ResearchSpeed,
@@ -46,7 +46,7 @@ public enum StatType
     NPC_AttackDamage,
     TechDebt_AccumulationRate,
     
-    NetworkPacket_Probibility,
+    NetworkPacket_Probability,
     NetworkPacket_ValueMin,
     NetworkPacket_ValueMax,
     TotalNetworkPacketLatency,

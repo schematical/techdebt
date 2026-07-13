@@ -14,7 +14,7 @@ namespace Items
         {
             StatModifier statModifier = new StatModifier("item_EnergyDrink", 2f);
             GameManager.Instance.AddEffect(new EnergyDrinkEffect(npc, statModifier));
-            npc.Stats.AddModifier(StatType.NPC_MovmentSpeed, statModifier);
+            npc.Stats.AddModifier(StatType.NPC_MovementSpeed, statModifier);
             // Deactivate the nuke item after use so it can be pooled.
             gameObject.SetActive(false);
         }

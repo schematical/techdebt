@@ -39,7 +39,7 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
         
         modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
-        modifier.statType = StatType.NetworkPacket_Probibility;
+        modifier.statType = StatType.NetworkPacket_Probability;
         modifier.networkPacketType = NetworkPacketData.PType.Purchase;
         modifier.Direction = MapLevelModifier.ModifierDirection.Positive;
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
@@ -59,7 +59,7 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
     {
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probability].SetBaseValue(5);
         NPCBase npc =
             GameManager.Instance.AllNpcs.Find((npc) => npc.GetComponent<NPCSchematicalBot>() != null);
         npc.ShowDialogBubble().SimpleDisplay(
@@ -71,7 +71,7 @@ public class OnlinePaymentsProductRoadMapLevel: MapLevel
     {
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probability].SetBaseValue(5);
         GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NetworkPacket_Purchase);
 
     }

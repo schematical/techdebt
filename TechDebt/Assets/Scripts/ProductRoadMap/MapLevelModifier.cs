@@ -74,7 +74,7 @@ public class MapLevelModifier
     {
         return new List<StatType>()
         {
-            StatType.NetworkPacket_Probibility,
+            StatType.NetworkPacket_Probability,
             StatType.Traffic,
             StatType.TechDebt_AccumulationRate
         };
@@ -159,7 +159,7 @@ public class MapLevelModifier
 
                 switch (statType)
                 {
-                    case (StatType.NetworkPacket_Probibility):
+                    case (StatType.NetworkPacket_Probability):
                         // Find and apply this to 
                         NetworkPacketData networkPacketData =
                             GameManager.Instance.GetNetworkPacketDataByType(networkPacketType);

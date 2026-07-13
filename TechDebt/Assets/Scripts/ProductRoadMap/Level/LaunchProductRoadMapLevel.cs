@@ -31,7 +31,7 @@ public class LaunchMapLevel: MapLevel
         
         modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
-        modifier.statType = StatType.NetworkPacket_Probibility;
+        modifier.statType = StatType.NetworkPacket_Probability;
         modifier.networkPacketType = NetworkPacketData.PType.Purchase;
         modifier.Direction = MapLevelModifier.ModifierDirection.Positive;
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;

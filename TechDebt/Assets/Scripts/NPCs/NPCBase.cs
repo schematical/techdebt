@@ -82,7 +82,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public virtual void Initialize()
     {
         Stats.Clear();
-        Stats.Add(new StatData(StatType.NPC_MovmentSpeed, 3f));
+        Stats.Add(new StatData(StatType.NPC_MovementSpeed, 3f));
         Stats.Add(new StatData(StatType.NPC_HP, 5f));
         Stats.Add(new StatData(StatType.NPC_CoolDown, 1f));
         Stats.Add(new StatData(StatType.NPC_AttackDamage, 1f));
@@ -404,7 +404,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
-            Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovmentSpeed) * Time.fixedDeltaTime);
+            Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovementSpeed) * Time.fixedDeltaTime);
             transform.position = new Vector3(nextPos.x, nextPos.y, targetWaypoint.z);
         }
         else

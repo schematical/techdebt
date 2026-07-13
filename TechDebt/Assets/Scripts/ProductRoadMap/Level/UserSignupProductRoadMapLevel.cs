@@ -36,7 +36,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
         
         modifier = new MapLevelModifier();
         modifier.Type = MapLevelModifier.ModifierType.Stat;
-        modifier.statType = StatType.NetworkPacket_Probibility;
+        modifier.statType = StatType.NetworkPacket_Probability;
         modifier.networkPacketType = NetworkPacketData.PType.PII;
         modifier.Direction = MapLevelModifier.ModifierDirection.Positive;
         modifier.Duration = MapLevelModifier.ModifierDuration.LaunchDay;
@@ -57,7 +57,7 @@ public class UserSignupProductRoadMapLevel: MapLevel
     {
         NetworkPacketData networkPacketData =
             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.PII);
-        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probibility].SetBaseValue(5);
+        networkPacketData.Stats.Stats[StatType.NetworkPacket_Probability].SetBaseValue(5);
         NPCStakeholder npc =
             GameManager.Instance.GetNPCById<NPCStakeholder>("cmo");
         npc.ShowDialogBubble().SimpleDisplay(

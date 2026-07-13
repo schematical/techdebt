@@ -22,7 +22,7 @@ namespace NPCs
             severity = Severity.Minor;
             shadowOffset = new Vector2(0.0f, 0.0f);
             isEvolving = false;
-            Stats.Get(StatType.NPC_MovmentSpeed).SetBaseValue(1.5f);
+            Stats.Get(StatType.NPC_MovementSpeed).SetBaseValue(1.5f);
         }
 
   

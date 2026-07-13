@@ -563,7 +563,7 @@ public class UIManager : MonoBehaviour
     {
         toolTip.gameObject.SetActive(true);
         toolTip.CleanUp();
-        toolTip.Shake();
+        // toolTip.Shake();
         onToolTip(toolTip);
         
         // Force layout refresh to get accurate size after content is added

@@ -1288,7 +1288,7 @@ public static class MetaGameManager
                 Id = "move_speed",
                 Name = "Fast Move Speed",
                 Description = "Moves faster",
-                StatType = StatType.NPC_MovmentSpeed,
+                StatType = StatType.NPC_MovementSpeed,
                 IconSpriteId = "IconMovementSpeed"
             },
             new NPCStatModifierReward()
@@ -1427,7 +1427,7 @@ public static class MetaGameManager
                 Id = "sale_page_optimization",
                 Name = "Sales Page Optimization",
                 Description = "Increases Purchase Probability",
-                StatType = StatType.NetworkPacket_Probibility,
+                StatType = StatType.NetworkPacket_Probability,
                 NetworkPacketType = NetworkPacketData.PType.Purchase,
                 IconSpriteId = "IconCart",
                 UnlockConditions = new List<UnlockCondition>()

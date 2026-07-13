@@ -24,14 +24,14 @@ public class NetworkPacketData: iModifiable
 
     public NetworkPacketData(float probibility)
     {
-        Stats.Add(new StatData(StatType.NetworkPacket_Probibility, probibility));
+        Stats.Add(new StatData(StatType.NetworkPacket_Probability, probibility));
         Stats.Add(new StatData(StatType.NetworkPacket_LoadLatencyMultiplier, 10));
     }
 
 
     public float GetProbability()
     {
-        return Stats.GetStatValue(StatType.NetworkPacket_Probibility);
+        return Stats.GetStatValue(StatType.NetworkPacket_Probability);
     }
     // public int incomePerPacket = 0;
 }
