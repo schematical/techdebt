@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class InternetPipe : InfrastructureInstance
 {
@@ -9,7 +12,13 @@ public class InternetPipe : InfrastructureInstance
         Normal,
         DDoS
     }
+    public enum InternetPipeFirewallState
+    {
+        Allow,
+        Block
+    }
     public InternetPipeState  State { get; protected set;  } = InternetPipeState.Normal;
+    public InternetPipeFirewallState  FirewallState { get; protected set;  } = InternetPipeFirewallState.Allow;
     protected Animator animator;
     protected float ddosDuration = -1;
     protected override void Awake()
@@ -85,7 +94,11 @@ public class InternetPipe : InfrastructureInstance
         string fileName = $"file_{networkPacketData.Type}_{Random.Range(1000, 9999)}.dat";
         
         NetworkPacket packet = GameManager.Instance.CreatePacket(networkPacketData, fileName, 1, this);
-                
+        if (FirewallState == InternetPipeFirewallState.Block)
+        {
+            packet.MarkBlocked();
+        }
+
         packet.SetNextTarget(targetReceiver);
         return packet;
 
@@ -146,5 +159,32 @@ public class InternetPipe : InfrastructureInstance
 
     public override void ShowAttentionIcon()
     {
+    }
+    public override List<NPCTask> GetAvailableTasks()
+    {
+        List<NPCTask> availableTasks = base.GetAvailableTasks();
+        if (!GameManager.Instance.GetTechnologyByID("waf").IsUnlocked())
+        {
+            return availableTasks;
+        }
+        availableTasks.Reverse();
+        switch (FirewallState)
+        {
+            case (InternetPipeFirewallState.Allow):
+               availableTasks.Add(new FirewallTask(this, InternetPipeFirewallState.Block));
+                break;
+            case (InternetPipeFirewallState.Block):
+                availableTasks.Add(new FirewallTask(this, InternetPipeFirewallState.Allow));
+                break;
+            default:
+                throw new NotImplementedException($"No state for {FirewallState} available.");
+        }
+        availableTasks.Reverse();
+        return availableTasks;
+    }
+
+    public void SetFirewallState(InternetPipeFirewallState state)
+    {
+        FirewallState = state;
     }
 }

@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 
 namespace DefaultNamespace.NetworkPackets
 {
-    public class SQLInjectionNetworkPacket: NetworkPacket
+    public class BlockedNetworkPacket: NetworkPacket
     {
-     
+ 
         public override void Initialize(NetworkPacketData npData, string fileName, int size,
             InfrastructureInstance origin = null)
         {
@@ -23,14 +23,30 @@ namespace DefaultNamespace.NetworkPackets
             spriteRenderer.flipX = true;
             base.StartReturn();
         }
-        public override void MarkStolen()
+
+        protected override void FixedUpdate()
+        {
+            if (!IsReturning())
+            {
+                 base.FixedUpdate();
+                 return;
+            }
+
+            BlockTimer -= Time.fixedDeltaTime;
+            if (BlockTimer <= 0)
+            {
+                StartReturn();
+                MoveToNextNode();
+            }
+            base.FixedUpdate();
+        }
+        /*public override void MarkStolen()
         {
             spriteRenderer.sprite = GameManager.Instance.SpriteManager.GetSprite("SQLInjectionNetworkPacket", "1");
-            base.MarkStolen();
             StartReturn();
             MoveToNextNode();
-        }
-        public override NetworkPacketRouteAction OnInfraContact(InfrastructureInstance infrastructureInstance)
+        }*/
+        /*public override NetworkPacketRouteAction OnInfraContact(InfrastructureInstance infrastructureInstance)
         {
             if (IsReturning())
             {
@@ -64,15 +80,15 @@ namespace DefaultNamespace.NetworkPackets
                     
             }
       
-        }
-        public override void OnLeftClick(PointerEventData eventData)
+        }*/
+        /*public override void OnLeftClick(PointerEventData eventData)
         {
             base.OnLeftClick(eventData);
             if (GameManager.Instance.TutorialManager != null)
             {
                 GameManager.Instance.TutorialManager.ForceRender(TutorialStepId.NPC_SQLInjection_View);
             }
-        }
+        }*/
        
     }
 }

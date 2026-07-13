@@ -7,7 +7,6 @@ using MetaChallenges;
 using NPCs;
 using Stats;
 using UI;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MapLevel : iUIMapNode, iUnlockable

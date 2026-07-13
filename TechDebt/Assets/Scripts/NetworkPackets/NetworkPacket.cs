@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 {
+    protected float BlockTimer = -1;
     public enum State { Running, Failed, Stolen }
     public enum NetworkPacketRouteAction { Normal, DefferToPacket }
     public State CurrentState = State.Running;
@@ -99,8 +100,25 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
             return;
         }
         CurrentLatency += Time.fixedDeltaTime;
-        
-        
+
+        if (BlockTimer > -1)
+        {
+            BlockTimer -= Time.fixedDeltaTime;
+            // Debug.Log($"BlockTimer: {BlockTimer}");
+            if (BlockTimer <= 0)
+            {
+                
+                StartReturn();
+                MoveToNextNode();
+                AttachSparks();
+                if (data.Type != NetworkPacketData.PType.MaliciousText)
+                {
+                    MarkFailed();
+                }
+                BlockTimer = -1;
+            }
+        }
+
         if (Delay > 0)
         {
             Delay -= Time.fixedDeltaTime;
@@ -231,6 +249,11 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     {
         Speed *= 0.1f;
         Delay = packetDelay;
+    }
+
+    public void MarkBlocked()
+    {
+        BlockTimer = 1;
     }
 
     public virtual NetworkPacketRouteAction OnInfraContact(InfrastructureInstance infrastructureInstance)

@@ -102,7 +102,7 @@ public class TutorialProductRoadMapLevel: MapLevel
             {
                 new DialogButtonOption()
                 {
-                    Text = "View summary ane allocate `Vested Shares`", OnClick = () =>
+                    Text = "View summary and allocate `Vested Shares`", OnClick = () =>
                     {
                         npc.HideDialogBubble();
                        EndGame(true);
