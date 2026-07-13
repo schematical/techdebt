@@ -6,7 +6,7 @@ namespace UI
 {
     public class UIScreenParticle: MonoBehaviour
     {
-        public enum State { Falling, Fading}
+        public enum State { Falling, Fading, Parabolic }
 
         public enum Effects
         {
@@ -20,6 +20,10 @@ namespace UI
         public RectTransform rectTransform;
         public Image image;
         public UIFireParticle fireParticle;
+
+        private Vector2 _velocity;
+        private float _gravity = -800f; // UI coordinates gravity
+
         void Update()
         {
             Vector3[] corners = new Vector3[4];
@@ -29,7 +33,15 @@ namespace UI
             Vector3 bottomRight = corners[2];
             switch (state)
             {
-              
+                case (State.Parabolic):
+                    _velocity.y += _gravity * Time.unscaledDeltaTime;
+                    rectTransform.anchoredPosition += _velocity * Time.unscaledDeltaTime;
+
+                    if (rectTransform.anchoredPosition.y < -Screen.height)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                    break;
                 case(State.Falling):
               
                     rectTransform.position = new Vector2(rectTransform.position.x, rectTransform.position.y - Time.unscaledDeltaTime * 10);
@@ -84,6 +96,19 @@ namespace UI
 
             
         }
+        public void InitParabolic(Sprite sprite, Vector2 velocity)
+        {
+            image.color = Color.white;
+            image.sprite = sprite;
+            state = State.Parabolic;
+            _velocity = velocity;
+            gameObject.SetActive(true);
+
+            float ratio = sprite.rect.width / sprite.rect.height;
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 50 * ratio);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 50);
+        }
+
         public void Init(Sprite sprite, float rotationZ = 0, List<Effects> _activeEffects = null)
         {
             image.color = Color.white;

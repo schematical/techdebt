@@ -94,7 +94,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 0.875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3017796477760368143
 MonoBehaviour:
@@ -110,10 +110,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI.ScreenParticle
   rectTransform: {fileID: 3136365589203017636}
   sprites:
-  - {fileID: 811600723230687096, guid: 48eeb852a85c3f1439bc172cc06fcf32, type: 3}
-  - {fileID: -3471169532445346750, guid: 787de3a3db9353e41afc234aab9faaa4, type: 3}
-  - {fileID: 1174979768653930288, guid: 1249b46c6e30e2e49a1446c563a80c1f, type: 3}
-  - {fileID: 6782649269711761034, guid: 7173297d32612494385a4c03e8770b85, type: 3}
-  - {fileID: 3147240803845962189, guid: 83661e17d1945f245b88cdb7bf007bb8, type: 3}
-  - {fileID: 1101350380903433583, guid: 17cbf24393a9fa941b8d0b2cbde5d9c6, type: 3}
+  - {fileID: 748538453, guid: 48eeb852a85c3f1439bc172cc06fcf32, type: 3}
+  - {fileID: 201751350, guid: 787de3a3db9353e41afc234aab9faaa4, type: 3}
+  - {fileID: 568079580, guid: 1249b46c6e30e2e49a1446c563a80c1f, type: 3}
+  - {fileID: -82188816, guid: 7173297d32612494385a4c03e8770b85, type: 3}
+  - {fileID: 1836878594, guid: 83661e17d1945f245b88cdb7bf007bb8, type: 3}
+  - {fileID: -463002889, guid: 17cbf24393a9fa941b8d0b2cbde5d9c6, type: 3}
   spriteRenderer: {fileID: 6528075928326080853}
