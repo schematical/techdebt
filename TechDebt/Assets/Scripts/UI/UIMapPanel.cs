@@ -124,13 +124,14 @@ namespace UI
 
         public override void Show()
         {
+            bool isInitialShow = !IsOpen();
             base.Show();
             GameManager.Instance.UIManager.ForcePause();
             GameManager.Instance.UIManager.victoryConditionListPanel.Close();
             grid.gameObject.SetActive(true);
             Refresh();
             GameManager.Instance.cameraController.DisableCameraInput();
-            CenterTilemapOnCamera();
+            CenterTilemapOnCamera(isInitialShow);
         }
 
         public override void Close(bool forceClose = false)
@@ -421,23 +422,43 @@ namespace UI
             nodeTilemap.RefreshAllTiles();
         }
 
-        protected virtual void CenterTilemapOnCamera()
+        protected virtual void CenterTilemapOnCamera(bool zoomToFit = false)
         {
+            Debug.Log("CenterTilemapOnCamera");
             var visibleNodes = _mapNodes.Where(IsNodeVisible).ToList();
             if (visibleNodes.Count == 0 || Camera.main == null) return;
 
             // Center on the first visible root node or the first visible node
             MapNodeView targetNode = visibleNodes.FirstOrDefault(n => n.DependencyIds == null || n.DependencyIds.Count == 0) ?? visibleNodes[0];
 
-            Vector3 worldPos = nodeTilemap.GetCellCenterWorld((Vector3Int)targetNode.Position);
-            
-            // Move the camera to (0,0) and move the grid so the target node is at (0,0)
-            Vector3 targetCenter = Vector3.zero;
-            GameManager.Instance.cameraController.SnapTo(targetCenter, 10f);
-            
             Transform gridTransform = connectorTilemap.transform.parent;
-            gridTransform.position = targetCenter - worldPos;
+            // Absolute local positioning: Snap grid so the target node's local position aligns with world (0,0)
+            Vector3 localPos = nodeTilemap.GetCellCenterLocal((Vector3Int)targetNode.Position);
+            Vector3 targetCenter = Vector3.zero;
+            gridTransform.position = targetCenter - localPos;
             gridTransform.position = new Vector3(gridTransform.position.x, gridTransform.position.y, 0);
+
+            float zoom = 10f;
+            if (zoomToFit)
+            {
+                float maxAbsX = 0f;
+                float maxAbsY = 0f;
+                foreach (MapNodeView node in visibleNodes)
+                {
+                    // Calculate relative distance in local space
+                    Vector3 nodeLocalPos = nodeTilemap.GetCellCenterLocal((Vector3Int)node.Position);
+                    Vector3 relativePos = nodeLocalPos - localPos;
+                    maxAbsX = Mathf.Max(maxAbsX, Mathf.Abs(relativePos.x));
+                    maxAbsY = Mathf.Max(maxAbsY, Mathf.Abs(relativePos.y));
+                }
+
+                float padding = 4f;
+                float aspect = Camera.main.aspect;
+                zoom = Mathf.Max(maxAbsY + padding, (maxAbsX + padding) / aspect);
+                zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
+            }
+
+            GameManager.Instance.cameraController.SnapTo(targetCenter, zoom);
         }
 
         // Procedural Layout Logic

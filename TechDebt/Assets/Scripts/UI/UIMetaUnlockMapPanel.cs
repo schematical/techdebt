@@ -99,6 +99,7 @@ namespace UI
         {
             // We manually implement Show logic to avoid base.Show() triggering an immediate SlideIn()
             // of the entire detail panel. We want the object active but the UI hidden.
+            bool isInitialShow = !IsOpen();
             
             if (runUICloseOnShow)
             {
@@ -138,10 +139,9 @@ namespace UI
             Refresh();
             
             GameManager.Instance.cameraController.DisableCameraInput();
-            CenterTilemapOnCamera();
             
             // Default to first tab (Technology)
-            SwitchTab(0);
+            SwitchTab(0, isInitialShow);
         }
 
         protected override void SelectNode(MapNodeView nodeView)
@@ -155,12 +155,12 @@ namespace UI
             }
         }
 
-        public void SwitchTab(int index)
+        public void SwitchTab(int index, bool zoomToFit = false)
         {
             _currentTabIndex = index;
             _selectedNode = null;
             Refresh();
-            CenterTilemapOnCamera();
+            CenterTilemapOnCamera(zoomToFit);
         }
         
 
