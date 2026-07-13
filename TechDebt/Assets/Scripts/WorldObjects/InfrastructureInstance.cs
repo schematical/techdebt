@@ -562,7 +562,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public override List<NPCTask> GetAvailableTasks()
     {
-        WorldObjectType worldObjectType = GetWorldObjectType();
+
         List<NPCTask> availableTasks = new List<NPCTask>();
         switch (data.CurrentState)
         {
@@ -571,25 +571,11 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
           
                 break;
             case (InfrastructureData.State.Operational):
-                InfraSize maxSize = worldObjectType.GetMaxSize();
-                if (
-                    CurrentSize != InfraSize.Small
-                ) {
-                    availableTasks.Add(new ResizeTask(this, -1));
-                }
-
-                if (
-                    maxSize != InfraSize.Small &&
-                    maxSize != CurrentSize 
-                )
-                {
-                    availableTasks.Add(new ResizeTask(this, 1));
-                }
-
+                AddResizeButtons(availableTasks);
                 break;
             case (InfrastructureData.State.Frozen):
                 availableTasks.Add(new FixFrozenTask(this));
-                
+                AddResizeButtons(availableTasks);
                 break;
         }
 
@@ -597,6 +583,25 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return availableTasks;
     }
 
+    protected void AddResizeButtons(List<NPCTask> availableTasks)
+    {
+        WorldObjectType worldObjectType = GetWorldObjectType();
+        InfraSize maxSize = worldObjectType.GetMaxSize();
+        if (
+            CurrentSize != InfraSize.Small
+        ) {
+            availableTasks.Add(new ResizeTask(this, -1));
+        }
+
+        if (
+            maxSize != InfraSize.Small &&
+            maxSize != CurrentSize 
+        )
+        {
+            availableTasks.Add(new ResizeTask(this, 1));
+        }
+
+    }
     
 
     public void ReceiveAttack(NPCBase npcBase)

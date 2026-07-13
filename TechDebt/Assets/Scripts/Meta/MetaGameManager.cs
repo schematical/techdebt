@@ -747,7 +747,7 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "waf",
-                DisplayName = "Web Application Firewall(WAF)",
+                DisplayName = "Basic Firewall",
                 Description = "Filters out bad traffic.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
@@ -1212,7 +1212,7 @@ public static class MetaGameManager
             },
             new MetaChallengeBase()
             {
-                ChallengeID = "cloud-watch-metrics",
+                ChallengeID = "sns",
                 DisplayName = "Metrics",
                 Description = "Successfully make it to Sprint 2",
                 metaStat = MetaStat.Sprint,

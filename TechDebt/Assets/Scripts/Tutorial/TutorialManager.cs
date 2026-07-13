@@ -799,7 +799,9 @@ namespace Tutorial
                         TutorialStepId.Infra_WAF_Tip,
                         "Firewall",
                         "A Firewall protects your application from common malicious exploits and attacks.\n" +
-                        "It monitors network packets and filters out bad actors before they reach your servers.\n"
+                        "It monitors network packets and filters out bad actors before they reach your servers.\n" + 
+                        "Click on the internet pipe you want to block and assign the task to your team.\n" + 
+                        "Be careful, blocking non-malicious internet traffic will result in a failed packet."
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
