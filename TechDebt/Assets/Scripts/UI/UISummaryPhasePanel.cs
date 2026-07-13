@@ -14,6 +14,7 @@ namespace UI
         private List<MetaChallengeBase> _claimedChallenges = new();
         private bool _pendingDifficultyUnlock;
         private bool _difficultyClaimed;
+        private UIPanelButton _lastClaimButton;
 
         public void ShowSummary(List<MapLevelVictoryConditionBase> victoryConditions, MetaProgressUpdateContext context)
         {
@@ -56,7 +57,7 @@ namespace UI
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2(label);
             }
             
-            if (_claimedChallenges.Count > 0 || _pendingChallenges.Count > 0)
+            if (_claimedChallenges.Count > 0)
             {
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Unlocked");
                 foreach (MetaChallengeBase metaChallenge in _claimedChallenges)
@@ -64,16 +65,11 @@ namespace UI
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
                         $" - {metaChallenge.DisplayName} (Claimed)";
                 }
-                foreach (MetaChallengeBase metaChallenge in _pendingChallenges)
-                {
-                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
-                        $" - {metaChallenge.DisplayName}";
-                }
             }
 
             if (hasPending)
             {
-                AddButton("Claim Reward", () =>
+                _lastClaimButton = AddButton("Claim Reward", () =>
                 {
                     bool claimed = false;
                     if (_pendingDifficultyUnlock)
@@ -130,8 +126,13 @@ namespace UI
                 "ParticleRam1"
             };
 
-     
-            // Parent to this panel so they are always on top of the background
+            Vector2 spawnPos = Vector2.zero;
+            {
+                // We use anchoredPosition relative to the panel.
+                spawnPos = _lastClaimButton.transform.position;
+            }
+
+            // Parent to this panel so they are always on top of the background but behind other elements
             for (int i = 0; i < 20; i++)
             {
                 string spriteString = particleSprites[Random.Range(0, particleSprites.Count)];
@@ -139,8 +140,11 @@ namespace UI
                 GameObject particleGO = GameManager.Instance.prefabManager.Create("UIScreenParticle", Vector3.zero, GameManager.Instance.UIManager.transform);
                 UIScreenParticle particle = particleGO.GetComponent<UIScreenParticle>();
                 
-                // Initialize position to the middle of this panel
-                particle.rectTransform.anchoredPosition = Vector2.zero;
+                // Set sibling index to 0 to be behind everything else in the panel
+                particle.transform.SetAsFirstSibling();
+                
+                // Initialize position to the middle of the last claim button
+                particle.rectTransform.anchoredPosition = spawnPos;
                 
                 float angle = Random.Range(45f, 135f) * Mathf.Deg2Rad;
                 float force = Random.Range(600f, 1200f);

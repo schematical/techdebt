@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.IO;
 using DefaultNamespace;
+using MetaChallenges;
 using NPCs;
 using Stats;
 using UI;
@@ -65,6 +66,26 @@ public class UIDebugPanel : UIPanel
         });
         AddButton("Make It Rain", () => { MakeItRain(); });
         AddButton("Misc", () => { RunMisc(); });
+        AddButton("Debug Summary", () => { TriggerDebugSummary(); });
+    }
+
+    private void TriggerDebugSummary()
+    {
+        Close();
+        MetaProgressUpdateContext context = new MetaProgressUpdateContext()
+        {
+            startingStage = GameStage.Tutorial,
+            currentStage = GameStage.Bootstrapped,
+            newlyPassedChallenges = new List<MetaChallengeBase>()
+            {
+                new MetaChallengeBase() { DisplayName = "Meta Reward 1" },
+                new MetaChallengeBase() { DisplayName = "Meta Reward 2" },
+                new MetaChallengeBase() { DisplayName = "Meta Reward 3" },
+                new MetaChallengeBase() { DisplayName = "Unlock 1" },
+                new MetaChallengeBase() { DisplayName = "Unlock 2" }
+            }
+        };
+        GameManager.Instance.UIManager.summaryPhasePanel.ShowSummary(new List<MapLevelVictoryConditionBase>(), context);
     }
 
     private UIPanelLine AddTrafficLine()
