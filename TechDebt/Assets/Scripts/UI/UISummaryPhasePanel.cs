@@ -69,7 +69,17 @@ namespace UI
 
             if (hasPending)
             {
-                _lastClaimButton = AddButton("Claim Reward", () =>
+                string buttonText = "Claim Reward";
+                if (_pendingDifficultyUnlock)
+                {
+                    buttonText = $"Claim Difficulty: {_context.currentStage}";
+                }
+                else if (_pendingChallenges.Count > 0)
+                {
+                    buttonText = $"Claim Reward: {_pendingChallenges[0].DisplayName}";
+                }
+
+                _lastClaimButton = AddButton(buttonText, () =>
                 {
                     bool claimed = false;
                     if (_pendingDifficultyUnlock)
@@ -126,25 +136,24 @@ namespace UI
                 "ParticleRam1"
             };
 
-            Vector2 spawnPos = Vector2.zero;
-            {
-                // We use anchoredPosition relative to the panel.
-                spawnPos = _lastClaimButton.transform.position;
-            }
+            if (_lastClaimButton == null || _lastClaimButton.button == null) return;
+            Vector3 worldSpawnPos = _lastClaimButton.button.transform.position;
 
-            // Parent to this panel so they are always on top of the background but behind other elements
+            // Parent to UIManager so they are siblings to the panels
             for (int i = 0; i < 20; i++)
             {
                 string spriteString = particleSprites[Random.Range(0, particleSprites.Count)];
                 Sprite sprite = GameManager.Instance.SpriteManager.GetSprite(spriteString);
-                GameObject particleGO = GameManager.Instance.prefabManager.Create("UIScreenParticle", Vector3.zero, GameManager.Instance.UIManager.transform);
+                
+                GameObject particleGO = GameManager.Instance.prefabManager.Create("UIScreenParticle", worldSpawnPos, GameManager.Instance.UIManager.transform);
                 UIScreenParticle particle = particleGO.GetComponent<UIScreenParticle>();
                 
-                // Set sibling index to 0 to be behind everything else in the panel
-                particle.transform.SetAsFirstSibling();
-                
-                // Initialize position to the middle of the last claim button
-                particle.rectTransform.anchoredPosition = spawnPos;
+                // Position at the button's world position
+                particle.transform.position = worldSpawnPos;
+
+                // Render in front of panel: Set index to panel index + 1
+                int panelIndex = transform.GetSiblingIndex();
+                particle.transform.SetSiblingIndex(panelIndex + 1);
                 
                 float angle = Random.Range(45f, 135f) * Mathf.Deg2Rad;
                 float force = Random.Range(600f, 1200f);
