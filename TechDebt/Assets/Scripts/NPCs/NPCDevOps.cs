@@ -338,7 +338,7 @@ public class NPCDevOps : NPCAnimatedBiped
     {
         LevelUpEnvGraphic levelUpEnvGraphic = GameManager.Instance.prefabManager.Create("LevelUpEnvGraphic",
             transform.position + new Vector3(0, 0, .1f)).GetComponent<LevelUpEnvGraphic>();
-        levelUpEnvGraphic.transform.localScale = Vector3.one;
+        levelUpEnvGraphic.transform.localScale = Vector3.one * 1.5f;
         GameManager.Instance.UIManager.SetTimeScalePause();
         levelUpEnvGraphic.Init(rarity, _onDone);
         levelUpEnvGraphic.Follow(this);

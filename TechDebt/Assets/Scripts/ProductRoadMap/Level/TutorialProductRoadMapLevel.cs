@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using DefaultNamespace;
+using DefaultNamespace.Rewards;
 using NPCs;
 using NUnit.Framework;
 using Stats;
@@ -18,7 +19,24 @@ public class TutorialProductRoadMapLevel: MapLevel
         SprintDuration = 5;
         
    
-        AddPrestigePointsReward();
+        // Tutorial Prestige Points
+        MapLevelReward levelCompleted = new MapLevelReward()
+        {
+            Id = $"{Id}_tutorial_completed",
+            Description = $"Tutorial {Name} Completed",
+            Type = MapLevelReward.MapLevelRewardType.Meta,
+            AppliedAt = MapLevelReward.MapLevelRewardApplied.End,
+            GameStage = GameStage.Tutorial,
+            Reward = new MetaStatBaseValueReward()
+            {
+                Id = "prestige_points",
+                Name = "Vested Shares",
+                Description = "Vested Shares allow you to unlock bonuses on future runs.",
+                BaseValue = 1,
+                IconSpriteId = "IconDollar"
+            },
+        };
+        LevelRewards.Add(levelCompleted);
         
         
         MapLevelModifier modifier = new MapLevelModifier();
@@ -87,6 +105,7 @@ public class TutorialProductRoadMapLevel: MapLevel
     }
     public override void OnLaunchDaySummary()
     {
+     
         GameManager.Instance.UIManager.ForcePause();
         MetaProgressData metaProgress = MetaGameManager.GetProgress();
         metaProgress.gameStage = GameStage.Bootstrapped;

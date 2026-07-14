@@ -58,8 +58,9 @@ namespace UI
         {
             _tabs = new List<UIMetaUnlockMapTabBase> 
             {
-                new UIMetaUnlockTechnologyTab(),
+       
                 new UIMetaUnlockBonusesTab(),
+                new UIMetaUnlockTechnologyTab(),
                 new UIMetaUnlockOrgChartTab()
             };
             foreach (UIMetaUnlockMapTabBase tab in _tabs)
@@ -140,7 +141,6 @@ namespace UI
             
             GameManager.Instance.cameraController.DisableCameraInput();
             
-            // Default to first tab (Technology)
             SwitchTab(0, isInitialShow);
         }
 

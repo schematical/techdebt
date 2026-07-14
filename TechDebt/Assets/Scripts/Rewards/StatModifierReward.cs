@@ -35,20 +35,15 @@ namespace Rewards
 
         public override void Apply()
         {
-            Debug.Log($"Applying StatModifier for Name: {Name}");
+            // Debug.Log($"Applying StatModifier for Name: {Name}");
             AttachedModifiable = GetTarget();
             StatModifier = BuildStatModifier();
             AttachedModifiable.Stats.AddModifier(StatType, StatModifier);
-        
-  
         }
         public override UIPanelLine Render(UIPanelLine line)
         {
             UIPanelLine rewardLine = base.Render(line);
             rewardLine.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Stat: {Util.GetDisplayable(StatType.ToString())}";
-           
-            
-
             return rewardLine;
         }
     }

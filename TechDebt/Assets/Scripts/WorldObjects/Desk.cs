@@ -1,6 +1,7 @@
 ﻿// Server.cs
 
 using System;
+using Tutorial;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,7 +14,7 @@ public class Desk : InfrastructureInstance
     {
         base.Initialize();
         attentionIconColor = Color.blue;
-        ShowAttentionIcon();
+        // ShowAttentionIcon();
     }
 
     public void SetClickable(bool clickable)
@@ -44,6 +45,14 @@ public class Desk : InfrastructureInstance
     public override void OnLeftClick(PointerEventData eventData)
     {
         if (!clickable)
+        {
+            return;
+        }
+
+        if (
+            GameManager.Instance.TutorialManager != null &&
+            GameManager.Instance.TutorialManager.GetStep(TutorialStepId.Day_Start).State != TutorialStep.TutorialStepState.Completed
+        )
         {
             return;
         }

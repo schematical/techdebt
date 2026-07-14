@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using MetaChallenges;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,10 +51,9 @@ namespace UI
 
             bool hasPending = _pendingDifficultyUnlock || _pendingChallenges.Count > 0;
 
-            if (_difficultyClaimed || _pendingDifficultyUnlock)
+            if (_difficultyClaimed)
             {
-                string label = "NEW DIFFICULTY UNLOCKED: " + _context.currentStage;
-                if (_difficultyClaimed) label += " (Claimed)";
+                string label = "New Difficulty Unlocked: " + _context.currentStage;
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2(label);
             }
             
@@ -63,7 +63,7 @@ namespace UI
                 foreach (MetaChallengeBase metaChallenge in _claimedChallenges)
                 {
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
-                        $" - {metaChallenge.DisplayName} (Claimed)";
+                        $" - {metaChallenge.DisplayName}";
                 }
             }
 
@@ -72,7 +72,7 @@ namespace UI
                 string buttonText = "Claim Reward";
                 if (_pendingDifficultyUnlock)
                 {
-                    buttonText = $"Claim Difficulty: {_context.currentStage}";
+                    buttonText = $"Difficulty Unlocked: {_context.currentStage}";
                 }
                 else if (_pendingChallenges.Count > 0)
                 {
@@ -105,9 +105,10 @@ namespace UI
             }
             else
             {
-                if (GameManager.Instance.Map.GetMetaRewards().Count > 0)
+                if (_context.newlyPassedChallenges.Count > 0)
                 {
-                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "You have earned new `Vested Shares`. Spend them to unlock bonuses for future runs.";
+                    AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
+                        "You have earned new `Vested Shares`. Spend them to unlock bonuses for future runs.";
                     AddButton("Allocate Vested Shares", () =>
                     {
                         GameManager.Instance.ShowMainMenu();
@@ -115,8 +116,7 @@ namespace UI
                         GameManager.Instance.UIManager.metaUnlockMapPanel.Show();
                     });
                 }
-                else
-                {
+                else {
                     AddButton("Start Over", () => { GameManager.Instance.StartNewGame(GameManager.Instance.Map.difficulty); });
                     AddButton("Main Menu", () => { GameManager.Instance.ShowSaveSlotDetailPanel(); });
                 }

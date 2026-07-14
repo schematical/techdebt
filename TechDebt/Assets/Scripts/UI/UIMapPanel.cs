@@ -424,7 +424,6 @@ namespace UI
 
         protected virtual void CenterTilemapOnCamera(bool zoomToFit = false)
         {
-            Debug.Log("CenterTilemapOnCamera");
             var visibleNodes = _mapNodes.Where(IsNodeVisible).ToList();
             if (visibleNodes.Count == 0 || Camera.main == null) return;
 

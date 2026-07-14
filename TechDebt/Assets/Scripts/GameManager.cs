@@ -539,6 +539,7 @@ public class GameManager : MonoBehaviour, iModifiable
     {
         OnInfrastructureStateChange -= HandleInfrastructureStateChange;
         OnTechnologyStateChange -= HandleTechnologyStateChange;
+        OnReleaseChanged -= HandleReleaseChanged;
         if (_instance == this)
         {
             _instance = null;
