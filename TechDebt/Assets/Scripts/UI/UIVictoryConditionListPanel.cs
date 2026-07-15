@@ -35,9 +35,5 @@ namespace UI
             }
         }
 
-        public override void Close(bool forceClose = false)
-        {
-            base.Close(forceClose);
-        }
     }
 }

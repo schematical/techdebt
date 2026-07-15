@@ -325,6 +325,7 @@ public class GameManager : MonoBehaviour, iModifiable
 		foreach(var activeInfra in ActiveInfrastructure) {
 			activeInfra.OnInfrastructureStateChange(instance, previousState);
 		}
+        UIManager.victoryConditionListPanel.Refresh();
     }
 
 

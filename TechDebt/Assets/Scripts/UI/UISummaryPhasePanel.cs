@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 namespace UI
 {
-
+  
     public class UISummaryPhasePanel: UIPanel
     {
         private List<MapLevelVictoryConditionBase> _victoryConditions;
         private MetaProgressUpdateContext _context;
-        private List<MetaChallengeBase> _pendingChallenges;
-        private List<MetaChallengeBase> _claimedChallenges = new();
+        private List<string> _pendingUnlocks;
+        private List<string> _claimedUnlocks = new();
         private bool _pendingDifficultyUnlock;
         private bool _difficultyClaimed;
         private UIPanelButton _lastClaimButton;
@@ -21,9 +21,20 @@ namespace UI
         {
             _victoryConditions = victoryConditions;
             _context = context;
-            _pendingChallenges = new List<MetaChallengeBase>(context.newlyPassedChallenges ?? new List<MetaChallengeBase>());
+            _pendingUnlocks = new List<string>();
+            if (context.newlyPassedChallenges != null)
+            {
+                foreach (MetaChallengeBase challenge in context.newlyPassedChallenges)
+                {
+                    _pendingUnlocks.Add(challenge.DisplayName);
+                }
+            }
+            foreach (MapLevelReward reward in GameManager.Instance.Map.GetMetaRewards())
+            {
+                _pendingUnlocks.Add($"{reward.Description} - {reward.Reward.Name}");
+            }
             _pendingDifficultyUnlock = context.HasUnlockedNewStage();
-            _claimedChallenges.Clear();
+            _claimedUnlocks.Clear();
             _difficultyClaimed = false;
 
             GameManager.Instance.UIManager.ForcePause();
@@ -49,7 +60,7 @@ namespace UI
                 }
             }
 
-            bool hasPending = _pendingDifficultyUnlock || _pendingChallenges.Count > 0;
+            bool hasPending = _pendingDifficultyUnlock || _pendingUnlocks.Count > 0;
 
             if (_difficultyClaimed)
             {
@@ -57,13 +68,13 @@ namespace UI
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2(label);
             }
             
-            if (_claimedChallenges.Count > 0)
+            if (_claimedUnlocks.Count > 0)
             {
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h2("Unlocked");
-                foreach (MetaChallengeBase metaChallenge in _claimedChallenges)
+                foreach (string unlock in _claimedUnlocks)
                 {
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
-                        $" - {metaChallenge.DisplayName}";
+                        $" - {unlock}";
                 }
             }
 
@@ -74,9 +85,9 @@ namespace UI
                 {
                     buttonText = $"Difficulty Unlocked: {_context.currentStage}";
                 }
-                else if (_pendingChallenges.Count > 0)
+                else if (_pendingUnlocks.Count > 0)
                 {
-                    buttonText = $"Claim Reward: {_pendingChallenges[0].DisplayName}";
+                    buttonText = $"Claim Reward: {_pendingUnlocks[0]}";
                 }
 
                 _lastClaimButton = AddButton(buttonText, () =>
@@ -88,11 +99,11 @@ namespace UI
                         _difficultyClaimed = true;
                         claimed = true;
                     }
-                    else if (_pendingChallenges.Count > 0)
+                    else if (_pendingUnlocks.Count > 0)
                     {
-                        MetaChallengeBase challenge = _pendingChallenges[0];
-                        _pendingChallenges.RemoveAt(0);
-                        _claimedChallenges.Add(challenge);
+                        string unlocked = _pendingUnlocks[0];
+                        _pendingUnlocks.RemoveAt(0);
+                        _claimedUnlocks.Add(unlocked);
                         claimed = true;
                     }
 
@@ -105,7 +116,7 @@ namespace UI
             }
             else
             {
-                if (_context.newlyPassedChallenges.Count > 0)
+                if (GameManager.Instance.Map.GetMetaRewards().Count > 0) // _context.newlyPassedChallenges.Count > 0)}
                 {
                     AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text =
                         "You have earned new `Vested Shares`. Spend them to unlock bonuses for future runs.";
