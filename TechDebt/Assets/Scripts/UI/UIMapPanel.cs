@@ -201,6 +201,36 @@ namespace UI
             var visibleNodes = _mapNodes.Where(IsNodeVisible).ToList();
             DrawPaths(visibleNodes);
             UpdateDetailsArea();
+            // PrintMapState(); // Uncomment to debug layout coordinates in the console
+        }
+
+        public void PrintMapState()
+        {
+            Debug.Log("--- Map State Snapshot ---");
+            Debug.Log($"Nodes Count: {_mapNodes.Count}");
+            foreach (MapNodeView node in _mapNodes)
+            {
+                Debug.Log($"- Node: {node.Id} (\"{node.DisplayName}\"), Position: {node.Position}, State: {node.Node.CurrentState}");
+            }
+
+            if (connectorTilemap != null)
+            {
+                BoundsInt bounds = connectorTilemap.cellBounds;
+                List<string> connectionTiles = new List<string>();
+                for (int x = bounds.xMin; x < bounds.xMax; x++)
+                {
+                    for (int y = bounds.yMin; y < bounds.yMax; y++)
+                    {
+                        Vector3Int pos = new Vector3Int(x, y, 0);
+                        if (connectorTilemap.HasTile(pos))
+                        {
+                            connectionTiles.Add(pos.ToString());
+                        }
+                    }
+                }
+                Debug.Log($"Connection Tiles ({connectionTiles.Count}): {string.Join(", ", connectionTiles)}");
+            }
+            Debug.Log("-------------------------");
         }
 
         protected void DrawBackground()
@@ -466,8 +496,7 @@ namespace UI
             public MapNodeView View;
             public List<LayoutNode> Children = new List<LayoutNode>();
             public Vector2Int Position;
-            public int MinPerpOffset;
-            public int MaxPerpOffset;
+            public int MinX, MaxX, MinY, MaxY; // Subtree bounding box relative to this node
         }
 
         protected void CalculateNodePositions()
@@ -506,7 +535,7 @@ namespace UI
                 AssignPositions(rootLayout, rootPos);
                 
                 // Adjust Y offset for the next root based on the breadth of this tree
-                int treeBreadth = Mathf.Max(rowSpacing * 2, rootLayout.MaxPerpOffset - rootLayout.MinPerpOffset + rowSpacing * 2);
+                int treeBreadth = Mathf.Max(rowSpacing * 2, rootLayout.MaxY - rootLayout.MinY + rowSpacing * 2);
                 currentYOffset += treeBreadth;
             }
             
@@ -529,7 +558,10 @@ namespace UI
 
         private void CalculateSubtreeMetrics(LayoutNode node)
         {
-            if (node.Children.Count == 0) { node.MinPerpOffset = 0; node.MaxPerpOffset = 0; return; }
+            // Initialize bounds to include just the current node
+            node.MinX = node.MaxX = node.MinY = node.MaxY = 0;
+
+            if (node.Children.Count == 0) return;
 
             var grouped = node.Children.GroupBy(c => c.View.Node.Direction);
             foreach (var group in grouped)
@@ -537,36 +569,85 @@ namespace UI
                 MapNodeDirection dir = group.Key;
                 int perpSpacing = (dir == MapNodeDirection.Left || dir == MapNodeDirection.Right) ? rowSpacing * 2 : columnSpacing;
                 List<LayoutNode> children = group.ToList();
-                int totalBreadth = 0;
-                List<int> childBreadths = new List<int>();
+                
+                float totalBreadth = 0;
+                List<float> childBreadths = new List<float>();
 
                 foreach (var child in children)
                 {
                     CalculateSubtreeMetrics(child);
-                    int b = Mathf.Max(2, child.MaxPerpOffset - child.MinPerpOffset);
+                    // Determine breadth perpendicular to growth direction
+                    float b = (dir == MapNodeDirection.Up || dir == MapNodeDirection.Down) 
+                        ? Mathf.Max(2f, child.MaxX - child.MinX) 
+                        : Mathf.Max(2f, child.MaxY - child.MinY);
                     childBreadths.Add(b);
                     totalBreadth += b;
                 }
                 totalBreadth += (children.Count - 1) * perpSpacing;
 
-                int currentPos = -totalBreadth / 2;
                 int mainDistModifier = (children.Count > 1) ? 2 : 0;
+                int baseMainDist = ((dir == MapNodeDirection.Up || dir == MapNodeDirection.Down) ? rowSpacing * 2 : columnSpacing) + mainDistModifier;
+                
+                // Collision avoidance: Push the entire group further until its bounding box is clear of existing node content
+                int pushOffset = 0;
+                bool collision = true;
+                int safetyGuard = 0;
+                int padding = 2;
+
+                while (collision && safetyGuard < 50)
+                {
+                    safetyGuard++;
+                    collision = false;
+                    int currentMainDist = baseMainDist + pushOffset;
+                    Vector2Int dirVec = GetDirectionVector(dir);
+                    Vector2Int perpVec = GetPerpendicularVector(dir);
+                    float groupStartPos = -totalBreadth / 2f;
+
+                    // Check each child in the group at its potential position
+                    for (int i = 0; i < children.Count; i++)
+                    {
+                        var child = children[i];
+                        float centerOffset = groupStartPos + childBreadths[i] / 2f;
+                        Vector2Int potentialPos = dirVec * currentMainDist + perpVec * Mathf.RoundToInt(centerOffset);
+                        
+                        // Check if child subtree bounds at this position overlap with current node subtree bounds
+                        if (RectsOverlap(
+                            child.MinX + potentialPos.x, child.MaxX + potentialPos.x,
+                            child.MinY + potentialPos.y, child.MaxY + potentialPos.y,
+                            node.MinX, node.MaxX, node.MinY, node.MaxY, padding))
+                        {
+                            collision = true;
+                            pushOffset += 2;
+                            break;
+                        }
+                        groupStartPos += childBreadths[i] + perpSpacing;
+                    }
+                }
+
+                // Finalize positions and merge into node bounds
+                int finalMainDist = baseMainDist + pushOffset;
+                float currentPos = -totalBreadth / 2f;
                 for (int i = 0; i < children.Count; i++)
                 {
                     var child = children[i];
-                    int centerOffset = currentPos + childBreadths[i] / 2;
-                    int mainDistVal = ((dir == MapNodeDirection.Up || dir == MapNodeDirection.Down) ? rowSpacing * 2 : columnSpacing) + mainDistModifier;
-                    child.Position = GetDirectionVector(dir) * mainDistVal + GetPerpendicularVector(dir) * centerOffset;
+                    float centerOffset = currentPos + childBreadths[i] / 2f;
+                    child.Position = GetDirectionVector(dir) * finalMainDist + GetPerpendicularVector(dir) * Mathf.RoundToInt(centerOffset);
+                    
+                    // Merge child subtree bounds into node bounds
+                    node.MinX = Mathf.Min(node.MinX, child.MinX + child.Position.x);
+                    node.MaxX = Mathf.Max(node.MaxX, child.MaxX + child.Position.x);
+                    node.MinY = Mathf.Min(node.MinY, child.MinY + child.Position.y);
+                    node.MaxY = Mathf.Max(node.MaxY, child.MaxY + child.Position.y);
+                    
                     currentPos += childBreadths[i] + perpSpacing;
                 }
-
-                if (dir == MapNodeDirection.Up || dir == MapNodeDirection.Down)
-                {
-                    node.MinPerpOffset = Mathf.Min(node.MinPerpOffset, -totalBreadth / 2);
-                    node.MaxPerpOffset = Mathf.Max(node.MaxPerpOffset, totalBreadth / 2);
-                }
             }
-            if (node.MinPerpOffset == 0 && node.MaxPerpOffset == 0) { node.MinPerpOffset = -1; node.MaxPerpOffset = 1; }
+        }
+
+        private bool RectsOverlap(int minX1, int maxX1, int minY1, int maxY1, int minX2, int maxX2, int minY2, int maxY2, int padding)
+        {
+            return minX1 - padding <= maxX2 && maxX1 + padding >= minX2 &&
+                   minY1 - padding <= maxY2 && maxY1 + padding >= minY2;
         }
 
         private void AssignPositions(LayoutNode node, Vector2Int currentPos)

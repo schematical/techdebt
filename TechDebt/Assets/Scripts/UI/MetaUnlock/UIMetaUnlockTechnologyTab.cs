@@ -13,12 +13,15 @@ namespace UI
         public override void PopulateNodes(List<UIMapPanel.MapNodeView> mapNodes)
         {
             List<Technology> allTech = MetaGameManager.GetAllTechnologies();
+            List<UIMetaUnlockMapNode> potentialNodes = new List<UIMetaUnlockMapNode>();
+
+            // First pass: Find all nodes that meet non-technology requirements
             foreach (Technology tech in allTech)
             {
-                bool isVisable = tech.UnlockConditions.All(condition =>
+                bool isVisable = tech.UnlockConditions == null || tech.UnlockConditions.All(condition =>
                 {
                     if (condition.Type != UnlockCondition.ConditionType.Technology) return true;
-                    return allTech.Any(t => t.TechnologyID == condition.TargetId);
+                    return true; // Tech dependencies handled in second pass
                 });
 
                 if (isVisable)
@@ -36,8 +39,33 @@ namespace UI
                         PrestigeCost = prestigeCost
                     };
                     SetNodeState(node);
-                    mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
+                    potentialNodes.Add(node);
                 }
+            }
+
+            // Second pass: Prune orphans
+            bool changed = true;
+            while (changed)
+            {
+                changed = false;
+                for (int i = potentialNodes.Count - 1; i >= 0; i--)
+                {
+                    UIMetaUnlockMapNode node = potentialNodes[i];
+                    if (node.DependencyIds == null || node.DependencyIds.Count == 0) continue;
+
+                    bool hasMissingDependency = node.DependencyIds.Any(depId => !potentialNodes.Any(n => n.Id == depId));
+                    if (hasMissingDependency)
+                    {
+                        Debug.Log($"[Meta Pruning] Removing orphan node: {node.Id} because a dependency is missing from the map.");
+                        potentialNodes.RemoveAt(i);
+                        changed = true;
+                    }
+                }
+            }
+
+            foreach (UIMetaUnlockMapNode node in potentialNodes)
+            {
+                mapNodes.Add(new UIMapPanel.MapNodeView { Node = node });
             }
         }
 

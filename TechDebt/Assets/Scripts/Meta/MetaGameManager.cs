@@ -799,7 +799,7 @@ public static class MetaGameManager
             new Technology()
             {
                 TechnologyID = "cognito",
-                DisplayName = "Authentication Service",
+                DisplayName = "Auth Service",
                 Description = "Further prevents PII leaks.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
@@ -809,7 +809,7 @@ public static class MetaGameManager
                         Type = UnlockCondition.ConditionType.Technology,
                         TargetId = "cloud-watch-metrics"
                     },
-                    new UnlockCondition()
+                    /*new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_DedicatedDB_Unlocked
@@ -818,7 +818,7 @@ public static class MetaGameManager
                     {
                         Type = UnlockCondition.ConditionType.TutorialStepState,
                         TutorialStepId = TutorialStepId.Technology_Whiteboard_Unlocked
-                    }
+                    }*/
                 },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Left,

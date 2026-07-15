@@ -402,6 +402,8 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             worldObjectBase.Reset();
         }
+        ActiveInfrastructure.Clear();
+        activePackets.Clear();
     }
     public void StartNewGame(GameStage stage)
     {

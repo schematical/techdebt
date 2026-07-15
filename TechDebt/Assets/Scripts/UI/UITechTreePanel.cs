@@ -11,27 +11,54 @@ namespace UI
         public override void PopulateNodes()
         {
             List<Technology> allTech = GameManager.Instance.GetAllTechnologies();
+            List<MapNodeView> potentialNodes = new List<MapNodeView>();
+
+            // First pass: Add nodes that meet non-tech conditions
             foreach (Technology tech in allTech)
             {
-                bool isVisable = tech.UnlockConditions.All(condition =>
+                bool nonTechRequirementsMet = tech.UnlockConditions == null || tech.UnlockConditions.All(condition =>
                 {
-                    if (condition.Type != UnlockCondition.ConditionType.Technology)
-                    {
-                        return condition.IsUnlocked();
-                    }
-                    MapNodeView dep = _mapNodes.Find(n => n.Id == condition.TargetId);
-                    return dep != null && condition.IsUnlocked();
+                    if (condition.Type == UnlockCondition.ConditionType.Technology) return true;
+                    return condition.IsUnlocked();
                 });
-                if (isVisable)
+
+                if (nonTechRequirementsMet)
                 {
-                    _mapNodes.Add(new MapNodeView { Node = tech });
+                    potentialNodes.Add(new MapNodeView { Node = tech });
                 }
             }
+
+            // Second pass: Prune orphans (nodes whose technology dependencies are missing)
+            bool changed = true;
+            while (changed)
+            {
+                changed = false;
+                for (int i = potentialNodes.Count - 1; i >= 0; i--)
+                {
+                    MapNodeView nodeView = potentialNodes[i];
+                    List<string> depIds = nodeView.Node.DependencyIds;
+                    if (depIds == null || depIds.Count == 0) continue;
+
+                    // If ANY tech dependency is missing from the current set, prune this node
+                    bool hasMissingDependency = depIds.Any(depId => !potentialNodes.Any(n => n.Id == depId));
+                    if (hasMissingDependency)
+                    {
+                        Debug.Log($"[Pruning] Removing orphan node: {nodeView.Id} because a dependency is missing from the map.");
+                        potentialNodes.RemoveAt(i);
+                        changed = true;
+                    }
+                }
+            }
+
+            _mapNodes.AddRange(potentialNodes);
         }
 
         public override void Show()
         {
             base.Show();
+            
+            rowSpacing = 4;
+            columnSpacing = 6;
 
             connectorTilemap.color = Color.white;
             GameManager.OnTechnologyStateChange += OnTechnologyStateChange;
@@ -63,6 +90,7 @@ namespace UI
                 Close();
             }
 
+            PrintMapState();
             base.SelectNode(nodeView);
         }
 
