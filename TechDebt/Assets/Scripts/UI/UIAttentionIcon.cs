@@ -17,6 +17,8 @@ namespace UI
         public TextMeshProUGUI text;
         protected bool isOffScreen;
         private Camera _cam;
+        private Vector2 baseTextAnchoredPosition;
+        private bool _hasCapturedBaseTextPos;
 
 
         public void Show(Transform _transform, Color color, UnityAction _onClick, string _text = null)
@@ -54,6 +56,12 @@ namespace UI
             if (uiImage != null)
             {
                 text.color = uiImage.color;
+            }
+
+            if (text != null && !_hasCapturedBaseTextPos)
+            {
+                baseTextAnchoredPosition = text.rectTransform.anchoredPosition;
+                _hasCapturedBaseTextPos = true;
             }
 
         }
@@ -145,11 +153,16 @@ namespace UI
             {
                 if (spriteRenderer != null)
                 {
-                    spriteRenderer.transform.rotation = Quaternion.identity;
+                    spriteRenderer.transform.localRotation = Quaternion.identity;
                 }
                 if (uiImage != null)
                 {
-                    uiImage.transform.rotation = Quaternion.identity;
+                    uiImage.transform.localRotation = Quaternion.identity;
+                }
+                if (text != null)
+                {
+                    text.rectTransform.anchoredPosition = baseTextAnchoredPosition;
+                    text.transform.localRotation = Quaternion.identity;
                 }
             }
             else
@@ -158,11 +171,17 @@ namespace UI
                 float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg + 90;
                 if (spriteRenderer != null)
                 {
-                    spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
+                    spriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, angle);
                 }
                 if (uiImage != null)
                 {
-                    uiImage.transform.rotation = Quaternion.Euler(0, 0, angle);
+                    uiImage.transform.localRotation = Quaternion.Euler(0, 0, angle);
+                }
+                if (text != null)
+                {
+                    Vector3 rotatedPos = Quaternion.Euler(0, 0, angle) * (Vector3)baseTextAnchoredPosition;
+                    text.rectTransform.anchoredPosition = new Vector2(rotatedPos.x, rotatedPos.y);
+                    text.transform.localRotation = Quaternion.identity;
                 }
             }
         }
