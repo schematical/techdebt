@@ -437,13 +437,21 @@ public class GameManager : MonoBehaviour, iModifiable
 
         UIManager.ShowGameUI();
         SetupNPCs();
-        TutorialManager.StartNewGameCheck();
+        if (stage == GameStage.Tutorial)
+        {
+            TutorialManager.StartNewGameCheck();
+        }
+        else
+        {
+            HireNPCDevOps(new NPCDevOpsData { DailyCost = 100 });
+            GameLoopManager.BeginPlanPhase();
+        }
     }
 
     public void SetupNPCs()
     {
         
-        WorldObjectBase door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        WorldObjectBase door = GetInfrastructureInstanceByID("door");
         if (door == null)
         {
             Debug.LogError("Cannot place Stakeholder because 'door' infrastructure was not found.");

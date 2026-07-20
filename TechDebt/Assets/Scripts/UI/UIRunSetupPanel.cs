@@ -69,7 +69,10 @@ namespace UI
         private void StartNewRun(GameStage stage)
         {
             Close();
+   
             GameManager.Instance.StartNewGame(stage);
+            GameManager.Instance.TutorialManager.MarkTutorialDataDone();
+            GameManager.Instance.TutorialManager.End();
             // GameManager.Instance.Map.SetDifficulty(stage);
             StatModifier difficultyStatModifier = null;
             StatModifier rarityStatModifier = null;

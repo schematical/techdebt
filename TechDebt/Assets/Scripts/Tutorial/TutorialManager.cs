@@ -1022,10 +1022,10 @@ namespace Tutorial
         public void Start()
         {    
             GameManager.OnInfrastructureStateChange += HandleInfrastructureStateChange;
-             GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
-             GameManager.OnPhaseChange += HandlePhaseChange;
-             GameManager.OnReleaseChanged += HandleReleaseChange;
-            TutorialData tutorialData = LoadProgress();
+            GameManager.OnTechnologyStateChange += HandleTechnologyStateChange;
+            GameManager.OnPhaseChange += HandlePhaseChange;
+            GameManager.OnReleaseChanged += HandleReleaseChange;
+            TutorialData tutorialData = new TutorialData(); // LoadProgress();
             if (tutorialData != null)
             {
                 State = tutorialData.state;
