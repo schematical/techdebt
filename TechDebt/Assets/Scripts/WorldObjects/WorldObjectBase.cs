@@ -52,7 +52,6 @@ namespace Infrastructure
         }
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("OnPointerClick - " + eventData.button);
             if (eventData.button == PointerEventData.InputButton.Left)
             {
                 OnLeftClick(eventData);
@@ -63,7 +62,6 @@ namespace Infrastructure
         public virtual void OnLeftClick(PointerEventData eventData)
         {
             // GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
-            Debug.Log("OnLeftClick - " + eventData.button);
             
             HideAttentionIcon();
             RenderDetailBubble();
@@ -73,7 +71,6 @@ namespace Infrastructure
         {
             UIDialogBubble dialogBubble = ShowDialogBubble();
             dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{GetDisplayName()}");
-            
             return dialogBubble;
         }
 

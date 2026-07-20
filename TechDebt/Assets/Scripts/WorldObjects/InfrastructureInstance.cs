@@ -697,20 +697,28 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             }).H3();
         }
         dialogBubble.AddLine<UIPanelLine>();
-        dialogBubble.AddButton("Details", () =>
-        {
-            GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
-            HideAttentionIcon();
-            HideDialogBubble();
-        });
-        /* UIPanelLineSectionButton detaulButton = dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionButton>();
-        detaulButton.text.text = "Details";
-        detaulButton.button.onClick.AddListener(() =>
+        /*dialogBubble.AddButton("Details", () =>
         {
             GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
             HideAttentionIcon();
             HideDialogBubble();
         });*/
+        UIPanelLine bottomLine = dialogBubble.AddLine<UIPanelLine>();
+         UIPanelLineSectionButton detailButton = bottomLine.Add<UIPanelLineSectionButton>();
+         detailButton.text.text = "Details";
+         detailButton.button.onClick.AddListener(() =>
+        {
+            GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
+            HideAttentionIcon();
+            HideDialogBubble();
+        });
+         
+        UIPanelLineSectionButton closeButton = bottomLine.Add<UIPanelLineSectionButton>();
+        closeButton.text.text = "Close";
+        closeButton.button.onClick.AddListener(() =>
+        {
+            HideDialogBubble();
+        });
   
         return dialogBubble;
 

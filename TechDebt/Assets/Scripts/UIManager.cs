@@ -421,12 +421,14 @@ public class UIManager : MonoBehaviour
     public void ShowPlanUI()
     {
         Close();
+        Debug.Log("planPhaseMenuPanel.Show()");
         planPhaseMenuPanel.Show();
         timeControlPanel.Close();
     }
 
     public void HidePlanUI()
     {
+        Debug.Log("planPhaseMenuPanel.Close()");
         planPhaseMenuPanel.Close();
         timeControlPanel.Show();
     }

@@ -13,7 +13,7 @@ namespace UI
     {
         private NPCBase _selectedNPC;
         // public UITextArea textArea; // Removed to use AddLine instead
-        private List<UIPanelLineSectionButton> _taskButtons = new List<UIPanelLineSectionButton>();
+        // private List<UIPanelLineSectionButton> _taskButtons = new List<UIPanelLineSectionButton>();
         private UIPanelLineSectionText tasksLineText;
         private UIPanelLineSectionText levelLineText;
         private UIPanelLineSectionText xpLineText;
