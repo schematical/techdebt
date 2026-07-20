@@ -9,5 +9,6 @@ namespace MetaChallenges
         Deployments,
         Infra_Fix,
         Infra_Built,
+        Infra_Shutdown
     }
 }

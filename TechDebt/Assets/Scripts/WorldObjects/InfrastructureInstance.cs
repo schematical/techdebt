@@ -13,10 +13,11 @@ using Random = UnityEngine.Random;
 using Stats;
 using UI;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class InfrastructureInstance : WorldObjectBase, iAttackable
 {
-    public Color startcolor;
+    public Color startColor;
     public InfrastructureData data;
 
     protected SpriteRenderer spriteRenderer;
@@ -41,7 +42,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (spriteRenderer != null)
         {
-            startcolor = spriteRenderer.color;
+            startColor = spriteRenderer.color;
         }
     }
 
@@ -572,6 +573,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 break;
             case (InfrastructureData.State.Operational):
                 AddResizeButtons(availableTasks);
+                availableTasks.Add(new ShutdownTask(this));
                 break;
             case (InfrastructureData.State.Frozen):
                 availableTasks.Add(new FixFrozenTask(this));
@@ -666,5 +668,52 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
         return metricsBubble.gameObject.activeInHierarchy;
     }
-    
+
+    public override UIDialogBubble RenderDetailBubble()
+    {
+        UIDialogBubble dialogBubble = base.RenderDetailBubble();
+       
+        UIPanelLineProgressBar loadBar = dialogBubble.AddLine<UIPanelLineProgressBar>();
+        loadBar.SetPreText($"CPU Load:");
+        loadBar.OnGetProgress = () =>
+        {
+            return CurrentLoad/GetMaxLoad();
+        };
+        dialogBubble.AddLine<UIPanelLine>();
+
+        List<NPCTask> tasks = GetAvailableTasks();
+        if (tasks.Count > 0)
+        {
+            dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = "Actions: ";
+        }
+        foreach (NPCTask task in tasks)
+        {
+            NPCTask localTask = task; 
+            dialogBubble.AddButton(task.GetAssignButtonText(), () =>
+            {
+                GameManager.Instance.AddTask(localTask);
+                HideAttentionIcon();
+                HideDialogBubble();
+            }).H3();
+        }
+        dialogBubble.AddLine<UIPanelLine>();
+        dialogBubble.AddButton("Details", () =>
+        {
+            GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
+            HideAttentionIcon();
+            HideDialogBubble();
+        });
+        /* UIPanelLineSectionButton detaulButton = dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionButton>();
+        detaulButton.text.text = "Details";
+        detaulButton.button.onClick.AddListener(() =>
+        {
+            GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
+            HideAttentionIcon();
+            HideDialogBubble();
+        });*/
+  
+        return dialogBubble;
+
+    }
+
 }

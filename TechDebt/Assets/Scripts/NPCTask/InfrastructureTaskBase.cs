@@ -14,6 +14,8 @@
         public StatType? npcWorkSpeedStatType;
         public StatType? globalSpeedStatType;
         public StatType? npcWorkQualityStatType;
+        protected InfrastructureData.State EndState = InfrastructureData.State.Operational;
+
         protected InfrastructureTaskBase(InfrastructureInstance target): base(target)
         {
             TargetInfrastructure = target;
@@ -112,7 +114,7 @@
         
             CurrentState = State.Completed; // Set status to completed
         
-            TargetInfrastructure.SetState(InfrastructureData.State.Operational);
+            TargetInfrastructure.SetState(EndState);
 
         }
 

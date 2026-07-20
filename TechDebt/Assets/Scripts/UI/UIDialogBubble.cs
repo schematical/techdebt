@@ -24,7 +24,7 @@ namespace UI
         private List<DialogButtonOption> currentOptions;
 
         public RectTransform pointer;
-        protected NPCBase target;
+        protected iUIDialogBubbleAttachable target;
         protected Vector3 worldOffset = new Vector3(0, 1.5f, .5f);
         public RectTransform dialogBox;
 
@@ -141,7 +141,7 @@ namespace UI
             MarkUpdated();
         }
 
-        public void SetTarget(NPCBase target)
+        public void SetTarget(iUIDialogBubbleAttachable target)
         {
             this.target = target;
         }

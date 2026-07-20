@@ -46,7 +46,7 @@ namespace UI
             List<NPCTask> tasks = _selectedWorldObject.GetAvailableTasks();
             foreach (NPCTask task in tasks)
             {
-                NPCTask localTask = task; // Local copy for the closure
+                NPCTask localTask = task; 
                 // Debug.Log($"Showing Button For Task `{task.GetType()}` - {task.GetAssignButtonText()}");
                 AddButton(task.GetAssignButtonText(), () =>
                 {

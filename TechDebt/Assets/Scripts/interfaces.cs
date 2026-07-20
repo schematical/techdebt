@@ -71,3 +71,8 @@ public interface iLevelable
 {
     public int Level { get; set; }
 }
+
+public interface iUIDialogBubbleAttachable
+{
+    Transform transform { get; }
+}

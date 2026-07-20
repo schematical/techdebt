@@ -4,13 +4,14 @@ using DefaultNamespace.EnvGraphic;
 using MetaChallenges;
 using NPCs;
 using UI;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Infrastructure
 {
-    public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable, iTargetable
+    public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable, iTargetable, iUIDialogBubbleAttachable
     {
 
         public WorldObjectType.Type Type;
@@ -20,6 +21,8 @@ namespace Infrastructure
         protected List<EnvGraphicBase> envGraphics = new List<EnvGraphicBase>();
         public PolygonCollider2D polygonCollider2D;
         protected UIProgressBarPanel progressBar;
+        private UIDialogBubble dialogBubble;
+
         void Start()
         {
             if (polygonCollider2D == null)
@@ -59,7 +62,16 @@ namespace Infrastructure
 
         public virtual void OnLeftClick(PointerEventData eventData)
         {
-            GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
+            // GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
+            RenderDetailBubble();
+        }
+
+        public virtual UIDialogBubble RenderDetailBubble()
+        {
+            UIDialogBubble dialogBubble = ShowDialogBubble();
+            dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{GetDisplayName()}");
+            
+            return dialogBubble;
         }
 
         public virtual List<NPCTask> GetAvailableTasks()
@@ -204,6 +216,35 @@ namespace Infrastructure
             progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
             progressBar.Initialize(this, progressable);
         }
+        
+        public UIDialogBubble  ShowDialogBubble()
+        {
+            if (dialogBubble != null)
+            {
+                dialogBubble.Close();
+            }
+            gameObject.SetActive(true);
+
+            dialogBubble = GameManager.Instance.prefabManager.Create("UIDialogBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIDialogBubble>();
+            dialogBubble.SetTarget(this);
+            dialogBubble.transform.SetAsFirstSibling();
+            dialogBubble.CleanUp();
+            return dialogBubble;
+        }
+
+        public void HideDialogBubble()
+        {
+            dialogBubble.Close();
+        }
+        public bool IsDialogBubbleActive()
+        {
+            if (dialogBubble == null)
+            {
+                return false;
+            }
+            return dialogBubble.gameObject.activeInHierarchy;
+        }
+
     }
    
 }

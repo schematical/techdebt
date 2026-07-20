@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -11,11 +12,12 @@ namespace UI
         public SpriteRenderer spriteRenderer;
         protected Transform targetTransform;
         protected UnityAction onClick;
+        public TextMeshProUGUI text;
         protected bool isOffScreen;
         private Camera _cam;
 
 
-        public void Show(Transform _transform, Color color, UnityAction _onClick)
+        public void Show(Transform _transform, Color color, UnityAction _onClick, string _text = null)
         {
             targetTransform = _transform;
             spriteRenderer.color = new Color(color.r, color.g, color.b, 0.5f);
@@ -30,6 +32,14 @@ namespace UI
                 }
             }
             if (_cam == null) _cam = Camera.main;
+            if (_text != null)
+            {
+                text.text = _text;
+            }
+            else
+            {
+                text.text = "xxx";
+            }
 
         }
 
@@ -67,7 +77,7 @@ namespace UI
             if (!isOffScreen)
             {
                 transform.position = targetPosition;
-                transform.rotation = Quaternion.identity;
+                spriteRenderer.transform.rotation = Quaternion.identity;
             }
             else
             {
@@ -89,7 +99,7 @@ namespace UI
 
                 Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
                 float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg + 90;
-                transform.rotation = Quaternion.Euler(0, 0, angle);
+                spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
             }
         }
 

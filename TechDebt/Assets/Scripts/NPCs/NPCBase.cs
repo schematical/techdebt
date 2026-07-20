@@ -16,7 +16,7 @@ using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable, iModifiable
+public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable, iAttackable, iTargetable, iModifiable, iUIDialogBubbleAttachable
 {
     public enum State
     {
@@ -63,6 +63,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public ShadowObject  shadow;
     public Vector2 shadowOffset = new Vector2(-0.1f, -0.25f);
     public float shadowScale = 0.75f;
+    private iUIDialogBubbleAttachable _iUIDialogBubbleAttachableImplementation;
 
     void Awake()
     {
