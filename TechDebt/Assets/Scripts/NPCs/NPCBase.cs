@@ -522,6 +522,33 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         );
     }
 
+    public void ShowAttentionIcon(UnityAction onClick, string text)
+    {
+        if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
+        {
+            Debug.LogWarning($"{gameObject.name} - uiAttentionIcon is already active");
+            return;
+        }
+        uiAttentionIcon = GameManager.Instance.UIManager.AddAttentionIcon(
+            transform,
+            Color.purple,
+            () =>
+            {
+                if (!uiAttentionIcon.IsOffScreen())
+                {
+                    onClick.Invoke();
+                    return;
+                }
+                GameManager.Instance.cameraController.ZoomTo(transform, () =>
+                {
+                    onClick.Invoke();
+                });
+               
+            },
+            text
+        );
+    }
+
     public void HideAttentionIcon()
     {
         if (uiAttentionIcon == null)

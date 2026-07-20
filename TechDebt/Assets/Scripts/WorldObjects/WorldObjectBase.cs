@@ -63,6 +63,7 @@ namespace Infrastructure
         public virtual void OnLeftClick(PointerEventData eventData)
         {
             // GameManager.Instance.UIManager.worldObjectDetailPanel.ShowWorldObjectDetail(this);
+            HideDialogBubble();
             RenderDetailBubble();
         }
 
@@ -91,7 +92,7 @@ namespace Infrastructure
             }
             return GameManager.Instance.WorldObjectTypes[Type];
         }
-        public virtual void ShowAttentionIcon()
+        public virtual void ShowAttentionIcon(string text = null)
         {
             if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
             {
@@ -113,9 +114,13 @@ namespace Infrastructure
                         OnPointerClick(new PointerEventData(EventSystem.current));
                     });
                
-                }
+                },
+                text
             );
         }
+
+       
+        
 
         public void HideAttentionIcon()
         {

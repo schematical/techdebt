@@ -563,7 +563,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
         if (hasMoreToResearch)
         {
-            GetInfrastructureInstanceByID("desk").ShowAttentionIcon();
+            GetInfrastructureInstanceByID("desk").ShowAttentionIcon("Research");
         }
     }
 
@@ -1083,7 +1083,7 @@ public class GameManager : MonoBehaviour, iModifiable
         }
         else
         {
-            infra.ShowAttentionIcon();
+            infra.ShowAttentionIcon("Plan");
         }
     }
 

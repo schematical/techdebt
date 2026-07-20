@@ -157,7 +157,7 @@ public class InternetPipe : InfrastructureInstance
         
     }
 
-    public override void ShowAttentionIcon()
+    public override void ShowAttentionIcon(string text = "")
     {
     }
     public override List<NPCTask> GetAvailableTasks()

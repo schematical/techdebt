@@ -305,7 +305,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             case(InfrastructureData.State.Unlocked):
                 attentionIconColor = Color.white;
-                ShowAttentionIcon();
+                ShowAttentionIcon("Build");
                 break;
             case (InfrastructureData.State.Operational):
                 HideAttentionIcon();
@@ -337,7 +337,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                     serverSmokeEffect.gameObject.SetActive(true);
                 }
                 attentionIconColor = Color.red;
-                ShowAttentionIcon();
+                ShowAttentionIcon("Fix");
                 GameManager.Instance.UIManager.TriggerScreenShake(1, .5f);
                 // TODO Create a task automatically if you have researched CWAlarm
                 break;

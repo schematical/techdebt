@@ -125,7 +125,7 @@ namespace Tutorial
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("desk");
-                        infrastructureInstance.ShowAttentionIcon();
+                        infrastructureInstance.ShowAttentionIcon("Research");
                         return infrastructureInstance;
                     },
 
@@ -153,7 +153,7 @@ namespace Tutorial
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        infrastructureInstance.ShowAttentionIcon();
+                        infrastructureInstance.ShowAttentionIcon("Build");
                         return infrastructureInstance;
                     },
 
@@ -168,7 +168,7 @@ namespace Tutorial
                     {
                         InfrastructureInstance infrastructureInstance =
                             GameManager.Instance.GetInfrastructureInstanceByID("server1");
-                        infrastructureInstance.ShowAttentionIcon();
+                        // infrastructureInstance.ShowAttentionIcon();
                         return infrastructureInstance;
                     },
                 },

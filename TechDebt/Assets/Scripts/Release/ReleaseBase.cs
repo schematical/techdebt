@@ -197,7 +197,7 @@ public class ReleaseBase
             case(ReleaseState.DeploymentReady):
                 foreach (ApplicationServer applicationServer in GetUndeployedReleaseTargets())
                 {
-                    applicationServer.ShowAttentionIcon();
+                    applicationServer.ShowAttentionIcon("Deploy");
                 }
 
                 break;
