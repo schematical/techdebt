@@ -90,7 +90,7 @@ namespace UI
                 Close();
             }
 
-            PrintMapState();
+            // PrintMapState();
             base.SelectNode(nodeView);
         }
 

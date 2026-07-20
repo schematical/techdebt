@@ -96,7 +96,8 @@ namespace UI
                 {
                     Transform gridTransform = connectorTilemap.transform.parent;
                     float scaleFactor = (Camera.main.orthographicSize * 2) / Screen.height;
-                    gridTransform.position += new Vector3(mouseDelta.x * scaleFactor * panSpeed, mouseDelta.y * scaleFactor * panSpeed, 0);
+                    Vector3 moveDelta = new Vector3(mouseDelta.x * scaleFactor * panSpeed, mouseDelta.y * scaleFactor * panSpeed, 0);
+                    gridTransform.position = ClampGridPosition(gridTransform.position + moveDelta);
                 }
             }
 
@@ -106,7 +107,71 @@ namespace UI
             {
                 float newSize = Camera.main.orthographicSize - scroll * zoomSpeed;
                 Camera.main.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+                
+                // Re-clamp position after zoom change to ensure we didn't zoom into the void
+                Transform gridTransform = connectorTilemap.transform.parent;
+                gridTransform.position = ClampGridPosition(gridTransform.position);
             }
+        }
+
+        protected Vector3 ClampGridPosition(Vector3 targetPosition)
+        {
+            if (_mapNodes.Count == 0 || Camera.main == null) return targetPosition;
+
+            // 1. Calculate the bounding box of all nodes in grid-local space
+            float minX = float.MaxValue, maxX = float.MinValue, minY = float.MaxValue, maxY = float.MinValue;
+            bool foundNodes = false;
+            foreach (MapNodeView node in _mapNodes)
+            {
+                if (node.Position.x < -500) continue;
+                Vector3 localPos = nodeTilemap.GetCellCenterLocal((Vector3Int)node.Position);
+                minX = Mathf.Min(minX, localPos.x);
+                maxX = Mathf.Max(maxX, localPos.x);
+                minY = Mathf.Min(minY, localPos.y);
+                maxY = Mathf.Max(maxY, localPos.y);
+                foundNodes = true;
+            }
+
+            if (!foundNodes) return targetPosition;
+
+            // Determine the camera view bounds in world space (camera is at 0,0)
+            float viewHalfHeight = Camera.main.orthographicSize;
+            float viewHalfWidth = viewHalfHeight * Camera.main.aspect;
+
+            // Add padding to bounds so that nodes on the edges can reach the center of the screen.
+            // Using viewHalfWidth/Height as padding ensures any node can be centered.
+            float paddingX = viewHalfWidth + 4f; 
+            float paddingY = viewHalfHeight + 4f;
+            minX -= paddingX; maxX += paddingX;
+            minY -= paddingY; maxY += paddingY;
+
+            // 2. Grid position logic:
+            // WorldPos = GridPos + LocalPos
+            // We want GridPos + LocalBounds to contain WorldView (at 0,0)
+            
+            // Horizontal constraints
+            float mapWidth = maxX - minX;
+            if (mapWidth < viewHalfWidth * 2)
+            {
+                targetPosition.x = -(minX + maxX) / 2f;
+            }
+            else
+            {
+                targetPosition.x = Mathf.Clamp(targetPosition.x, viewHalfWidth - maxX, -viewHalfWidth - minX);
+            }
+
+            // Vertical constraints
+            float mapHeight = maxY - minY;
+            if (mapHeight < viewHalfHeight * 2)
+            {
+                targetPosition.y = -(minY + maxY) / 2f;
+            }
+            else
+            {
+                targetPosition.y = Mathf.Clamp(targetPosition.y, viewHalfHeight - maxY, -viewHalfHeight - minY);
+            }
+
+            return new Vector3(targetPosition.x, targetPosition.y, 0);
         }
 
         protected virtual void SelectNode(MapNodeView nodeView)
@@ -237,9 +302,10 @@ namespace UI
         {
             if (backgroundTilemap == null || backgroundTile == null) return;
             backgroundTilemap.ClearAllTiles();
-            for (int x = -64; x < 64; x++)
+            // Expanded range to support larger panning area
+            for (int x = -128; x < 128; x++)
             {
-                for (int y = -64; y < 64; y++)
+                for (int y = -128; y < 128; y++)
                 {
                     backgroundTilemap.SetTile(new Vector3Int(x, y, 0), backgroundTile);
                 }
@@ -486,6 +552,9 @@ namespace UI
                 zoom = Mathf.Max(maxAbsY + padding, (maxAbsX + padding) / aspect);
                 zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
             }
+
+            // Ensure the centered position is within bounds
+            gridTransform.position = ClampGridPosition(gridTransform.position);
 
             GameManager.Instance.cameraController.SnapTo(targetCenter, zoom);
         }

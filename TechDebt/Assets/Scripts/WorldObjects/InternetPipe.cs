@@ -163,7 +163,7 @@ public class InternetPipe : InfrastructureInstance
     public override List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = base.GetAvailableTasks();
-        if (!GameManager.Instance.GetTechnologyByID("waf").IsUnlocked())
+        if (!GameManager.Instance.GetInfrastructureInstanceByID("waf").IsActive())
         {
             return availableTasks;
         }
