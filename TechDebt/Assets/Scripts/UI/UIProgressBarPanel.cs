@@ -19,6 +19,8 @@ namespace UI
         
         protected RectTransform rectTransform;
         protected Vector3 worldOffset = new Vector3(0f, 1.8f, 0f);
+        
+        private bool _anchorsSetup = false;
 
         private void Awake()
         {
@@ -29,6 +31,7 @@ namespace UI
         {
             target = _target;
             progressable = _progressable;
+            _anchorsSetup = false;
             
             if (ProgressBar != null && progressImage == null)
             {
@@ -39,6 +42,33 @@ namespace UI
             {
                 Text.color = Color.white;
             }
+        }
+
+        private void SetupMaskedTextAnchors()
+        {
+            if (MaskedText == null || Text == null || ProgressBar == null) return;
+
+            // Anchor the MaskedText to the static left edge of its parent (ProgressBar)
+            // so that it remains static when ProgressBar's right edge scales (fills).
+            MaskedText.rectTransform.anchorMin = new Vector2(0f, 0.5f);
+            MaskedText.rectTransform.anchorMax = new Vector2(0f, 0.5f);
+            MaskedText.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+            // Convert original text's world position to ProgressBar's local space
+            Vector3 worldPos = Text.rectTransform.position;
+            Vector3 localPos = ProgressBar.InverseTransformPoint(worldPos);
+            
+            // Apply static offset
+            MaskedText.rectTransform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
+            
+            // Align dimensions and properties
+            MaskedText.rectTransform.rotation = Text.rectTransform.rotation;
+            MaskedText.rectTransform.localScale = Text.rectTransform.localScale;
+            MaskedText.rectTransform.sizeDelta = Text.rectTransform.sizeDelta;
+
+            // Prevent TextMeshPro from wrapping or truncating when the parent ProgressBar is narrow
+            MaskedText.enableWordWrapping = false;
+            MaskedText.overflowMode = TextOverflowModes.Overflow;
         }
 
         public void LateUpdate()
@@ -55,18 +85,16 @@ namespace UI
                 Text.text = progressable.GetProgressText();
             }
 
-            // Keep the manually assigned masked text in sync with original text
+            // Sync text string and perform one-time static layout offset anchoring
             if (MaskedText != null && Text != null)
             {
                 MaskedText.text = Text.text;
                 
-                // Align to exact world position of the base text
-                MaskedText.rectTransform.position = Text.rectTransform.position;
-                MaskedText.rectTransform.rotation = Text.rectTransform.rotation;
-                
-                // Keep the sizes identical so layout behaves the same
-                MaskedText.rectTransform.sizeDelta = Text.rectTransform.sizeDelta;
-                MaskedText.rectTransform.pivot = Text.rectTransform.pivot;
+                if (!_anchorsSetup)
+                {
+                    SetupMaskedTextAnchors();
+                    _anchorsSetup = true;
+                }
             }
 
             Camera cam = Camera.main;
