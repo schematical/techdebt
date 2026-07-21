@@ -756,7 +756,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public UIProgressBarPanel AddProgressBar(iProgressable progressable)
     {
-        progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
+        progressBar = GameManager.Instance.prefabManager.Create("UIProgressBarPanel", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIProgressBarPanel>();
         progressBar.Initialize(this, progressable);
         return progressBar;
     }

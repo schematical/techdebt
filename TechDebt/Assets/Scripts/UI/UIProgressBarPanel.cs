@@ -5,55 +5,88 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIProgressBarPanel: MonoBehaviour
+    public class UIProgressBarPanel : MonoBehaviour
     {
         public RectTransform ProgressBarBkgd;
         public TextMeshProUGUI Text;
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
-        protected SpriteRenderer ProgressImage;
+        
+        protected Image progressImage;
         protected iTargetable target;
         protected iProgressable progressable;
+        
+        protected RectTransform rectTransform;
+        protected Vector3 worldOffset = new Vector3(0f, 1.8f, 0f);
+
+        private void Awake()
+        {
+            rectTransform = transform as RectTransform;
+        }
 
         public void Initialize(iTargetable _target, iProgressable _progressable)
         {
             target = _target;
             progressable = _progressable;
-            ProgressBarBkgd.GetComponent<SpriteRenderer>().size = ProgressBarBkgd.rect.size;
+            
+            if (ProgressBar != null && progressImage == null)
+            {
+                progressImage = ProgressBar.GetComponent<Image>();
+            }
         }
 
-        public void FixedUpdate()
+        public void LateUpdate()
         {
+            if (target == null || progressable == null)
+            {
+                return;
+            }
+
             SetProgress(progressable.GetProgress());
-            transform.position = target.transform.position + new Vector3(0f, 2f, -1.1f);
-            Text.text = progressable.GetProgressText();
+            
+            if (Text != null)
+            {
+                Text.text = progressable.GetProgressText();
+            }
+
+            Camera cam = Camera.main;
+            if (cam != null && rectTransform != null)
+            {
+                Vector3 worldPos = target.transform.position + worldOffset;
+                Vector3 viewportPos = cam.WorldToViewportPoint(worldPos);
+
+                // Pin the UI element to the target's viewport position
+                rectTransform.anchorMin = new Vector2(viewportPos.x, viewportPos.y);
+                rectTransform.anchorMax = new Vector2(viewportPos.x, viewportPos.y);
+                rectTransform.anchoredPosition = Vector2.zero;
+            }
         }
 
-        public void SetProgress(float progress, Color ?color = null)
+        public void SetProgress(float progress, Color? color = null)
         {
             if (color == null)
             {
                 color = Color.white;
             }
+            
             if (ProgressPanelHolder == null || ProgressBar == null)
             {
                 throw new SystemException("Missing `ProgressPanelHolder` or `ProgressPanel`");
-            };
+            }
 
             float fullWidth = ProgressPanelHolder.rect.width;
             float newWidth = fullWidth * Mathf.Clamp01(progress);
             ProgressBar.anchorMax = new Vector2(newWidth / fullWidth, ProgressBar.anchorMax.y);
-            // Text.text = $"{Math.Round(progress*100)}%";
-            if (ProgressImage == null)
+
+            if (progressImage == null)
             {
-                ProgressImage = ProgressBar.GetComponent<SpriteRenderer>();
+                progressImage = ProgressBar.GetComponent<Image>();
             }
 
-    
-            ProgressImage.drawMode = SpriteDrawMode.Sliced;
-            ProgressImage.size = ProgressBar.rect.size;
-            ProgressImage.color = color.Value;
-            
+            if (progressImage != null)
+            {
+                progressImage.color = color.Value;
+            }
         }
 
         public void CleanUp()
