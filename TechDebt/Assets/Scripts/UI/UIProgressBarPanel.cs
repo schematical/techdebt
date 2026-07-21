@@ -11,6 +11,7 @@ namespace UI
         public TextMeshProUGUI Text;
         public RectTransform ProgressPanelHolder;
         public RectTransform ProgressBar;
+        public TextMeshProUGUI MaskedText;
         
         protected Image progressImage;
         protected iTargetable target;
@@ -33,6 +34,11 @@ namespace UI
             {
                 progressImage = ProgressBar.GetComponent<Image>();
             }
+
+            if (Text != null)
+            {
+                Text.color = Color.white;
+            }
         }
 
         public void LateUpdate()
@@ -47,6 +53,20 @@ namespace UI
             if (Text != null)
             {
                 Text.text = progressable.GetProgressText();
+            }
+
+            // Keep the manually assigned masked text in sync with original text
+            if (MaskedText != null && Text != null)
+            {
+                MaskedText.text = Text.text;
+                
+                // Align to exact world position of the base text
+                MaskedText.rectTransform.position = Text.rectTransform.position;
+                MaskedText.rectTransform.rotation = Text.rectTransform.rotation;
+                
+                // Keep the sizes identical so layout behaves the same
+                MaskedText.rectTransform.sizeDelta = Text.rectTransform.sizeDelta;
+                MaskedText.rectTransform.pivot = Text.rectTransform.pivot;
             }
 
             Camera cam = Camera.main;
@@ -86,6 +106,13 @@ namespace UI
             if (progressImage != null)
             {
                 progressImage.color = color.Value;
+            }
+
+            // Dynamic color contrast for the masked text based on progress bar fill luminance
+            if (MaskedText != null)
+            {
+                float luminance = 0.2126f * color.Value.r + 0.7152f * color.Value.g + 0.0722f * color.Value.b;
+                MaskedText.color = (luminance > 0.5f) ? new Color(0.15f, 0.15f, 0.15f, 1f) : Color.white;
             }
         }
 
