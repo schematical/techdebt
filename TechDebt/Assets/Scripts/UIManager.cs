@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
     public GameObject clickBlockingPanel;
 
     public UIFocusablePanel focusedPanel;
-
+    public UIDialogBubble focusedDialogBubble;
    
 
 
@@ -421,14 +421,12 @@ public class UIManager : MonoBehaviour
     public void ShowPlanUI()
     {
         Close();
-        Debug.Log("planPhaseMenuPanel.Show()");
         planPhaseMenuPanel.Show();
         timeControlPanel.Close();
     }
 
     public void HidePlanUI()
     {
-        Debug.Log("planPhaseMenuPanel.Close()");
         planPhaseMenuPanel.Close();
         timeControlPanel.Show();
     }
@@ -623,5 +621,15 @@ public class UIManager : MonoBehaviour
     public void HideTooltip()
     {
         toolTip.gameObject.SetActive(false);
+    }
+
+    public void MarkDialogBubbleFocused(UIDialogBubble _focusedDialogBubble)
+    {
+        if (focusedDialogBubble != null && focusedDialogBubble != _focusedDialogBubble)
+        {
+            focusedDialogBubble.Close();
+        }
+        focusedDialogBubble = _focusedDialogBubble;
+        
     }
 }

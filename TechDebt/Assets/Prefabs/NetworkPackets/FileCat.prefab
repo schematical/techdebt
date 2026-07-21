@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6664243702833831756}
   - component: {fileID: 579029057825097036}
   - component: {fileID: 556364725179335745}
-  - component: {fileID: 6315518695250383973}
+  - component: {fileID: 71364958916849654}
   m_Layer: 0
   m_Name: FileCat
   m_TagString: Untagged
@@ -108,16 +108,14 @@ MonoBehaviour:
   CurrentState: 0
   data:
     Type: 1
-    prefab: {fileID: 0}
-    baseLoad: 20
-    probilitly: 1
+    prefabId: 
   returnIndex: -1
   currentPosition: {x: 0, y: 0, z: 0}
   nextHop: {fileID: 0}
   pastNodes: []
-  speed: 2
---- !u!61 &6315518695250383973
-BoxCollider2D:
+  shadow: {fileID: 0}
+--- !u!60 &71364958916849654
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -160,5 +158,14 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.23, y: 0.32}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.2614286, y: 0.5}
+      - {x: -0.36174366, y: 0.19078258}
+      - {x: -0.359375, y: -0.5}
+      - {x: -0.36070237, y: -0.50129336}
+      - {x: -0.2934488, y: -0.5}
+      - {x: 0.33603424, y: -0.18530226}
+      - {x: 0.3345037, y: -0.18321954}
+      - {x: 0.32384455, y: 0.50118434}
+  m_UseDelaunayMesh: 1

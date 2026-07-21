@@ -2255,6 +2255,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1910237100}
   clickBlockingPanel: {fileID: 2011722322}
   focusedPanel: {fileID: 0}
+  focusedDialogBubble: {fileID: 0}
 --- !u!114 &203743597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9691,7 +9692,6 @@ GameObject:
   - component: {fileID: 776996749}
   - component: {fileID: 776996750}
   - component: {fileID: 776996751}
-  - component: {fileID: 776996752}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -10556,18 +10556,6 @@ MonoBehaviour:
   - {fileID: -82188816, guid: 7173297d32612494385a4c03e8770b85, type: 3}
   - {fileID: 1836878594, guid: 83661e17d1945f245b88cdb7bf007bb8, type: 3}
   - {fileID: -463002889, guid: 17cbf24393a9fa941b8d0b2cbde5d9c6, type: 3}
---- !u!114 &776996752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776996744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80e3db01d6de464d876ca9f72b14c7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SteamManager
 --- !u!1 &788820141
 GameObject:
   m_ObjectHideFlags: 0

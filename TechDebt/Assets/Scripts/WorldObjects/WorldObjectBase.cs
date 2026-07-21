@@ -71,6 +71,7 @@ namespace Infrastructure
         {
             UIDialogBubble dialogBubble = ShowDialogBubble();
             dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{GetDisplayName()}");
+            GameManager.Instance.UIManager.MarkDialogBubbleFocused(dialogBubble);
             return dialogBubble;
         }
 

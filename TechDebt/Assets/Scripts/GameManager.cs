@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour, iModifiable
             case(NetworkPacket.State.Running):
                 float latency = packet.GetLatency();
 
-                FloatingTextFactory.ShowText($"{Math.Round(packet.GetLatency()*100)}ms", packet.transform.position - new Vector3(0,1), Color.coral);
+                FloatingTextFactory.ShowText($"{Math.Round(packet.GetLatency()*100)}ms Latency", packet.transform.position - new Vector3(0,1), Color.coral);
                 IncrStat(StatType.TotalNetworkPacketLatency, latency);
             	 packetsServiced = IncrStat(StatType.PacketsSucceeded);
                 break;

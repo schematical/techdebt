@@ -80,15 +80,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             // Spend fractionalCostFloor
             GameManager.Instance.IncrStat(StatType.Money, fractionalCostFloor * -1);
-            GameManager.Instance.FloatingTextFactory.ShowText($"-${fractionalCostFloor}", transform.position,
+            GameManager.Instance.FloatingTextFactory.ShowText($"-${fractionalCostFloor} Cost", transform.position,
                 Color.khaki);
             fractionalCost = fractionalCost - fractionalCostFloor;
         }
-
-  
-
-
-
     }
 
     public float GetMaxLoad()
@@ -175,14 +170,14 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         if (costPerPacket != 0)
         {
             GameManager.Instance.IncrStat(StatType.Money, costPerPacket * -1);
-            GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket}", transform.position,
+            GameManager.Instance.FloatingTextFactory.ShowText($"-${costPerPacket} Cost", transform.position,
                 Color.khaki);
         }
 
         if (loadPerPacket != 0)
         {
             CurrentLoad += loadPerPacket;
-            GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket}", transform.position,
+            GameManager.Instance.FloatingTextFactory.ShowText($"+{loadPerPacket} Load", transform.position,
                 spriteRenderer.color);
 
             if (CurrentLoad > GetMaxLoad())

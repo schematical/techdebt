@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using DefaultNamespace;
 using MetaChallenges;
+using UI;
 using UnityEngine.EventSystems;
 
-public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
+public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable, iUIDialogBubbleAttachable
 {
     protected float BlockTimer = -1;
     public enum State { Running, Failed, Stolen }
@@ -27,7 +28,7 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     protected float CurrentLatency = 0;
     protected float Delay = -100;
     protected GameObject sparks;
-
+    private UIDialogBubble dialogBubble;
 	void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -222,9 +223,15 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
 
     public virtual void OnLeftClick(PointerEventData eventData)
     {
-
+        RenderDetailBubble();
     }
-
+    public virtual UIDialogBubble RenderDetailBubble()
+    {
+        UIDialogBubble dialogBubble = ShowDialogBubble();
+        dialogBubble.AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().h1($"{data.Type}");
+        GameManager.Instance.UIManager.MarkDialogBubbleFocused(dialogBubble);
+        return dialogBubble;
+    }
     public Vector3 GetInteractionPosition(InteractionType interactionType = InteractionType.Basic)
     {
         return transform.position;
@@ -259,5 +266,37 @@ public class NetworkPacket : MonoBehaviour, IPointerClickHandler, iTargetable
     public virtual NetworkPacketRouteAction OnInfraContact(InfrastructureInstance infrastructureInstance)
     {
         return NetworkPacketRouteAction.Normal;
+    }
+    
+    public UIDialogBubble  ShowDialogBubble()
+    {
+        if (dialogBubble != null)
+        {
+            dialogBubble.Close();
+        }
+        
+
+        dialogBubble = GameManager.Instance.prefabManager.Create("UIDialogBubble", transform.position, GameManager.Instance.UIManager.transform).GetComponent<UIDialogBubble>();
+        dialogBubble.SetTarget(this);
+        dialogBubble.transform.SetAsFirstSibling();
+        dialogBubble.CleanUp();
+        return dialogBubble;
+    }
+
+    public void HideDialogBubble()
+    {
+        if (dialogBubble == null)
+        {
+            return;
+        }
+        dialogBubble.Close();
+    }
+    public bool IsDialogBubbleActive()
+    {
+        if (dialogBubble == null)
+        {
+            return false;
+        }
+        return dialogBubble.gameObject.activeInHierarchy;
     }
 }
