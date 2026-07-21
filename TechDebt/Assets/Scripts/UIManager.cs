@@ -101,6 +101,14 @@ public class UIManager : MonoBehaviour
     private bool forcePause = false;
     private MetricsState metricsState = MetricsState.Hidden;
 
+    public bool IsAnyMapOpen()
+    {
+        return (techTreePanel != null && techTreePanel.IsOpen()) ||
+               (productRoadMap != null && productRoadMap.IsOpen()) ||
+               (orgChartPanel != null && orgChartPanel.IsOpen()) ||
+               (metaUnlockMapPanel != null && metaUnlockMapPanel.IsOpen());
+    }
+
 
     public void Initialize()
     {

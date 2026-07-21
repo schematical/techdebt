@@ -81,12 +81,25 @@ namespace UI
 
             if (_cam == null) _cam = Camera.main;
 
+            // Check if any Map Panel is currently open/opening via UIManager
+            bool isMapOpen = GameManager.Instance.UIManager.IsAnyMapOpen();
+
+            if (isMapOpen)
+            {
+                transform.localScale = Vector3.zero;
+                return; // Skip drawing, positioning, and rotation while hidden
+            }
+
             if (_cam != null && _cam.orthographic)
             {
                 float referenceZoom = 5f;
                 float scaleValue = referenceZoom / _cam.orthographicSize;
                 scaleValue = Mathf.Clamp(scaleValue, 0.4f, 2.0f);
                 transform.localScale = new Vector3(scaleValue, scaleValue, 1f);
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
             }
 
             float padding = 50f;

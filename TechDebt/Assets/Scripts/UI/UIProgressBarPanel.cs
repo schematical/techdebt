@@ -78,6 +78,20 @@ namespace UI
                 return;
             }
 
+            // Check if any Map Panel is currently open/opening via UIManager
+            bool  isMapOpen = GameManager.Instance.UIManager.IsAnyMapOpen();
+
+            // Dynamically scale the progress bar to zero to hide it when the map is open
+            if (isMapOpen)
+            {
+                transform.localScale = Vector3.zero;
+                return; // Skip rendering and alignment while hidden
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
+            }
+
             SetProgress(progressable.GetProgress());
             
             if (Text != null)

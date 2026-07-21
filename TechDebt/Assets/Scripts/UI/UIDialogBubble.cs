@@ -163,6 +163,20 @@ namespace UI
         protected override void LateUpdate()
         {
             base.LateUpdate();
+
+            // Check if any Map Panel is currently open/opening via UIManager
+            bool isMapOpen = GameManager.Instance.UIManager.IsAnyMapOpen();
+
+            if (isMapOpen)
+            {
+                transform.localScale = Vector3.zero;
+                return; // Skip drawing, positioning, and alignment while hidden
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
+            }
+
             Camera cam = Camera.main;
 
             Vector3 worldPos = target.transform.position + worldOffset;
