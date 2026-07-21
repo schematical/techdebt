@@ -45,7 +45,7 @@ public class HasMoneyVictoryCondition: MapLevelVictoryConditionBase
                 textSection.text.color = Color.red;
             }
             textSection.text.text =
-                $"Remaining Budget: ${GameManager.Instance.GetStatValue(StatType.Money)}";
+                $"Remaining Budget: ${Math.Round(GameManager.Instance.GetStatValue(StatType.Money))}";
         });
     }
 }
