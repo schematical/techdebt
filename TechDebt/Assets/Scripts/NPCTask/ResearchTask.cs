@@ -58,6 +58,12 @@ public class ResearchTask : NPCTask, iProgressable
     {
         return TargetTechnology.GetProgress();
     }
+
+    public string GetProgressText()
+    {
+        return "Researching...";
+    }
+
     public override bool IsFinished(NPCBase npc)
     {
         // The task is finished if the technology is no longer being researched.

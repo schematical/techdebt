@@ -754,10 +754,11 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         progressBar = null;
     }
 
-    public void AddProgressBar(iProgressable progressable)
+    public UIProgressBarPanel AddProgressBar(iProgressable progressable)
     {
         progressBar = GameManager.Instance.prefabManager.Create("ProgressBar", transform.position).GetComponent<UIProgressBarPanel>();//, GameManager.Instance.UIManager.transform)
         progressBar.Initialize(this, progressable);
+        return progressBar;
     }
     
     public UIDialogBubble  ShowDialogBubble()

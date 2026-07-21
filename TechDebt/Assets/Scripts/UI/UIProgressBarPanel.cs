@@ -26,6 +26,7 @@ namespace UI
         {
             SetProgress(progressable.GetProgress());
             transform.position = target.transform.position + new Vector3(0f, 2f, -1.1f);
+            Text.text = progressable.GetProgressText();
         }
 
         public void SetProgress(float progress, Color ?color = null)

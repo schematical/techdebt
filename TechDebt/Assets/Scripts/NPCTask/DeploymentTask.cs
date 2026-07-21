@@ -45,5 +45,9 @@ public class DeploymentTask : InfrastructureTaskBase
     {
         return $"Deploy {_release.GetVersionString()}";
     }
+    public override string GetProgressText()
+    {
+        return "Deploying...";
+    }
 
 }

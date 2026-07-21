@@ -83,4 +83,8 @@ public class CodeTask : InfrastructureTaskBase, iProgressable
     {
        return ReleaseBase.GetProgress();
     }
+    public override string GetProgressText()
+    {
+        return "Coding...";
+    }
 }

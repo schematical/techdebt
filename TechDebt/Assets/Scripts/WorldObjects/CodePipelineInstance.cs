@@ -133,6 +133,11 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
     {
         return _deploymentProgress / _currentRelease.GetRequiredProgress();
     }
+
+    public string GetProgressText()
+    {
+        return "Deploying...";
+    }
 }
 
 

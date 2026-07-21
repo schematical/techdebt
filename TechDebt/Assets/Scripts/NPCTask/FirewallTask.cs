@@ -44,5 +44,18 @@ public class FirewallTask : InfrastructureTaskBase
     {
         return $"{GoalFirewallState} Traffic";
     }
+    public override string GetProgressText()
+    {
+        switch (GoalFirewallState)
+        {
+            case(InternetPipe.InternetPipeFirewallState.Allow):
+                return $"Unblocking..";
+            case(InternetPipe.InternetPipeFirewallState.Block):
+                return $"Blocking...";
+            default:
+                throw new System.NotImplementedException();
+        }
+       
+    }
 
 }

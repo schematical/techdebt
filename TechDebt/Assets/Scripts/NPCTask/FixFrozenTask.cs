@@ -20,6 +20,10 @@ public class FixFrozenTask : InfrastructureTaskBase
     {
         return 5;
     }
+    public override string GetProgressText()
+    {
+        return "Fixing...";
+    }
 
   
 

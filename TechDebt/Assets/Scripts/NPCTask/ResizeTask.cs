@@ -46,5 +46,10 @@ public class ResizeTask : InfrastructureTaskBase
         throw new System.Exception($"Invalid Size: {SizeChange}");
     }
     
+    public override string GetProgressText()
+    {
+        return "Resizing...";
+    }
+    
   
 }

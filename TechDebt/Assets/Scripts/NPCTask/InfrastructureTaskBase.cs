@@ -135,6 +135,8 @@
             return progress / GetProgressRequirement();
         }
 
+        public abstract string GetProgressText();
+
 
         protected virtual float GetNpcWorkSpeed(NPCDevOps npcDevOps)
         {

@@ -31,4 +31,8 @@ public class ShutdownTask : InfrastructureTaskBase
     {
         return TargetInfrastructure.GetWorldObjectType().BuildTime;
     }
+    public override string GetProgressText()
+    {
+        return "Shutting down...";
+    }
 }

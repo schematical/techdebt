@@ -30,4 +30,9 @@ public class BuildTask : InfrastructureTaskBase
     {
         return TargetInfrastructure.GetWorldObjectType().BuildTime;
     }
+
+    public override string GetProgressText()
+    {
+        return "Building...";
+    }
 }
