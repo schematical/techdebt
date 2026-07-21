@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -33.865}
-  m_SizeDelta: {x: 0, y: 20.328598}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6343895047304635097
 CanvasRenderer:
@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 7.199951, y: -28.9021}
-  m_SizeDelta: {x: -14.0408, y: 10.402}
+  m_SizeDelta: {x: -14.0408, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &3481313559855317592
 CanvasRenderer:
@@ -226,8 +226,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4285953654
+  m_fontColor: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -244,8 +244,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -402,7 +402,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 20}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2725759908880132633
 CanvasRenderer:
@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90452b7c82cc49fb82d85750dd04e897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIProgressPanel
+  ProgressBarBkgd: {fileID: 0}
   Text: {fileID: 7478872587517880154}
   ProgressPanelHolder: {fileID: 1266953971297456661}
   ProgressBar: {fileID: 8600378213164768176}
