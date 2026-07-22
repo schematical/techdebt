@@ -10,10 +10,14 @@ namespace DefaultNamespace.Rewards
         public float BaseValueMultiplier { get; set; } = 1f;
         
         public ScaleDirection ScaleDirection = ScaleDirection.Up;
-        public float GetScaledValue()
+        public float GetScaledValue(List<Rarity> levels =  null)
         {
+            if (levels == null)
+            {
+                levels = Levels;
+            }
             float percent = 1;
-            foreach (Rarity rarity in Levels)
+            foreach (Rarity rarity in levels)
             {
                 percent *= GetScaledAdjustmentValue(rarity);
             }
@@ -41,6 +45,13 @@ namespace DefaultNamespace.Rewards
         {
 
             Levels.Add(rarity);
+            OnLevelUp(rarity);
+            return Levels.Count;
+        }
+        public int PreviewLevelUp(Rarity rarity)
+        {
+            List<Rarity> levels = new List<Rarity>(Levels);
+            levels.Add(rarity);
             OnLevelUp(rarity);
             return Levels.Count;
         }

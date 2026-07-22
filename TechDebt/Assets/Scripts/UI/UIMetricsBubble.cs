@@ -69,13 +69,13 @@ namespace UI
                     },
                 };
             }
-            foreach (DialogButtonOption option in options)
+            foreach (DialogButtonOption optionPanel in options)
             {
                 AddButton(
-                    option.Text,
+                    optionPanel.Text,
                     () =>
                     {
-                        option.OnClick.Invoke();
+                        optionPanel.OnClick.Invoke();
                     }
                 );
             }

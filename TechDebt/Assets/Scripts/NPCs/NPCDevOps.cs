@@ -85,7 +85,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
     public virtual int GetNextLevelXP()
     {
-        return (int)Math.Round(30 * Math.Pow(1.5f, level));
+        return (int)Math.Round(3 * Math.Pow(1.5f, level));
     }
 
     protected void MarkReadyForLevelUp()
@@ -107,6 +107,10 @@ public class NPCDevOps : NPCAnimatedBiped
         GenerateLevelUpOptions();
     }
 
+    /*private void setupOption(UIMultiSelectOptionPanel multiSelectOption, RewardBase modifierBase, Rarity rarity)
+    {
+        
+    }*/
     private void GenerateLevelUpOptions()
     {
         GameManager.Instance.UIManager.multiSelectPanel.Display(
@@ -126,22 +130,16 @@ public class NPCDevOps : NPCAnimatedBiped
         {
             optionCount = (int)Stats.GetStatValue(StatType.NPC_ModifierSlots);
         }
-
-        System.Action<UIMultiSelectOption, RewardBase, Rarity> setupOption = null;
-        setupOption = (multiSelectOption, modifierBase, rarity) =>
+        // System.Action<InteractionType, string> onInteract = (type, currentId) =>
+        System.Action<RewardBase, Rarity> setupOption = null;
+        setupOption = (rewardBase, rarity) =>
         {
-            Sprite sprite = modifierBase.GetSprite();
-            Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite);
-            RewardBase existing = Modifiers.Rewards.Find((t) => t.Id == modifierBase.Id);
-
-            multiSelectOption.Initialize(
-                GameManager.Instance.UIManager.multiSelectPanel, 
-                modifierBase.Id, spriteOut, 
-                $"{modifierBase.Name} - {rarity}",
-                modifierBase.GetDescription()
-                );
+            RewardBase existing = Modifiers.Rewards.Find((t) => t.Id == rewardBase.Id);
+            UIMultiSelectOptionPanel multiSelectOption =
+                GameManager.Instance.UIManager.multiSelectPanel.AddReward(this, existing != null ? existing : rewardBase, rarity);
+            multiSelectOption.SetReward(this, existing != null ? existing : rewardBase, rarity);
             multiSelectOption.MarkBanisable();
-            multiSelectOption.OnInteract((type, currentId) =>
+            multiSelectOption.OnInteract((panel, type, currentId) =>
             {
                 RewardInteractionEvent myEvent = new RewardInteractionEvent
                 {
@@ -151,20 +149,20 @@ public class NPCDevOps : NPCAnimatedBiped
                 GameManager.Instance.RecordEvent(myEvent);
                 
                 
-                if (type == UIMultiSelectOption.InteractionType.Select)
+                if (type == UIMultiSelectOptionPanel.InteractionType.Select)
                 {
                 
                     if (existing == null)
                     {
-                        if (modifierBase is NPCStatModifierReward statMod) statMod.SetTarget(this);
-                        AddModifier(modifierBase);
-                        modifierBase.Apply();
+                        if (rewardBase is NPCStatModifierReward statMod) statMod.SetTarget(this);
+                        AddModifier(rewardBase);
+                        rewardBase.Apply();
                     }
                     else
                     {
-                        modifierBase = existing;
+                        rewardBase = existing;
                     }
-                    if (modifierBase is LeveledRewardBase leveled)
+                    if (rewardBase is LeveledRewardBase leveled)
                     {
                         leveled.LevelUp(rarity);
                     }
@@ -181,11 +179,11 @@ public class NPCDevOps : NPCAnimatedBiped
                     ShowLevelUpGraphic(rarity);
 
                 }
-                else if (type == UIMultiSelectOption.InteractionType.Banish)
+                else if (type == UIMultiSelectOptionPanel.InteractionType.Banish)
                 {
                     GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
                     GameManager.Instance.Map.BanishedRewardIds.Add(currentId);
-                    traits.Remove(modifierBase);
+                    traits.Remove(rewardBase);
 
                     RewardBase replacement = null;
                     int safety = 0;
@@ -203,7 +201,7 @@ public class NPCDevOps : NPCAnimatedBiped
                     float rarityModifier = GameManager.Instance.GetStatValue(StatType.NPC_LevelUpRarity);
                     rarityModifier *= GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier);
                     Rarity rarity = RarityHelper.GetRandomRarity(rarityModifier);
-                    setupOption(multiSelectOption, replacement, rarity);
+                    setupOption(replacement, rarity);
                     GameManager.Instance.UIManager.multiSelectPanel.RefreshBanishButtons();
                 }
             });
@@ -228,13 +226,7 @@ public class NPCDevOps : NPCAnimatedBiped
             float rarityModifier = GameManager.Instance.GetStatValue(StatType.NPC_LevelUpRarity);
             rarityModifier *= GameManager.Instance.GetStatValue(StatType.Global_LevelUpRarityModifier);
             Rarity rarity = RarityHelper.GetRandomRarity(rarityModifier);
-            UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
-                modifierBase.Id,
-                modifierBase.GetSprite(),
-                $"{modifierBase.Name} - {rarity}",
-                modifierBase.GetDescription()
-            );
-            setupOption(option, modifierBase, rarity);
+            setupOption(modifierBase, rarity);
         }
     }
 

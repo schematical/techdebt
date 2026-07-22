@@ -1,4 +1,6 @@
 ﻿using System;
+using DefaultNamespace.Rewards;
+using Stats;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,7 +10,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIMultiSelectOption: MonoBehaviour
+    public class UIMultiSelectOptionPanel: MonoBehaviour
     {
         public enum InteractionType
         {
@@ -25,18 +27,36 @@ namespace UI
         public TextMeshProUGUI banishButtonText;
         public Button selectButton;
         
-        protected UnityAction<InteractionType, string> onInteract;
+        protected UnityAction<UIMultiSelectOptionPanel, InteractionType, string> onInteract;
         protected UIMultiSelectPanel parentPanel;
         
         public Button banishButton;
         private bool _banishable = false;
 
-        public UIMultiSelectOption OnInteract(UnityAction<InteractionType, string> action)
+        public UIMultiSelectOptionPanel OnInteract(UnityAction<UIMultiSelectOptionPanel, InteractionType, string> action)
         {
             onInteract = action;
             return this;
         }
 
+        public void SetReward(iModifiable target, RewardBase rewardBase, Rarity rarity)
+        {
+            Sprite sprite = rewardBase.GetSprite();
+            Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite);
+           
+            string description = rewardBase.GetDescription();
+           
+            NPCStatModifierReward npcModifier = (NPCStatModifierReward)rewardBase;
+            StatData statData = target.Stats.Get(npcModifier.StatType);
+            description = $"{statData.GetPreviewText(npcModifier.BuildStatModifier())}\n{description}";
+       
+            Initialize(
+                GameManager.Instance.UIManager.multiSelectPanel, 
+                rewardBase.Id, spriteOut, 
+                $"{rewardBase.Name} - {rarity}",
+                description // modifierBase.GetDescription()
+            );
+        }
         public void Initialize(UIMultiSelectPanel _parentPanel, string _id, Sprite sprite, string _primaryText, string _secondaryText)
         {
             parentPanel = _parentPanel;
@@ -62,14 +82,14 @@ namespace UI
             {
                 if (onInteract != null)
                 {
-                    onInteract.Invoke(InteractionType.Preview, id);
+                    onInteract.Invoke(this, InteractionType.Preview, id);
                 }
 
                 _parentPanel.SetPreview(this);
             }));
         }
 
-        public UIMultiSelectOption MarkBanisable()
+        public UIMultiSelectOptionPanel MarkBanisable()
         {
             _banishable = true;
 
@@ -85,7 +105,7 @@ namespace UI
                 {
                     if (onInteract != null)
                     {
-                        onInteract.Invoke(InteractionType.Banish, id);
+                        onInteract.Invoke(this, InteractionType.Banish, id);
                     }
                 });
             }
@@ -106,7 +126,7 @@ namespace UI
 
             if (onInteract != null)
             {
-                onInteract.Invoke(InteractionType.Select, id);
+                onInteract.Invoke(this, InteractionType.Select, id);
             }
         }
 

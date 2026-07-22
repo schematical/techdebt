@@ -87,12 +87,12 @@ namespace UI
             List<RewardBase> specialOptions = GameManager.Instance.Map.GetCurrentLevel().GetSpecialReleaseRewards();
             List<RewardBase> modifiers = new List<RewardBase>();
             
-            System.Action<UIMultiSelectOption, RewardBase> setupOption = null;
+            System.Action<UIMultiSelectOptionPanel, RewardBase> setupOption = null;
             setupOption = (opt, mod) =>
             {
                 opt.Initialize(GameManager.Instance.UIManager.multiSelectPanel, mod.Id, mod.GetSprite(), mod.GetTitle(), mod.GetDescription());
                 opt.MarkBanisable();
-                opt.OnInteract((type, currentId) =>
+                opt.OnInteract((panel, type, currentId) =>
                 {
                     
                     RewardInteractionEvent myEvent = new RewardInteractionEvent
@@ -102,7 +102,7 @@ namespace UI
                     };
                     GameManager.Instance.RecordEvent(myEvent);
                     
-                    if (type == UIMultiSelectOption.InteractionType.Select)
+                    if (type == UIMultiSelectOptionPanel.InteractionType.Select)
                     {
                         ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), mod);
                         GameManager.Instance.Releases.Add(releaseBase);
@@ -112,7 +112,7 @@ namespace UI
                         GameManager.Instance.UIManager.CloseSideBars();
                         GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
                     }
-                    else if (type == UIMultiSelectOption.InteractionType.Banish)
+                    else if (type == UIMultiSelectOptionPanel.InteractionType.Banish)
                     {
                         GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
                         GameManager.Instance.Map.BanishedRewardIds.Add(currentId);
@@ -173,13 +173,13 @@ namespace UI
                     modifierBase = existingModifierBase;
                 }
                 modifiers.Add(modifierBase);
-                UIMultiSelectOption option = GameManager.Instance.UIManager.multiSelectPanel.Add(
+                UIMultiSelectOptionPanel optionPanel = GameManager.Instance.UIManager.multiSelectPanel.Add(
                     modifierBase.Id,
                     modifierBase.GetSprite(),
                     modifierBase.GetTitle(),
                     modifierBase.GetDescription()
                 );
-                setupOption(option, modifierBase);
+                setupOption(optionPanel, modifierBase);
             }
         }
 

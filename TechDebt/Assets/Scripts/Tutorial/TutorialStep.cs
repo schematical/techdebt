@@ -120,15 +120,15 @@ namespace Tutorial
                 dialogLine.Add<UIPanelLineSectionImage>().image.sprite = sprite;
             }*/
             /*dialogLine.Add<UIPanelLineSectionText>().text.text = Description;
-            foreach (DialogButtonOption option in GetDialogOptions())
+            foreach (DialogButtonOption optionPanel in GetDialogOptions())
             {
                 dialogBubble.AddButton(
-                    option.Text,
+                    optionPanel.Text,
                     () =>
                     {
                         npc.HideDialogBubble();
                         GameManager.Instance.cameraController.StopFollowing();
-                        option.OnClick.Invoke();
+                        optionPanel.OnClick.Invoke();
                     }
                 );
             }*/

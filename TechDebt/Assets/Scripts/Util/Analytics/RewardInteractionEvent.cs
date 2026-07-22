@@ -6,7 +6,7 @@ namespace DefaultNamespace.Util.Analytics
         {
         }
 
-        public UI.UIMultiSelectOption.InteractionType InteractionType { set { SetParameter("InteractionType", value.ToString()); } }
+        public UI.UIMultiSelectOptionPanel.InteractionType InteractionType { set { SetParameter("InteractionType", value.ToString()); } }
         public string RewardId { set { SetParameter("RewardId", value); } }
     }
 }

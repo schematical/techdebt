@@ -10,11 +10,11 @@ namespace UI
 {
     public class UIMultiSelectPanel: UIPanel
     {
-      private List<UIMultiSelectOption> _optionPool = new List<UIMultiSelectOption>();
+      private List<UIMultiSelectOptionPanel> _optionPool = new List<UIMultiSelectOptionPanel>();
       public TextMeshProUGUI bottomText;
       public GameObject container;
       public UIButton confirmButton;
-      public UIMultiSelectOption previewingOption;
+      [FormerlySerializedAs("previewingOption")] public UIMultiSelectOptionPanel previewingOptionPanel;
 
       public UIButton rerollButton;
       private UnityAction _onReRoll;
@@ -55,17 +55,17 @@ namespace UI
       private void OnConfirmClick()
       {
          
-          if (previewingOption == null)
+          if (previewingOptionPanel == null)
           {
               return;
           }
-          previewingOption.MarkSelected();
+          previewingOptionPanel.MarkSelected();
       }
 
       public override void Close(bool forceClose = false)
       {
           base.Close(forceClose);
-          previewingOption = null;
+          previewingOptionPanel = null;
           CleanUp();
           GameManager.Instance.UIManager.Resume();
       }
@@ -74,7 +74,7 @@ namespace UI
       {
           base.Show();
  
-          previewingOption = null;
+          previewingOptionPanel = null;
           titleText.text = title;
           bottomText.text = bottom;
           CleanUp();
@@ -89,7 +89,7 @@ namespace UI
 
       public void CleanUp()
       {
-          foreach (UIMultiSelectOption panel in _optionPool)
+          foreach (UIMultiSelectOptionPanel panel in _optionPool)
           {
               panel.gameObject.SetActive(false);
           }
@@ -97,8 +97,7 @@ namespace UI
           confirmButton.gameObject.SetActive(false);
           _onReRoll = null;
       }
-
-      public UIMultiSelectOption Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
+      private UIMultiSelectOptionPanel _Add(string id)
       {
           if (panelState == UIState.Closed)
           {
@@ -107,35 +106,45 @@ namespace UI
 
           GameManager.Instance.UIManager.SetTimeScalePause();
 
-          UIMultiSelectOption option = GameManager.Instance.prefabManager.Create("UIMultiSelectOptionPanel", Vector3.zero, container.transform).GetComponent<UIMultiSelectOption>();
-          _optionPool.Add(option);
+          UIMultiSelectOptionPanel optionPanel = GameManager.Instance.prefabManager.Create("UIMultiSelectOptionPanel", Vector3.zero, container.transform).GetComponent<UIMultiSelectOptionPanel>();
+          _optionPool.Add(optionPanel);
 
-      
-          option.gameObject.SetActive(true);
-          option.Initialize(this, id, sprite, primaryText, secondaryText);
+          optionPanel.gameObject.SetActive(true);
         
-          option.name = "UIMultiSelectOption-" + option.id;
+          optionPanel.name = "UIMultiSelectOptionPanel-" + optionPanel.id;
 
 
-          return option;
+          return optionPanel;
+      }
+      public UIMultiSelectOptionPanel Add(string id, Sprite sprite, string primaryText, string secondaryText = "")
+      {
+          UIMultiSelectOptionPanel optionPanel = _Add(id);
+          optionPanel.Initialize(this, id, sprite, primaryText, secondaryText);
+          return optionPanel;
+      }
+      public UIMultiSelectOptionPanel AddReward(iModifiable target, RewardBase rewardBase, Rarity rarity)
+      {
+          UIMultiSelectOptionPanel optionPanel = _Add(rewardBase.Id);
+          optionPanel.SetReward( target, rewardBase, rarity);
+          return optionPanel;
       }
 
-      public void SetPreview(UIMultiSelectOption uiMultiSelectOption)
+      public void SetPreview(UIMultiSelectOptionPanel uiMultiSelectOptionPanel)
       {
-          foreach (UIMultiSelectOption multiSelectOption in _optionPool)
+          foreach (UIMultiSelectOptionPanel multiSelectOption in _optionPool)
           {
               multiSelectOption.Reset();
               
           }
-          previewingOption = uiMultiSelectOption;
-          previewingOption.backgroundImage.color = Color.white;
-          previewingOption.selectButton.gameObject.SetActive(false);
+          previewingOptionPanel = uiMultiSelectOptionPanel;
+          previewingOptionPanel.backgroundImage.color = Color.white;
+          previewingOptionPanel.selectButton.gameObject.SetActive(false);
           confirmButton.gameObject.SetActive(true);
       }
 
       public void RefreshBanishButtons()
       {
-          foreach (UIMultiSelectOption option in _optionPool)
+          foreach (UIMultiSelectOptionPanel option in _optionPool)
           {
               if (option.gameObject.activeSelf)
               {

@@ -86,7 +86,7 @@ namespace Stats
                 modifiers = Modifiers;
             }
             float value = BaseValue;
-            if (!IsModifiable && Modifiers.Count > 0)
+            if (!IsModifiable && modifiers.Count > 0)
             {
                 Debug.LogError("Non Modifiable StatData has modifier");
             }
@@ -110,7 +110,7 @@ namespace Stats
         public string GetPreviewText(StatModifier modifier)
         {
             float value = PreviewValue(modifier);
-            return $"{Util.GetDisplayable(Type.ToString())}: {FormatDisplayValue(Value)} {modifier.GetDisplayText()} => {FormatDisplayValue(value)}";
+            return $"{GameManager.Instance.localizationManager.GetStatTypeData(Type).Name}: {FormatDisplayValue(Value)} {modifier.GetDisplayText()} => {FormatDisplayValue(value)}";
         }
 
         public void Broadcast()
