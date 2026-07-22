@@ -21,7 +21,14 @@ namespace Rewards
             StatModifier.SetValue(GetScaledValue());
 
         }
-
+        public StatModifier BuildPreviewStatModifier()
+        {
+            StatModifier statModifier = new StatModifier(
+                Id,
+                GetScaledValue()
+            );
+            return statModifier;
+        }
       
         public StatModifier BuildStatModifier()
         {

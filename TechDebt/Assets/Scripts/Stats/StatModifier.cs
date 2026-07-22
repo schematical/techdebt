@@ -1,5 +1,6 @@
 ﻿using System;
 using NPCs;
+using UnityEngine;
 
 namespace Stats
 {
@@ -46,12 +47,17 @@ namespace Stats
 
         public void SetValue(float value)
         {
+            Debug.Log($"Set Value: {this.statType} = {value}");
             Value = value;
             if (statsCollection == null)
             {
-                throw new SystemException($"`statsCollection` is null - Id: {Id} - StatType: {statType} - Value: {Value}");
+                // throw new SystemException($"`statsCollection` is null - Id: {Id} - StatType: {statType} - Value: {Value}");
+                // I prey that we are doing a preview when this happens.
             }
-            statsCollection.RefreshStatValue(statType);
+            else
+            {
+                statsCollection.RefreshStatValue(statType);
+            }
         }
         public string GetDisplayText()
         {

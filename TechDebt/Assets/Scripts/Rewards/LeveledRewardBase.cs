@@ -10,11 +10,17 @@ namespace DefaultNamespace.Rewards
         public float BaseValueMultiplier { get; set; } = 1f;
         
         public ScaleDirection ScaleDirection = ScaleDirection.Up;
+        protected Rarity? previewLevelUpRarity;
         public float GetScaledValue(List<Rarity> levels =  null)
         {
             if (levels == null)
             {
-                levels = Levels;
+                levels = new List<Rarity>(Levels);
+            }
+
+            if (previewLevelUpRarity != null)
+            {
+                levels.Add((Rarity)previewLevelUpRarity);
             }
             float percent = 1;
             foreach (Rarity rarity in levels)
@@ -43,17 +49,15 @@ namespace DefaultNamespace.Rewards
         
         public int LevelUp(Rarity rarity)
         {
-
+            previewLevelUpRarity = null;
             Levels.Add(rarity);
             OnLevelUp(rarity);
             return Levels.Count;
         }
-        public int PreviewLevelUp(Rarity rarity)
+        public void PreviewLevelUp(Rarity rarity)
         {
-            List<Rarity> levels = new List<Rarity>(Levels);
-            levels.Add(rarity);
-            OnLevelUp(rarity);
-            return Levels.Count;
+            previewLevelUpRarity = rarity;
+            // return Levels.Count;
         }
 
         public virtual void OnLevelUp(Rarity rarity)

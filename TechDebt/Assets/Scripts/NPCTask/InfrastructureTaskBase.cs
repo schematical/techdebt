@@ -66,14 +66,8 @@
 
                 float adjustedProgress = Time.fixedDeltaTime * GetNpcWorkSpeed(npcDevOps);
                 progress += adjustedProgress;
-                int checkProgress = (int)Math.Round(progress/TargetInfrastructure.GetWorldObjectType().BuildTime * 100f);
-                if (checkProgress % 10 == 0 && displayProgress != checkProgress)
-                {
-                    displayProgress = checkProgress;
-                    GameManager.Instance.FloatingTextFactory.ShowText($"{displayProgress}%",
-                        TargetInfrastructure.transform.position); //  + new Vector3(0, 1, 3));
-                    npc.AddXP(GetTaskExp() * Time.fixedDeltaTime );
-                }
+                npc.AddXP(GetTaskExp() * Time.fixedDeltaTime );
+                
             }
         }
 

@@ -85,7 +85,7 @@ public class NPCDevOps : NPCAnimatedBiped
 
     public virtual int GetNextLevelXP()
     {
-        return (int)Math.Round(3 * Math.Pow(1.5f, level));
+        return (int)Math.Round(30 * Math.Pow(1.5f, level));
     }
 
     protected void MarkReadyForLevelUp()

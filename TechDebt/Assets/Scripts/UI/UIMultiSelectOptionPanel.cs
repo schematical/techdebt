@@ -48,7 +48,17 @@ namespace UI
            
             NPCStatModifierReward npcModifier = (NPCStatModifierReward)rewardBase;
             StatData statData = target.Stats.Get(npcModifier.StatType);
-            description = $"{statData.GetPreviewText(npcModifier.BuildStatModifier())}\n{description}";
+            StatModifier statModifier = npcModifier.BuildStatModifier();
+            npcModifier.PreviewLevelUp(rarity);
+            if (rewardBase is LeveledRewardBase)
+            {
+                // npcModifier.PreviewLevelUp(rarity);
+            }
+            else
+            {
+                Debug.Log($"Skipping PreviewLevelUp: {npcModifier}");
+            }
+            description = $"{statData.GetPreviewText(statModifier)}\n{description}";
        
             Initialize(
                 GameManager.Instance.UIManager.multiSelectPanel, 

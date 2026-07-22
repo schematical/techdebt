@@ -71,7 +71,7 @@ public class ResearchTask : NPCTask, iProgressable
     }
     public override string GetAssignButtonText()
     {
-        return "Research????";
+        return "Research";
     }
     public override string GetName()
     {
