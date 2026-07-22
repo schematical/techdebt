@@ -36,10 +36,9 @@ namespace Tutorial
             float techDebt = gameManager.GetStatValue(StatType.TechDebt);
             
             float releaseQuality = 1 - currentRelease.GetQuality();
-            float inputValidation = 1 - GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
             
             float attackPossibility = gameManager.GetStatValue(StatType.AttackPossibility);
-            return (techDebt * releaseQuality * inputValidation * attackPossibility);
+            return (techDebt * releaseQuality * attackPossibility);
         }
     }
 }

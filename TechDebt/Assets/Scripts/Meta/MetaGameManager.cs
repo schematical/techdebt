@@ -1439,15 +1439,15 @@ public static class MetaGameManager
                     }
                 }
             },
-            new GlobalStatModifierReward()
+            /*new GlobalStatModifierReward()
             {
                 Group = RewardBase.RewardGroup.Release,
                 Id = "input_validation",
                 Name = "Input Validation",
-                Description = "Decreases Chance Of XSS Attacks",
+                Description = "TODO: Fix this",
                 StatType = StatType.Infra_InputValidation,
                 IconSpriteId = "IconCode"
-            },
+            },*/
             new GlobalStatBaseValueReward()
             {
                 Group = RewardBase.RewardGroup.Release,

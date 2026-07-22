@@ -48,12 +48,6 @@ public class CodeTask : InfrastructureTaskBase, iProgressable
         }
     }
     
-    public override void OnEnd(NPCBase npc)
-    {
-        base.OnEnd(npc);
-        npc.HideProgressBar();
-        // No specific end action is needed beyond base functionality.
-    }
 
     public override bool IsFinished(NPCBase npc)
     {

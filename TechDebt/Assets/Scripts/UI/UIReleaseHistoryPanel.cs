@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.Rewards;
 using DefaultNamespace.Util.Analytics;
+using Rewards;
 using UnityEngine;
 
 namespace UI
@@ -87,12 +88,23 @@ namespace UI
             List<RewardBase> specialOptions = GameManager.Instance.Map.GetCurrentLevel().GetSpecialReleaseRewards();
             List<RewardBase> modifiers = new List<RewardBase>();
             
-            System.Action<UIMultiSelectOptionPanel, RewardBase> setupOption = null;
-            setupOption = (opt, mod) =>
+            System.Action<RewardBase> setupOption = null;
+            setupOption = (rewardBase) =>
             {
-                opt.Initialize(GameManager.Instance.UIManager.multiSelectPanel, mod.Id, mod.GetSprite(), mod.GetTitle(), mod.GetDescription());
-                opt.MarkBanisable();
-                opt.OnInteract((panel, type, currentId) =>
+                
+                // RewardBase existing = Modifiers.Rewards.Find((t) => t.Id == rewardBase.Id);
+                iModifiable target = GameManager.Instance;
+                if (rewardBase is StatModifierReward)
+                {
+                    target = ((StatModifierReward)rewardBase).GetTarget();
+                }
+                UIMultiSelectOptionPanel optionPanel = GameManager.Instance.UIManager.multiSelectPanel.AddReward(
+                    target,
+                    rewardBase, 
+                    Rarity.Common
+                );
+                optionPanel.MarkBanisable();
+                optionPanel.OnInteract((panel, type, currentId) =>
                 {
                     
                     RewardInteractionEvent myEvent = new RewardInteractionEvent
@@ -104,7 +116,7 @@ namespace UI
                     
                     if (type == UIMultiSelectOptionPanel.InteractionType.Select)
                     {
-                        ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), mod);
+                        ReleaseBase releaseBase = new ReleaseBase(ReleaseBase.IncrGlobalVersion(), rewardBase);
                         GameManager.Instance.Releases.Add(releaseBase);
                         CodeTask codeTask = new CodeTask(releaseBase);
                         GameManager.Instance.AddTask(codeTask);
@@ -116,7 +128,7 @@ namespace UI
                     {
                         GameManager.Instance.IncrStat(StatType.Global_Banish, -1);
                         GameManager.Instance.Map.BanishedRewardIds.Add(currentId);
-                        modifiers.Remove(mod);
+                        modifiers.Remove(rewardBase);
 
                         RewardBase replacement = null;
                         int safety = 0;
@@ -137,7 +149,7 @@ namespace UI
                         }
 
                         modifiers.Add(replacement);
-                        setupOption(opt, replacement);
+                        setupOption(replacement);
                         GameManager.Instance.UIManager.multiSelectPanel.RefreshBanishButtons();
                     }
                 });
@@ -150,36 +162,32 @@ namespace UI
             )
             {
                 saftyCheck++;
-                RewardBase modifierBase = null;
+                RewardBase rewardBase = null;
                 if (specialOptions.Count > 0)
                 {
-                    modifierBase = specialOptions[0];
+                    rewardBase = specialOptions[0];
                     specialOptions.RemoveAt(0);
                 }
                 else
                 {
-                    modifierBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.Release);
+                    rewardBase = MetaGameManager.GetRandomModifier(RewardBase.RewardGroup.Release);
                 }
 
-                if (modifiers.Find((t) => t.Id == modifierBase.Id) != null)
+                if (modifiers.Find((t) => t.Id == rewardBase.Id) != null)
                 {
                     continue;
                 }
               
          
-                RewardBase existingModifierBase = GameManager.Instance.Rewards.Rewards.Find((r) => r.Id == modifierBase.Id);
+                RewardBase existingModifierBase = GameManager.Instance.Rewards.Rewards.Find((r) => r.Id == rewardBase.Id);
                 if (existingModifierBase != null)
                 {
-                    modifierBase = existingModifierBase;
+                    rewardBase = existingModifierBase;
                 }
-                modifiers.Add(modifierBase);
-                UIMultiSelectOptionPanel optionPanel = GameManager.Instance.UIManager.multiSelectPanel.Add(
-                    modifierBase.Id,
-                    modifierBase.GetSprite(),
-                    modifierBase.GetTitle(),
-                    modifierBase.GetDescription()
-                );
-                setupOption(optionPanel, modifierBase);
+                modifiers.Add(rewardBase);
+              
+               
+                setupOption(rewardBase);
             }
         }
 

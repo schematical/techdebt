@@ -137,7 +137,6 @@ public class NPCDevOps : NPCAnimatedBiped
             RewardBase existing = Modifiers.Rewards.Find((t) => t.Id == rewardBase.Id);
             UIMultiSelectOptionPanel multiSelectOption =
                 GameManager.Instance.UIManager.multiSelectPanel.AddReward(this, existing != null ? existing : rewardBase, rarity);
-            multiSelectOption.SetReward(this, existing != null ? existing : rewardBase, rarity);
             multiSelectOption.MarkBanisable();
             multiSelectOption.OnInteract((panel, type, currentId) =>
             {

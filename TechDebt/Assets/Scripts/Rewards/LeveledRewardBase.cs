@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UI;
+using UnityEngine;
 
 namespace DefaultNamespace.Rewards
 {
@@ -21,7 +22,12 @@ namespace DefaultNamespace.Rewards
             if (previewLevelUpRarity != null)
             {
                 levels.Add((Rarity)previewLevelUpRarity);
+                // Debug.Log($"{this} has preview level up rarity");
             }
+            /*else
+            {
+                Debug.Log($"{this} has NO preview level up rarity");
+            }*/
             float percent = 1;
             foreach (Rarity rarity in levels)
             {

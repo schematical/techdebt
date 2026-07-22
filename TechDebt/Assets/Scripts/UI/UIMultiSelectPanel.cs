@@ -125,7 +125,7 @@ namespace UI
       public UIMultiSelectOptionPanel AddReward(iModifiable target, RewardBase rewardBase, Rarity rarity)
       {
           UIMultiSelectOptionPanel optionPanel = _Add(rewardBase.Id);
-          optionPanel.SetReward( target, rewardBase, rarity);
+          optionPanel.SetReward(target, rewardBase, rarity);
           return optionPanel;
       }
 

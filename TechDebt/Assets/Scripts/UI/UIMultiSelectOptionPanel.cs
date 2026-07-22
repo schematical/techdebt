@@ -1,5 +1,6 @@
 ﻿using System;
 using DefaultNamespace.Rewards;
+using Rewards;
 using Stats;
 using TMPro;
 using UnityEngine;
@@ -45,20 +46,21 @@ namespace UI
             Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite);
            
             string description = rewardBase.GetDescription();
-           
-            NPCStatModifierReward npcModifier = (NPCStatModifierReward)rewardBase;
-            StatData statData = target.Stats.Get(npcModifier.StatType);
-            StatModifier statModifier = npcModifier.BuildStatModifier();
-            npcModifier.PreviewLevelUp(rarity);
-            if (rewardBase is LeveledRewardBase)
+            if (rewardBase is StatModifierReward)
             {
-                // npcModifier.PreviewLevelUp(rarity);
+                StatModifierReward statModifierReward = (StatModifierReward)rewardBase;
+                StatData statData = target.Stats.Get(statModifierReward.StatType);
+                statModifierReward.PreviewLevelUp(rarity);
+                StatModifier statModifier = statModifierReward.BuildStatModifier();
+                
+                description = $"{statData.GetPreviewText(statModifier)}\n{description}"; 
+                // Debug.Log($"{rewardBase} {description}");
             }
-            else
+            /*else
             {
-                Debug.Log($"Skipping PreviewLevelUp: {npcModifier}");
-            }
-            description = $"{statData.GetPreviewText(statModifier)}\n{description}";
+                Debug.Log($"{rewardBase} is not a StatModifierReward");
+            }*/
+          
        
             Initialize(
                 GameManager.Instance.UIManager.multiSelectPanel, 

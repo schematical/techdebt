@@ -747,7 +747,7 @@ public class GameManager : MonoBehaviour, iModifiable
             
         });
         Stats.Add(new StatData(StatType.EventCheckEverySeconds, 15));
-        Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
+        // Stats.Add(new StatData(StatType.Infra_InputValidation, 0.1f));
         Stats.Add(new StatData(StatType.AttackPossibility, 0f){
             DisplayType =  StatData.StatDataDisplayType.Percentage,
             IsModifiable = false,

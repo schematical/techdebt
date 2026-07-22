@@ -226,7 +226,11 @@ namespace DefaultNamespace
                         Name = "Daily Budget", 
                         ToolTip = "`Daily Budget` affects how much money is added to your budget each day."
                     }; 
-             
+             case(StatType.Infra_InputValidation):
+                    return new LocalizationData() {
+                        Name = "Input Validation", 
+                        ToolTip = "`Input Validation` decreases the damage done by XSS attacks."
+                    }; 
                 /*
 
 
@@ -236,7 +240,7 @@ namespace DefaultNamespace
         VictoryCondition_NetworkPacketLatency,
                      */
                 default:
-                    throw new System.NotImplementedException();
+                    throw new System.NotImplementedException($"Missing localization for statType `{statType}`.");
                 
             }
         }
