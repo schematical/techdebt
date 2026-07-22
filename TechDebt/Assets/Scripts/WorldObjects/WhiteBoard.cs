@@ -15,7 +15,7 @@ namespace Infrastructure
             attentionIconColor = Color.green;
             if (IsActive())
             {
-                ShowAttentionIcon("Research");
+                ShowAttentionIcon("Plan");
             }
         }
 
@@ -26,7 +26,7 @@ namespace Infrastructure
             switch (newState)
             {
                 case(InfrastructureData.State.Operational):
-                    ShowAttentionIcon("Research");
+                    ShowAttentionIcon("Plan");
                     break;
             }
             

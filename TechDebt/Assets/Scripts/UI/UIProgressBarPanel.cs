@@ -78,6 +78,11 @@ namespace UI
                 return;
             }
 
+            if (transform.GetSiblingIndex() != 0)
+            {
+                transform.SetAsFirstSibling();
+            }
+
             // Check if any Map Panel is currently open/opening via UIManager
             bool  isMapOpen = GameManager.Instance.UIManager.IsAnyMapOpen();
 

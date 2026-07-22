@@ -27,7 +27,7 @@ namespace Infrastructure
         {
             if (polygonCollider2D == null)
             {
-              
+                Debug.LogWarning($"{gameObject.name} is missing a polygon collider");
                 PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
                 SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
                 var sprite = spriteRenderer.sprite;
@@ -35,14 +35,10 @@ namespace Infrastructure
                     sprite.pivot.x / sprite.pixelsPerUnit,
                     sprite.pivot.y / sprite.pixelsPerUnit
                 );
-                
-                /*collider.points = new Vector2[4]{
-                    spriteRenderer.bounds.min,
-                    new Vector2(spriteRenderer.bounds.max.x, spriteRenderer.bounds.min.y),
-                    spriteRenderer.bounds.max,
-                    new Vector2(spriteRenderer.bounds.min.x, spriteRenderer.bounds.max.y)
-                };*/
-                collider.points = new Vector2[4]{
+
+
+                collider.points = new Vector2[4]
+                {
                     Vector2.zero - pivot,
                     new Vector2(0, spriteRenderer.bounds.size.y) - pivot,
                     (Vector2)spriteRenderer.bounds.size - pivot,

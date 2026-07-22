@@ -144,7 +144,23 @@ namespace UI
                 targetScreenPos = new Vector2(clampedX, clampedY);
             }
 
-            if (parentRect != null && RectTransformUtility.ScreenPointToWorldPointInRectangle(parentRect, targetScreenPos, uiCam, out Vector3 worldPoint))
+            // Calculate the parabolic float offset in screen space (10 pixels height, 1s period)
+            Vector2 floatDirection = Vector2.up;
+            if (isOffScreen)
+            {
+                Vector2 diff = (Vector2)screenPos - targetScreenPos;
+                if (diff.sqrMagnitude > 0.001f)
+                {
+                    floatDirection = diff.normalized;
+                }
+            }
+
+            float cycleTime = Time.time % 1f;
+            float parabolicFactor = 4f * cycleTime * (1f - cycleTime); // perfect parabola 0 -> 1 -> 0
+            float offsetPixels = parabolicFactor * 10f;
+            Vector2 finalScreenPos = targetScreenPos + (floatDirection * offsetPixels);
+
+            if (parentRect != null && RectTransformUtility.ScreenPointToWorldPointInRectangle(parentRect, finalScreenPos, uiCam, out Vector3 worldPoint))
             {
                 transform.position = worldPoint;
             }
@@ -152,11 +168,11 @@ namespace UI
             {
                 if (!isOffScreen)
                 {
-                    transform.position = targetPosition;
+                    transform.position = targetPosition + new Vector3(0f, offsetPixels * 0.02f, 0f);
                 }
                 else
                 {
-                    Vector3 clampedScreenPos = new Vector3(targetScreenPos.x, targetScreenPos.y, screenPos.z);
+                    Vector3 clampedScreenPos = new Vector3(finalScreenPos.x, finalScreenPos.y, screenPos.z);
                     clampedScreenPos.z = _cam.nearClipPlane + 0.1f;
                     transform.position = _cam.ScreenToWorldPoint(clampedScreenPos);
                 }
