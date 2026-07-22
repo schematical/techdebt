@@ -95,7 +95,7 @@ public class NPCDevOps : NPCAnimatedBiped
         {
             GameManager.Instance.TutorialManager.Trigger(TutorialStepId.NPC_LevelUp_Pending);
         }
-        ShowAttentionIcon(() =>
+        ShowAttentionIcon("Level up", () =>
         {
             HideAttentionIcon();
             LevelUp();
@@ -256,12 +256,10 @@ public class NPCDevOps : NPCAnimatedBiped
         base.OnPlayPhaseStart();
         if (level < leveledUpTo)
         {
-            ShowAttentionIcon(() =>
+            ShowAttentionIcon("Level up", () =>
             {
                 HideAttentionIcon();
                 LevelUp();
-               
-               
             });
         }
     }

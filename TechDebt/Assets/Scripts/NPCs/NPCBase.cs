@@ -496,33 +496,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         return new List<NPCTask>();
     }
 
-    public void ShowAttentionIcon(UnityAction onClick)
-    {
-        if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
-        {
-            Debug.LogWarning($"{gameObject.name} - uiAttentionIcon is already active");
-            return;
-        }
-        uiAttentionIcon = GameManager.Instance.UIManager.AddAttentionIcon(
-            transform,
-            Color.purple,
-            () =>
-            {
-                if (!uiAttentionIcon.IsOffScreen())
-                {
-                    onClick.Invoke();
-                    return;
-                }
-                GameManager.Instance.cameraController.ZoomTo(transform, () =>
-                {
-                    onClick.Invoke();
-                });
-               
-            }
-        );
-    }
+   
+    
 
-    public void ShowAttentionIcon(UnityAction onClick, string text)
+    public void ShowAttentionIcon(string text, UnityAction onClick)
     {
         if (uiAttentionIcon != null && uiAttentionIcon.gameObject.activeSelf)
         {
