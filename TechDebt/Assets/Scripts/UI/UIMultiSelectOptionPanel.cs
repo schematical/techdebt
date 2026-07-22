@@ -46,6 +46,8 @@ namespace UI
             Sprite spriteOut = RarityHelper.PaintIcon(rarity, sprite);
            
             string description = rewardBase.GetDescription();
+    
+            string toolTip = null;
             if (rewardBase is StatModifierReward)
             {
                 StatModifierReward statModifierReward = (StatModifierReward)rewardBase;
@@ -53,23 +55,26 @@ namespace UI
                 statModifierReward.PreviewLevelUp(rarity);
                 StatModifier statModifier = statModifierReward.BuildStatModifier();
                 
-                description = $"{statData.GetPreviewText(statModifier)}\n{description}"; 
+                // description = $"{statData.GetPreviewText(statModifier)}\n{description}";
+                toolTip = $"{statData.GetPreviewText(statModifier)}\n\n{GameManager.Instance.localizationManager.GetStatTypeData(statModifierReward.StatType).ToolTip}";
                 // Debug.Log($"{rewardBase} {description}");
-            }
-            /*else
+            }/*
+            else
             {
-                Debug.Log($"{rewardBase} is not a StatModifierReward");
+                toolTipListener.SetToolTip(null);
             }*/
-          
-       
+
+    
+           
             Initialize(
                 GameManager.Instance.UIManager.multiSelectPanel, 
                 rewardBase.Id, spriteOut, 
                 $"{rewardBase.Name} - {rarity}",
-                description // modifierBase.GetDescription()
+                description,
+                toolTip// modifierBase.GetDescription()
             );
         }
-        public void Initialize(UIMultiSelectPanel _parentPanel, string _id, Sprite sprite, string _primaryText, string _secondaryText)
+        public void Initialize(UIMultiSelectPanel _parentPanel, string _id, Sprite sprite, string _primaryText, string _secondaryText, string toolTip = null)
         {
             parentPanel = _parentPanel;
             id = _id;
@@ -77,6 +82,8 @@ namespace UI
             primaryText.text = _primaryText;
             secondaryText.text = _secondaryText;
             onInteract = null;
+            UIToolTipListener toolTipListener = GetComponent<UIToolTipListener>();
+            toolTipListener.SetToolTip(toolTip);
             /*image.color = Color.white;
             backgroundImage.color = Color.grey;*/
             Reset();

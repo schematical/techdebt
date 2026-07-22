@@ -361,6 +361,7 @@ GameObject:
   - component: {fileID: 5848052082173889609}
   - component: {fileID: 6329964324119445587}
   - component: {fileID: 7376368692248552581}
+  - component: {fileID: 5893986845819851500}
   m_Layer: 5
   m_Name: UIMultiSelectOptionPanel
   m_TagString: Untagged
@@ -450,6 +451,18 @@ MonoBehaviour:
   banishButtonText: {fileID: 7391202484509432216}
   selectButton: {fileID: 8146639134698797062}
   banishButton: {fileID: 7582857895950678773}
+--- !u!114 &5893986845819851500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784852302109544265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72024c9fadf43019c71d6b2a42e8006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.UIToolTipListener
 --- !u!1001 &2634088036874367557
 PrefabInstance:
   m_ObjectHideFlags: 0

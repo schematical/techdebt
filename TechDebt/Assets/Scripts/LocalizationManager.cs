@@ -169,7 +169,7 @@ namespace DefaultNamespace
                 case(StatType.Global_ReleaseQualityMultiplier):
                     return new LocalizationData() {
                         Name = "Release Quality Multiplier", 
-                        ToolTip = "`Release Quality Multiplier` determines the quality of future code releases."
+                        ToolTip = "`Release Quality Multiplier` determines the quality of future code releases which affects things like reward rarity an the chances of bad things happening from Tech Debt."
                     }; 
                 case(StatType.NPC_Release_TechDebt):
                     return new LocalizationData() {
@@ -219,7 +219,7 @@ namespace DefaultNamespace
                 case(StatType.NPC_BugAttackTechDebtMultiplier):
                     return new LocalizationData() {
                         Name = "Bug Attack Tech Debt Multiplier", 
-                        ToolTip = "`Bug Attack Tech Debt Multiplier` affects how, if any, Tech Debt is paid down when your team member is debugging."
+                        ToolTip = "`Bug Attack Tech Debt Multiplier` affects how much, if any, Tech Debt is paid down when your team member is debugging."
                     }; 
                 case(StatType.Global_DailyBudget):
                     return new LocalizationData() {
