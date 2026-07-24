@@ -55,14 +55,9 @@ namespace UI
                 statModifierReward.PreviewLevelUp(rarity);
                 StatModifier statModifier = statModifierReward.BuildStatModifier();
                 
-                // description = $"{statData.GetPreviewText(statModifier)}\n{description}";
                 toolTip = $"{statData.GetPreviewText(statModifier)}\n\n{GameManager.Instance.localizationManager.GetStatTypeData(statModifierReward.StatType).ToolTip}";
-                // Debug.Log($"{rewardBase} {description}");
-            }/*
-            else
-            {
-                toolTipListener.SetToolTip(null);
-            }*/
+      
+            }
 
     
            
