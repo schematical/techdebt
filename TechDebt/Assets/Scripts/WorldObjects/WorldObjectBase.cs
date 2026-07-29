@@ -4,7 +4,6 @@ using DefaultNamespace.EnvGraphic;
 using MetaChallenges;
 using NPCs;
 using UI;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
