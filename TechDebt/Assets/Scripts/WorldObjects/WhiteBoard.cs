@@ -19,13 +19,13 @@ namespace Infrastructure
             }
         }
 
-        public override void SetState(InfrastructureData.State newState)
+        public override void SetState(State newState)
         {
-            if (data.CurrentState == newState) return;
+            if (CurrentState == newState) return;
             base.SetState(newState);
             switch (newState)
             {
-                case(InfrastructureData.State.Operational):
+                case(State.Operational):
                     ShowAttentionIcon("Plan");
                     break;
             }

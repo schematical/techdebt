@@ -1,4 +1,5 @@
 using System;
+using Infrastructure;
 using UnityEngine;
 
 namespace Tutorial
@@ -8,7 +9,7 @@ namespace Tutorial
         public override void Apply()
         {
 
-            InfrastructureInstance door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+            WorldObjectBase door = GameManager.Instance.GetWorldObjectByID("door");
             if (door == null)
             {
                 Debug.LogError("Cannot spawn DeliveryNPC because 'door' infrastructure was not found.");

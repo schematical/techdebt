@@ -58,7 +58,7 @@ namespace DefaultNamespace.NetworkPackets
                     float inputValidation = GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
                     if (Random.value > inputValidation)
                     {
-                        if (GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db").IsActive())
+                        if (GameManager.Instance.GetWorldObjectByID("dedicated-db").IsActive())
                         {
                             return NetworkPacketRouteAction.Normal;
                         }

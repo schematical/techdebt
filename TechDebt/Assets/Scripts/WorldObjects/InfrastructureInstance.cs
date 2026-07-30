@@ -18,7 +18,7 @@ using UnityEngine.Serialization;
 public class InfrastructureInstance : WorldObjectBase, iAttackable
 {
     public Color startColor;
-    public InfrastructureData data;
+   // public InfrastructureData data;
 
     protected SpriteRenderer spriteRenderer;
 
@@ -54,7 +54,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         {
             return;
         }
-        if (data.CurrentState == InfrastructureData.State.Operational)
+        if (CurrentState == WorldObjectBase.State.Operational)
         {
             CurrentLoad -= GetWorldObjectType().Stats.GetStatValue(StatType.Infra_LoadRecoveryRate) * GetSizeMultiplier() * Time.fixedDeltaTime;
             if (CurrentLoad < 0)
@@ -130,7 +130,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             return false;
         }
 
-        if (data.CurrentState == InfrastructureData.State.Frozen)
+        if (CurrentState == State.Frozen)
         {
             packet.MarkFailedAndDestroy();
             packet.MoveToNextNode();
@@ -184,7 +184,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             {
                 packet.MarkFailedAndDestroy();
                 CurrentLoad = GetMaxLoad();
-                SetState(InfrastructureData.State.Frozen);
+                SetState(WorldObjectBase.State.Frozen);
                 packet.MoveToNextNode();
                 return false; // Stop processing
             }
@@ -206,7 +206,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
        
         WorldObjectType worldObjectType = GetWorldObjectType();
         if (worldObjectType.NetworkConnections != null && worldObjectType.NetworkConnections.Count > 0 &&
-            data.CurrentState == InfrastructureData.State.Operational)
+            CurrentState == State.Operational)
         {
             NetworkConnection connection = GetNextNetworkConnection(packet.data.Type);
             if (connection != null)
@@ -214,7 +214,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 WorldObjectType.Type type = connection.worldObjectType;
          
 
-                InfrastructureInstance nextReceiver = GameManager.Instance.GetRandomWorldObjectByType(type);
+                InfrastructureInstance nextReceiver = GameManager.Instance.GetRandomWorldObjectByType(type) as InfrastructureInstance;
                 if (nextReceiver != null && nextReceiver.IsActive())
                 {
                     packet.SetNextTarget(nextReceiver);
@@ -261,12 +261,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return transform;
     }
 
-    public virtual void Initialize(InfrastructureData infraData)
+    public virtual void Initialize()
     {
         
-        data = infraData;
-        Type = data.worldObjectType;
-        WorldObjectType worldObjectType = GetWorldObjectType();
+
 
         Initialize(); // Ensure default stats are set up
         CurrentSize = InfraSize.Small;
@@ -286,11 +284,11 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
 
 
-    public virtual void SetState(InfrastructureData.State newState)
+    public override void SetState(WorldObjectBase.State newState)
     {
-        if (data.CurrentState == newState) return; // No change
-        InfrastructureData.State previousState = data.CurrentState;
-        data.CurrentState = newState;
+        if (CurrentState == newState) return; // No change
+        State previousState = CurrentState;
+        CurrentState = newState;
         if (serverSmokeEffect != null)
         {
             serverSmokeEffect.SetActive(false);
@@ -298,19 +296,19 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
         switch (newState)
         {
-            case(InfrastructureData.State.Unlocked):
+            case(State.Unlocked):
                 attentionIconColor = Color.white;
                 ShowAttentionIcon("Build");
                 break;
-            case (InfrastructureData.State.Operational):
+            case (State.Operational):
                 HideAttentionIcon();
                 attentionIconColor = Color.white;
                 CurrentLoad = 0;
                 break;
-            case (InfrastructureData.State.Planned):
+            case (State.Planned):
                 // Debug.Log($"!!!!{gameObject.name}: State Set To {newState}");
                 break;
-            case (InfrastructureData.State.Frozen):
+            case (State.Frozen):
 
                 GameObject explosionEffect =
                     GameManager.Instance.prefabManager.Create("FireExplosion", transform.position);
@@ -349,25 +347,25 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             return;
         }
        
-        switch (data.CurrentState)
+        switch (CurrentState)
         {
-            case InfrastructureData.State.Locked:
+            case State.Locked:
                 // Ghosted / Outlined appearance
                 spriteRenderer.color = new Color(0.3f, 0.3f, 0.3f, 0.5f);
                 break;
-            case InfrastructureData.State.Unlocked:
+            case State.Unlocked:
                 // Available to be planned
                 spriteRenderer.color = new Color(1f, 1f, 1f, 0.2f);
                 break;
-            case InfrastructureData.State.Planned:
+            case State.Planned:
                 // Construction appearance
                 spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.5f);
                 break;
-            case InfrastructureData.State.Operational:
+            case State.Operational:
                 // Normal appearance
                 spriteRenderer.color = Color.white;
                 break;
-            case InfrastructureData.State.Frozen:
+            case State.Frozen:
                 spriteRenderer.color = Color.red;
                 break;
         }
@@ -376,7 +374,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
       
     }
 
-    public void OnInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
+    public override void OnWorldObjectStateChange(WorldObjectBase instance, State previousState)
     {
         if (
             !(
@@ -458,8 +456,8 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
                 priorities.Add(conn.networkPacketType, 0);
             }
 
-            List<InfrastructureInstance> instances = GameManager.Instance.GetWorldObjectByType(conn.worldObjectType);
-            foreach (InfrastructureInstance instance in instances)
+            List<WorldObjectBase> instances = GameManager.Instance.GetWorldObjectByType(conn.worldObjectType);
+            foreach (WorldObjectBase instance in instances)
             {
                 if (
                     instance != null &&
@@ -474,10 +472,10 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
 
         CurrConnections = new Dictionary<NetworkPacketData.PType, List<NetworkConnection>>();
-        foreach (var conn in worldObjectType.NetworkConnections)
+        foreach (NetworkConnection conn in worldObjectType.NetworkConnections)
         {
-            List<InfrastructureInstance> instances = GameManager.Instance.GetWorldObjectByType(conn.worldObjectType);
-            foreach (InfrastructureInstance instance in instances)
+            List<WorldObjectBase> instances = GameManager.Instance.GetWorldObjectByType(conn.worldObjectType);
+            foreach (WorldObjectBase instance in instances)
             {
                 if (
                     conn.priority == priorities[conn.networkPacketType] &&
@@ -527,7 +525,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         }
 
        
-        SetState(InfrastructureData.State.Operational);
+        SetState(State.Operational);
         UpdateCostPerSecond();
         UpdateAppearance(); // Update visual state after resize
     }
@@ -544,33 +542,23 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
         return levelUpEnvGraphic;
     }
 
-    public bool IsActive()
-    {
-        switch (data.CurrentState)
-        {
-            case (InfrastructureData.State.Operational):
-            case (InfrastructureData.State.Frozen):
-                return true;
-            default:
-                return false;
-        }
-    }
+
 
     public override List<NPCTask> GetAvailableTasks()
     {
 
         List<NPCTask> availableTasks = new List<NPCTask>();
-        switch (data.CurrentState)
+        switch (CurrentState)
         {
-            case (InfrastructureData.State.Unlocked):
+            case (State.Unlocked):
                 availableTasks.Add(new BuildTask(this));
           
                 break;
-            case (InfrastructureData.State.Operational):
+            case (State.Operational):
                 AddResizeButtons(availableTasks);
                 availableTasks.Add(new ShutdownTask(this));
                 break;
-            case (InfrastructureData.State.Frozen):
+            case (State.Frozen):
                 availableTasks.Add(new FixFrozenTask(this));
                 AddResizeButtons(availableTasks);
                 break;
@@ -610,7 +598,7 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
 
     public bool IsDead()
     {
-        return data.CurrentState == InfrastructureData.State.Frozen;
+        return CurrentState == State.Frozen;
     }
    
 
@@ -626,9 +614,12 @@ public class InfrastructureInstance : WorldObjectBase, iAttackable
             return type.DisplayName;
         }
 
-        return data.Id;
+        return Id;
 
     }
+
+
+
     public virtual UIMetricsBubble  ShowMetricsBubble()
     {
         if (metricsBubble != null)

@@ -1,5 +1,6 @@
 // QueueInstance.cs
 
+using Infrastructure;
 using UnityEngine;
 
 public class QueueInstance : InfrastructureInstance
@@ -16,7 +17,7 @@ public class QueueInstance : InfrastructureInstance
             if (batchJobPacketData == null)
             {
                 Debug.LogWarning(
-                    $"QueueInstance '{data.Id}': Could not find BatchJob NetworkPacketData in GameManager.");
+                    $"QueueInstance '{Id}': Could not find BatchJob NetworkPacketData in GameManager.");
             }
         }
     }
@@ -32,13 +33,13 @@ public class QueueInstance : InfrastructureInstance
                 NetworkConnection connection = GetNextNetworkConnection(NetworkPacketData.PType.BatchJob);
                 if (connection != null)
                 {
-                    InfrastructureInstance nextTarget =
+                    WorldObjectBase nextTarget =
                         GameManager.Instance.GetRandomWorldObjectByType(connection.worldObjectType);
                     if (nextTarget != null && nextTarget.IsActive())
                     {
                         NetworkPacket batchPacket =
                             GameManager.Instance.CreatePacket(batchJobPacketData, "batch.dat", 100, this);
-                        batchPacket.SetNextTarget(nextTarget);
+                        batchPacket.SetNextTarget(nextTarget as InfrastructureInstance);
                         batchPacket.MoveToNextNode(); // Move the new packet immediately
                     }
                     else

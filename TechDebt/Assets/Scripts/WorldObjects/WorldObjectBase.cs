@@ -12,7 +12,9 @@ namespace Infrastructure
 {
     public class WorldObjectBase: MonoBehaviour,   IPointerClickHandler, iAssignable, iTargetable, iUIDialogBubbleAttachable
     {
+        public enum State { Locked, Unlocked, Planned, Operational, Frozen }
 
+        public string Id;
         public WorldObjectType.Type Type;
         public Vector3Int GridPosition;
         public Color attentionIconColor = Color.white;
@@ -21,6 +23,9 @@ namespace Infrastructure
         public PolygonCollider2D polygonCollider2D;
         protected UIProgressBarPanel progressBar;
         private UIDialogBubble dialogBubble;
+        public State InitialState = State.Locked;
+        public State CurrentState = State.Locked;
+        public List<UnlockCondition> UnlockConditions;
 
         void Start()
         {
@@ -249,6 +254,27 @@ namespace Infrastructure
             return dialogBubble.gameObject.activeInHierarchy;
         }
 
+        public virtual void SetState(WorldObjectBase.State newState)
+        {
+            if (CurrentState == newState) return; // No change
+            State previousState = CurrentState;
+            CurrentState = newState;
+        }
+        public virtual bool IsActive()
+        {
+            switch (CurrentState)
+            {
+                case (State.Operational):
+                case (State.Frozen):
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        public virtual void OnWorldObjectStateChange(WorldObjectBase instance, WorldObjectBase.State previousState)
+        {
+        }
     }
    
+
 }

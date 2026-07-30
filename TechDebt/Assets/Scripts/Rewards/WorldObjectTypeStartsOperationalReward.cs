@@ -8,13 +8,13 @@ namespace DefaultNamespace.Rewards
         public string WorldObjectTypeId { get; set; }
         public override void Apply()
         {
-            foreach (InfrastructureData infrastructureData in GameManager.Instance.AllInfrastructure)
+            foreach (WorldObjectBase infrastructureData in GameManager.Instance.AllWorldObjects)
             {
-                WorldObjectType worldObjectType = GameManager.Instance.WorldObjectTypes[infrastructureData.worldObjectType];
+                WorldObjectType worldObjectType = GameManager.Instance.WorldObjectTypes[infrastructureData.Type];
                 if (worldObjectType.GetTypeAsId() == WorldObjectTypeId)
                 {
-                    infrastructureData.InitialState = InfrastructureData.State.Operational;
-                    infrastructureData.CurrentState = InfrastructureData.State.Operational;
+                    infrastructureData.InitialState = WorldObjectBase.State.Operational;
+                    infrastructureData.CurrentState = WorldObjectBase.State.Operational;
                     // Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
                 }
             }

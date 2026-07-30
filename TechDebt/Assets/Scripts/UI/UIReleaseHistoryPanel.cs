@@ -122,7 +122,7 @@ namespace UI
                         GameManager.Instance.AddTask(codeTask);
                         GameManager.Instance.UIManager.multiSelectPanel.Close();
                         GameManager.Instance.UIManager.CloseSideBars();
-                        GameManager.Instance.GetInfrastructureInstanceByID("whiteboard").HideAttentionIcon();
+                        GameManager.Instance.GetWorldObjectByID("whiteboard").HideAttentionIcon();
                     }
                     else if (type == UIMultiSelectOptionPanel.InteractionType.Banish)
                     {

@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
         grid.cellSize = new Vector3(1, 0.5f, 1);
 
 
-        int border = 20;
+        /*int border = 20;
         for (int x = 0 - border; x < gridWidth + border; x++)
         {
             for (int y = 0 - border; y < gridHeight + border; y++)
@@ -60,7 +60,7 @@ public class GridManager : MonoBehaviour
 
      
             }
-        }
+        }*/
     }
 
     public void UpdateTileState(Vector3Int pos, bool isWalkable)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Infrastructure;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,7 +17,7 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
 
     public override VictoryConditionState GetState()
     {
-        InfrastructureInstance infrastructureInstance = GameManager.Instance.GetInfrastructureInstanceByID(TargetId);
+        WorldObjectBase infrastructureInstance = GameManager.Instance.GetWorldObjectByID(TargetId);
         if (infrastructureInstance.IsActive())
         {
             return VictoryConditionState.Succeeded;
@@ -26,7 +27,7 @@ public class InfraActiveVictoryCondition : MapLevelVictoryConditionBase
     }
     public override string GetDescription()
     {
-        InfrastructureInstance infrastructureInstance = GameManager.Instance.GetInfrastructureInstanceByID(TargetId);
+        WorldObjectBase infrastructureInstance = GameManager.Instance.GetWorldObjectByID(TargetId);
         return $"Build {infrastructureInstance.GetWorldObjectType().DisplayName}";
     }
     public override void Render(UIVictoryConditionListPanel victoryConditionListPanel)

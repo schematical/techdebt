@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Infrastructure;
 using UI;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,9 +32,9 @@ public class InternetPipe : InfrastructureInstance
         }
         
     }
-    public override void Initialize(InfrastructureData infraData)
+    public override void Initialize()
     {
-        base.Initialize(infraData);
+        base.Initialize();
         MarkNormal();
     }
 
@@ -83,7 +85,7 @@ public class InternetPipe : InfrastructureInstance
         }
                 
    
-        InfrastructureInstance targetReceiver = GameManager.Instance.GetRandomWorldObjectByType(connection.worldObjectType);
+        WorldObjectBase targetReceiver = GameManager.Instance.GetRandomWorldObjectByType(connection.worldObjectType);
         if (targetReceiver == null)
         {
             Debug.LogError($"{gameObject.name} Could find world object {connection.worldObjectType}");
@@ -99,7 +101,7 @@ public class InternetPipe : InfrastructureInstance
             packet.MarkBlocked();
         }
 
-        packet.SetNextTarget(targetReceiver);
+        packet.SetNextTarget(targetReceiver as InfrastructureInstance);
         return packet;
 
 
@@ -119,17 +121,17 @@ public class InternetPipe : InfrastructureInstance
     {
         
        
-        switch (data.CurrentState)
+        switch (CurrentState)
         {
-            case InfrastructureData.State.Locked:
-            case InfrastructureData.State.Unlocked:
+            case WorldObjectBase.State.Locked:
+            case WorldObjectBase.State.Unlocked:
                 gameObject.SetActive(false);
                 break;
-            case InfrastructureData.State.Planned:
+            case WorldObjectBase.State.Planned:
                 gameObject.SetActive(true);
                 spriteRenderer.color = new Color(1f, 0.8f, 0.3f, 0.5f);
                 break;
-            case InfrastructureData.State.Operational:
+            case WorldObjectBase.State.Operational:
                 gameObject.SetActive(true);
                 spriteRenderer.color = Color.white;
                 break;
@@ -163,7 +165,7 @@ public class InternetPipe : InfrastructureInstance
     public override List<NPCTask> GetAvailableTasks()
     {
         List<NPCTask> availableTasks = base.GetAvailableTasks();
-        if (!GameManager.Instance.GetInfrastructureInstanceByID("waf").IsActive())
+        if (!GameManager.Instance.GetWorldObjectByID("waf").IsActive())
         {
             return availableTasks;
         }

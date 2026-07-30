@@ -13,9 +13,9 @@ public class ApplicationServer : InfrastructureInstance
     {
         List<NPCTask> availableTasks = base.GetAvailableTasks();
         availableTasks.Reverse();
-        switch (data.CurrentState)
+        switch (CurrentState)
         {
-            case (InfrastructureData.State.Operational):
+            case (State.Operational):
                 foreach (ReleaseBase releaseBase in GameManager.Instance.Releases)
                 {
                     if (releaseBase.State == ReleaseBase.ReleaseState.DeploymentReady)
@@ -30,16 +30,16 @@ public class ApplicationServer : InfrastructureInstance
         return availableTasks;
     }
 
-    public override void SetState(InfrastructureData.State newState)
+    public override void SetState(State newState)
     {
 
         if (
-            data.CurrentState == InfrastructureData.State.Planned && 
-            newState == InfrastructureData.State.Operational
+            CurrentState == State.Planned && 
+            newState == State.Operational
         )
         {
             List<InternetPipe> instances =
-                GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                GameManager.Instance.GetWorldObjectByClass<InternetPipe>();
             foreach (InternetPipe pipe in instances)
             {
                 pipe.SetState(newState);

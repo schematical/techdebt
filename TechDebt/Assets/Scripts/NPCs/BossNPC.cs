@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Linq;
+using Infrastructure;
 
 public class BossNPC : NPCBase
 {
-    private InfrastructureInstance _bossDesk;
+    private WorldObjectBase _bossDesk;
 
     public override void Initialize()
     {
         base.Initialize();
-        _bossDesk = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.data.Id == "boss-desk");
+        _bossDesk = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.Id == "boss-desk");
         if (_bossDesk == null)
         {
             Debug.LogError("BossNPC: Could not find 'boss-desk'. Boss will wander.");
@@ -38,6 +39,6 @@ public class BossNPC : NPCBase
     }
     public override Vector3 GetHomePoint()
     {
-        return GameManager.Instance.GetInfrastructureInstanceByID("big-desk").transform.position;
+        return GameManager.Instance.GetWorldObjectByID("big-desk").transform.position;
     }
 }

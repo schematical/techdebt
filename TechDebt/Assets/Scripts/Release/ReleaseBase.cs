@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.Rewards;
+using Infrastructure;
 using MetaChallenges;
 using NPCs;
 using Stats;
@@ -65,7 +66,7 @@ public class ReleaseBase
         foreach (var infra in GameManager.Instance.ActiveInfrastructure)
         {
             ApplicationServer applicationServer = infra.GetComponent<ApplicationServer>();
-            if (applicationServer != null && infra.data.CurrentState == InfrastructureData.State.Operational)
+            if (applicationServer != null && infra.CurrentState == WorldObjectBase.State.Operational)
             {
                 GameManager.Instance.AddTask(new DeploymentTask(applicationServer, this));
             }

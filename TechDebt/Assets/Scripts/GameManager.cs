@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour, iModifiable
     
     public GameManagerState State =  GameManagerState.MainMenu;
 
-    public List<InfrastructureInstance> ActiveInfrastructure = new List<InfrastructureInstance>();
+    public List<WorldObjectBase> ActiveInfrastructure = new List<WorldObjectBase>();
     public List<ItemData> Items = new List<ItemData>();
     public UIManager UIManager;
     public FloatingTextFactory FloatingTextFactory;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour, iModifiable
     public CameraController cameraController;
     public SpriteManager SpriteManager;
     public List<NetworkPacket> activePackets = new List<NetworkPacket>();
-    public List<InfrastructureData> AllInfrastructure;
+    [FormerlySerializedAs("AllInfrastructure")] public List<WorldObjectBase> AllWorldObjects;
     protected List<Technology> AllTechnologies;
     public Dictionary<WorldObjectType.Type, WorldObjectType> WorldObjectTypes = new Dictionary<WorldObjectType.Type, WorldObjectType>();
     public Map Map;
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour, iModifiable
     public List<EventBase> CurrentEvents { get; private set; } = new List<EventBase>();
     public static event System.Action OnStatsChanged;
     public static event System.Action OnDailyCostChanged;
-    public static event System.Action<InfrastructureInstance, InfrastructureData.State?> OnInfrastructureStateChange;
+    public static event System.Action<WorldObjectBase, WorldObjectBase.State?> OnInfrastructureStateChange;
     public static event System.Action<Technology, Technology.State> OnTechnologyStateChange;
     public static event System.Action OnCurrentEventsChanged;
     
@@ -318,12 +318,12 @@ public class GameManager : MonoBehaviour, iModifiable
 
  
 
-    public void NotifyInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State previousState)
+    public void NotifyInfrastructureStateChange(InfrastructureInstance instance, WorldObjectBase.State previousState)
     {
         OnInfrastructureStateChange?.Invoke(instance, previousState);
         
-		foreach(var activeInfra in ActiveInfrastructure) {
-			activeInfra.OnInfrastructureStateChange(instance, previousState);
+		foreach(WorldObjectBase activeInfra in ActiveInfrastructure) {
+			activeInfra.OnWorldObjectStateChange(instance, previousState);
 		}
         UIManager.victoryConditionListPanel.Refresh();
     }
@@ -451,7 +451,7 @@ public class GameManager : MonoBehaviour, iModifiable
     public void SetupNPCs()
     {
         
-        WorldObjectBase door = GetInfrastructureInstanceByID("door");
+        WorldObjectBase door = GetWorldObjectByID("door");
         if (door == null)
         {
             Debug.LogError("Cannot place Stakeholder because 'door' infrastructure was not found.");
@@ -525,7 +525,7 @@ public class GameManager : MonoBehaviour, iModifiable
         
         
         cameraController.ZoomToAndFollow(npc.transform);
-        /*InfrastructureInstance productRoadMapInfra = GetInfrastructureInstanceByID("product-road-map");
+        /*InfrastructureInstance productRoadMapInfra = GetWorldObjectByID("product-road-map");
         if (productRoadMapInfra.IsActive())
         {
             UIManager.productRoadMap.Show(UIProductRoadMap.State.Select);
@@ -542,7 +542,7 @@ public class GameManager : MonoBehaviour, iModifiable
     {
         foreach (InfrastructureInstance worldObjectBase in ActiveInfrastructure)
         {
-            worldObjectBase.SetState(InfrastructureData.State.Operational);
+            worldObjectBase.SetState(WorldObjectBase.State.Operational);
         }
     }
 
@@ -571,17 +571,17 @@ public class GameManager : MonoBehaviour, iModifiable
 
         if (hasMoreToResearch)
         {
-            GetInfrastructureInstanceByID("desk").ShowAttentionIcon("Research");
+            GetWorldObjectByID("desk").ShowAttentionIcon("Research");
         }
     }
 
-    private void HandleInfrastructureStateChange(InfrastructureInstance instance, InfrastructureData.State? previousState)
+    private void HandleInfrastructureStateChange(WorldObjectBase instance, WorldObjectBase.State? previousState)
     {
         // Check if the new building is a server
         /* if (instance is Server)
         {
             // Check if this is the FIRST operational server
-            int operationalServerCount = AllInfrastructure.Count(infra =>
+            int operationalServerCount = AllWorldObjects.Count(infra =>
                 infra.CurrentState == InfrastructureData.State.Operational && infra.Prefab.GetComponent<Server>() != null);
 
             if (operationalServerCount == 1)
@@ -644,7 +644,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             
             NetworkPacketData data = GetRandomNetworkPacketData();
-            List<InternetPipe> instances = GetInfrastructureInstanceByClass<InternetPipe>();
+            List<InternetPipe> instances = GetWorldObjectByClass<InternetPipe>();
             if (instances.Count == 0)
             {
                 throw new SystemException("Cannot find any `InternetPipe` instances");
@@ -665,7 +665,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public NPCBug SpawnNPCBug()
     {
-        var door = GetInfrastructureInstanceByID("server1");
+        WorldObjectBase door = GetWorldObjectByID("server1");
         if (door == null)
         {
             throw new SystemException("Cannot spawn NPCBug because 'server' infrastructure was not found.");
@@ -1080,18 +1080,18 @@ public class GameManager : MonoBehaviour, iModifiable
     private void HandleReleaseChanged(ReleaseBase releaseBase, ReleaseBase.ReleaseState prevState)
     {
 
-        InfrastructureInstance infra = GetInfrastructureInstanceByID("whiteboard");
+        WorldObjectBase worldObject = GetWorldObjectByID("whiteboard");
         ReleaseBase openRelease = Releases.Find((r) => r.State != ReleaseBase.ReleaseState.DeploymentCompleted && r.State != ReleaseBase.ReleaseState.Failed);
         if (
             openRelease != null ||
-            !infra.IsActive()
+            !worldObject.IsActive()
         ){
-            infra.HideAttentionIcon();
+            worldObject.HideAttentionIcon();
    
         }
         else
         {
-            infra.ShowAttentionIcon("Plan");
+            worldObject.ShowAttentionIcon("Plan");
         }
     }
 
@@ -1115,34 +1115,20 @@ public class GameManager : MonoBehaviour, iModifiable
 
  
 
-    public float CalculateTotalDailyCost()
-    {
-        float totalCost = 0;
-        foreach (var infra in ActiveInfrastructure)
-        {
-            if (infra.IsActive())
-            {
-                totalCost += infra.GetDailyCost();
-            }
-        }
-        
-   
-        return totalCost;
-    }
+
     
 
 
     public void UpdateInfrastructureVisibility()
     {
-        foreach (InfrastructureInstance instance in ActiveInfrastructure)
+        foreach (WorldObjectBase instance in ActiveInfrastructure)
         {   
-            InfrastructureData infraData = instance.data;
-            if (infraData.CurrentState == InfrastructureData.State.Locked && !instance.gameObject.activeSelf)
+            if (instance.CurrentState == WorldObjectBase.State.Locked && !instance.gameObject.activeSelf)
             {
                 if (AreUnlockConditionsMet(instance))
                 {
                     instance.gameObject.SetActive(true);
-                    instance.GetComponent<InfrastructureInstance>().SetState(InfrastructureData.State.Unlocked);
+                    instance.GetComponent<InfrastructureInstance>().SetState(WorldObjectBase.State.Unlocked);
                 }
             }
         }
@@ -1172,42 +1158,37 @@ public class GameManager : MonoBehaviour, iModifiable
             Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
         }
         
-        foreach (InfrastructureData infraData in AllInfrastructure)
+        foreach (WorldObjectBase worldObject in AllWorldObjects)
         {
-            Vector3 worldPos = gridManager.grid.CellToWorld(new Vector3Int(infraData.GridPosition.x, infraData.GridPosition.y, 0));
-            Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
-            GameObject instanceGO = Instantiate(infraData.Prefab, adjustedWorldPos, Quaternion.identity);
-
-            InfrastructureInstance infraInstance = instanceGO.GetComponent<InfrastructureInstance>();
-
-            if (infraInstance == null)
-            {
-                throw new SystemException($"Missing `InfrastructureInstance` Component for `{infraData.Id}`.");
-            }
-            infraInstance.GridPosition = infraData.GridPosition; // TODO: Remove this hackyness.
-            infraData.CurrentState = infraData.InitialState;
-            infraInstance.Initialize(infraData);
+            /*Vector3 worldPos = gridManager.grid.CellToWorld(
+                new Vector3Int(
+                    (int) Math.Round(worldObject.GetInteractionPosition().x),
+                    (int) Math.Round(worldObject.GetInteractionPosition().y),
+                    (int) Math.Round(worldObject.GetInteractionPosition().z)
+                )
+            );*/
+            // Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
            
-            ActiveInfrastructure.Add(infraInstance);
+            ActiveInfrastructure.Add(worldObject);
             // Debug.Log($"Infrastructure '{infraData.DisplayName}' CHECK {infraData.CurrentState }.");
-            if (infraData.CurrentState == InfrastructureData.State.Operational)
+            if (worldObject.CurrentState == WorldObjectBase.State.Operational)
             {
                 // Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Operational.");
             }
-            else if (AreUnlockConditionsMet(infraInstance))
+            else if (AreUnlockConditionsMet(worldObject))
             {
                 //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
-                infraInstance.SetState(InfrastructureData.State.Unlocked);
+                worldObject.SetState(WorldObjectBase.State.Unlocked);
             }
             else 
             {
                 //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Active.");
-                infraInstance.SetState(InfrastructureData.State.Locked);
-                instanceGO.SetActive(false);
+                worldObject.SetState(WorldObjectBase.State.Locked);
+                worldObject.gameObject.SetActive(false);
             }
             
         }
-        /*InfrastructureInstance bossDesk = GetInfrastructureInstanceByID("boss-desk");
+        /*InfrastructureInstance bossDesk = GetWorldObjectByID("boss-desk");
         if (bossDesk != null)
         {
             GameObject npcGO = prefabManager.Create("BossNPC", bossDesk.GetInteractionPosition());
@@ -1219,7 +1200,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {
             Debug.LogError("Could not find 'boss-desk to spawn BossNPC.");
         }*/
-        InfrastructureInstance desk = GetInfrastructureInstanceByID("desk");
+        WorldObjectBase desk = GetWorldObjectByID("desk");
         GameObject sGO = prefabManager.Create("SchematicalBot",
             desk.transform.position + new Vector3(-4, 0));
         NPCSchematicalBot schematicalBot = sGO.GetComponent<NPCSchematicalBot>();
@@ -1232,9 +1213,9 @@ public class GameManager : MonoBehaviour, iModifiable
    
     }
 
-    public bool AreUnlockConditionsMet(InfrastructureInstance infrastructureInstance)
+    public bool AreUnlockConditionsMet(WorldObjectBase worldObject)
     {
-        WorldObjectType worldObjectType = infrastructureInstance.GetWorldObjectType();
+        WorldObjectType worldObjectType = worldObject.GetWorldObjectType();
 
         List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
         if (worldObjectType.UnlockConditions != null && worldObjectType.UnlockConditions.Count > 0)
@@ -1242,9 +1223,9 @@ public class GameManager : MonoBehaviour, iModifiable
             unlockConditions.AddRange(worldObjectType.UnlockConditions);
         }
 
-        if (infrastructureInstance.data.UnlockConditions.Count > 0)
+        if (worldObject.UnlockConditions.Count > 0)
         {
-            unlockConditions.AddRange(infrastructureInstance.data.UnlockConditions);
+            unlockConditions.AddRange(worldObject.UnlockConditions);
         }
         return AreUnlockConditionsMet(unlockConditions);
     }
@@ -1270,7 +1251,7 @@ public class GameManager : MonoBehaviour, iModifiable
 
     public NPCDevOps HireNPCDevOps(NPCDevOpsData candidateData)
     {
-        WorldObjectBase door = GetInfrastructureInstanceByID("door");
+        WorldObjectBase door = GetWorldObjectByID("door");
         if (door == null)
         {
             Debug.LogError("Cannot hire NPC because 'door' infrastructure was not found.");
@@ -1335,7 +1316,7 @@ public class GameManager : MonoBehaviour, iModifiable
         
         // Add a new research task for the selected technology
         AddTask(new ResearchTask(tech));
-        GetInfrastructureInstanceByID("desk").HideAttentionIcon();
+        GetWorldObjectByID("desk").HideAttentionIcon();
     }
 
     public void ApplyResearchProgress(float researchGained)
@@ -1374,18 +1355,18 @@ public class GameManager : MonoBehaviour, iModifiable
     {
         return AllTechnologies.FirstOrDefault(t => t.TechnologyID == id);
     }
-    public InfrastructureInstance GetInfrastructureInstanceByID(string id)
+    public WorldObjectBase GetWorldObjectByID(string id)
     {
-        return ActiveInfrastructure.FirstOrDefault(t => t.data.Id == id);
+        return ActiveInfrastructure.FirstOrDefault(t => t.Id == id);
     }
-    public List<InfrastructureInstance> GetWorldObjectByType(WorldObjectType.Type type)
+    public List<WorldObjectBase> GetWorldObjectByType(WorldObjectType.Type type)
     {
         return ActiveInfrastructure.FindAll(t => t.Type == type);
     }
 
-    public InfrastructureInstance GetRandomWorldObjectByType(WorldObjectType.Type type)
+    public WorldObjectBase GetRandomWorldObjectByType(WorldObjectType.Type type)
     {
-        List<InfrastructureInstance> targets = ActiveInfrastructure.FindAll(t =>
+        List<WorldObjectBase> targets = ActiveInfrastructure.FindAll(t =>
         {
             return t.IsActive() && t.Type == type;
         });
@@ -1482,7 +1463,7 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     public T GetRandomInfrastructureInstanceByClass<T>() where T : class
     {
-        List<T> results = GetInfrastructureInstanceByClass<T>();
+        List<T> results = GetWorldObjectByClass<T>();
         if (results.Count == 0)
         {
             return null;
@@ -1491,7 +1472,7 @@ public class GameManager : MonoBehaviour, iModifiable
         int i = Random.Range(0, results.Count);
         return results[i];
     }
-    public List<T> GetInfrastructureInstanceByClass<T>()
+    public List<T> GetWorldObjectByClass<T>()
     {
         List<T> results = new List<T>();
         foreach (WorldObjectBase wo in ActiveInfrastructure)

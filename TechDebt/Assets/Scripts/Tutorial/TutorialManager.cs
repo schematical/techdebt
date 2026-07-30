@@ -52,7 +52,7 @@ namespace Tutorial
                     getTarget = () =>
                     {
                         WorldObjectBase door =
-                            GameManager.Instance.GetInfrastructureInstanceByID("door");
+                            GameManager.Instance.GetWorldObjectByID("door");
                         return door;
                     },
                     forcePause = false,
@@ -94,7 +94,7 @@ namespace Tutorial
                     getTarget = () =>
                     {
                         WorldObjectBase door =
-                            GameManager.Instance.GetInfrastructureInstanceByID("door");
+                            GameManager.Instance.GetWorldObjectByID("door");
                         return door;
                     },
                 },
@@ -107,7 +107,7 @@ namespace Tutorial
                     getTarget = () =>
                     {
                         WorldObjectBase door =
-                            GameManager.Instance.GetInfrastructureInstanceByID("door");
+                            GameManager.Instance.GetWorldObjectByID("door");
                         return door;
                     },
                     NextStepId = TutorialStepId.Infra_Desk,
@@ -123,8 +123,8 @@ namespace Tutorial
                     showContinue = false,
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("desk");
                         infrastructureInstance.ShowAttentionIcon("Research");
                         return infrastructureInstance;
                     },
@@ -151,8 +151,8 @@ namespace Tutorial
                     showContinue = false,
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         infrastructureInstance.ShowAttentionIcon("Build");
                         return infrastructureInstance;
                     },
@@ -166,8 +166,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         // infrastructureInstance.ShowAttentionIcon();
                         return infrastructureInstance;
                     },
@@ -181,8 +181,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                     NextStepId = TutorialStepId.Infra_InternetPipe
@@ -199,8 +199,8 @@ namespace Tutorial
                     getTarget = () =>
                     {
 
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("internetPipe");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("internetPipe");
                         return infrastructureInstance;
                     },
                     NextStepId = TutorialStepId.NetworkPacket_Text
@@ -215,7 +215,7 @@ namespace Tutorial
                     getTarget = () =>
                     {
                         InternetPipe pipe =
-                            GameManager.Instance.GetInfrastructureInstanceByID("internetPipe").GetComponent<InternetPipe>();
+                            GameManager.Instance.GetWorldObjectByID("internetPipe").GetComponent<InternetPipe>();
                         /*NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Text);
                         NetworkPacket networkPacket = pipe.SendPacket(data);*/
@@ -234,7 +234,7 @@ namespace Tutorial
                     getTarget = () =>
                     {
                         InternetPipe pipe =
-                            GameManager.Instance.GetInfrastructureInstanceByID("internetPipe").GetComponent<InternetPipe>();
+                            GameManager.Instance.GetWorldObjectByID("internetPipe").GetComponent<InternetPipe>();
                         /*NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Image);
                         NetworkPacket networkPacket = pipe.SendPacket(data);*/
@@ -253,8 +253,8 @@ namespace Tutorial
 
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("dedicated-db");
                         return infrastructureInstance;
                     },
                 },
@@ -270,8 +270,8 @@ namespace Tutorial
                    
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("dedicated-db");
                         return infrastructureInstance;
                     },
                 },
@@ -285,8 +285,8 @@ namespace Tutorial
                     
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("whiteboard");
                         return infrastructureInstance;
                     },
                 },
@@ -298,8 +298,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("whiteboard");
                         return infrastructureInstance;
                     },
                 },
@@ -312,8 +312,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("whiteboard");
                         return infrastructureInstance;
                     },
                 },
@@ -326,8 +326,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                 },
@@ -340,8 +340,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                     NextStepId = TutorialStepId.Basics_Economy
@@ -354,8 +354,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                 },
@@ -460,8 +460,8 @@ namespace Tutorial
                     },
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("door");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("door");
                         return infrastructureInstance;
                     },
                 },
@@ -504,7 +504,7 @@ namespace Tutorial
                         NetworkPacketData data =
                             GameManager.Instance.GetNetworkPacketDataByType(NetworkPacketData.PType.Purchase);
                         List<InternetPipe> instances =
-                            GameManager.Instance.GetInfrastructureInstanceByClass<InternetPipe>();
+                            GameManager.Instance.GetWorldObjectByClass<InternetPipe>();
                         InternetPipe pipe = instances[Random.Range(0, instances.Count)];
 
                         NetworkPacket networkPacket = pipe.SendPacket(data);
@@ -528,16 +528,16 @@ namespace Tutorial
                     },*/
                     /*onTrigger = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         infrastructureInstance.SetState(InfrastructureData.State.Frozen);
                         infrastructureInstance.CurrentLoad =
                             infrastructureInstance.GetWorldObjectType().Stats.GetStatValue(StatType.Infra_MaxLoad);
                     },*/
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                     NextStepId = TutorialStepId.Infra_ApplicationServer_Frozen2
@@ -552,8 +552,8 @@ namespace Tutorial
                     
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
 
@@ -567,8 +567,8 @@ namespace Tutorial
                     
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
 
@@ -581,8 +581,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                     NextStepId = TutorialStepId.Infra_ApplicationServer_Fixed2,
@@ -596,8 +596,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("desk");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("desk");
                         return infrastructureInstance;
                     },
                 },
@@ -610,8 +610,8 @@ namespace Tutorial
                     
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
 
@@ -625,8 +625,8 @@ namespace Tutorial
                     
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
 
@@ -639,8 +639,8 @@ namespace Tutorial
                 {
                     getTarget = () =>
                     {
-                        InfrastructureInstance infrastructureInstance =
-                            GameManager.Instance.GetInfrastructureInstanceByID("server1");
+                        WorldObjectBase infrastructureInstance =
+                            GameManager.Instance.GetWorldObjectByID("server1");
                         return infrastructureInstance;
                     },
                 },
@@ -1140,32 +1140,32 @@ namespace Tutorial
                     break;
             }
         }
-        private void HandleInfrastructureStateChange(InfrastructureInstance infrastructureInstance, InfrastructureData.State? previousState)
+        private void HandleInfrastructureStateChange(WorldObjectBase infrastructureInstance, WorldObjectBase.State? previousState)
         {
-            switch (infrastructureInstance.data.worldObjectType)
+            switch (infrastructureInstance.Type)
             {
                 case(WorldObjectType.Type.ApplicationServer):
-                    if (infrastructureInstance.data.CurrentState == InfrastructureData.State.Frozen)
+                    if (infrastructureInstance.CurrentState == WorldObjectBase.State.Frozen)
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Frozen);
-                    } else if (infrastructureInstance.CurrentSize > 0)
+                    } else if (infrastructureInstance is InfrastructureInstance && (infrastructureInstance as InfrastructureInstance).CurrentSize > 0)
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Upsized);
                     } else if(
-                        previousState == InfrastructureData.State.Unlocked && 
-                        infrastructureInstance.data.CurrentState  == InfrastructureData.State.Planned
+                        previousState == WorldObjectBase.State.Unlocked && 
+                        infrastructureInstance.CurrentState  == WorldObjectBase.State.Planned
                     )
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Planned);
                     } else if(
-                        previousState == InfrastructureData.State.Planned && 
-                        infrastructureInstance.data.CurrentState  == InfrastructureData.State.Operational
+                        previousState == WorldObjectBase.State.Planned && 
+                        infrastructureInstance.CurrentState  == WorldObjectBase.State.Operational
                     )
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Operational);
                     } else if(
-                        previousState == InfrastructureData.State.Frozen && 
-                        infrastructureInstance.data.CurrentState  == InfrastructureData.State.Operational
+                        previousState == WorldObjectBase.State.Frozen && 
+                        infrastructureInstance.CurrentState  == WorldObjectBase.State.Operational
                     )
                     {
                         Trigger(TutorialStepId.Infra_ApplicationServer_Fixed);
@@ -1174,8 +1174,8 @@ namespace Tutorial
                 break;
                 case(WorldObjectType.Type.DedicatedDB):
                     if(
-                        previousState == InfrastructureData.State.Planned && 
-                        infrastructureInstance.data.CurrentState  == InfrastructureData.State.Operational
+                        previousState == WorldObjectBase.State.Planned && 
+                        infrastructureInstance.CurrentState  == WorldObjectBase.State.Operational
                     )
                     {
                         Trigger(TutorialStepId.Infra_DedicatedDB_Operational);
@@ -1184,8 +1184,8 @@ namespace Tutorial
                     break;
                 case(WorldObjectType.Type.WhiteBoard):
                     if(
-                        previousState == InfrastructureData.State.Planned && 
-                        infrastructureInstance.data.CurrentState  == InfrastructureData.State.Operational
+                        previousState == WorldObjectBase.State.Planned && 
+                        infrastructureInstance.CurrentState  == WorldObjectBase.State.Operational
                     )
                     {
                         Trigger(TutorialStepId.Infra_Whiteboard_Operational);

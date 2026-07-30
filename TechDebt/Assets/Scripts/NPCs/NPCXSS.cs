@@ -45,7 +45,7 @@ namespace NPCs
                 return;
             }
             List<ApplicationServer> applicationServers =
-                GameManager.Instance.GetInfrastructureInstanceByClass<ApplicationServer>().FindAll((infra) =>
+                GameManager.Instance.GetWorldObjectByClass<ApplicationServer>().FindAll((infra) =>
                 {
                     return infra.IsActive();
                 });

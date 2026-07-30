@@ -2,6 +2,7 @@
 
 using System;
 using Effects.Infrastructure;
+using Infrastructure;
 using NPCs;
 using Stats;
 using UnityEngine;
@@ -13,9 +14,8 @@ public class ShutdownTask : InfrastructureTaskBase
     {
         MetaStat = MetaChallenges.MetaStat.Infra_Shutdown;
         Priority = priority;
-        // OnQueuedSetState = InfrastructureData.State.Planned;
         npcWorkSpeedStatType = StatType.NPC_DevOpsSpeed;
-        EndState = InfrastructureData.State.Unlocked;
+        EndState = WorldObjectBase.State.Unlocked;
     }
 
     public override string GetAssignButtonText()

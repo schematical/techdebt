@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Infrastructure;
 using UnityEngine;
 
 public class CodePipelineInstance : InfrastructureInstance, iProgressable
@@ -70,7 +71,7 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
             if (progress % 10 == 0 && lastDisplayedProgress != progress)
             {
                 FloatingTextFactory.Instance.ShowText(
-                    $"Deploying {_currentRelease.GetVersionString()} to {_targetServer.data.Id}: {progress}%",
+                    $"Deploying {_currentRelease.GetVersionString()} to {_targetServer.Id}: {progress}%",
                     transform.position
                 );
                 lastDisplayedProgress = progress;
@@ -119,10 +120,10 @@ public class CodePipelineInstance : InfrastructureInstance, iProgressable
                 continue;
             }
             if (
-                infra.Version != _currentRelease.GetVersionString()
+                (infra as InfrastructureInstance).Version != _currentRelease.GetVersionString()
             )
             {
-                return infra;
+                return (infra as InfrastructureInstance);
             }
         }
 

@@ -1,13 +1,14 @@
 // ResearchTask.cs
 using UnityEngine;
 using System.Linq;
+using Infrastructure;
 
 public class CodeTask : InfrastructureTaskBase, iProgressable
 {
     public ReleaseBase ReleaseBase { get; private set; }
     private readonly Desk desk;
 
-    public CodeTask(ReleaseBase release) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.Id == "desk"))
+    public CodeTask(ReleaseBase release) : base(GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.Id == "desk"))
     {
         ReleaseBase = release;
         Priority = 3; // Research is a low-priority, background task.
@@ -16,7 +17,7 @@ public class CodeTask : InfrastructureTaskBase, iProgressable
         globalSpeedStatType = StatType.Global_DeploymentSpeed;
         npcWorkQualityStatType =  StatType.NPC_CodeQuality;
         // Find the desk to navigate to.
-        InfrastructureInstance deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.data.Id == "desk");
+        WorldObjectBase deskInstance = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(infra => infra.Id == "desk");
         if (deskInstance != null)
         {
             desk = deskInstance.GetComponent<Desk>();

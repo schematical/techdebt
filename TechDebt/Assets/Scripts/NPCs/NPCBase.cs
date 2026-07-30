@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using DefaultNamespace;
+using Infrastructure;
 using MetaChallenges;
 using Stats;
 using Tutorial;
@@ -377,7 +378,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         {
             CurrentTask.OnInterrupt();
         }
-        InfrastructureInstance doorInstance = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        WorldObjectBase doorInstance = GameManager.Instance.GetWorldObjectByID("door");
         if (doorInstance != null)
         {
             MoveTo(doorInstance.transform.position);
@@ -712,7 +713,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     public virtual Vector3 GetHomePoint()
     {
-        return GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position + new Vector3(-0.1f, -0.1f, -0.1f);
+        return GameManager.Instance.GetWorldObjectByID("door").transform.position + new Vector3(-0.1f, -0.1f, -0.1f);
     }
     public void ZoomToAndFollow()
     {

@@ -30,7 +30,7 @@ public class DeploymentTask : InfrastructureTaskBase
     public override void OnEnd(NPCBase npc)
     {
         base.OnEnd(npc);
-        TargetInfrastructure.Version =  _release.GetVersionString();
+        (TargetInfrastructure as InfrastructureInstance).Version =  _release.GetVersionString();
         TargetInfrastructure.HideAttentionIcon();
         CurrentState = State.Completed;
         _release.CheckIsOver();

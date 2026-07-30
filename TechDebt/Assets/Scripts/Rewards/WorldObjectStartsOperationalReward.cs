@@ -1,4 +1,5 @@
 using System;
+using Infrastructure;
 
 namespace DefaultNamespace.Rewards
 {
@@ -7,13 +8,13 @@ namespace DefaultNamespace.Rewards
         public string WorldObjectId { get; set; }
         public override void Apply()
         {
-            foreach (InfrastructureData infrastructureData in GameManager.Instance.AllInfrastructure)
+            foreach (WorldObjectBase infrastructureData in GameManager.Instance.AllWorldObjects)
             {
                            
                 if (infrastructureData.Id == WorldObjectId)
                 {
-                    infrastructureData.InitialState = InfrastructureData.State.Operational;
-                    infrastructureData.CurrentState = InfrastructureData.State.Operational;
+                    infrastructureData.InitialState = WorldObjectBase.State.Operational;
+                    infrastructureData.CurrentState = WorldObjectBase.State.Operational;
                     // Debug.Log($"- Unlocking: {infrastructureData.Id} - {infrastructureData.CurrentState}");
                 }
             }

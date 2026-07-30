@@ -36,13 +36,13 @@ namespace DefaultNamespace.NetworkPackets
             {
                 return NetworkPacketRouteAction.Normal;
             }
-            switch (infrastructureInstance.data.worldObjectType)
+            switch (infrastructureInstance.Type)
             {
                 case(WorldObjectType.Type.ApplicationServer):
                     float inputValidation = GameManager.Instance.Stats.GetStatValue(StatType.Infra_InputValidation);
                     if (Random.value > inputValidation)
                     {
-                        if (GameManager.Instance.GetInfrastructureInstanceByID("dedicated-db").IsActive())
+                        if (GameManager.Instance.GetWorldObjectByID("dedicated-db").IsActive())
                         {
                             return NetworkPacketRouteAction.Normal;
                         }
@@ -59,7 +59,7 @@ namespace DefaultNamespace.NetworkPackets
                     MarkStolen();
                     return NetworkPacketRouteAction.Normal;
                 default:
-                    Debug.LogError($"SQLInjectionNetworkPacket is hitting {infrastructureInstance.data.Id}");
+                    Debug.LogError($"SQLInjectionNetworkPacket is hitting {infrastructureInstance.Id}");
                     return NetworkPacketRouteAction.Normal;
                     
             }

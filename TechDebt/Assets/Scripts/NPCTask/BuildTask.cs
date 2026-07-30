@@ -2,6 +2,7 @@
 
 using System;
 using Effects.Infrastructure;
+using Infrastructure;
 using NPCs;
 using Stats;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class BuildTask : InfrastructureTaskBase
     {
         MetaStat = MetaChallenges.MetaStat.Infra_Built;
         Priority = priority;
-        OnQueuedSetState = InfrastructureData.State.Planned;
+        OnQueuedSetState = WorldObjectBase.State.Planned;
         npcWorkSpeedStatType = StatType.NPC_DevOpsSpeed;
     }
 

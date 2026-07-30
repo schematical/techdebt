@@ -55,7 +55,7 @@ public class NPCDevOps : NPCAnimatedBiped
     public override void OnPlanPhaseStart()
     {
         base.OnPlanPhaseStart();
-        transform.position = GameManager.Instance.GetInfrastructureInstanceByID("door").transform.position + new Vector3(-0.1f,-0.1f, -0.1f);
+        transform.position = GameManager.Instance.GetWorldObjectByID("door").transform.position + new Vector3(-0.1f,-0.1f, -0.1f);
         gameObject.SetActive(false);
     }
 
@@ -269,7 +269,7 @@ public class NPCDevOps : NPCAnimatedBiped
    
     public override Vector3 GetHomePoint()
     {
-        return GameManager.Instance.GetInfrastructureInstanceByID("desk").transform.position;
+        return GameManager.Instance.GetWorldObjectByID("desk").transform.position;
     }
     public override void OnLeftClick(PointerEventData eventData)
     {

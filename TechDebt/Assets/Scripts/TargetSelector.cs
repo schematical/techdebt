@@ -14,7 +14,7 @@ namespace DefaultNamespace
             switch (Type)
             {
                 case(TargetType.WorldObject):
-                    WorldObjectBase worldObjectBase = GameManager.Instance.GetInfrastructureInstanceByID(Id);
+                    WorldObjectBase worldObjectBase = GameManager.Instance.GetWorldObjectByID(Id);
                     if (worldObjectBase == null)
                     {
                         Debug.LogError($"Could not find `{Type}` `{Id}`");

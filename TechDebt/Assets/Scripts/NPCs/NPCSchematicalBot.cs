@@ -1,3 +1,4 @@
+using Infrastructure;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,14 +7,14 @@ namespace NPCs
 {
     public class NPCSchematicalBot: NPCBase
     {
-        private InfrastructureInstance _hangOutAt;
+        private WorldObjectBase _hangOutAt;
         protected float idleDuration = 0;
 
         public override void Initialize()
         {
             base.Initialize();
             respectPause = false;
-            _hangOutAt = GameManager.Instance.GetInfrastructureInstanceByID("whiteboard");
+            _hangOutAt = GameManager.Instance.GetWorldObjectByID("whiteboard");
         }
 
         public override void OnLeftClick(PointerEventData eventData)
@@ -56,7 +57,7 @@ namespace NPCs
         }
         public override Vector3 GetHomePoint()
         {
-            return GameManager.Instance.GetInfrastructureInstanceByID("desk").transform.position;
+            return GameManager.Instance.GetWorldObjectByID("desk").transform.position;
         }
     }
 }

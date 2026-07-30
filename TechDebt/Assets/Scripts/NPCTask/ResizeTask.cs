@@ -1,6 +1,7 @@
 // ResizeTask.cs
 
 using Effects.Infrastructure;
+using Infrastructure;
 using Tutorial;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ public class ResizeTask : InfrastructureTaskBase
     {
         base.OnEnd(npc);
         // Apply the resize logic when the task is officially finished
-        TargetInfrastructure.ApplyResize(SizeChange);
+        (TargetInfrastructure as InfrastructureInstance).ApplyResize(SizeChange);
     }
 
    

@@ -5,6 +5,7 @@ using Infrastructure;
 using Stats;
 using UnityEngine.Serialization;
 
+/*
 [Serializable]
 public class InfrastructureData
 {
@@ -18,6 +19,7 @@ public class InfrastructureData
     public State CurrentState = State.Locked;
     public List<UnlockCondition> UnlockConditions;
 }
+*/
 
 [Serializable]
 public class InfrastructureDataNetworkPacket: iModifiable

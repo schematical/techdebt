@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System.IO;
 using DefaultNamespace;
+using Infrastructure;
 using MetaChallenges;
 using NPCs;
 using Stats;
@@ -179,7 +180,7 @@ public class UIDebugPanel : UIPanel
     private void SpawnNPC()
     {
         Close();
-        /*var door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        /*var door = GameManager.Instance.GetWorldObjectByID("door");
         if (door == null)
         {
             throw new SystemException("Cannot spawn NPC because 'server' infrastructure was not found.");
@@ -196,7 +197,7 @@ public class UIDebugPanel : UIPanel
         GameManager.Instance.cameraController.ZoomToAndFollow(npc.transform);
         gameObject.SetActive(false);*/
         GameManager.Instance.SpawnNPCBug();
-        /*InfrastructureInstance door = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        /*InfrastructureInstance door = GameManager.Instance.GetWorldObjectByID("door");
         for (int i = 0; i < 5; i++)
         {
             GameObject npcGO = GameManager.Instance.prefabManager.Create("NukeItem",
@@ -225,11 +226,11 @@ public class UIDebugPanel : UIPanel
     {
 
         Close();
-        var plannedInfrastructure = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.data.CurrentState == InfrastructureData.State.Planned);
+        var plannedInfrastructure = GameManager.Instance.ActiveInfrastructure.FirstOrDefault(i => i.CurrentState == WorldObjectBase.State.Planned);
         if (plannedInfrastructure != null)
         {
-            plannedInfrastructure.SetState(InfrastructureData.State.Operational);
-            Debug.Log($"Insta-built {plannedInfrastructure.data.Id}");
+            plannedInfrastructure.SetState(WorldObjectBase.State.Operational);
+            Debug.Log($"Insta-built {plannedInfrastructure.Id}");
         }
         else
         {

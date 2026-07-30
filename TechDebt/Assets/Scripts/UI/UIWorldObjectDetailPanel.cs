@@ -64,7 +64,7 @@ namespace UI
             if (infraInstance != null)
             {
                 // State
-                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {infraInstance.data.CurrentState}";
+                AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"State: {infraInstance.CurrentState}";
                 
                 // Release
                 AddLine<UIPanelLine>().Add<UIPanelLineSectionText>().text.text = $"Release: {infraInstance.Version}";

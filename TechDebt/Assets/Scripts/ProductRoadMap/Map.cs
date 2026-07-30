@@ -110,7 +110,7 @@ public class Map
       
 
         GameManager.Instance.MetaStats.Incr(MetaStat.Sprint);
-        if (!GameManager.Instance.GetInfrastructureInstanceByID("product-road-map").IsActive())
+        if (!GameManager.Instance.GetWorldObjectByID("product-road-map").IsActive())
         {
             
         }

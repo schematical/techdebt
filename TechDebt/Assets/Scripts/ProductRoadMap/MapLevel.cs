@@ -417,7 +417,7 @@ public class MapLevel : iUIMapNode, iUnlockable
                         Text = "Plan Next Sprint", OnClick = () =>
                         {
                             GameManager.Instance.UIManager.StopForcePause();
-                            if (!GameManager.Instance.GetInfrastructureInstanceByID("product-road-map").IsActive())
+                            if (!GameManager.Instance.GetWorldObjectByID("product-road-map").IsActive())
                             {
                                 npc.ShowDialogBubble().SimpleDisplay(
                                     "Research `Product Road Map` to progress"

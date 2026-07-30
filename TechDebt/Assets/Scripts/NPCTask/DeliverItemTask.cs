@@ -1,6 +1,7 @@
 // DeliverItemTask.cs
 using UnityEngine;
 using System.Linq;
+using Infrastructure;
 
 public class DeliverItemTask : NPCTask
 {
@@ -12,12 +13,12 @@ public class DeliverItemTask : NPCTask
     }
 
     private DeliveryState _currentState;
-    private readonly InfrastructureInstance _doorInstance;
+    private readonly WorldObjectBase _doorInstance;
     private Vector3 _dropOffPosition;
 
     public DeliverItemTask() : base(null) // Destination is dynamic, so start with null
     {
-        _doorInstance = GameManager.Instance.GetInfrastructureInstanceByID("door");
+        _doorInstance = GameManager.Instance.GetWorldObjectByID("door");
         if (_doorInstance == null)
         {
             Debug.LogError("DeliverItemTask cannot function without a 'door' infrastructure.");

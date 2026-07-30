@@ -1,22 +1,23 @@
 
     using System;
     using Effects.Infrastructure;
+    using Infrastructure;
     using UnityEngine;
 
     public abstract class InfrastructureTaskBase: NPCTask, iProgressable
     {
         
         public EnvEffectBase buildEffect { get; set; }
-        public InfrastructureInstance TargetInfrastructure { get; private set; }
+        public WorldObjectBase TargetInfrastructure { get; private set; }
         protected float progress = 0f;
         private int displayProgress = -1;
-        public InfrastructureData.State? OnQueuedSetState;
+        public WorldObjectBase.State? OnQueuedSetState;
         public StatType? npcWorkSpeedStatType;
         public StatType? globalSpeedStatType;
         public StatType? npcWorkQualityStatType;
-        protected InfrastructureData.State EndState = InfrastructureData.State.Operational;
+        protected WorldObjectBase.State EndState = WorldObjectBase.State.Operational;
 
-        protected InfrastructureTaskBase(InfrastructureInstance target): base(target)
+        protected InfrastructureTaskBase(WorldObjectBase target): base(target)
         {
             TargetInfrastructure = target;
         }
