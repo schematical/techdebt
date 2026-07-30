@@ -299,7 +299,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             randomDirection += origin;
 
             Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
-            if (node != null && node.isWalkable)
+            if (node != null) //  && node.isWalkable)
             {
                 return randomDirection;
             }

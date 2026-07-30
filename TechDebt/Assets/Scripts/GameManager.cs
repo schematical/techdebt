@@ -1357,7 +1357,13 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     public WorldObjectBase GetWorldObjectByID(string id)
     {
-        return ActiveInfrastructure.FirstOrDefault(t => t.Id == id);
+        WorldObjectBase worldObjectBase = ActiveInfrastructure.FirstOrDefault(t => t.Id == id);
+        if (worldObjectBase == null)
+        {
+            Debug.LogWarning($"Could not find WorldObjectBase '{id}'.");
+        }
+
+        return worldObjectBase;
     }
     public List<WorldObjectBase> GetWorldObjectByType(WorldObjectType.Type type)
     {
