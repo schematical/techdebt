@@ -42,7 +42,7 @@ public class ApplicationServer : InfrastructureInstance
                 GameManager.Instance.GetWorldObjectByClass<InternetPipe>();
             foreach (InternetPipe pipe in instances)
             {
-                pipe.SetState(newState);
+                pipe.TrafficCheck(GameManager.Instance.Stats.GetStatValue(StatType.Traffic));
             }
         }
         base.SetState(newState);

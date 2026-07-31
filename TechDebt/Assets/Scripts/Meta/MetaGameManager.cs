@@ -1101,7 +1101,7 @@ public static class MetaGameManager
             },
             new MetaChallengeBase()
             {
-                ChallengeID = "redis",
+                ChallengeID = "key-value-store",
                 DisplayName = "Key Value Store",
                 Description = "Have your dedicated database handle 100 text packets",
                 metaStat = MetaStat.Infra_HandleNetworkPacket,
@@ -1111,7 +1111,7 @@ public static class MetaGameManager
                 {
                     new TechnologyStartStateReward()
                     {
-                        TechnologyId = "redis",
+                        TechnologyId = "key-value-store",
                     }
                 }
             },

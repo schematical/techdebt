@@ -1170,21 +1170,21 @@ public class GameManager : MonoBehaviour, iModifiable
             // Vector3 adjustedWorldPos = gridManager.AdjustWorldPointZ(worldPos);
            
             ActiveInfrastructure.Add(worldObject);
-            Debug.Log($"Infrastructure '{worldObject.Id}' CHECK {worldObject.CurrentState }.");
+            // Debug.Log($"Infrastructure '{worldObject.Id}' CHECK {worldObject.CurrentState }.");
             if (worldObject.CurrentState == WorldObjectBase.State.Operational)
             {
-                Debug.Log($"Infrastructure '{worldObject.Id}' is now Operational.");
+                // Debug.Log($"Infrastructure '{worldObject.Id}' is now Operational.");
                 worldObject.gameObject.SetActive(true);
             }
             else if (AreUnlockConditionsMet(worldObject))
             {
-                Debug.Log($"Infrastructure '{worldObject.Id}' is now UNLOCKED.");
+                // Debug.Log($"Infrastructure '{worldObject.Id}' is now UNLOCKED.");
                 worldObject.SetState(WorldObjectBase.State.Unlocked);
                 worldObject.gameObject.SetActive(true);
             }
             else 
             {
-                //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now Active.");
+                // Debug.Log($"Infrastructure '{worldObject.Id}' is now Active.");
                 worldObject.SetState(WorldObjectBase.State.Locked);
                 worldObject.gameObject.SetActive(false);
             }

@@ -23,6 +23,7 @@ public class InternetPipe : InfrastructureInstance
     public InternetPipeFirewallState  FirewallState { get; protected set;  } = InternetPipeFirewallState.Allow;
     protected Animator animator;
     protected float ddosDuration = -1;
+    public int startAtTraffic = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -188,5 +189,17 @@ public class InternetPipe : InfrastructureInstance
     public void SetFirewallState(InternetPipeFirewallState state)
     {
         FirewallState = state;
+    }
+
+    public void TrafficCheck(float traffic)
+    {
+        if (traffic > startAtTraffic)
+        {
+            SetState(WorldObjectBase.State.Operational);
+        }
+        else
+        {
+            SetState(WorldObjectBase.State.Locked);
+        }
     }
 }

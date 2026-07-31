@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace.Util.Analytics;
+using Infrastructure;
 using Tutorial;
 using MetaChallenges;
 using NPCs;
@@ -82,7 +83,11 @@ public class GameLoopManager : MonoBehaviour
             StatType.Traffic,
             new StatModifier($"traffic_sprint_{sprintNumber}_day_{currentDay}", GameManager.Instance.GetStatValue(StatType.Difficulty))
         );
-        
+        List<WorldObjectBase> worldObjectBases = GameManager.Instance.GetWorldObjectByType(WorldObjectType.Type.InternetPipe); // startAtTraffic
+        foreach (WorldObjectBase worldObject in worldObjectBases)
+        {
+            (worldObject as InternetPipe).TrafficCheck(GameManager.Instance.Stats.GetStatValue(StatType.Traffic));
+        }
         // GameManager.Instance.UIManager.moneyPanel.Show();
         // GameManager.Instance.UIManager.Resume();
         GameManager.Instance.UIManager.toastHolderPanel.Add($"Day {currentDay} Starting");
