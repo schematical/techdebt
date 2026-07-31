@@ -51,7 +51,7 @@ public class DeliverItemTask : NPCTask
 
     public override void OnUpdate(NPCBase npc)
     {
-        if (!isCloseEnough()) return;
+        if (!IsCloseEnough()) return;
 
         switch (_currentState)
         {
@@ -71,7 +71,7 @@ public class DeliverItemTask : NPCTask
                 break;
         }
     }
-    public bool isCloseEnough()
+    public bool IsCloseEnough()
     {
        
 
@@ -93,7 +93,7 @@ public class DeliverItemTask : NPCTask
     public override bool IsFinished(NPCBase npc)
     {
         // The task is finished when the NPC has returned to the door.
-        return _currentState == DeliveryState.ReturningToDoor && isCloseEnough();
+        return _currentState == DeliveryState.ReturningToDoor && IsCloseEnough();
     }
 
     public override void OnEnd(NPCBase npc)
@@ -128,7 +128,7 @@ public class DeliverItemTask : NPCTask
             if (!isOccupied)
             {
                  Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
-                 if (node != null && node.isWalkable)
+                 if (node != null && node.IsWalkable())
                  {
                      return 
                          GridManager.Instance.grid.GetCellCenterWorld(new Vector3Int(node.gridX, node.gridY, 0));

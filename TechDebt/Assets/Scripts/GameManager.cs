@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using DefaultNamespace;
+using DefaultNamespace.Office;
 using DefaultNamespace.Util.Analytics;
 using Effects;
 using Tutorial;
@@ -50,7 +51,7 @@ public class GameManager : MonoBehaviour, iModifiable
     }
     
     public GameManagerState State =  GameManagerState.MainMenu;
-
+    public List<RoomBase> Rooms = new List<RoomBase>();
     public List<WorldObjectBase> ActiveInfrastructure = new List<WorldObjectBase>();
     public List<ItemData> Items = new List<ItemData>();
     public UIManager UIManager;

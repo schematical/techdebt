@@ -160,7 +160,7 @@ public abstract class NPCTask
         string description = $"{GetType()} - State: {CurrentState} " +
                              $"{target.name} - Priority: {Priority} - `";
         if (AssignedNPC != null) {
-            description += $"isCloseEnough`: {IsCloseEnough()} - " +
+            description += $"IsCloseEnough`: {IsCloseEnough()} - " +
                            $" Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
         }/*
         else

@@ -49,7 +49,7 @@ public class TutorialMoveToTask : NPCTask
         string description = $"{GetType()} - State: {CurrentState} " +
                              $"{target.name} - Tutorial Step: {tutorialStep.Id} - {tutorialStep.State}";
         if (AssignedNPC != null) {
-            description += $"isCloseEnough`: {IsCloseEnough()} - " +
+            description += $"IsCloseEnough`: {IsCloseEnough()} - " +
                            $" Dist: {Vector3.Distance(target.GetInteractionPosition(), AssignedNPC.transform.position)} Range: {maxTaskRange}";
         }
         return description;

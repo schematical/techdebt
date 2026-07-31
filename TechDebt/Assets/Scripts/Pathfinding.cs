@@ -1,6 +1,10 @@
 // Pathfinding.cs
+
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using DefaultNamespace.Office;
+using UnityEngine.Tilemaps;
 
 public static class Pathfinding
 {
@@ -22,7 +26,7 @@ public static class Pathfinding
         {
             throw new System.Exception($"Target node is null for world position {targetWorldPos}");
         }
-        if (!targetNode.isWalkable)
+        if (!targetNode.IsWalkable())
         {
             throw new System.Exception($"Target node at {targetWorldPos} is not walkable.");
         }
@@ -30,7 +34,7 @@ public static class Pathfinding
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
-
+        int saftyCheck = 10000;
         while (openSet.Count > 0)
         {
             Node currentNode = openSet[0];
@@ -50,9 +54,14 @@ public static class Pathfinding
                 return RetracePath(startNode, targetNode, targetWorldPos);
             }
 
-            foreach (Node neighbour in GridManager.Instance.GetNeighbours(currentNode))
+            foreach (Node neighbour in currentNode.GetNeighbours())
             {
-                if (!neighbour.isWalkable || closedSet.Contains(neighbour))
+                saftyCheck -= 1;
+                if (saftyCheck < 0)
+                {
+                    throw new SystemException("We have maxed out the loop");
+                }
+                if (!neighbour.IsWalkable() || closedSet.Contains(neighbour))
                 {
                     continue;
                 }
@@ -111,7 +120,7 @@ public static class Pathfinding
 public class Node
 {
     public int gridX, gridY;
-    public bool isWalkable;
+
     public Vector3 worldPosition;
 
     public int gCost; // Cost from the starting node
@@ -120,11 +129,72 @@ public class Node
 
     public int fCost { get { return gCost + hCost; } }
 
-    public Node(bool _isWalkable, Vector3 _worldPos, int _gridX, int _gridY)
+    public Node(/* Vector3 _worldPos,*/ int _gridX, int _gridY)
     {
-        isWalkable = _isWalkable;
-        worldPosition = _worldPos;
+     
+        // worldPosition = _worldPos;
         gridX = _gridX;
         gridY = _gridY;
+    }
+
+    public bool IsWalkable()
+    {
+        foreach (RoomBase roomBase in GameManager.Instance.Rooms)
+        {
+            if (roomBase.State == RoomBase.RoomState.Active)
+            {
+                TileBase tile = roomBase.WallTilemap.GetTile(new Vector3Int(gridX, gridY, 0));
+                if (tile != null)
+                {
+                    // Debug.Log($"Found Tile: {gridX}, {gridY}");
+                    return false;
+                }
+            }
+        }
+        TileBase skyTile = GameManager.Instance.gridManager.skyTilemap.GetTile(new Vector3Int(gridX, gridY, 0));
+        if (skyTile != null)
+        {
+            // Debug.Log($"Found skyTile: {gridX}, {gridY}");
+            return false;
+        }
+        TileBase floorTile = GameManager.Instance.gridManager.floorTilemap.GetTile(new Vector3Int(gridX, gridY, 0));
+        bool isWalkable =  floorTile != null;
+        if (floorTile == null)
+        {
+            Debug.Log($"Missed floor tile at  {gridX}, {gridY} this is a good thing. " + isWalkable);
+        }
+        return isWalkable;
+    }
+    public List<Node> GetNeighbours()
+    {
+        List<Node> neighbours = new List<Node>();
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0) continue;
+
+                int checkX = gridX + x;
+                int checkY = gridY + y;
+
+                Node node = new Node(checkX, checkY);
+                TileBase floorTile = GameManager.Instance.gridManager.floorTilemap.GetTile(new Vector3Int(gridX, gridY, 0));
+                if (floorTile != null)
+                {
+                    if (checkX >= 0 && checkX < 64 && checkY >= 0 && checkY < 64)
+                    {
+
+                        neighbours.Add(node);
+                    }
+                    else
+                    {
+                        Debug.Log($"FAIL: Found {floorTile} at {checkX}, {checkY}");
+                    }
+                }
+                    
+                
+            }
+        }
+        return neighbours;
     }
 }
