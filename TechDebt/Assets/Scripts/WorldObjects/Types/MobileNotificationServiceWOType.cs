@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using Tutorial;
 using UnityEngine;
 
-public class CognitoWOType : WorldObjectType
+public class MobileNotificationServiceWOType : WorldObjectType
 {
-    public CognitoWOType()
+    public MobileNotificationServiceWOType()
     {
-        type = WorldObjectType.Type.Cognito;
-        DisplayName = "Cognito User Pools";
-        PrefabId = "Cognito";
+        type = WorldObjectType.Type.MobileNotificationService;
+        DisplayName = "Mobile Notifications";
+        PrefabId = "MobileNotificationService";
         BuildTime = 30;
         DailyCost = 30;
         CanBeUpsized = false;
         ShowInGlobalDisplay = true;
-        TutorialStepId = TutorialStepId.Infra_Cognito_Tip;
+        TutorialStepId = TutorialStepId.Infra_MobileNotificationService_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TargetId = "cognito"
+                TargetId = "mobile-notifications"
             }
         };
     }

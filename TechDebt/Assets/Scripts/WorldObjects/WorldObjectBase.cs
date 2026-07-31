@@ -189,6 +189,7 @@ namespace Infrastructure
             HideAttentionIcon();
             attentionIconColor = Color.white;
             gameObject.SetActive(false);
+            CurrentState = InitialState;
         }
         
         public void IncrMetaStat(MetaStat metaStat, int value = 1)

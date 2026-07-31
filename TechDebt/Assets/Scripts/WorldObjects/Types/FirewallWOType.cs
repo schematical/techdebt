@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using Tutorial;
 using UnityEngine;
 
-public class SNSWOType : WorldObjectType
+public class FirewallWOType : WorldObjectType
 {
-    public SNSWOType()
+    public FirewallWOType()
     {
-        type = WorldObjectType.Type.SNS;
-        DisplayName = "Mobile Notifications";
-        PrefabId = "SNS";
+        type = WorldObjectType.Type.Firewall;
+        DisplayName = "Firewall";
+        PrefabId = "Firewall";
         BuildTime = 30;
         DailyCost = 30;
-        CanBeUpsized = false;
+        CanBeUpsized = true;
         ShowInGlobalDisplay = true;
-        TutorialStepId = TutorialStepId.Infra_SNS_Tip;
+        TutorialStepId = TutorialStepId.Infra_WAF_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TargetId = "sns"
+                TargetId = "firewall"
             }
         };
     }

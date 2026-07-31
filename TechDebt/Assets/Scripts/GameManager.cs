@@ -1033,18 +1033,18 @@ public class GameManager : MonoBehaviour, iModifiable
         WorldObjectTypes[WorldObjectType.Type.BinaryStorage] = new BinaryStorageWOType();
         WorldObjectTypes[WorldObjectType.Type.CDN] = new CDNWOType();
         WorldObjectTypes[WorldObjectType.Type.DedicatedDB] = new DedicatedDBWOType();
-        WorldObjectTypes[WorldObjectType.Type.Redis] = new RedisWOType();
+        WorldObjectTypes[WorldObjectType.Type.KeyValueStore] = new KeyValueStoreWOType();
         WorldObjectTypes[WorldObjectType.Type.ALB] = new ALBWOType();
         WorldObjectTypes[WorldObjectType.Type.Queue] = new QueueWOType();
         WorldObjectTypes[WorldObjectType.Type.WorkerServer] = new WorkerServerWOType();
         WorldObjectTypes[WorldObjectType.Type.CodePipeline] = new CodePipelineWOType();
         WorldObjectTypes[WorldObjectType.Type.WaterCooler] = new WaterCoolerWOType();
-        WorldObjectTypes[WorldObjectType.Type.WAF] = new WAFWOType();
+        WorldObjectTypes[WorldObjectType.Type.Firewall] = new FirewallWOType();
         WorldObjectTypes[WorldObjectType.Type.SecretManager] = new SecretManagerWOType();
-        WorldObjectTypes[WorldObjectType.Type.Cognito] = new CognitoWOType();
+        WorldObjectTypes[WorldObjectType.Type.AuthService] = new AuthServiceWOType();
         WorldObjectTypes[WorldObjectType.Type.EmailService] = new EmailServiceWOType();
-        WorldObjectTypes[WorldObjectType.Type.CloudWatchMetrics] = new CloudWatchMetricsWOType();
-        WorldObjectTypes[WorldObjectType.Type.SNS] = new SNSWOType();
+        WorldObjectTypes[WorldObjectType.Type.Metrics] = new MetricsWOType();
+        WorldObjectTypes[WorldObjectType.Type.MobileNotificationService] = new MobileNotificationServiceWOType();
         
         foreach (WorldObjectType worldObjectType in WorldObjectTypes.Values)
         {
@@ -1178,7 +1178,7 @@ public class GameManager : MonoBehaviour, iModifiable
             }
             else if (AreUnlockConditionsMet(worldObject))
             {
-                //Debug.Log($"Infrastructure '{infraData.DisplayName}' is now UNLOCKED.");
+                Debug.Log($"Infrastructure '{worldObject.Id}' is now UNLOCKED.");
                 worldObject.SetState(WorldObjectBase.State.Unlocked);
                 worldObject.gameObject.SetActive(true);
             }

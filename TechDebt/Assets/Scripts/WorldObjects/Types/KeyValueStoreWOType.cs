@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using Tutorial;
 using UnityEngine;
 
-public class RedisWOType : WorldObjectType
+public class KeyValueStoreWOType : WorldObjectType
 {
-    public RedisWOType()
+    public KeyValueStoreWOType()
     {
-        type = WorldObjectType.Type.Redis;
+        type = WorldObjectType.Type.KeyValueStore;
         DisplayName = "Key Value Store";
-        PrefabId = "Redis";
+        PrefabId = "KeyValueStore";
         BuildTime = 30;
         DailyCost = 30;
         CanBeUpsized = true;
         ShowInGlobalDisplay = true;
         LoadRecoveryRate = 40;
-        TutorialStepId = TutorialStepId.Infra_Redis_Tip;
-        sizeTechnologyPrefix = "redis";
+        TutorialStepId = TutorialStepId.Infra_KeyValueStore_Tip;
+        sizeTechnologyPrefix = "key-value-store";
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TargetId = "redis"
+                TargetId = "key-value-store"
             }
         };
         networkPackets = new List<InfrastructureDataNetworkPacket>()

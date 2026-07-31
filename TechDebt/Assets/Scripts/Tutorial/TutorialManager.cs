@@ -757,7 +757,7 @@ namespace Tutorial
                         spriteId = "ProductRoadMap"
                     },
                     new TutorialStep(
-                        TutorialStepId.Infra_Redis_Tip,
+                        TutorialStepId.Infra_KeyValueStore_Tip,
                         "Caching",
                         "Caching provides high-performance in-memory caching to reduce database queries.\n" +
                         "Building this will take a significant amount of load off your Application Servers.\n"
@@ -838,9 +838,9 @@ namespace Tutorial
                         spriteId = "secrets-manager"
                     },
                     new TutorialStep(
-                        TutorialStepId.Infra_Cognito_Tip,
-                        "Cognito User Pools",
-                        "Cognito manages user authentication and identity.\n" +
+                        TutorialStepId.Infra_AuthService_Tip,
+                        "AuthService User Pools",
+                        "AuthService manages user authentication and identity.\n" +
                         "This decreases the cost and likelihood of PII Network Packets getting leaked.\n"
                     )
                     {
@@ -868,14 +868,14 @@ namespace Tutorial
                         spriteId = "CloudWatch"
                     },
                     new TutorialStep(
-                        TutorialStepId.Infra_SNS_Tip,
+                        TutorialStepId.Infra_MobileNotificationService_Tip,
                         "Mobile Notifications",
                         "Mobile Notifications engage users and drive traffic back to your app.\n" +
                         "Use it strategically to increase usage and retention.\n"
                     )
                     {
                         Type = TutorialStep.TutorialStateType.Tip,
-                        spriteId = "SNS"
+                        spriteId = "MobileNotificationService"
                     },
                 new TutorialStep(
                     TutorialStepId.NPC_SQLInjection_View,

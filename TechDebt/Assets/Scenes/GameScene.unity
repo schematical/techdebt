@@ -165,14 +165,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66bcae9b3c384a1d840acfb2eef2fc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Infrastructure.OrgChart
-  Id: 
+  Id: org-chart
   Type: 14
   GridPosition: {x: 10, y: 55, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 23466080}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: org-chart
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -601,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  Id: 
+  Id: internet-pipe-3
   Type: 1
   GridPosition: {x: 5, y: 34, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
@@ -45053,7 +45059,7 @@ GameObject:
   - component: {fileID: 297985290}
   - component: {fileID: 297985289}
   m_Layer: 0
-  m_Name: Redis1
+  m_Name: key-value-store-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45137,14 +45143,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: key-value-store-1
   Type: 4
   GridPosition: {x: 30, y: 40, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: key-value-store
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -46946,7 +46958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  Id: 
+  Id: internet-pipe-1
   Type: 1
   GridPosition: {x: 5, y: 40, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
@@ -47143,7 +47155,7 @@ GameObject:
   - component: {fileID: 418146082}
   - component: {fileID: 418146081}
   m_Layer: 0
-  m_Name: CloudFront
+  m_Name: cdn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47227,14 +47239,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: cdn
   Type: 7
   GridPosition: {x: 19, y: 46, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: cdn
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -50646,7 +50664,7 @@ GameObject:
   - component: {fileID: 702103042}
   - component: {fileID: 702103041}
   m_Layer: 0
-  m_Name: Redis2
+  m_Name: key-value-store-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50730,14 +50748,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: key-value-store-2
   Type: 4
   GridPosition: {x: 30, y: 34, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: key-value-store
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
+  - Type: 0
+    SprintNumber: 0
+    TargetId: read-replicas
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -51607,7 +51637,7 @@ GameObject:
   - component: {fileID: 739411504}
   - component: {fileID: 739411503}
   m_Layer: 0
-  m_Name: SQS
+  m_Name: basic-queue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51691,7 +51721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29e3ef7b84b35842af7f9eac4dbaf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QueueInstance
-  Id: 
+  Id: basic-queue
   Type: 8
   GridPosition: {x: 25, y: 20, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
@@ -54326,13 +54356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9473c685b1d643189085438eb06b78fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterCooler
-  Id: 
+  Id: water-cooler
   Type: 15
   GridPosition: {x: 15, y: 50, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
-  InitialState: 0
-  CurrentState: 0
+  InitialState: 3
+  CurrentState: 3
   UnlockConditions: []
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
@@ -54493,7 +54523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: server-worker
   Type: 9
   GridPosition: {x: 30, y: 20, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
@@ -56167,14 +56197,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b16d33ad2024dd384159e27b1df79a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Infrastructure.KanbanBoard
-  Id: 
+  Id: kanban-board
   Type: 12
   GridPosition: {x: 15, y: 53, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 976197077}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: kanban-board
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -56335,14 +56371,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: load-balancer
   Type: 5
   GridPosition: {x: 15, y: 40, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: load-balancer
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -57301,7 +57343,13 @@ MonoBehaviour:
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: application-server
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -61094,14 +61142,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: s3-bucket
   Type: 6
   GridPosition: {x: 25, y: 50, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: binary-storage
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -61800,14 +61854,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: email-service
   Type: 20
   GridPosition: {x: 30, y: 31, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: email-service
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -65333,14 +65393,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: dedicated-db-3
   Type: 3
   GridPosition: {x: 30, y: 37, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: read-replicas
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -65833,14 +65899,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: secrets-manager
   Type: 0
   GridPosition: {x: 10, y: 24, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: 
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -66023,14 +66095,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: dedicated-db-2
   Type: 3
   GridPosition: {x: 30, y: 49, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: read-replicas
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -66507,14 +66585,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b68f9a811648f0b0764db5a5a8272b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CodePipelineInstance
-  Id: 
+  Id: code-pipeline
   Type: 16
   GridPosition: {x: 20, y: 30, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: codepipeline
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -68802,7 +68886,7 @@ GameObject:
   - component: {fileID: 1588739648}
   - component: {fileID: 1588739647}
   m_Layer: 0
-  m_Name: Redis3
+  m_Name: key-value-store-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68886,14 +68970,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: key-value-store-3
   Type: 4
   GridPosition: {x: 30, y: 46, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: key-value-store
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
+  - Type: 0
+    SprintNumber: 0
+    TargetId: read-replicas
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -70891,7 +70987,13 @@ MonoBehaviour:
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: white-board
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -72499,14 +72601,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7253085d0ae24ad438877860e9b1dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Server
-  Id: 
+  Id: server3
   Type: 2
   GridPosition: {x: 25, y: 37, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: load-balancer
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -72804,14 +72912,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: dedicated-db-1
   Type: 3
   GridPosition: {x: 30, y: 43, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: dedicated-db
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -73384,7 +73498,7 @@ GameObject:
   - component: {fileID: 1895834037}
   - component: {fileID: 1895834036}
   m_Layer: 0
-  m_Name: SNS
+  m_Name: mobile-notification-service
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73490,14 +73604,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: mobile-notification-service
   Type: 22
   GridPosition: {x: 31, y: 29, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: sns
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -74188,7 +74308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  Id: 
+  Id: internet-pipe-2
   Type: 1
   GridPosition: {x: 5, y: 37, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
@@ -142686,7 +142806,7 @@ GameObject:
   - component: {fileID: 1971259124}
   - component: {fileID: 1971259123}
   m_Layer: 0
-  m_Name: Cognito
+  m_Name: auth-service
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142770,14 +142890,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: auth-service
   Type: 0
   GridPosition: {x: 15, y: 20, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: auth-service
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -144335,7 +144461,7 @@ GameObject:
   - component: {fileID: 2101904148}
   - component: {fileID: 2101904147}
   m_Layer: 0
-  m_Name: WAF
+  m_Name: Firewall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144419,14 +144545,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: Firewall1
   Type: 17
   GridPosition: {x: 10, y: 28, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: firewall
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -144503,7 +144635,7 @@ GameObject:
   - component: {fileID: 2102838029}
   - component: {fileID: 2102838028}
   m_Layer: 0
-  m_Name: CloudWatchMetrics
+  m_Name: Metrics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144609,14 +144741,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4a16d2aa8f79c428726436bbd48547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfrastructureInstance
-  Id: 
+  Id: metrics
   Type: 21
   GridPosition: {x: 10, y: 20, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: metrics
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}
@@ -145179,14 +145317,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7253085d0ae24ad438877860e9b1dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Server
-  Id: 
+  Id: server2
   Type: 2
   GridPosition: {x: 25, y: 40, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
   polygonCollider2D: {fileID: 0}
   InitialState: 0
   CurrentState: 0
-  UnlockConditions: []
+  UnlockConditions:
+  - Type: 0
+    SprintNumber: 0
+    TargetId: load-balancer
+    TutorialStepId: 0
+    TutorialStepState: 0
+    Level: 0
   startColor: {r: 1, g: 1, b: 1, a: 1}
   Version: 0.0.1
   serverSmokeEffect: {fileID: 0}

@@ -18,7 +18,7 @@ namespace Infrastructure
             InternetPipe,
             ApplicationServer,
             DedicatedDB,
-            Redis,
+            KeyValueStore,
             ALB,
             BinaryStorage,
             CDN,
@@ -31,12 +31,12 @@ namespace Infrastructure
             OrgChart,
             WaterCooler,
             CodePipeline,
-            WAF,
+            Firewall,
             SecretManager,
-            Cognito,
+            AuthService,
             EmailService,
-            CloudWatchMetrics,
-            SNS
+            Metrics,
+            MobileNotificationService
         }
         
         public string DisplayName;

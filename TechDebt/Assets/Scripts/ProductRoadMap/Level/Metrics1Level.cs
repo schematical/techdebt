@@ -11,7 +11,7 @@ public class Metrics1Level : MapLevel
         DependencyIds.Add("LaunchMapLevel");
         VictoryConditions.Add(new InfraActiveVictoryCondition()
         {
-            TargetId = "cloud-watch-metrics"
+            TargetId = "metrics"
         });
         AddCashReward(100, 250);
         AddPrestigePointsReward(2);

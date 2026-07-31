@@ -104,7 +104,7 @@ public class ApplicationServerWOType : WorldObjectType
             },
             new NetworkConnection()
             {
-                worldObjectType = WorldObjectType.Type.Redis,
+                worldObjectType = WorldObjectType.Type.KeyValueStore,
                 networkPacketType = NetworkPacketData.PType.Text,
                 networkConnectionBonus = new List<NetworkConnectionBonus>()
                 {

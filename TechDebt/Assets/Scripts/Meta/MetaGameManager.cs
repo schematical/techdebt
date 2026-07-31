@@ -633,7 +633,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "redis",
+                TechnologyID = "key-value-store",
                 DisplayName = "Key Value Store",
                 Description = "A lightning fast value key store. Allows you to decrease load on the application server by caching complex operations.",
                 ResearchTime = 25,
@@ -642,12 +642,12 @@ public static class MetaGameManager
                     new UnlockCondition()
                         { Type = UnlockCondition.ConditionType.Technology, TargetId = "dedicated-db" }
                 },
-                TutorialStepId = TutorialStepId.Infra_Redis_Tip,
+                TutorialStepId = TutorialStepId.Infra_KeyValueStore_Tip,
                 Direction =  Technology.TechTreeDirection.Down
             },
             new Technology()
             {
-                TechnologyID = "redis-size-medium",
+                TechnologyID = "key-value-store-size-medium",
                 DisplayName = "Key Value Store - Medium",
                 Description = "2x your Key Value Store Server's CPU/RAM and Costs",
                 ResearchTime = 15,
@@ -656,7 +656,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TargetId = "redis"
+                        TargetId = "key-value-store"
                     },
                     new UnlockCondition()
                     {
@@ -669,7 +669,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "redis-size-large",
+                TechnologyID = "key-value-store-size-large",
                 DisplayName = "Key Value Store - Large",
                 Description = "4x your Key Value Store Server's CPU/RAM and Costs",
                 ResearchTime = 30,
@@ -678,7 +678,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TargetId = "redis-size-medium"
+                        TargetId = "key-value-store-size-medium"
                     },
                 },
                 CurrentState = Technology.State.Locked,
@@ -746,7 +746,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "waf",
+                TechnologyID = "firewall",
                 DisplayName = "Basic Firewall",
                 Description = "Filters out bad traffic.",
                 ResearchTime = 25,
@@ -755,7 +755,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TargetId = "cloud-watch-metrics"
+                        TargetId = "metrics"
                     }
                 },
                 CurrentState = Technology.State.Locked,
@@ -774,7 +774,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology, 
-                        TargetId = "cloud-watch-metrics"
+                        TargetId = "metrics"
                     }
                 },
                 Direction = Technology.TechTreeDirection.Left,
@@ -783,8 +783,8 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "sqs",
-                DisplayName = "Simple Queue Service",
+                TechnologyID = "basic-queue",
+                DisplayName = "Queue Service",
                 Description = "Takes a lot of CPU load off the application server by queueing up complex operations to be processed by worker servers.",
                 ResearchTime = 25,
                 UnlockConditions = new List<UnlockCondition>()
@@ -798,7 +798,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "cognito",
+                TechnologyID = "auth-service",
                 DisplayName = "Auth Service",
                 Description = "Further prevents PII leaks.",
                 ResearchTime = 25,
@@ -807,7 +807,7 @@ public static class MetaGameManager
                     new UnlockCondition()
                     {
                         Type = UnlockCondition.ConditionType.Technology,
-                        TargetId = "cloud-watch-metrics"
+                        TargetId = "metrics"
                     },
                     /*new UnlockCondition()
                     {
@@ -822,7 +822,7 @@ public static class MetaGameManager
                 },
                 CurrentState = Technology.State.Locked,
                 Direction = Technology.TechTreeDirection.Left,
-                TutorialStepId = TutorialStepId.Infra_Cognito_Tip
+                TutorialStepId = TutorialStepId.Infra_AuthService_Tip
                 // Survive Y user info leaked
             },
             new Technology()
@@ -880,7 +880,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "cloud-watch-metrics",
+                TechnologyID = "metrics",
                 DisplayName = "Metrics",
                 Description = "Gives you faster better insights into the health of your server infrastructure.",
                 Direction = Technology.TechTreeDirection.Left,
@@ -909,7 +909,7 @@ public static class MetaGameManager
             },
             new Technology()
             {
-                TechnologyID = "sns",
+                TechnologyID = "mobile-notifications",
                 DisplayName = "Mobile Notifications",
                 Description = "Sends mobile phone notifications at scale.",
                 Direction = Technology.TechTreeDirection.Down,
@@ -929,7 +929,7 @@ public static class MetaGameManager
                         Level = 0
                     }
                 },
-                TutorialStepId = TutorialStepId.Infra_SNS_Tip
+                TutorialStepId = TutorialStepId.Infra_MobileNotificationService_Tip
                 // Finish round 1
             },
             new Technology()

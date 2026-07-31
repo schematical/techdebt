@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using Tutorial;
 using UnityEngine;
 
-public class CloudWatchMetricsWOType : WorldObjectType
+public class AuthServiceWOType : WorldObjectType
 {
-    public CloudWatchMetricsWOType()
+    public AuthServiceWOType()
     {
-        type = WorldObjectType.Type.CloudWatchMetrics;
-        DisplayName = "Cloud Watch Metrics";
-        PrefabId = "CloudWatchMetrics";
+        type = WorldObjectType.Type.AuthService;
+        DisplayName = "Auth Service";
+        PrefabId = "AuthService";
         BuildTime = 30;
-        DailyCost = 1;
+        DailyCost = 30;
         CanBeUpsized = false;
         ShowInGlobalDisplay = true;
-        TutorialStepId = TutorialStepId.Infra_CloudWatchMetrics_Tip;
+        TutorialStepId = TutorialStepId.Infra_AuthService_Tip;
         UnlockConditions = new List<UnlockCondition>()
         {
             new UnlockCondition()
             {
                 Type = UnlockCondition.ConditionType.Technology,
-                TargetId = "cloud-watch-metrics"
+                TargetId = "auth-service"
             }
         };
     }

@@ -308,7 +308,7 @@ public class UIManager : MonoBehaviour
 
         if (
             Keyboard.current.shiftKey.wasPressedThisFrame &&
-            GameManager.Instance.GetTechnologyByID("cloud-watch-metrics").IsUnlocked()
+            GameManager.Instance.GetTechnologyByID("metrics").IsUnlocked()
         )
         {
 
