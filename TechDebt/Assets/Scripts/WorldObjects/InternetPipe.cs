@@ -191,9 +191,9 @@ public class InternetPipe : InfrastructureInstance
         FirewallState = state;
     }
 
-    public void TrafficCheck(float traffic)
+    public void TrafficCheck()
     {
-        if (traffic > startAtTraffic)
+        if (AreUnlockConditionsMet())
         {
             SetState(WorldObjectBase.State.Operational);
         }
@@ -201,5 +201,11 @@ public class InternetPipe : InfrastructureInstance
         {
             SetState(WorldObjectBase.State.Locked);
         }
+    }
+
+    public override bool AreUnlockConditionsMet()
+    {
+        // Debug.Log($"AreUnlockConditionsMet: {GameManager.Instance.Stats.GetStatValue(StatType.Traffic) > startAtTraffic} {GameManager.Instance.Stats.GetStatValue(StatType.Traffic)} > {startAtTraffic}");
+        return GameManager.Instance.Stats.GetStatValue(StatType.Traffic) > startAtTraffic;
     }
 }

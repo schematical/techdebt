@@ -275,6 +275,23 @@ namespace Infrastructure
         public virtual void OnWorldObjectStateChange(WorldObjectBase instance, WorldObjectBase.State previousState)
         {
         }
+        public virtual bool AreUnlockConditionsMet()
+        {
+            WorldObjectType worldObjectType = GetWorldObjectType();
+
+            List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
+            if (worldObjectType.UnlockConditions != null && worldObjectType.UnlockConditions.Count > 0)
+            {
+                unlockConditions.AddRange(worldObjectType.UnlockConditions);
+            }
+
+            if (UnlockConditions.Count > 0)
+            {
+                unlockConditions.AddRange(UnlockConditions);
+            }
+            return GameManager.Instance.AreUnlockConditionsMet(unlockConditions);
+        }
+        
     }
    
 

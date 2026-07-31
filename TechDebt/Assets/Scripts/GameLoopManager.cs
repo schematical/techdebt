@@ -86,7 +86,7 @@ public class GameLoopManager : MonoBehaviour
         List<WorldObjectBase> worldObjectBases = GameManager.Instance.GetWorldObjectByType(WorldObjectType.Type.InternetPipe); // startAtTraffic
         foreach (WorldObjectBase worldObject in worldObjectBases)
         {
-            (worldObject as InternetPipe).TrafficCheck(GameManager.Instance.Stats.GetStatValue(StatType.Traffic));
+            (worldObject as InternetPipe).TrafficCheck();
         }
         // GameManager.Instance.UIManager.moneyPanel.Show();
         // GameManager.Instance.UIManager.Resume();

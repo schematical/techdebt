@@ -51769,7 +51769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  Id: internet-pipe-3
+  Id: internet-pipe-5
   Type: 1
   GridPosition: {x: 5, y: 34, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}
@@ -52512,6 +52512,8 @@ MonoBehaviour:
   - {fileID: 1906984579}
   - {fileID: 30931530}
   - {fileID: 851712342}
+  - {fileID: 2059867727}
+  - {fileID: 729860021}
   Stakeholders: []
   gridManager: {fileID: 1440694111}
   NetworkPacketState: 0
@@ -144367,7 +144369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946bb76c2e81b3444894de15ff53b580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InternetPipe
-  Id: internet-pipe-2
+  Id: internet-pipe-4
   Type: 1
   GridPosition: {x: 5, y: 37, z: 0}
   attentionIconColor: {r: 1, g: 1, b: 1, a: 1}

@@ -1125,7 +1125,7 @@ public class GameManager : MonoBehaviour, iModifiable
         {   
             if (instance.CurrentState == WorldObjectBase.State.Locked && !instance.gameObject.activeSelf)
             {
-                if (AreUnlockConditionsMet(instance))
+                if (instance.AreUnlockConditionsMet())
                 {
                     instance.gameObject.SetActive(true);
                     instance.GetComponent<InfrastructureInstance>().SetState(WorldObjectBase.State.Unlocked);
@@ -1176,7 +1176,7 @@ public class GameManager : MonoBehaviour, iModifiable
                 // Debug.Log($"Infrastructure '{worldObject.Id}' is now Operational.");
                 worldObject.gameObject.SetActive(true);
             }
-            else if (AreUnlockConditionsMet(worldObject))
+            else if (worldObject.AreUnlockConditionsMet())
             {
                 // Debug.Log($"Infrastructure '{worldObject.Id}' is now UNLOCKED.");
                 worldObject.SetState(WorldObjectBase.State.Unlocked);
@@ -1215,37 +1215,7 @@ public class GameManager : MonoBehaviour, iModifiable
    
     }
 
-    public bool AreUnlockConditionsMet(WorldObjectBase worldObject)
-    {
-        WorldObjectType worldObjectType = worldObject.GetWorldObjectType();
-
-        List<UnlockCondition> unlockConditions = new List<UnlockCondition>();
-        if (worldObjectType.UnlockConditions != null && worldObjectType.UnlockConditions.Count > 0)
-        {
-            unlockConditions.AddRange(worldObjectType.UnlockConditions);
-        }
-
-        if (worldObject.UnlockConditions.Count > 0)
-        {
-            unlockConditions.AddRange(worldObject.UnlockConditions);
-        }
-        return AreUnlockConditionsMet(unlockConditions);
-    }
-    public bool AreUnlockConditionsMet( List<UnlockCondition> unlockConditions) {
-        if (unlockConditions == null || unlockConditions.Count == 0)
-        {
-            return true;
-        }
-        
-        foreach (UnlockCondition condition in unlockConditions)
-        {
-            if (!condition.IsUnlocked())
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+  
 
     
     
@@ -1564,5 +1534,20 @@ public class GameManager : MonoBehaviour, iModifiable
             return;
         }
         AnalyticsService.Instance.RecordEvent(myEvent);
+    }
+    public virtual bool AreUnlockConditionsMet( List<UnlockCondition> unlockConditions) {
+        if (unlockConditions == null || unlockConditions.Count == 0)
+        {
+            return true;
+        }
+        
+        foreach (UnlockCondition condition in unlockConditions)
+        {
+            if (!condition.IsUnlocked())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
