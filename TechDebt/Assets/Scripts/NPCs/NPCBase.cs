@@ -123,6 +123,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
 
     protected virtual void FixedUpdate()
     {
+        transform.position = GameManager.Instance.gridManager.AdjustWorldPointZ(transform.position);
         if (respectPause)
         {
             if (
@@ -216,6 +217,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
     }
 
+  
     public virtual bool CanAssignTask(NPCTask task)
     {
         return false;
@@ -408,7 +410,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
             Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovementSpeed) * Time.fixedDeltaTime);
-            transform.position = new Vector3(nextPos.x, nextPos.y, targetWaypoint.z);
+            transform.position = GameManager.Instance.gridManager.AdjustWorldPointZ(nextPos);
         }
         else
         {
