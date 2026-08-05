@@ -127,11 +127,11 @@ public class DeliverItemTask : NPCTask
 
             if (!isOccupied)
             {
-                 Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
+                 Node node = GameManager.Instance.gridManager.NodeFromWorldPoint(randomDirection);
                  if (node != null && node.IsWalkable())
                  {
                      return 
-                         GridManager.Instance.grid.GetCellCenterWorld(new Vector3Int(node.gridX, node.gridY, 0));
+                         GameManager.Instance.gridManager.grid.GetCellCenterWorld(new Vector3Int(node.gridX, node.gridY, 0));
                  }
             }
         }

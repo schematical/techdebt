@@ -10,13 +10,10 @@ public static class Pathfinding
 {
     public static List<Vector3> FindPath(Vector3 startWorldPos, Vector3 targetWorldPos)
     {
-        if (GridManager.Instance == null)
-        {
-            throw new System.Exception("Pathfinding requires a GridManager instance.");
-        }
+  
 
-        Node startNode = GridManager.Instance.NodeFromWorldPoint(startWorldPos);
-        Node targetNode = GridManager.Instance.NodeFromWorldPoint(targetWorldPos);
+        Node startNode = GameManager.Instance.gridManager.NodeFromWorldPoint(startWorldPos);
+        Node targetNode = GameManager.Instance.gridManager.NodeFromWorldPoint(targetWorldPos);
 
         if (startNode == null)
         {
@@ -34,9 +31,15 @@ public static class Pathfinding
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
-        int saftyCheck = 10000;
+        int saftyCheck = 1000;
         while (openSet.Count > 0)
         {
+            saftyCheck -= 1;
+            if (saftyCheck < 0)
+            {
+                throw new SystemException("We have maxed out the loop");
+            }
+            
             Node currentNode = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
             {
@@ -51,16 +54,11 @@ public static class Pathfinding
 
             if (currentNode == targetNode)
             {
-                return RetracePath(startNode, targetNode, targetWorldPos);
+                return RetracePath(startNode, currentNode, targetWorldPos);
             }
 
             foreach (Node neighbour in currentNode.GetNeighbours())
             {
-                saftyCheck -= 1;
-                if (saftyCheck < 0)
-                {
-                    throw new SystemException("We have maxed out the loop");
-                }
                 if (!neighbour.IsWalkable() || closedSet.Contains(neighbour))
                 {
                     continue;
@@ -131,10 +129,38 @@ public class Node
 
     public Node(/* Vector3 _worldPos,*/ int _gridX, int _gridY)
     {
-     
-        // worldPosition = _worldPos;
         gridX = _gridX;
         gridY = _gridY;
+        if (GameManager.Instance != null && GameManager.Instance.gridManager != null && GameManager.Instance.gridManager.grid != null)
+        {
+            worldPosition = GameManager.Instance.gridManager.grid.CellToWorld(new Vector3Int(gridX, gridY, 0));
+        }
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is Node other)
+        {
+            return gridX == other.gridX && gridY == other.gridY;
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return (gridX * 397) ^ gridY;
+    }
+
+    public static bool operator ==(Node left, Node right)
+    {
+        if (ReferenceEquals(left, right)) return true;
+        if (ReferenceEquals(left, null) || ReferenceEquals(right, null)) return false;
+        return left.gridX == right.gridX && left.gridY == right.gridY;
+    }
+
+    public static bool operator !=(Node left, Node right)
+    {
+        return !(left == right);
     }
 
     public bool IsWalkable()
@@ -157,11 +183,13 @@ public class Node
             // Debug.Log($"Found skyTile: {gridX}, {gridY}");
             return false;
         }
-        TileBase floorTile = GameManager.Instance.gridManager.floorTilemap.GetTile(new Vector3Int(gridX, gridY, 0));
-        bool isWalkable =  floorTile != null;
-        if (floorTile == null)
+        
+        Vector3Int checkPos = new Vector3Int(gridX, gridY, 0);
+        bool isWalkable = GameManager.Instance.gridManager.floorTilemap.HasTile(checkPos);
+        
+        if (!isWalkable)
         {
-            Debug.Log($"Missed floor tile at  {gridX}, {gridY} this is a good thing. " + isWalkable);
+            Debug.Log($"Missed floor tile at {gridX}, {gridY} this is a good thing. " + isWalkable);
         }
         return isWalkable;
     }
@@ -177,22 +205,14 @@ public class Node
                 int checkX = gridX + x;
                 int checkY = gridY + y;
 
-                Node node = new Node(checkX, checkY);
-                TileBase floorTile = GameManager.Instance.gridManager.floorTilemap.GetTile(new Vector3Int(gridX, gridY, 0));
-                if (floorTile != null)
+                if (checkX >= 0 && checkX < 64 && checkY >= 0 && checkY < 64)
                 {
-                    if (checkX >= 0 && checkX < 64 && checkY >= 0 && checkY < 64)
+                    Node node = new Node(checkX, checkY);
+                    if (node.IsWalkable())
                     {
-
                         neighbours.Add(node);
                     }
-                    else
-                    {
-                        Debug.Log($"FAIL: Found {floorTile} at {checkX}, {checkY}");
-                    }
                 }
-                    
-                
             }
         }
         return neighbours;

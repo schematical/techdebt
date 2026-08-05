@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class GridManager : MonoBehaviour
 {
-    public static GridManager Instance { get; private set; }
+
 
   
     
@@ -17,18 +17,7 @@ public class GridManager : MonoBehaviour
     public Tilemap floorTilemap;
     public Tilemap skyTilemap;
 
-    void Awake()
-    {
-        // Singleton pattern
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
+  
 
     public void Init()
     {

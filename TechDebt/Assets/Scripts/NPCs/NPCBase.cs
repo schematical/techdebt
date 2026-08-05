@@ -298,7 +298,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             Vector3 randomDirection = Random.insideUnitSphere * radius;
             randomDirection += origin;
 
-            Node node = GridManager.Instance.NodeFromWorldPoint(randomDirection);
+            Node node = GameManager.Instance.gridManager.NodeFromWorldPoint(randomDirection);
             if (node != null && node.IsWalkable())
             {
                 return randomDirection;
@@ -341,6 +341,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     
     public void MoveTo(Vector3 destination)
     {
+        Debug.Log($"{gameObject.name} moving to {destination}");
         List<Vector3> path = Pathfinding.FindPath(transform.position, destination);
         if (path != null && path.Count > 0)
         {
