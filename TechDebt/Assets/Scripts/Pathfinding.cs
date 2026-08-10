@@ -178,12 +178,14 @@ public class Node
                     // Debug.Log($"Found Tile: {gridX}, {gridY}");
                     return false;
                 }
-                for (int i = 0; i <= Pathfinding.wallHeightTiles; i++)
+                for (int i = 1; i <= Pathfinding.wallHeightTiles; i++)
                 {
-                    TileBase wallBaseTile = roomBase.WallTilemap.GetTile(new Vector3Int(gridX, gridY - i, 0));
+                    // For this isometric grid, worldX depends on (gridX - gridY) and worldY on (gridX + gridY),
+                    // so the tile directly above on screen (same screen X, higher screen Y) is (gridX - i, gridY - i).
+                    TileBase wallBaseTile = roomBase.WallTilemap.GetTile(new Vector3Int(gridX - i, gridY - i, 0));
                     if (wallBaseTile != null)
                     {
-                        // This tile sits above a wall's base, blocked by the wall's height.
+                        // This tile sits above a wall's base on screen, blocked by the wall's height.
                         return false;
                     }
                 }
