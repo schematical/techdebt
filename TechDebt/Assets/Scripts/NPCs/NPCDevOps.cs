@@ -50,6 +50,7 @@ public class NPCDevOps : NPCAnimatedBiped
         lastDisplayXP = 0;
         level = 1;
         leveledUpTo = 1;
+        isDebugging = true;
     }
 
     public override void OnPlanPhaseStart()

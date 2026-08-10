@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 
 public static class Pathfinding
 {
+    public static int wallHeightTiles = 2;
     public static List<Vector3> FindPath(Vector3 startWorldPos, Vector3 targetWorldPos)
     {
   
@@ -54,6 +55,7 @@ public static class Pathfinding
 
             if (currentNode == targetNode)
             {
+                Debug.Log("Target node found");
                 return RetracePath(startNode, currentNode, targetWorldPos);
             }
 
@@ -165,6 +167,7 @@ public class Node
 
     public bool IsWalkable()
     {
+
         foreach (RoomBase roomBase in GameManager.Instance.Rooms)
         {
             if (roomBase.State == RoomBase.RoomState.Active)
@@ -174,6 +177,15 @@ public class Node
                 {
                     // Debug.Log($"Found Tile: {gridX}, {gridY}");
                     return false;
+                }
+                for (int i = 0; i <= Pathfinding.wallHeightTiles; i++)
+                {
+                    TileBase wallBaseTile = roomBase.WallTilemap.GetTile(new Vector3Int(gridX, gridY - i, 0));
+                    if (wallBaseTile != null)
+                    {
+                        // This tile sits above a wall's base, blocked by the wall's height.
+                        return false;
+                    }
                 }
             }
         }

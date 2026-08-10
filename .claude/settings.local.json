@@ -1,5 +1,10 @@
 {
   "enabledMcpjsonServers": [
     "unityMCP"
-  ]
+  ],
+  "permissions": {
+    "allow": [
+      "mcp__unityMCP__manage_editor"
+    ]
+  }
 }

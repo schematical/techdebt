@@ -12,6 +12,7 @@ using UI;
 using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
 using UnityEngine.U2D.Animation;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -279,7 +280,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public void Wander()
     {
         HideProgressBar();
-        Vector3 wanderDestination = GetRandomWalkablePoint(GetHomePoint(), 10f);
+        Vector3 wanderDestination = GetRandomWalkablePoint(GetHomePoint(), 5f);
   
         if (!Vector3.zero.Equals(wanderDestination))
         {
@@ -307,7 +308,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             }
         }
         
-        return Vector3.zero;
+        throw new System.Exception("Could not find a walkable point for walkable point");
     }
 
     public virtual void OnPlayPhaseStart()
@@ -410,7 +411,12 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
             Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovementSpeed) * Time.fixedDeltaTime);
-            transform.position = GameManager.Instance.gridManager.AdjustWorldPointZ(nextPos);
+            transform.position = nextPos; // GameManager.Instance.gridManager.AdjustWorldPointZ(nextPos);
+
+            if (isDebugging)
+            {
+                GameManager.Instance.gridManager.DebugNPC(this, transform.position, currentPath);
+            }
         }
         else
         {
