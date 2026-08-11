@@ -14,7 +14,7 @@ public class GridManager : MonoBehaviour
     public Tilemap floorTilemap;
     public Tilemap skyTilemap;
     public Tilemap controllerTilemap;
-    public int baseSortingOrder = 1000000;
+    public int baseSortingOrder = 15000;
     public int sortingOrderYScale = 10;
 
 

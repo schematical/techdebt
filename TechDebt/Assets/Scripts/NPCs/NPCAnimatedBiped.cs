@@ -41,7 +41,7 @@ namespace NPCs
             headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
             bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
         }
-        protected virtual void UpdateSortingOrder()
+        protected override void UpdateSortingOrder()
         {
             int sortingOrder = GameManager.Instance.gridManager.GetSortingOrderForY(transform.position.y);
   
