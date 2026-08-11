@@ -29,15 +29,17 @@ namespace NPCs
         public SpriteRenderer faceSpriteRenderer;
         public string  headSpriteLibraryCategory;
 
+        public SpriteManager.NPCBodySpriteCollection
+            bodySpriteCollection = SpriteManager.NPCBodySpriteCollection.Normal;
         void Awake()
         {
-            Randomize();
+            // Randomize();
             ReceiveDamageEffect = null;
         }
         public void Randomize()
         {
             headSpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.headSpriteLibraryAsset;
-            NPCBipedAssets assets =  GameManager.Instance.SpriteManager.GetRandomNPCBipedAssets();
+            NPCBipedAssets assets =  GameManager.Instance.SpriteManager.GetRandomNPCBipedAssets(bodySpriteCollection);
             headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
             bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
         }

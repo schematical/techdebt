@@ -1,0 +1,1248 @@
+fileFormatVersion: 2
+guid: 58d07f415f23b294d97adae6acdbd050
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5536207561610063315
+    second: NPCBodySuit_0
+  - first:
+      213: 6444823664415867371
+    second: NPCBodySuit_1
+  - first:
+      213: -4230277080784143574
+    second: NPCBodySuit_2
+  - first:
+      213: 7189272151549548596
+    second: NPCBodySuit_3
+  - first:
+      213: -5938945976702512503
+    second: NPCBodySuit_4
+  - first:
+      213: 7100918490273616969
+    second: NPCBodySuit_5
+  - first:
+      213: -5505811678689317908
+    second: NPCBodySuit_6
+  - first:
+      213: -5834298613055598163
+    second: NPCBodySuit_7
+  - first:
+      213: 4132482684741974791
+    second: NPCBodySuit_8
+  - first:
+      213: -8382380750107152499
+    second: NPCBodySuit_9
+  - first:
+      213: 4779898596472726651
+    second: NPCBodySuit_10
+  - first:
+      213: 106239873905018436
+    second: NPCBodySuit_11
+  - first:
+      213: 8281617651771747862
+    second: NPCBodySuit_12
+  - first:
+      213: -2277980179267700267
+    second: NPCBodySuit_13
+  - first:
+      213: -5871076573079206595
+    second: NPCBodySuit_14
+  - first:
+      213: -877860342444389908
+    second: NPCBodySuit_15
+  - first:
+      213: 1297056853672158858
+    second: NPCBodySuit_16
+  - first:
+      213: 4883985740559918338
+    second: NPCBodySuit_17
+  - first:
+      213: -6809704247260589498
+    second: NPCBodySuit_18
+  - first:
+      213: 3829681360165643756
+    second: NPCBodySuit_19
+  - first:
+      213: 6583337610506428802
+    second: NPCBodySuit_20
+  - first:
+      213: 809720948370641681
+    second: NPCBodySuit_21
+  - first:
+      213: -5150789636286280888
+    second: NPCBodySuit_22
+  - first:
+      213: -178755036879367054
+    second: NPCBodySuit_23
+  - first:
+      213: 6765715322325258587
+    second: NPCBodySuit_24
+  - first:
+      213: -6610221418706965099
+    second: NPCBodySuit_25
+  - first:
+      213: 6248617120624212582
+    second: NPCBodySuit_26
+  - first:
+      213: -8369738950148030947
+    second: NPCBodySuit_27
+  - first:
+      213: -1787887379092232793
+    second: NPCBodySuit_28
+  - first:
+      213: -2031516802067124346
+    second: NPCBodySuit_29
+  - first:
+      213: 5145190261020768052
+    second: NPCBodySuit_30
+  - first:
+      213: -7834527931443973815
+    second: NPCBodySuit_31
+  - first:
+      213: 6432428649288602338
+    second: NPCBodySuit_32
+  - first:
+      213: -666136540190544802
+    second: NPCBodySuit_33
+  - first:
+      213: 7944426944542528277
+    second: NPCBodySuit_34
+  - first:
+      213: -2383421217303357809
+    second: NPCBodySuit_35
+  - first:
+      213: 7892356738031672669
+    second: NPCBodySuit_36
+  - first:
+      213: -2487854387203269518
+    second: NPCBodySuit_37
+  - first:
+      213: -4344053161888811480
+    second: NPCBodySuit_38
+  - first:
+      213: -1709665990367205476
+    second: NPCBodySuit_39
+  - first:
+      213: -7209004158912533299
+    second: NPCBodySuit_40
+  - first:
+      213: -7467365110419736818
+    second: NPCBodySuit_41
+  - first:
+      213: 3412279847142261280
+    second: NPCBodySuit_42
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: NPCBodySuit_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 0
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dd6998f17f84dc40800000000000000
+      internalID: 5536207561610063315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_1
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be10a850afc907950800000000000000
+      internalID: 6444823664415867371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2b726278690b45c0800000000000000
+      internalID: -4230277080784143574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_3
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43818b27eec65c360800000000000000
+      internalID: 7189272151549548596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_4
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 982596e9910a49da0800000000000000
+      internalID: -5938945976702512503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_5
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94413cf9eb78b8260800000000000000
+      internalID: 7100918490273616969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_6
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceba683037d6793b0800000000000000
+      internalID: -5505811678689317908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_7
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da15447a258680fa0800000000000000
+      internalID: -5834298613055598163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_8
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 19
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70b7f706b17895930800000000000000
+      internalID: 4132482684741974791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_9
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 0
+        width: 18
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8f6ac99e1dcbab80800000000000000
+      internalID: -8382380750107152499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_10
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 0
+        width: 18
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b742521d27c955240800000000000000
+      internalID: 4779898596472726651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_11
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 0
+        width: 18
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44647193a90797100800000000000000
+      internalID: 106239873905018436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_12
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 0
+        width: 18
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61ea57b50673ee270800000000000000
+      internalID: 8281617651771747862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_13
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 1
+        width: 18
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d93e51a81df260e0800000000000000
+      internalID: -2277980179267700267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_14
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 0
+        width: 22
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d350f7c86feb58ea0800000000000000
+      internalID: -5871076573079206595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_15
+      rect:
+        serializedVersion: 2
+        x: 801
+        y: 0
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce9033e6ba631d3f0800000000000000
+      internalID: -877860342444389908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_16
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 0
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a866d981652100210800000000000000
+      internalID: 1297056853672158858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_17
+      rect:
+        serializedVersion: 2
+        x: 863
+        y: 0
+        width: 27
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 205a522972767c340800000000000000
+      internalID: 4883985740559918338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_18
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 0
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 642509401121f71a0800000000000000
+      internalID: -6809704247260589498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_19
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 0
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce5ab9318e2c52530800000000000000
+      internalID: 3829681360165643756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_20
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 0
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28164be3da6bc5b50800000000000000
+      internalID: 6583337610506428802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_21
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 0
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11313d699e4bc3b00800000000000000
+      internalID: 809720948370641681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_22
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 0
+        width: 22
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84b8468ad18b488b0800000000000000
+      internalID: -5150789636286280888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_23
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 0
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2745ef4bd3fe48df0800000000000000
+      internalID: -178755036879367054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_24
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 0
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b515d964d36a4ed50800000000000000
+      internalID: 6765715322325258587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_25
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 0
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59dea4364a6c344a0800000000000000
+      internalID: -6610221418706965099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_26
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 0
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66afa342a2c87b650800000000000000
+      internalID: 6248617120624212582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_27
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 4
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1efca505c6b8db80800000000000000
+      internalID: -8369738950148030947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_28
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 0
+        width: 17
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a5adceb6e52037e0800000000000000
+      internalID: -1787887379092232793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_29
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 0
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68f2d816b3a9ec3e0800000000000000
+      internalID: -2031516802067124346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_30
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 1
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43731f13843676740800000000000000
+      internalID: 5145190261020768052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_31
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 0
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 941f76ffa5a264390800000000000000
+      internalID: -7834527931443973815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_32
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 0
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e294eba6c3944950800000000000000
+      internalID: 6432428649288602338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_33
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 0
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5ce806985861c6f0800000000000000
+      internalID: -666136540190544802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_34
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 1
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 513df75f636404e60800000000000000
+      internalID: 7944426944542528277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_35
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 0
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f861180e7036ceed0800000000000000
+      internalID: -2383421217303357809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_36
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 0
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5dd90343a8478d60800000000000000
+      internalID: 7892356738031672669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_37
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 0
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27c1ad5bd9d597dd0800000000000000
+      internalID: -2487854387203269518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_38
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 0
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82674304aa2d6b3c0800000000000000
+      internalID: -4344053161888811480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_39
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 5
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c97a89707db0648e0800000000000000
+      internalID: -1709665990367205476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_40
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 0
+        width: 17
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcc64b399e874fb90800000000000000
+      internalID: -7209004158912533299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_41
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 0
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e073941fef69e5890800000000000000
+      internalID: -7467365110419736818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPCBodySuit_42
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 1
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0228323217ada5f20800000000000000
+      internalID: 3412279847142261280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      NPCBodySuit_0: 5536207561610063315
+      NPCBodySuit_1: 6444823664415867371
+      NPCBodySuit_10: 4779898596472726651
+      NPCBodySuit_11: 106239873905018436
+      NPCBodySuit_12: 8281617651771747862
+      NPCBodySuit_13: -2277980179267700267
+      NPCBodySuit_14: -5871076573079206595
+      NPCBodySuit_15: -877860342444389908
+      NPCBodySuit_16: 1297056853672158858
+      NPCBodySuit_17: 4883985740559918338
+      NPCBodySuit_18: -6809704247260589498
+      NPCBodySuit_19: 3829681360165643756
+      NPCBodySuit_2: -4230277080784143574
+      NPCBodySuit_20: 6583337610506428802
+      NPCBodySuit_21: 809720948370641681
+      NPCBodySuit_22: -5150789636286280888
+      NPCBodySuit_23: -178755036879367054
+      NPCBodySuit_24: 6765715322325258587
+      NPCBodySuit_25: -6610221418706965099
+      NPCBodySuit_26: 6248617120624212582
+      NPCBodySuit_27: -8369738950148030947
+      NPCBodySuit_28: -1787887379092232793
+      NPCBodySuit_29: -2031516802067124346
+      NPCBodySuit_3: 7189272151549548596
+      NPCBodySuit_30: 5145190261020768052
+      NPCBodySuit_31: -7834527931443973815
+      NPCBodySuit_32: 6432428649288602338
+      NPCBodySuit_33: -666136540190544802
+      NPCBodySuit_34: 7944426944542528277
+      NPCBodySuit_35: -2383421217303357809
+      NPCBodySuit_36: 7892356738031672669
+      NPCBodySuit_37: -2487854387203269518
+      NPCBodySuit_38: -4344053161888811480
+      NPCBodySuit_39: -1709665990367205476
+      NPCBodySuit_4: -5938945976702512503
+      NPCBodySuit_40: -7209004158912533299
+      NPCBodySuit_41: -7467365110419736818
+      NPCBodySuit_42: 3412279847142261280
+      NPCBodySuit_5: 7100918490273616969
+      NPCBodySuit_6: -5505811678689317908
+      NPCBodySuit_7: -5834298613055598163
+      NPCBodySuit_8: 4132482684741974791
+      NPCBodySuit_9: -8382380750107152499
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

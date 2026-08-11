@@ -15,6 +15,7 @@ using Object = UnityEngine.Object;
 public class EditorSpriteManager
 {
     private const string MasterBodySpriteSheetPath = "Assets/Sprites/NPCv2/NPCBody.png";
+    private const string MasterBodySuitSpriteSheetPath = "Assets/Sprites/NPCv2/NPCBodySuit.png";
     private const string MasterHeadFrontSpriteSheetPath = "Assets/Sprites/NPCv2/NPCHeadFront.png";
     private const string MasterHeadBackSpriteSheetPath = "Assets/Sprites/NPCv2/NPCHeadBack.png";
    
@@ -37,7 +38,8 @@ public class EditorSpriteManager
             Directory.Delete(GeneratedAssetsPath, true);
         }
         Directory.CreateDirectory(GeneratedAssetsPath);
-        ProcessBody(spriteManager);
+        ProcessBody(spriteManager, "NPCBody", MasterBodySpriteSheetPath, spriteManager.bodySpriteLibraryAssetCollections);
+        ProcessBody(spriteManager, "NPCBodySuit", MasterBodySuitSpriteSheetPath, spriteManager.bodySuitSpriteLibraryAssetCollections);
         ProcessHead(spriteManager);
 
 
@@ -80,14 +82,14 @@ public class EditorSpriteManager
         AssetDatabase.CreateAsset(asset, libAssetPath);
         spriteManager.headSpriteLibraryAsset = asset;
     }
-    public static void ProcessBody(SpriteManager spriteManager)
+    public static void ProcessBody(SpriteManager spriteManager, string baseName, string masterSpriteSheetPath, List<BodySpriteLibraryAssetCollection> spriteLibraryAssetCollections)
     {
         Vector2 pivot =  new Vector2(0.5f, 1); // 16px horizontal, 12px vertical for 32x32
-        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(MasterBodySpriteSheetPath, "NPCBody", spriteManager, pivot);
-        spriteManager.bodySpriteLibraryAssetCollections.Clear();
+        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(masterSpriteSheetPath, baseName, spriteManager, pivot);
+        spriteLibraryAssetCollections.Clear();
         foreach (ProcessSpriteSheetResult result in  results)
         {
-            Debug.Log($"Processing Result: {result.catId} {result.newTexturePath}");
+            Debug.Log($"Processing Result: {baseName} {result.catId} {result.newTexturePath}");
             SpriteLibraryAsset asset =
                 CreateSpriteLibraryAsset(
                     result.newTexturePath,
@@ -95,14 +97,14 @@ public class EditorSpriteManager
                     spriteManager.baseBodySpriteLibraryAsset
                 );
             BodySpriteLibraryAssetCollection coll =
-                spriteManager.bodySpriteLibraryAssetCollections.Find((collection => result.catId == collection.catId));
+                spriteLibraryAssetCollections.Find((collection => result.catId == collection.catId));
             if (coll == null)
             {
                 coll = new BodySpriteLibraryAssetCollection()
                 {
                     catId = result.catId,
                 };
-                spriteManager.bodySpriteLibraryAssetCollections.Add(coll);
+                spriteLibraryAssetCollections.Add(coll);
             }
             coll.assets.Add(asset); ;
         }

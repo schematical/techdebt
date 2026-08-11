@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.U2D.Animation;
 using ColorUtility = UnityEngine.ColorUtility;
 using Random = UnityEngine.Random;
@@ -12,13 +13,16 @@ namespace DefaultNamespace
     [Serializable]
     public class SpriteManager : MonoBehaviour
     {
+        public enum NPCBodySpriteCollection { Normal, Suit }
         private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
-
+        
       
         public SpriteLibraryAsset baseBodySpriteLibraryAsset;
         public SpriteLibraryAsset headSpriteLibraryAsset;
         public List<BodySpriteLibraryAssetCollection> bodySpriteLibraryAssetCollections =
+            new List<BodySpriteLibraryAssetCollection>();
+        [FormerlySerializedAs("bodySuiteSpriteLibraryAssetCollections")] public List<BodySpriteLibraryAssetCollection> bodySuitSpriteLibraryAssetCollections =
             new List<BodySpriteLibraryAssetCollection>();
         public List<Sprite> Sprites = new List<Sprite>();
         public static Color FromHex(string hex)
@@ -78,11 +82,24 @@ namespace DefaultNamespace
 
             return sprite;
         }
-        public NPCBipedAssets GetRandomNPCBipedAssets()
+        public NPCBipedAssets GetRandomNPCBipedAssets(NPCBodySpriteCollection bodySpriteCollection) //  = NPCBodySpriteCollection.Normal)
         {
 
-            int collIndex = Random.Range(0, bodySpriteLibraryAssetCollections.Count());
-            BodySpriteLibraryAssetCollection bodySpriteLibraryAssetCollection = bodySpriteLibraryAssetCollections[collIndex]; 
+            List<BodySpriteLibraryAssetCollection> _bodySpriteLibraryAssetCollections = bodySpriteLibraryAssetCollections;
+            switch (bodySpriteCollection)
+            {
+                default:
+                case(NPCBodySpriteCollection.Normal):
+                    _bodySpriteLibraryAssetCollections = bodySpriteLibraryAssetCollections;
+                    break;
+                case(NPCBodySpriteCollection.Suit):
+                    _bodySpriteLibraryAssetCollections = bodySuitSpriteLibraryAssetCollections;
+                    break;
+                
+            }
+            Debug.Log($"GetRandomNPCBipedAssets - {bodySpriteCollection} returned {_bodySpriteLibraryAssetCollections.Count}");
+            int collIndex = Random.Range(0, _bodySpriteLibraryAssetCollections.Count());
+            BodySpriteLibraryAssetCollection bodySpriteLibraryAssetCollection = _bodySpriteLibraryAssetCollections[collIndex]; 
             List<string> names = headSpriteLibraryAsset.GetCategoryNames().ToList();
             string search = $"/{bodySpriteLibraryAssetCollection.catId}/";
             names = names.FindAll(s => s.Contains(search));

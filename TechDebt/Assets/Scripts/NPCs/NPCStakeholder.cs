@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using DefaultNamespace;
 using Infrastructure;
 using NPCs;
 using UI;
@@ -12,11 +13,14 @@ public class NPCStakeholder : NPCAnimatedBiped
 
     public void Initialize(Stakeholder stakeholder, WorldObjectBase home)
     {
+        bodySpriteCollection = SpriteManager.NPCBodySpriteCollection.Suit;
         base.Initialize();
+        Randomize();
         this.stakeholder = stakeholder;
         Id = stakeholder.Id;
         this.home = home;
-     
+    
+
     }
     public override void OnLeftClick(PointerEventData eventData)
     {
