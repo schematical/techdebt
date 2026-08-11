@@ -41,6 +41,14 @@ namespace NPCs
             headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
             bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
         }
+        protected virtual void UpdateSortingOrder()
+        {
+            int sortingOrder = GameManager.Instance.gridManager.GetSortingOrderForY(transform.position.y);
+  
+            headSpriteRenderer.sortingOrder = sortingOrder;
+            bodySpriteRenderer.sortingOrder = sortingOrder;
+            faceSpriteRenderer.sortingOrder = sortingOrder;
+        }
 
         public void SetExpression(FacialExpression expression)
         {

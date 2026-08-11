@@ -14,6 +14,8 @@ public class GridManager : MonoBehaviour
     public Tilemap floorTilemap;
     public Tilemap skyTilemap;
     public Tilemap controllerTilemap;
+    public int baseSortingOrder = 1000000;
+    public int sortingOrderYScale = 10;
 
 
 
@@ -37,6 +39,11 @@ public class GridManager : MonoBehaviour
             worldPosition.y,
             0f
         );
+    }
+
+    public int GetSortingOrderForY(float y)
+    {
+        return baseSortingOrder - Mathf.RoundToInt(y * sortingOrderYScale);
     }
 
 

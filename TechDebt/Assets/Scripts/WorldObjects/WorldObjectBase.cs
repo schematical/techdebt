@@ -29,6 +29,12 @@ namespace Infrastructure
 
         void Start()
         {
+            int sortingOrder = GameManager.Instance.gridManager.GetSortingOrderForY(transform.position.y);
+            foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+            {
+                renderer.sortingOrder = sortingOrder;
+            }
+
             if (polygonCollider2D == null)
             {
                 Debug.LogWarning($"{gameObject.name} is missing a polygon collider");
@@ -134,12 +140,6 @@ namespace Infrastructure
 
         public virtual void Initialize()
         {
-            /*transform.position = new Vector3(
-                transform.position.x, 
-                transform.position.y, 
-                1 - transform.position.y * -0.1f // Setting Z for sorting order
-            );*/
-          
         }
 
 

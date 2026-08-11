@@ -79,7 +79,15 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
-       
+
+    }
+
+    protected virtual void UpdateSortingOrder()
+    {
+        int sortingOrder = GameManager.Instance.gridManager.GetSortingOrderForY(transform.position.y);
+  
+        spriteRenderer.sortingOrder = sortingOrder;
+        
     }
    
     public virtual void Initialize()
@@ -125,6 +133,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     protected virtual void FixedUpdate()
     {
         transform.position = GameManager.Instance.gridManager.AdjustWorldPointZ(transform.position);
+        UpdateSortingOrder();
         if (respectPause)
         {
             if (
@@ -414,7 +423,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         if (Vector2.Distance(transform.position, targetWaypoint) > 0.01f)
         {
             Vector3 nextPos = Vector2.MoveTowards(transform.position, targetWaypoint, Stats.GetStatValue(StatType.NPC_MovementSpeed) * Time.fixedDeltaTime);
-            transform.position = nextPos; // GameManager.Instance.gridManager.AdjustWorldPointZ(nextPos);
+            transform.position = GameManager.Instance.gridManager.AdjustWorldPointZ(nextPos);
 
             if (isDebugging)
             {
