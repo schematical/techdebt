@@ -345,7 +345,10 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     public void MoveTo(Vector3 destination)
     {
         Debug.Log($"{gameObject.name} moving to {destination}");
+      
         List<Vector3> path = Pathfinding.FindPath(transform.position, destination);
+      
+
         if (path != null && path.Count > 0)
         {
             currentPath = path;

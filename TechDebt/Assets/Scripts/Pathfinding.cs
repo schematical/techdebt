@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using DefaultNamespace.Office;
+using Infrastructure;
 using UnityEngine.Tilemaps;
 
 public static class Pathfinding
@@ -24,9 +25,10 @@ public static class Pathfinding
         {
             throw new System.Exception($"Target node is null for world position {targetWorldPos}");
         }
-        if (!targetNode.IsWalkable())
+        if (!targetNode.IsWalkable(ignoreWorldObjectCollision: true))
         {
-            throw new System.Exception($"Target node at {targetWorldPos} is not walkable.");
+            Debug.LogWarning($"Target node at {targetWorldPos} is not walkable.");
+            return null;
         }
 
         List<Node> openSet = new List<Node>();
@@ -59,9 +61,9 @@ public static class Pathfinding
                 return RetracePath(startNode, currentNode, targetWorldPos);
             }
 
-            foreach (Node neighbour in currentNode.GetNeighbours())
+            foreach (Node neighbour in currentNode.GetNeighbours(targetNode))
             {
-                if (!neighbour.IsWalkable() || closedSet.Contains(neighbour))
+                if (closedSet.Contains(neighbour))
                 {
                     continue;
                 }
@@ -80,6 +82,8 @@ public static class Pathfinding
                 }
             }
         }
+
+        return null;
         throw new System.Exception($"No path found from {startWorldPos} to {targetWorldPos}");
     }
 
@@ -165,7 +169,7 @@ public class Node
         return !(left == right);
     }
 
-    public bool IsWalkable()
+    public bool IsWalkable(bool ignoreWorldObjectCollision = false)
     {
 
         foreach (RoomBase roomBase in GameManager.Instance.Rooms)
@@ -200,14 +204,27 @@ public class Node
         
         Vector3Int checkPos = new Vector3Int(gridX, gridY, 0);
         bool isWalkable = GameManager.Instance.gridManager.floorTilemap.HasTile(checkPos);
-        
+
         if (!isWalkable)
         {
             Debug.Log($"Missed floor tile at {gridX}, {gridY} this is a good thing. " + isWalkable);
+            return false;
         }
-        return isWalkable;
+
+        if (!ignoreWorldObjectCollision)
+        {
+            foreach (WorldObjectBase worldObject in GameManager.Instance.ActiveInfrastructure)
+            {
+                if (worldObject.polygonCollider2D != null && worldObject.polygonCollider2D.OverlapPoint(worldPosition))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
-    public List<Node> GetNeighbours()
+    public List<Node> GetNeighbours(Node targetNode = null)
     {
         List<Node> neighbours = new List<Node>();
         for (int x = -1; x <= 1; x++)
@@ -222,7 +239,8 @@ public class Node
                 if (checkX >= 0 && checkX < 64 && checkY >= 0 && checkY < 64)
                 {
                     Node node = new Node(checkX, checkY);
-                    if (node.IsWalkable())
+                    bool isTargetNode = targetNode != null && node == targetNode;
+                    if (node.IsWalkable(ignoreWorldObjectCollision: isTargetNode))
                     {
                         neighbours.Add(node);
                     }
