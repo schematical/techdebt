@@ -13,7 +13,7 @@ public class NPCStakeholder : NPCAnimatedBiped
 
     public void Initialize(Stakeholder stakeholder, WorldObjectBase home)
     {
-        bodySpriteCollection = SpriteManager.NPCBodySpriteCollection.Suit;
+        bodyTypeId = "Suit";
         base.Initialize();
         Randomize();
         this.stakeholder = stakeholder;

@@ -13,17 +13,13 @@ namespace DefaultNamespace
     [Serializable]
     public class SpriteManager : MonoBehaviour
     {
-        public enum NPCBodySpriteCollection { Normal, Suit }
         private bool _initialized = false;
         public List<ColorMap> ColorMaps = new List<ColorMap>();
-        
-      
+
+
         public SpriteLibraryAsset baseBodySpriteLibraryAsset;
         public SpriteLibraryAsset headSpriteLibraryAsset;
-        public List<BodySpriteLibraryAssetCollection> bodySpriteLibraryAssetCollections =
-            new List<BodySpriteLibraryAssetCollection>();
-        [FormerlySerializedAs("bodySuiteSpriteLibraryAssetCollections")] public List<BodySpriteLibraryAssetCollection> bodySuitSpriteLibraryAssetCollections =
-            new List<BodySpriteLibraryAssetCollection>();
+        public List<NPCBodyType> bodyTypes = new List<NPCBodyType>();
         public List<Sprite> Sprites = new List<Sprite>();
         public static Color FromHex(string hex)
         {
@@ -82,24 +78,18 @@ namespace DefaultNamespace
 
             return sprite;
         }
-        public NPCBipedAssets GetRandomNPCBipedAssets(NPCBodySpriteCollection bodySpriteCollection) //  = NPCBodySpriteCollection.Normal)
+        public NPCBipedAssets GetRandomNPCBipedAssets(string bodyTypeId)
         {
-
-            List<BodySpriteLibraryAssetCollection> _bodySpriteLibraryAssetCollections = bodySpriteLibraryAssetCollections;
-            switch (bodySpriteCollection)
+            NPCBodyType bodyType = bodyTypes.Find(b => b.id == bodyTypeId);
+            if (bodyType == null)
             {
-                default:
-                case(NPCBodySpriteCollection.Normal):
-                    _bodySpriteLibraryAssetCollections = bodySpriteLibraryAssetCollections;
-                    break;
-                case(NPCBodySpriteCollection.Suit):
-                    _bodySpriteLibraryAssetCollections = bodySuitSpriteLibraryAssetCollections;
-                    break;
-                
+                throw new SystemException($"Unknown NPC body type: {bodyTypeId}");
             }
-            Debug.Log($"GetRandomNPCBipedAssets - {bodySpriteCollection} returned {_bodySpriteLibraryAssetCollections.Count}");
+
+            List<BodySpriteLibraryAssetCollection> _bodySpriteLibraryAssetCollections = bodyType.spriteLibraryAssetCollections;
+            Debug.Log($"GetRandomNPCBipedAssets - {bodyTypeId} returned {_bodySpriteLibraryAssetCollections.Count}");
             int collIndex = Random.Range(0, _bodySpriteLibraryAssetCollections.Count());
-            BodySpriteLibraryAssetCollection bodySpriteLibraryAssetCollection = _bodySpriteLibraryAssetCollections[collIndex]; 
+            BodySpriteLibraryAssetCollection bodySpriteLibraryAssetCollection = _bodySpriteLibraryAssetCollections[collIndex];
             List<string> names = headSpriteLibraryAsset.GetCategoryNames().ToList();
             string search = $"/{bodySpriteLibraryAssetCollection.catId}/";
             names = names.FindAll(s => s.Contains(search));
@@ -340,6 +330,14 @@ namespace DefaultNamespace
     {
         public string catId;
         public List<SpriteLibraryAsset> assets = new List<SpriteLibraryAsset>();
+    }
+
+    [Serializable]
+    public class NPCBodyType
+    {
+        public string id;
+        public Texture2D masterSpriteSheet;
+        public List<BodySpriteLibraryAssetCollection> spriteLibraryAssetCollections = new List<BodySpriteLibraryAssetCollection>();
     }
 
     public class NPCBipedAssets

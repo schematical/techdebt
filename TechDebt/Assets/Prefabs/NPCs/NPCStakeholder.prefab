@@ -471,7 +471,7 @@ MonoBehaviour:
   faceSpriteResolver: {fileID: 1636768897519396279}
   faceSpriteRenderer: {fileID: 1039620023965649446}
   headSpriteLibraryCategory: 
-  bodySpriteCollection: 0
+  bodyTypeId: Normal
   home: {fileID: 0}
   stakeholder:
     RoleName: 

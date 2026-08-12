@@ -471,7 +471,7 @@ MonoBehaviour:
   faceSpriteResolver: {fileID: 1601761883222943976}
   faceSpriteRenderer: {fileID: 6494993894696399229}
   headSpriteLibraryCategory: 
-  bodySpriteCollection: 0
+  bodyTypeId: Normal
   level: 1
   leveledUpTo: 1
   lastDisplayXP: 0

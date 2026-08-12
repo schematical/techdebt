@@ -29,8 +29,7 @@ namespace NPCs
         public SpriteRenderer faceSpriteRenderer;
         public string  headSpriteLibraryCategory;
 
-        public SpriteManager.NPCBodySpriteCollection
-            bodySpriteCollection = SpriteManager.NPCBodySpriteCollection.Normal;
+        public string bodyTypeId = "Normal";
         void Awake()
         {
             // Randomize();
@@ -39,7 +38,7 @@ namespace NPCs
         public void Randomize()
         {
             headSpriteLibrary.spriteLibraryAsset = GameManager.Instance.SpriteManager.headSpriteLibraryAsset;
-            NPCBipedAssets assets =  GameManager.Instance.SpriteManager.GetRandomNPCBipedAssets(bodySpriteCollection);
+            NPCBipedAssets assets =  GameManager.Instance.SpriteManager.GetRandomNPCBipedAssets(bodyTypeId);
             headSpriteLibraryCategory = assets.headSpriteLibraryCategory;
             bodySpriteLibrary.spriteLibraryAsset = assets.bodySpriteLibraryAsset;
         }
@@ -93,6 +92,7 @@ namespace NPCs
                 headSpriteLibraryCategory,
                 "Front"
             );
+         
             faceSpriteRenderer.gameObject.SetActive(true);
         }
 

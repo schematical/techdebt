@@ -14,8 +14,6 @@ using Object = UnityEngine.Object;
 
 public class EditorSpriteManager
 {
-    private const string MasterBodySpriteSheetPath = "Assets/Sprites/NPCv2/NPCBody.png";
-    private const string MasterBodySuitSpriteSheetPath = "Assets/Sprites/NPCv2/NPCBodySuit.png";
     private const string MasterHeadFrontSpriteSheetPath = "Assets/Sprites/NPCv2/NPCHeadFront.png";
     private const string MasterHeadBackSpriteSheetPath = "Assets/Sprites/NPCv2/NPCHeadBack.png";
    
@@ -38,8 +36,11 @@ public class EditorSpriteManager
             Directory.Delete(GeneratedAssetsPath, true);
         }
         Directory.CreateDirectory(GeneratedAssetsPath);
-        ProcessBody(spriteManager, "NPCBody", MasterBodySpriteSheetPath, spriteManager.bodySpriteLibraryAssetCollections);
-        ProcessBody(spriteManager, "NPCBodySuit", MasterBodySuitSpriteSheetPath, spriteManager.bodySuitSpriteLibraryAssetCollections);
+        AssetDatabase.ImportAsset(GeneratedAssetsPath, ImportAssetOptions.ForceSynchronousImport);
+        foreach (NPCBodyType bodyType in spriteManager.bodyTypes)
+        {
+            ProcessBody(spriteManager, bodyType);
+        }
         ProcessHead(spriteManager);
 
 
@@ -82,14 +83,15 @@ public class EditorSpriteManager
         AssetDatabase.CreateAsset(asset, libAssetPath);
         spriteManager.headSpriteLibraryAsset = asset;
     }
-    public static void ProcessBody(SpriteManager spriteManager, string baseName, string masterSpriteSheetPath, List<BodySpriteLibraryAssetCollection> spriteLibraryAssetCollections)
+    public static void ProcessBody(SpriteManager spriteManager, NPCBodyType bodyType)
     {
+        string masterSpriteSheetPath = AssetDatabase.GetAssetPath(bodyType.masterSpriteSheet);
         Vector2 pivot =  new Vector2(0.5f, 1); // 16px horizontal, 12px vertical for 32x32
-        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(masterSpriteSheetPath, baseName, spriteManager, pivot);
-        spriteLibraryAssetCollections.Clear();
+        List<ProcessSpriteSheetResult> results = ProcessSpriteSheet(masterSpriteSheetPath, bodyType.id, spriteManager, pivot);
+        bodyType.spriteLibraryAssetCollections.Clear();
         foreach (ProcessSpriteSheetResult result in  results)
         {
-            Debug.Log($"Processing Result: {baseName} {result.catId} {result.newTexturePath}");
+            Debug.Log($"Processing Result: {bodyType.id} {result.catId} {result.newTexturePath}");
             SpriteLibraryAsset asset =
                 CreateSpriteLibraryAsset(
                     result.newTexturePath,
@@ -97,14 +99,14 @@ public class EditorSpriteManager
                     spriteManager.baseBodySpriteLibraryAsset
                 );
             BodySpriteLibraryAssetCollection coll =
-                spriteLibraryAssetCollections.Find((collection => result.catId == collection.catId));
+                bodyType.spriteLibraryAssetCollections.Find((collection => result.catId == collection.catId));
             if (coll == null)
             {
                 coll = new BodySpriteLibraryAssetCollection()
                 {
                     catId = result.catId,
                 };
-                spriteLibraryAssetCollections.Add(coll);
+                bodyType.spriteLibraryAssetCollections.Add(coll);
             }
             coll.assets.Add(asset); ;
         }
@@ -289,7 +291,11 @@ public class EditorSpriteManager
             foreach (var label in masterLibraryAsset.GetCategoryLabelNames(category))
             {
                 Sprite masterSprite = masterLibraryAsset.GetSprite(category, label);
-                Sprite newSprite = sprites.FirstOrDefault(s => s.name == masterSprite.name);
+                // Body type sprite sheets are named after their own texture (e.g. "NPCBody_0" vs "NPCBodySuit_0"),
+                // so match on the trailing "_N" index rather than the full name, which is specific to the master sheet.
+                int underscoreIndex = masterSprite.name.LastIndexOf('_');
+                string masterSuffix = underscoreIndex >= 0 ? masterSprite.name.Substring(underscoreIndex) : masterSprite.name;
+                Sprite newSprite = sprites.FirstOrDefault(s => s.name.EndsWith(masterSuffix));
                 if (newSprite != null)
                 {
                     asset.AddCategoryLabel(newSprite, category, label);
