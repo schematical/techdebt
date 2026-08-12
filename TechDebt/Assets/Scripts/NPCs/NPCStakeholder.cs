@@ -41,6 +41,7 @@ public class NPCStakeholder : NPCAnimatedBiped
         // If we are already at the desk, do nothing.
         if (Vector3.Distance(transform.position, home.GetInteractionPosition()) < 0.1f)
         {
+            StopMovement();
             FaceDown();
             return; 
         }

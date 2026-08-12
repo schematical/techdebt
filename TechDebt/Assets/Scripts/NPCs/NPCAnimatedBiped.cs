@@ -88,6 +88,7 @@ namespace NPCs
                 bodySpriteRenderer.transform.position.y,
                 transform.position.z
             );
+            animator.SetBool("isFront", true);
             headSpriteResolver.SetCategoryAndLabel(
                 headSpriteLibraryCategory,
                 "Front"
@@ -108,6 +109,7 @@ namespace NPCs
                 bodySpriteRenderer.transform.position.y,
                 transform.position.z
             );
+            animator.SetBool("isFront", false);
             headSpriteResolver.SetCategoryAndLabel(
                 headSpriteLibraryCategory,
                 "Back"
