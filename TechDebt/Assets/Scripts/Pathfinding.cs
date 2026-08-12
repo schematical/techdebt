@@ -57,7 +57,6 @@ public static class Pathfinding
 
             if (currentNode == targetNode)
             {
-                Debug.Log("Target node found");
                 return RetracePath(startNode, currentNode, targetWorldPos);
             }
 

@@ -470,6 +470,7 @@ MonoBehaviour:
   faceSpriteLibrary: {fileID: 703356012115358645}
   faceSpriteResolver: {fileID: 1636768897519396279}
   faceSpriteRenderer: {fileID: 1039620023965649446}
+  bodySpriteResolver: {fileID: 6726894194814453045}
   headSpriteLibraryCategory: 
   bodyTypeId: Normal
   home: {fileID: 0}

@@ -353,7 +353,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
     
     public void MoveTo(Vector3 destination)
     {
-        Debug.Log($"{gameObject.name} moving to {destination}");
+        // Debug.Log($"{gameObject.name} moving to {destination}");
       
         List<Vector3> path = Pathfinding.FindPath(transform.position, destination);
       
@@ -367,7 +367,7 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
         else
         {
-            Debug.LogWarning($"{gameObject.name} could not find a path to {destination}.");
+            // Debug.LogWarning($"{gameObject.name} could not find a path to {destination}.");
             isMoving = false;
         }
         animator.SetBool("isWalking", isMoving);
@@ -464,9 +464,9 @@ public abstract class NPCBase : MonoBehaviour, IPointerClickHandler, iAssignable
         }
 
         float yMovement = screenPos.y - lastScreenPos.y;
-        if (Mathf.Abs(yMovement) > 0.01f) // Add a small threshold to prevent flipping when idle
+        if (Mathf.Abs(yMovement) > 0.001f) // Add a small threshold to prevent flipping when idle
         {
-            if (yMovement > 0)
+            if (yMovement >= 0)
             {
                 animator.SetBool("isFront", false);
                 FaceUp();

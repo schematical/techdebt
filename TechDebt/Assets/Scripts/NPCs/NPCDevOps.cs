@@ -33,6 +33,7 @@ public class NPCDevOps : NPCAnimatedBiped
         Data = data;
         gameObject.name = $"NPCDevOps_{Data.Name}";
         base.Initialize();
+        Randomize();
         SetExpression(FacialExpression.Default);
         Stats.Add(new StatData(StatType.NPC_ModifierSlots, 5));
         Stats.Add(new StatData(StatType.NPC_XPSpeed, 1));

@@ -20,7 +20,7 @@ namespace NPCs
         }
         public string headSprite = "Head1";
         public SpriteRenderer headSpriteRenderer;
-        public SpriteRenderer bodySpriteRenderer; 
+        public SpriteRenderer bodySpriteRenderer;
         public SpriteResolver headSpriteResolver;
         public SpriteLibrary headSpriteLibrary;
         public SpriteLibrary bodySpriteLibrary;

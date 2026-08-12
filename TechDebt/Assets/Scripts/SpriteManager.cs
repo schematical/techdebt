@@ -87,7 +87,7 @@ namespace DefaultNamespace
             }
 
             List<BodySpriteLibraryAssetCollection> _bodySpriteLibraryAssetCollections = bodyType.spriteLibraryAssetCollections;
-            Debug.Log($"GetRandomNPCBipedAssets - {bodyTypeId} returned {_bodySpriteLibraryAssetCollections.Count}");
+            // Debug.Log($"GetRandomNPCBipedAssets - {bodyTypeId} returned {_bodySpriteLibraryAssetCollections.Count}");
             int collIndex = Random.Range(0, _bodySpriteLibraryAssetCollections.Count());
             BodySpriteLibraryAssetCollection bodySpriteLibraryAssetCollection = _bodySpriteLibraryAssetCollections[collIndex];
             List<string> names = headSpriteLibraryAsset.GetCategoryNames().ToList();
